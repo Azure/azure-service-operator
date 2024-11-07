@@ -860,6 +860,11 @@ status:
 #     If you have two names differing only by letter case, use a TypeTransform
 #     to selectively rename one of the types.
 #
+# $stripDocumentation: <bool>
+#     Strips documentation from the specified resource and all objects referenced by the resource
+#     recursively. Should not be used unless completely necessary - usually to reduce the size of
+#     a CRD to below the Kubernetes CRD size limit.
+#
 # $supportedFrom: <version>
 #     Gives the version number of the first release of ASO that provides 
 #     support for this resource.
@@ -1660,6 +1665,7 @@ objectModelConfiguration:
       ManagedCluster:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+        $stripDocumentation: true
         $azureGeneratedSecrets:
           - AdminCredentials
           - UserCredentials
@@ -1706,6 +1712,7 @@ objectModelConfiguration:
       ManagedCluster:
         $export: true
         $supportedFrom: v2.0.0
+        $stripDocumentation: true
         $azureGeneratedSecrets:
           - AdminCredentials
           - UserCredentials
@@ -1816,6 +1823,7 @@ objectModelConfiguration:
       ManagedCluster:
         $export: true
         $supportedFrom: v2.6.0
+        $stripDocumentation: true
         $azureGeneratedSecrets:
           - AdminCredentials
           - UserCredentials
@@ -1900,6 +1908,59 @@ objectModelConfiguration:
       PrivateLinkResource:
         Id:
           $armReference: true
+    2024-09-01:
+      ContainerServiceSshPublicKey:
+        KeyData:
+          $isSecret: false
+      ContainerServiceSshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
+      DelegatedResource:
+        ResourceId:
+          $armReference: true
+      ManagedCluster:
+        $export: true
+        $supportedFrom: v2.11.0
+        $azureGeneratedSecrets:
+          - AdminCredentials
+          - UserCredentials
+        $generatedConfigs:
+          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+      ManagedCluster_Spec:
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusterAgentPoolProfile:
+        NodeLabels:
+          $payloadType: explicitEmptyCollections
+        NodeTaints:
+          $payloadType: explicitEmptyCollections
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusterAgentPoolProfileProperties:
+        NodeLabels:
+          $payloadType: explicitEmptyCollections
+        NodeTaints:
+          $payloadType: explicitEmptyCollections
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusters_AgentPool:
+        $exportAs: ManagedClustersAgentPool
+        $supportedFrom: v2.11.0
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
+      ManagedClusterWindowsProfile:
+        AdminPassword:
+          $isSecret: true
+      PrivateLinkResource:
+        Id:
+          $armReference: true
+      ManagedClusters_TrustedAccessRoleBinding:
+        $exportAs: TrustedAccessRoleBinding
+        $supportedFrom: v2.11.0
+      ManagedClusters_MaintenanceConfiguration:
+        $exportAs: MaintenanceConfiguration
+        $supportedFrom: v2.11.0
   datafactory:
     2018-06-01:
       PurviewConfiguration:

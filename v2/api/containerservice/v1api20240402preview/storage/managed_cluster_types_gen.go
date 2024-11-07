@@ -5,7 +5,8 @@ package storage
 
 import (
 	"context"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231102preview/storage"
+	v20231001sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage/compat"
+	v20231102ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231102preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -52,7 +53,7 @@ var _ conversion.Convertible = &ManagedCluster{}
 // ConvertFrom populates our ManagedCluster from the provided hub ManagedCluster
 func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source storage.ManagedCluster
+	var source v20231102ps.ManagedCluster
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -70,7 +71,7 @@ func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub ManagedCluster from our ManagedCluster
 func (cluster *ManagedCluster) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination storage.ManagedCluster
+	var destination v20231102ps.ManagedCluster
 	err := cluster.AssignProperties_To_ManagedCluster(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from cluster")
@@ -174,7 +175,7 @@ func (cluster *ManagedCluster) SetStatus(status genruntime.ConvertibleStatus) er
 }
 
 // AssignProperties_From_ManagedCluster populates our ManagedCluster from the provided source ManagedCluster
-func (cluster *ManagedCluster) AssignProperties_From_ManagedCluster(source *storage.ManagedCluster) error {
+func (cluster *ManagedCluster) AssignProperties_From_ManagedCluster(source *v20231102ps.ManagedCluster) error {
 
 	// ObjectMeta
 	cluster.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -209,13 +210,13 @@ func (cluster *ManagedCluster) AssignProperties_From_ManagedCluster(source *stor
 }
 
 // AssignProperties_To_ManagedCluster populates the provided destination ManagedCluster from our ManagedCluster
-func (cluster *ManagedCluster) AssignProperties_To_ManagedCluster(destination *storage.ManagedCluster) error {
+func (cluster *ManagedCluster) AssignProperties_To_ManagedCluster(destination *v20231102ps.ManagedCluster) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *cluster.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.ManagedCluster_Spec
+	var spec v20231102ps.ManagedCluster_Spec
 	err := cluster.Spec.AssignProperties_To_ManagedCluster_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_ManagedCluster_Spec() to populate field Spec")
@@ -223,7 +224,7 @@ func (cluster *ManagedCluster) AssignProperties_To_ManagedCluster(destination *s
 	destination.Spec = spec
 
 	// Status
-	var status storage.ManagedCluster_STATUS
+	var status v20231102ps.ManagedCluster_STATUS
 	err = cluster.Status.AssignProperties_To_ManagedCluster_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_ManagedCluster_STATUS() to populate field Status")
@@ -270,8 +271,8 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2024-04-02-preview")
 
 type augmentConversionForManagedCluster interface {
-	AssignPropertiesFrom(src *storage.ManagedCluster) error
-	AssignPropertiesTo(dst *storage.ManagedCluster) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedCluster) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedCluster) error
 }
 
 // Storage version of v1api20240402preview.ManagedCluster_Spec
@@ -344,14 +345,14 @@ var _ genruntime.ConvertibleSpec = &ManagedCluster_Spec{}
 
 // ConvertSpecFrom populates our ManagedCluster_Spec from the provided source
 func (cluster *ManagedCluster_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.ManagedCluster_Spec)
+	src, ok := source.(*v20231102ps.ManagedCluster_Spec)
 	if ok {
 		// Populate our instance from source
 		return cluster.AssignProperties_From_ManagedCluster_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.ManagedCluster_Spec{}
+	src = &v20231102ps.ManagedCluster_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -368,14 +369,14 @@ func (cluster *ManagedCluster_Spec) ConvertSpecFrom(source genruntime.Convertibl
 
 // ConvertSpecTo populates the provided destination from our ManagedCluster_Spec
 func (cluster *ManagedCluster_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.ManagedCluster_Spec)
+	dst, ok := destination.(*v20231102ps.ManagedCluster_Spec)
 	if ok {
 		// Populate destination from our instance
 		return cluster.AssignProperties_To_ManagedCluster_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.ManagedCluster_Spec{}
+	dst = &v20231102ps.ManagedCluster_Spec{}
 	err := cluster.AssignProperties_To_ManagedCluster_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -391,7 +392,7 @@ func (cluster *ManagedCluster_Spec) ConvertSpecTo(destination genruntime.Convert
 }
 
 // AssignProperties_From_ManagedCluster_Spec populates our ManagedCluster_Spec from the provided source ManagedCluster_Spec
-func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(source *storage.ManagedCluster_Spec) error {
+func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(source *v20231102ps.ManagedCluster_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -928,13 +929,13 @@ func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(so
 }
 
 // AssignProperties_To_ManagedCluster_Spec populates the provided destination ManagedCluster_Spec from our ManagedCluster_Spec
-func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(destination *storage.ManagedCluster_Spec) error {
+func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(destination *v20231102ps.ManagedCluster_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(cluster.PropertyBag)
 
 	// AadProfile
 	if cluster.AadProfile != nil {
-		var aadProfile storage.ManagedClusterAADProfile
+		var aadProfile v20231102ps.ManagedClusterAADProfile
 		err := cluster.AadProfile.AssignProperties_To_ManagedClusterAADProfile(&aadProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAADProfile() to populate field AadProfile")
@@ -946,11 +947,11 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// AddonProfiles
 	if cluster.AddonProfiles != nil {
-		addonProfileMap := make(map[string]storage.ManagedClusterAddonProfile, len(cluster.AddonProfiles))
+		addonProfileMap := make(map[string]v20231102ps.ManagedClusterAddonProfile, len(cluster.AddonProfiles))
 		for addonProfileKey, addonProfileValue := range cluster.AddonProfiles {
 			// Shadow the loop variable to avoid aliasing
 			addonProfileValue := addonProfileValue
-			var addonProfile storage.ManagedClusterAddonProfile
+			var addonProfile v20231102ps.ManagedClusterAddonProfile
 			err := addonProfileValue.AssignProperties_To_ManagedClusterAddonProfile(&addonProfile)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAddonProfile() to populate field AddonProfiles")
@@ -964,11 +965,11 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// AgentPoolProfiles
 	if cluster.AgentPoolProfiles != nil {
-		agentPoolProfileList := make([]storage.ManagedClusterAgentPoolProfile, len(cluster.AgentPoolProfiles))
+		agentPoolProfileList := make([]v20231102ps.ManagedClusterAgentPoolProfile, len(cluster.AgentPoolProfiles))
 		for agentPoolProfileIndex, agentPoolProfileItem := range cluster.AgentPoolProfiles {
 			// Shadow the loop variable to avoid aliasing
 			agentPoolProfileItem := agentPoolProfileItem
-			var agentPoolProfile storage.ManagedClusterAgentPoolProfile
+			var agentPoolProfile v20231102ps.ManagedClusterAgentPoolProfile
 			err := agentPoolProfileItem.AssignProperties_To_ManagedClusterAgentPoolProfile(&agentPoolProfile)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAgentPoolProfile() to populate field AgentPoolProfiles")
@@ -982,7 +983,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// AiToolchainOperatorProfile
 	if cluster.AiToolchainOperatorProfile != nil {
-		var aiToolchainOperatorProfile storage.ManagedClusterAIToolchainOperatorProfile
+		var aiToolchainOperatorProfile v20231102ps.ManagedClusterAIToolchainOperatorProfile
 		err := cluster.AiToolchainOperatorProfile.AssignProperties_To_ManagedClusterAIToolchainOperatorProfile(&aiToolchainOperatorProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAIToolchainOperatorProfile() to populate field AiToolchainOperatorProfile")
@@ -994,7 +995,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// ApiServerAccessProfile
 	if cluster.ApiServerAccessProfile != nil {
-		var apiServerAccessProfile storage.ManagedClusterAPIServerAccessProfile
+		var apiServerAccessProfile v20231102ps.ManagedClusterAPIServerAccessProfile
 		err := cluster.ApiServerAccessProfile.AssignProperties_To_ManagedClusterAPIServerAccessProfile(&apiServerAccessProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAPIServerAccessProfile() to populate field ApiServerAccessProfile")
@@ -1006,7 +1007,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// AutoScalerProfile
 	if cluster.AutoScalerProfile != nil {
-		var autoScalerProfile storage.ManagedClusterProperties_AutoScalerProfile
+		var autoScalerProfile v20231102ps.ManagedClusterProperties_AutoScalerProfile
 		err := cluster.AutoScalerProfile.AssignProperties_To_ManagedClusterProperties_AutoScalerProfile(&autoScalerProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterProperties_AutoScalerProfile() to populate field AutoScalerProfile")
@@ -1018,7 +1019,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// AutoUpgradeProfile
 	if cluster.AutoUpgradeProfile != nil {
-		var autoUpgradeProfile storage.ManagedClusterAutoUpgradeProfile
+		var autoUpgradeProfile v20231102ps.ManagedClusterAutoUpgradeProfile
 		err := cluster.AutoUpgradeProfile.AssignProperties_To_ManagedClusterAutoUpgradeProfile(&autoUpgradeProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAutoUpgradeProfile() to populate field AutoUpgradeProfile")
@@ -1030,7 +1031,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// AzureMonitorProfile
 	if cluster.AzureMonitorProfile != nil {
-		var azureMonitorProfile storage.ManagedClusterAzureMonitorProfile
+		var azureMonitorProfile v20231102ps.ManagedClusterAzureMonitorProfile
 		err := cluster.AzureMonitorProfile.AssignProperties_To_ManagedClusterAzureMonitorProfile(&azureMonitorProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAzureMonitorProfile() to populate field AzureMonitorProfile")
@@ -1052,7 +1053,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// CreationData
 	if cluster.CreationData != nil {
-		var creationDatum storage.CreationData
+		var creationDatum v20231102ps.CreationData
 		err := cluster.CreationData.AssignProperties_To_CreationData(&creationDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CreationData() to populate field CreationData")
@@ -1107,7 +1108,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// ExtendedLocation
 	if cluster.ExtendedLocation != nil {
-		var extendedLocation storage.ExtendedLocation
+		var extendedLocation v20231102ps.ExtendedLocation
 		err := cluster.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
@@ -1122,7 +1123,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// HttpProxyConfig
 	if cluster.HttpProxyConfig != nil {
-		var httpProxyConfig storage.ManagedClusterHTTPProxyConfig
+		var httpProxyConfig v20231102ps.ManagedClusterHTTPProxyConfig
 		err := cluster.HttpProxyConfig.AssignProperties_To_ManagedClusterHTTPProxyConfig(&httpProxyConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterHTTPProxyConfig() to populate field HttpProxyConfig")
@@ -1134,7 +1135,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// Identity
 	if cluster.Identity != nil {
-		var identity storage.ManagedClusterIdentity
+		var identity v20231102ps.ManagedClusterIdentity
 		err := cluster.Identity.AssignProperties_To_ManagedClusterIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterIdentity() to populate field Identity")
@@ -1146,11 +1147,11 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// IdentityProfile
 	if cluster.IdentityProfile != nil {
-		identityProfileMap := make(map[string]storage.UserAssignedIdentity, len(cluster.IdentityProfile))
+		identityProfileMap := make(map[string]v20231102ps.UserAssignedIdentity, len(cluster.IdentityProfile))
 		for identityProfileKey, identityProfileValue := range cluster.IdentityProfile {
 			// Shadow the loop variable to avoid aliasing
 			identityProfileValue := identityProfileValue
-			var identityProfile storage.UserAssignedIdentity
+			var identityProfile v20231102ps.UserAssignedIdentity
 			err := identityProfileValue.AssignProperties_To_UserAssignedIdentity(&identityProfile)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity() to populate field IdentityProfile")
@@ -1164,7 +1165,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// IngressProfile
 	if cluster.IngressProfile != nil {
-		var ingressProfile storage.ManagedClusterIngressProfile
+		var ingressProfile v20231102ps.ManagedClusterIngressProfile
 		err := cluster.IngressProfile.AssignProperties_To_ManagedClusterIngressProfile(&ingressProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterIngressProfile() to populate field IngressProfile")
@@ -1186,7 +1187,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// LinuxProfile
 	if cluster.LinuxProfile != nil {
-		var linuxProfile storage.ContainerServiceLinuxProfile
+		var linuxProfile v20231102ps.ContainerServiceLinuxProfile
 		err := cluster.LinuxProfile.AssignProperties_To_ContainerServiceLinuxProfile(&linuxProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceLinuxProfile() to populate field LinuxProfile")
@@ -1201,7 +1202,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// MetricsProfile
 	if cluster.MetricsProfile != nil {
-		var metricsProfile storage.ManagedClusterMetricsProfile
+		var metricsProfile v20231102ps.ManagedClusterMetricsProfile
 		err := cluster.MetricsProfile.AssignProperties_To_ManagedClusterMetricsProfile(&metricsProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterMetricsProfile() to populate field MetricsProfile")
@@ -1213,7 +1214,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// NetworkProfile
 	if cluster.NetworkProfile != nil {
-		var networkProfile storage.ContainerServiceNetworkProfile
+		var networkProfile v20231102ps.ContainerServiceNetworkProfile
 		err := cluster.NetworkProfile.AssignProperties_To_ContainerServiceNetworkProfile(&networkProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceNetworkProfile() to populate field NetworkProfile")
@@ -1225,7 +1226,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// NodeProvisioningProfile
 	if cluster.NodeProvisioningProfile != nil {
-		var nodeProvisioningProfile storage.ManagedClusterNodeProvisioningProfile
+		var nodeProvisioningProfile v20231102ps.ManagedClusterNodeProvisioningProfile
 		err := cluster.NodeProvisioningProfile.AssignProperties_To_ManagedClusterNodeProvisioningProfile(&nodeProvisioningProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterNodeProvisioningProfile() to populate field NodeProvisioningProfile")
@@ -1240,7 +1241,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// NodeResourceGroupProfile
 	if cluster.NodeResourceGroupProfile != nil {
-		var nodeResourceGroupProfile storage.ManagedClusterNodeResourceGroupProfile
+		var nodeResourceGroupProfile v20231102ps.ManagedClusterNodeResourceGroupProfile
 		err := cluster.NodeResourceGroupProfile.AssignProperties_To_ManagedClusterNodeResourceGroupProfile(&nodeResourceGroupProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterNodeResourceGroupProfile() to populate field NodeResourceGroupProfile")
@@ -1252,7 +1253,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// OidcIssuerProfile
 	if cluster.OidcIssuerProfile != nil {
-		var oidcIssuerProfile storage.ManagedClusterOIDCIssuerProfile
+		var oidcIssuerProfile v20231102ps.ManagedClusterOIDCIssuerProfile
 		err := cluster.OidcIssuerProfile.AssignProperties_To_ManagedClusterOIDCIssuerProfile(&oidcIssuerProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterOIDCIssuerProfile() to populate field OidcIssuerProfile")
@@ -1264,7 +1265,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// OperatorSpec
 	if cluster.OperatorSpec != nil {
-		var operatorSpec storage.ManagedClusterOperatorSpec
+		var operatorSpec v20231102ps.ManagedClusterOperatorSpec
 		err := cluster.OperatorSpec.AssignProperties_To_ManagedClusterOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterOperatorSpec() to populate field OperatorSpec")
@@ -1287,7 +1288,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// PodIdentityProfile
 	if cluster.PodIdentityProfile != nil {
-		var podIdentityProfile storage.ManagedClusterPodIdentityProfile
+		var podIdentityProfile v20231102ps.ManagedClusterPodIdentityProfile
 		err := cluster.PodIdentityProfile.AssignProperties_To_ManagedClusterPodIdentityProfile(&podIdentityProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPodIdentityProfile() to populate field PodIdentityProfile")
@@ -1299,11 +1300,11 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// PrivateLinkResources
 	if cluster.PrivateLinkResources != nil {
-		privateLinkResourceList := make([]storage.PrivateLinkResource, len(cluster.PrivateLinkResources))
+		privateLinkResourceList := make([]v20231102ps.PrivateLinkResource, len(cluster.PrivateLinkResources))
 		for privateLinkResourceIndex, privateLinkResourceItem := range cluster.PrivateLinkResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkResourceItem := privateLinkResourceItem
-			var privateLinkResource storage.PrivateLinkResource
+			var privateLinkResource v20231102ps.PrivateLinkResource
 			err := privateLinkResourceItem.AssignProperties_To_PrivateLinkResource(&privateLinkResource)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkResource() to populate field PrivateLinkResources")
@@ -1320,7 +1321,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// SafeguardsProfile
 	if cluster.SafeguardsProfile != nil {
-		var safeguardsProfile storage.SafeguardsProfile
+		var safeguardsProfile v20231102ps.SafeguardsProfile
 		err := cluster.SafeguardsProfile.AssignProperties_To_SafeguardsProfile(&safeguardsProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SafeguardsProfile() to populate field SafeguardsProfile")
@@ -1332,7 +1333,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// SecurityProfile
 	if cluster.SecurityProfile != nil {
-		var securityProfile storage.ManagedClusterSecurityProfile
+		var securityProfile v20231102ps.ManagedClusterSecurityProfile
 		err := cluster.SecurityProfile.AssignProperties_To_ManagedClusterSecurityProfile(&securityProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSecurityProfile() to populate field SecurityProfile")
@@ -1344,7 +1345,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// ServiceMeshProfile
 	if cluster.ServiceMeshProfile != nil {
-		var serviceMeshProfile storage.ServiceMeshProfile
+		var serviceMeshProfile v20231102ps.ServiceMeshProfile
 		err := cluster.ServiceMeshProfile.AssignProperties_To_ServiceMeshProfile(&serviceMeshProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServiceMeshProfile() to populate field ServiceMeshProfile")
@@ -1356,7 +1357,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// ServicePrincipalProfile
 	if cluster.ServicePrincipalProfile != nil {
-		var servicePrincipalProfile storage.ManagedClusterServicePrincipalProfile
+		var servicePrincipalProfile v20231102ps.ManagedClusterServicePrincipalProfile
 		err := cluster.ServicePrincipalProfile.AssignProperties_To_ManagedClusterServicePrincipalProfile(&servicePrincipalProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterServicePrincipalProfile() to populate field ServicePrincipalProfile")
@@ -1368,7 +1369,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// Sku
 	if cluster.Sku != nil {
-		var sku storage.ManagedClusterSKU
+		var sku v20231102ps.ManagedClusterSKU
 		err := cluster.Sku.AssignProperties_To_ManagedClusterSKU(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSKU() to populate field Sku")
@@ -1380,7 +1381,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// StorageProfile
 	if cluster.StorageProfile != nil {
-		var storageProfile storage.ManagedClusterStorageProfile
+		var storageProfile v20231102ps.ManagedClusterStorageProfile
 		err := cluster.StorageProfile.AssignProperties_To_ManagedClusterStorageProfile(&storageProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterStorageProfile() to populate field StorageProfile")
@@ -1398,7 +1399,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// UpgradeSettings
 	if cluster.UpgradeSettings != nil {
-		var upgradeSetting storage.ClusterUpgradeSettings
+		var upgradeSetting v20231102ps.ClusterUpgradeSettings
 		err := cluster.UpgradeSettings.AssignProperties_To_ClusterUpgradeSettings(&upgradeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ClusterUpgradeSettings() to populate field UpgradeSettings")
@@ -1410,7 +1411,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// WindowsProfile
 	if cluster.WindowsProfile != nil {
-		var windowsProfile storage.ManagedClusterWindowsProfile
+		var windowsProfile v20231102ps.ManagedClusterWindowsProfile
 		err := cluster.WindowsProfile.AssignProperties_To_ManagedClusterWindowsProfile(&windowsProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterWindowsProfile() to populate field WindowsProfile")
@@ -1422,7 +1423,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// WorkloadAutoScalerProfile
 	if cluster.WorkloadAutoScalerProfile != nil {
-		var workloadAutoScalerProfile storage.ManagedClusterWorkloadAutoScalerProfile
+		var workloadAutoScalerProfile v20231102ps.ManagedClusterWorkloadAutoScalerProfile
 		err := cluster.WorkloadAutoScalerProfile.AssignProperties_To_ManagedClusterWorkloadAutoScalerProfile(&workloadAutoScalerProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterWorkloadAutoScalerProfile() to populate field WorkloadAutoScalerProfile")
@@ -1522,14 +1523,14 @@ var _ genruntime.ConvertibleStatus = &ManagedCluster_STATUS{}
 
 // ConvertStatusFrom populates our ManagedCluster_STATUS from the provided source
 func (cluster *ManagedCluster_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.ManagedCluster_STATUS)
+	src, ok := source.(*v20231102ps.ManagedCluster_STATUS)
 	if ok {
 		// Populate our instance from source
 		return cluster.AssignProperties_From_ManagedCluster_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.ManagedCluster_STATUS{}
+	src = &v20231102ps.ManagedCluster_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1546,14 +1547,14 @@ func (cluster *ManagedCluster_STATUS) ConvertStatusFrom(source genruntime.Conver
 
 // ConvertStatusTo populates the provided destination from our ManagedCluster_STATUS
 func (cluster *ManagedCluster_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.ManagedCluster_STATUS)
+	dst, ok := destination.(*v20231102ps.ManagedCluster_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return cluster.AssignProperties_To_ManagedCluster_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.ManagedCluster_STATUS{}
+	dst = &v20231102ps.ManagedCluster_STATUS{}
 	err := cluster.AssignProperties_To_ManagedCluster_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1569,7 +1570,7 @@ func (cluster *ManagedCluster_STATUS) ConvertStatusTo(destination genruntime.Con
 }
 
 // AssignProperties_From_ManagedCluster_STATUS populates our ManagedCluster_STATUS from the provided source ManagedCluster_STATUS
-func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATUS(source *storage.ManagedCluster_STATUS) error {
+func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATUS(source *v20231102ps.ManagedCluster_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2145,13 +2146,13 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATU
 }
 
 // AssignProperties_To_ManagedCluster_STATUS populates the provided destination ManagedCluster_STATUS from our ManagedCluster_STATUS
-func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(destination *storage.ManagedCluster_STATUS) error {
+func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(destination *v20231102ps.ManagedCluster_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(cluster.PropertyBag)
 
 	// AadProfile
 	if cluster.AadProfile != nil {
-		var aadProfile storage.ManagedClusterAADProfile_STATUS
+		var aadProfile v20231102ps.ManagedClusterAADProfile_STATUS
 		err := cluster.AadProfile.AssignProperties_To_ManagedClusterAADProfile_STATUS(&aadProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAADProfile_STATUS() to populate field AadProfile")
@@ -2163,11 +2164,11 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// AddonProfiles
 	if cluster.AddonProfiles != nil {
-		addonProfileMap := make(map[string]storage.ManagedClusterAddonProfile_STATUS, len(cluster.AddonProfiles))
+		addonProfileMap := make(map[string]v20231102ps.ManagedClusterAddonProfile_STATUS, len(cluster.AddonProfiles))
 		for addonProfileKey, addonProfileValue := range cluster.AddonProfiles {
 			// Shadow the loop variable to avoid aliasing
 			addonProfileValue := addonProfileValue
-			var addonProfile storage.ManagedClusterAddonProfile_STATUS
+			var addonProfile v20231102ps.ManagedClusterAddonProfile_STATUS
 			err := addonProfileValue.AssignProperties_To_ManagedClusterAddonProfile_STATUS(&addonProfile)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAddonProfile_STATUS() to populate field AddonProfiles")
@@ -2181,11 +2182,11 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// AgentPoolProfiles
 	if cluster.AgentPoolProfiles != nil {
-		agentPoolProfileList := make([]storage.ManagedClusterAgentPoolProfile_STATUS, len(cluster.AgentPoolProfiles))
+		agentPoolProfileList := make([]v20231102ps.ManagedClusterAgentPoolProfile_STATUS, len(cluster.AgentPoolProfiles))
 		for agentPoolProfileIndex, agentPoolProfileItem := range cluster.AgentPoolProfiles {
 			// Shadow the loop variable to avoid aliasing
 			agentPoolProfileItem := agentPoolProfileItem
-			var agentPoolProfile storage.ManagedClusterAgentPoolProfile_STATUS
+			var agentPoolProfile v20231102ps.ManagedClusterAgentPoolProfile_STATUS
 			err := agentPoolProfileItem.AssignProperties_To_ManagedClusterAgentPoolProfile_STATUS(&agentPoolProfile)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAgentPoolProfile_STATUS() to populate field AgentPoolProfiles")
@@ -2199,7 +2200,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// AiToolchainOperatorProfile
 	if cluster.AiToolchainOperatorProfile != nil {
-		var aiToolchainOperatorProfile storage.ManagedClusterAIToolchainOperatorProfile_STATUS
+		var aiToolchainOperatorProfile v20231102ps.ManagedClusterAIToolchainOperatorProfile_STATUS
 		err := cluster.AiToolchainOperatorProfile.AssignProperties_To_ManagedClusterAIToolchainOperatorProfile_STATUS(&aiToolchainOperatorProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAIToolchainOperatorProfile_STATUS() to populate field AiToolchainOperatorProfile")
@@ -2211,7 +2212,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// ApiServerAccessProfile
 	if cluster.ApiServerAccessProfile != nil {
-		var apiServerAccessProfile storage.ManagedClusterAPIServerAccessProfile_STATUS
+		var apiServerAccessProfile v20231102ps.ManagedClusterAPIServerAccessProfile_STATUS
 		err := cluster.ApiServerAccessProfile.AssignProperties_To_ManagedClusterAPIServerAccessProfile_STATUS(&apiServerAccessProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAPIServerAccessProfile_STATUS() to populate field ApiServerAccessProfile")
@@ -2223,7 +2224,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// AutoScalerProfile
 	if cluster.AutoScalerProfile != nil {
-		var autoScalerProfile storage.ManagedClusterProperties_AutoScalerProfile_STATUS
+		var autoScalerProfile v20231102ps.ManagedClusterProperties_AutoScalerProfile_STATUS
 		err := cluster.AutoScalerProfile.AssignProperties_To_ManagedClusterProperties_AutoScalerProfile_STATUS(&autoScalerProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterProperties_AutoScalerProfile_STATUS() to populate field AutoScalerProfile")
@@ -2235,7 +2236,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// AutoUpgradeProfile
 	if cluster.AutoUpgradeProfile != nil {
-		var autoUpgradeProfile storage.ManagedClusterAutoUpgradeProfile_STATUS
+		var autoUpgradeProfile v20231102ps.ManagedClusterAutoUpgradeProfile_STATUS
 		err := cluster.AutoUpgradeProfile.AssignProperties_To_ManagedClusterAutoUpgradeProfile_STATUS(&autoUpgradeProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAutoUpgradeProfile_STATUS() to populate field AutoUpgradeProfile")
@@ -2247,7 +2248,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// AzureMonitorProfile
 	if cluster.AzureMonitorProfile != nil {
-		var azureMonitorProfile storage.ManagedClusterAzureMonitorProfile_STATUS
+		var azureMonitorProfile v20231102ps.ManagedClusterAzureMonitorProfile_STATUS
 		err := cluster.AzureMonitorProfile.AssignProperties_To_ManagedClusterAzureMonitorProfile_STATUS(&azureMonitorProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAzureMonitorProfile_STATUS() to populate field AzureMonitorProfile")
@@ -2272,7 +2273,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// CreationData
 	if cluster.CreationData != nil {
-		var creationDatum storage.CreationData_STATUS
+		var creationDatum v20231102ps.CreationData_STATUS
 		err := cluster.CreationData.AssignProperties_To_CreationData_STATUS(&creationDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CreationData_STATUS() to populate field CreationData")
@@ -2332,7 +2333,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// ExtendedLocation
 	if cluster.ExtendedLocation != nil {
-		var extendedLocation storage.ExtendedLocation_STATUS
+		var extendedLocation v20231102ps.ExtendedLocation_STATUS
 		err := cluster.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
@@ -2350,7 +2351,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// HttpProxyConfig
 	if cluster.HttpProxyConfig != nil {
-		var httpProxyConfig storage.ManagedClusterHTTPProxyConfig_STATUS
+		var httpProxyConfig v20231102ps.ManagedClusterHTTPProxyConfig_STATUS
 		err := cluster.HttpProxyConfig.AssignProperties_To_ManagedClusterHTTPProxyConfig_STATUS(&httpProxyConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterHTTPProxyConfig_STATUS() to populate field HttpProxyConfig")
@@ -2365,7 +2366,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// Identity
 	if cluster.Identity != nil {
-		var identity storage.ManagedClusterIdentity_STATUS
+		var identity v20231102ps.ManagedClusterIdentity_STATUS
 		err := cluster.Identity.AssignProperties_To_ManagedClusterIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterIdentity_STATUS() to populate field Identity")
@@ -2377,11 +2378,11 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// IdentityProfile
 	if cluster.IdentityProfile != nil {
-		identityProfileMap := make(map[string]storage.UserAssignedIdentity_STATUS, len(cluster.IdentityProfile))
+		identityProfileMap := make(map[string]v20231102ps.UserAssignedIdentity_STATUS, len(cluster.IdentityProfile))
 		for identityProfileKey, identityProfileValue := range cluster.IdentityProfile {
 			// Shadow the loop variable to avoid aliasing
 			identityProfileValue := identityProfileValue
-			var identityProfile storage.UserAssignedIdentity_STATUS
+			var identityProfile v20231102ps.UserAssignedIdentity_STATUS
 			err := identityProfileValue.AssignProperties_To_UserAssignedIdentity_STATUS(&identityProfile)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field IdentityProfile")
@@ -2395,7 +2396,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// IngressProfile
 	if cluster.IngressProfile != nil {
-		var ingressProfile storage.ManagedClusterIngressProfile_STATUS
+		var ingressProfile v20231102ps.ManagedClusterIngressProfile_STATUS
 		err := cluster.IngressProfile.AssignProperties_To_ManagedClusterIngressProfile_STATUS(&ingressProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterIngressProfile_STATUS() to populate field IngressProfile")
@@ -2417,7 +2418,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// LinuxProfile
 	if cluster.LinuxProfile != nil {
-		var linuxProfile storage.ContainerServiceLinuxProfile_STATUS
+		var linuxProfile v20231102ps.ContainerServiceLinuxProfile_STATUS
 		err := cluster.LinuxProfile.AssignProperties_To_ContainerServiceLinuxProfile_STATUS(&linuxProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceLinuxProfile_STATUS() to populate field LinuxProfile")
@@ -2435,7 +2436,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// MetricsProfile
 	if cluster.MetricsProfile != nil {
-		var metricsProfile storage.ManagedClusterMetricsProfile_STATUS
+		var metricsProfile v20231102ps.ManagedClusterMetricsProfile_STATUS
 		err := cluster.MetricsProfile.AssignProperties_To_ManagedClusterMetricsProfile_STATUS(&metricsProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterMetricsProfile_STATUS() to populate field MetricsProfile")
@@ -2450,7 +2451,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// NetworkProfile
 	if cluster.NetworkProfile != nil {
-		var networkProfile storage.ContainerServiceNetworkProfile_STATUS
+		var networkProfile v20231102ps.ContainerServiceNetworkProfile_STATUS
 		err := cluster.NetworkProfile.AssignProperties_To_ContainerServiceNetworkProfile_STATUS(&networkProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceNetworkProfile_STATUS() to populate field NetworkProfile")
@@ -2462,7 +2463,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// NodeProvisioningProfile
 	if cluster.NodeProvisioningProfile != nil {
-		var nodeProvisioningProfile storage.ManagedClusterNodeProvisioningProfile_STATUS
+		var nodeProvisioningProfile v20231102ps.ManagedClusterNodeProvisioningProfile_STATUS
 		err := cluster.NodeProvisioningProfile.AssignProperties_To_ManagedClusterNodeProvisioningProfile_STATUS(&nodeProvisioningProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterNodeProvisioningProfile_STATUS() to populate field NodeProvisioningProfile")
@@ -2477,7 +2478,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// NodeResourceGroupProfile
 	if cluster.NodeResourceGroupProfile != nil {
-		var nodeResourceGroupProfile storage.ManagedClusterNodeResourceGroupProfile_STATUS
+		var nodeResourceGroupProfile v20231102ps.ManagedClusterNodeResourceGroupProfile_STATUS
 		err := cluster.NodeResourceGroupProfile.AssignProperties_To_ManagedClusterNodeResourceGroupProfile_STATUS(&nodeResourceGroupProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterNodeResourceGroupProfile_STATUS() to populate field NodeResourceGroupProfile")
@@ -2489,7 +2490,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// OidcIssuerProfile
 	if cluster.OidcIssuerProfile != nil {
-		var oidcIssuerProfile storage.ManagedClusterOIDCIssuerProfile_STATUS
+		var oidcIssuerProfile v20231102ps.ManagedClusterOIDCIssuerProfile_STATUS
 		err := cluster.OidcIssuerProfile.AssignProperties_To_ManagedClusterOIDCIssuerProfile_STATUS(&oidcIssuerProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterOIDCIssuerProfile_STATUS() to populate field OidcIssuerProfile")
@@ -2501,7 +2502,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// PodIdentityProfile
 	if cluster.PodIdentityProfile != nil {
-		var podIdentityProfile storage.ManagedClusterPodIdentityProfile_STATUS
+		var podIdentityProfile v20231102ps.ManagedClusterPodIdentityProfile_STATUS
 		err := cluster.PodIdentityProfile.AssignProperties_To_ManagedClusterPodIdentityProfile_STATUS(&podIdentityProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPodIdentityProfile_STATUS() to populate field PodIdentityProfile")
@@ -2513,7 +2514,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// PowerState
 	if cluster.PowerState != nil {
-		var powerState storage.PowerState_STATUS
+		var powerState v20231102ps.PowerState_STATUS
 		err := cluster.PowerState.AssignProperties_To_PowerState_STATUS(&powerState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PowerState_STATUS() to populate field PowerState")
@@ -2528,11 +2529,11 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// PrivateLinkResources
 	if cluster.PrivateLinkResources != nil {
-		privateLinkResourceList := make([]storage.PrivateLinkResource_STATUS, len(cluster.PrivateLinkResources))
+		privateLinkResourceList := make([]v20231102ps.PrivateLinkResource_STATUS, len(cluster.PrivateLinkResources))
 		for privateLinkResourceIndex, privateLinkResourceItem := range cluster.PrivateLinkResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkResourceItem := privateLinkResourceItem
-			var privateLinkResource storage.PrivateLinkResource_STATUS
+			var privateLinkResource v20231102ps.PrivateLinkResource_STATUS
 			err := privateLinkResourceItem.AssignProperties_To_PrivateLinkResource_STATUS(&privateLinkResource)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkResource_STATUS() to populate field PrivateLinkResources")
@@ -2555,7 +2556,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// SafeguardsProfile
 	if cluster.SafeguardsProfile != nil {
-		var safeguardsProfile storage.SafeguardsProfile_STATUS
+		var safeguardsProfile v20231102ps.SafeguardsProfile_STATUS
 		err := cluster.SafeguardsProfile.AssignProperties_To_SafeguardsProfile_STATUS(&safeguardsProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SafeguardsProfile_STATUS() to populate field SafeguardsProfile")
@@ -2567,7 +2568,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// SecurityProfile
 	if cluster.SecurityProfile != nil {
-		var securityProfile storage.ManagedClusterSecurityProfile_STATUS
+		var securityProfile v20231102ps.ManagedClusterSecurityProfile_STATUS
 		err := cluster.SecurityProfile.AssignProperties_To_ManagedClusterSecurityProfile_STATUS(&securityProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSecurityProfile_STATUS() to populate field SecurityProfile")
@@ -2579,7 +2580,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// ServiceMeshProfile
 	if cluster.ServiceMeshProfile != nil {
-		var serviceMeshProfile storage.ServiceMeshProfile_STATUS
+		var serviceMeshProfile v20231102ps.ServiceMeshProfile_STATUS
 		err := cluster.ServiceMeshProfile.AssignProperties_To_ServiceMeshProfile_STATUS(&serviceMeshProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServiceMeshProfile_STATUS() to populate field ServiceMeshProfile")
@@ -2591,7 +2592,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// ServicePrincipalProfile
 	if cluster.ServicePrincipalProfile != nil {
-		var servicePrincipalProfile storage.ManagedClusterServicePrincipalProfile_STATUS
+		var servicePrincipalProfile v20231102ps.ManagedClusterServicePrincipalProfile_STATUS
 		err := cluster.ServicePrincipalProfile.AssignProperties_To_ManagedClusterServicePrincipalProfile_STATUS(&servicePrincipalProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterServicePrincipalProfile_STATUS() to populate field ServicePrincipalProfile")
@@ -2603,7 +2604,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// Sku
 	if cluster.Sku != nil {
-		var sku storage.ManagedClusterSKU_STATUS
+		var sku v20231102ps.ManagedClusterSKU_STATUS
 		err := cluster.Sku.AssignProperties_To_ManagedClusterSKU_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSKU_STATUS() to populate field Sku")
@@ -2615,7 +2616,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// StorageProfile
 	if cluster.StorageProfile != nil {
-		var storageProfile storage.ManagedClusterStorageProfile_STATUS
+		var storageProfile v20231102ps.ManagedClusterStorageProfile_STATUS
 		err := cluster.StorageProfile.AssignProperties_To_ManagedClusterStorageProfile_STATUS(&storageProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterStorageProfile_STATUS() to populate field StorageProfile")
@@ -2630,7 +2631,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// SystemData
 	if cluster.SystemData != nil {
-		var systemDatum storage.SystemData_STATUS
+		var systemDatum v20231102ps.SystemData_STATUS
 		err := cluster.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -2648,7 +2649,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// UpgradeSettings
 	if cluster.UpgradeSettings != nil {
-		var upgradeSetting storage.ClusterUpgradeSettings_STATUS
+		var upgradeSetting v20231102ps.ClusterUpgradeSettings_STATUS
 		err := cluster.UpgradeSettings.AssignProperties_To_ClusterUpgradeSettings_STATUS(&upgradeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ClusterUpgradeSettings_STATUS() to populate field UpgradeSettings")
@@ -2660,7 +2661,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// WindowsProfile
 	if cluster.WindowsProfile != nil {
-		var windowsProfile storage.ManagedClusterWindowsProfile_STATUS
+		var windowsProfile v20231102ps.ManagedClusterWindowsProfile_STATUS
 		err := cluster.WindowsProfile.AssignProperties_To_ManagedClusterWindowsProfile_STATUS(&windowsProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterWindowsProfile_STATUS() to populate field WindowsProfile")
@@ -2672,7 +2673,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// WorkloadAutoScalerProfile
 	if cluster.WorkloadAutoScalerProfile != nil {
-		var workloadAutoScalerProfile storage.ManagedClusterWorkloadAutoScalerProfile_STATUS
+		var workloadAutoScalerProfile v20231102ps.ManagedClusterWorkloadAutoScalerProfile_STATUS
 		err := cluster.WorkloadAutoScalerProfile.AssignProperties_To_ManagedClusterWorkloadAutoScalerProfile_STATUS(&workloadAutoScalerProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterWorkloadAutoScalerProfile_STATUS() to populate field WorkloadAutoScalerProfile")
@@ -2703,13 +2704,13 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 }
 
 type augmentConversionForManagedCluster_Spec interface {
-	AssignPropertiesFrom(src *storage.ManagedCluster_Spec) error
-	AssignPropertiesTo(dst *storage.ManagedCluster_Spec) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedCluster_Spec) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedCluster_Spec) error
 }
 
 type augmentConversionForManagedCluster_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedCluster_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedCluster_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedCluster_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedCluster_STATUS) error
 }
 
 // Storage version of v1api20240402preview.ClusterUpgradeSettings
@@ -2720,7 +2721,7 @@ type ClusterUpgradeSettings struct {
 }
 
 // AssignProperties_From_ClusterUpgradeSettings populates our ClusterUpgradeSettings from the provided source ClusterUpgradeSettings
-func (settings *ClusterUpgradeSettings) AssignProperties_From_ClusterUpgradeSettings(source *storage.ClusterUpgradeSettings) error {
+func (settings *ClusterUpgradeSettings) AssignProperties_From_ClusterUpgradeSettings(source *v20231102ps.ClusterUpgradeSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2757,13 +2758,13 @@ func (settings *ClusterUpgradeSettings) AssignProperties_From_ClusterUpgradeSett
 }
 
 // AssignProperties_To_ClusterUpgradeSettings populates the provided destination ClusterUpgradeSettings from our ClusterUpgradeSettings
-func (settings *ClusterUpgradeSettings) AssignProperties_To_ClusterUpgradeSettings(destination *storage.ClusterUpgradeSettings) error {
+func (settings *ClusterUpgradeSettings) AssignProperties_To_ClusterUpgradeSettings(destination *v20231102ps.ClusterUpgradeSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// OverrideSettings
 	if settings.OverrideSettings != nil {
-		var overrideSetting storage.UpgradeOverrideSettings
+		var overrideSetting v20231102ps.UpgradeOverrideSettings
 		err := settings.OverrideSettings.AssignProperties_To_UpgradeOverrideSettings(&overrideSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UpgradeOverrideSettings() to populate field OverrideSettings")
@@ -2801,7 +2802,7 @@ type ClusterUpgradeSettings_STATUS struct {
 }
 
 // AssignProperties_From_ClusterUpgradeSettings_STATUS populates our ClusterUpgradeSettings_STATUS from the provided source ClusterUpgradeSettings_STATUS
-func (settings *ClusterUpgradeSettings_STATUS) AssignProperties_From_ClusterUpgradeSettings_STATUS(source *storage.ClusterUpgradeSettings_STATUS) error {
+func (settings *ClusterUpgradeSettings_STATUS) AssignProperties_From_ClusterUpgradeSettings_STATUS(source *v20231102ps.ClusterUpgradeSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2838,13 +2839,13 @@ func (settings *ClusterUpgradeSettings_STATUS) AssignProperties_From_ClusterUpgr
 }
 
 // AssignProperties_To_ClusterUpgradeSettings_STATUS populates the provided destination ClusterUpgradeSettings_STATUS from our ClusterUpgradeSettings_STATUS
-func (settings *ClusterUpgradeSettings_STATUS) AssignProperties_To_ClusterUpgradeSettings_STATUS(destination *storage.ClusterUpgradeSettings_STATUS) error {
+func (settings *ClusterUpgradeSettings_STATUS) AssignProperties_To_ClusterUpgradeSettings_STATUS(destination *v20231102ps.ClusterUpgradeSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// OverrideSettings
 	if settings.OverrideSettings != nil {
-		var overrideSetting storage.UpgradeOverrideSettings_STATUS
+		var overrideSetting v20231102ps.UpgradeOverrideSettings_STATUS
 		err := settings.OverrideSettings.AssignProperties_To_UpgradeOverrideSettings_STATUS(&overrideSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UpgradeOverrideSettings_STATUS() to populate field OverrideSettings")
@@ -2883,7 +2884,7 @@ type ContainerServiceLinuxProfile struct {
 }
 
 // AssignProperties_From_ContainerServiceLinuxProfile populates our ContainerServiceLinuxProfile from the provided source ContainerServiceLinuxProfile
-func (profile *ContainerServiceLinuxProfile) AssignProperties_From_ContainerServiceLinuxProfile(source *storage.ContainerServiceLinuxProfile) error {
+func (profile *ContainerServiceLinuxProfile) AssignProperties_From_ContainerServiceLinuxProfile(source *v20231102ps.ContainerServiceLinuxProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2923,7 +2924,7 @@ func (profile *ContainerServiceLinuxProfile) AssignProperties_From_ContainerServ
 }
 
 // AssignProperties_To_ContainerServiceLinuxProfile populates the provided destination ContainerServiceLinuxProfile from our ContainerServiceLinuxProfile
-func (profile *ContainerServiceLinuxProfile) AssignProperties_To_ContainerServiceLinuxProfile(destination *storage.ContainerServiceLinuxProfile) error {
+func (profile *ContainerServiceLinuxProfile) AssignProperties_To_ContainerServiceLinuxProfile(destination *v20231102ps.ContainerServiceLinuxProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -2932,7 +2933,7 @@ func (profile *ContainerServiceLinuxProfile) AssignProperties_To_ContainerServic
 
 	// Ssh
 	if profile.Ssh != nil {
-		var ssh storage.ContainerServiceSshConfiguration
+		var ssh v20231102ps.ContainerServiceSshConfiguration
 		err := profile.Ssh.AssignProperties_To_ContainerServiceSshConfiguration(&ssh)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceSshConfiguration() to populate field Ssh")
@@ -2971,7 +2972,7 @@ type ContainerServiceLinuxProfile_STATUS struct {
 }
 
 // AssignProperties_From_ContainerServiceLinuxProfile_STATUS populates our ContainerServiceLinuxProfile_STATUS from the provided source ContainerServiceLinuxProfile_STATUS
-func (profile *ContainerServiceLinuxProfile_STATUS) AssignProperties_From_ContainerServiceLinuxProfile_STATUS(source *storage.ContainerServiceLinuxProfile_STATUS) error {
+func (profile *ContainerServiceLinuxProfile_STATUS) AssignProperties_From_ContainerServiceLinuxProfile_STATUS(source *v20231102ps.ContainerServiceLinuxProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3011,7 +3012,7 @@ func (profile *ContainerServiceLinuxProfile_STATUS) AssignProperties_From_Contai
 }
 
 // AssignProperties_To_ContainerServiceLinuxProfile_STATUS populates the provided destination ContainerServiceLinuxProfile_STATUS from our ContainerServiceLinuxProfile_STATUS
-func (profile *ContainerServiceLinuxProfile_STATUS) AssignProperties_To_ContainerServiceLinuxProfile_STATUS(destination *storage.ContainerServiceLinuxProfile_STATUS) error {
+func (profile *ContainerServiceLinuxProfile_STATUS) AssignProperties_To_ContainerServiceLinuxProfile_STATUS(destination *v20231102ps.ContainerServiceLinuxProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -3020,7 +3021,7 @@ func (profile *ContainerServiceLinuxProfile_STATUS) AssignProperties_To_Containe
 
 	// Ssh
 	if profile.Ssh != nil {
-		var ssh storage.ContainerServiceSshConfiguration_STATUS
+		var ssh v20231102ps.ContainerServiceSshConfiguration_STATUS
 		err := profile.Ssh.AssignProperties_To_ContainerServiceSshConfiguration_STATUS(&ssh)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceSshConfiguration_STATUS() to populate field Ssh")
@@ -3076,7 +3077,7 @@ type ContainerServiceNetworkProfile struct {
 }
 
 // AssignProperties_From_ContainerServiceNetworkProfile populates our ContainerServiceNetworkProfile from the provided source ContainerServiceNetworkProfile
-func (profile *ContainerServiceNetworkProfile) AssignProperties_From_ContainerServiceNetworkProfile(source *storage.ContainerServiceNetworkProfile) error {
+func (profile *ContainerServiceNetworkProfile) AssignProperties_From_ContainerServiceNetworkProfile(source *v20231102ps.ContainerServiceNetworkProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3222,7 +3223,7 @@ func (profile *ContainerServiceNetworkProfile) AssignProperties_From_ContainerSe
 }
 
 // AssignProperties_To_ContainerServiceNetworkProfile populates the provided destination ContainerServiceNetworkProfile from our ContainerServiceNetworkProfile
-func (profile *ContainerServiceNetworkProfile) AssignProperties_To_ContainerServiceNetworkProfile(destination *storage.ContainerServiceNetworkProfile) error {
+func (profile *ContainerServiceNetworkProfile) AssignProperties_To_ContainerServiceNetworkProfile(destination *v20231102ps.ContainerServiceNetworkProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -3241,7 +3242,7 @@ func (profile *ContainerServiceNetworkProfile) AssignProperties_To_ContainerServ
 
 	// KubeProxyConfig
 	if profile.KubeProxyConfig != nil {
-		var kubeProxyConfig storage.ContainerServiceNetworkProfile_KubeProxyConfig
+		var kubeProxyConfig v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig
 		err := profile.KubeProxyConfig.AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig(&kubeProxyConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig() to populate field KubeProxyConfig")
@@ -3253,7 +3254,7 @@ func (profile *ContainerServiceNetworkProfile) AssignProperties_To_ContainerServ
 
 	// LoadBalancerProfile
 	if profile.LoadBalancerProfile != nil {
-		var loadBalancerProfile storage.ManagedClusterLoadBalancerProfile
+		var loadBalancerProfile v20231102ps.ManagedClusterLoadBalancerProfile
 		err := profile.LoadBalancerProfile.AssignProperties_To_ManagedClusterLoadBalancerProfile(&loadBalancerProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile() to populate field LoadBalancerProfile")
@@ -3268,7 +3269,7 @@ func (profile *ContainerServiceNetworkProfile) AssignProperties_To_ContainerServ
 
 	// Monitoring
 	if propertyBag.Contains("Monitoring") {
-		var monitoring storage.NetworkMonitoring
+		var monitoring v20231102ps.NetworkMonitoring
 		err := propertyBag.Pull("Monitoring", &monitoring)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'Monitoring' from propertyBag")
@@ -3281,7 +3282,7 @@ func (profile *ContainerServiceNetworkProfile) AssignProperties_To_ContainerServ
 
 	// NatGatewayProfile
 	if profile.NatGatewayProfile != nil {
-		var natGatewayProfile storage.ManagedClusterNATGatewayProfile
+		var natGatewayProfile v20231102ps.ManagedClusterNATGatewayProfile
 		err := profile.NatGatewayProfile.AssignProperties_To_ManagedClusterNATGatewayProfile(&natGatewayProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterNATGatewayProfile() to populate field NatGatewayProfile")
@@ -3381,7 +3382,7 @@ type ContainerServiceNetworkProfile_STATUS struct {
 }
 
 // AssignProperties_From_ContainerServiceNetworkProfile_STATUS populates our ContainerServiceNetworkProfile_STATUS from the provided source ContainerServiceNetworkProfile_STATUS
-func (profile *ContainerServiceNetworkProfile_STATUS) AssignProperties_From_ContainerServiceNetworkProfile_STATUS(source *storage.ContainerServiceNetworkProfile_STATUS) error {
+func (profile *ContainerServiceNetworkProfile_STATUS) AssignProperties_From_ContainerServiceNetworkProfile_STATUS(source *v20231102ps.ContainerServiceNetworkProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3527,7 +3528,7 @@ func (profile *ContainerServiceNetworkProfile_STATUS) AssignProperties_From_Cont
 }
 
 // AssignProperties_To_ContainerServiceNetworkProfile_STATUS populates the provided destination ContainerServiceNetworkProfile_STATUS from our ContainerServiceNetworkProfile_STATUS
-func (profile *ContainerServiceNetworkProfile_STATUS) AssignProperties_To_ContainerServiceNetworkProfile_STATUS(destination *storage.ContainerServiceNetworkProfile_STATUS) error {
+func (profile *ContainerServiceNetworkProfile_STATUS) AssignProperties_To_ContainerServiceNetworkProfile_STATUS(destination *v20231102ps.ContainerServiceNetworkProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -3546,7 +3547,7 @@ func (profile *ContainerServiceNetworkProfile_STATUS) AssignProperties_To_Contai
 
 	// KubeProxyConfig
 	if profile.KubeProxyConfig != nil {
-		var kubeProxyConfig storage.ContainerServiceNetworkProfile_KubeProxyConfig_STATUS
+		var kubeProxyConfig v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_STATUS
 		err := profile.KubeProxyConfig.AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_STATUS(&kubeProxyConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_STATUS() to populate field KubeProxyConfig")
@@ -3558,7 +3559,7 @@ func (profile *ContainerServiceNetworkProfile_STATUS) AssignProperties_To_Contai
 
 	// LoadBalancerProfile
 	if profile.LoadBalancerProfile != nil {
-		var loadBalancerProfile storage.ManagedClusterLoadBalancerProfile_STATUS
+		var loadBalancerProfile v20231102ps.ManagedClusterLoadBalancerProfile_STATUS
 		err := profile.LoadBalancerProfile.AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS(&loadBalancerProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS() to populate field LoadBalancerProfile")
@@ -3573,7 +3574,7 @@ func (profile *ContainerServiceNetworkProfile_STATUS) AssignProperties_To_Contai
 
 	// Monitoring
 	if propertyBag.Contains("Monitoring") {
-		var monitoring storage.NetworkMonitoring_STATUS
+		var monitoring v20231102ps.NetworkMonitoring_STATUS
 		err := propertyBag.Pull("Monitoring", &monitoring)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'Monitoring' from propertyBag")
@@ -3586,7 +3587,7 @@ func (profile *ContainerServiceNetworkProfile_STATUS) AssignProperties_To_Contai
 
 	// NatGatewayProfile
 	if profile.NatGatewayProfile != nil {
-		var natGatewayProfile storage.ManagedClusterNATGatewayProfile_STATUS
+		var natGatewayProfile v20231102ps.ManagedClusterNATGatewayProfile_STATUS
 		err := profile.NatGatewayProfile.AssignProperties_To_ManagedClusterNATGatewayProfile_STATUS(&natGatewayProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterNATGatewayProfile_STATUS() to populate field NatGatewayProfile")
@@ -3670,7 +3671,7 @@ type CreationData struct {
 }
 
 // AssignProperties_From_CreationData populates our CreationData from the provided source CreationData
-func (data *CreationData) AssignProperties_From_CreationData(source *storage.CreationData) error {
+func (data *CreationData) AssignProperties_From_CreationData(source *v20231102ps.CreationData) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3703,7 +3704,7 @@ func (data *CreationData) AssignProperties_From_CreationData(source *storage.Cre
 }
 
 // AssignProperties_To_CreationData populates the provided destination CreationData from our CreationData
-func (data *CreationData) AssignProperties_To_CreationData(destination *storage.CreationData) error {
+func (data *CreationData) AssignProperties_To_CreationData(destination *v20231102ps.CreationData) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 
@@ -3743,7 +3744,7 @@ type CreationData_STATUS struct {
 }
 
 // AssignProperties_From_CreationData_STATUS populates our CreationData_STATUS from the provided source CreationData_STATUS
-func (data *CreationData_STATUS) AssignProperties_From_CreationData_STATUS(source *storage.CreationData_STATUS) error {
+func (data *CreationData_STATUS) AssignProperties_From_CreationData_STATUS(source *v20231102ps.CreationData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3771,7 +3772,7 @@ func (data *CreationData_STATUS) AssignProperties_From_CreationData_STATUS(sourc
 }
 
 // AssignProperties_To_CreationData_STATUS populates the provided destination CreationData_STATUS from our CreationData_STATUS
-func (data *CreationData_STATUS) AssignProperties_To_CreationData_STATUS(destination *storage.CreationData_STATUS) error {
+func (data *CreationData_STATUS) AssignProperties_To_CreationData_STATUS(destination *v20231102ps.CreationData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 
@@ -3807,7 +3808,7 @@ type ExtendedLocation struct {
 }
 
 // AssignProperties_From_ExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
-func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source *storage.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source *v20231102ps.ExtendedLocation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3838,7 +3839,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 }
 
 // AssignProperties_To_ExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
-func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destination *storage.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destination *v20231102ps.ExtendedLocation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
@@ -3877,7 +3878,7 @@ type ExtendedLocation_STATUS struct {
 }
 
 // AssignProperties_From_ExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_STATUS(source *storage.ExtendedLocation_STATUS) error {
+func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_STATUS(source *v20231102ps.ExtendedLocation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3908,7 +3909,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 }
 
 // AssignProperties_To_ExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_STATUS(destination *storage.ExtendedLocation_STATUS) error {
+func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_STATUS(destination *v20231102ps.ExtendedLocation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
@@ -3952,7 +3953,7 @@ type ManagedClusterAADProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterAADProfile populates our ManagedClusterAADProfile from the provided source ManagedClusterAADProfile
-func (profile *ManagedClusterAADProfile) AssignProperties_From_ManagedClusterAADProfile(source *storage.ManagedClusterAADProfile) error {
+func (profile *ManagedClusterAADProfile) AssignProperties_From_ManagedClusterAADProfile(source *v20231102ps.ManagedClusterAADProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4008,7 +4009,7 @@ func (profile *ManagedClusterAADProfile) AssignProperties_From_ManagedClusterAAD
 }
 
 // AssignProperties_To_ManagedClusterAADProfile populates the provided destination ManagedClusterAADProfile from our ManagedClusterAADProfile
-func (profile *ManagedClusterAADProfile) AssignProperties_To_ManagedClusterAADProfile(destination *storage.ManagedClusterAADProfile) error {
+func (profile *ManagedClusterAADProfile) AssignProperties_To_ManagedClusterAADProfile(destination *v20231102ps.ManagedClusterAADProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -4077,7 +4078,7 @@ type ManagedClusterAADProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterAADProfile_STATUS populates our ManagedClusterAADProfile_STATUS from the provided source ManagedClusterAADProfile_STATUS
-func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_From_ManagedClusterAADProfile_STATUS(source *storage.ManagedClusterAADProfile_STATUS) error {
+func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_From_ManagedClusterAADProfile_STATUS(source *v20231102ps.ManagedClusterAADProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4133,7 +4134,7 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_From_ManagedClu
 }
 
 // AssignProperties_To_ManagedClusterAADProfile_STATUS populates the provided destination ManagedClusterAADProfile_STATUS from our ManagedClusterAADProfile_STATUS
-func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_To_ManagedClusterAADProfile_STATUS(destination *storage.ManagedClusterAADProfile_STATUS) error {
+func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_To_ManagedClusterAADProfile_STATUS(destination *v20231102ps.ManagedClusterAADProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -4197,7 +4198,7 @@ type ManagedClusterAddonProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterAddonProfile populates our ManagedClusterAddonProfile from the provided source ManagedClusterAddonProfile
-func (profile *ManagedClusterAddonProfile) AssignProperties_From_ManagedClusterAddonProfile(source *storage.ManagedClusterAddonProfile) error {
+func (profile *ManagedClusterAddonProfile) AssignProperties_From_ManagedClusterAddonProfile(source *v20231102ps.ManagedClusterAddonProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4233,7 +4234,7 @@ func (profile *ManagedClusterAddonProfile) AssignProperties_From_ManagedClusterA
 }
 
 // AssignProperties_To_ManagedClusterAddonProfile populates the provided destination ManagedClusterAddonProfile from our ManagedClusterAddonProfile
-func (profile *ManagedClusterAddonProfile) AssignProperties_To_ManagedClusterAddonProfile(destination *storage.ManagedClusterAddonProfile) error {
+func (profile *ManagedClusterAddonProfile) AssignProperties_To_ManagedClusterAddonProfile(destination *v20231102ps.ManagedClusterAddonProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -4278,7 +4279,7 @@ type ManagedClusterAddonProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterAddonProfile_STATUS populates our ManagedClusterAddonProfile_STATUS from the provided source ManagedClusterAddonProfile_STATUS
-func (profile *ManagedClusterAddonProfile_STATUS) AssignProperties_From_ManagedClusterAddonProfile_STATUS(source *storage.ManagedClusterAddonProfile_STATUS) error {
+func (profile *ManagedClusterAddonProfile_STATUS) AssignProperties_From_ManagedClusterAddonProfile_STATUS(source *v20231102ps.ManagedClusterAddonProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4326,7 +4327,7 @@ func (profile *ManagedClusterAddonProfile_STATUS) AssignProperties_From_ManagedC
 }
 
 // AssignProperties_To_ManagedClusterAddonProfile_STATUS populates the provided destination ManagedClusterAddonProfile_STATUS from our ManagedClusterAddonProfile_STATUS
-func (profile *ManagedClusterAddonProfile_STATUS) AssignProperties_To_ManagedClusterAddonProfile_STATUS(destination *storage.ManagedClusterAddonProfile_STATUS) error {
+func (profile *ManagedClusterAddonProfile_STATUS) AssignProperties_To_ManagedClusterAddonProfile_STATUS(destination *v20231102ps.ManagedClusterAddonProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -4343,7 +4344,7 @@ func (profile *ManagedClusterAddonProfile_STATUS) AssignProperties_To_ManagedClu
 
 	// Identity
 	if profile.Identity != nil {
-		var identity storage.UserAssignedIdentity_STATUS
+		var identity v20231102ps.UserAssignedIdentity_STATUS
 		err := profile.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Identity")
@@ -4451,7 +4452,7 @@ type ManagedClusterAgentPoolProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterAgentPoolProfile populates our ManagedClusterAgentPoolProfile from the provided source ManagedClusterAgentPoolProfile
-func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClusterAgentPoolProfile(source *storage.ManagedClusterAgentPoolProfile) error {
+func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClusterAgentPoolProfile(source *v20231102ps.ManagedClusterAgentPoolProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4831,13 +4832,13 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 }
 
 // AssignProperties_To_ManagedClusterAgentPoolProfile populates the provided destination ManagedClusterAgentPoolProfile from our ManagedClusterAgentPoolProfile
-func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedClusterAgentPoolProfile(destination *storage.ManagedClusterAgentPoolProfile) error {
+func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedClusterAgentPoolProfile(destination *v20231102ps.ManagedClusterAgentPoolProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// ArtifactStreamingProfile
 	if profile.ArtifactStreamingProfile != nil {
-		var artifactStreamingProfile storage.AgentPoolArtifactStreamingProfile
+		var artifactStreamingProfile v20231102ps.AgentPoolArtifactStreamingProfile
 		err := profile.ArtifactStreamingProfile.AssignProperties_To_AgentPoolArtifactStreamingProfile(&artifactStreamingProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolArtifactStreamingProfile() to populate field ArtifactStreamingProfile")
@@ -4863,7 +4864,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// CreationData
 	if profile.CreationData != nil {
-		var creationDatum storage.CreationData
+		var creationDatum v20231102ps.CreationData
 		err := profile.CreationData.AssignProperties_To_CreationData(&creationDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CreationData() to populate field CreationData")
@@ -4933,7 +4934,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// GpuProfile
 	if profile.GpuProfile != nil {
-		var gpuProfile storage.AgentPoolGPUProfile
+		var gpuProfile v20231102ps.AgentPoolGPUProfile
 		err := profile.GpuProfile.AssignProperties_To_AgentPoolGPUProfile(&gpuProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolGPUProfile() to populate field GpuProfile")
@@ -4953,7 +4954,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// KubeletConfig
 	if profile.KubeletConfig != nil {
-		var kubeletConfig storage.KubeletConfig
+		var kubeletConfig v20231102ps.KubeletConfig
 		err := profile.KubeletConfig.AssignProperties_To_KubeletConfig(&kubeletConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KubeletConfig() to populate field KubeletConfig")
@@ -4968,7 +4969,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// LinuxOSConfig
 	if profile.LinuxOSConfig != nil {
-		var linuxOSConfig storage.LinuxOSConfig
+		var linuxOSConfig v20231102ps.LinuxOSConfig
 		err := profile.LinuxOSConfig.AssignProperties_To_LinuxOSConfig(&linuxOSConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_LinuxOSConfig() to populate field LinuxOSConfig")
@@ -4998,7 +4999,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// NetworkProfile
 	if profile.NetworkProfile != nil {
-		var networkProfile storage.AgentPoolNetworkProfile
+		var networkProfile v20231102ps.AgentPoolNetworkProfile
 		err := profile.NetworkProfile.AssignProperties_To_AgentPoolNetworkProfile(&networkProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolNetworkProfile() to populate field NetworkProfile")
@@ -5057,7 +5058,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// PowerState
 	if profile.PowerState != nil {
-		var powerState storage.PowerState
+		var powerState v20231102ps.PowerState
 		err := profile.PowerState.AssignProperties_To_PowerState(&powerState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PowerState() to populate field PowerState")
@@ -5086,7 +5087,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// SecurityProfile
 	if profile.SecurityProfile != nil {
-		var securityProfile storage.AgentPoolSecurityProfile
+		var securityProfile v20231102ps.AgentPoolSecurityProfile
 		err := profile.SecurityProfile.AssignProperties_To_AgentPoolSecurityProfile(&securityProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolSecurityProfile() to populate field SecurityProfile")
@@ -5112,7 +5113,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// UpgradeSettings
 	if profile.UpgradeSettings != nil {
-		var upgradeSetting storage.AgentPoolUpgradeSettings
+		var upgradeSetting v20231102ps.AgentPoolUpgradeSettings
 		err := profile.UpgradeSettings.AssignProperties_To_AgentPoolUpgradeSettings(&upgradeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolUpgradeSettings() to populate field UpgradeSettings")
@@ -5124,11 +5125,11 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// VirtualMachineNodesStatus
 	if profile.VirtualMachineNodesStatus != nil {
-		virtualMachineNodesStatusList := make([]storage.VirtualMachineNodes, len(profile.VirtualMachineNodesStatus))
+		virtualMachineNodesStatusList := make([]v20231102ps.VirtualMachineNodes, len(profile.VirtualMachineNodesStatus))
 		for virtualMachineNodesStatusIndex, virtualMachineNodesStatusItem := range profile.VirtualMachineNodesStatus {
 			// Shadow the loop variable to avoid aliasing
 			virtualMachineNodesStatusItem := virtualMachineNodesStatusItem
-			var virtualMachineNodesStatus storage.VirtualMachineNodes
+			var virtualMachineNodesStatus v20231102ps.VirtualMachineNodes
 			err := virtualMachineNodesStatusItem.AssignProperties_To_VirtualMachineNodes(&virtualMachineNodesStatus)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineNodes() to populate field VirtualMachineNodesStatus")
@@ -5142,7 +5143,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// VirtualMachinesProfile
 	if profile.VirtualMachinesProfile != nil {
-		var virtualMachinesProfile storage.VirtualMachinesProfile
+		var virtualMachinesProfile v20231102ps.VirtualMachinesProfile
 		err := profile.VirtualMachinesProfile.AssignProperties_To_VirtualMachinesProfile(&virtualMachinesProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachinesProfile() to populate field VirtualMachinesProfile")
@@ -5165,7 +5166,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// WindowsProfile
 	if profile.WindowsProfile != nil {
-		var windowsProfile storage.AgentPoolWindowsProfile
+		var windowsProfile v20231102ps.AgentPoolWindowsProfile
 		err := profile.WindowsProfile.AssignProperties_To_AgentPoolWindowsProfile(&windowsProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolWindowsProfile() to populate field WindowsProfile")
@@ -5261,7 +5262,7 @@ type ManagedClusterAgentPoolProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterAgentPoolProfile_STATUS populates our ManagedClusterAgentPoolProfile_STATUS from the provided source ManagedClusterAgentPoolProfile_STATUS
-func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_ManagedClusterAgentPoolProfile_STATUS(source *storage.ManagedClusterAgentPoolProfile_STATUS) error {
+func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_ManagedClusterAgentPoolProfile_STATUS(source *v20231102ps.ManagedClusterAgentPoolProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5633,13 +5634,13 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_Mana
 }
 
 // AssignProperties_To_ManagedClusterAgentPoolProfile_STATUS populates the provided destination ManagedClusterAgentPoolProfile_STATUS from our ManagedClusterAgentPoolProfile_STATUS
-func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_ManagedClusterAgentPoolProfile_STATUS(destination *storage.ManagedClusterAgentPoolProfile_STATUS) error {
+func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_ManagedClusterAgentPoolProfile_STATUS(destination *v20231102ps.ManagedClusterAgentPoolProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// ArtifactStreamingProfile
 	if profile.ArtifactStreamingProfile != nil {
-		var artifactStreamingProfile storage.AgentPoolArtifactStreamingProfile_STATUS
+		var artifactStreamingProfile v20231102ps.AgentPoolArtifactStreamingProfile_STATUS
 		err := profile.ArtifactStreamingProfile.AssignProperties_To_AgentPoolArtifactStreamingProfile_STATUS(&artifactStreamingProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolArtifactStreamingProfile_STATUS() to populate field ArtifactStreamingProfile")
@@ -5660,7 +5661,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 
 	// CreationData
 	if profile.CreationData != nil {
-		var creationDatum storage.CreationData_STATUS
+		var creationDatum v20231102ps.CreationData_STATUS
 		err := profile.CreationData.AssignProperties_To_CreationData_STATUS(&creationDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CreationData_STATUS() to populate field CreationData")
@@ -5740,7 +5741,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 
 	// GpuProfile
 	if profile.GpuProfile != nil {
-		var gpuProfile storage.AgentPoolGPUProfile_STATUS
+		var gpuProfile v20231102ps.AgentPoolGPUProfile_STATUS
 		err := profile.GpuProfile.AssignProperties_To_AgentPoolGPUProfile_STATUS(&gpuProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolGPUProfile_STATUS() to populate field GpuProfile")
@@ -5755,7 +5756,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 
 	// KubeletConfig
 	if profile.KubeletConfig != nil {
-		var kubeletConfig storage.KubeletConfig_STATUS
+		var kubeletConfig v20231102ps.KubeletConfig_STATUS
 		err := profile.KubeletConfig.AssignProperties_To_KubeletConfig_STATUS(&kubeletConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KubeletConfig_STATUS() to populate field KubeletConfig")
@@ -5770,7 +5771,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 
 	// LinuxOSConfig
 	if profile.LinuxOSConfig != nil {
-		var linuxOSConfig storage.LinuxOSConfig_STATUS
+		var linuxOSConfig v20231102ps.LinuxOSConfig_STATUS
 		err := profile.LinuxOSConfig.AssignProperties_To_LinuxOSConfig_STATUS(&linuxOSConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_LinuxOSConfig_STATUS() to populate field LinuxOSConfig")
@@ -5800,7 +5801,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 
 	// NetworkProfile
 	if profile.NetworkProfile != nil {
-		var networkProfile storage.AgentPoolNetworkProfile_STATUS
+		var networkProfile v20231102ps.AgentPoolNetworkProfile_STATUS
 		err := profile.NetworkProfile.AssignProperties_To_AgentPoolNetworkProfile_STATUS(&networkProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolNetworkProfile_STATUS() to populate field NetworkProfile")
@@ -5852,7 +5853,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 
 	// PowerState
 	if profile.PowerState != nil {
-		var powerState storage.PowerState_STATUS
+		var powerState v20231102ps.PowerState_STATUS
 		err := profile.PowerState.AssignProperties_To_PowerState_STATUS(&powerState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PowerState_STATUS() to populate field PowerState")
@@ -5879,7 +5880,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 
 	// SecurityProfile
 	if profile.SecurityProfile != nil {
-		var securityProfile storage.AgentPoolSecurityProfile_STATUS
+		var securityProfile v20231102ps.AgentPoolSecurityProfile_STATUS
 		err := profile.SecurityProfile.AssignProperties_To_AgentPoolSecurityProfile_STATUS(&securityProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolSecurityProfile_STATUS() to populate field SecurityProfile")
@@ -5905,7 +5906,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 
 	// UpgradeSettings
 	if profile.UpgradeSettings != nil {
-		var upgradeSetting storage.AgentPoolUpgradeSettings_STATUS
+		var upgradeSetting v20231102ps.AgentPoolUpgradeSettings_STATUS
 		err := profile.UpgradeSettings.AssignProperties_To_AgentPoolUpgradeSettings_STATUS(&upgradeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolUpgradeSettings_STATUS() to populate field UpgradeSettings")
@@ -5917,11 +5918,11 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 
 	// VirtualMachineNodesStatus
 	if profile.VirtualMachineNodesStatus != nil {
-		virtualMachineNodesStatusList := make([]storage.VirtualMachineNodes_STATUS, len(profile.VirtualMachineNodesStatus))
+		virtualMachineNodesStatusList := make([]v20231102ps.VirtualMachineNodes_STATUS, len(profile.VirtualMachineNodesStatus))
 		for virtualMachineNodesStatusIndex, virtualMachineNodesStatusItem := range profile.VirtualMachineNodesStatus {
 			// Shadow the loop variable to avoid aliasing
 			virtualMachineNodesStatusItem := virtualMachineNodesStatusItem
-			var virtualMachineNodesStatus storage.VirtualMachineNodes_STATUS
+			var virtualMachineNodesStatus v20231102ps.VirtualMachineNodes_STATUS
 			err := virtualMachineNodesStatusItem.AssignProperties_To_VirtualMachineNodes_STATUS(&virtualMachineNodesStatus)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineNodes_STATUS() to populate field VirtualMachineNodesStatus")
@@ -5935,7 +5936,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 
 	// VirtualMachinesProfile
 	if profile.VirtualMachinesProfile != nil {
-		var virtualMachinesProfile storage.VirtualMachinesProfile_STATUS
+		var virtualMachinesProfile v20231102ps.VirtualMachinesProfile_STATUS
 		err := profile.VirtualMachinesProfile.AssignProperties_To_VirtualMachinesProfile_STATUS(&virtualMachinesProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachinesProfile_STATUS() to populate field VirtualMachinesProfile")
@@ -5953,7 +5954,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 
 	// WindowsProfile
 	if profile.WindowsProfile != nil {
-		var windowsProfile storage.AgentPoolWindowsProfile_STATUS
+		var windowsProfile v20231102ps.AgentPoolWindowsProfile_STATUS
 		err := profile.WindowsProfile.AssignProperties_To_AgentPoolWindowsProfile_STATUS(&windowsProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolWindowsProfile_STATUS() to populate field WindowsProfile")
@@ -5996,7 +5997,7 @@ type ManagedClusterAIToolchainOperatorProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterAIToolchainOperatorProfile populates our ManagedClusterAIToolchainOperatorProfile from the provided source ManagedClusterAIToolchainOperatorProfile
-func (profile *ManagedClusterAIToolchainOperatorProfile) AssignProperties_From_ManagedClusterAIToolchainOperatorProfile(source *storage.ManagedClusterAIToolchainOperatorProfile) error {
+func (profile *ManagedClusterAIToolchainOperatorProfile) AssignProperties_From_ManagedClusterAIToolchainOperatorProfile(source *v20231102ps.ManagedClusterAIToolchainOperatorProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6029,7 +6030,7 @@ func (profile *ManagedClusterAIToolchainOperatorProfile) AssignProperties_From_M
 }
 
 // AssignProperties_To_ManagedClusterAIToolchainOperatorProfile populates the provided destination ManagedClusterAIToolchainOperatorProfile from our ManagedClusterAIToolchainOperatorProfile
-func (profile *ManagedClusterAIToolchainOperatorProfile) AssignProperties_To_ManagedClusterAIToolchainOperatorProfile(destination *storage.ManagedClusterAIToolchainOperatorProfile) error {
+func (profile *ManagedClusterAIToolchainOperatorProfile) AssignProperties_To_ManagedClusterAIToolchainOperatorProfile(destination *v20231102ps.ManagedClusterAIToolchainOperatorProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -6071,7 +6072,7 @@ type ManagedClusterAIToolchainOperatorProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterAIToolchainOperatorProfile_STATUS populates our ManagedClusterAIToolchainOperatorProfile_STATUS from the provided source ManagedClusterAIToolchainOperatorProfile_STATUS
-func (profile *ManagedClusterAIToolchainOperatorProfile_STATUS) AssignProperties_From_ManagedClusterAIToolchainOperatorProfile_STATUS(source *storage.ManagedClusterAIToolchainOperatorProfile_STATUS) error {
+func (profile *ManagedClusterAIToolchainOperatorProfile_STATUS) AssignProperties_From_ManagedClusterAIToolchainOperatorProfile_STATUS(source *v20231102ps.ManagedClusterAIToolchainOperatorProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6104,7 +6105,7 @@ func (profile *ManagedClusterAIToolchainOperatorProfile_STATUS) AssignProperties
 }
 
 // AssignProperties_To_ManagedClusterAIToolchainOperatorProfile_STATUS populates the provided destination ManagedClusterAIToolchainOperatorProfile_STATUS from our ManagedClusterAIToolchainOperatorProfile_STATUS
-func (profile *ManagedClusterAIToolchainOperatorProfile_STATUS) AssignProperties_To_ManagedClusterAIToolchainOperatorProfile_STATUS(destination *storage.ManagedClusterAIToolchainOperatorProfile_STATUS) error {
+func (profile *ManagedClusterAIToolchainOperatorProfile_STATUS) AssignProperties_To_ManagedClusterAIToolchainOperatorProfile_STATUS(destination *v20231102ps.ManagedClusterAIToolchainOperatorProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -6150,7 +6151,7 @@ type ManagedClusterAPIServerAccessProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterAPIServerAccessProfile populates our ManagedClusterAPIServerAccessProfile from the provided source ManagedClusterAPIServerAccessProfile
-func (profile *ManagedClusterAPIServerAccessProfile) AssignProperties_From_ManagedClusterAPIServerAccessProfile(source *storage.ManagedClusterAPIServerAccessProfile) error {
+func (profile *ManagedClusterAPIServerAccessProfile) AssignProperties_From_ManagedClusterAPIServerAccessProfile(source *v20231102ps.ManagedClusterAPIServerAccessProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6216,7 +6217,7 @@ func (profile *ManagedClusterAPIServerAccessProfile) AssignProperties_From_Manag
 }
 
 // AssignProperties_To_ManagedClusterAPIServerAccessProfile populates the provided destination ManagedClusterAPIServerAccessProfile from our ManagedClusterAPIServerAccessProfile
-func (profile *ManagedClusterAPIServerAccessProfile) AssignProperties_To_ManagedClusterAPIServerAccessProfile(destination *storage.ManagedClusterAPIServerAccessProfile) error {
+func (profile *ManagedClusterAPIServerAccessProfile) AssignProperties_To_ManagedClusterAPIServerAccessProfile(destination *v20231102ps.ManagedClusterAPIServerAccessProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -6295,7 +6296,7 @@ type ManagedClusterAPIServerAccessProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterAPIServerAccessProfile_STATUS populates our ManagedClusterAPIServerAccessProfile_STATUS from the provided source ManagedClusterAPIServerAccessProfile_STATUS
-func (profile *ManagedClusterAPIServerAccessProfile_STATUS) AssignProperties_From_ManagedClusterAPIServerAccessProfile_STATUS(source *storage.ManagedClusterAPIServerAccessProfile_STATUS) error {
+func (profile *ManagedClusterAPIServerAccessProfile_STATUS) AssignProperties_From_ManagedClusterAPIServerAccessProfile_STATUS(source *v20231102ps.ManagedClusterAPIServerAccessProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6361,7 +6362,7 @@ func (profile *ManagedClusterAPIServerAccessProfile_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_ManagedClusterAPIServerAccessProfile_STATUS populates the provided destination ManagedClusterAPIServerAccessProfile_STATUS from our ManagedClusterAPIServerAccessProfile_STATUS
-func (profile *ManagedClusterAPIServerAccessProfile_STATUS) AssignProperties_To_ManagedClusterAPIServerAccessProfile_STATUS(destination *storage.ManagedClusterAPIServerAccessProfile_STATUS) error {
+func (profile *ManagedClusterAPIServerAccessProfile_STATUS) AssignProperties_To_ManagedClusterAPIServerAccessProfile_STATUS(destination *v20231102ps.ManagedClusterAPIServerAccessProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -6435,7 +6436,7 @@ type ManagedClusterAutoUpgradeProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterAutoUpgradeProfile populates our ManagedClusterAutoUpgradeProfile from the provided source ManagedClusterAutoUpgradeProfile
-func (profile *ManagedClusterAutoUpgradeProfile) AssignProperties_From_ManagedClusterAutoUpgradeProfile(source *storage.ManagedClusterAutoUpgradeProfile) error {
+func (profile *ManagedClusterAutoUpgradeProfile) AssignProperties_From_ManagedClusterAutoUpgradeProfile(source *v20231102ps.ManagedClusterAutoUpgradeProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6466,7 +6467,7 @@ func (profile *ManagedClusterAutoUpgradeProfile) AssignProperties_From_ManagedCl
 }
 
 // AssignProperties_To_ManagedClusterAutoUpgradeProfile populates the provided destination ManagedClusterAutoUpgradeProfile from our ManagedClusterAutoUpgradeProfile
-func (profile *ManagedClusterAutoUpgradeProfile) AssignProperties_To_ManagedClusterAutoUpgradeProfile(destination *storage.ManagedClusterAutoUpgradeProfile) error {
+func (profile *ManagedClusterAutoUpgradeProfile) AssignProperties_To_ManagedClusterAutoUpgradeProfile(destination *v20231102ps.ManagedClusterAutoUpgradeProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -6505,7 +6506,7 @@ type ManagedClusterAutoUpgradeProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterAutoUpgradeProfile_STATUS populates our ManagedClusterAutoUpgradeProfile_STATUS from the provided source ManagedClusterAutoUpgradeProfile_STATUS
-func (profile *ManagedClusterAutoUpgradeProfile_STATUS) AssignProperties_From_ManagedClusterAutoUpgradeProfile_STATUS(source *storage.ManagedClusterAutoUpgradeProfile_STATUS) error {
+func (profile *ManagedClusterAutoUpgradeProfile_STATUS) AssignProperties_From_ManagedClusterAutoUpgradeProfile_STATUS(source *v20231102ps.ManagedClusterAutoUpgradeProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6536,7 +6537,7 @@ func (profile *ManagedClusterAutoUpgradeProfile_STATUS) AssignProperties_From_Ma
 }
 
 // AssignProperties_To_ManagedClusterAutoUpgradeProfile_STATUS populates the provided destination ManagedClusterAutoUpgradeProfile_STATUS from our ManagedClusterAutoUpgradeProfile_STATUS
-func (profile *ManagedClusterAutoUpgradeProfile_STATUS) AssignProperties_To_ManagedClusterAutoUpgradeProfile_STATUS(destination *storage.ManagedClusterAutoUpgradeProfile_STATUS) error {
+func (profile *ManagedClusterAutoUpgradeProfile_STATUS) AssignProperties_To_ManagedClusterAutoUpgradeProfile_STATUS(destination *v20231102ps.ManagedClusterAutoUpgradeProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -6576,7 +6577,7 @@ type ManagedClusterAzureMonitorProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterAzureMonitorProfile populates our ManagedClusterAzureMonitorProfile from the provided source ManagedClusterAzureMonitorProfile
-func (profile *ManagedClusterAzureMonitorProfile) AssignProperties_From_ManagedClusterAzureMonitorProfile(source *storage.ManagedClusterAzureMonitorProfile) error {
+func (profile *ManagedClusterAzureMonitorProfile) AssignProperties_From_ManagedClusterAzureMonitorProfile(source *v20231102ps.ManagedClusterAzureMonitorProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6646,7 +6647,7 @@ func (profile *ManagedClusterAzureMonitorProfile) AssignProperties_From_ManagedC
 }
 
 // AssignProperties_To_ManagedClusterAzureMonitorProfile populates the provided destination ManagedClusterAzureMonitorProfile from our ManagedClusterAzureMonitorProfile
-func (profile *ManagedClusterAzureMonitorProfile) AssignProperties_To_ManagedClusterAzureMonitorProfile(destination *storage.ManagedClusterAzureMonitorProfile) error {
+func (profile *ManagedClusterAzureMonitorProfile) AssignProperties_To_ManagedClusterAzureMonitorProfile(destination *v20231102ps.ManagedClusterAzureMonitorProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -6666,7 +6667,7 @@ func (profile *ManagedClusterAzureMonitorProfile) AssignProperties_To_ManagedClu
 
 	// Logs
 	if propertyBag.Contains("Logs") {
-		var log storage.ManagedClusterAzureMonitorProfileLogs
+		var log v20231102ps.ManagedClusterAzureMonitorProfileLogs
 		err := propertyBag.Pull("Logs", &log)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'Logs' from propertyBag")
@@ -6679,7 +6680,7 @@ func (profile *ManagedClusterAzureMonitorProfile) AssignProperties_To_ManagedClu
 
 	// Metrics
 	if profile.Metrics != nil {
-		var metric storage.ManagedClusterAzureMonitorProfileMetrics
+		var metric v20231102ps.ManagedClusterAzureMonitorProfileMetrics
 		err := profile.Metrics.AssignProperties_To_ManagedClusterAzureMonitorProfileMetrics(&metric)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAzureMonitorProfileMetrics() to populate field Metrics")
@@ -6719,7 +6720,7 @@ type ManagedClusterAzureMonitorProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterAzureMonitorProfile_STATUS populates our ManagedClusterAzureMonitorProfile_STATUS from the provided source ManagedClusterAzureMonitorProfile_STATUS
-func (profile *ManagedClusterAzureMonitorProfile_STATUS) AssignProperties_From_ManagedClusterAzureMonitorProfile_STATUS(source *storage.ManagedClusterAzureMonitorProfile_STATUS) error {
+func (profile *ManagedClusterAzureMonitorProfile_STATUS) AssignProperties_From_ManagedClusterAzureMonitorProfile_STATUS(source *v20231102ps.ManagedClusterAzureMonitorProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6789,7 +6790,7 @@ func (profile *ManagedClusterAzureMonitorProfile_STATUS) AssignProperties_From_M
 }
 
 // AssignProperties_To_ManagedClusterAzureMonitorProfile_STATUS populates the provided destination ManagedClusterAzureMonitorProfile_STATUS from our ManagedClusterAzureMonitorProfile_STATUS
-func (profile *ManagedClusterAzureMonitorProfile_STATUS) AssignProperties_To_ManagedClusterAzureMonitorProfile_STATUS(destination *storage.ManagedClusterAzureMonitorProfile_STATUS) error {
+func (profile *ManagedClusterAzureMonitorProfile_STATUS) AssignProperties_To_ManagedClusterAzureMonitorProfile_STATUS(destination *v20231102ps.ManagedClusterAzureMonitorProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -6809,7 +6810,7 @@ func (profile *ManagedClusterAzureMonitorProfile_STATUS) AssignProperties_To_Man
 
 	// Logs
 	if propertyBag.Contains("Logs") {
-		var log storage.ManagedClusterAzureMonitorProfileLogs_STATUS
+		var log v20231102ps.ManagedClusterAzureMonitorProfileLogs_STATUS
 		err := propertyBag.Pull("Logs", &log)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'Logs' from propertyBag")
@@ -6822,7 +6823,7 @@ func (profile *ManagedClusterAzureMonitorProfile_STATUS) AssignProperties_To_Man
 
 	// Metrics
 	if profile.Metrics != nil {
-		var metric storage.ManagedClusterAzureMonitorProfileMetrics_STATUS
+		var metric v20231102ps.ManagedClusterAzureMonitorProfileMetrics_STATUS
 		err := profile.Metrics.AssignProperties_To_ManagedClusterAzureMonitorProfileMetrics_STATUS(&metric)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAzureMonitorProfileMetrics_STATUS() to populate field Metrics")
@@ -6882,7 +6883,7 @@ type ManagedClusterHTTPProxyConfig struct {
 }
 
 // AssignProperties_From_ManagedClusterHTTPProxyConfig populates our ManagedClusterHTTPProxyConfig from the provided source ManagedClusterHTTPProxyConfig
-func (config *ManagedClusterHTTPProxyConfig) AssignProperties_From_ManagedClusterHTTPProxyConfig(source *storage.ManagedClusterHTTPProxyConfig) error {
+func (config *ManagedClusterHTTPProxyConfig) AssignProperties_From_ManagedClusterHTTPProxyConfig(source *v20231102ps.ManagedClusterHTTPProxyConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6919,7 +6920,7 @@ func (config *ManagedClusterHTTPProxyConfig) AssignProperties_From_ManagedCluste
 }
 
 // AssignProperties_To_ManagedClusterHTTPProxyConfig populates the provided destination ManagedClusterHTTPProxyConfig from our ManagedClusterHTTPProxyConfig
-func (config *ManagedClusterHTTPProxyConfig) AssignProperties_To_ManagedClusterHTTPProxyConfig(destination *storage.ManagedClusterHTTPProxyConfig) error {
+func (config *ManagedClusterHTTPProxyConfig) AssignProperties_To_ManagedClusterHTTPProxyConfig(destination *v20231102ps.ManagedClusterHTTPProxyConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -6967,7 +6968,7 @@ type ManagedClusterHTTPProxyConfig_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterHTTPProxyConfig_STATUS populates our ManagedClusterHTTPProxyConfig_STATUS from the provided source ManagedClusterHTTPProxyConfig_STATUS
-func (config *ManagedClusterHTTPProxyConfig_STATUS) AssignProperties_From_ManagedClusterHTTPProxyConfig_STATUS(source *storage.ManagedClusterHTTPProxyConfig_STATUS) error {
+func (config *ManagedClusterHTTPProxyConfig_STATUS) AssignProperties_From_ManagedClusterHTTPProxyConfig_STATUS(source *v20231102ps.ManagedClusterHTTPProxyConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7007,7 +7008,7 @@ func (config *ManagedClusterHTTPProxyConfig_STATUS) AssignProperties_From_Manage
 }
 
 // AssignProperties_To_ManagedClusterHTTPProxyConfig_STATUS populates the provided destination ManagedClusterHTTPProxyConfig_STATUS from our ManagedClusterHTTPProxyConfig_STATUS
-func (config *ManagedClusterHTTPProxyConfig_STATUS) AssignProperties_To_ManagedClusterHTTPProxyConfig_STATUS(destination *storage.ManagedClusterHTTPProxyConfig_STATUS) error {
+func (config *ManagedClusterHTTPProxyConfig_STATUS) AssignProperties_To_ManagedClusterHTTPProxyConfig_STATUS(destination *v20231102ps.ManagedClusterHTTPProxyConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -7056,7 +7057,7 @@ type ManagedClusterIdentity struct {
 }
 
 // AssignProperties_From_ManagedClusterIdentity populates our ManagedClusterIdentity from the provided source ManagedClusterIdentity
-func (identity *ManagedClusterIdentity) AssignProperties_From_ManagedClusterIdentity(source *storage.ManagedClusterIdentity) error {
+func (identity *ManagedClusterIdentity) AssignProperties_From_ManagedClusterIdentity(source *v20231102ps.ManagedClusterIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7120,17 +7121,17 @@ func (identity *ManagedClusterIdentity) AssignProperties_From_ManagedClusterIden
 }
 
 // AssignProperties_To_ManagedClusterIdentity populates the provided destination ManagedClusterIdentity from our ManagedClusterIdentity
-func (identity *ManagedClusterIdentity) AssignProperties_To_ManagedClusterIdentity(destination *storage.ManagedClusterIdentity) error {
+func (identity *ManagedClusterIdentity) AssignProperties_To_ManagedClusterIdentity(destination *v20231102ps.ManagedClusterIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
 	// DelegatedResources
 	if identity.DelegatedResources != nil {
-		delegatedResourceMap := make(map[string]storage.DelegatedResource, len(identity.DelegatedResources))
+		delegatedResourceMap := make(map[string]v20231102ps.DelegatedResource, len(identity.DelegatedResources))
 		for delegatedResourceKey, delegatedResourceValue := range identity.DelegatedResources {
 			// Shadow the loop variable to avoid aliasing
 			delegatedResourceValue := delegatedResourceValue
-			var delegatedResource storage.DelegatedResource
+			var delegatedResource v20231102ps.DelegatedResource
 			err := delegatedResourceValue.AssignProperties_To_DelegatedResource(&delegatedResource)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DelegatedResource() to populate field DelegatedResources")
@@ -7147,11 +7148,11 @@ func (identity *ManagedClusterIdentity) AssignProperties_To_ManagedClusterIdenti
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		userAssignedIdentityList := make([]v20231102ps.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity storage.UserAssignedIdentityDetails
+			var userAssignedIdentity v20231102ps.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -7195,7 +7196,7 @@ type ManagedClusterIdentity_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterIdentity_STATUS populates our ManagedClusterIdentity_STATUS from the provided source ManagedClusterIdentity_STATUS
-func (identity *ManagedClusterIdentity_STATUS) AssignProperties_From_ManagedClusterIdentity_STATUS(source *storage.ManagedClusterIdentity_STATUS) error {
+func (identity *ManagedClusterIdentity_STATUS) AssignProperties_From_ManagedClusterIdentity_STATUS(source *v20231102ps.ManagedClusterIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7265,17 +7266,17 @@ func (identity *ManagedClusterIdentity_STATUS) AssignProperties_From_ManagedClus
 }
 
 // AssignProperties_To_ManagedClusterIdentity_STATUS populates the provided destination ManagedClusterIdentity_STATUS from our ManagedClusterIdentity_STATUS
-func (identity *ManagedClusterIdentity_STATUS) AssignProperties_To_ManagedClusterIdentity_STATUS(destination *storage.ManagedClusterIdentity_STATUS) error {
+func (identity *ManagedClusterIdentity_STATUS) AssignProperties_To_ManagedClusterIdentity_STATUS(destination *v20231102ps.ManagedClusterIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
 	// DelegatedResources
 	if identity.DelegatedResources != nil {
-		delegatedResourceMap := make(map[string]storage.DelegatedResource_STATUS, len(identity.DelegatedResources))
+		delegatedResourceMap := make(map[string]v20231102ps.DelegatedResource_STATUS, len(identity.DelegatedResources))
 		for delegatedResourceKey, delegatedResourceValue := range identity.DelegatedResources {
 			// Shadow the loop variable to avoid aliasing
 			delegatedResourceValue := delegatedResourceValue
-			var delegatedResource storage.DelegatedResource_STATUS
+			var delegatedResource v20231102ps.DelegatedResource_STATUS
 			err := delegatedResourceValue.AssignProperties_To_DelegatedResource_STATUS(&delegatedResource)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DelegatedResource_STATUS() to populate field DelegatedResources")
@@ -7298,11 +7299,11 @@ func (identity *ManagedClusterIdentity_STATUS) AssignProperties_To_ManagedCluste
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]storage.ManagedClusterIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]v20231102ps.ManagedClusterIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity storage.ManagedClusterIdentity_UserAssignedIdentities_STATUS
+			var userAssignedIdentity v20231102ps.ManagedClusterIdentity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_ManagedClusterIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
@@ -7342,7 +7343,7 @@ type ManagedClusterIngressProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterIngressProfile populates our ManagedClusterIngressProfile from the provided source ManagedClusterIngressProfile
-func (profile *ManagedClusterIngressProfile) AssignProperties_From_ManagedClusterIngressProfile(source *storage.ManagedClusterIngressProfile) error {
+func (profile *ManagedClusterIngressProfile) AssignProperties_From_ManagedClusterIngressProfile(source *v20231102ps.ManagedClusterIngressProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7379,13 +7380,13 @@ func (profile *ManagedClusterIngressProfile) AssignProperties_From_ManagedCluste
 }
 
 // AssignProperties_To_ManagedClusterIngressProfile populates the provided destination ManagedClusterIngressProfile from our ManagedClusterIngressProfile
-func (profile *ManagedClusterIngressProfile) AssignProperties_To_ManagedClusterIngressProfile(destination *storage.ManagedClusterIngressProfile) error {
+func (profile *ManagedClusterIngressProfile) AssignProperties_To_ManagedClusterIngressProfile(destination *v20231102ps.ManagedClusterIngressProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// WebAppRouting
 	if profile.WebAppRouting != nil {
-		var webAppRouting storage.ManagedClusterIngressProfileWebAppRouting
+		var webAppRouting v20231102ps.ManagedClusterIngressProfileWebAppRouting
 		err := profile.WebAppRouting.AssignProperties_To_ManagedClusterIngressProfileWebAppRouting(&webAppRouting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterIngressProfileWebAppRouting() to populate field WebAppRouting")
@@ -7423,7 +7424,7 @@ type ManagedClusterIngressProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterIngressProfile_STATUS populates our ManagedClusterIngressProfile_STATUS from the provided source ManagedClusterIngressProfile_STATUS
-func (profile *ManagedClusterIngressProfile_STATUS) AssignProperties_From_ManagedClusterIngressProfile_STATUS(source *storage.ManagedClusterIngressProfile_STATUS) error {
+func (profile *ManagedClusterIngressProfile_STATUS) AssignProperties_From_ManagedClusterIngressProfile_STATUS(source *v20231102ps.ManagedClusterIngressProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7460,13 +7461,13 @@ func (profile *ManagedClusterIngressProfile_STATUS) AssignProperties_From_Manage
 }
 
 // AssignProperties_To_ManagedClusterIngressProfile_STATUS populates the provided destination ManagedClusterIngressProfile_STATUS from our ManagedClusterIngressProfile_STATUS
-func (profile *ManagedClusterIngressProfile_STATUS) AssignProperties_To_ManagedClusterIngressProfile_STATUS(destination *storage.ManagedClusterIngressProfile_STATUS) error {
+func (profile *ManagedClusterIngressProfile_STATUS) AssignProperties_To_ManagedClusterIngressProfile_STATUS(destination *v20231102ps.ManagedClusterIngressProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// WebAppRouting
 	if profile.WebAppRouting != nil {
-		var webAppRouting storage.ManagedClusterIngressProfileWebAppRouting_STATUS
+		var webAppRouting v20231102ps.ManagedClusterIngressProfileWebAppRouting_STATUS
 		err := profile.WebAppRouting.AssignProperties_To_ManagedClusterIngressProfileWebAppRouting_STATUS(&webAppRouting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterIngressProfileWebAppRouting_STATUS() to populate field WebAppRouting")
@@ -7504,7 +7505,7 @@ type ManagedClusterMetricsProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterMetricsProfile populates our ManagedClusterMetricsProfile from the provided source ManagedClusterMetricsProfile
-func (profile *ManagedClusterMetricsProfile) AssignProperties_From_ManagedClusterMetricsProfile(source *storage.ManagedClusterMetricsProfile) error {
+func (profile *ManagedClusterMetricsProfile) AssignProperties_From_ManagedClusterMetricsProfile(source *v20231102ps.ManagedClusterMetricsProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7541,13 +7542,13 @@ func (profile *ManagedClusterMetricsProfile) AssignProperties_From_ManagedCluste
 }
 
 // AssignProperties_To_ManagedClusterMetricsProfile populates the provided destination ManagedClusterMetricsProfile from our ManagedClusterMetricsProfile
-func (profile *ManagedClusterMetricsProfile) AssignProperties_To_ManagedClusterMetricsProfile(destination *storage.ManagedClusterMetricsProfile) error {
+func (profile *ManagedClusterMetricsProfile) AssignProperties_To_ManagedClusterMetricsProfile(destination *v20231102ps.ManagedClusterMetricsProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// CostAnalysis
 	if profile.CostAnalysis != nil {
-		var costAnalysis storage.ManagedClusterCostAnalysis
+		var costAnalysis v20231102ps.ManagedClusterCostAnalysis
 		err := profile.CostAnalysis.AssignProperties_To_ManagedClusterCostAnalysis(&costAnalysis)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterCostAnalysis() to populate field CostAnalysis")
@@ -7585,7 +7586,7 @@ type ManagedClusterMetricsProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterMetricsProfile_STATUS populates our ManagedClusterMetricsProfile_STATUS from the provided source ManagedClusterMetricsProfile_STATUS
-func (profile *ManagedClusterMetricsProfile_STATUS) AssignProperties_From_ManagedClusterMetricsProfile_STATUS(source *storage.ManagedClusterMetricsProfile_STATUS) error {
+func (profile *ManagedClusterMetricsProfile_STATUS) AssignProperties_From_ManagedClusterMetricsProfile_STATUS(source *v20231102ps.ManagedClusterMetricsProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7622,13 +7623,13 @@ func (profile *ManagedClusterMetricsProfile_STATUS) AssignProperties_From_Manage
 }
 
 // AssignProperties_To_ManagedClusterMetricsProfile_STATUS populates the provided destination ManagedClusterMetricsProfile_STATUS from our ManagedClusterMetricsProfile_STATUS
-func (profile *ManagedClusterMetricsProfile_STATUS) AssignProperties_To_ManagedClusterMetricsProfile_STATUS(destination *storage.ManagedClusterMetricsProfile_STATUS) error {
+func (profile *ManagedClusterMetricsProfile_STATUS) AssignProperties_To_ManagedClusterMetricsProfile_STATUS(destination *v20231102ps.ManagedClusterMetricsProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// CostAnalysis
 	if profile.CostAnalysis != nil {
-		var costAnalysis storage.ManagedClusterCostAnalysis_STATUS
+		var costAnalysis v20231102ps.ManagedClusterCostAnalysis_STATUS
 		err := profile.CostAnalysis.AssignProperties_To_ManagedClusterCostAnalysis_STATUS(&costAnalysis)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterCostAnalysis_STATUS() to populate field CostAnalysis")
@@ -7665,7 +7666,7 @@ type ManagedClusterNodeProvisioningProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterNodeProvisioningProfile populates our ManagedClusterNodeProvisioningProfile from the provided source ManagedClusterNodeProvisioningProfile
-func (profile *ManagedClusterNodeProvisioningProfile) AssignProperties_From_ManagedClusterNodeProvisioningProfile(source *storage.ManagedClusterNodeProvisioningProfile) error {
+func (profile *ManagedClusterNodeProvisioningProfile) AssignProperties_From_ManagedClusterNodeProvisioningProfile(source *v20231102ps.ManagedClusterNodeProvisioningProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7693,7 +7694,7 @@ func (profile *ManagedClusterNodeProvisioningProfile) AssignProperties_From_Mana
 }
 
 // AssignProperties_To_ManagedClusterNodeProvisioningProfile populates the provided destination ManagedClusterNodeProvisioningProfile from our ManagedClusterNodeProvisioningProfile
-func (profile *ManagedClusterNodeProvisioningProfile) AssignProperties_To_ManagedClusterNodeProvisioningProfile(destination *storage.ManagedClusterNodeProvisioningProfile) error {
+func (profile *ManagedClusterNodeProvisioningProfile) AssignProperties_To_ManagedClusterNodeProvisioningProfile(destination *v20231102ps.ManagedClusterNodeProvisioningProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -7727,7 +7728,7 @@ type ManagedClusterNodeProvisioningProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterNodeProvisioningProfile_STATUS populates our ManagedClusterNodeProvisioningProfile_STATUS from the provided source ManagedClusterNodeProvisioningProfile_STATUS
-func (profile *ManagedClusterNodeProvisioningProfile_STATUS) AssignProperties_From_ManagedClusterNodeProvisioningProfile_STATUS(source *storage.ManagedClusterNodeProvisioningProfile_STATUS) error {
+func (profile *ManagedClusterNodeProvisioningProfile_STATUS) AssignProperties_From_ManagedClusterNodeProvisioningProfile_STATUS(source *v20231102ps.ManagedClusterNodeProvisioningProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7755,7 +7756,7 @@ func (profile *ManagedClusterNodeProvisioningProfile_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_ManagedClusterNodeProvisioningProfile_STATUS populates the provided destination ManagedClusterNodeProvisioningProfile_STATUS from our ManagedClusterNodeProvisioningProfile_STATUS
-func (profile *ManagedClusterNodeProvisioningProfile_STATUS) AssignProperties_To_ManagedClusterNodeProvisioningProfile_STATUS(destination *storage.ManagedClusterNodeProvisioningProfile_STATUS) error {
+func (profile *ManagedClusterNodeProvisioningProfile_STATUS) AssignProperties_To_ManagedClusterNodeProvisioningProfile_STATUS(destination *v20231102ps.ManagedClusterNodeProvisioningProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -7790,7 +7791,7 @@ type ManagedClusterNodeResourceGroupProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterNodeResourceGroupProfile populates our ManagedClusterNodeResourceGroupProfile from the provided source ManagedClusterNodeResourceGroupProfile
-func (profile *ManagedClusterNodeResourceGroupProfile) AssignProperties_From_ManagedClusterNodeResourceGroupProfile(source *storage.ManagedClusterNodeResourceGroupProfile) error {
+func (profile *ManagedClusterNodeResourceGroupProfile) AssignProperties_From_ManagedClusterNodeResourceGroupProfile(source *v20231102ps.ManagedClusterNodeResourceGroupProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7818,7 +7819,7 @@ func (profile *ManagedClusterNodeResourceGroupProfile) AssignProperties_From_Man
 }
 
 // AssignProperties_To_ManagedClusterNodeResourceGroupProfile populates the provided destination ManagedClusterNodeResourceGroupProfile from our ManagedClusterNodeResourceGroupProfile
-func (profile *ManagedClusterNodeResourceGroupProfile) AssignProperties_To_ManagedClusterNodeResourceGroupProfile(destination *storage.ManagedClusterNodeResourceGroupProfile) error {
+func (profile *ManagedClusterNodeResourceGroupProfile) AssignProperties_To_ManagedClusterNodeResourceGroupProfile(destination *v20231102ps.ManagedClusterNodeResourceGroupProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -7853,7 +7854,7 @@ type ManagedClusterNodeResourceGroupProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterNodeResourceGroupProfile_STATUS populates our ManagedClusterNodeResourceGroupProfile_STATUS from the provided source ManagedClusterNodeResourceGroupProfile_STATUS
-func (profile *ManagedClusterNodeResourceGroupProfile_STATUS) AssignProperties_From_ManagedClusterNodeResourceGroupProfile_STATUS(source *storage.ManagedClusterNodeResourceGroupProfile_STATUS) error {
+func (profile *ManagedClusterNodeResourceGroupProfile_STATUS) AssignProperties_From_ManagedClusterNodeResourceGroupProfile_STATUS(source *v20231102ps.ManagedClusterNodeResourceGroupProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7881,7 +7882,7 @@ func (profile *ManagedClusterNodeResourceGroupProfile_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_ManagedClusterNodeResourceGroupProfile_STATUS populates the provided destination ManagedClusterNodeResourceGroupProfile_STATUS from our ManagedClusterNodeResourceGroupProfile_STATUS
-func (profile *ManagedClusterNodeResourceGroupProfile_STATUS) AssignProperties_To_ManagedClusterNodeResourceGroupProfile_STATUS(destination *storage.ManagedClusterNodeResourceGroupProfile_STATUS) error {
+func (profile *ManagedClusterNodeResourceGroupProfile_STATUS) AssignProperties_To_ManagedClusterNodeResourceGroupProfile_STATUS(destination *v20231102ps.ManagedClusterNodeResourceGroupProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -7916,7 +7917,7 @@ type ManagedClusterOIDCIssuerProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterOIDCIssuerProfile populates our ManagedClusterOIDCIssuerProfile from the provided source ManagedClusterOIDCIssuerProfile
-func (profile *ManagedClusterOIDCIssuerProfile) AssignProperties_From_ManagedClusterOIDCIssuerProfile(source *storage.ManagedClusterOIDCIssuerProfile) error {
+func (profile *ManagedClusterOIDCIssuerProfile) AssignProperties_From_ManagedClusterOIDCIssuerProfile(source *v20231102ps.ManagedClusterOIDCIssuerProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7949,7 +7950,7 @@ func (profile *ManagedClusterOIDCIssuerProfile) AssignProperties_From_ManagedClu
 }
 
 // AssignProperties_To_ManagedClusterOIDCIssuerProfile populates the provided destination ManagedClusterOIDCIssuerProfile from our ManagedClusterOIDCIssuerProfile
-func (profile *ManagedClusterOIDCIssuerProfile) AssignProperties_To_ManagedClusterOIDCIssuerProfile(destination *storage.ManagedClusterOIDCIssuerProfile) error {
+func (profile *ManagedClusterOIDCIssuerProfile) AssignProperties_To_ManagedClusterOIDCIssuerProfile(destination *v20231102ps.ManagedClusterOIDCIssuerProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -7990,7 +7991,7 @@ type ManagedClusterOIDCIssuerProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterOIDCIssuerProfile_STATUS populates our ManagedClusterOIDCIssuerProfile_STATUS from the provided source ManagedClusterOIDCIssuerProfile_STATUS
-func (profile *ManagedClusterOIDCIssuerProfile_STATUS) AssignProperties_From_ManagedClusterOIDCIssuerProfile_STATUS(source *storage.ManagedClusterOIDCIssuerProfile_STATUS) error {
+func (profile *ManagedClusterOIDCIssuerProfile_STATUS) AssignProperties_From_ManagedClusterOIDCIssuerProfile_STATUS(source *v20231102ps.ManagedClusterOIDCIssuerProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8026,7 +8027,7 @@ func (profile *ManagedClusterOIDCIssuerProfile_STATUS) AssignProperties_From_Man
 }
 
 // AssignProperties_To_ManagedClusterOIDCIssuerProfile_STATUS populates the provided destination ManagedClusterOIDCIssuerProfile_STATUS from our ManagedClusterOIDCIssuerProfile_STATUS
-func (profile *ManagedClusterOIDCIssuerProfile_STATUS) AssignProperties_To_ManagedClusterOIDCIssuerProfile_STATUS(destination *storage.ManagedClusterOIDCIssuerProfile_STATUS) error {
+func (profile *ManagedClusterOIDCIssuerProfile_STATUS) AssignProperties_To_ManagedClusterOIDCIssuerProfile_STATUS(destination *v20231102ps.ManagedClusterOIDCIssuerProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -8070,7 +8071,7 @@ type ManagedClusterOperatorSpec struct {
 }
 
 // AssignProperties_From_ManagedClusterOperatorSpec populates our ManagedClusterOperatorSpec from the provided source ManagedClusterOperatorSpec
-func (operator *ManagedClusterOperatorSpec) AssignProperties_From_ManagedClusterOperatorSpec(source *storage.ManagedClusterOperatorSpec) error {
+func (operator *ManagedClusterOperatorSpec) AssignProperties_From_ManagedClusterOperatorSpec(source *v20231102ps.ManagedClusterOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8119,13 +8120,13 @@ func (operator *ManagedClusterOperatorSpec) AssignProperties_From_ManagedCluster
 }
 
 // AssignProperties_To_ManagedClusterOperatorSpec populates the provided destination ManagedClusterOperatorSpec from our ManagedClusterOperatorSpec
-func (operator *ManagedClusterOperatorSpec) AssignProperties_To_ManagedClusterOperatorSpec(destination *storage.ManagedClusterOperatorSpec) error {
+func (operator *ManagedClusterOperatorSpec) AssignProperties_To_ManagedClusterOperatorSpec(destination *v20231102ps.ManagedClusterOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
 
 	// ConfigMaps
 	if operator.ConfigMaps != nil {
-		var configMap storage.ManagedClusterOperatorConfigMaps
+		var configMap v20231102ps.ManagedClusterOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_ManagedClusterOperatorConfigMaps(&configMap)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterOperatorConfigMaps() to populate field ConfigMaps")
@@ -8137,7 +8138,7 @@ func (operator *ManagedClusterOperatorSpec) AssignProperties_To_ManagedClusterOp
 
 	// Secrets
 	if operator.Secrets != nil {
-		var secret storage.ManagedClusterOperatorSecrets
+		var secret v20231102ps.ManagedClusterOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_ManagedClusterOperatorSecrets(&secret)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterOperatorSecrets() to populate field Secrets")
@@ -8179,7 +8180,7 @@ type ManagedClusterPodIdentityProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterPodIdentityProfile populates our ManagedClusterPodIdentityProfile from the provided source ManagedClusterPodIdentityProfile
-func (profile *ManagedClusterPodIdentityProfile) AssignProperties_From_ManagedClusterPodIdentityProfile(source *storage.ManagedClusterPodIdentityProfile) error {
+func (profile *ManagedClusterPodIdentityProfile) AssignProperties_From_ManagedClusterPodIdentityProfile(source *v20231102ps.ManagedClusterPodIdentityProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8256,7 +8257,7 @@ func (profile *ManagedClusterPodIdentityProfile) AssignProperties_From_ManagedCl
 }
 
 // AssignProperties_To_ManagedClusterPodIdentityProfile populates the provided destination ManagedClusterPodIdentityProfile from our ManagedClusterPodIdentityProfile
-func (profile *ManagedClusterPodIdentityProfile) AssignProperties_To_ManagedClusterPodIdentityProfile(destination *storage.ManagedClusterPodIdentityProfile) error {
+func (profile *ManagedClusterPodIdentityProfile) AssignProperties_To_ManagedClusterPodIdentityProfile(destination *v20231102ps.ManagedClusterPodIdentityProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -8278,11 +8279,11 @@ func (profile *ManagedClusterPodIdentityProfile) AssignProperties_To_ManagedClus
 
 	// UserAssignedIdentities
 	if profile.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]storage.ManagedClusterPodIdentity, len(profile.UserAssignedIdentities))
+		userAssignedIdentityList := make([]v20231102ps.ManagedClusterPodIdentity, len(profile.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range profile.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity storage.ManagedClusterPodIdentity
+			var userAssignedIdentity v20231102ps.ManagedClusterPodIdentity
 			err := userAssignedIdentityItem.AssignProperties_To_ManagedClusterPodIdentity(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPodIdentity() to populate field UserAssignedIdentities")
@@ -8296,11 +8297,11 @@ func (profile *ManagedClusterPodIdentityProfile) AssignProperties_To_ManagedClus
 
 	// UserAssignedIdentityExceptions
 	if profile.UserAssignedIdentityExceptions != nil {
-		userAssignedIdentityExceptionList := make([]storage.ManagedClusterPodIdentityException, len(profile.UserAssignedIdentityExceptions))
+		userAssignedIdentityExceptionList := make([]v20231102ps.ManagedClusterPodIdentityException, len(profile.UserAssignedIdentityExceptions))
 		for userAssignedIdentityExceptionIndex, userAssignedIdentityExceptionItem := range profile.UserAssignedIdentityExceptions {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityExceptionItem := userAssignedIdentityExceptionItem
-			var userAssignedIdentityException storage.ManagedClusterPodIdentityException
+			var userAssignedIdentityException v20231102ps.ManagedClusterPodIdentityException
 			err := userAssignedIdentityExceptionItem.AssignProperties_To_ManagedClusterPodIdentityException(&userAssignedIdentityException)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPodIdentityException() to populate field UserAssignedIdentityExceptions")
@@ -8344,7 +8345,7 @@ type ManagedClusterPodIdentityProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterPodIdentityProfile_STATUS populates our ManagedClusterPodIdentityProfile_STATUS from the provided source ManagedClusterPodIdentityProfile_STATUS
-func (profile *ManagedClusterPodIdentityProfile_STATUS) AssignProperties_From_ManagedClusterPodIdentityProfile_STATUS(source *storage.ManagedClusterPodIdentityProfile_STATUS) error {
+func (profile *ManagedClusterPodIdentityProfile_STATUS) AssignProperties_From_ManagedClusterPodIdentityProfile_STATUS(source *v20231102ps.ManagedClusterPodIdentityProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8421,7 +8422,7 @@ func (profile *ManagedClusterPodIdentityProfile_STATUS) AssignProperties_From_Ma
 }
 
 // AssignProperties_To_ManagedClusterPodIdentityProfile_STATUS populates the provided destination ManagedClusterPodIdentityProfile_STATUS from our ManagedClusterPodIdentityProfile_STATUS
-func (profile *ManagedClusterPodIdentityProfile_STATUS) AssignProperties_To_ManagedClusterPodIdentityProfile_STATUS(destination *storage.ManagedClusterPodIdentityProfile_STATUS) error {
+func (profile *ManagedClusterPodIdentityProfile_STATUS) AssignProperties_To_ManagedClusterPodIdentityProfile_STATUS(destination *v20231102ps.ManagedClusterPodIdentityProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -8443,11 +8444,11 @@ func (profile *ManagedClusterPodIdentityProfile_STATUS) AssignProperties_To_Mana
 
 	// UserAssignedIdentities
 	if profile.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]storage.ManagedClusterPodIdentity_STATUS, len(profile.UserAssignedIdentities))
+		userAssignedIdentityList := make([]v20231102ps.ManagedClusterPodIdentity_STATUS, len(profile.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range profile.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity storage.ManagedClusterPodIdentity_STATUS
+			var userAssignedIdentity v20231102ps.ManagedClusterPodIdentity_STATUS
 			err := userAssignedIdentityItem.AssignProperties_To_ManagedClusterPodIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPodIdentity_STATUS() to populate field UserAssignedIdentities")
@@ -8461,11 +8462,11 @@ func (profile *ManagedClusterPodIdentityProfile_STATUS) AssignProperties_To_Mana
 
 	// UserAssignedIdentityExceptions
 	if profile.UserAssignedIdentityExceptions != nil {
-		userAssignedIdentityExceptionList := make([]storage.ManagedClusterPodIdentityException_STATUS, len(profile.UserAssignedIdentityExceptions))
+		userAssignedIdentityExceptionList := make([]v20231102ps.ManagedClusterPodIdentityException_STATUS, len(profile.UserAssignedIdentityExceptions))
 		for userAssignedIdentityExceptionIndex, userAssignedIdentityExceptionItem := range profile.UserAssignedIdentityExceptions {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityExceptionItem := userAssignedIdentityExceptionItem
-			var userAssignedIdentityException storage.ManagedClusterPodIdentityException_STATUS
+			var userAssignedIdentityException v20231102ps.ManagedClusterPodIdentityException_STATUS
 			err := userAssignedIdentityExceptionItem.AssignProperties_To_ManagedClusterPodIdentityException_STATUS(&userAssignedIdentityException)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPodIdentityException_STATUS() to populate field UserAssignedIdentityExceptions")
@@ -8523,7 +8524,7 @@ type ManagedClusterProperties_AutoScalerProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterProperties_AutoScalerProfile populates our ManagedClusterProperties_AutoScalerProfile from the provided source ManagedClusterProperties_AutoScalerProfile
-func (profile *ManagedClusterProperties_AutoScalerProfile) AssignProperties_From_ManagedClusterProperties_AutoScalerProfile(source *storage.ManagedClusterProperties_AutoScalerProfile) error {
+func (profile *ManagedClusterProperties_AutoScalerProfile) AssignProperties_From_ManagedClusterProperties_AutoScalerProfile(source *v20231102ps.ManagedClusterProperties_AutoScalerProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8623,7 +8624,7 @@ func (profile *ManagedClusterProperties_AutoScalerProfile) AssignProperties_From
 }
 
 // AssignProperties_To_ManagedClusterProperties_AutoScalerProfile populates the provided destination ManagedClusterProperties_AutoScalerProfile from our ManagedClusterProperties_AutoScalerProfile
-func (profile *ManagedClusterProperties_AutoScalerProfile) AssignProperties_To_ManagedClusterProperties_AutoScalerProfile(destination *storage.ManagedClusterProperties_AutoScalerProfile) error {
+func (profile *ManagedClusterProperties_AutoScalerProfile) AssignProperties_To_ManagedClusterProperties_AutoScalerProfile(destination *v20231102ps.ManagedClusterProperties_AutoScalerProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -8748,7 +8749,7 @@ type ManagedClusterProperties_AutoScalerProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterProperties_AutoScalerProfile_STATUS populates our ManagedClusterProperties_AutoScalerProfile_STATUS from the provided source ManagedClusterProperties_AutoScalerProfile_STATUS
-func (profile *ManagedClusterProperties_AutoScalerProfile_STATUS) AssignProperties_From_ManagedClusterProperties_AutoScalerProfile_STATUS(source *storage.ManagedClusterProperties_AutoScalerProfile_STATUS) error {
+func (profile *ManagedClusterProperties_AutoScalerProfile_STATUS) AssignProperties_From_ManagedClusterProperties_AutoScalerProfile_STATUS(source *v20231102ps.ManagedClusterProperties_AutoScalerProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8848,7 +8849,7 @@ func (profile *ManagedClusterProperties_AutoScalerProfile_STATUS) AssignProperti
 }
 
 // AssignProperties_To_ManagedClusterProperties_AutoScalerProfile_STATUS populates the provided destination ManagedClusterProperties_AutoScalerProfile_STATUS from our ManagedClusterProperties_AutoScalerProfile_STATUS
-func (profile *ManagedClusterProperties_AutoScalerProfile_STATUS) AssignProperties_To_ManagedClusterProperties_AutoScalerProfile_STATUS(destination *storage.ManagedClusterProperties_AutoScalerProfile_STATUS) error {
+func (profile *ManagedClusterProperties_AutoScalerProfile_STATUS) AssignProperties_To_ManagedClusterProperties_AutoScalerProfile_STATUS(destination *v20231102ps.ManagedClusterProperties_AutoScalerProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -8961,7 +8962,7 @@ type ManagedClusterSecurityProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterSecurityProfile populates our ManagedClusterSecurityProfile from the provided source ManagedClusterSecurityProfile
-func (profile *ManagedClusterSecurityProfile) AssignProperties_From_ManagedClusterSecurityProfile(source *storage.ManagedClusterSecurityProfile) error {
+func (profile *ManagedClusterSecurityProfile) AssignProperties_From_ManagedClusterSecurityProfile(source *v20231102ps.ManagedClusterSecurityProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9061,13 +9062,13 @@ func (profile *ManagedClusterSecurityProfile) AssignProperties_From_ManagedClust
 }
 
 // AssignProperties_To_ManagedClusterSecurityProfile populates the provided destination ManagedClusterSecurityProfile from our ManagedClusterSecurityProfile
-func (profile *ManagedClusterSecurityProfile) AssignProperties_To_ManagedClusterSecurityProfile(destination *storage.ManagedClusterSecurityProfile) error {
+func (profile *ManagedClusterSecurityProfile) AssignProperties_To_ManagedClusterSecurityProfile(destination *v20231102ps.ManagedClusterSecurityProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// AzureKeyVaultKms
 	if profile.AzureKeyVaultKms != nil {
-		var azureKeyVaultKm storage.AzureKeyVaultKms
+		var azureKeyVaultKm v20231102ps.AzureKeyVaultKms
 		err := profile.AzureKeyVaultKms.AssignProperties_To_AzureKeyVaultKms(&azureKeyVaultKm)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureKeyVaultKms() to populate field AzureKeyVaultKms")
@@ -9082,7 +9083,7 @@ func (profile *ManagedClusterSecurityProfile) AssignProperties_To_ManagedCluster
 
 	// Defender
 	if profile.Defender != nil {
-		var defender storage.ManagedClusterSecurityProfileDefender
+		var defender v20231102ps.ManagedClusterSecurityProfileDefender
 		err := profile.Defender.AssignProperties_To_ManagedClusterSecurityProfileDefender(&defender)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSecurityProfileDefender() to populate field Defender")
@@ -9094,7 +9095,7 @@ func (profile *ManagedClusterSecurityProfile) AssignProperties_To_ManagedCluster
 
 	// ImageCleaner
 	if profile.ImageCleaner != nil {
-		var imageCleaner storage.ManagedClusterSecurityProfileImageCleaner
+		var imageCleaner v20231102ps.ManagedClusterSecurityProfileImageCleaner
 		err := profile.ImageCleaner.AssignProperties_To_ManagedClusterSecurityProfileImageCleaner(&imageCleaner)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSecurityProfileImageCleaner() to populate field ImageCleaner")
@@ -9106,7 +9107,7 @@ func (profile *ManagedClusterSecurityProfile) AssignProperties_To_ManagedCluster
 
 	// ImageIntegrity
 	if profile.ImageIntegrity != nil {
-		var imageIntegrity storage.ManagedClusterSecurityProfileImageIntegrity
+		var imageIntegrity v20231102ps.ManagedClusterSecurityProfileImageIntegrity
 		err := profile.ImageIntegrity.AssignProperties_To_ManagedClusterSecurityProfileImageIntegrity(&imageIntegrity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSecurityProfileImageIntegrity() to populate field ImageIntegrity")
@@ -9118,7 +9119,7 @@ func (profile *ManagedClusterSecurityProfile) AssignProperties_To_ManagedCluster
 
 	// NodeRestriction
 	if profile.NodeRestriction != nil {
-		var nodeRestriction storage.ManagedClusterSecurityProfileNodeRestriction
+		var nodeRestriction v20231102ps.ManagedClusterSecurityProfileNodeRestriction
 		err := profile.NodeRestriction.AssignProperties_To_ManagedClusterSecurityProfileNodeRestriction(&nodeRestriction)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSecurityProfileNodeRestriction() to populate field NodeRestriction")
@@ -9130,7 +9131,7 @@ func (profile *ManagedClusterSecurityProfile) AssignProperties_To_ManagedCluster
 
 	// WorkloadIdentity
 	if profile.WorkloadIdentity != nil {
-		var workloadIdentity storage.ManagedClusterSecurityProfileWorkloadIdentity
+		var workloadIdentity v20231102ps.ManagedClusterSecurityProfileWorkloadIdentity
 		err := profile.WorkloadIdentity.AssignProperties_To_ManagedClusterSecurityProfileWorkloadIdentity(&workloadIdentity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSecurityProfileWorkloadIdentity() to populate field WorkloadIdentity")
@@ -9174,7 +9175,7 @@ type ManagedClusterSecurityProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterSecurityProfile_STATUS populates our ManagedClusterSecurityProfile_STATUS from the provided source ManagedClusterSecurityProfile_STATUS
-func (profile *ManagedClusterSecurityProfile_STATUS) AssignProperties_From_ManagedClusterSecurityProfile_STATUS(source *storage.ManagedClusterSecurityProfile_STATUS) error {
+func (profile *ManagedClusterSecurityProfile_STATUS) AssignProperties_From_ManagedClusterSecurityProfile_STATUS(source *v20231102ps.ManagedClusterSecurityProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9274,13 +9275,13 @@ func (profile *ManagedClusterSecurityProfile_STATUS) AssignProperties_From_Manag
 }
 
 // AssignProperties_To_ManagedClusterSecurityProfile_STATUS populates the provided destination ManagedClusterSecurityProfile_STATUS from our ManagedClusterSecurityProfile_STATUS
-func (profile *ManagedClusterSecurityProfile_STATUS) AssignProperties_To_ManagedClusterSecurityProfile_STATUS(destination *storage.ManagedClusterSecurityProfile_STATUS) error {
+func (profile *ManagedClusterSecurityProfile_STATUS) AssignProperties_To_ManagedClusterSecurityProfile_STATUS(destination *v20231102ps.ManagedClusterSecurityProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// AzureKeyVaultKms
 	if profile.AzureKeyVaultKms != nil {
-		var azureKeyVaultKm storage.AzureKeyVaultKms_STATUS
+		var azureKeyVaultKm v20231102ps.AzureKeyVaultKms_STATUS
 		err := profile.AzureKeyVaultKms.AssignProperties_To_AzureKeyVaultKms_STATUS(&azureKeyVaultKm)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureKeyVaultKms_STATUS() to populate field AzureKeyVaultKms")
@@ -9295,7 +9296,7 @@ func (profile *ManagedClusterSecurityProfile_STATUS) AssignProperties_To_Managed
 
 	// Defender
 	if profile.Defender != nil {
-		var defender storage.ManagedClusterSecurityProfileDefender_STATUS
+		var defender v20231102ps.ManagedClusterSecurityProfileDefender_STATUS
 		err := profile.Defender.AssignProperties_To_ManagedClusterSecurityProfileDefender_STATUS(&defender)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSecurityProfileDefender_STATUS() to populate field Defender")
@@ -9307,7 +9308,7 @@ func (profile *ManagedClusterSecurityProfile_STATUS) AssignProperties_To_Managed
 
 	// ImageCleaner
 	if profile.ImageCleaner != nil {
-		var imageCleaner storage.ManagedClusterSecurityProfileImageCleaner_STATUS
+		var imageCleaner v20231102ps.ManagedClusterSecurityProfileImageCleaner_STATUS
 		err := profile.ImageCleaner.AssignProperties_To_ManagedClusterSecurityProfileImageCleaner_STATUS(&imageCleaner)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSecurityProfileImageCleaner_STATUS() to populate field ImageCleaner")
@@ -9319,7 +9320,7 @@ func (profile *ManagedClusterSecurityProfile_STATUS) AssignProperties_To_Managed
 
 	// ImageIntegrity
 	if profile.ImageIntegrity != nil {
-		var imageIntegrity storage.ManagedClusterSecurityProfileImageIntegrity_STATUS
+		var imageIntegrity v20231102ps.ManagedClusterSecurityProfileImageIntegrity_STATUS
 		err := profile.ImageIntegrity.AssignProperties_To_ManagedClusterSecurityProfileImageIntegrity_STATUS(&imageIntegrity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSecurityProfileImageIntegrity_STATUS() to populate field ImageIntegrity")
@@ -9331,7 +9332,7 @@ func (profile *ManagedClusterSecurityProfile_STATUS) AssignProperties_To_Managed
 
 	// NodeRestriction
 	if profile.NodeRestriction != nil {
-		var nodeRestriction storage.ManagedClusterSecurityProfileNodeRestriction_STATUS
+		var nodeRestriction v20231102ps.ManagedClusterSecurityProfileNodeRestriction_STATUS
 		err := profile.NodeRestriction.AssignProperties_To_ManagedClusterSecurityProfileNodeRestriction_STATUS(&nodeRestriction)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSecurityProfileNodeRestriction_STATUS() to populate field NodeRestriction")
@@ -9343,7 +9344,7 @@ func (profile *ManagedClusterSecurityProfile_STATUS) AssignProperties_To_Managed
 
 	// WorkloadIdentity
 	if profile.WorkloadIdentity != nil {
-		var workloadIdentity storage.ManagedClusterSecurityProfileWorkloadIdentity_STATUS
+		var workloadIdentity v20231102ps.ManagedClusterSecurityProfileWorkloadIdentity_STATUS
 		err := profile.WorkloadIdentity.AssignProperties_To_ManagedClusterSecurityProfileWorkloadIdentity_STATUS(&workloadIdentity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSecurityProfileWorkloadIdentity_STATUS() to populate field WorkloadIdentity")
@@ -9382,7 +9383,7 @@ type ManagedClusterServicePrincipalProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterServicePrincipalProfile populates our ManagedClusterServicePrincipalProfile from the provided source ManagedClusterServicePrincipalProfile
-func (profile *ManagedClusterServicePrincipalProfile) AssignProperties_From_ManagedClusterServicePrincipalProfile(source *storage.ManagedClusterServicePrincipalProfile) error {
+func (profile *ManagedClusterServicePrincipalProfile) AssignProperties_From_ManagedClusterServicePrincipalProfile(source *v20231102ps.ManagedClusterServicePrincipalProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9418,7 +9419,7 @@ func (profile *ManagedClusterServicePrincipalProfile) AssignProperties_From_Mana
 }
 
 // AssignProperties_To_ManagedClusterServicePrincipalProfile populates the provided destination ManagedClusterServicePrincipalProfile from our ManagedClusterServicePrincipalProfile
-func (profile *ManagedClusterServicePrincipalProfile) AssignProperties_To_ManagedClusterServicePrincipalProfile(destination *storage.ManagedClusterServicePrincipalProfile) error {
+func (profile *ManagedClusterServicePrincipalProfile) AssignProperties_To_ManagedClusterServicePrincipalProfile(destination *v20231102ps.ManagedClusterServicePrincipalProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -9461,7 +9462,7 @@ type ManagedClusterServicePrincipalProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterServicePrincipalProfile_STATUS populates our ManagedClusterServicePrincipalProfile_STATUS from the provided source ManagedClusterServicePrincipalProfile_STATUS
-func (profile *ManagedClusterServicePrincipalProfile_STATUS) AssignProperties_From_ManagedClusterServicePrincipalProfile_STATUS(source *storage.ManagedClusterServicePrincipalProfile_STATUS) error {
+func (profile *ManagedClusterServicePrincipalProfile_STATUS) AssignProperties_From_ManagedClusterServicePrincipalProfile_STATUS(source *v20231102ps.ManagedClusterServicePrincipalProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9489,7 +9490,7 @@ func (profile *ManagedClusterServicePrincipalProfile_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_ManagedClusterServicePrincipalProfile_STATUS populates the provided destination ManagedClusterServicePrincipalProfile_STATUS from our ManagedClusterServicePrincipalProfile_STATUS
-func (profile *ManagedClusterServicePrincipalProfile_STATUS) AssignProperties_To_ManagedClusterServicePrincipalProfile_STATUS(destination *storage.ManagedClusterServicePrincipalProfile_STATUS) error {
+func (profile *ManagedClusterServicePrincipalProfile_STATUS) AssignProperties_To_ManagedClusterServicePrincipalProfile_STATUS(destination *v20231102ps.ManagedClusterServicePrincipalProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -9525,7 +9526,7 @@ type ManagedClusterSKU struct {
 }
 
 // AssignProperties_From_ManagedClusterSKU populates our ManagedClusterSKU from the provided source ManagedClusterSKU
-func (clusterSKU *ManagedClusterSKU) AssignProperties_From_ManagedClusterSKU(source *storage.ManagedClusterSKU) error {
+func (clusterSKU *ManagedClusterSKU) AssignProperties_From_ManagedClusterSKU(source *v20231102ps.ManagedClusterSKU) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9556,7 +9557,7 @@ func (clusterSKU *ManagedClusterSKU) AssignProperties_From_ManagedClusterSKU(sou
 }
 
 // AssignProperties_To_ManagedClusterSKU populates the provided destination ManagedClusterSKU from our ManagedClusterSKU
-func (clusterSKU *ManagedClusterSKU) AssignProperties_To_ManagedClusterSKU(destination *storage.ManagedClusterSKU) error {
+func (clusterSKU *ManagedClusterSKU) AssignProperties_To_ManagedClusterSKU(destination *v20231102ps.ManagedClusterSKU) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(clusterSKU.PropertyBag)
 
@@ -9595,7 +9596,7 @@ type ManagedClusterSKU_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterSKU_STATUS populates our ManagedClusterSKU_STATUS from the provided source ManagedClusterSKU_STATUS
-func (clusterSKU *ManagedClusterSKU_STATUS) AssignProperties_From_ManagedClusterSKU_STATUS(source *storage.ManagedClusterSKU_STATUS) error {
+func (clusterSKU *ManagedClusterSKU_STATUS) AssignProperties_From_ManagedClusterSKU_STATUS(source *v20231102ps.ManagedClusterSKU_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9626,7 +9627,7 @@ func (clusterSKU *ManagedClusterSKU_STATUS) AssignProperties_From_ManagedCluster
 }
 
 // AssignProperties_To_ManagedClusterSKU_STATUS populates the provided destination ManagedClusterSKU_STATUS from our ManagedClusterSKU_STATUS
-func (clusterSKU *ManagedClusterSKU_STATUS) AssignProperties_To_ManagedClusterSKU_STATUS(destination *storage.ManagedClusterSKU_STATUS) error {
+func (clusterSKU *ManagedClusterSKU_STATUS) AssignProperties_To_ManagedClusterSKU_STATUS(destination *v20231102ps.ManagedClusterSKU_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(clusterSKU.PropertyBag)
 
@@ -9667,7 +9668,7 @@ type ManagedClusterStorageProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterStorageProfile populates our ManagedClusterStorageProfile from the provided source ManagedClusterStorageProfile
-func (profile *ManagedClusterStorageProfile) AssignProperties_From_ManagedClusterStorageProfile(source *storage.ManagedClusterStorageProfile) error {
+func (profile *ManagedClusterStorageProfile) AssignProperties_From_ManagedClusterStorageProfile(source *v20231102ps.ManagedClusterStorageProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9740,13 +9741,13 @@ func (profile *ManagedClusterStorageProfile) AssignProperties_From_ManagedCluste
 }
 
 // AssignProperties_To_ManagedClusterStorageProfile populates the provided destination ManagedClusterStorageProfile from our ManagedClusterStorageProfile
-func (profile *ManagedClusterStorageProfile) AssignProperties_To_ManagedClusterStorageProfile(destination *storage.ManagedClusterStorageProfile) error {
+func (profile *ManagedClusterStorageProfile) AssignProperties_To_ManagedClusterStorageProfile(destination *v20231102ps.ManagedClusterStorageProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// BlobCSIDriver
 	if profile.BlobCSIDriver != nil {
-		var blobCSIDriver storage.ManagedClusterStorageProfileBlobCSIDriver
+		var blobCSIDriver v20231102ps.ManagedClusterStorageProfileBlobCSIDriver
 		err := profile.BlobCSIDriver.AssignProperties_To_ManagedClusterStorageProfileBlobCSIDriver(&blobCSIDriver)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterStorageProfileBlobCSIDriver() to populate field BlobCSIDriver")
@@ -9758,7 +9759,7 @@ func (profile *ManagedClusterStorageProfile) AssignProperties_To_ManagedClusterS
 
 	// DiskCSIDriver
 	if profile.DiskCSIDriver != nil {
-		var diskCSIDriver storage.ManagedClusterStorageProfileDiskCSIDriver
+		var diskCSIDriver v20231102ps.ManagedClusterStorageProfileDiskCSIDriver
 		err := profile.DiskCSIDriver.AssignProperties_To_ManagedClusterStorageProfileDiskCSIDriver(&diskCSIDriver)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterStorageProfileDiskCSIDriver() to populate field DiskCSIDriver")
@@ -9770,7 +9771,7 @@ func (profile *ManagedClusterStorageProfile) AssignProperties_To_ManagedClusterS
 
 	// FileCSIDriver
 	if profile.FileCSIDriver != nil {
-		var fileCSIDriver storage.ManagedClusterStorageProfileFileCSIDriver
+		var fileCSIDriver v20231102ps.ManagedClusterStorageProfileFileCSIDriver
 		err := profile.FileCSIDriver.AssignProperties_To_ManagedClusterStorageProfileFileCSIDriver(&fileCSIDriver)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterStorageProfileFileCSIDriver() to populate field FileCSIDriver")
@@ -9782,7 +9783,7 @@ func (profile *ManagedClusterStorageProfile) AssignProperties_To_ManagedClusterS
 
 	// SnapshotController
 	if profile.SnapshotController != nil {
-		var snapshotController storage.ManagedClusterStorageProfileSnapshotController
+		var snapshotController v20231102ps.ManagedClusterStorageProfileSnapshotController
 		err := profile.SnapshotController.AssignProperties_To_ManagedClusterStorageProfileSnapshotController(&snapshotController)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterStorageProfileSnapshotController() to populate field SnapshotController")
@@ -9823,7 +9824,7 @@ type ManagedClusterStorageProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterStorageProfile_STATUS populates our ManagedClusterStorageProfile_STATUS from the provided source ManagedClusterStorageProfile_STATUS
-func (profile *ManagedClusterStorageProfile_STATUS) AssignProperties_From_ManagedClusterStorageProfile_STATUS(source *storage.ManagedClusterStorageProfile_STATUS) error {
+func (profile *ManagedClusterStorageProfile_STATUS) AssignProperties_From_ManagedClusterStorageProfile_STATUS(source *v20231102ps.ManagedClusterStorageProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9896,13 +9897,13 @@ func (profile *ManagedClusterStorageProfile_STATUS) AssignProperties_From_Manage
 }
 
 // AssignProperties_To_ManagedClusterStorageProfile_STATUS populates the provided destination ManagedClusterStorageProfile_STATUS from our ManagedClusterStorageProfile_STATUS
-func (profile *ManagedClusterStorageProfile_STATUS) AssignProperties_To_ManagedClusterStorageProfile_STATUS(destination *storage.ManagedClusterStorageProfile_STATUS) error {
+func (profile *ManagedClusterStorageProfile_STATUS) AssignProperties_To_ManagedClusterStorageProfile_STATUS(destination *v20231102ps.ManagedClusterStorageProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// BlobCSIDriver
 	if profile.BlobCSIDriver != nil {
-		var blobCSIDriver storage.ManagedClusterStorageProfileBlobCSIDriver_STATUS
+		var blobCSIDriver v20231102ps.ManagedClusterStorageProfileBlobCSIDriver_STATUS
 		err := profile.BlobCSIDriver.AssignProperties_To_ManagedClusterStorageProfileBlobCSIDriver_STATUS(&blobCSIDriver)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterStorageProfileBlobCSIDriver_STATUS() to populate field BlobCSIDriver")
@@ -9914,7 +9915,7 @@ func (profile *ManagedClusterStorageProfile_STATUS) AssignProperties_To_ManagedC
 
 	// DiskCSIDriver
 	if profile.DiskCSIDriver != nil {
-		var diskCSIDriver storage.ManagedClusterStorageProfileDiskCSIDriver_STATUS
+		var diskCSIDriver v20231102ps.ManagedClusterStorageProfileDiskCSIDriver_STATUS
 		err := profile.DiskCSIDriver.AssignProperties_To_ManagedClusterStorageProfileDiskCSIDriver_STATUS(&diskCSIDriver)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterStorageProfileDiskCSIDriver_STATUS() to populate field DiskCSIDriver")
@@ -9926,7 +9927,7 @@ func (profile *ManagedClusterStorageProfile_STATUS) AssignProperties_To_ManagedC
 
 	// FileCSIDriver
 	if profile.FileCSIDriver != nil {
-		var fileCSIDriver storage.ManagedClusterStorageProfileFileCSIDriver_STATUS
+		var fileCSIDriver v20231102ps.ManagedClusterStorageProfileFileCSIDriver_STATUS
 		err := profile.FileCSIDriver.AssignProperties_To_ManagedClusterStorageProfileFileCSIDriver_STATUS(&fileCSIDriver)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterStorageProfileFileCSIDriver_STATUS() to populate field FileCSIDriver")
@@ -9938,7 +9939,7 @@ func (profile *ManagedClusterStorageProfile_STATUS) AssignProperties_To_ManagedC
 
 	// SnapshotController
 	if profile.SnapshotController != nil {
-		var snapshotController storage.ManagedClusterStorageProfileSnapshotController_STATUS
+		var snapshotController v20231102ps.ManagedClusterStorageProfileSnapshotController_STATUS
 		err := profile.SnapshotController.AssignProperties_To_ManagedClusterStorageProfileSnapshotController_STATUS(&snapshotController)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterStorageProfileSnapshotController_STATUS() to populate field SnapshotController")
@@ -9980,7 +9981,7 @@ type ManagedClusterWindowsProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterWindowsProfile populates our ManagedClusterWindowsProfile from the provided source ManagedClusterWindowsProfile
-func (profile *ManagedClusterWindowsProfile) AssignProperties_From_ManagedClusterWindowsProfile(source *storage.ManagedClusterWindowsProfile) error {
+func (profile *ManagedClusterWindowsProfile) AssignProperties_From_ManagedClusterWindowsProfile(source *v20231102ps.ManagedClusterWindowsProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10039,7 +10040,7 @@ func (profile *ManagedClusterWindowsProfile) AssignProperties_From_ManagedCluste
 }
 
 // AssignProperties_To_ManagedClusterWindowsProfile populates the provided destination ManagedClusterWindowsProfile from our ManagedClusterWindowsProfile
-func (profile *ManagedClusterWindowsProfile) AssignProperties_To_ManagedClusterWindowsProfile(destination *storage.ManagedClusterWindowsProfile) error {
+func (profile *ManagedClusterWindowsProfile) AssignProperties_To_ManagedClusterWindowsProfile(destination *v20231102ps.ManagedClusterWindowsProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -10064,7 +10065,7 @@ func (profile *ManagedClusterWindowsProfile) AssignProperties_To_ManagedClusterW
 
 	// GmsaProfile
 	if profile.GmsaProfile != nil {
-		var gmsaProfile storage.WindowsGmsaProfile
+		var gmsaProfile v20231102ps.WindowsGmsaProfile
 		err := profile.GmsaProfile.AssignProperties_To_WindowsGmsaProfile(&gmsaProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WindowsGmsaProfile() to populate field GmsaProfile")
@@ -10108,7 +10109,7 @@ type ManagedClusterWindowsProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterWindowsProfile_STATUS populates our ManagedClusterWindowsProfile_STATUS from the provided source ManagedClusterWindowsProfile_STATUS
-func (profile *ManagedClusterWindowsProfile_STATUS) AssignProperties_From_ManagedClusterWindowsProfile_STATUS(source *storage.ManagedClusterWindowsProfile_STATUS) error {
+func (profile *ManagedClusterWindowsProfile_STATUS) AssignProperties_From_ManagedClusterWindowsProfile_STATUS(source *v20231102ps.ManagedClusterWindowsProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10159,7 +10160,7 @@ func (profile *ManagedClusterWindowsProfile_STATUS) AssignProperties_From_Manage
 }
 
 // AssignProperties_To_ManagedClusterWindowsProfile_STATUS populates the provided destination ManagedClusterWindowsProfile_STATUS from our ManagedClusterWindowsProfile_STATUS
-func (profile *ManagedClusterWindowsProfile_STATUS) AssignProperties_To_ManagedClusterWindowsProfile_STATUS(destination *storage.ManagedClusterWindowsProfile_STATUS) error {
+func (profile *ManagedClusterWindowsProfile_STATUS) AssignProperties_To_ManagedClusterWindowsProfile_STATUS(destination *v20231102ps.ManagedClusterWindowsProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -10176,7 +10177,7 @@ func (profile *ManagedClusterWindowsProfile_STATUS) AssignProperties_To_ManagedC
 
 	// GmsaProfile
 	if profile.GmsaProfile != nil {
-		var gmsaProfile storage.WindowsGmsaProfile_STATUS
+		var gmsaProfile v20231102ps.WindowsGmsaProfile_STATUS
 		err := profile.GmsaProfile.AssignProperties_To_WindowsGmsaProfile_STATUS(&gmsaProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WindowsGmsaProfile_STATUS() to populate field GmsaProfile")
@@ -10218,7 +10219,7 @@ type ManagedClusterWorkloadAutoScalerProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterWorkloadAutoScalerProfile populates our ManagedClusterWorkloadAutoScalerProfile from the provided source ManagedClusterWorkloadAutoScalerProfile
-func (profile *ManagedClusterWorkloadAutoScalerProfile) AssignProperties_From_ManagedClusterWorkloadAutoScalerProfile(source *storage.ManagedClusterWorkloadAutoScalerProfile) error {
+func (profile *ManagedClusterWorkloadAutoScalerProfile) AssignProperties_From_ManagedClusterWorkloadAutoScalerProfile(source *v20231102ps.ManagedClusterWorkloadAutoScalerProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10267,13 +10268,13 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile) AssignProperties_From_Ma
 }
 
 // AssignProperties_To_ManagedClusterWorkloadAutoScalerProfile populates the provided destination ManagedClusterWorkloadAutoScalerProfile from our ManagedClusterWorkloadAutoScalerProfile
-func (profile *ManagedClusterWorkloadAutoScalerProfile) AssignProperties_To_ManagedClusterWorkloadAutoScalerProfile(destination *storage.ManagedClusterWorkloadAutoScalerProfile) error {
+func (profile *ManagedClusterWorkloadAutoScalerProfile) AssignProperties_To_ManagedClusterWorkloadAutoScalerProfile(destination *v20231102ps.ManagedClusterWorkloadAutoScalerProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// Keda
 	if profile.Keda != nil {
-		var kedum storage.ManagedClusterWorkloadAutoScalerProfileKeda
+		var kedum v20231102ps.ManagedClusterWorkloadAutoScalerProfileKeda
 		err := profile.Keda.AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileKeda(&kedum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileKeda() to populate field Keda")
@@ -10285,7 +10286,7 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile) AssignProperties_To_Mana
 
 	// VerticalPodAutoscaler
 	if profile.VerticalPodAutoscaler != nil {
-		var verticalPodAutoscaler storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
+		var verticalPodAutoscaler v20231102ps.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
 		err := profile.VerticalPodAutoscaler.AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler(&verticalPodAutoscaler)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler() to populate field VerticalPodAutoscaler")
@@ -10324,7 +10325,7 @@ type ManagedClusterWorkloadAutoScalerProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterWorkloadAutoScalerProfile_STATUS populates our ManagedClusterWorkloadAutoScalerProfile_STATUS from the provided source ManagedClusterWorkloadAutoScalerProfile_STATUS
-func (profile *ManagedClusterWorkloadAutoScalerProfile_STATUS) AssignProperties_From_ManagedClusterWorkloadAutoScalerProfile_STATUS(source *storage.ManagedClusterWorkloadAutoScalerProfile_STATUS) error {
+func (profile *ManagedClusterWorkloadAutoScalerProfile_STATUS) AssignProperties_From_ManagedClusterWorkloadAutoScalerProfile_STATUS(source *v20231102ps.ManagedClusterWorkloadAutoScalerProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10373,13 +10374,13 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile_STATUS) AssignProperties_
 }
 
 // AssignProperties_To_ManagedClusterWorkloadAutoScalerProfile_STATUS populates the provided destination ManagedClusterWorkloadAutoScalerProfile_STATUS from our ManagedClusterWorkloadAutoScalerProfile_STATUS
-func (profile *ManagedClusterWorkloadAutoScalerProfile_STATUS) AssignProperties_To_ManagedClusterWorkloadAutoScalerProfile_STATUS(destination *storage.ManagedClusterWorkloadAutoScalerProfile_STATUS) error {
+func (profile *ManagedClusterWorkloadAutoScalerProfile_STATUS) AssignProperties_To_ManagedClusterWorkloadAutoScalerProfile_STATUS(destination *v20231102ps.ManagedClusterWorkloadAutoScalerProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// Keda
 	if profile.Keda != nil {
-		var kedum storage.ManagedClusterWorkloadAutoScalerProfileKeda_STATUS
+		var kedum v20231102ps.ManagedClusterWorkloadAutoScalerProfileKeda_STATUS
 		err := profile.Keda.AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileKeda_STATUS(&kedum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileKeda_STATUS() to populate field Keda")
@@ -10391,7 +10392,7 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile_STATUS) AssignProperties_
 
 	// VerticalPodAutoscaler
 	if profile.VerticalPodAutoscaler != nil {
-		var verticalPodAutoscaler storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
+		var verticalPodAutoscaler v20231102ps.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
 		err := profile.VerticalPodAutoscaler.AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS(&verticalPodAutoscaler)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS() to populate field VerticalPodAutoscaler")
@@ -10429,7 +10430,7 @@ type PowerState_STATUS struct {
 }
 
 // AssignProperties_From_PowerState_STATUS populates our PowerState_STATUS from the provided source PowerState_STATUS
-func (state *PowerState_STATUS) AssignProperties_From_PowerState_STATUS(source *storage.PowerState_STATUS) error {
+func (state *PowerState_STATUS) AssignProperties_From_PowerState_STATUS(source *v20231102ps.PowerState_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10457,7 +10458,7 @@ func (state *PowerState_STATUS) AssignProperties_From_PowerState_STATUS(source *
 }
 
 // AssignProperties_To_PowerState_STATUS populates the provided destination PowerState_STATUS from our PowerState_STATUS
-func (state *PowerState_STATUS) AssignProperties_To_PowerState_STATUS(destination *storage.PowerState_STATUS) error {
+func (state *PowerState_STATUS) AssignProperties_To_PowerState_STATUS(destination *v20231102ps.PowerState_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(state.PropertyBag)
 
@@ -10498,7 +10499,7 @@ type PrivateLinkResource struct {
 }
 
 // AssignProperties_From_PrivateLinkResource populates our PrivateLinkResource from the provided source PrivateLinkResource
-func (resource *PrivateLinkResource) AssignProperties_From_PrivateLinkResource(source *storage.PrivateLinkResource) error {
+func (resource *PrivateLinkResource) AssignProperties_From_PrivateLinkResource(source *v20231102ps.PrivateLinkResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10543,7 +10544,7 @@ func (resource *PrivateLinkResource) AssignProperties_From_PrivateLinkResource(s
 }
 
 // AssignProperties_To_PrivateLinkResource populates the provided destination PrivateLinkResource from our PrivateLinkResource
-func (resource *PrivateLinkResource) AssignProperties_To_PrivateLinkResource(destination *storage.PrivateLinkResource) error {
+func (resource *PrivateLinkResource) AssignProperties_To_PrivateLinkResource(destination *v20231102ps.PrivateLinkResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -10600,7 +10601,7 @@ type PrivateLinkResource_STATUS struct {
 }
 
 // AssignProperties_From_PrivateLinkResource_STATUS populates our PrivateLinkResource_STATUS from the provided source PrivateLinkResource_STATUS
-func (resource *PrivateLinkResource_STATUS) AssignProperties_From_PrivateLinkResource_STATUS(source *storage.PrivateLinkResource_STATUS) error {
+func (resource *PrivateLinkResource_STATUS) AssignProperties_From_PrivateLinkResource_STATUS(source *v20231102ps.PrivateLinkResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10643,7 +10644,7 @@ func (resource *PrivateLinkResource_STATUS) AssignProperties_From_PrivateLinkRes
 }
 
 // AssignProperties_To_PrivateLinkResource_STATUS populates the provided destination PrivateLinkResource_STATUS from our PrivateLinkResource_STATUS
-func (resource *PrivateLinkResource_STATUS) AssignProperties_To_PrivateLinkResource_STATUS(destination *storage.PrivateLinkResource_STATUS) error {
+func (resource *PrivateLinkResource_STATUS) AssignProperties_To_PrivateLinkResource_STATUS(destination *v20231102ps.PrivateLinkResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -10695,7 +10696,7 @@ type SafeguardsProfile struct {
 }
 
 // AssignProperties_From_SafeguardsProfile populates our SafeguardsProfile from the provided source SafeguardsProfile
-func (profile *SafeguardsProfile) AssignProperties_From_SafeguardsProfile(source *storage.SafeguardsProfile) error {
+func (profile *SafeguardsProfile) AssignProperties_From_SafeguardsProfile(source *v20231102ps.SafeguardsProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10729,7 +10730,7 @@ func (profile *SafeguardsProfile) AssignProperties_From_SafeguardsProfile(source
 }
 
 // AssignProperties_To_SafeguardsProfile populates the provided destination SafeguardsProfile from our SafeguardsProfile
-func (profile *SafeguardsProfile) AssignProperties_To_SafeguardsProfile(destination *storage.SafeguardsProfile) error {
+func (profile *SafeguardsProfile) AssignProperties_To_SafeguardsProfile(destination *v20231102ps.SafeguardsProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -10773,7 +10774,7 @@ type SafeguardsProfile_STATUS struct {
 }
 
 // AssignProperties_From_SafeguardsProfile_STATUS populates our SafeguardsProfile_STATUS from the provided source SafeguardsProfile_STATUS
-func (profile *SafeguardsProfile_STATUS) AssignProperties_From_SafeguardsProfile_STATUS(source *storage.SafeguardsProfile_STATUS) error {
+func (profile *SafeguardsProfile_STATUS) AssignProperties_From_SafeguardsProfile_STATUS(source *v20231102ps.SafeguardsProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10810,7 +10811,7 @@ func (profile *SafeguardsProfile_STATUS) AssignProperties_From_SafeguardsProfile
 }
 
 // AssignProperties_To_SafeguardsProfile_STATUS populates the provided destination SafeguardsProfile_STATUS from our SafeguardsProfile_STATUS
-func (profile *SafeguardsProfile_STATUS) AssignProperties_To_SafeguardsProfile_STATUS(destination *storage.SafeguardsProfile_STATUS) error {
+func (profile *SafeguardsProfile_STATUS) AssignProperties_To_SafeguardsProfile_STATUS(destination *v20231102ps.SafeguardsProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -10855,7 +10856,7 @@ type ServiceMeshProfile struct {
 }
 
 // AssignProperties_From_ServiceMeshProfile populates our ServiceMeshProfile from the provided source ServiceMeshProfile
-func (profile *ServiceMeshProfile) AssignProperties_From_ServiceMeshProfile(source *storage.ServiceMeshProfile) error {
+func (profile *ServiceMeshProfile) AssignProperties_From_ServiceMeshProfile(source *v20231102ps.ServiceMeshProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10895,13 +10896,13 @@ func (profile *ServiceMeshProfile) AssignProperties_From_ServiceMeshProfile(sour
 }
 
 // AssignProperties_To_ServiceMeshProfile populates the provided destination ServiceMeshProfile from our ServiceMeshProfile
-func (profile *ServiceMeshProfile) AssignProperties_To_ServiceMeshProfile(destination *storage.ServiceMeshProfile) error {
+func (profile *ServiceMeshProfile) AssignProperties_To_ServiceMeshProfile(destination *v20231102ps.ServiceMeshProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// Istio
 	if profile.Istio != nil {
-		var istio storage.IstioServiceMesh
+		var istio v20231102ps.IstioServiceMesh
 		err := profile.Istio.AssignProperties_To_IstioServiceMesh(&istio)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IstioServiceMesh() to populate field Istio")
@@ -10943,7 +10944,7 @@ type ServiceMeshProfile_STATUS struct {
 }
 
 // AssignProperties_From_ServiceMeshProfile_STATUS populates our ServiceMeshProfile_STATUS from the provided source ServiceMeshProfile_STATUS
-func (profile *ServiceMeshProfile_STATUS) AssignProperties_From_ServiceMeshProfile_STATUS(source *storage.ServiceMeshProfile_STATUS) error {
+func (profile *ServiceMeshProfile_STATUS) AssignProperties_From_ServiceMeshProfile_STATUS(source *v20231102ps.ServiceMeshProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10983,13 +10984,13 @@ func (profile *ServiceMeshProfile_STATUS) AssignProperties_From_ServiceMeshProfi
 }
 
 // AssignProperties_To_ServiceMeshProfile_STATUS populates the provided destination ServiceMeshProfile_STATUS from our ServiceMeshProfile_STATUS
-func (profile *ServiceMeshProfile_STATUS) AssignProperties_To_ServiceMeshProfile_STATUS(destination *storage.ServiceMeshProfile_STATUS) error {
+func (profile *ServiceMeshProfile_STATUS) AssignProperties_To_ServiceMeshProfile_STATUS(destination *v20231102ps.ServiceMeshProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// Istio
 	if profile.Istio != nil {
-		var istio storage.IstioServiceMesh_STATUS
+		var istio v20231102ps.IstioServiceMesh_STATUS
 		err := profile.Istio.AssignProperties_To_IstioServiceMesh_STATUS(&istio)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IstioServiceMesh_STATUS() to populate field Istio")
@@ -11035,7 +11036,7 @@ type SystemData_STATUS struct {
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20231102ps.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11078,7 +11079,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *s
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20231102ps.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 
@@ -11132,7 +11133,7 @@ type UserAssignedIdentity struct {
 }
 
 // AssignProperties_From_UserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
-func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity(source *storage.UserAssignedIdentity) error {
+func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity(source *v20231102ps.UserAssignedIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11171,7 +11172,7 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 }
 
 // AssignProperties_To_UserAssignedIdentity populates the provided destination UserAssignedIdentity from our UserAssignedIdentity
-func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(destination *storage.UserAssignedIdentity) error {
+func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(destination *v20231102ps.UserAssignedIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -11219,7 +11220,7 @@ type UserAssignedIdentity_STATUS struct {
 }
 
 // AssignProperties_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *storage.UserAssignedIdentity_STATUS) error {
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v20231102ps.UserAssignedIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11253,7 +11254,7 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 }
 
 // AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *storage.UserAssignedIdentity_STATUS) error {
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20231102ps.UserAssignedIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -11294,6 +11295,80 @@ type AdvancedNetworking struct {
 	PropertyBag   genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_AdvancedNetworking populates our AdvancedNetworking from the provided source AdvancedNetworking
+func (networking *AdvancedNetworking) AssignProperties_From_AdvancedNetworking(source *v20231001sc.AdvancedNetworking) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Observability
+	if source.Observability != nil {
+		var observability AdvancedNetworkingObservability
+		err := observability.AssignProperties_From_AdvancedNetworkingObservability(source.Observability)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_AdvancedNetworkingObservability() to populate field Observability")
+		}
+		networking.Observability = &observability
+	} else {
+		networking.Observability = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		networking.PropertyBag = propertyBag
+	} else {
+		networking.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAdvancedNetworking interface (if implemented) to customize the conversion
+	var networkingAsAny any = networking
+	if augmentedNetworking, ok := networkingAsAny.(augmentConversionForAdvancedNetworking); ok {
+		err := augmentedNetworking.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AdvancedNetworking populates the provided destination AdvancedNetworking from our AdvancedNetworking
+func (networking *AdvancedNetworking) AssignProperties_To_AdvancedNetworking(destination *v20231001sc.AdvancedNetworking) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(networking.PropertyBag)
+
+	// Observability
+	if networking.Observability != nil {
+		var observability v20231001sc.AdvancedNetworkingObservability
+		err := networking.Observability.AssignProperties_To_AdvancedNetworkingObservability(&observability)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_AdvancedNetworkingObservability() to populate field Observability")
+		}
+		destination.Observability = &observability
+	} else {
+		destination.Observability = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAdvancedNetworking interface (if implemented) to customize the conversion
+	var networkingAsAny any = networking
+	if augmentedNetworking, ok := networkingAsAny.(augmentConversionForAdvancedNetworking); ok {
+		err := augmentedNetworking.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240402preview.AdvancedNetworking_STATUS
 // Advanced Networking profile for enabling observability on a cluster. Note that enabling advanced networking features may
 // incur additional costs. For more information see aka.ms/aksadvancednetworking.
@@ -11302,329 +11377,403 @@ type AdvancedNetworking_STATUS struct {
 	PropertyBag   genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_AdvancedNetworking_STATUS populates our AdvancedNetworking_STATUS from the provided source AdvancedNetworking_STATUS
+func (networking *AdvancedNetworking_STATUS) AssignProperties_From_AdvancedNetworking_STATUS(source *v20231001sc.AdvancedNetworking_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Observability
+	if source.Observability != nil {
+		var observability AdvancedNetworkingObservability_STATUS
+		err := observability.AssignProperties_From_AdvancedNetworkingObservability_STATUS(source.Observability)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_AdvancedNetworkingObservability_STATUS() to populate field Observability")
+		}
+		networking.Observability = &observability
+	} else {
+		networking.Observability = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		networking.PropertyBag = propertyBag
+	} else {
+		networking.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAdvancedNetworking_STATUS interface (if implemented) to customize the conversion
+	var networkingAsAny any = networking
+	if augmentedNetworking, ok := networkingAsAny.(augmentConversionForAdvancedNetworking_STATUS); ok {
+		err := augmentedNetworking.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AdvancedNetworking_STATUS populates the provided destination AdvancedNetworking_STATUS from our AdvancedNetworking_STATUS
+func (networking *AdvancedNetworking_STATUS) AssignProperties_To_AdvancedNetworking_STATUS(destination *v20231001sc.AdvancedNetworking_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(networking.PropertyBag)
+
+	// Observability
+	if networking.Observability != nil {
+		var observability v20231001sc.AdvancedNetworkingObservability_STATUS
+		err := networking.Observability.AssignProperties_To_AdvancedNetworkingObservability_STATUS(&observability)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_AdvancedNetworkingObservability_STATUS() to populate field Observability")
+		}
+		destination.Observability = &observability
+	} else {
+		destination.Observability = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAdvancedNetworking_STATUS interface (if implemented) to customize the conversion
+	var networkingAsAny any = networking
+	if augmentedNetworking, ok := networkingAsAny.(augmentConversionForAdvancedNetworking_STATUS); ok {
+		err := augmentedNetworking.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 type augmentConversionForClusterUpgradeSettings interface {
-	AssignPropertiesFrom(src *storage.ClusterUpgradeSettings) error
-	AssignPropertiesTo(dst *storage.ClusterUpgradeSettings) error
+	AssignPropertiesFrom(src *v20231102ps.ClusterUpgradeSettings) error
+	AssignPropertiesTo(dst *v20231102ps.ClusterUpgradeSettings) error
 }
 
 type augmentConversionForClusterUpgradeSettings_STATUS interface {
-	AssignPropertiesFrom(src *storage.ClusterUpgradeSettings_STATUS) error
-	AssignPropertiesTo(dst *storage.ClusterUpgradeSettings_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ClusterUpgradeSettings_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ClusterUpgradeSettings_STATUS) error
 }
 
 type augmentConversionForContainerServiceLinuxProfile interface {
-	AssignPropertiesFrom(src *storage.ContainerServiceLinuxProfile) error
-	AssignPropertiesTo(dst *storage.ContainerServiceLinuxProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ContainerServiceLinuxProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ContainerServiceLinuxProfile) error
 }
 
 type augmentConversionForContainerServiceLinuxProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ContainerServiceLinuxProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ContainerServiceLinuxProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ContainerServiceLinuxProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ContainerServiceLinuxProfile_STATUS) error
 }
 
 type augmentConversionForContainerServiceNetworkProfile interface {
-	AssignPropertiesFrom(src *storage.ContainerServiceNetworkProfile) error
-	AssignPropertiesTo(dst *storage.ContainerServiceNetworkProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ContainerServiceNetworkProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ContainerServiceNetworkProfile) error
 }
 
 type augmentConversionForContainerServiceNetworkProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ContainerServiceNetworkProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ContainerServiceNetworkProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ContainerServiceNetworkProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ContainerServiceNetworkProfile_STATUS) error
 }
 
 type augmentConversionForCreationData interface {
-	AssignPropertiesFrom(src *storage.CreationData) error
-	AssignPropertiesTo(dst *storage.CreationData) error
+	AssignPropertiesFrom(src *v20231102ps.CreationData) error
+	AssignPropertiesTo(dst *v20231102ps.CreationData) error
 }
 
 type augmentConversionForCreationData_STATUS interface {
-	AssignPropertiesFrom(src *storage.CreationData_STATUS) error
-	AssignPropertiesTo(dst *storage.CreationData_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.CreationData_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.CreationData_STATUS) error
 }
 
 type augmentConversionForExtendedLocation interface {
-	AssignPropertiesFrom(src *storage.ExtendedLocation) error
-	AssignPropertiesTo(dst *storage.ExtendedLocation) error
+	AssignPropertiesFrom(src *v20231102ps.ExtendedLocation) error
+	AssignPropertiesTo(dst *v20231102ps.ExtendedLocation) error
 }
 
 type augmentConversionForExtendedLocation_STATUS interface {
-	AssignPropertiesFrom(src *storage.ExtendedLocation_STATUS) error
-	AssignPropertiesTo(dst *storage.ExtendedLocation_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ExtendedLocation_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ExtendedLocation_STATUS) error
 }
 
 type augmentConversionForManagedClusterAADProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAADProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAADProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAADProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAADProfile) error
 }
 
 type augmentConversionForManagedClusterAADProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAADProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAADProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAADProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAADProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterAddonProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAddonProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAddonProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAddonProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAddonProfile) error
 }
 
 type augmentConversionForManagedClusterAddonProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAddonProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAddonProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAddonProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAddonProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterAgentPoolProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAgentPoolProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAgentPoolProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAgentPoolProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAgentPoolProfile) error
 }
 
 type augmentConversionForManagedClusterAgentPoolProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAgentPoolProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAgentPoolProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAgentPoolProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAgentPoolProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterAIToolchainOperatorProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAIToolchainOperatorProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAIToolchainOperatorProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAIToolchainOperatorProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAIToolchainOperatorProfile) error
 }
 
 type augmentConversionForManagedClusterAIToolchainOperatorProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAIToolchainOperatorProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAIToolchainOperatorProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAIToolchainOperatorProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAIToolchainOperatorProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterAPIServerAccessProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAPIServerAccessProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAPIServerAccessProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAPIServerAccessProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAPIServerAccessProfile) error
 }
 
 type augmentConversionForManagedClusterAPIServerAccessProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAPIServerAccessProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAPIServerAccessProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAPIServerAccessProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAPIServerAccessProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterAutoUpgradeProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAutoUpgradeProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAutoUpgradeProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAutoUpgradeProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAutoUpgradeProfile) error
 }
 
 type augmentConversionForManagedClusterAutoUpgradeProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAutoUpgradeProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAutoUpgradeProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAutoUpgradeProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAutoUpgradeProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterAzureMonitorProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAzureMonitorProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAzureMonitorProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAzureMonitorProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAzureMonitorProfile) error
 }
 
 type augmentConversionForManagedClusterAzureMonitorProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAzureMonitorProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAzureMonitorProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAzureMonitorProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAzureMonitorProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterHTTPProxyConfig interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterHTTPProxyConfig) error
-	AssignPropertiesTo(dst *storage.ManagedClusterHTTPProxyConfig) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterHTTPProxyConfig) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterHTTPProxyConfig) error
 }
 
 type augmentConversionForManagedClusterHTTPProxyConfig_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterHTTPProxyConfig_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterHTTPProxyConfig_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterHTTPProxyConfig_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterHTTPProxyConfig_STATUS) error
 }
 
 type augmentConversionForManagedClusterIdentity interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterIdentity) error
-	AssignPropertiesTo(dst *storage.ManagedClusterIdentity) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterIdentity) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterIdentity) error
 }
 
 type augmentConversionForManagedClusterIdentity_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterIdentity_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterIdentity_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterIdentity_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterIdentity_STATUS) error
 }
 
 type augmentConversionForManagedClusterIngressProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterIngressProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterIngressProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterIngressProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterIngressProfile) error
 }
 
 type augmentConversionForManagedClusterIngressProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterIngressProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterIngressProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterIngressProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterIngressProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterMetricsProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterMetricsProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterMetricsProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterMetricsProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterMetricsProfile) error
 }
 
 type augmentConversionForManagedClusterMetricsProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterMetricsProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterMetricsProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterMetricsProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterMetricsProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterNodeProvisioningProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterNodeProvisioningProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterNodeProvisioningProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterNodeProvisioningProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterNodeProvisioningProfile) error
 }
 
 type augmentConversionForManagedClusterNodeProvisioningProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterNodeProvisioningProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterNodeProvisioningProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterNodeProvisioningProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterNodeProvisioningProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterNodeResourceGroupProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterNodeResourceGroupProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterNodeResourceGroupProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterNodeResourceGroupProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterNodeResourceGroupProfile) error
 }
 
 type augmentConversionForManagedClusterNodeResourceGroupProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterNodeResourceGroupProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterNodeResourceGroupProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterNodeResourceGroupProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterNodeResourceGroupProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterOIDCIssuerProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterOIDCIssuerProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterOIDCIssuerProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterOIDCIssuerProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterOIDCIssuerProfile) error
 }
 
 type augmentConversionForManagedClusterOIDCIssuerProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterOIDCIssuerProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterOIDCIssuerProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterOIDCIssuerProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterOIDCIssuerProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterOperatorSpec interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterOperatorSpec) error
-	AssignPropertiesTo(dst *storage.ManagedClusterOperatorSpec) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterOperatorSpec) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterOperatorSpec) error
 }
 
 type augmentConversionForManagedClusterPodIdentityProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterPodIdentityProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterPodIdentityProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterPodIdentityProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterPodIdentityProfile) error
 }
 
 type augmentConversionForManagedClusterPodIdentityProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterPodIdentityProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterPodIdentityProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterPodIdentityProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterPodIdentityProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterProperties_AutoScalerProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterProperties_AutoScalerProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterProperties_AutoScalerProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterProperties_AutoScalerProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterProperties_AutoScalerProfile) error
 }
 
 type augmentConversionForManagedClusterProperties_AutoScalerProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterProperties_AutoScalerProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterProperties_AutoScalerProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterProperties_AutoScalerProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterProperties_AutoScalerProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterSecurityProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSecurityProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSecurityProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSecurityProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSecurityProfile) error
 }
 
 type augmentConversionForManagedClusterSecurityProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSecurityProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSecurityProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSecurityProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSecurityProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterServicePrincipalProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterServicePrincipalProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterServicePrincipalProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterServicePrincipalProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterServicePrincipalProfile) error
 }
 
 type augmentConversionForManagedClusterServicePrincipalProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterServicePrincipalProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterServicePrincipalProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterServicePrincipalProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterServicePrincipalProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterSKU interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSKU) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSKU) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSKU) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSKU) error
 }
 
 type augmentConversionForManagedClusterSKU_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSKU_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSKU_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSKU_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSKU_STATUS) error
 }
 
 type augmentConversionForManagedClusterStorageProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterStorageProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterStorageProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterStorageProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterStorageProfile) error
 }
 
 type augmentConversionForManagedClusterStorageProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterStorageProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterStorageProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterStorageProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterStorageProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterWindowsProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterWindowsProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterWindowsProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterWindowsProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterWindowsProfile) error
 }
 
 type augmentConversionForManagedClusterWindowsProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterWindowsProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterWindowsProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterWindowsProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterWindowsProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterWorkloadAutoScalerProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterWorkloadAutoScalerProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterWorkloadAutoScalerProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterWorkloadAutoScalerProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterWorkloadAutoScalerProfile) error
 }
 
 type augmentConversionForManagedClusterWorkloadAutoScalerProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterWorkloadAutoScalerProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterWorkloadAutoScalerProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterWorkloadAutoScalerProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterWorkloadAutoScalerProfile_STATUS) error
 }
 
 type augmentConversionForPowerState_STATUS interface {
-	AssignPropertiesFrom(src *storage.PowerState_STATUS) error
-	AssignPropertiesTo(dst *storage.PowerState_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.PowerState_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.PowerState_STATUS) error
 }
 
 type augmentConversionForPrivateLinkResource interface {
-	AssignPropertiesFrom(src *storage.PrivateLinkResource) error
-	AssignPropertiesTo(dst *storage.PrivateLinkResource) error
+	AssignPropertiesFrom(src *v20231102ps.PrivateLinkResource) error
+	AssignPropertiesTo(dst *v20231102ps.PrivateLinkResource) error
 }
 
 type augmentConversionForPrivateLinkResource_STATUS interface {
-	AssignPropertiesFrom(src *storage.PrivateLinkResource_STATUS) error
-	AssignPropertiesTo(dst *storage.PrivateLinkResource_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.PrivateLinkResource_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.PrivateLinkResource_STATUS) error
 }
 
 type augmentConversionForSafeguardsProfile interface {
-	AssignPropertiesFrom(src *storage.SafeguardsProfile) error
-	AssignPropertiesTo(dst *storage.SafeguardsProfile) error
+	AssignPropertiesFrom(src *v20231102ps.SafeguardsProfile) error
+	AssignPropertiesTo(dst *v20231102ps.SafeguardsProfile) error
 }
 
 type augmentConversionForSafeguardsProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.SafeguardsProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.SafeguardsProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.SafeguardsProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.SafeguardsProfile_STATUS) error
 }
 
 type augmentConversionForServiceMeshProfile interface {
-	AssignPropertiesFrom(src *storage.ServiceMeshProfile) error
-	AssignPropertiesTo(dst *storage.ServiceMeshProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ServiceMeshProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ServiceMeshProfile) error
 }
 
 type augmentConversionForServiceMeshProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ServiceMeshProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ServiceMeshProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ServiceMeshProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ServiceMeshProfile_STATUS) error
 }
 
 type augmentConversionForSystemData_STATUS interface {
-	AssignPropertiesFrom(src *storage.SystemData_STATUS) error
-	AssignPropertiesTo(dst *storage.SystemData_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.SystemData_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.SystemData_STATUS) error
 }
 
 type augmentConversionForUserAssignedIdentity interface {
-	AssignPropertiesFrom(src *storage.UserAssignedIdentity) error
-	AssignPropertiesTo(dst *storage.UserAssignedIdentity) error
+	AssignPropertiesFrom(src *v20231102ps.UserAssignedIdentity) error
+	AssignPropertiesTo(dst *v20231102ps.UserAssignedIdentity) error
 }
 
 type augmentConversionForUserAssignedIdentity_STATUS interface {
-	AssignPropertiesFrom(src *storage.UserAssignedIdentity_STATUS) error
-	AssignPropertiesTo(dst *storage.UserAssignedIdentity_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.UserAssignedIdentity_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.UserAssignedIdentity_STATUS) error
 }
 
 // Storage version of v1api20240402preview.AzureKeyVaultKms
@@ -11641,7 +11790,7 @@ type AzureKeyVaultKms struct {
 }
 
 // AssignProperties_From_AzureKeyVaultKms populates our AzureKeyVaultKms from the provided source AzureKeyVaultKms
-func (vaultKms *AzureKeyVaultKms) AssignProperties_From_AzureKeyVaultKms(source *storage.AzureKeyVaultKms) error {
+func (vaultKms *AzureKeyVaultKms) AssignProperties_From_AzureKeyVaultKms(source *v20231102ps.AzureKeyVaultKms) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11688,7 +11837,7 @@ func (vaultKms *AzureKeyVaultKms) AssignProperties_From_AzureKeyVaultKms(source 
 }
 
 // AssignProperties_To_AzureKeyVaultKms populates the provided destination AzureKeyVaultKms from our AzureKeyVaultKms
-func (vaultKms *AzureKeyVaultKms) AssignProperties_To_AzureKeyVaultKms(destination *storage.AzureKeyVaultKms) error {
+func (vaultKms *AzureKeyVaultKms) AssignProperties_To_AzureKeyVaultKms(destination *v20231102ps.AzureKeyVaultKms) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(vaultKms.PropertyBag)
 
@@ -11745,7 +11894,7 @@ type AzureKeyVaultKms_STATUS struct {
 }
 
 // AssignProperties_From_AzureKeyVaultKms_STATUS populates our AzureKeyVaultKms_STATUS from the provided source AzureKeyVaultKms_STATUS
-func (vaultKms *AzureKeyVaultKms_STATUS) AssignProperties_From_AzureKeyVaultKms_STATUS(source *storage.AzureKeyVaultKms_STATUS) error {
+func (vaultKms *AzureKeyVaultKms_STATUS) AssignProperties_From_AzureKeyVaultKms_STATUS(source *v20231102ps.AzureKeyVaultKms_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11787,7 +11936,7 @@ func (vaultKms *AzureKeyVaultKms_STATUS) AssignProperties_From_AzureKeyVaultKms_
 }
 
 // AssignProperties_To_AzureKeyVaultKms_STATUS populates the provided destination AzureKeyVaultKms_STATUS from our AzureKeyVaultKms_STATUS
-func (vaultKms *AzureKeyVaultKms_STATUS) AssignProperties_To_AzureKeyVaultKms_STATUS(destination *storage.AzureKeyVaultKms_STATUS) error {
+func (vaultKms *AzureKeyVaultKms_STATUS) AssignProperties_To_AzureKeyVaultKms_STATUS(destination *v20231102ps.AzureKeyVaultKms_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(vaultKms.PropertyBag)
 
@@ -11837,7 +11986,7 @@ type ContainerServiceNetworkProfile_KubeProxyConfig struct {
 }
 
 // AssignProperties_From_ContainerServiceNetworkProfile_KubeProxyConfig populates our ContainerServiceNetworkProfile_KubeProxyConfig from the provided source ContainerServiceNetworkProfile_KubeProxyConfig
-func (config *ContainerServiceNetworkProfile_KubeProxyConfig) AssignProperties_From_ContainerServiceNetworkProfile_KubeProxyConfig(source *storage.ContainerServiceNetworkProfile_KubeProxyConfig) error {
+func (config *ContainerServiceNetworkProfile_KubeProxyConfig) AssignProperties_From_ContainerServiceNetworkProfile_KubeProxyConfig(source *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11885,7 +12034,7 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig) AssignProperties_F
 }
 
 // AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig populates the provided destination ContainerServiceNetworkProfile_KubeProxyConfig from our ContainerServiceNetworkProfile_KubeProxyConfig
-func (config *ContainerServiceNetworkProfile_KubeProxyConfig) AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig(destination *storage.ContainerServiceNetworkProfile_KubeProxyConfig) error {
+func (config *ContainerServiceNetworkProfile_KubeProxyConfig) AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig(destination *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -11899,7 +12048,7 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig) AssignProperties_T
 
 	// IpvsConfig
 	if config.IpvsConfig != nil {
-		var ipvsConfig storage.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig
+		var ipvsConfig v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig
 		err := config.IpvsConfig.AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig(&ipvsConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig() to populate field IpvsConfig")
@@ -11941,7 +12090,7 @@ type ContainerServiceNetworkProfile_KubeProxyConfig_STATUS struct {
 }
 
 // AssignProperties_From_ContainerServiceNetworkProfile_KubeProxyConfig_STATUS populates our ContainerServiceNetworkProfile_KubeProxyConfig_STATUS from the provided source ContainerServiceNetworkProfile_KubeProxyConfig_STATUS
-func (config *ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) AssignProperties_From_ContainerServiceNetworkProfile_KubeProxyConfig_STATUS(source *storage.ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) error {
+func (config *ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) AssignProperties_From_ContainerServiceNetworkProfile_KubeProxyConfig_STATUS(source *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11989,7 +12138,7 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) AssignPrope
 }
 
 // AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_STATUS populates the provided destination ContainerServiceNetworkProfile_KubeProxyConfig_STATUS from our ContainerServiceNetworkProfile_KubeProxyConfig_STATUS
-func (config *ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_STATUS(destination *storage.ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) error {
+func (config *ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_STATUS(destination *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -12003,7 +12152,7 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) AssignPrope
 
 	// IpvsConfig
 	if config.IpvsConfig != nil {
-		var ipvsConfig storage.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS
+		var ipvsConfig v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS
 		err := config.IpvsConfig.AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS(&ipvsConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS() to populate field IpvsConfig")
@@ -12044,7 +12193,7 @@ type ContainerServiceSshConfiguration struct {
 }
 
 // AssignProperties_From_ContainerServiceSshConfiguration populates our ContainerServiceSshConfiguration from the provided source ContainerServiceSshConfiguration
-func (configuration *ContainerServiceSshConfiguration) AssignProperties_From_ContainerServiceSshConfiguration(source *storage.ContainerServiceSshConfiguration) error {
+func (configuration *ContainerServiceSshConfiguration) AssignProperties_From_ContainerServiceSshConfiguration(source *v20231102ps.ContainerServiceSshConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12087,17 +12236,17 @@ func (configuration *ContainerServiceSshConfiguration) AssignProperties_From_Con
 }
 
 // AssignProperties_To_ContainerServiceSshConfiguration populates the provided destination ContainerServiceSshConfiguration from our ContainerServiceSshConfiguration
-func (configuration *ContainerServiceSshConfiguration) AssignProperties_To_ContainerServiceSshConfiguration(destination *storage.ContainerServiceSshConfiguration) error {
+func (configuration *ContainerServiceSshConfiguration) AssignProperties_To_ContainerServiceSshConfiguration(destination *v20231102ps.ContainerServiceSshConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
 	// PublicKeys
 	if configuration.PublicKeys != nil {
-		publicKeyList := make([]storage.ContainerServiceSshPublicKey, len(configuration.PublicKeys))
+		publicKeyList := make([]v20231102ps.ContainerServiceSshPublicKey, len(configuration.PublicKeys))
 		for publicKeyIndex, publicKeyItem := range configuration.PublicKeys {
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
-			var publicKey storage.ContainerServiceSshPublicKey
+			var publicKey v20231102ps.ContainerServiceSshPublicKey
 			err := publicKeyItem.AssignProperties_To_ContainerServiceSshPublicKey(&publicKey)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceSshPublicKey() to populate field PublicKeys")
@@ -12137,7 +12286,7 @@ type ContainerServiceSshConfiguration_STATUS struct {
 }
 
 // AssignProperties_From_ContainerServiceSshConfiguration_STATUS populates our ContainerServiceSshConfiguration_STATUS from the provided source ContainerServiceSshConfiguration_STATUS
-func (configuration *ContainerServiceSshConfiguration_STATUS) AssignProperties_From_ContainerServiceSshConfiguration_STATUS(source *storage.ContainerServiceSshConfiguration_STATUS) error {
+func (configuration *ContainerServiceSshConfiguration_STATUS) AssignProperties_From_ContainerServiceSshConfiguration_STATUS(source *v20231102ps.ContainerServiceSshConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12180,17 +12329,17 @@ func (configuration *ContainerServiceSshConfiguration_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_ContainerServiceSshConfiguration_STATUS populates the provided destination ContainerServiceSshConfiguration_STATUS from our ContainerServiceSshConfiguration_STATUS
-func (configuration *ContainerServiceSshConfiguration_STATUS) AssignProperties_To_ContainerServiceSshConfiguration_STATUS(destination *storage.ContainerServiceSshConfiguration_STATUS) error {
+func (configuration *ContainerServiceSshConfiguration_STATUS) AssignProperties_To_ContainerServiceSshConfiguration_STATUS(destination *v20231102ps.ContainerServiceSshConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
 	// PublicKeys
 	if configuration.PublicKeys != nil {
-		publicKeyList := make([]storage.ContainerServiceSshPublicKey_STATUS, len(configuration.PublicKeys))
+		publicKeyList := make([]v20231102ps.ContainerServiceSshPublicKey_STATUS, len(configuration.PublicKeys))
 		for publicKeyIndex, publicKeyItem := range configuration.PublicKeys {
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
-			var publicKey storage.ContainerServiceSshPublicKey_STATUS
+			var publicKey v20231102ps.ContainerServiceSshPublicKey_STATUS
 			err := publicKeyItem.AssignProperties_To_ContainerServiceSshPublicKey_STATUS(&publicKey)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceSshPublicKey_STATUS() to populate field PublicKeys")
@@ -12235,7 +12384,7 @@ type DelegatedResource struct {
 }
 
 // AssignProperties_From_DelegatedResource populates our DelegatedResource from the provided source DelegatedResource
-func (resource *DelegatedResource) AssignProperties_From_DelegatedResource(source *storage.DelegatedResource) error {
+func (resource *DelegatedResource) AssignProperties_From_DelegatedResource(source *v20231102ps.DelegatedResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12277,7 +12426,7 @@ func (resource *DelegatedResource) AssignProperties_From_DelegatedResource(sourc
 }
 
 // AssignProperties_To_DelegatedResource populates the provided destination DelegatedResource from our DelegatedResource
-func (resource *DelegatedResource) AssignProperties_To_DelegatedResource(destination *storage.DelegatedResource) error {
+func (resource *DelegatedResource) AssignProperties_To_DelegatedResource(destination *v20231102ps.DelegatedResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -12329,7 +12478,7 @@ type DelegatedResource_STATUS struct {
 }
 
 // AssignProperties_From_DelegatedResource_STATUS populates our DelegatedResource_STATUS from the provided source DelegatedResource_STATUS
-func (resource *DelegatedResource_STATUS) AssignProperties_From_DelegatedResource_STATUS(source *storage.DelegatedResource_STATUS) error {
+func (resource *DelegatedResource_STATUS) AssignProperties_From_DelegatedResource_STATUS(source *v20231102ps.DelegatedResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12366,7 +12515,7 @@ func (resource *DelegatedResource_STATUS) AssignProperties_From_DelegatedResourc
 }
 
 // AssignProperties_To_DelegatedResource_STATUS populates the provided destination DelegatedResource_STATUS from our DelegatedResource_STATUS
-func (resource *DelegatedResource_STATUS) AssignProperties_To_DelegatedResource_STATUS(destination *storage.DelegatedResource_STATUS) error {
+func (resource *DelegatedResource_STATUS) AssignProperties_To_DelegatedResource_STATUS(destination *v20231102ps.DelegatedResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -12412,7 +12561,7 @@ type IstioServiceMesh struct {
 }
 
 // AssignProperties_From_IstioServiceMesh populates our IstioServiceMesh from the provided source IstioServiceMesh
-func (mesh *IstioServiceMesh) AssignProperties_From_IstioServiceMesh(source *storage.IstioServiceMesh) error {
+func (mesh *IstioServiceMesh) AssignProperties_From_IstioServiceMesh(source *v20231102ps.IstioServiceMesh) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12464,13 +12613,13 @@ func (mesh *IstioServiceMesh) AssignProperties_From_IstioServiceMesh(source *sto
 }
 
 // AssignProperties_To_IstioServiceMesh populates the provided destination IstioServiceMesh from our IstioServiceMesh
-func (mesh *IstioServiceMesh) AssignProperties_To_IstioServiceMesh(destination *storage.IstioServiceMesh) error {
+func (mesh *IstioServiceMesh) AssignProperties_To_IstioServiceMesh(destination *v20231102ps.IstioServiceMesh) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(mesh.PropertyBag)
 
 	// CertificateAuthority
 	if mesh.CertificateAuthority != nil {
-		var certificateAuthority storage.IstioCertificateAuthority
+		var certificateAuthority v20231102ps.IstioCertificateAuthority
 		err := mesh.CertificateAuthority.AssignProperties_To_IstioCertificateAuthority(&certificateAuthority)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IstioCertificateAuthority() to populate field CertificateAuthority")
@@ -12482,7 +12631,7 @@ func (mesh *IstioServiceMesh) AssignProperties_To_IstioServiceMesh(destination *
 
 	// Components
 	if mesh.Components != nil {
-		var component storage.IstioComponents
+		var component v20231102ps.IstioComponents
 		err := mesh.Components.AssignProperties_To_IstioComponents(&component)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IstioComponents() to populate field Components")
@@ -12525,7 +12674,7 @@ type IstioServiceMesh_STATUS struct {
 }
 
 // AssignProperties_From_IstioServiceMesh_STATUS populates our IstioServiceMesh_STATUS from the provided source IstioServiceMesh_STATUS
-func (mesh *IstioServiceMesh_STATUS) AssignProperties_From_IstioServiceMesh_STATUS(source *storage.IstioServiceMesh_STATUS) error {
+func (mesh *IstioServiceMesh_STATUS) AssignProperties_From_IstioServiceMesh_STATUS(source *v20231102ps.IstioServiceMesh_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12577,13 +12726,13 @@ func (mesh *IstioServiceMesh_STATUS) AssignProperties_From_IstioServiceMesh_STAT
 }
 
 // AssignProperties_To_IstioServiceMesh_STATUS populates the provided destination IstioServiceMesh_STATUS from our IstioServiceMesh_STATUS
-func (mesh *IstioServiceMesh_STATUS) AssignProperties_To_IstioServiceMesh_STATUS(destination *storage.IstioServiceMesh_STATUS) error {
+func (mesh *IstioServiceMesh_STATUS) AssignProperties_To_IstioServiceMesh_STATUS(destination *v20231102ps.IstioServiceMesh_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(mesh.PropertyBag)
 
 	// CertificateAuthority
 	if mesh.CertificateAuthority != nil {
-		var certificateAuthority storage.IstioCertificateAuthority_STATUS
+		var certificateAuthority v20231102ps.IstioCertificateAuthority_STATUS
 		err := mesh.CertificateAuthority.AssignProperties_To_IstioCertificateAuthority_STATUS(&certificateAuthority)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IstioCertificateAuthority_STATUS() to populate field CertificateAuthority")
@@ -12595,7 +12744,7 @@ func (mesh *IstioServiceMesh_STATUS) AssignProperties_To_IstioServiceMesh_STATUS
 
 	// Components
 	if mesh.Components != nil {
-		var component storage.IstioComponents_STATUS
+		var component v20231102ps.IstioComponents_STATUS
 		err := mesh.Components.AssignProperties_To_IstioComponents_STATUS(&component)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IstioComponents_STATUS() to populate field Components")
@@ -12640,7 +12789,7 @@ type ManagedClusterAzureMonitorProfileAppMonitoring struct {
 }
 
 // AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoring populates our ManagedClusterAzureMonitorProfileAppMonitoring from the provided source ManagedClusterAzureMonitorProfileAppMonitoring
-func (monitoring *ManagedClusterAzureMonitorProfileAppMonitoring) AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoring(source *storage.ManagedClusterAzureMonitorProfileAppMonitoring) error {
+func (monitoring *ManagedClusterAzureMonitorProfileAppMonitoring) AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoring(source *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoring) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12711,7 +12860,7 @@ func (monitoring *ManagedClusterAzureMonitorProfileAppMonitoring) AssignProperti
 }
 
 // AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoring populates the provided destination ManagedClusterAzureMonitorProfileAppMonitoring from our ManagedClusterAzureMonitorProfileAppMonitoring
-func (monitoring *ManagedClusterAzureMonitorProfileAppMonitoring) AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoring(destination *storage.ManagedClusterAzureMonitorProfileAppMonitoring) error {
+func (monitoring *ManagedClusterAzureMonitorProfileAppMonitoring) AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoring(destination *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoring) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(monitoring.PropertyBag)
 
@@ -12781,7 +12930,7 @@ type ManagedClusterAzureMonitorProfileAppMonitoring_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoring_STATUS populates our ManagedClusterAzureMonitorProfileAppMonitoring_STATUS from the provided source ManagedClusterAzureMonitorProfileAppMonitoring_STATUS
-func (monitoring *ManagedClusterAzureMonitorProfileAppMonitoring_STATUS) AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoring_STATUS(source *storage.ManagedClusterAzureMonitorProfileAppMonitoring_STATUS) error {
+func (monitoring *ManagedClusterAzureMonitorProfileAppMonitoring_STATUS) AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoring_STATUS(source *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoring_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12852,7 +13001,7 @@ func (monitoring *ManagedClusterAzureMonitorProfileAppMonitoring_STATUS) AssignP
 }
 
 // AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoring_STATUS populates the provided destination ManagedClusterAzureMonitorProfileAppMonitoring_STATUS from our ManagedClusterAzureMonitorProfileAppMonitoring_STATUS
-func (monitoring *ManagedClusterAzureMonitorProfileAppMonitoring_STATUS) AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoring_STATUS(destination *storage.ManagedClusterAzureMonitorProfileAppMonitoring_STATUS) error {
+func (monitoring *ManagedClusterAzureMonitorProfileAppMonitoring_STATUS) AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoring_STATUS(destination *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoring_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(monitoring.PropertyBag)
 
@@ -12926,7 +13075,7 @@ type ManagedClusterAzureMonitorProfileContainerInsights struct {
 }
 
 // AssignProperties_From_ManagedClusterAzureMonitorProfileContainerInsights populates our ManagedClusterAzureMonitorProfileContainerInsights from the provided source ManagedClusterAzureMonitorProfileContainerInsights
-func (insights *ManagedClusterAzureMonitorProfileContainerInsights) AssignProperties_From_ManagedClusterAzureMonitorProfileContainerInsights(source *storage.ManagedClusterAzureMonitorProfileContainerInsights) error {
+func (insights *ManagedClusterAzureMonitorProfileContainerInsights) AssignProperties_From_ManagedClusterAzureMonitorProfileContainerInsights(source *v20231102ps.ManagedClusterAzureMonitorProfileContainerInsights) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13013,7 +13162,7 @@ func (insights *ManagedClusterAzureMonitorProfileContainerInsights) AssignProper
 }
 
 // AssignProperties_To_ManagedClusterAzureMonitorProfileContainerInsights populates the provided destination ManagedClusterAzureMonitorProfileContainerInsights from our ManagedClusterAzureMonitorProfileContainerInsights
-func (insights *ManagedClusterAzureMonitorProfileContainerInsights) AssignProperties_To_ManagedClusterAzureMonitorProfileContainerInsights(destination *storage.ManagedClusterAzureMonitorProfileContainerInsights) error {
+func (insights *ManagedClusterAzureMonitorProfileContainerInsights) AssignProperties_To_ManagedClusterAzureMonitorProfileContainerInsights(destination *v20231102ps.ManagedClusterAzureMonitorProfileContainerInsights) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(insights.PropertyBag)
 
@@ -13056,7 +13205,7 @@ func (insights *ManagedClusterAzureMonitorProfileContainerInsights) AssignProper
 
 	// WindowsHostLogs
 	if propertyBag.Contains("WindowsHostLogs") {
-		var windowsHostLog storage.ManagedClusterAzureMonitorProfileWindowsHostLogs
+		var windowsHostLog v20231102ps.ManagedClusterAzureMonitorProfileWindowsHostLogs
 		err := propertyBag.Pull("WindowsHostLogs", &windowsHostLog)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'WindowsHostLogs' from propertyBag")
@@ -13100,7 +13249,7 @@ type ManagedClusterAzureMonitorProfileContainerInsights_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterAzureMonitorProfileContainerInsights_STATUS populates our ManagedClusterAzureMonitorProfileContainerInsights_STATUS from the provided source ManagedClusterAzureMonitorProfileContainerInsights_STATUS
-func (insights *ManagedClusterAzureMonitorProfileContainerInsights_STATUS) AssignProperties_From_ManagedClusterAzureMonitorProfileContainerInsights_STATUS(source *storage.ManagedClusterAzureMonitorProfileContainerInsights_STATUS) error {
+func (insights *ManagedClusterAzureMonitorProfileContainerInsights_STATUS) AssignProperties_From_ManagedClusterAzureMonitorProfileContainerInsights_STATUS(source *v20231102ps.ManagedClusterAzureMonitorProfileContainerInsights_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13182,7 +13331,7 @@ func (insights *ManagedClusterAzureMonitorProfileContainerInsights_STATUS) Assig
 }
 
 // AssignProperties_To_ManagedClusterAzureMonitorProfileContainerInsights_STATUS populates the provided destination ManagedClusterAzureMonitorProfileContainerInsights_STATUS from our ManagedClusterAzureMonitorProfileContainerInsights_STATUS
-func (insights *ManagedClusterAzureMonitorProfileContainerInsights_STATUS) AssignProperties_To_ManagedClusterAzureMonitorProfileContainerInsights_STATUS(destination *storage.ManagedClusterAzureMonitorProfileContainerInsights_STATUS) error {
+func (insights *ManagedClusterAzureMonitorProfileContainerInsights_STATUS) AssignProperties_To_ManagedClusterAzureMonitorProfileContainerInsights_STATUS(destination *v20231102ps.ManagedClusterAzureMonitorProfileContainerInsights_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(insights.PropertyBag)
 
@@ -13220,7 +13369,7 @@ func (insights *ManagedClusterAzureMonitorProfileContainerInsights_STATUS) Assig
 
 	// WindowsHostLogs
 	if propertyBag.Contains("WindowsHostLogs") {
-		var windowsHostLog storage.ManagedClusterAzureMonitorProfileWindowsHostLogs_STATUS
+		var windowsHostLog v20231102ps.ManagedClusterAzureMonitorProfileWindowsHostLogs_STATUS
 		err := propertyBag.Pull("WindowsHostLogs", &windowsHostLog)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'WindowsHostLogs' from propertyBag")
@@ -13260,7 +13409,7 @@ type ManagedClusterAzureMonitorProfileMetrics struct {
 }
 
 // AssignProperties_From_ManagedClusterAzureMonitorProfileMetrics populates our ManagedClusterAzureMonitorProfileMetrics from the provided source ManagedClusterAzureMonitorProfileMetrics
-func (metrics *ManagedClusterAzureMonitorProfileMetrics) AssignProperties_From_ManagedClusterAzureMonitorProfileMetrics(source *storage.ManagedClusterAzureMonitorProfileMetrics) error {
+func (metrics *ManagedClusterAzureMonitorProfileMetrics) AssignProperties_From_ManagedClusterAzureMonitorProfileMetrics(source *v20231102ps.ManagedClusterAzureMonitorProfileMetrics) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13312,13 +13461,13 @@ func (metrics *ManagedClusterAzureMonitorProfileMetrics) AssignProperties_From_M
 }
 
 // AssignProperties_To_ManagedClusterAzureMonitorProfileMetrics populates the provided destination ManagedClusterAzureMonitorProfileMetrics from our ManagedClusterAzureMonitorProfileMetrics
-func (metrics *ManagedClusterAzureMonitorProfileMetrics) AssignProperties_To_ManagedClusterAzureMonitorProfileMetrics(destination *storage.ManagedClusterAzureMonitorProfileMetrics) error {
+func (metrics *ManagedClusterAzureMonitorProfileMetrics) AssignProperties_To_ManagedClusterAzureMonitorProfileMetrics(destination *v20231102ps.ManagedClusterAzureMonitorProfileMetrics) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(metrics.PropertyBag)
 
 	// AppMonitoringOpenTelemetryMetrics
 	if propertyBag.Contains("AppMonitoringOpenTelemetryMetrics") {
-		var appMonitoringOpenTelemetryMetric storage.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
+		var appMonitoringOpenTelemetryMetric v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
 		err := propertyBag.Pull("AppMonitoringOpenTelemetryMetrics", &appMonitoringOpenTelemetryMetric)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'AppMonitoringOpenTelemetryMetrics' from propertyBag")
@@ -13339,7 +13488,7 @@ func (metrics *ManagedClusterAzureMonitorProfileMetrics) AssignProperties_To_Man
 
 	// KubeStateMetrics
 	if metrics.KubeStateMetrics != nil {
-		var kubeStateMetric storage.ManagedClusterAzureMonitorProfileKubeStateMetrics
+		var kubeStateMetric v20231102ps.ManagedClusterAzureMonitorProfileKubeStateMetrics
 		err := metrics.KubeStateMetrics.AssignProperties_To_ManagedClusterAzureMonitorProfileKubeStateMetrics(&kubeStateMetric)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAzureMonitorProfileKubeStateMetrics() to populate field KubeStateMetrics")
@@ -13378,7 +13527,7 @@ type ManagedClusterAzureMonitorProfileMetrics_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterAzureMonitorProfileMetrics_STATUS populates our ManagedClusterAzureMonitorProfileMetrics_STATUS from the provided source ManagedClusterAzureMonitorProfileMetrics_STATUS
-func (metrics *ManagedClusterAzureMonitorProfileMetrics_STATUS) AssignProperties_From_ManagedClusterAzureMonitorProfileMetrics_STATUS(source *storage.ManagedClusterAzureMonitorProfileMetrics_STATUS) error {
+func (metrics *ManagedClusterAzureMonitorProfileMetrics_STATUS) AssignProperties_From_ManagedClusterAzureMonitorProfileMetrics_STATUS(source *v20231102ps.ManagedClusterAzureMonitorProfileMetrics_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13430,13 +13579,13 @@ func (metrics *ManagedClusterAzureMonitorProfileMetrics_STATUS) AssignProperties
 }
 
 // AssignProperties_To_ManagedClusterAzureMonitorProfileMetrics_STATUS populates the provided destination ManagedClusterAzureMonitorProfileMetrics_STATUS from our ManagedClusterAzureMonitorProfileMetrics_STATUS
-func (metrics *ManagedClusterAzureMonitorProfileMetrics_STATUS) AssignProperties_To_ManagedClusterAzureMonitorProfileMetrics_STATUS(destination *storage.ManagedClusterAzureMonitorProfileMetrics_STATUS) error {
+func (metrics *ManagedClusterAzureMonitorProfileMetrics_STATUS) AssignProperties_To_ManagedClusterAzureMonitorProfileMetrics_STATUS(destination *v20231102ps.ManagedClusterAzureMonitorProfileMetrics_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(metrics.PropertyBag)
 
 	// AppMonitoringOpenTelemetryMetrics
 	if propertyBag.Contains("AppMonitoringOpenTelemetryMetrics") {
-		var appMonitoringOpenTelemetryMetric storage.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS
+		var appMonitoringOpenTelemetryMetric v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS
 		err := propertyBag.Pull("AppMonitoringOpenTelemetryMetrics", &appMonitoringOpenTelemetryMetric)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'AppMonitoringOpenTelemetryMetrics' from propertyBag")
@@ -13457,7 +13606,7 @@ func (metrics *ManagedClusterAzureMonitorProfileMetrics_STATUS) AssignProperties
 
 	// KubeStateMetrics
 	if metrics.KubeStateMetrics != nil {
-		var kubeStateMetric storage.ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS
+		var kubeStateMetric v20231102ps.ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS
 		err := metrics.KubeStateMetrics.AssignProperties_To_ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS(&kubeStateMetric)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS() to populate field KubeStateMetrics")
@@ -13495,7 +13644,7 @@ type ManagedClusterCostAnalysis struct {
 }
 
 // AssignProperties_From_ManagedClusterCostAnalysis populates our ManagedClusterCostAnalysis from the provided source ManagedClusterCostAnalysis
-func (analysis *ManagedClusterCostAnalysis) AssignProperties_From_ManagedClusterCostAnalysis(source *storage.ManagedClusterCostAnalysis) error {
+func (analysis *ManagedClusterCostAnalysis) AssignProperties_From_ManagedClusterCostAnalysis(source *v20231102ps.ManagedClusterCostAnalysis) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13528,7 +13677,7 @@ func (analysis *ManagedClusterCostAnalysis) AssignProperties_From_ManagedCluster
 }
 
 // AssignProperties_To_ManagedClusterCostAnalysis populates the provided destination ManagedClusterCostAnalysis from our ManagedClusterCostAnalysis
-func (analysis *ManagedClusterCostAnalysis) AssignProperties_To_ManagedClusterCostAnalysis(destination *storage.ManagedClusterCostAnalysis) error {
+func (analysis *ManagedClusterCostAnalysis) AssignProperties_To_ManagedClusterCostAnalysis(destination *v20231102ps.ManagedClusterCostAnalysis) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(analysis.PropertyBag)
 
@@ -13568,7 +13717,7 @@ type ManagedClusterCostAnalysis_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterCostAnalysis_STATUS populates our ManagedClusterCostAnalysis_STATUS from the provided source ManagedClusterCostAnalysis_STATUS
-func (analysis *ManagedClusterCostAnalysis_STATUS) AssignProperties_From_ManagedClusterCostAnalysis_STATUS(source *storage.ManagedClusterCostAnalysis_STATUS) error {
+func (analysis *ManagedClusterCostAnalysis_STATUS) AssignProperties_From_ManagedClusterCostAnalysis_STATUS(source *v20231102ps.ManagedClusterCostAnalysis_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13601,7 +13750,7 @@ func (analysis *ManagedClusterCostAnalysis_STATUS) AssignProperties_From_Managed
 }
 
 // AssignProperties_To_ManagedClusterCostAnalysis_STATUS populates the provided destination ManagedClusterCostAnalysis_STATUS from our ManagedClusterCostAnalysis_STATUS
-func (analysis *ManagedClusterCostAnalysis_STATUS) AssignProperties_To_ManagedClusterCostAnalysis_STATUS(destination *storage.ManagedClusterCostAnalysis_STATUS) error {
+func (analysis *ManagedClusterCostAnalysis_STATUS) AssignProperties_To_ManagedClusterCostAnalysis_STATUS(destination *v20231102ps.ManagedClusterCostAnalysis_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(analysis.PropertyBag)
 
@@ -13641,7 +13790,7 @@ type ManagedClusterIdentity_UserAssignedIdentities_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterIdentity_UserAssignedIdentities_STATUS populates our ManagedClusterIdentity_UserAssignedIdentities_STATUS from the provided source ManagedClusterIdentity_UserAssignedIdentities_STATUS
-func (identities *ManagedClusterIdentity_UserAssignedIdentities_STATUS) AssignProperties_From_ManagedClusterIdentity_UserAssignedIdentities_STATUS(source *storage.ManagedClusterIdentity_UserAssignedIdentities_STATUS) error {
+func (identities *ManagedClusterIdentity_UserAssignedIdentities_STATUS) AssignProperties_From_ManagedClusterIdentity_UserAssignedIdentities_STATUS(source *v20231102ps.ManagedClusterIdentity_UserAssignedIdentities_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13672,7 +13821,7 @@ func (identities *ManagedClusterIdentity_UserAssignedIdentities_STATUS) AssignPr
 }
 
 // AssignProperties_To_ManagedClusterIdentity_UserAssignedIdentities_STATUS populates the provided destination ManagedClusterIdentity_UserAssignedIdentities_STATUS from our ManagedClusterIdentity_UserAssignedIdentities_STATUS
-func (identities *ManagedClusterIdentity_UserAssignedIdentities_STATUS) AssignProperties_To_ManagedClusterIdentity_UserAssignedIdentities_STATUS(destination *storage.ManagedClusterIdentity_UserAssignedIdentities_STATUS) error {
+func (identities *ManagedClusterIdentity_UserAssignedIdentities_STATUS) AssignProperties_To_ManagedClusterIdentity_UserAssignedIdentities_STATUS(destination *v20231102ps.ManagedClusterIdentity_UserAssignedIdentities_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identities.PropertyBag)
 
@@ -13711,7 +13860,7 @@ type ManagedClusterIngressProfileWebAppRouting struct {
 }
 
 // AssignProperties_From_ManagedClusterIngressProfileWebAppRouting populates our ManagedClusterIngressProfileWebAppRouting from the provided source ManagedClusterIngressProfileWebAppRouting
-func (routing *ManagedClusterIngressProfileWebAppRouting) AssignProperties_From_ManagedClusterIngressProfileWebAppRouting(source *storage.ManagedClusterIngressProfileWebAppRouting) error {
+func (routing *ManagedClusterIngressProfileWebAppRouting) AssignProperties_From_ManagedClusterIngressProfileWebAppRouting(source *v20231102ps.ManagedClusterIngressProfileWebAppRouting) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13757,7 +13906,7 @@ func (routing *ManagedClusterIngressProfileWebAppRouting) AssignProperties_From_
 }
 
 // AssignProperties_To_ManagedClusterIngressProfileWebAppRouting populates the provided destination ManagedClusterIngressProfileWebAppRouting from our ManagedClusterIngressProfileWebAppRouting
-func (routing *ManagedClusterIngressProfileWebAppRouting) AssignProperties_To_ManagedClusterIngressProfileWebAppRouting(destination *storage.ManagedClusterIngressProfileWebAppRouting) error {
+func (routing *ManagedClusterIngressProfileWebAppRouting) AssignProperties_To_ManagedClusterIngressProfileWebAppRouting(destination *v20231102ps.ManagedClusterIngressProfileWebAppRouting) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(routing.PropertyBag)
 
@@ -13812,7 +13961,7 @@ type ManagedClusterIngressProfileWebAppRouting_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterIngressProfileWebAppRouting_STATUS populates our ManagedClusterIngressProfileWebAppRouting_STATUS from the provided source ManagedClusterIngressProfileWebAppRouting_STATUS
-func (routing *ManagedClusterIngressProfileWebAppRouting_STATUS) AssignProperties_From_ManagedClusterIngressProfileWebAppRouting_STATUS(source *storage.ManagedClusterIngressProfileWebAppRouting_STATUS) error {
+func (routing *ManagedClusterIngressProfileWebAppRouting_STATUS) AssignProperties_From_ManagedClusterIngressProfileWebAppRouting_STATUS(source *v20231102ps.ManagedClusterIngressProfileWebAppRouting_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13860,7 +14009,7 @@ func (routing *ManagedClusterIngressProfileWebAppRouting_STATUS) AssignPropertie
 }
 
 // AssignProperties_To_ManagedClusterIngressProfileWebAppRouting_STATUS populates the provided destination ManagedClusterIngressProfileWebAppRouting_STATUS from our ManagedClusterIngressProfileWebAppRouting_STATUS
-func (routing *ManagedClusterIngressProfileWebAppRouting_STATUS) AssignProperties_To_ManagedClusterIngressProfileWebAppRouting_STATUS(destination *storage.ManagedClusterIngressProfileWebAppRouting_STATUS) error {
+func (routing *ManagedClusterIngressProfileWebAppRouting_STATUS) AssignProperties_To_ManagedClusterIngressProfileWebAppRouting_STATUS(destination *v20231102ps.ManagedClusterIngressProfileWebAppRouting_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(routing.PropertyBag)
 
@@ -13877,7 +14026,7 @@ func (routing *ManagedClusterIngressProfileWebAppRouting_STATUS) AssignPropertie
 
 	// Identity
 	if routing.Identity != nil {
-		var identity storage.UserAssignedIdentity_STATUS
+		var identity v20231102ps.UserAssignedIdentity_STATUS
 		err := routing.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Identity")
@@ -13923,7 +14072,7 @@ type ManagedClusterLoadBalancerProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterLoadBalancerProfile populates our ManagedClusterLoadBalancerProfile from the provided source ManagedClusterLoadBalancerProfile
-func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_From_ManagedClusterLoadBalancerProfile(source *storage.ManagedClusterLoadBalancerProfile) error {
+func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_From_ManagedClusterLoadBalancerProfile(source *v20231102ps.ManagedClusterLoadBalancerProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14032,7 +14181,7 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_From_ManagedC
 }
 
 // AssignProperties_To_ManagedClusterLoadBalancerProfile populates the provided destination ManagedClusterLoadBalancerProfile from our ManagedClusterLoadBalancerProfile
-func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClusterLoadBalancerProfile(destination *storage.ManagedClusterLoadBalancerProfile) error {
+func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClusterLoadBalancerProfile(destination *v20231102ps.ManagedClusterLoadBalancerProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -14051,11 +14200,11 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 
 	// EffectiveOutboundIPs
 	if profile.EffectiveOutboundIPs != nil {
-		effectiveOutboundIPList := make([]storage.ResourceReference, len(profile.EffectiveOutboundIPs))
+		effectiveOutboundIPList := make([]v20231102ps.ResourceReference, len(profile.EffectiveOutboundIPs))
 		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range profile.EffectiveOutboundIPs {
 			// Shadow the loop variable to avoid aliasing
 			effectiveOutboundIPItem := effectiveOutboundIPItem
-			var effectiveOutboundIP storage.ResourceReference
+			var effectiveOutboundIP v20231102ps.ResourceReference
 			err := effectiveOutboundIPItem.AssignProperties_To_ResourceReference(&effectiveOutboundIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field EffectiveOutboundIPs")
@@ -14080,7 +14229,7 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 
 	// ManagedOutboundIPs
 	if profile.ManagedOutboundIPs != nil {
-		var managedOutboundIP storage.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
+		var managedOutboundIP v20231102ps.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
 		err := profile.ManagedOutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(&managedOutboundIP)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs() to populate field ManagedOutboundIPs")
@@ -14092,7 +14241,7 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 
 	// OutboundIPPrefixes
 	if profile.OutboundIPPrefixes != nil {
-		var outboundIPPrefix storage.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
+		var outboundIPPrefix v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
 		err := profile.OutboundIPPrefixes.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes(&outboundIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes() to populate field OutboundIPPrefixes")
@@ -14104,7 +14253,7 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 
 	// OutboundIPs
 	if profile.OutboundIPs != nil {
-		var outboundIP storage.ManagedClusterLoadBalancerProfile_OutboundIPs
+		var outboundIP v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPs
 		err := profile.OutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs(&outboundIP)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs() to populate field OutboundIPs")
@@ -14150,7 +14299,7 @@ type ManagedClusterLoadBalancerProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS populates our ManagedClusterLoadBalancerProfile_STATUS from the provided source ManagedClusterLoadBalancerProfile_STATUS
-func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS(source *storage.ManagedClusterLoadBalancerProfile_STATUS) error {
+func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS(source *v20231102ps.ManagedClusterLoadBalancerProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14259,7 +14408,7 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_From_M
 }
 
 // AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS populates the provided destination ManagedClusterLoadBalancerProfile_STATUS from our ManagedClusterLoadBalancerProfile_STATUS
-func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS(destination *storage.ManagedClusterLoadBalancerProfile_STATUS) error {
+func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS(destination *v20231102ps.ManagedClusterLoadBalancerProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -14278,11 +14427,11 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_To_Man
 
 	// EffectiveOutboundIPs
 	if profile.EffectiveOutboundIPs != nil {
-		effectiveOutboundIPList := make([]storage.ResourceReference_STATUS, len(profile.EffectiveOutboundIPs))
+		effectiveOutboundIPList := make([]v20231102ps.ResourceReference_STATUS, len(profile.EffectiveOutboundIPs))
 		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range profile.EffectiveOutboundIPs {
 			// Shadow the loop variable to avoid aliasing
 			effectiveOutboundIPItem := effectiveOutboundIPItem
-			var effectiveOutboundIP storage.ResourceReference_STATUS
+			var effectiveOutboundIP v20231102ps.ResourceReference_STATUS
 			err := effectiveOutboundIPItem.AssignProperties_To_ResourceReference_STATUS(&effectiveOutboundIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field EffectiveOutboundIPs")
@@ -14307,7 +14456,7 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_To_Man
 
 	// ManagedOutboundIPs
 	if profile.ManagedOutboundIPs != nil {
-		var managedOutboundIP storage.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
+		var managedOutboundIP v20231102ps.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
 		err := profile.ManagedOutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(&managedOutboundIP)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS() to populate field ManagedOutboundIPs")
@@ -14319,7 +14468,7 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_To_Man
 
 	// OutboundIPPrefixes
 	if profile.OutboundIPPrefixes != nil {
-		var outboundIPPrefix storage.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
+		var outboundIPPrefix v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
 		err := profile.OutboundIPPrefixes.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(&outboundIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS() to populate field OutboundIPPrefixes")
@@ -14331,7 +14480,7 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_To_Man
 
 	// OutboundIPs
 	if profile.OutboundIPs != nil {
-		var outboundIP storage.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
+		var outboundIP v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
 		err := profile.OutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(&outboundIP)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS() to populate field OutboundIPs")
@@ -14371,7 +14520,7 @@ type ManagedClusterNATGatewayProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterNATGatewayProfile populates our ManagedClusterNATGatewayProfile from the provided source ManagedClusterNATGatewayProfile
-func (profile *ManagedClusterNATGatewayProfile) AssignProperties_From_ManagedClusterNATGatewayProfile(source *storage.ManagedClusterNATGatewayProfile) error {
+func (profile *ManagedClusterNATGatewayProfile) AssignProperties_From_ManagedClusterNATGatewayProfile(source *v20231102ps.ManagedClusterNATGatewayProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14429,17 +14578,17 @@ func (profile *ManagedClusterNATGatewayProfile) AssignProperties_From_ManagedClu
 }
 
 // AssignProperties_To_ManagedClusterNATGatewayProfile populates the provided destination ManagedClusterNATGatewayProfile from our ManagedClusterNATGatewayProfile
-func (profile *ManagedClusterNATGatewayProfile) AssignProperties_To_ManagedClusterNATGatewayProfile(destination *storage.ManagedClusterNATGatewayProfile) error {
+func (profile *ManagedClusterNATGatewayProfile) AssignProperties_To_ManagedClusterNATGatewayProfile(destination *v20231102ps.ManagedClusterNATGatewayProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// EffectiveOutboundIPs
 	if profile.EffectiveOutboundIPs != nil {
-		effectiveOutboundIPList := make([]storage.ResourceReference, len(profile.EffectiveOutboundIPs))
+		effectiveOutboundIPList := make([]v20231102ps.ResourceReference, len(profile.EffectiveOutboundIPs))
 		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range profile.EffectiveOutboundIPs {
 			// Shadow the loop variable to avoid aliasing
 			effectiveOutboundIPItem := effectiveOutboundIPItem
-			var effectiveOutboundIP storage.ResourceReference
+			var effectiveOutboundIP v20231102ps.ResourceReference
 			err := effectiveOutboundIPItem.AssignProperties_To_ResourceReference(&effectiveOutboundIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field EffectiveOutboundIPs")
@@ -14456,7 +14605,7 @@ func (profile *ManagedClusterNATGatewayProfile) AssignProperties_To_ManagedClust
 
 	// ManagedOutboundIPProfile
 	if profile.ManagedOutboundIPProfile != nil {
-		var managedOutboundIPProfile storage.ManagedClusterManagedOutboundIPProfile
+		var managedOutboundIPProfile v20231102ps.ManagedClusterManagedOutboundIPProfile
 		err := profile.ManagedOutboundIPProfile.AssignProperties_To_ManagedClusterManagedOutboundIPProfile(&managedOutboundIPProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterManagedOutboundIPProfile() to populate field ManagedOutboundIPProfile")
@@ -14496,7 +14645,7 @@ type ManagedClusterNATGatewayProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterNATGatewayProfile_STATUS populates our ManagedClusterNATGatewayProfile_STATUS from the provided source ManagedClusterNATGatewayProfile_STATUS
-func (profile *ManagedClusterNATGatewayProfile_STATUS) AssignProperties_From_ManagedClusterNATGatewayProfile_STATUS(source *storage.ManagedClusterNATGatewayProfile_STATUS) error {
+func (profile *ManagedClusterNATGatewayProfile_STATUS) AssignProperties_From_ManagedClusterNATGatewayProfile_STATUS(source *v20231102ps.ManagedClusterNATGatewayProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14554,17 +14703,17 @@ func (profile *ManagedClusterNATGatewayProfile_STATUS) AssignProperties_From_Man
 }
 
 // AssignProperties_To_ManagedClusterNATGatewayProfile_STATUS populates the provided destination ManagedClusterNATGatewayProfile_STATUS from our ManagedClusterNATGatewayProfile_STATUS
-func (profile *ManagedClusterNATGatewayProfile_STATUS) AssignProperties_To_ManagedClusterNATGatewayProfile_STATUS(destination *storage.ManagedClusterNATGatewayProfile_STATUS) error {
+func (profile *ManagedClusterNATGatewayProfile_STATUS) AssignProperties_To_ManagedClusterNATGatewayProfile_STATUS(destination *v20231102ps.ManagedClusterNATGatewayProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// EffectiveOutboundIPs
 	if profile.EffectiveOutboundIPs != nil {
-		effectiveOutboundIPList := make([]storage.ResourceReference_STATUS, len(profile.EffectiveOutboundIPs))
+		effectiveOutboundIPList := make([]v20231102ps.ResourceReference_STATUS, len(profile.EffectiveOutboundIPs))
 		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range profile.EffectiveOutboundIPs {
 			// Shadow the loop variable to avoid aliasing
 			effectiveOutboundIPItem := effectiveOutboundIPItem
-			var effectiveOutboundIP storage.ResourceReference_STATUS
+			var effectiveOutboundIP v20231102ps.ResourceReference_STATUS
 			err := effectiveOutboundIPItem.AssignProperties_To_ResourceReference_STATUS(&effectiveOutboundIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field EffectiveOutboundIPs")
@@ -14581,7 +14730,7 @@ func (profile *ManagedClusterNATGatewayProfile_STATUS) AssignProperties_To_Manag
 
 	// ManagedOutboundIPProfile
 	if profile.ManagedOutboundIPProfile != nil {
-		var managedOutboundIPProfile storage.ManagedClusterManagedOutboundIPProfile_STATUS
+		var managedOutboundIPProfile v20231102ps.ManagedClusterManagedOutboundIPProfile_STATUS
 		err := profile.ManagedOutboundIPProfile.AssignProperties_To_ManagedClusterManagedOutboundIPProfile_STATUS(&managedOutboundIPProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterManagedOutboundIPProfile_STATUS() to populate field ManagedOutboundIPProfile")
@@ -14618,7 +14767,7 @@ type ManagedClusterOperatorConfigMaps struct {
 }
 
 // AssignProperties_From_ManagedClusterOperatorConfigMaps populates our ManagedClusterOperatorConfigMaps from the provided source ManagedClusterOperatorConfigMaps
-func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_From_ManagedClusterOperatorConfigMaps(source *storage.ManagedClusterOperatorConfigMaps) error {
+func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_From_ManagedClusterOperatorConfigMaps(source *v20231102ps.ManagedClusterOperatorConfigMaps) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14651,7 +14800,7 @@ func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_From_ManagedClust
 }
 
 // AssignProperties_To_ManagedClusterOperatorConfigMaps populates the provided destination ManagedClusterOperatorConfigMaps from our ManagedClusterOperatorConfigMaps
-func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_To_ManagedClusterOperatorConfigMaps(destination *storage.ManagedClusterOperatorConfigMaps) error {
+func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_To_ManagedClusterOperatorConfigMaps(destination *v20231102ps.ManagedClusterOperatorConfigMaps) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(maps.PropertyBag)
 
@@ -14691,7 +14840,7 @@ type ManagedClusterOperatorSecrets struct {
 }
 
 // AssignProperties_From_ManagedClusterOperatorSecrets populates our ManagedClusterOperatorSecrets from the provided source ManagedClusterOperatorSecrets
-func (secrets *ManagedClusterOperatorSecrets) AssignProperties_From_ManagedClusterOperatorSecrets(source *storage.ManagedClusterOperatorSecrets) error {
+func (secrets *ManagedClusterOperatorSecrets) AssignProperties_From_ManagedClusterOperatorSecrets(source *v20231102ps.ManagedClusterOperatorSecrets) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14732,7 +14881,7 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_From_ManagedClust
 }
 
 // AssignProperties_To_ManagedClusterOperatorSecrets populates the provided destination ManagedClusterOperatorSecrets from our ManagedClusterOperatorSecrets
-func (secrets *ManagedClusterOperatorSecrets) AssignProperties_To_ManagedClusterOperatorSecrets(destination *storage.ManagedClusterOperatorSecrets) error {
+func (secrets *ManagedClusterOperatorSecrets) AssignProperties_To_ManagedClusterOperatorSecrets(destination *v20231102ps.ManagedClusterOperatorSecrets) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(secrets.PropertyBag)
 
@@ -14783,7 +14932,7 @@ type ManagedClusterPodIdentity struct {
 }
 
 // AssignProperties_From_ManagedClusterPodIdentity populates our ManagedClusterPodIdentity from the provided source ManagedClusterPodIdentity
-func (identity *ManagedClusterPodIdentity) AssignProperties_From_ManagedClusterPodIdentity(source *storage.ManagedClusterPodIdentity) error {
+func (identity *ManagedClusterPodIdentity) AssignProperties_From_ManagedClusterPodIdentity(source *v20231102ps.ManagedClusterPodIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14829,7 +14978,7 @@ func (identity *ManagedClusterPodIdentity) AssignProperties_From_ManagedClusterP
 }
 
 // AssignProperties_To_ManagedClusterPodIdentity populates the provided destination ManagedClusterPodIdentity from our ManagedClusterPodIdentity
-func (identity *ManagedClusterPodIdentity) AssignProperties_To_ManagedClusterPodIdentity(destination *storage.ManagedClusterPodIdentity) error {
+func (identity *ManagedClusterPodIdentity) AssignProperties_To_ManagedClusterPodIdentity(destination *v20231102ps.ManagedClusterPodIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -14838,7 +14987,7 @@ func (identity *ManagedClusterPodIdentity) AssignProperties_To_ManagedClusterPod
 
 	// Identity
 	if identity.Identity != nil {
-		var identityLocal storage.UserAssignedIdentity
+		var identityLocal v20231102ps.UserAssignedIdentity
 		err := identity.Identity.AssignProperties_To_UserAssignedIdentity(&identityLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity() to populate field Identity")
@@ -14887,7 +15036,7 @@ type ManagedClusterPodIdentity_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterPodIdentity_STATUS populates our ManagedClusterPodIdentity_STATUS from the provided source ManagedClusterPodIdentity_STATUS
-func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_From_ManagedClusterPodIdentity_STATUS(source *storage.ManagedClusterPodIdentity_STATUS) error {
+func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_From_ManagedClusterPodIdentity_STATUS(source *v20231102ps.ManagedClusterPodIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14948,7 +15097,7 @@ func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_From_ManagedC
 }
 
 // AssignProperties_To_ManagedClusterPodIdentity_STATUS populates the provided destination ManagedClusterPodIdentity_STATUS from our ManagedClusterPodIdentity_STATUS
-func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_To_ManagedClusterPodIdentity_STATUS(destination *storage.ManagedClusterPodIdentity_STATUS) error {
+func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_To_ManagedClusterPodIdentity_STATUS(destination *v20231102ps.ManagedClusterPodIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -14957,7 +15106,7 @@ func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_To_ManagedClu
 
 	// Identity
 	if identity.Identity != nil {
-		var identityLocal storage.UserAssignedIdentity_STATUS
+		var identityLocal v20231102ps.UserAssignedIdentity_STATUS
 		err := identity.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&identityLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Identity")
@@ -14975,7 +15124,7 @@ func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_To_ManagedClu
 
 	// ProvisioningInfo
 	if identity.ProvisioningInfo != nil {
-		var provisioningInfo storage.ManagedClusterPodIdentity_ProvisioningInfo_STATUS
+		var provisioningInfo v20231102ps.ManagedClusterPodIdentity_ProvisioningInfo_STATUS
 		err := identity.ProvisioningInfo.AssignProperties_To_ManagedClusterPodIdentity_ProvisioningInfo_STATUS(&provisioningInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPodIdentity_ProvisioningInfo_STATUS() to populate field ProvisioningInfo")
@@ -15019,7 +15168,7 @@ type ManagedClusterPodIdentityException struct {
 }
 
 // AssignProperties_From_ManagedClusterPodIdentityException populates our ManagedClusterPodIdentityException from the provided source ManagedClusterPodIdentityException
-func (exception *ManagedClusterPodIdentityException) AssignProperties_From_ManagedClusterPodIdentityException(source *storage.ManagedClusterPodIdentityException) error {
+func (exception *ManagedClusterPodIdentityException) AssignProperties_From_ManagedClusterPodIdentityException(source *v20231102ps.ManagedClusterPodIdentityException) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15053,7 +15202,7 @@ func (exception *ManagedClusterPodIdentityException) AssignProperties_From_Manag
 }
 
 // AssignProperties_To_ManagedClusterPodIdentityException populates the provided destination ManagedClusterPodIdentityException from our ManagedClusterPodIdentityException
-func (exception *ManagedClusterPodIdentityException) AssignProperties_To_ManagedClusterPodIdentityException(destination *storage.ManagedClusterPodIdentityException) error {
+func (exception *ManagedClusterPodIdentityException) AssignProperties_To_ManagedClusterPodIdentityException(destination *v20231102ps.ManagedClusterPodIdentityException) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(exception.PropertyBag)
 
@@ -15097,7 +15246,7 @@ type ManagedClusterPodIdentityException_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterPodIdentityException_STATUS populates our ManagedClusterPodIdentityException_STATUS from the provided source ManagedClusterPodIdentityException_STATUS
-func (exception *ManagedClusterPodIdentityException_STATUS) AssignProperties_From_ManagedClusterPodIdentityException_STATUS(source *storage.ManagedClusterPodIdentityException_STATUS) error {
+func (exception *ManagedClusterPodIdentityException_STATUS) AssignProperties_From_ManagedClusterPodIdentityException_STATUS(source *v20231102ps.ManagedClusterPodIdentityException_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15131,7 +15280,7 @@ func (exception *ManagedClusterPodIdentityException_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_ManagedClusterPodIdentityException_STATUS populates the provided destination ManagedClusterPodIdentityException_STATUS from our ManagedClusterPodIdentityException_STATUS
-func (exception *ManagedClusterPodIdentityException_STATUS) AssignProperties_To_ManagedClusterPodIdentityException_STATUS(destination *storage.ManagedClusterPodIdentityException_STATUS) error {
+func (exception *ManagedClusterPodIdentityException_STATUS) AssignProperties_To_ManagedClusterPodIdentityException_STATUS(destination *v20231102ps.ManagedClusterPodIdentityException_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(exception.PropertyBag)
 
@@ -15176,7 +15325,7 @@ type ManagedClusterSecurityProfileDefender struct {
 }
 
 // AssignProperties_From_ManagedClusterSecurityProfileDefender populates our ManagedClusterSecurityProfileDefender from the provided source ManagedClusterSecurityProfileDefender
-func (defender *ManagedClusterSecurityProfileDefender) AssignProperties_From_ManagedClusterSecurityProfileDefender(source *storage.ManagedClusterSecurityProfileDefender) error {
+func (defender *ManagedClusterSecurityProfileDefender) AssignProperties_From_ManagedClusterSecurityProfileDefender(source *v20231102ps.ManagedClusterSecurityProfileDefender) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15221,7 +15370,7 @@ func (defender *ManagedClusterSecurityProfileDefender) AssignProperties_From_Man
 }
 
 // AssignProperties_To_ManagedClusterSecurityProfileDefender populates the provided destination ManagedClusterSecurityProfileDefender from our ManagedClusterSecurityProfileDefender
-func (defender *ManagedClusterSecurityProfileDefender) AssignProperties_To_ManagedClusterSecurityProfileDefender(destination *storage.ManagedClusterSecurityProfileDefender) error {
+func (defender *ManagedClusterSecurityProfileDefender) AssignProperties_To_ManagedClusterSecurityProfileDefender(destination *v20231102ps.ManagedClusterSecurityProfileDefender) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(defender.PropertyBag)
 
@@ -15235,7 +15384,7 @@ func (defender *ManagedClusterSecurityProfileDefender) AssignProperties_To_Manag
 
 	// SecurityMonitoring
 	if defender.SecurityMonitoring != nil {
-		var securityMonitoring storage.ManagedClusterSecurityProfileDefenderSecurityMonitoring
+		var securityMonitoring v20231102ps.ManagedClusterSecurityProfileDefenderSecurityMonitoring
 		err := defender.SecurityMonitoring.AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityMonitoring(&securityMonitoring)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityMonitoring() to populate field SecurityMonitoring")
@@ -15274,7 +15423,7 @@ type ManagedClusterSecurityProfileDefender_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterSecurityProfileDefender_STATUS populates our ManagedClusterSecurityProfileDefender_STATUS from the provided source ManagedClusterSecurityProfileDefender_STATUS
-func (defender *ManagedClusterSecurityProfileDefender_STATUS) AssignProperties_From_ManagedClusterSecurityProfileDefender_STATUS(source *storage.ManagedClusterSecurityProfileDefender_STATUS) error {
+func (defender *ManagedClusterSecurityProfileDefender_STATUS) AssignProperties_From_ManagedClusterSecurityProfileDefender_STATUS(source *v20231102ps.ManagedClusterSecurityProfileDefender_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15314,7 +15463,7 @@ func (defender *ManagedClusterSecurityProfileDefender_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_ManagedClusterSecurityProfileDefender_STATUS populates the provided destination ManagedClusterSecurityProfileDefender_STATUS from our ManagedClusterSecurityProfileDefender_STATUS
-func (defender *ManagedClusterSecurityProfileDefender_STATUS) AssignProperties_To_ManagedClusterSecurityProfileDefender_STATUS(destination *storage.ManagedClusterSecurityProfileDefender_STATUS) error {
+func (defender *ManagedClusterSecurityProfileDefender_STATUS) AssignProperties_To_ManagedClusterSecurityProfileDefender_STATUS(destination *v20231102ps.ManagedClusterSecurityProfileDefender_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(defender.PropertyBag)
 
@@ -15323,7 +15472,7 @@ func (defender *ManagedClusterSecurityProfileDefender_STATUS) AssignProperties_T
 
 	// SecurityMonitoring
 	if defender.SecurityMonitoring != nil {
-		var securityMonitoring storage.ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
+		var securityMonitoring v20231102ps.ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
 		err := defender.SecurityMonitoring.AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS(&securityMonitoring)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS() to populate field SecurityMonitoring")
@@ -15363,7 +15512,7 @@ type ManagedClusterSecurityProfileImageCleaner struct {
 }
 
 // AssignProperties_From_ManagedClusterSecurityProfileImageCleaner populates our ManagedClusterSecurityProfileImageCleaner from the provided source ManagedClusterSecurityProfileImageCleaner
-func (cleaner *ManagedClusterSecurityProfileImageCleaner) AssignProperties_From_ManagedClusterSecurityProfileImageCleaner(source *storage.ManagedClusterSecurityProfileImageCleaner) error {
+func (cleaner *ManagedClusterSecurityProfileImageCleaner) AssignProperties_From_ManagedClusterSecurityProfileImageCleaner(source *v20231102ps.ManagedClusterSecurityProfileImageCleaner) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15399,7 +15548,7 @@ func (cleaner *ManagedClusterSecurityProfileImageCleaner) AssignProperties_From_
 }
 
 // AssignProperties_To_ManagedClusterSecurityProfileImageCleaner populates the provided destination ManagedClusterSecurityProfileImageCleaner from our ManagedClusterSecurityProfileImageCleaner
-func (cleaner *ManagedClusterSecurityProfileImageCleaner) AssignProperties_To_ManagedClusterSecurityProfileImageCleaner(destination *storage.ManagedClusterSecurityProfileImageCleaner) error {
+func (cleaner *ManagedClusterSecurityProfileImageCleaner) AssignProperties_To_ManagedClusterSecurityProfileImageCleaner(destination *v20231102ps.ManagedClusterSecurityProfileImageCleaner) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(cleaner.PropertyBag)
 
@@ -15444,7 +15593,7 @@ type ManagedClusterSecurityProfileImageCleaner_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterSecurityProfileImageCleaner_STATUS populates our ManagedClusterSecurityProfileImageCleaner_STATUS from the provided source ManagedClusterSecurityProfileImageCleaner_STATUS
-func (cleaner *ManagedClusterSecurityProfileImageCleaner_STATUS) AssignProperties_From_ManagedClusterSecurityProfileImageCleaner_STATUS(source *storage.ManagedClusterSecurityProfileImageCleaner_STATUS) error {
+func (cleaner *ManagedClusterSecurityProfileImageCleaner_STATUS) AssignProperties_From_ManagedClusterSecurityProfileImageCleaner_STATUS(source *v20231102ps.ManagedClusterSecurityProfileImageCleaner_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15480,7 +15629,7 @@ func (cleaner *ManagedClusterSecurityProfileImageCleaner_STATUS) AssignPropertie
 }
 
 // AssignProperties_To_ManagedClusterSecurityProfileImageCleaner_STATUS populates the provided destination ManagedClusterSecurityProfileImageCleaner_STATUS from our ManagedClusterSecurityProfileImageCleaner_STATUS
-func (cleaner *ManagedClusterSecurityProfileImageCleaner_STATUS) AssignProperties_To_ManagedClusterSecurityProfileImageCleaner_STATUS(destination *storage.ManagedClusterSecurityProfileImageCleaner_STATUS) error {
+func (cleaner *ManagedClusterSecurityProfileImageCleaner_STATUS) AssignProperties_To_ManagedClusterSecurityProfileImageCleaner_STATUS(destination *v20231102ps.ManagedClusterSecurityProfileImageCleaner_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(cleaner.PropertyBag)
 
@@ -15523,7 +15672,7 @@ type ManagedClusterSecurityProfileImageIntegrity struct {
 }
 
 // AssignProperties_From_ManagedClusterSecurityProfileImageIntegrity populates our ManagedClusterSecurityProfileImageIntegrity from the provided source ManagedClusterSecurityProfileImageIntegrity
-func (integrity *ManagedClusterSecurityProfileImageIntegrity) AssignProperties_From_ManagedClusterSecurityProfileImageIntegrity(source *storage.ManagedClusterSecurityProfileImageIntegrity) error {
+func (integrity *ManagedClusterSecurityProfileImageIntegrity) AssignProperties_From_ManagedClusterSecurityProfileImageIntegrity(source *v20231102ps.ManagedClusterSecurityProfileImageIntegrity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15556,7 +15705,7 @@ func (integrity *ManagedClusterSecurityProfileImageIntegrity) AssignProperties_F
 }
 
 // AssignProperties_To_ManagedClusterSecurityProfileImageIntegrity populates the provided destination ManagedClusterSecurityProfileImageIntegrity from our ManagedClusterSecurityProfileImageIntegrity
-func (integrity *ManagedClusterSecurityProfileImageIntegrity) AssignProperties_To_ManagedClusterSecurityProfileImageIntegrity(destination *storage.ManagedClusterSecurityProfileImageIntegrity) error {
+func (integrity *ManagedClusterSecurityProfileImageIntegrity) AssignProperties_To_ManagedClusterSecurityProfileImageIntegrity(destination *v20231102ps.ManagedClusterSecurityProfileImageIntegrity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(integrity.PropertyBag)
 
@@ -15596,7 +15745,7 @@ type ManagedClusterSecurityProfileImageIntegrity_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterSecurityProfileImageIntegrity_STATUS populates our ManagedClusterSecurityProfileImageIntegrity_STATUS from the provided source ManagedClusterSecurityProfileImageIntegrity_STATUS
-func (integrity *ManagedClusterSecurityProfileImageIntegrity_STATUS) AssignProperties_From_ManagedClusterSecurityProfileImageIntegrity_STATUS(source *storage.ManagedClusterSecurityProfileImageIntegrity_STATUS) error {
+func (integrity *ManagedClusterSecurityProfileImageIntegrity_STATUS) AssignProperties_From_ManagedClusterSecurityProfileImageIntegrity_STATUS(source *v20231102ps.ManagedClusterSecurityProfileImageIntegrity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15629,7 +15778,7 @@ func (integrity *ManagedClusterSecurityProfileImageIntegrity_STATUS) AssignPrope
 }
 
 // AssignProperties_To_ManagedClusterSecurityProfileImageIntegrity_STATUS populates the provided destination ManagedClusterSecurityProfileImageIntegrity_STATUS from our ManagedClusterSecurityProfileImageIntegrity_STATUS
-func (integrity *ManagedClusterSecurityProfileImageIntegrity_STATUS) AssignProperties_To_ManagedClusterSecurityProfileImageIntegrity_STATUS(destination *storage.ManagedClusterSecurityProfileImageIntegrity_STATUS) error {
+func (integrity *ManagedClusterSecurityProfileImageIntegrity_STATUS) AssignProperties_To_ManagedClusterSecurityProfileImageIntegrity_STATUS(destination *v20231102ps.ManagedClusterSecurityProfileImageIntegrity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(integrity.PropertyBag)
 
@@ -15669,7 +15818,7 @@ type ManagedClusterSecurityProfileNodeRestriction struct {
 }
 
 // AssignProperties_From_ManagedClusterSecurityProfileNodeRestriction populates our ManagedClusterSecurityProfileNodeRestriction from the provided source ManagedClusterSecurityProfileNodeRestriction
-func (restriction *ManagedClusterSecurityProfileNodeRestriction) AssignProperties_From_ManagedClusterSecurityProfileNodeRestriction(source *storage.ManagedClusterSecurityProfileNodeRestriction) error {
+func (restriction *ManagedClusterSecurityProfileNodeRestriction) AssignProperties_From_ManagedClusterSecurityProfileNodeRestriction(source *v20231102ps.ManagedClusterSecurityProfileNodeRestriction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15702,7 +15851,7 @@ func (restriction *ManagedClusterSecurityProfileNodeRestriction) AssignPropertie
 }
 
 // AssignProperties_To_ManagedClusterSecurityProfileNodeRestriction populates the provided destination ManagedClusterSecurityProfileNodeRestriction from our ManagedClusterSecurityProfileNodeRestriction
-func (restriction *ManagedClusterSecurityProfileNodeRestriction) AssignProperties_To_ManagedClusterSecurityProfileNodeRestriction(destination *storage.ManagedClusterSecurityProfileNodeRestriction) error {
+func (restriction *ManagedClusterSecurityProfileNodeRestriction) AssignProperties_To_ManagedClusterSecurityProfileNodeRestriction(destination *v20231102ps.ManagedClusterSecurityProfileNodeRestriction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(restriction.PropertyBag)
 
@@ -15742,7 +15891,7 @@ type ManagedClusterSecurityProfileNodeRestriction_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterSecurityProfileNodeRestriction_STATUS populates our ManagedClusterSecurityProfileNodeRestriction_STATUS from the provided source ManagedClusterSecurityProfileNodeRestriction_STATUS
-func (restriction *ManagedClusterSecurityProfileNodeRestriction_STATUS) AssignProperties_From_ManagedClusterSecurityProfileNodeRestriction_STATUS(source *storage.ManagedClusterSecurityProfileNodeRestriction_STATUS) error {
+func (restriction *ManagedClusterSecurityProfileNodeRestriction_STATUS) AssignProperties_From_ManagedClusterSecurityProfileNodeRestriction_STATUS(source *v20231102ps.ManagedClusterSecurityProfileNodeRestriction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15775,7 +15924,7 @@ func (restriction *ManagedClusterSecurityProfileNodeRestriction_STATUS) AssignPr
 }
 
 // AssignProperties_To_ManagedClusterSecurityProfileNodeRestriction_STATUS populates the provided destination ManagedClusterSecurityProfileNodeRestriction_STATUS from our ManagedClusterSecurityProfileNodeRestriction_STATUS
-func (restriction *ManagedClusterSecurityProfileNodeRestriction_STATUS) AssignProperties_To_ManagedClusterSecurityProfileNodeRestriction_STATUS(destination *storage.ManagedClusterSecurityProfileNodeRestriction_STATUS) error {
+func (restriction *ManagedClusterSecurityProfileNodeRestriction_STATUS) AssignProperties_To_ManagedClusterSecurityProfileNodeRestriction_STATUS(destination *v20231102ps.ManagedClusterSecurityProfileNodeRestriction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(restriction.PropertyBag)
 
@@ -15815,7 +15964,7 @@ type ManagedClusterSecurityProfileWorkloadIdentity struct {
 }
 
 // AssignProperties_From_ManagedClusterSecurityProfileWorkloadIdentity populates our ManagedClusterSecurityProfileWorkloadIdentity from the provided source ManagedClusterSecurityProfileWorkloadIdentity
-func (identity *ManagedClusterSecurityProfileWorkloadIdentity) AssignProperties_From_ManagedClusterSecurityProfileWorkloadIdentity(source *storage.ManagedClusterSecurityProfileWorkloadIdentity) error {
+func (identity *ManagedClusterSecurityProfileWorkloadIdentity) AssignProperties_From_ManagedClusterSecurityProfileWorkloadIdentity(source *v20231102ps.ManagedClusterSecurityProfileWorkloadIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15848,7 +15997,7 @@ func (identity *ManagedClusterSecurityProfileWorkloadIdentity) AssignProperties_
 }
 
 // AssignProperties_To_ManagedClusterSecurityProfileWorkloadIdentity populates the provided destination ManagedClusterSecurityProfileWorkloadIdentity from our ManagedClusterSecurityProfileWorkloadIdentity
-func (identity *ManagedClusterSecurityProfileWorkloadIdentity) AssignProperties_To_ManagedClusterSecurityProfileWorkloadIdentity(destination *storage.ManagedClusterSecurityProfileWorkloadIdentity) error {
+func (identity *ManagedClusterSecurityProfileWorkloadIdentity) AssignProperties_To_ManagedClusterSecurityProfileWorkloadIdentity(destination *v20231102ps.ManagedClusterSecurityProfileWorkloadIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -15888,7 +16037,7 @@ type ManagedClusterSecurityProfileWorkloadIdentity_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterSecurityProfileWorkloadIdentity_STATUS populates our ManagedClusterSecurityProfileWorkloadIdentity_STATUS from the provided source ManagedClusterSecurityProfileWorkloadIdentity_STATUS
-func (identity *ManagedClusterSecurityProfileWorkloadIdentity_STATUS) AssignProperties_From_ManagedClusterSecurityProfileWorkloadIdentity_STATUS(source *storage.ManagedClusterSecurityProfileWorkloadIdentity_STATUS) error {
+func (identity *ManagedClusterSecurityProfileWorkloadIdentity_STATUS) AssignProperties_From_ManagedClusterSecurityProfileWorkloadIdentity_STATUS(source *v20231102ps.ManagedClusterSecurityProfileWorkloadIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15921,7 +16070,7 @@ func (identity *ManagedClusterSecurityProfileWorkloadIdentity_STATUS) AssignProp
 }
 
 // AssignProperties_To_ManagedClusterSecurityProfileWorkloadIdentity_STATUS populates the provided destination ManagedClusterSecurityProfileWorkloadIdentity_STATUS from our ManagedClusterSecurityProfileWorkloadIdentity_STATUS
-func (identity *ManagedClusterSecurityProfileWorkloadIdentity_STATUS) AssignProperties_To_ManagedClusterSecurityProfileWorkloadIdentity_STATUS(destination *storage.ManagedClusterSecurityProfileWorkloadIdentity_STATUS) error {
+func (identity *ManagedClusterSecurityProfileWorkloadIdentity_STATUS) AssignProperties_To_ManagedClusterSecurityProfileWorkloadIdentity_STATUS(destination *v20231102ps.ManagedClusterSecurityProfileWorkloadIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -15975,7 +16124,7 @@ type ManagedClusterStorageProfileBlobCSIDriver struct {
 }
 
 // AssignProperties_From_ManagedClusterStorageProfileBlobCSIDriver populates our ManagedClusterStorageProfileBlobCSIDriver from the provided source ManagedClusterStorageProfileBlobCSIDriver
-func (driver *ManagedClusterStorageProfileBlobCSIDriver) AssignProperties_From_ManagedClusterStorageProfileBlobCSIDriver(source *storage.ManagedClusterStorageProfileBlobCSIDriver) error {
+func (driver *ManagedClusterStorageProfileBlobCSIDriver) AssignProperties_From_ManagedClusterStorageProfileBlobCSIDriver(source *v20231102ps.ManagedClusterStorageProfileBlobCSIDriver) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16008,7 +16157,7 @@ func (driver *ManagedClusterStorageProfileBlobCSIDriver) AssignProperties_From_M
 }
 
 // AssignProperties_To_ManagedClusterStorageProfileBlobCSIDriver populates the provided destination ManagedClusterStorageProfileBlobCSIDriver from our ManagedClusterStorageProfileBlobCSIDriver
-func (driver *ManagedClusterStorageProfileBlobCSIDriver) AssignProperties_To_ManagedClusterStorageProfileBlobCSIDriver(destination *storage.ManagedClusterStorageProfileBlobCSIDriver) error {
+func (driver *ManagedClusterStorageProfileBlobCSIDriver) AssignProperties_To_ManagedClusterStorageProfileBlobCSIDriver(destination *v20231102ps.ManagedClusterStorageProfileBlobCSIDriver) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(driver.PropertyBag)
 
@@ -16048,7 +16197,7 @@ type ManagedClusterStorageProfileBlobCSIDriver_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterStorageProfileBlobCSIDriver_STATUS populates our ManagedClusterStorageProfileBlobCSIDriver_STATUS from the provided source ManagedClusterStorageProfileBlobCSIDriver_STATUS
-func (driver *ManagedClusterStorageProfileBlobCSIDriver_STATUS) AssignProperties_From_ManagedClusterStorageProfileBlobCSIDriver_STATUS(source *storage.ManagedClusterStorageProfileBlobCSIDriver_STATUS) error {
+func (driver *ManagedClusterStorageProfileBlobCSIDriver_STATUS) AssignProperties_From_ManagedClusterStorageProfileBlobCSIDriver_STATUS(source *v20231102ps.ManagedClusterStorageProfileBlobCSIDriver_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16081,7 +16230,7 @@ func (driver *ManagedClusterStorageProfileBlobCSIDriver_STATUS) AssignProperties
 }
 
 // AssignProperties_To_ManagedClusterStorageProfileBlobCSIDriver_STATUS populates the provided destination ManagedClusterStorageProfileBlobCSIDriver_STATUS from our ManagedClusterStorageProfileBlobCSIDriver_STATUS
-func (driver *ManagedClusterStorageProfileBlobCSIDriver_STATUS) AssignProperties_To_ManagedClusterStorageProfileBlobCSIDriver_STATUS(destination *storage.ManagedClusterStorageProfileBlobCSIDriver_STATUS) error {
+func (driver *ManagedClusterStorageProfileBlobCSIDriver_STATUS) AssignProperties_To_ManagedClusterStorageProfileBlobCSIDriver_STATUS(destination *v20231102ps.ManagedClusterStorageProfileBlobCSIDriver_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(driver.PropertyBag)
 
@@ -16122,7 +16271,7 @@ type ManagedClusterStorageProfileDiskCSIDriver struct {
 }
 
 // AssignProperties_From_ManagedClusterStorageProfileDiskCSIDriver populates our ManagedClusterStorageProfileDiskCSIDriver from the provided source ManagedClusterStorageProfileDiskCSIDriver
-func (driver *ManagedClusterStorageProfileDiskCSIDriver) AssignProperties_From_ManagedClusterStorageProfileDiskCSIDriver(source *storage.ManagedClusterStorageProfileDiskCSIDriver) error {
+func (driver *ManagedClusterStorageProfileDiskCSIDriver) AssignProperties_From_ManagedClusterStorageProfileDiskCSIDriver(source *v20231102ps.ManagedClusterStorageProfileDiskCSIDriver) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16158,7 +16307,7 @@ func (driver *ManagedClusterStorageProfileDiskCSIDriver) AssignProperties_From_M
 }
 
 // AssignProperties_To_ManagedClusterStorageProfileDiskCSIDriver populates the provided destination ManagedClusterStorageProfileDiskCSIDriver from our ManagedClusterStorageProfileDiskCSIDriver
-func (driver *ManagedClusterStorageProfileDiskCSIDriver) AssignProperties_To_ManagedClusterStorageProfileDiskCSIDriver(destination *storage.ManagedClusterStorageProfileDiskCSIDriver) error {
+func (driver *ManagedClusterStorageProfileDiskCSIDriver) AssignProperties_To_ManagedClusterStorageProfileDiskCSIDriver(destination *v20231102ps.ManagedClusterStorageProfileDiskCSIDriver) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(driver.PropertyBag)
 
@@ -16202,7 +16351,7 @@ type ManagedClusterStorageProfileDiskCSIDriver_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterStorageProfileDiskCSIDriver_STATUS populates our ManagedClusterStorageProfileDiskCSIDriver_STATUS from the provided source ManagedClusterStorageProfileDiskCSIDriver_STATUS
-func (driver *ManagedClusterStorageProfileDiskCSIDriver_STATUS) AssignProperties_From_ManagedClusterStorageProfileDiskCSIDriver_STATUS(source *storage.ManagedClusterStorageProfileDiskCSIDriver_STATUS) error {
+func (driver *ManagedClusterStorageProfileDiskCSIDriver_STATUS) AssignProperties_From_ManagedClusterStorageProfileDiskCSIDriver_STATUS(source *v20231102ps.ManagedClusterStorageProfileDiskCSIDriver_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16238,7 +16387,7 @@ func (driver *ManagedClusterStorageProfileDiskCSIDriver_STATUS) AssignProperties
 }
 
 // AssignProperties_To_ManagedClusterStorageProfileDiskCSIDriver_STATUS populates the provided destination ManagedClusterStorageProfileDiskCSIDriver_STATUS from our ManagedClusterStorageProfileDiskCSIDriver_STATUS
-func (driver *ManagedClusterStorageProfileDiskCSIDriver_STATUS) AssignProperties_To_ManagedClusterStorageProfileDiskCSIDriver_STATUS(destination *storage.ManagedClusterStorageProfileDiskCSIDriver_STATUS) error {
+func (driver *ManagedClusterStorageProfileDiskCSIDriver_STATUS) AssignProperties_To_ManagedClusterStorageProfileDiskCSIDriver_STATUS(destination *v20231102ps.ManagedClusterStorageProfileDiskCSIDriver_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(driver.PropertyBag)
 
@@ -16281,7 +16430,7 @@ type ManagedClusterStorageProfileFileCSIDriver struct {
 }
 
 // AssignProperties_From_ManagedClusterStorageProfileFileCSIDriver populates our ManagedClusterStorageProfileFileCSIDriver from the provided source ManagedClusterStorageProfileFileCSIDriver
-func (driver *ManagedClusterStorageProfileFileCSIDriver) AssignProperties_From_ManagedClusterStorageProfileFileCSIDriver(source *storage.ManagedClusterStorageProfileFileCSIDriver) error {
+func (driver *ManagedClusterStorageProfileFileCSIDriver) AssignProperties_From_ManagedClusterStorageProfileFileCSIDriver(source *v20231102ps.ManagedClusterStorageProfileFileCSIDriver) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16314,7 +16463,7 @@ func (driver *ManagedClusterStorageProfileFileCSIDriver) AssignProperties_From_M
 }
 
 // AssignProperties_To_ManagedClusterStorageProfileFileCSIDriver populates the provided destination ManagedClusterStorageProfileFileCSIDriver from our ManagedClusterStorageProfileFileCSIDriver
-func (driver *ManagedClusterStorageProfileFileCSIDriver) AssignProperties_To_ManagedClusterStorageProfileFileCSIDriver(destination *storage.ManagedClusterStorageProfileFileCSIDriver) error {
+func (driver *ManagedClusterStorageProfileFileCSIDriver) AssignProperties_To_ManagedClusterStorageProfileFileCSIDriver(destination *v20231102ps.ManagedClusterStorageProfileFileCSIDriver) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(driver.PropertyBag)
 
@@ -16354,7 +16503,7 @@ type ManagedClusterStorageProfileFileCSIDriver_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterStorageProfileFileCSIDriver_STATUS populates our ManagedClusterStorageProfileFileCSIDriver_STATUS from the provided source ManagedClusterStorageProfileFileCSIDriver_STATUS
-func (driver *ManagedClusterStorageProfileFileCSIDriver_STATUS) AssignProperties_From_ManagedClusterStorageProfileFileCSIDriver_STATUS(source *storage.ManagedClusterStorageProfileFileCSIDriver_STATUS) error {
+func (driver *ManagedClusterStorageProfileFileCSIDriver_STATUS) AssignProperties_From_ManagedClusterStorageProfileFileCSIDriver_STATUS(source *v20231102ps.ManagedClusterStorageProfileFileCSIDriver_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16387,7 +16536,7 @@ func (driver *ManagedClusterStorageProfileFileCSIDriver_STATUS) AssignProperties
 }
 
 // AssignProperties_To_ManagedClusterStorageProfileFileCSIDriver_STATUS populates the provided destination ManagedClusterStorageProfileFileCSIDriver_STATUS from our ManagedClusterStorageProfileFileCSIDriver_STATUS
-func (driver *ManagedClusterStorageProfileFileCSIDriver_STATUS) AssignProperties_To_ManagedClusterStorageProfileFileCSIDriver_STATUS(destination *storage.ManagedClusterStorageProfileFileCSIDriver_STATUS) error {
+func (driver *ManagedClusterStorageProfileFileCSIDriver_STATUS) AssignProperties_To_ManagedClusterStorageProfileFileCSIDriver_STATUS(destination *v20231102ps.ManagedClusterStorageProfileFileCSIDriver_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(driver.PropertyBag)
 
@@ -16427,7 +16576,7 @@ type ManagedClusterStorageProfileSnapshotController struct {
 }
 
 // AssignProperties_From_ManagedClusterStorageProfileSnapshotController populates our ManagedClusterStorageProfileSnapshotController from the provided source ManagedClusterStorageProfileSnapshotController
-func (controller *ManagedClusterStorageProfileSnapshotController) AssignProperties_From_ManagedClusterStorageProfileSnapshotController(source *storage.ManagedClusterStorageProfileSnapshotController) error {
+func (controller *ManagedClusterStorageProfileSnapshotController) AssignProperties_From_ManagedClusterStorageProfileSnapshotController(source *v20231102ps.ManagedClusterStorageProfileSnapshotController) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16460,7 +16609,7 @@ func (controller *ManagedClusterStorageProfileSnapshotController) AssignProperti
 }
 
 // AssignProperties_To_ManagedClusterStorageProfileSnapshotController populates the provided destination ManagedClusterStorageProfileSnapshotController from our ManagedClusterStorageProfileSnapshotController
-func (controller *ManagedClusterStorageProfileSnapshotController) AssignProperties_To_ManagedClusterStorageProfileSnapshotController(destination *storage.ManagedClusterStorageProfileSnapshotController) error {
+func (controller *ManagedClusterStorageProfileSnapshotController) AssignProperties_To_ManagedClusterStorageProfileSnapshotController(destination *v20231102ps.ManagedClusterStorageProfileSnapshotController) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(controller.PropertyBag)
 
@@ -16500,7 +16649,7 @@ type ManagedClusterStorageProfileSnapshotController_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterStorageProfileSnapshotController_STATUS populates our ManagedClusterStorageProfileSnapshotController_STATUS from the provided source ManagedClusterStorageProfileSnapshotController_STATUS
-func (controller *ManagedClusterStorageProfileSnapshotController_STATUS) AssignProperties_From_ManagedClusterStorageProfileSnapshotController_STATUS(source *storage.ManagedClusterStorageProfileSnapshotController_STATUS) error {
+func (controller *ManagedClusterStorageProfileSnapshotController_STATUS) AssignProperties_From_ManagedClusterStorageProfileSnapshotController_STATUS(source *v20231102ps.ManagedClusterStorageProfileSnapshotController_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16533,7 +16682,7 @@ func (controller *ManagedClusterStorageProfileSnapshotController_STATUS) AssignP
 }
 
 // AssignProperties_To_ManagedClusterStorageProfileSnapshotController_STATUS populates the provided destination ManagedClusterStorageProfileSnapshotController_STATUS from our ManagedClusterStorageProfileSnapshotController_STATUS
-func (controller *ManagedClusterStorageProfileSnapshotController_STATUS) AssignProperties_To_ManagedClusterStorageProfileSnapshotController_STATUS(destination *storage.ManagedClusterStorageProfileSnapshotController_STATUS) error {
+func (controller *ManagedClusterStorageProfileSnapshotController_STATUS) AssignProperties_To_ManagedClusterStorageProfileSnapshotController_STATUS(destination *v20231102ps.ManagedClusterStorageProfileSnapshotController_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(controller.PropertyBag)
 
@@ -16573,7 +16722,7 @@ type ManagedClusterWorkloadAutoScalerProfileKeda struct {
 }
 
 // AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileKeda populates our ManagedClusterWorkloadAutoScalerProfileKeda from the provided source ManagedClusterWorkloadAutoScalerProfileKeda
-func (keda *ManagedClusterWorkloadAutoScalerProfileKeda) AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileKeda(source *storage.ManagedClusterWorkloadAutoScalerProfileKeda) error {
+func (keda *ManagedClusterWorkloadAutoScalerProfileKeda) AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileKeda(source *v20231102ps.ManagedClusterWorkloadAutoScalerProfileKeda) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16606,7 +16755,7 @@ func (keda *ManagedClusterWorkloadAutoScalerProfileKeda) AssignProperties_From_M
 }
 
 // AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileKeda populates the provided destination ManagedClusterWorkloadAutoScalerProfileKeda from our ManagedClusterWorkloadAutoScalerProfileKeda
-func (keda *ManagedClusterWorkloadAutoScalerProfileKeda) AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileKeda(destination *storage.ManagedClusterWorkloadAutoScalerProfileKeda) error {
+func (keda *ManagedClusterWorkloadAutoScalerProfileKeda) AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileKeda(destination *v20231102ps.ManagedClusterWorkloadAutoScalerProfileKeda) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(keda.PropertyBag)
 
@@ -16646,7 +16795,7 @@ type ManagedClusterWorkloadAutoScalerProfileKeda_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileKeda_STATUS populates our ManagedClusterWorkloadAutoScalerProfileKeda_STATUS from the provided source ManagedClusterWorkloadAutoScalerProfileKeda_STATUS
-func (keda *ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileKeda_STATUS(source *storage.ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) error {
+func (keda *ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileKeda_STATUS(source *v20231102ps.ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16679,7 +16828,7 @@ func (keda *ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) AssignProperties
 }
 
 // AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileKeda_STATUS populates the provided destination ManagedClusterWorkloadAutoScalerProfileKeda_STATUS from our ManagedClusterWorkloadAutoScalerProfileKeda_STATUS
-func (keda *ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileKeda_STATUS(destination *storage.ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) error {
+func (keda *ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileKeda_STATUS(destination *v20231102ps.ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(keda.PropertyBag)
 
@@ -16719,7 +16868,7 @@ type ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler struct {
 }
 
 // AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler populates our ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler from the provided source ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
-func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler(source *storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) error {
+func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler(source *v20231102ps.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16755,7 +16904,7 @@ func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) 
 }
 
 // AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler populates the provided destination ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler from our ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
-func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler(destination *storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) error {
+func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler(destination *v20231102ps.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(autoscaler.PropertyBag)
 
@@ -16798,7 +16947,7 @@ type ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS struct 
 }
 
 // AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS populates our ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS from the provided source ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
-func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS(source *storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error {
+func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS(source *v20231102ps.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16834,7 +16983,7 @@ func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_S
 }
 
 // AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS populates the provided destination ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS from our ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
-func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS(destination *storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error {
+func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS(destination *v20231102ps.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(autoscaler.PropertyBag)
 
@@ -16878,7 +17027,7 @@ type UpgradeOverrideSettings struct {
 }
 
 // AssignProperties_From_UpgradeOverrideSettings populates our UpgradeOverrideSettings from the provided source UpgradeOverrideSettings
-func (settings *UpgradeOverrideSettings) AssignProperties_From_UpgradeOverrideSettings(source *storage.UpgradeOverrideSettings) error {
+func (settings *UpgradeOverrideSettings) AssignProperties_From_UpgradeOverrideSettings(source *v20231102ps.UpgradeOverrideSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16914,7 +17063,7 @@ func (settings *UpgradeOverrideSettings) AssignProperties_From_UpgradeOverrideSe
 }
 
 // AssignProperties_To_UpgradeOverrideSettings populates the provided destination UpgradeOverrideSettings from our UpgradeOverrideSettings
-func (settings *UpgradeOverrideSettings) AssignProperties_To_UpgradeOverrideSettings(destination *storage.UpgradeOverrideSettings) error {
+func (settings *UpgradeOverrideSettings) AssignProperties_To_UpgradeOverrideSettings(destination *v20231102ps.UpgradeOverrideSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -16958,7 +17107,7 @@ type UpgradeOverrideSettings_STATUS struct {
 }
 
 // AssignProperties_From_UpgradeOverrideSettings_STATUS populates our UpgradeOverrideSettings_STATUS from the provided source UpgradeOverrideSettings_STATUS
-func (settings *UpgradeOverrideSettings_STATUS) AssignProperties_From_UpgradeOverrideSettings_STATUS(source *storage.UpgradeOverrideSettings_STATUS) error {
+func (settings *UpgradeOverrideSettings_STATUS) AssignProperties_From_UpgradeOverrideSettings_STATUS(source *v20231102ps.UpgradeOverrideSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16994,7 +17143,7 @@ func (settings *UpgradeOverrideSettings_STATUS) AssignProperties_From_UpgradeOve
 }
 
 // AssignProperties_To_UpgradeOverrideSettings_STATUS populates the provided destination UpgradeOverrideSettings_STATUS from our UpgradeOverrideSettings_STATUS
-func (settings *UpgradeOverrideSettings_STATUS) AssignProperties_To_UpgradeOverrideSettings_STATUS(destination *storage.UpgradeOverrideSettings_STATUS) error {
+func (settings *UpgradeOverrideSettings_STATUS) AssignProperties_To_UpgradeOverrideSettings_STATUS(destination *v20231102ps.UpgradeOverrideSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -17037,7 +17186,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *storage.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20231102ps.UserAssignedIdentityDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -17065,7 +17214,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *storage.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20231102ps.UserAssignedIdentityDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(details.PropertyBag)
 
@@ -17102,7 +17251,7 @@ type WindowsGmsaProfile struct {
 }
 
 // AssignProperties_From_WindowsGmsaProfile populates our WindowsGmsaProfile from the provided source WindowsGmsaProfile
-func (profile *WindowsGmsaProfile) AssignProperties_From_WindowsGmsaProfile(source *storage.WindowsGmsaProfile) error {
+func (profile *WindowsGmsaProfile) AssignProperties_From_WindowsGmsaProfile(source *v20231102ps.WindowsGmsaProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -17141,7 +17290,7 @@ func (profile *WindowsGmsaProfile) AssignProperties_From_WindowsGmsaProfile(sour
 }
 
 // AssignProperties_To_WindowsGmsaProfile populates the provided destination WindowsGmsaProfile from our WindowsGmsaProfile
-func (profile *WindowsGmsaProfile) AssignProperties_To_WindowsGmsaProfile(destination *storage.WindowsGmsaProfile) error {
+func (profile *WindowsGmsaProfile) AssignProperties_To_WindowsGmsaProfile(destination *v20231102ps.WindowsGmsaProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -17189,7 +17338,7 @@ type WindowsGmsaProfile_STATUS struct {
 }
 
 // AssignProperties_From_WindowsGmsaProfile_STATUS populates our WindowsGmsaProfile_STATUS from the provided source WindowsGmsaProfile_STATUS
-func (profile *WindowsGmsaProfile_STATUS) AssignProperties_From_WindowsGmsaProfile_STATUS(source *storage.WindowsGmsaProfile_STATUS) error {
+func (profile *WindowsGmsaProfile_STATUS) AssignProperties_From_WindowsGmsaProfile_STATUS(source *v20231102ps.WindowsGmsaProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -17228,7 +17377,7 @@ func (profile *WindowsGmsaProfile_STATUS) AssignProperties_From_WindowsGmsaProfi
 }
 
 // AssignProperties_To_WindowsGmsaProfile_STATUS populates the provided destination WindowsGmsaProfile_STATUS from our WindowsGmsaProfile_STATUS
-func (profile *WindowsGmsaProfile_STATUS) AssignProperties_To_WindowsGmsaProfile_STATUS(destination *storage.WindowsGmsaProfile_STATUS) error {
+func (profile *WindowsGmsaProfile_STATUS) AssignProperties_To_WindowsGmsaProfile_STATUS(destination *v20231102ps.WindowsGmsaProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -17273,6 +17422,72 @@ type AdvancedNetworkingObservability struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_AdvancedNetworkingObservability populates our AdvancedNetworkingObservability from the provided source AdvancedNetworkingObservability
+func (observability *AdvancedNetworkingObservability) AssignProperties_From_AdvancedNetworkingObservability(source *v20231001sc.AdvancedNetworkingObservability) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		observability.Enabled = &enabled
+	} else {
+		observability.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		observability.PropertyBag = propertyBag
+	} else {
+		observability.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAdvancedNetworkingObservability interface (if implemented) to customize the conversion
+	var observabilityAsAny any = observability
+	if augmentedObservability, ok := observabilityAsAny.(augmentConversionForAdvancedNetworkingObservability); ok {
+		err := augmentedObservability.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AdvancedNetworkingObservability populates the provided destination AdvancedNetworkingObservability from our AdvancedNetworkingObservability
+func (observability *AdvancedNetworkingObservability) AssignProperties_To_AdvancedNetworkingObservability(destination *v20231001sc.AdvancedNetworkingObservability) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(observability.PropertyBag)
+
+	// Enabled
+	if observability.Enabled != nil {
+		enabled := *observability.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAdvancedNetworkingObservability interface (if implemented) to customize the conversion
+	var observabilityAsAny any = observability
+	if augmentedObservability, ok := observabilityAsAny.(augmentConversionForAdvancedNetworkingObservability); ok {
+		err := augmentedObservability.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240402preview.AdvancedNetworkingObservability_STATUS
 // Observability profile to enable advanced network metrics and flow logs with historical contexts.
 type AdvancedNetworkingObservability_STATUS struct {
@@ -17280,294 +17495,370 @@ type AdvancedNetworkingObservability_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_AdvancedNetworkingObservability_STATUS populates our AdvancedNetworkingObservability_STATUS from the provided source AdvancedNetworkingObservability_STATUS
+func (observability *AdvancedNetworkingObservability_STATUS) AssignProperties_From_AdvancedNetworkingObservability_STATUS(source *v20231001sc.AdvancedNetworkingObservability_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		observability.Enabled = &enabled
+	} else {
+		observability.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		observability.PropertyBag = propertyBag
+	} else {
+		observability.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAdvancedNetworkingObservability_STATUS interface (if implemented) to customize the conversion
+	var observabilityAsAny any = observability
+	if augmentedObservability, ok := observabilityAsAny.(augmentConversionForAdvancedNetworkingObservability_STATUS); ok {
+		err := augmentedObservability.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AdvancedNetworkingObservability_STATUS populates the provided destination AdvancedNetworkingObservability_STATUS from our AdvancedNetworkingObservability_STATUS
+func (observability *AdvancedNetworkingObservability_STATUS) AssignProperties_To_AdvancedNetworkingObservability_STATUS(destination *v20231001sc.AdvancedNetworkingObservability_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(observability.PropertyBag)
+
+	// Enabled
+	if observability.Enabled != nil {
+		enabled := *observability.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAdvancedNetworkingObservability_STATUS interface (if implemented) to customize the conversion
+	var observabilityAsAny any = observability
+	if augmentedObservability, ok := observabilityAsAny.(augmentConversionForAdvancedNetworkingObservability_STATUS); ok {
+		err := augmentedObservability.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForAdvancedNetworking interface {
+	AssignPropertiesFrom(src *v20231001sc.AdvancedNetworking) error
+	AssignPropertiesTo(dst *v20231001sc.AdvancedNetworking) error
+}
+
+type augmentConversionForAdvancedNetworking_STATUS interface {
+	AssignPropertiesFrom(src *v20231001sc.AdvancedNetworking_STATUS) error
+	AssignPropertiesTo(dst *v20231001sc.AdvancedNetworking_STATUS) error
+}
+
 type augmentConversionForAzureKeyVaultKms interface {
-	AssignPropertiesFrom(src *storage.AzureKeyVaultKms) error
-	AssignPropertiesTo(dst *storage.AzureKeyVaultKms) error
+	AssignPropertiesFrom(src *v20231102ps.AzureKeyVaultKms) error
+	AssignPropertiesTo(dst *v20231102ps.AzureKeyVaultKms) error
 }
 
 type augmentConversionForAzureKeyVaultKms_STATUS interface {
-	AssignPropertiesFrom(src *storage.AzureKeyVaultKms_STATUS) error
-	AssignPropertiesTo(dst *storage.AzureKeyVaultKms_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.AzureKeyVaultKms_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.AzureKeyVaultKms_STATUS) error
 }
 
 type augmentConversionForContainerServiceNetworkProfile_KubeProxyConfig interface {
-	AssignPropertiesFrom(src *storage.ContainerServiceNetworkProfile_KubeProxyConfig) error
-	AssignPropertiesTo(dst *storage.ContainerServiceNetworkProfile_KubeProxyConfig) error
+	AssignPropertiesFrom(src *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig) error
+	AssignPropertiesTo(dst *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig) error
 }
 
 type augmentConversionForContainerServiceNetworkProfile_KubeProxyConfig_STATUS interface {
-	AssignPropertiesFrom(src *storage.ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) error
-	AssignPropertiesTo(dst *storage.ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) error
 }
 
 type augmentConversionForContainerServiceSshConfiguration interface {
-	AssignPropertiesFrom(src *storage.ContainerServiceSshConfiguration) error
-	AssignPropertiesTo(dst *storage.ContainerServiceSshConfiguration) error
+	AssignPropertiesFrom(src *v20231102ps.ContainerServiceSshConfiguration) error
+	AssignPropertiesTo(dst *v20231102ps.ContainerServiceSshConfiguration) error
 }
 
 type augmentConversionForContainerServiceSshConfiguration_STATUS interface {
-	AssignPropertiesFrom(src *storage.ContainerServiceSshConfiguration_STATUS) error
-	AssignPropertiesTo(dst *storage.ContainerServiceSshConfiguration_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ContainerServiceSshConfiguration_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ContainerServiceSshConfiguration_STATUS) error
 }
 
 type augmentConversionForDelegatedResource interface {
-	AssignPropertiesFrom(src *storage.DelegatedResource) error
-	AssignPropertiesTo(dst *storage.DelegatedResource) error
+	AssignPropertiesFrom(src *v20231102ps.DelegatedResource) error
+	AssignPropertiesTo(dst *v20231102ps.DelegatedResource) error
 }
 
 type augmentConversionForDelegatedResource_STATUS interface {
-	AssignPropertiesFrom(src *storage.DelegatedResource_STATUS) error
-	AssignPropertiesTo(dst *storage.DelegatedResource_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.DelegatedResource_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.DelegatedResource_STATUS) error
 }
 
 type augmentConversionForIstioServiceMesh interface {
-	AssignPropertiesFrom(src *storage.IstioServiceMesh) error
-	AssignPropertiesTo(dst *storage.IstioServiceMesh) error
+	AssignPropertiesFrom(src *v20231102ps.IstioServiceMesh) error
+	AssignPropertiesTo(dst *v20231102ps.IstioServiceMesh) error
 }
 
 type augmentConversionForIstioServiceMesh_STATUS interface {
-	AssignPropertiesFrom(src *storage.IstioServiceMesh_STATUS) error
-	AssignPropertiesTo(dst *storage.IstioServiceMesh_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.IstioServiceMesh_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.IstioServiceMesh_STATUS) error
 }
 
 type augmentConversionForManagedClusterAzureMonitorProfileAppMonitoring interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAzureMonitorProfileAppMonitoring) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAzureMonitorProfileAppMonitoring) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoring) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoring) error
 }
 
 type augmentConversionForManagedClusterAzureMonitorProfileAppMonitoring_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAzureMonitorProfileAppMonitoring_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAzureMonitorProfileAppMonitoring_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoring_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoring_STATUS) error
 }
 
 type augmentConversionForManagedClusterAzureMonitorProfileContainerInsights interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAzureMonitorProfileContainerInsights) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAzureMonitorProfileContainerInsights) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAzureMonitorProfileContainerInsights) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAzureMonitorProfileContainerInsights) error
 }
 
 type augmentConversionForManagedClusterAzureMonitorProfileContainerInsights_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAzureMonitorProfileContainerInsights_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAzureMonitorProfileContainerInsights_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAzureMonitorProfileContainerInsights_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAzureMonitorProfileContainerInsights_STATUS) error
 }
 
 type augmentConversionForManagedClusterAzureMonitorProfileMetrics interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAzureMonitorProfileMetrics) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAzureMonitorProfileMetrics) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAzureMonitorProfileMetrics) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAzureMonitorProfileMetrics) error
 }
 
 type augmentConversionForManagedClusterAzureMonitorProfileMetrics_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAzureMonitorProfileMetrics_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAzureMonitorProfileMetrics_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAzureMonitorProfileMetrics_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAzureMonitorProfileMetrics_STATUS) error
 }
 
 type augmentConversionForManagedClusterCostAnalysis interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterCostAnalysis) error
-	AssignPropertiesTo(dst *storage.ManagedClusterCostAnalysis) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterCostAnalysis) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterCostAnalysis) error
 }
 
 type augmentConversionForManagedClusterCostAnalysis_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterCostAnalysis_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterCostAnalysis_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterCostAnalysis_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterCostAnalysis_STATUS) error
 }
 
 type augmentConversionForManagedClusterIdentity_UserAssignedIdentities_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterIdentity_UserAssignedIdentities_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterIdentity_UserAssignedIdentities_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterIdentity_UserAssignedIdentities_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterIdentity_UserAssignedIdentities_STATUS) error
 }
 
 type augmentConversionForManagedClusterIngressProfileWebAppRouting interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterIngressProfileWebAppRouting) error
-	AssignPropertiesTo(dst *storage.ManagedClusterIngressProfileWebAppRouting) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterIngressProfileWebAppRouting) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterIngressProfileWebAppRouting) error
 }
 
 type augmentConversionForManagedClusterIngressProfileWebAppRouting_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterIngressProfileWebAppRouting_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterIngressProfileWebAppRouting_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterIngressProfileWebAppRouting_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterIngressProfileWebAppRouting_STATUS) error
 }
 
 type augmentConversionForManagedClusterLoadBalancerProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterLoadBalancerProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterLoadBalancerProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterLoadBalancerProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterLoadBalancerProfile) error
 }
 
 type augmentConversionForManagedClusterLoadBalancerProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterLoadBalancerProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterLoadBalancerProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterLoadBalancerProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterLoadBalancerProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterNATGatewayProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterNATGatewayProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterNATGatewayProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterNATGatewayProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterNATGatewayProfile) error
 }
 
 type augmentConversionForManagedClusterNATGatewayProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterNATGatewayProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterNATGatewayProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterNATGatewayProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterNATGatewayProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterOperatorConfigMaps interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterOperatorConfigMaps) error
-	AssignPropertiesTo(dst *storage.ManagedClusterOperatorConfigMaps) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterOperatorConfigMaps) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterOperatorConfigMaps) error
 }
 
 type augmentConversionForManagedClusterOperatorSecrets interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterOperatorSecrets) error
-	AssignPropertiesTo(dst *storage.ManagedClusterOperatorSecrets) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterOperatorSecrets) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterOperatorSecrets) error
 }
 
 type augmentConversionForManagedClusterPodIdentity interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterPodIdentity) error
-	AssignPropertiesTo(dst *storage.ManagedClusterPodIdentity) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterPodIdentity) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterPodIdentity) error
 }
 
 type augmentConversionForManagedClusterPodIdentity_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterPodIdentity_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterPodIdentity_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterPodIdentity_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterPodIdentity_STATUS) error
 }
 
 type augmentConversionForManagedClusterPodIdentityException interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterPodIdentityException) error
-	AssignPropertiesTo(dst *storage.ManagedClusterPodIdentityException) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterPodIdentityException) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterPodIdentityException) error
 }
 
 type augmentConversionForManagedClusterPodIdentityException_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterPodIdentityException_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterPodIdentityException_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterPodIdentityException_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterPodIdentityException_STATUS) error
 }
 
 type augmentConversionForManagedClusterSecurityProfileDefender interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSecurityProfileDefender) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSecurityProfileDefender) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSecurityProfileDefender) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSecurityProfileDefender) error
 }
 
 type augmentConversionForManagedClusterSecurityProfileDefender_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSecurityProfileDefender_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSecurityProfileDefender_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSecurityProfileDefender_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSecurityProfileDefender_STATUS) error
 }
 
 type augmentConversionForManagedClusterSecurityProfileImageCleaner interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSecurityProfileImageCleaner) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSecurityProfileImageCleaner) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSecurityProfileImageCleaner) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSecurityProfileImageCleaner) error
 }
 
 type augmentConversionForManagedClusterSecurityProfileImageCleaner_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSecurityProfileImageCleaner_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSecurityProfileImageCleaner_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSecurityProfileImageCleaner_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSecurityProfileImageCleaner_STATUS) error
 }
 
 type augmentConversionForManagedClusterSecurityProfileImageIntegrity interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSecurityProfileImageIntegrity) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSecurityProfileImageIntegrity) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSecurityProfileImageIntegrity) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSecurityProfileImageIntegrity) error
 }
 
 type augmentConversionForManagedClusterSecurityProfileImageIntegrity_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSecurityProfileImageIntegrity_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSecurityProfileImageIntegrity_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSecurityProfileImageIntegrity_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSecurityProfileImageIntegrity_STATUS) error
 }
 
 type augmentConversionForManagedClusterSecurityProfileNodeRestriction interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSecurityProfileNodeRestriction) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSecurityProfileNodeRestriction) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSecurityProfileNodeRestriction) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSecurityProfileNodeRestriction) error
 }
 
 type augmentConversionForManagedClusterSecurityProfileNodeRestriction_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSecurityProfileNodeRestriction_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSecurityProfileNodeRestriction_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSecurityProfileNodeRestriction_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSecurityProfileNodeRestriction_STATUS) error
 }
 
 type augmentConversionForManagedClusterSecurityProfileWorkloadIdentity interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSecurityProfileWorkloadIdentity) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSecurityProfileWorkloadIdentity) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSecurityProfileWorkloadIdentity) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSecurityProfileWorkloadIdentity) error
 }
 
 type augmentConversionForManagedClusterSecurityProfileWorkloadIdentity_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSecurityProfileWorkloadIdentity_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSecurityProfileWorkloadIdentity_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSecurityProfileWorkloadIdentity_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSecurityProfileWorkloadIdentity_STATUS) error
 }
 
 type augmentConversionForManagedClusterStorageProfileBlobCSIDriver interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterStorageProfileBlobCSIDriver) error
-	AssignPropertiesTo(dst *storage.ManagedClusterStorageProfileBlobCSIDriver) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterStorageProfileBlobCSIDriver) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterStorageProfileBlobCSIDriver) error
 }
 
 type augmentConversionForManagedClusterStorageProfileBlobCSIDriver_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterStorageProfileBlobCSIDriver_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterStorageProfileBlobCSIDriver_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterStorageProfileBlobCSIDriver_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterStorageProfileBlobCSIDriver_STATUS) error
 }
 
 type augmentConversionForManagedClusterStorageProfileDiskCSIDriver interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterStorageProfileDiskCSIDriver) error
-	AssignPropertiesTo(dst *storage.ManagedClusterStorageProfileDiskCSIDriver) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterStorageProfileDiskCSIDriver) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterStorageProfileDiskCSIDriver) error
 }
 
 type augmentConversionForManagedClusterStorageProfileDiskCSIDriver_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterStorageProfileDiskCSIDriver_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterStorageProfileDiskCSIDriver_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterStorageProfileDiskCSIDriver_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterStorageProfileDiskCSIDriver_STATUS) error
 }
 
 type augmentConversionForManagedClusterStorageProfileFileCSIDriver interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterStorageProfileFileCSIDriver) error
-	AssignPropertiesTo(dst *storage.ManagedClusterStorageProfileFileCSIDriver) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterStorageProfileFileCSIDriver) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterStorageProfileFileCSIDriver) error
 }
 
 type augmentConversionForManagedClusterStorageProfileFileCSIDriver_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterStorageProfileFileCSIDriver_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterStorageProfileFileCSIDriver_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterStorageProfileFileCSIDriver_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterStorageProfileFileCSIDriver_STATUS) error
 }
 
 type augmentConversionForManagedClusterStorageProfileSnapshotController interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterStorageProfileSnapshotController) error
-	AssignPropertiesTo(dst *storage.ManagedClusterStorageProfileSnapshotController) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterStorageProfileSnapshotController) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterStorageProfileSnapshotController) error
 }
 
 type augmentConversionForManagedClusterStorageProfileSnapshotController_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterStorageProfileSnapshotController_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterStorageProfileSnapshotController_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterStorageProfileSnapshotController_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterStorageProfileSnapshotController_STATUS) error
 }
 
 type augmentConversionForManagedClusterWorkloadAutoScalerProfileKeda interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterWorkloadAutoScalerProfileKeda) error
-	AssignPropertiesTo(dst *storage.ManagedClusterWorkloadAutoScalerProfileKeda) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterWorkloadAutoScalerProfileKeda) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterWorkloadAutoScalerProfileKeda) error
 }
 
 type augmentConversionForManagedClusterWorkloadAutoScalerProfileKeda_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) error
 }
 
 type augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) error
-	AssignPropertiesTo(dst *storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) error
 }
 
 type augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error
 }
 
 type augmentConversionForUpgradeOverrideSettings interface {
-	AssignPropertiesFrom(src *storage.UpgradeOverrideSettings) error
-	AssignPropertiesTo(dst *storage.UpgradeOverrideSettings) error
+	AssignPropertiesFrom(src *v20231102ps.UpgradeOverrideSettings) error
+	AssignPropertiesTo(dst *v20231102ps.UpgradeOverrideSettings) error
 }
 
 type augmentConversionForUpgradeOverrideSettings_STATUS interface {
-	AssignPropertiesFrom(src *storage.UpgradeOverrideSettings_STATUS) error
-	AssignPropertiesTo(dst *storage.UpgradeOverrideSettings_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.UpgradeOverrideSettings_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.UpgradeOverrideSettings_STATUS) error
 }
 
 type augmentConversionForUserAssignedIdentityDetails interface {
-	AssignPropertiesFrom(src *storage.UserAssignedIdentityDetails) error
-	AssignPropertiesTo(dst *storage.UserAssignedIdentityDetails) error
+	AssignPropertiesFrom(src *v20231102ps.UserAssignedIdentityDetails) error
+	AssignPropertiesTo(dst *v20231102ps.UserAssignedIdentityDetails) error
 }
 
 type augmentConversionForWindowsGmsaProfile interface {
-	AssignPropertiesFrom(src *storage.WindowsGmsaProfile) error
-	AssignPropertiesTo(dst *storage.WindowsGmsaProfile) error
+	AssignPropertiesFrom(src *v20231102ps.WindowsGmsaProfile) error
+	AssignPropertiesTo(dst *v20231102ps.WindowsGmsaProfile) error
 }
 
 type augmentConversionForWindowsGmsaProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.WindowsGmsaProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.WindowsGmsaProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.WindowsGmsaProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.WindowsGmsaProfile_STATUS) error
 }
 
 // Storage version of v1api20240402preview.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig
@@ -17580,7 +17871,7 @@ type ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig struct {
 }
 
 // AssignProperties_From_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig populates our ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig from the provided source ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig
-func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) AssignProperties_From_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig(source *storage.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) error {
+func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) AssignProperties_From_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig(source *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -17617,7 +17908,7 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) AssignP
 }
 
 // AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig populates the provided destination ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig from our ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig
-func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig(destination *storage.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) error {
+func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig(destination *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -17663,7 +17954,7 @@ type ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS struct {
 }
 
 // AssignProperties_From_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS populates our ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS from the provided source ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS
-func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) AssignProperties_From_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS(source *storage.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) error {
+func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) AssignProperties_From_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS(source *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -17700,7 +17991,7 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) 
 }
 
 // AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS populates the provided destination ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS from our ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS
-func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS(destination *storage.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) error {
+func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) AssignProperties_To_ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS(destination *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -17744,7 +18035,7 @@ type ContainerServiceSshPublicKey struct {
 }
 
 // AssignProperties_From_ContainerServiceSshPublicKey populates our ContainerServiceSshPublicKey from the provided source ContainerServiceSshPublicKey
-func (publicKey *ContainerServiceSshPublicKey) AssignProperties_From_ContainerServiceSshPublicKey(source *storage.ContainerServiceSshPublicKey) error {
+func (publicKey *ContainerServiceSshPublicKey) AssignProperties_From_ContainerServiceSshPublicKey(source *v20231102ps.ContainerServiceSshPublicKey) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -17772,7 +18063,7 @@ func (publicKey *ContainerServiceSshPublicKey) AssignProperties_From_ContainerSe
 }
 
 // AssignProperties_To_ContainerServiceSshPublicKey populates the provided destination ContainerServiceSshPublicKey from our ContainerServiceSshPublicKey
-func (publicKey *ContainerServiceSshPublicKey) AssignProperties_To_ContainerServiceSshPublicKey(destination *storage.ContainerServiceSshPublicKey) error {
+func (publicKey *ContainerServiceSshPublicKey) AssignProperties_To_ContainerServiceSshPublicKey(destination *v20231102ps.ContainerServiceSshPublicKey) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(publicKey.PropertyBag)
 
@@ -17807,7 +18098,7 @@ type ContainerServiceSshPublicKey_STATUS struct {
 }
 
 // AssignProperties_From_ContainerServiceSshPublicKey_STATUS populates our ContainerServiceSshPublicKey_STATUS from the provided source ContainerServiceSshPublicKey_STATUS
-func (publicKey *ContainerServiceSshPublicKey_STATUS) AssignProperties_From_ContainerServiceSshPublicKey_STATUS(source *storage.ContainerServiceSshPublicKey_STATUS) error {
+func (publicKey *ContainerServiceSshPublicKey_STATUS) AssignProperties_From_ContainerServiceSshPublicKey_STATUS(source *v20231102ps.ContainerServiceSshPublicKey_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -17835,7 +18126,7 @@ func (publicKey *ContainerServiceSshPublicKey_STATUS) AssignProperties_From_Cont
 }
 
 // AssignProperties_To_ContainerServiceSshPublicKey_STATUS populates the provided destination ContainerServiceSshPublicKey_STATUS from our ContainerServiceSshPublicKey_STATUS
-func (publicKey *ContainerServiceSshPublicKey_STATUS) AssignProperties_To_ContainerServiceSshPublicKey_STATUS(destination *storage.ContainerServiceSshPublicKey_STATUS) error {
+func (publicKey *ContainerServiceSshPublicKey_STATUS) AssignProperties_To_ContainerServiceSshPublicKey_STATUS(destination *v20231102ps.ContainerServiceSshPublicKey_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(publicKey.PropertyBag)
 
@@ -17871,7 +18162,7 @@ type IstioCertificateAuthority struct {
 }
 
 // AssignProperties_From_IstioCertificateAuthority populates our IstioCertificateAuthority from the provided source IstioCertificateAuthority
-func (authority *IstioCertificateAuthority) AssignProperties_From_IstioCertificateAuthority(source *storage.IstioCertificateAuthority) error {
+func (authority *IstioCertificateAuthority) AssignProperties_From_IstioCertificateAuthority(source *v20231102ps.IstioCertificateAuthority) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -17908,13 +18199,13 @@ func (authority *IstioCertificateAuthority) AssignProperties_From_IstioCertifica
 }
 
 // AssignProperties_To_IstioCertificateAuthority populates the provided destination IstioCertificateAuthority from our IstioCertificateAuthority
-func (authority *IstioCertificateAuthority) AssignProperties_To_IstioCertificateAuthority(destination *storage.IstioCertificateAuthority) error {
+func (authority *IstioCertificateAuthority) AssignProperties_To_IstioCertificateAuthority(destination *v20231102ps.IstioCertificateAuthority) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(authority.PropertyBag)
 
 	// Plugin
 	if authority.Plugin != nil {
-		var plugin storage.IstioPluginCertificateAuthority
+		var plugin v20231102ps.IstioPluginCertificateAuthority
 		err := authority.Plugin.AssignProperties_To_IstioPluginCertificateAuthority(&plugin)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IstioPluginCertificateAuthority() to populate field Plugin")
@@ -17953,7 +18244,7 @@ type IstioCertificateAuthority_STATUS struct {
 }
 
 // AssignProperties_From_IstioCertificateAuthority_STATUS populates our IstioCertificateAuthority_STATUS from the provided source IstioCertificateAuthority_STATUS
-func (authority *IstioCertificateAuthority_STATUS) AssignProperties_From_IstioCertificateAuthority_STATUS(source *storage.IstioCertificateAuthority_STATUS) error {
+func (authority *IstioCertificateAuthority_STATUS) AssignProperties_From_IstioCertificateAuthority_STATUS(source *v20231102ps.IstioCertificateAuthority_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -17990,13 +18281,13 @@ func (authority *IstioCertificateAuthority_STATUS) AssignProperties_From_IstioCe
 }
 
 // AssignProperties_To_IstioCertificateAuthority_STATUS populates the provided destination IstioCertificateAuthority_STATUS from our IstioCertificateAuthority_STATUS
-func (authority *IstioCertificateAuthority_STATUS) AssignProperties_To_IstioCertificateAuthority_STATUS(destination *storage.IstioCertificateAuthority_STATUS) error {
+func (authority *IstioCertificateAuthority_STATUS) AssignProperties_To_IstioCertificateAuthority_STATUS(destination *v20231102ps.IstioCertificateAuthority_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(authority.PropertyBag)
 
 	// Plugin
 	if authority.Plugin != nil {
-		var plugin storage.IstioPluginCertificateAuthority_STATUS
+		var plugin v20231102ps.IstioPluginCertificateAuthority_STATUS
 		err := authority.Plugin.AssignProperties_To_IstioPluginCertificateAuthority_STATUS(&plugin)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IstioPluginCertificateAuthority_STATUS() to populate field Plugin")
@@ -18035,7 +18326,7 @@ type IstioComponents struct {
 }
 
 // AssignProperties_From_IstioComponents populates our IstioComponents from the provided source IstioComponents
-func (components *IstioComponents) AssignProperties_From_IstioComponents(source *storage.IstioComponents) error {
+func (components *IstioComponents) AssignProperties_From_IstioComponents(source *v20231102ps.IstioComponents) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -18096,17 +18387,17 @@ func (components *IstioComponents) AssignProperties_From_IstioComponents(source 
 }
 
 // AssignProperties_To_IstioComponents populates the provided destination IstioComponents from our IstioComponents
-func (components *IstioComponents) AssignProperties_To_IstioComponents(destination *storage.IstioComponents) error {
+func (components *IstioComponents) AssignProperties_To_IstioComponents(destination *v20231102ps.IstioComponents) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(components.PropertyBag)
 
 	// EgressGateways
 	if components.EgressGateways != nil {
-		egressGatewayList := make([]storage.IstioEgressGateway, len(components.EgressGateways))
+		egressGatewayList := make([]v20231102ps.IstioEgressGateway, len(components.EgressGateways))
 		for egressGatewayIndex, egressGatewayItem := range components.EgressGateways {
 			// Shadow the loop variable to avoid aliasing
 			egressGatewayItem := egressGatewayItem
-			var egressGateway storage.IstioEgressGateway
+			var egressGateway v20231102ps.IstioEgressGateway
 			err := egressGatewayItem.AssignProperties_To_IstioEgressGateway(&egressGateway)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IstioEgressGateway() to populate field EgressGateways")
@@ -18120,11 +18411,11 @@ func (components *IstioComponents) AssignProperties_To_IstioComponents(destinati
 
 	// IngressGateways
 	if components.IngressGateways != nil {
-		ingressGatewayList := make([]storage.IstioIngressGateway, len(components.IngressGateways))
+		ingressGatewayList := make([]v20231102ps.IstioIngressGateway, len(components.IngressGateways))
 		for ingressGatewayIndex, ingressGatewayItem := range components.IngressGateways {
 			// Shadow the loop variable to avoid aliasing
 			ingressGatewayItem := ingressGatewayItem
-			var ingressGateway storage.IstioIngressGateway
+			var ingressGateway v20231102ps.IstioIngressGateway
 			err := ingressGatewayItem.AssignProperties_To_IstioIngressGateway(&ingressGateway)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IstioIngressGateway() to populate field IngressGateways")
@@ -18165,7 +18456,7 @@ type IstioComponents_STATUS struct {
 }
 
 // AssignProperties_From_IstioComponents_STATUS populates our IstioComponents_STATUS from the provided source IstioComponents_STATUS
-func (components *IstioComponents_STATUS) AssignProperties_From_IstioComponents_STATUS(source *storage.IstioComponents_STATUS) error {
+func (components *IstioComponents_STATUS) AssignProperties_From_IstioComponents_STATUS(source *v20231102ps.IstioComponents_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -18226,17 +18517,17 @@ func (components *IstioComponents_STATUS) AssignProperties_From_IstioComponents_
 }
 
 // AssignProperties_To_IstioComponents_STATUS populates the provided destination IstioComponents_STATUS from our IstioComponents_STATUS
-func (components *IstioComponents_STATUS) AssignProperties_To_IstioComponents_STATUS(destination *storage.IstioComponents_STATUS) error {
+func (components *IstioComponents_STATUS) AssignProperties_To_IstioComponents_STATUS(destination *v20231102ps.IstioComponents_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(components.PropertyBag)
 
 	// EgressGateways
 	if components.EgressGateways != nil {
-		egressGatewayList := make([]storage.IstioEgressGateway_STATUS, len(components.EgressGateways))
+		egressGatewayList := make([]v20231102ps.IstioEgressGateway_STATUS, len(components.EgressGateways))
 		for egressGatewayIndex, egressGatewayItem := range components.EgressGateways {
 			// Shadow the loop variable to avoid aliasing
 			egressGatewayItem := egressGatewayItem
-			var egressGateway storage.IstioEgressGateway_STATUS
+			var egressGateway v20231102ps.IstioEgressGateway_STATUS
 			err := egressGatewayItem.AssignProperties_To_IstioEgressGateway_STATUS(&egressGateway)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IstioEgressGateway_STATUS() to populate field EgressGateways")
@@ -18250,11 +18541,11 @@ func (components *IstioComponents_STATUS) AssignProperties_To_IstioComponents_ST
 
 	// IngressGateways
 	if components.IngressGateways != nil {
-		ingressGatewayList := make([]storage.IstioIngressGateway_STATUS, len(components.IngressGateways))
+		ingressGatewayList := make([]v20231102ps.IstioIngressGateway_STATUS, len(components.IngressGateways))
 		for ingressGatewayIndex, ingressGatewayItem := range components.IngressGateways {
 			// Shadow the loop variable to avoid aliasing
 			ingressGatewayItem := ingressGatewayItem
-			var ingressGateway storage.IstioIngressGateway_STATUS
+			var ingressGateway v20231102ps.IstioIngressGateway_STATUS
 			err := ingressGatewayItem.AssignProperties_To_IstioIngressGateway_STATUS(&ingressGateway)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IstioIngressGateway_STATUS() to populate field IngressGateways")
@@ -18335,7 +18626,7 @@ type ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics struct {
 }
 
 // AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics populates our ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics from the provided source ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
-func (metrics *ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics) AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics(source *storage.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics) error {
+func (metrics *ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics) AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics(source *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -18381,7 +18672,7 @@ func (metrics *ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetric
 }
 
 // AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics populates the provided destination ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics from our ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
-func (metrics *ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics) AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics(destination *storage.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics) error {
+func (metrics *ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics) AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics(destination *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(metrics.PropertyBag)
 
@@ -18431,7 +18722,7 @@ type ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS s
 }
 
 // AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS populates our ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS from the provided source ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS
-func (metrics *ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS) AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS(source *storage.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS) error {
+func (metrics *ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS) AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS(source *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -18477,7 +18768,7 @@ func (metrics *ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetric
 }
 
 // AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS populates the provided destination ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS from our ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS
-func (metrics *ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS) AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS(destination *storage.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS) error {
+func (metrics *ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS) AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS(destination *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(metrics.PropertyBag)
 
@@ -18525,7 +18816,7 @@ type ManagedClusterAzureMonitorProfileKubeStateMetrics struct {
 }
 
 // AssignProperties_From_ManagedClusterAzureMonitorProfileKubeStateMetrics populates our ManagedClusterAzureMonitorProfileKubeStateMetrics from the provided source ManagedClusterAzureMonitorProfileKubeStateMetrics
-func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics) AssignProperties_From_ManagedClusterAzureMonitorProfileKubeStateMetrics(source *storage.ManagedClusterAzureMonitorProfileKubeStateMetrics) error {
+func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics) AssignProperties_From_ManagedClusterAzureMonitorProfileKubeStateMetrics(source *v20231102ps.ManagedClusterAzureMonitorProfileKubeStateMetrics) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -18556,7 +18847,7 @@ func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics) AssignProperti
 }
 
 // AssignProperties_To_ManagedClusterAzureMonitorProfileKubeStateMetrics populates the provided destination ManagedClusterAzureMonitorProfileKubeStateMetrics from our ManagedClusterAzureMonitorProfileKubeStateMetrics
-func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics) AssignProperties_To_ManagedClusterAzureMonitorProfileKubeStateMetrics(destination *storage.ManagedClusterAzureMonitorProfileKubeStateMetrics) error {
+func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics) AssignProperties_To_ManagedClusterAzureMonitorProfileKubeStateMetrics(destination *v20231102ps.ManagedClusterAzureMonitorProfileKubeStateMetrics) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(metrics.PropertyBag)
 
@@ -18595,7 +18886,7 @@ type ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS populates our ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS from the provided source ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS
-func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) AssignProperties_From_ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS(source *storage.ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) error {
+func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) AssignProperties_From_ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS(source *v20231102ps.ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -18626,7 +18917,7 @@ func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) AssignP
 }
 
 // AssignProperties_To_ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS populates the provided destination ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS from our ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS
-func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) AssignProperties_To_ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS(destination *storage.ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) error {
+func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) AssignProperties_To_ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS(destination *v20231102ps.ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(metrics.PropertyBag)
 
@@ -18664,7 +18955,7 @@ type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs struct {
 }
 
 // AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs populates our ManagedClusterLoadBalancerProfile_ManagedOutboundIPs from the provided source ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(source *storage.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) error {
+func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(source *v20231102ps.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -18695,7 +18986,7 @@ func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) AssignPropertie
 }
 
 // AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs populates the provided destination ManagedClusterLoadBalancerProfile_ManagedOutboundIPs from our ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(destination *storage.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) error {
+func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(destination *v20231102ps.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(iPs.PropertyBag)
 
@@ -18733,7 +19024,7 @@ type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS populates our ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS from the provided source ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
-func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(source *storage.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) error {
+func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(source *v20231102ps.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -18764,7 +19055,7 @@ func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) AssignPr
 }
 
 // AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS populates the provided destination ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS from our ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
-func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(destination *storage.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) error {
+func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(destination *v20231102ps.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(iPs.PropertyBag)
 
@@ -18801,7 +19092,7 @@ type ManagedClusterLoadBalancerProfile_OutboundIPPrefixes struct {
 }
 
 // AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes populates our ManagedClusterLoadBalancerProfile_OutboundIPPrefixes from the provided source ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
-func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes(source *storage.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) error {
+func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes(source *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -18844,17 +19135,17 @@ func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) AssignProp
 }
 
 // AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes populates the provided destination ManagedClusterLoadBalancerProfile_OutboundIPPrefixes from our ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
-func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes(destination *storage.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) error {
+func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes(destination *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(prefixes.PropertyBag)
 
 	// PublicIPPrefixes
 	if prefixes.PublicIPPrefixes != nil {
-		publicIPPrefixList := make([]storage.ResourceReference, len(prefixes.PublicIPPrefixes))
+		publicIPPrefixList := make([]v20231102ps.ResourceReference, len(prefixes.PublicIPPrefixes))
 		for publicIPPrefixIndex, publicIPPrefixItem := range prefixes.PublicIPPrefixes {
 			// Shadow the loop variable to avoid aliasing
 			publicIPPrefixItem := publicIPPrefixItem
-			var publicIPPrefix storage.ResourceReference
+			var publicIPPrefix v20231102ps.ResourceReference
 			err := publicIPPrefixItem.AssignProperties_To_ResourceReference(&publicIPPrefix)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field PublicIPPrefixes")
@@ -18893,7 +19184,7 @@ type ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS populates our ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS from the provided source ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
-func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(source *storage.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) error {
+func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(source *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -18936,17 +19227,17 @@ func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) Ass
 }
 
 // AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS populates the provided destination ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS from our ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
-func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(destination *storage.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) error {
+func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(destination *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(prefixes.PropertyBag)
 
 	// PublicIPPrefixes
 	if prefixes.PublicIPPrefixes != nil {
-		publicIPPrefixList := make([]storage.ResourceReference_STATUS, len(prefixes.PublicIPPrefixes))
+		publicIPPrefixList := make([]v20231102ps.ResourceReference_STATUS, len(prefixes.PublicIPPrefixes))
 		for publicIPPrefixIndex, publicIPPrefixItem := range prefixes.PublicIPPrefixes {
 			// Shadow the loop variable to avoid aliasing
 			publicIPPrefixItem := publicIPPrefixItem
-			var publicIPPrefix storage.ResourceReference_STATUS
+			var publicIPPrefix v20231102ps.ResourceReference_STATUS
 			err := publicIPPrefixItem.AssignProperties_To_ResourceReference_STATUS(&publicIPPrefix)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field PublicIPPrefixes")
@@ -18985,7 +19276,7 @@ type ManagedClusterLoadBalancerProfile_OutboundIPs struct {
 }
 
 // AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs populates our ManagedClusterLoadBalancerProfile_OutboundIPs from the provided source ManagedClusterLoadBalancerProfile_OutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs(source *storage.ManagedClusterLoadBalancerProfile_OutboundIPs) error {
+func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs(source *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPs) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -19028,17 +19319,17 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) AssignProperties_From_
 }
 
 // AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs populates the provided destination ManagedClusterLoadBalancerProfile_OutboundIPs from our ManagedClusterLoadBalancerProfile_OutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs(destination *storage.ManagedClusterLoadBalancerProfile_OutboundIPs) error {
+func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs(destination *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPs) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(iPs.PropertyBag)
 
 	// PublicIPs
 	if iPs.PublicIPs != nil {
-		publicIPList := make([]storage.ResourceReference, len(iPs.PublicIPs))
+		publicIPList := make([]v20231102ps.ResourceReference, len(iPs.PublicIPs))
 		for publicIPIndex, publicIPItem := range iPs.PublicIPs {
 			// Shadow the loop variable to avoid aliasing
 			publicIPItem := publicIPItem
-			var publicIP storage.ResourceReference
+			var publicIP v20231102ps.ResourceReference
 			err := publicIPItem.AssignProperties_To_ResourceReference(&publicIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field PublicIPs")
@@ -19077,7 +19368,7 @@ type ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS populates our ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS from the provided source ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
-func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(source *storage.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) error {
+func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(source *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -19120,17 +19411,17 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) AssignPropertie
 }
 
 // AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS populates the provided destination ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS from our ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
-func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(destination *storage.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) error {
+func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(destination *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(iPs.PropertyBag)
 
 	// PublicIPs
 	if iPs.PublicIPs != nil {
-		publicIPList := make([]storage.ResourceReference_STATUS, len(iPs.PublicIPs))
+		publicIPList := make([]v20231102ps.ResourceReference_STATUS, len(iPs.PublicIPs))
 		for publicIPIndex, publicIPItem := range iPs.PublicIPs {
 			// Shadow the loop variable to avoid aliasing
 			publicIPItem := publicIPItem
-			var publicIP storage.ResourceReference_STATUS
+			var publicIP v20231102ps.ResourceReference_STATUS
 			err := publicIPItem.AssignProperties_To_ResourceReference_STATUS(&publicIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field PublicIPs")
@@ -19170,7 +19461,7 @@ type ManagedClusterManagedOutboundIPProfile struct {
 }
 
 // AssignProperties_From_ManagedClusterManagedOutboundIPProfile populates our ManagedClusterManagedOutboundIPProfile from the provided source ManagedClusterManagedOutboundIPProfile
-func (profile *ManagedClusterManagedOutboundIPProfile) AssignProperties_From_ManagedClusterManagedOutboundIPProfile(source *storage.ManagedClusterManagedOutboundIPProfile) error {
+func (profile *ManagedClusterManagedOutboundIPProfile) AssignProperties_From_ManagedClusterManagedOutboundIPProfile(source *v20231102ps.ManagedClusterManagedOutboundIPProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -19198,7 +19489,7 @@ func (profile *ManagedClusterManagedOutboundIPProfile) AssignProperties_From_Man
 }
 
 // AssignProperties_To_ManagedClusterManagedOutboundIPProfile populates the provided destination ManagedClusterManagedOutboundIPProfile from our ManagedClusterManagedOutboundIPProfile
-func (profile *ManagedClusterManagedOutboundIPProfile) AssignProperties_To_ManagedClusterManagedOutboundIPProfile(destination *storage.ManagedClusterManagedOutboundIPProfile) error {
+func (profile *ManagedClusterManagedOutboundIPProfile) AssignProperties_To_ManagedClusterManagedOutboundIPProfile(destination *v20231102ps.ManagedClusterManagedOutboundIPProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -19233,7 +19524,7 @@ type ManagedClusterManagedOutboundIPProfile_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterManagedOutboundIPProfile_STATUS populates our ManagedClusterManagedOutboundIPProfile_STATUS from the provided source ManagedClusterManagedOutboundIPProfile_STATUS
-func (profile *ManagedClusterManagedOutboundIPProfile_STATUS) AssignProperties_From_ManagedClusterManagedOutboundIPProfile_STATUS(source *storage.ManagedClusterManagedOutboundIPProfile_STATUS) error {
+func (profile *ManagedClusterManagedOutboundIPProfile_STATUS) AssignProperties_From_ManagedClusterManagedOutboundIPProfile_STATUS(source *v20231102ps.ManagedClusterManagedOutboundIPProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -19261,7 +19552,7 @@ func (profile *ManagedClusterManagedOutboundIPProfile_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_ManagedClusterManagedOutboundIPProfile_STATUS populates the provided destination ManagedClusterManagedOutboundIPProfile_STATUS from our ManagedClusterManagedOutboundIPProfile_STATUS
-func (profile *ManagedClusterManagedOutboundIPProfile_STATUS) AssignProperties_To_ManagedClusterManagedOutboundIPProfile_STATUS(destination *storage.ManagedClusterManagedOutboundIPProfile_STATUS) error {
+func (profile *ManagedClusterManagedOutboundIPProfile_STATUS) AssignProperties_To_ManagedClusterManagedOutboundIPProfile_STATUS(destination *v20231102ps.ManagedClusterManagedOutboundIPProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -19295,7 +19586,7 @@ type ManagedClusterPodIdentity_ProvisioningInfo_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterPodIdentity_ProvisioningInfo_STATUS populates our ManagedClusterPodIdentity_ProvisioningInfo_STATUS from the provided source ManagedClusterPodIdentity_ProvisioningInfo_STATUS
-func (info *ManagedClusterPodIdentity_ProvisioningInfo_STATUS) AssignProperties_From_ManagedClusterPodIdentity_ProvisioningInfo_STATUS(source *storage.ManagedClusterPodIdentity_ProvisioningInfo_STATUS) error {
+func (info *ManagedClusterPodIdentity_ProvisioningInfo_STATUS) AssignProperties_From_ManagedClusterPodIdentity_ProvisioningInfo_STATUS(source *v20231102ps.ManagedClusterPodIdentity_ProvisioningInfo_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -19332,13 +19623,13 @@ func (info *ManagedClusterPodIdentity_ProvisioningInfo_STATUS) AssignProperties_
 }
 
 // AssignProperties_To_ManagedClusterPodIdentity_ProvisioningInfo_STATUS populates the provided destination ManagedClusterPodIdentity_ProvisioningInfo_STATUS from our ManagedClusterPodIdentity_ProvisioningInfo_STATUS
-func (info *ManagedClusterPodIdentity_ProvisioningInfo_STATUS) AssignProperties_To_ManagedClusterPodIdentity_ProvisioningInfo_STATUS(destination *storage.ManagedClusterPodIdentity_ProvisioningInfo_STATUS) error {
+func (info *ManagedClusterPodIdentity_ProvisioningInfo_STATUS) AssignProperties_To_ManagedClusterPodIdentity_ProvisioningInfo_STATUS(destination *v20231102ps.ManagedClusterPodIdentity_ProvisioningInfo_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(info.PropertyBag)
 
 	// Error
 	if info.Error != nil {
-		var error storage.ManagedClusterPodIdentityProvisioningError_STATUS
+		var error v20231102ps.ManagedClusterPodIdentityProvisioningError_STATUS
 		err := info.Error.AssignProperties_To_ManagedClusterPodIdentityProvisioningError_STATUS(&error)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPodIdentityProvisioningError_STATUS() to populate field Error")
@@ -19376,7 +19667,7 @@ type ManagedClusterSecurityProfileDefenderSecurityMonitoring struct {
 }
 
 // AssignProperties_From_ManagedClusterSecurityProfileDefenderSecurityMonitoring populates our ManagedClusterSecurityProfileDefenderSecurityMonitoring from the provided source ManagedClusterSecurityProfileDefenderSecurityMonitoring
-func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring) AssignProperties_From_ManagedClusterSecurityProfileDefenderSecurityMonitoring(source *storage.ManagedClusterSecurityProfileDefenderSecurityMonitoring) error {
+func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring) AssignProperties_From_ManagedClusterSecurityProfileDefenderSecurityMonitoring(source *v20231102ps.ManagedClusterSecurityProfileDefenderSecurityMonitoring) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -19409,7 +19700,7 @@ func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring) Assig
 }
 
 // AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityMonitoring populates the provided destination ManagedClusterSecurityProfileDefenderSecurityMonitoring from our ManagedClusterSecurityProfileDefenderSecurityMonitoring
-func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring) AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityMonitoring(destination *storage.ManagedClusterSecurityProfileDefenderSecurityMonitoring) error {
+func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring) AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityMonitoring(destination *v20231102ps.ManagedClusterSecurityProfileDefenderSecurityMonitoring) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(monitoring.PropertyBag)
 
@@ -19449,7 +19740,7 @@ type ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS populates our ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS from the provided source ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
-func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS) AssignProperties_From_ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS(source *storage.ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS) error {
+func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS) AssignProperties_From_ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS(source *v20231102ps.ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -19482,7 +19773,7 @@ func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
 }
 
 // AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS populates the provided destination ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS from our ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
-func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS) AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS(destination *storage.ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS) error {
+func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS) AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS(destination *v20231102ps.ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(monitoring.PropertyBag)
 
@@ -19524,7 +19815,7 @@ type ResourceReference struct {
 }
 
 // AssignProperties_From_ResourceReference populates our ResourceReference from the provided source ResourceReference
-func (reference *ResourceReference) AssignProperties_From_ResourceReference(source *storage.ResourceReference) error {
+func (reference *ResourceReference) AssignProperties_From_ResourceReference(source *v20231102ps.ResourceReference) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -19557,7 +19848,7 @@ func (reference *ResourceReference) AssignProperties_From_ResourceReference(sour
 }
 
 // AssignProperties_To_ResourceReference populates the provided destination ResourceReference from our ResourceReference
-func (reference *ResourceReference) AssignProperties_To_ResourceReference(destination *storage.ResourceReference) error {
+func (reference *ResourceReference) AssignProperties_To_ResourceReference(destination *v20231102ps.ResourceReference) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
 
@@ -19597,7 +19888,7 @@ type ResourceReference_STATUS struct {
 }
 
 // AssignProperties_From_ResourceReference_STATUS populates our ResourceReference_STATUS from the provided source ResourceReference_STATUS
-func (reference *ResourceReference_STATUS) AssignProperties_From_ResourceReference_STATUS(source *storage.ResourceReference_STATUS) error {
+func (reference *ResourceReference_STATUS) AssignProperties_From_ResourceReference_STATUS(source *v20231102ps.ResourceReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -19625,7 +19916,7 @@ func (reference *ResourceReference_STATUS) AssignProperties_From_ResourceReferen
 }
 
 // AssignProperties_To_ResourceReference_STATUS populates the provided destination ResourceReference_STATUS from our ResourceReference_STATUS
-func (reference *ResourceReference_STATUS) AssignProperties_To_ResourceReference_STATUS(destination *storage.ResourceReference_STATUS) error {
+func (reference *ResourceReference_STATUS) AssignProperties_To_ResourceReference_STATUS(destination *v20231102ps.ResourceReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
 
@@ -19652,129 +19943,139 @@ func (reference *ResourceReference_STATUS) AssignProperties_To_ResourceReference
 	return nil
 }
 
+type augmentConversionForAdvancedNetworkingObservability interface {
+	AssignPropertiesFrom(src *v20231001sc.AdvancedNetworkingObservability) error
+	AssignPropertiesTo(dst *v20231001sc.AdvancedNetworkingObservability) error
+}
+
+type augmentConversionForAdvancedNetworkingObservability_STATUS interface {
+	AssignPropertiesFrom(src *v20231001sc.AdvancedNetworkingObservability_STATUS) error
+	AssignPropertiesTo(dst *v20231001sc.AdvancedNetworkingObservability_STATUS) error
+}
+
 type augmentConversionForContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig interface {
-	AssignPropertiesFrom(src *storage.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) error
-	AssignPropertiesTo(dst *storage.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) error
+	AssignPropertiesFrom(src *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) error
+	AssignPropertiesTo(dst *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) error
 }
 
 type augmentConversionForContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS interface {
-	AssignPropertiesFrom(src *storage.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) error
-	AssignPropertiesTo(dst *storage.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) error
 }
 
 type augmentConversionForContainerServiceSshPublicKey interface {
-	AssignPropertiesFrom(src *storage.ContainerServiceSshPublicKey) error
-	AssignPropertiesTo(dst *storage.ContainerServiceSshPublicKey) error
+	AssignPropertiesFrom(src *v20231102ps.ContainerServiceSshPublicKey) error
+	AssignPropertiesTo(dst *v20231102ps.ContainerServiceSshPublicKey) error
 }
 
 type augmentConversionForContainerServiceSshPublicKey_STATUS interface {
-	AssignPropertiesFrom(src *storage.ContainerServiceSshPublicKey_STATUS) error
-	AssignPropertiesTo(dst *storage.ContainerServiceSshPublicKey_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ContainerServiceSshPublicKey_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ContainerServiceSshPublicKey_STATUS) error
 }
 
 type augmentConversionForIstioCertificateAuthority interface {
-	AssignPropertiesFrom(src *storage.IstioCertificateAuthority) error
-	AssignPropertiesTo(dst *storage.IstioCertificateAuthority) error
+	AssignPropertiesFrom(src *v20231102ps.IstioCertificateAuthority) error
+	AssignPropertiesTo(dst *v20231102ps.IstioCertificateAuthority) error
 }
 
 type augmentConversionForIstioCertificateAuthority_STATUS interface {
-	AssignPropertiesFrom(src *storage.IstioCertificateAuthority_STATUS) error
-	AssignPropertiesTo(dst *storage.IstioCertificateAuthority_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.IstioCertificateAuthority_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.IstioCertificateAuthority_STATUS) error
 }
 
 type augmentConversionForIstioComponents interface {
-	AssignPropertiesFrom(src *storage.IstioComponents) error
-	AssignPropertiesTo(dst *storage.IstioComponents) error
+	AssignPropertiesFrom(src *v20231102ps.IstioComponents) error
+	AssignPropertiesTo(dst *v20231102ps.IstioComponents) error
 }
 
 type augmentConversionForIstioComponents_STATUS interface {
-	AssignPropertiesFrom(src *storage.IstioComponents_STATUS) error
-	AssignPropertiesTo(dst *storage.IstioComponents_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.IstioComponents_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.IstioComponents_STATUS) error
 }
 
 type augmentConversionForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics) error
 }
 
 type augmentConversionForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS) error
 }
 
 type augmentConversionForManagedClusterAzureMonitorProfileKubeStateMetrics interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAzureMonitorProfileKubeStateMetrics) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAzureMonitorProfileKubeStateMetrics) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAzureMonitorProfileKubeStateMetrics) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAzureMonitorProfileKubeStateMetrics) error
 }
 
 type augmentConversionForManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) error
 }
 
 type augmentConversionForManagedClusterLoadBalancerProfile_ManagedOutboundIPs interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) error
-	AssignPropertiesTo(dst *storage.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) error
 }
 
 type augmentConversionForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) error
 }
 
 type augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPPrefixes interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) error
-	AssignPropertiesTo(dst *storage.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) error
 }
 
 type augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) error
 }
 
 type augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPs interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterLoadBalancerProfile_OutboundIPs) error
-	AssignPropertiesTo(dst *storage.ManagedClusterLoadBalancerProfile_OutboundIPs) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPs) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPs) error
 }
 
 type augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) error
 }
 
 type augmentConversionForManagedClusterManagedOutboundIPProfile interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterManagedOutboundIPProfile) error
-	AssignPropertiesTo(dst *storage.ManagedClusterManagedOutboundIPProfile) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterManagedOutboundIPProfile) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterManagedOutboundIPProfile) error
 }
 
 type augmentConversionForManagedClusterManagedOutboundIPProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterManagedOutboundIPProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterManagedOutboundIPProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterManagedOutboundIPProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterManagedOutboundIPProfile_STATUS) error
 }
 
 type augmentConversionForManagedClusterPodIdentity_ProvisioningInfo_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterPodIdentity_ProvisioningInfo_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterPodIdentity_ProvisioningInfo_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterPodIdentity_ProvisioningInfo_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterPodIdentity_ProvisioningInfo_STATUS) error
 }
 
 type augmentConversionForManagedClusterSecurityProfileDefenderSecurityMonitoring interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSecurityProfileDefenderSecurityMonitoring) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSecurityProfileDefenderSecurityMonitoring) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSecurityProfileDefenderSecurityMonitoring) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSecurityProfileDefenderSecurityMonitoring) error
 }
 
 type augmentConversionForManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS) error
 }
 
 type augmentConversionForResourceReference interface {
-	AssignPropertiesFrom(src *storage.ResourceReference) error
-	AssignPropertiesTo(dst *storage.ResourceReference) error
+	AssignPropertiesFrom(src *v20231102ps.ResourceReference) error
+	AssignPropertiesTo(dst *v20231102ps.ResourceReference) error
 }
 
 type augmentConversionForResourceReference_STATUS interface {
-	AssignPropertiesFrom(src *storage.ResourceReference_STATUS) error
-	AssignPropertiesTo(dst *storage.ResourceReference_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ResourceReference_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ResourceReference_STATUS) error
 }
 
 // Storage version of v1api20240402preview.IstioEgressGateway
@@ -19785,7 +20086,7 @@ type IstioEgressGateway struct {
 }
 
 // AssignProperties_From_IstioEgressGateway populates our IstioEgressGateway from the provided source IstioEgressGateway
-func (gateway *IstioEgressGateway) AssignProperties_From_IstioEgressGateway(source *storage.IstioEgressGateway) error {
+func (gateway *IstioEgressGateway) AssignProperties_From_IstioEgressGateway(source *v20231102ps.IstioEgressGateway) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -19825,7 +20126,7 @@ func (gateway *IstioEgressGateway) AssignProperties_From_IstioEgressGateway(sour
 }
 
 // AssignProperties_To_IstioEgressGateway populates the provided destination IstioEgressGateway from our IstioEgressGateway
-func (gateway *IstioEgressGateway) AssignProperties_To_IstioEgressGateway(destination *storage.IstioEgressGateway) error {
+func (gateway *IstioEgressGateway) AssignProperties_To_IstioEgressGateway(destination *v20231102ps.IstioEgressGateway) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(gateway.PropertyBag)
 
@@ -19878,7 +20179,7 @@ type IstioEgressGateway_STATUS struct {
 }
 
 // AssignProperties_From_IstioEgressGateway_STATUS populates our IstioEgressGateway_STATUS from the provided source IstioEgressGateway_STATUS
-func (gateway *IstioEgressGateway_STATUS) AssignProperties_From_IstioEgressGateway_STATUS(source *storage.IstioEgressGateway_STATUS) error {
+func (gateway *IstioEgressGateway_STATUS) AssignProperties_From_IstioEgressGateway_STATUS(source *v20231102ps.IstioEgressGateway_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -19918,7 +20219,7 @@ func (gateway *IstioEgressGateway_STATUS) AssignProperties_From_IstioEgressGatew
 }
 
 // AssignProperties_To_IstioEgressGateway_STATUS populates the provided destination IstioEgressGateway_STATUS from our IstioEgressGateway_STATUS
-func (gateway *IstioEgressGateway_STATUS) AssignProperties_To_IstioEgressGateway_STATUS(destination *storage.IstioEgressGateway_STATUS) error {
+func (gateway *IstioEgressGateway_STATUS) AssignProperties_To_IstioEgressGateway_STATUS(destination *v20231102ps.IstioEgressGateway_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(gateway.PropertyBag)
 
@@ -19973,7 +20274,7 @@ type IstioIngressGateway struct {
 }
 
 // AssignProperties_From_IstioIngressGateway populates our IstioIngressGateway from the provided source IstioIngressGateway
-func (gateway *IstioIngressGateway) AssignProperties_From_IstioIngressGateway(source *storage.IstioIngressGateway) error {
+func (gateway *IstioIngressGateway) AssignProperties_From_IstioIngressGateway(source *v20231102ps.IstioIngressGateway) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -20009,7 +20310,7 @@ func (gateway *IstioIngressGateway) AssignProperties_From_IstioIngressGateway(so
 }
 
 // AssignProperties_To_IstioIngressGateway populates the provided destination IstioIngressGateway from our IstioIngressGateway
-func (gateway *IstioIngressGateway) AssignProperties_To_IstioIngressGateway(destination *storage.IstioIngressGateway) error {
+func (gateway *IstioIngressGateway) AssignProperties_To_IstioIngressGateway(destination *v20231102ps.IstioIngressGateway) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(gateway.PropertyBag)
 
@@ -20054,7 +20355,7 @@ type IstioIngressGateway_STATUS struct {
 }
 
 // AssignProperties_From_IstioIngressGateway_STATUS populates our IstioIngressGateway_STATUS from the provided source IstioIngressGateway_STATUS
-func (gateway *IstioIngressGateway_STATUS) AssignProperties_From_IstioIngressGateway_STATUS(source *storage.IstioIngressGateway_STATUS) error {
+func (gateway *IstioIngressGateway_STATUS) AssignProperties_From_IstioIngressGateway_STATUS(source *v20231102ps.IstioIngressGateway_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -20090,7 +20391,7 @@ func (gateway *IstioIngressGateway_STATUS) AssignProperties_From_IstioIngressGat
 }
 
 // AssignProperties_To_IstioIngressGateway_STATUS populates the provided destination IstioIngressGateway_STATUS from our IstioIngressGateway_STATUS
-func (gateway *IstioIngressGateway_STATUS) AssignProperties_To_IstioIngressGateway_STATUS(destination *storage.IstioIngressGateway_STATUS) error {
+func (gateway *IstioIngressGateway_STATUS) AssignProperties_To_IstioIngressGateway_STATUS(destination *v20231102ps.IstioIngressGateway_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(gateway.PropertyBag)
 
@@ -20139,7 +20440,7 @@ type IstioPluginCertificateAuthority struct {
 }
 
 // AssignProperties_From_IstioPluginCertificateAuthority populates our IstioPluginCertificateAuthority from the provided source IstioPluginCertificateAuthority
-func (authority *IstioPluginCertificateAuthority) AssignProperties_From_IstioPluginCertificateAuthority(source *storage.IstioPluginCertificateAuthority) error {
+func (authority *IstioPluginCertificateAuthority) AssignProperties_From_IstioPluginCertificateAuthority(source *v20231102ps.IstioPluginCertificateAuthority) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -20184,7 +20485,7 @@ func (authority *IstioPluginCertificateAuthority) AssignProperties_From_IstioPlu
 }
 
 // AssignProperties_To_IstioPluginCertificateAuthority populates the provided destination IstioPluginCertificateAuthority from our IstioPluginCertificateAuthority
-func (authority *IstioPluginCertificateAuthority) AssignProperties_To_IstioPluginCertificateAuthority(destination *storage.IstioPluginCertificateAuthority) error {
+func (authority *IstioPluginCertificateAuthority) AssignProperties_To_IstioPluginCertificateAuthority(destination *v20231102ps.IstioPluginCertificateAuthority) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(authority.PropertyBag)
 
@@ -20240,7 +20541,7 @@ type IstioPluginCertificateAuthority_STATUS struct {
 }
 
 // AssignProperties_From_IstioPluginCertificateAuthority_STATUS populates our IstioPluginCertificateAuthority_STATUS from the provided source IstioPluginCertificateAuthority_STATUS
-func (authority *IstioPluginCertificateAuthority_STATUS) AssignProperties_From_IstioPluginCertificateAuthority_STATUS(source *storage.IstioPluginCertificateAuthority_STATUS) error {
+func (authority *IstioPluginCertificateAuthority_STATUS) AssignProperties_From_IstioPluginCertificateAuthority_STATUS(source *v20231102ps.IstioPluginCertificateAuthority_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -20280,7 +20581,7 @@ func (authority *IstioPluginCertificateAuthority_STATUS) AssignProperties_From_I
 }
 
 // AssignProperties_To_IstioPluginCertificateAuthority_STATUS populates the provided destination IstioPluginCertificateAuthority_STATUS from our IstioPluginCertificateAuthority_STATUS
-func (authority *IstioPluginCertificateAuthority_STATUS) AssignProperties_To_IstioPluginCertificateAuthority_STATUS(destination *storage.IstioPluginCertificateAuthority_STATUS) error {
+func (authority *IstioPluginCertificateAuthority_STATUS) AssignProperties_To_IstioPluginCertificateAuthority_STATUS(destination *v20231102ps.IstioPluginCertificateAuthority_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(authority.PropertyBag)
 
@@ -20327,7 +20628,7 @@ type ManagedClusterPodIdentityProvisioningError_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterPodIdentityProvisioningError_STATUS populates our ManagedClusterPodIdentityProvisioningError_STATUS from the provided source ManagedClusterPodIdentityProvisioningError_STATUS
-func (error *ManagedClusterPodIdentityProvisioningError_STATUS) AssignProperties_From_ManagedClusterPodIdentityProvisioningError_STATUS(source *storage.ManagedClusterPodIdentityProvisioningError_STATUS) error {
+func (error *ManagedClusterPodIdentityProvisioningError_STATUS) AssignProperties_From_ManagedClusterPodIdentityProvisioningError_STATUS(source *v20231102ps.ManagedClusterPodIdentityProvisioningError_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -20364,13 +20665,13 @@ func (error *ManagedClusterPodIdentityProvisioningError_STATUS) AssignProperties
 }
 
 // AssignProperties_To_ManagedClusterPodIdentityProvisioningError_STATUS populates the provided destination ManagedClusterPodIdentityProvisioningError_STATUS from our ManagedClusterPodIdentityProvisioningError_STATUS
-func (error *ManagedClusterPodIdentityProvisioningError_STATUS) AssignProperties_To_ManagedClusterPodIdentityProvisioningError_STATUS(destination *storage.ManagedClusterPodIdentityProvisioningError_STATUS) error {
+func (error *ManagedClusterPodIdentityProvisioningError_STATUS) AssignProperties_To_ManagedClusterPodIdentityProvisioningError_STATUS(destination *v20231102ps.ManagedClusterPodIdentityProvisioningError_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(error.PropertyBag)
 
 	// Error
 	if error.Error != nil {
-		var errorLocal storage.ManagedClusterPodIdentityProvisioningErrorBody_STATUS
+		var errorLocal v20231102ps.ManagedClusterPodIdentityProvisioningErrorBody_STATUS
 		err := error.Error.AssignProperties_To_ManagedClusterPodIdentityProvisioningErrorBody_STATUS(&errorLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPodIdentityProvisioningErrorBody_STATUS() to populate field Error")
@@ -20401,38 +20702,38 @@ func (error *ManagedClusterPodIdentityProvisioningError_STATUS) AssignProperties
 }
 
 type augmentConversionForIstioEgressGateway interface {
-	AssignPropertiesFrom(src *storage.IstioEgressGateway) error
-	AssignPropertiesTo(dst *storage.IstioEgressGateway) error
+	AssignPropertiesFrom(src *v20231102ps.IstioEgressGateway) error
+	AssignPropertiesTo(dst *v20231102ps.IstioEgressGateway) error
 }
 
 type augmentConversionForIstioEgressGateway_STATUS interface {
-	AssignPropertiesFrom(src *storage.IstioEgressGateway_STATUS) error
-	AssignPropertiesTo(dst *storage.IstioEgressGateway_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.IstioEgressGateway_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.IstioEgressGateway_STATUS) error
 }
 
 type augmentConversionForIstioIngressGateway interface {
-	AssignPropertiesFrom(src *storage.IstioIngressGateway) error
-	AssignPropertiesTo(dst *storage.IstioIngressGateway) error
+	AssignPropertiesFrom(src *v20231102ps.IstioIngressGateway) error
+	AssignPropertiesTo(dst *v20231102ps.IstioIngressGateway) error
 }
 
 type augmentConversionForIstioIngressGateway_STATUS interface {
-	AssignPropertiesFrom(src *storage.IstioIngressGateway_STATUS) error
-	AssignPropertiesTo(dst *storage.IstioIngressGateway_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.IstioIngressGateway_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.IstioIngressGateway_STATUS) error
 }
 
 type augmentConversionForIstioPluginCertificateAuthority interface {
-	AssignPropertiesFrom(src *storage.IstioPluginCertificateAuthority) error
-	AssignPropertiesTo(dst *storage.IstioPluginCertificateAuthority) error
+	AssignPropertiesFrom(src *v20231102ps.IstioPluginCertificateAuthority) error
+	AssignPropertiesTo(dst *v20231102ps.IstioPluginCertificateAuthority) error
 }
 
 type augmentConversionForIstioPluginCertificateAuthority_STATUS interface {
-	AssignPropertiesFrom(src *storage.IstioPluginCertificateAuthority_STATUS) error
-	AssignPropertiesTo(dst *storage.IstioPluginCertificateAuthority_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.IstioPluginCertificateAuthority_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.IstioPluginCertificateAuthority_STATUS) error
 }
 
 type augmentConversionForManagedClusterPodIdentityProvisioningError_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterPodIdentityProvisioningError_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterPodIdentityProvisioningError_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterPodIdentityProvisioningError_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterPodIdentityProvisioningError_STATUS) error
 }
 
 // Storage version of v1api20240402preview.ManagedClusterPodIdentityProvisioningErrorBody_STATUS
@@ -20446,7 +20747,7 @@ type ManagedClusterPodIdentityProvisioningErrorBody_STATUS struct {
 }
 
 // AssignProperties_From_ManagedClusterPodIdentityProvisioningErrorBody_STATUS populates our ManagedClusterPodIdentityProvisioningErrorBody_STATUS from the provided source ManagedClusterPodIdentityProvisioningErrorBody_STATUS
-func (body *ManagedClusterPodIdentityProvisioningErrorBody_STATUS) AssignProperties_From_ManagedClusterPodIdentityProvisioningErrorBody_STATUS(source *storage.ManagedClusterPodIdentityProvisioningErrorBody_STATUS) error {
+func (body *ManagedClusterPodIdentityProvisioningErrorBody_STATUS) AssignProperties_From_ManagedClusterPodIdentityProvisioningErrorBody_STATUS(source *v20231102ps.ManagedClusterPodIdentityProvisioningErrorBody_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -20498,7 +20799,7 @@ func (body *ManagedClusterPodIdentityProvisioningErrorBody_STATUS) AssignPropert
 }
 
 // AssignProperties_To_ManagedClusterPodIdentityProvisioningErrorBody_STATUS populates the provided destination ManagedClusterPodIdentityProvisioningErrorBody_STATUS from our ManagedClusterPodIdentityProvisioningErrorBody_STATUS
-func (body *ManagedClusterPodIdentityProvisioningErrorBody_STATUS) AssignProperties_To_ManagedClusterPodIdentityProvisioningErrorBody_STATUS(destination *storage.ManagedClusterPodIdentityProvisioningErrorBody_STATUS) error {
+func (body *ManagedClusterPodIdentityProvisioningErrorBody_STATUS) AssignProperties_To_ManagedClusterPodIdentityProvisioningErrorBody_STATUS(destination *v20231102ps.ManagedClusterPodIdentityProvisioningErrorBody_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(body.PropertyBag)
 
@@ -20507,11 +20808,11 @@ func (body *ManagedClusterPodIdentityProvisioningErrorBody_STATUS) AssignPropert
 
 	// Details
 	if body.Details != nil {
-		detailList := make([]storage.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled, len(body.Details))
+		detailList := make([]v20231102ps.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled, len(body.Details))
 		for detailIndex, detailItem := range body.Details {
 			// Shadow the loop variable to avoid aliasing
 			detailItem := detailItem
-			var detail storage.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
+			var detail v20231102ps.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
 			err := detailItem.AssignProperties_To_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled(&detail)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled() to populate field Details")
@@ -20550,8 +20851,8 @@ func (body *ManagedClusterPodIdentityProvisioningErrorBody_STATUS) AssignPropert
 }
 
 type augmentConversionForManagedClusterPodIdentityProvisioningErrorBody_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterPodIdentityProvisioningErrorBody_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusterPodIdentityProvisioningErrorBody_STATUS) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterPodIdentityProvisioningErrorBody_STATUS) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterPodIdentityProvisioningErrorBody_STATUS) error
 }
 
 // Storage version of v1api20240402preview.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
@@ -20563,7 +20864,7 @@ type ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled struct {
 }
 
 // AssignProperties_From_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled populates our ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled from the provided source ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
-func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) AssignProperties_From_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled(source *storage.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) error {
+func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) AssignProperties_From_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled(source *v20231102ps.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -20597,7 +20898,7 @@ func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) 
 }
 
 // AssignProperties_To_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled populates the provided destination ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled from our ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
-func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) AssignProperties_To_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled(destination *storage.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) error {
+func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) AssignProperties_To_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled(destination *v20231102ps.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(unrolled.PropertyBag)
 
@@ -20631,8 +20932,8 @@ func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) 
 }
 
 type augmentConversionForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled interface {
-	AssignPropertiesFrom(src *storage.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) error
-	AssignPropertiesTo(dst *storage.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) error
+	AssignPropertiesFrom(src *v20231102ps.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) error
+	AssignPropertiesTo(dst *v20231102ps.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) error
 }
 
 func init() {
