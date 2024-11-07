@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -356,7 +357,7 @@ func (eventhub *NamespacesEventhub_Spec) ConvertToARM(resolved genruntime.Conver
 	if eventhub == nil {
 		return nil, nil
 	}
-	result := &NamespacesEventhub_Spec_ARM{}
+	result := &arm.NamespacesEventhub_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -365,14 +366,14 @@ func (eventhub *NamespacesEventhub_Spec) ConvertToARM(resolved genruntime.Conver
 	if eventhub.CaptureDescription != nil ||
 		eventhub.MessageRetentionInDays != nil ||
 		eventhub.PartitionCount != nil {
-		result.Properties = &Namespaces_Eventhub_Properties_Spec_ARM{}
+		result.Properties = &arm.Namespaces_Eventhub_Properties_Spec{}
 	}
 	if eventhub.CaptureDescription != nil {
 		captureDescription_ARM, err := (*eventhub.CaptureDescription).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		captureDescription := *captureDescription_ARM.(*CaptureDescription_ARM)
+		captureDescription := *captureDescription_ARM.(*arm.CaptureDescription)
 		result.Properties.CaptureDescription = &captureDescription
 	}
 	if eventhub.MessageRetentionInDays != nil {
@@ -388,14 +389,14 @@ func (eventhub *NamespacesEventhub_Spec) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (eventhub *NamespacesEventhub_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamespacesEventhub_Spec_ARM{}
+	return &arm.NamespacesEventhub_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (eventhub *NamespacesEventhub_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamespacesEventhub_Spec_ARM)
+	typedInput, ok := armInput.(arm.NamespacesEventhub_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesEventhub_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NamespacesEventhub_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -738,14 +739,14 @@ var _ genruntime.FromARMConverter = &NamespacesEventhub_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (eventhub *NamespacesEventhub_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamespacesEventhub_STATUS_ARM{}
+	return &arm.NamespacesEventhub_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (eventhub *NamespacesEventhub_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamespacesEventhub_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NamespacesEventhub_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesEventhub_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NamespacesEventhub_STATUS, got %T", armInput)
 	}
 
 	// Set property "CaptureDescription":
@@ -1037,7 +1038,7 @@ func (description *CaptureDescription) ConvertToARM(resolved genruntime.ConvertT
 	if description == nil {
 		return nil, nil
 	}
-	result := &CaptureDescription_ARM{}
+	result := &arm.CaptureDescription{}
 
 	// Set property "Destination":
 	if description.Destination != nil {
@@ -1045,7 +1046,7 @@ func (description *CaptureDescription) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		destination := *destination_ARM.(*Destination_ARM)
+		destination := *destination_ARM.(*arm.Destination)
 		result.Destination = &destination
 	}
 
@@ -1059,7 +1060,7 @@ func (description *CaptureDescription) ConvertToARM(resolved genruntime.ConvertT
 	if description.Encoding != nil {
 		var temp string
 		temp = string(*description.Encoding)
-		encoding := CaptureDescription_Encoding_ARM(temp)
+		encoding := arm.CaptureDescription_Encoding(temp)
 		result.Encoding = &encoding
 	}
 
@@ -1085,14 +1086,14 @@ func (description *CaptureDescription) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (description *CaptureDescription) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CaptureDescription_ARM{}
+	return &arm.CaptureDescription{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (description *CaptureDescription) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CaptureDescription_ARM)
+	typedInput, ok := armInput.(arm.CaptureDescription)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CaptureDescription_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CaptureDescription, got %T", armInput)
 	}
 
 	// Set property "Destination":
@@ -1327,14 +1328,14 @@ var _ genruntime.FromARMConverter = &CaptureDescription_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (description *CaptureDescription_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CaptureDescription_STATUS_ARM{}
+	return &arm.CaptureDescription_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (description *CaptureDescription_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CaptureDescription_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CaptureDescription_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CaptureDescription_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CaptureDescription_STATUS, got %T", armInput)
 	}
 
 	// Set property "Destination":
@@ -1580,7 +1581,7 @@ func (destination *Destination) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if destination == nil {
 		return nil, nil
 	}
-	result := &Destination_ARM{}
+	result := &arm.Destination{}
 
 	// Set property "Name":
 	if destination.Name != nil {
@@ -1595,7 +1596,7 @@ func (destination *Destination) ConvertToARM(resolved genruntime.ConvertToARMRes
 		destination.DataLakeFolderPath != nil ||
 		destination.DataLakeSubscriptionId != nil ||
 		destination.StorageAccountResourceReference != nil {
-		result.Properties = &Destination_Properties_ARM{}
+		result.Properties = &arm.Destination_Properties{}
 	}
 	if destination.ArchiveNameFormat != nil {
 		archiveNameFormat := *destination.ArchiveNameFormat
@@ -1630,14 +1631,14 @@ func (destination *Destination) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (destination *Destination) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Destination_ARM{}
+	return &arm.Destination{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (destination *Destination) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Destination_ARM)
+	typedInput, ok := armInput.(arm.Destination)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Destination_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Destination, got %T", armInput)
 	}
 
 	// Set property "ArchiveNameFormat":
@@ -1850,14 +1851,14 @@ var _ genruntime.FromARMConverter = &Destination_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (destination *Destination_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Destination_STATUS_ARM{}
+	return &arm.Destination_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (destination *Destination_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Destination_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Destination_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Destination_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Destination_STATUS, got %T", armInput)
 	}
 
 	// Set property "ArchiveNameFormat":

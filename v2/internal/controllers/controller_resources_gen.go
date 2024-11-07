@@ -71,6 +71,8 @@ import (
 	containerservice_v20231102ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231102preview/storage"
 	containerservice_v20240402p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview"
 	containerservice_v20240402ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/storage"
+	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
+	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
 	datafactory_v20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
 	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
@@ -534,8 +536,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.Fleet)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.FleetsMember)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.FleetsUpdateRun)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20240901s.MaintenanceConfiguration)})
 	result = append(result, &registration.StorageType{
-		Obj: new(containerservice_v20231001s.ManagedCluster),
+		Obj: new(containerservice_v20240901s.ManagedCluster),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.windowsProfile.adminPassword",
@@ -549,12 +552,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.servicePrincipalProfile.secret", ".spec.windowsProfile.adminPassword"}, &containerservice_v20231001s.ManagedClusterList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.servicePrincipalProfile.secret", ".spec.windowsProfile.adminPassword"}, &containerservice_v20240901s.ManagedClusterList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20231001s.ManagedClustersAgentPool)})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20231001s.TrustedAccessRoleBinding)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20240901s.ManagedClustersAgentPool)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20240901s.TrustedAccessRoleBinding)})
 	result = append(result, &registration.StorageType{Obj: new(datafactory_v20180601s.Factory)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVault)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVaultsBackupInstance)})
@@ -1654,6 +1657,18 @@ func getKnownTypes() []client.Object {
 		new(containerservice_v20240402ps.ManagedCluster),
 		new(containerservice_v20240402ps.ManagedClustersAgentPool),
 		new(containerservice_v20240402ps.TrustedAccessRoleBinding))
+	result = append(
+		result,
+		new(containerservice_v20240901.MaintenanceConfiguration),
+		new(containerservice_v20240901.ManagedCluster),
+		new(containerservice_v20240901.ManagedClustersAgentPool),
+		new(containerservice_v20240901.TrustedAccessRoleBinding))
+	result = append(
+		result,
+		new(containerservice_v20240901s.MaintenanceConfiguration),
+		new(containerservice_v20240901s.ManagedCluster),
+		new(containerservice_v20240901s.ManagedClustersAgentPool),
+		new(containerservice_v20240901s.TrustedAccessRoleBinding))
 	result = append(result, new(datafactory_v20180601.Factory))
 	result = append(result, new(datafactory_v20180601s.Factory))
 	result = append(
@@ -2297,6 +2312,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20231102ps.AddToScheme(scheme)
 	_ = containerservice_v20240402p.AddToScheme(scheme)
 	_ = containerservice_v20240402ps.AddToScheme(scheme)
+	_ = containerservice_v20240901.AddToScheme(scheme)
+	_ = containerservice_v20240901s.AddToScheme(scheme)
 	_ = datafactory_v20180601.AddToScheme(scheme)
 	_ = datafactory_v20180601s.AddToScheme(scheme)
 	_ = dataprotection_v20230101.AddToScheme(scheme)
@@ -2463,6 +2480,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &containerservice_customizations.FleetExtension{})
 	result = append(result, &containerservice_customizations.FleetsMemberExtension{})
 	result = append(result, &containerservice_customizations.FleetsUpdateRunExtension{})
+	result = append(result, &containerservice_customizations.MaintenanceConfigurationExtension{})
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
 	result = append(result, &containerservice_customizations.TrustedAccessRoleBindingExtension{})
@@ -3100,9 +3118,9 @@ func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []st
 	return obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Index()
 }
 
-// indexContainerserviceManagedClusterAdminPassword an index function for containerservice_v20231001s.ManagedCluster .spec.windowsProfile.adminPassword
+// indexContainerserviceManagedClusterAdminPassword an index function for containerservice_v20240901s.ManagedCluster .spec.windowsProfile.adminPassword
 func indexContainerserviceManagedClusterAdminPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20231001s.ManagedCluster)
+	obj, ok := rawObj.(*containerservice_v20240901s.ManagedCluster)
 	if !ok {
 		return nil
 	}
@@ -3115,9 +3133,9 @@ func indexContainerserviceManagedClusterAdminPassword(rawObj client.Object) []st
 	return obj.Spec.WindowsProfile.AdminPassword.Index()
 }
 
-// indexContainerserviceManagedClusterSecret an index function for containerservice_v20231001s.ManagedCluster .spec.servicePrincipalProfile.secret
+// indexContainerserviceManagedClusterSecret an index function for containerservice_v20240901s.ManagedCluster .spec.servicePrincipalProfile.secret
 func indexContainerserviceManagedClusterSecret(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20231001s.ManagedCluster)
+	obj, ok := rawObj.(*containerservice_v20240901s.ManagedCluster)
 	if !ok {
 		return nil
 	}

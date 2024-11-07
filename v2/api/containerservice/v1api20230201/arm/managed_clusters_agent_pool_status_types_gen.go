@@ -179,8 +179,6 @@ type ManagedClusterAgentPoolProfileProperties_STATUS struct {
 	WorkloadRuntime *WorkloadRuntime_STATUS `json:"workloadRuntime,omitempty"`
 }
 
-// A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions
-// and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
 type AgentPoolMode_STATUS string
 
 const (
@@ -194,7 +192,6 @@ var agentPoolMode_STATUS_Values = map[string]AgentPoolMode_STATUS{
 	"user":   AgentPoolMode_STATUS_User,
 }
 
-// The type of Agent Pool.
 type AgentPoolType_STATUS string
 
 const (
@@ -208,22 +205,14 @@ var agentPoolType_STATUS_Values = map[string]AgentPoolType_STATUS{
 	"virtualmachinescalesets": AgentPoolType_STATUS_VirtualMachineScaleSets,
 }
 
-// Settings for upgrading an agentpool
 type AgentPoolUpgradeSettings_STATUS struct {
-	// MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it
-	// is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded
-	// up. If not specified, the default is 1. For more information, including best practices, see:
-	// https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
 
-// Data used when creating a target resource from a source resource.
 type CreationData_STATUS struct {
-	// SourceResourceId: This is the ARM ID of the source object to be used to create the target object.
 	SourceResourceId *string `json:"sourceResourceId,omitempty"`
 }
 
-// GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
 type GPUInstanceProfile_STATUS string
 
 const (
@@ -243,49 +232,20 @@ var gPUInstanceProfile_STATUS_Values = map[string]GPUInstanceProfile_STATUS{
 	"mig7g": GPUInstanceProfile_STATUS_MIG7G,
 }
 
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfig_STATUS struct {
-	// AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
-	AllowedUnsafeSysctls []string `json:"allowedUnsafeSysctls"`
-
-	// ContainerLogMaxFiles: The maximum number of container log files that can be present for a container. The number must be
-	// ≥ 2.
-	ContainerLogMaxFiles *int `json:"containerLogMaxFiles,omitempty"`
-
-	// ContainerLogMaxSizeMB: The maximum size (e.g. 10Mi) of container log file before it is rotated.
-	ContainerLogMaxSizeMB *int `json:"containerLogMaxSizeMB,omitempty"`
-
-	// CpuCfsQuota: The default is true.
-	CpuCfsQuota *bool `json:"cpuCfsQuota,omitempty"`
-
-	// CpuCfsQuotaPeriod: The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and
-	// a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
-	CpuCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty"`
-
-	// CpuManagerPolicy: The default is 'none'. See [Kubernetes CPU management
-	// policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more
-	// information. Allowed values are 'none' and 'static'.
-	CpuManagerPolicy *string `json:"cpuManagerPolicy,omitempty"`
-
-	// FailSwapOn: If set to true it will make the Kubelet fail to start if swap is enabled on the node.
-	FailSwapOn *bool `json:"failSwapOn,omitempty"`
-
-	// ImageGcHighThreshold: To disable image garbage collection, set to 100. The default is 85%
-	ImageGcHighThreshold *int `json:"imageGcHighThreshold,omitempty"`
-
-	// ImageGcLowThreshold: This cannot be set higher than imageGcHighThreshold. The default is 80%
-	ImageGcLowThreshold *int `json:"imageGcLowThreshold,omitempty"`
-
-	// PodMaxPids: The maximum number of processes per pod.
-	PodMaxPids *int `json:"podMaxPids,omitempty"`
-
-	// TopologyManagerPolicy: For more information see [Kubernetes Topology
-	// Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values
-	// are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
-	TopologyManagerPolicy *string `json:"topologyManagerPolicy,omitempty"`
+	AllowedUnsafeSysctls  []string `json:"allowedUnsafeSysctls"`
+	ContainerLogMaxFiles  *int     `json:"containerLogMaxFiles,omitempty"`
+	ContainerLogMaxSizeMB *int     `json:"containerLogMaxSizeMB,omitempty"`
+	CpuCfsQuota           *bool    `json:"cpuCfsQuota,omitempty"`
+	CpuCfsQuotaPeriod     *string  `json:"cpuCfsQuotaPeriod,omitempty"`
+	CpuManagerPolicy      *string  `json:"cpuManagerPolicy,omitempty"`
+	FailSwapOn            *bool    `json:"failSwapOn,omitempty"`
+	ImageGcHighThreshold  *int     `json:"imageGcHighThreshold,omitempty"`
+	ImageGcLowThreshold   *int     `json:"imageGcLowThreshold,omitempty"`
+	PodMaxPids            *int     `json:"podMaxPids,omitempty"`
+	TopologyManagerPolicy *string  `json:"topologyManagerPolicy,omitempty"`
 }
 
-// Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
 type KubeletDiskType_STATUS string
 
 const (
@@ -299,28 +259,13 @@ var kubeletDiskType_STATUS_Values = map[string]KubeletDiskType_STATUS{
 	"temporary": KubeletDiskType_STATUS_Temporary,
 }
 
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig_STATUS struct {
-	// SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
-	SwapFileSizeMB *int `json:"swapFileSizeMB,omitempty"`
-
-	// Sysctls: Sysctl settings for Linux agent nodes.
-	Sysctls *SysctlConfig_STATUS `json:"sysctls,omitempty"`
-
-	// TransparentHugePageDefrag: Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is
-	// 'madvise'. For more information see [Transparent
-	// Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
-	TransparentHugePageDefrag *string `json:"transparentHugePageDefrag,omitempty"`
-
-	// TransparentHugePageEnabled: Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more
-	// information see [Transparent
-	// Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
-	TransparentHugePageEnabled *string `json:"transparentHugePageEnabled,omitempty"`
+	SwapFileSizeMB             *int                 `json:"swapFileSizeMB,omitempty"`
+	Sysctls                    *SysctlConfig_STATUS `json:"sysctls,omitempty"`
+	TransparentHugePageDefrag  *string              `json:"transparentHugePageDefrag,omitempty"`
+	TransparentHugePageEnabled *string              `json:"transparentHugePageEnabled,omitempty"`
 }
 
-// The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise,
-// defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
-// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
 type OSDiskType_STATUS string
 
 const (
@@ -334,8 +279,6 @@ var oSDiskType_STATUS_Values = map[string]OSDiskType_STATUS{
 	"managed":   OSDiskType_STATUS_Managed,
 }
 
-// Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is Linux. The default is Windows2019 when
-// Kubernetes <= 1.24 or Windows2022 when Kubernetes >= 1.25 if OSType is Windows.
 type OSSKU_STATUS string
 
 const (
@@ -353,7 +296,6 @@ var oSSKU_STATUS_Values = map[string]OSSKU_STATUS{
 	"windows2022": OSSKU_STATUS_Windows2022,
 }
 
-// The operating system type. The default is Linux.
 type OSType_STATUS string
 
 const (
@@ -367,8 +309,6 @@ var oSType_STATUS_Values = map[string]OSType_STATUS{
 	"windows": OSType_STATUS_Windows,
 }
 
-// Describes how VMs are added to or removed from Agent Pools. See [billing
-// states](https://docs.microsoft.com/azure/virtual-machines/states-billing).
 type ScaleDownMode_STATUS string
 
 const (
@@ -382,8 +322,6 @@ var scaleDownMode_STATUS_Values = map[string]ScaleDownMode_STATUS{
 	"delete":     ScaleDownMode_STATUS_Delete,
 }
 
-// The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information
-// about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms)
 type ScaleSetEvictionPolicy_STATUS string
 
 const (
@@ -397,7 +335,6 @@ var scaleSetEvictionPolicy_STATUS_Values = map[string]ScaleSetEvictionPolicy_STA
 	"delete":     ScaleSetEvictionPolicy_STATUS_Delete,
 }
 
-// The Virtual Machine Scale Set priority.
 type ScaleSetPriority_STATUS string
 
 const (
@@ -411,7 +348,6 @@ var scaleSetPriority_STATUS_Values = map[string]ScaleSetPriority_STATUS{
 	"spot":    ScaleSetPriority_STATUS_Spot,
 }
 
-// Determines the type of workload a node can run.
 type WorkloadRuntime_STATUS string
 
 const (
@@ -425,89 +361,33 @@ var workloadRuntime_STATUS_Values = map[string]WorkloadRuntime_STATUS{
 	"wasmwasi":     WorkloadRuntime_STATUS_WasmWasi,
 }
 
-// Sysctl settings for Linux agent nodes.
 type SysctlConfig_STATUS struct {
-	// FsAioMaxNr: Sysctl setting fs.aio-max-nr.
-	FsAioMaxNr *int `json:"fsAioMaxNr,omitempty"`
-
-	// FsFileMax: Sysctl setting fs.file-max.
-	FsFileMax *int `json:"fsFileMax,omitempty"`
-
-	// FsInotifyMaxUserWatches: Sysctl setting fs.inotify.max_user_watches.
-	FsInotifyMaxUserWatches *int `json:"fsInotifyMaxUserWatches,omitempty"`
-
-	// FsNrOpen: Sysctl setting fs.nr_open.
-	FsNrOpen *int `json:"fsNrOpen,omitempty"`
-
-	// KernelThreadsMax: Sysctl setting kernel.threads-max.
-	KernelThreadsMax *int `json:"kernelThreadsMax,omitempty"`
-
-	// NetCoreNetdevMaxBacklog: Sysctl setting net.core.netdev_max_backlog.
-	NetCoreNetdevMaxBacklog *int `json:"netCoreNetdevMaxBacklog,omitempty"`
-
-	// NetCoreOptmemMax: Sysctl setting net.core.optmem_max.
-	NetCoreOptmemMax *int `json:"netCoreOptmemMax,omitempty"`
-
-	// NetCoreRmemDefault: Sysctl setting net.core.rmem_default.
-	NetCoreRmemDefault *int `json:"netCoreRmemDefault,omitempty"`
-
-	// NetCoreRmemMax: Sysctl setting net.core.rmem_max.
-	NetCoreRmemMax *int `json:"netCoreRmemMax,omitempty"`
-
-	// NetCoreSomaxconn: Sysctl setting net.core.somaxconn.
-	NetCoreSomaxconn *int `json:"netCoreSomaxconn,omitempty"`
-
-	// NetCoreWmemDefault: Sysctl setting net.core.wmem_default.
-	NetCoreWmemDefault *int `json:"netCoreWmemDefault,omitempty"`
-
-	// NetCoreWmemMax: Sysctl setting net.core.wmem_max.
-	NetCoreWmemMax *int `json:"netCoreWmemMax,omitempty"`
-
-	// NetIpv4IpLocalPortRange: Sysctl setting net.ipv4.ip_local_port_range.
-	NetIpv4IpLocalPortRange *string `json:"netIpv4IpLocalPortRange,omitempty"`
-
-	// NetIpv4NeighDefaultGcThresh1: Sysctl setting net.ipv4.neigh.default.gc_thresh1.
-	NetIpv4NeighDefaultGcThresh1 *int `json:"netIpv4NeighDefaultGcThresh1,omitempty"`
-
-	// NetIpv4NeighDefaultGcThresh2: Sysctl setting net.ipv4.neigh.default.gc_thresh2.
-	NetIpv4NeighDefaultGcThresh2 *int `json:"netIpv4NeighDefaultGcThresh2,omitempty"`
-
-	// NetIpv4NeighDefaultGcThresh3: Sysctl setting net.ipv4.neigh.default.gc_thresh3.
-	NetIpv4NeighDefaultGcThresh3 *int `json:"netIpv4NeighDefaultGcThresh3,omitempty"`
-
-	// NetIpv4TcpFinTimeout: Sysctl setting net.ipv4.tcp_fin_timeout.
-	NetIpv4TcpFinTimeout *int `json:"netIpv4TcpFinTimeout,omitempty"`
-
-	// NetIpv4TcpKeepaliveProbes: Sysctl setting net.ipv4.tcp_keepalive_probes.
-	NetIpv4TcpKeepaliveProbes *int `json:"netIpv4TcpKeepaliveProbes,omitempty"`
-
-	// NetIpv4TcpKeepaliveTime: Sysctl setting net.ipv4.tcp_keepalive_time.
-	NetIpv4TcpKeepaliveTime *int `json:"netIpv4TcpKeepaliveTime,omitempty"`
-
-	// NetIpv4TcpMaxSynBacklog: Sysctl setting net.ipv4.tcp_max_syn_backlog.
-	NetIpv4TcpMaxSynBacklog *int `json:"netIpv4TcpMaxSynBacklog,omitempty"`
-
-	// NetIpv4TcpMaxTwBuckets: Sysctl setting net.ipv4.tcp_max_tw_buckets.
-	NetIpv4TcpMaxTwBuckets *int `json:"netIpv4TcpMaxTwBuckets,omitempty"`
-
-	// NetIpv4TcpTwReuse: Sysctl setting net.ipv4.tcp_tw_reuse.
-	NetIpv4TcpTwReuse *bool `json:"netIpv4TcpTwReuse,omitempty"`
-
-	// NetIpv4TcpkeepaliveIntvl: Sysctl setting net.ipv4.tcp_keepalive_intvl.
-	NetIpv4TcpkeepaliveIntvl *int `json:"netIpv4TcpkeepaliveIntvl,omitempty"`
-
-	// NetNetfilterNfConntrackBuckets: Sysctl setting net.netfilter.nf_conntrack_buckets.
-	NetNetfilterNfConntrackBuckets *int `json:"netNetfilterNfConntrackBuckets,omitempty"`
-
-	// NetNetfilterNfConntrackMax: Sysctl setting net.netfilter.nf_conntrack_max.
-	NetNetfilterNfConntrackMax *int `json:"netNetfilterNfConntrackMax,omitempty"`
-
-	// VmMaxMapCount: Sysctl setting vm.max_map_count.
-	VmMaxMapCount *int `json:"vmMaxMapCount,omitempty"`
-
-	// VmSwappiness: Sysctl setting vm.swappiness.
-	VmSwappiness *int `json:"vmSwappiness,omitempty"`
-
-	// VmVfsCachePressure: Sysctl setting vm.vfs_cache_pressure.
-	VmVfsCachePressure *int `json:"vmVfsCachePressure,omitempty"`
+	FsAioMaxNr                     *int    `json:"fsAioMaxNr,omitempty"`
+	FsFileMax                      *int    `json:"fsFileMax,omitempty"`
+	FsInotifyMaxUserWatches        *int    `json:"fsInotifyMaxUserWatches,omitempty"`
+	FsNrOpen                       *int    `json:"fsNrOpen,omitempty"`
+	KernelThreadsMax               *int    `json:"kernelThreadsMax,omitempty"`
+	NetCoreNetdevMaxBacklog        *int    `json:"netCoreNetdevMaxBacklog,omitempty"`
+	NetCoreOptmemMax               *int    `json:"netCoreOptmemMax,omitempty"`
+	NetCoreRmemDefault             *int    `json:"netCoreRmemDefault,omitempty"`
+	NetCoreRmemMax                 *int    `json:"netCoreRmemMax,omitempty"`
+	NetCoreSomaxconn               *int    `json:"netCoreSomaxconn,omitempty"`
+	NetCoreWmemDefault             *int    `json:"netCoreWmemDefault,omitempty"`
+	NetCoreWmemMax                 *int    `json:"netCoreWmemMax,omitempty"`
+	NetIpv4IpLocalPortRange        *string `json:"netIpv4IpLocalPortRange,omitempty"`
+	NetIpv4NeighDefaultGcThresh1   *int    `json:"netIpv4NeighDefaultGcThresh1,omitempty"`
+	NetIpv4NeighDefaultGcThresh2   *int    `json:"netIpv4NeighDefaultGcThresh2,omitempty"`
+	NetIpv4NeighDefaultGcThresh3   *int    `json:"netIpv4NeighDefaultGcThresh3,omitempty"`
+	NetIpv4TcpFinTimeout           *int    `json:"netIpv4TcpFinTimeout,omitempty"`
+	NetIpv4TcpKeepaliveProbes      *int    `json:"netIpv4TcpKeepaliveProbes,omitempty"`
+	NetIpv4TcpKeepaliveTime        *int    `json:"netIpv4TcpKeepaliveTime,omitempty"`
+	NetIpv4TcpMaxSynBacklog        *int    `json:"netIpv4TcpMaxSynBacklog,omitempty"`
+	NetIpv4TcpMaxTwBuckets         *int    `json:"netIpv4TcpMaxTwBuckets,omitempty"`
+	NetIpv4TcpTwReuse              *bool   `json:"netIpv4TcpTwReuse,omitempty"`
+	NetIpv4TcpkeepaliveIntvl       *int    `json:"netIpv4TcpkeepaliveIntvl,omitempty"`
+	NetNetfilterNfConntrackBuckets *int    `json:"netNetfilterNfConntrackBuckets,omitempty"`
+	NetNetfilterNfConntrackMax     *int    `json:"netNetfilterNfConntrackMax,omitempty"`
+	VmMaxMapCount                  *int    `json:"vmMaxMapCount,omitempty"`
+	VmSwappiness                   *int    `json:"vmSwappiness,omitempty"`
+	VmVfsCachePressure             *int    `json:"vmVfsCachePressure,omitempty"`
 }

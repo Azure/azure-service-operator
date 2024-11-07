@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_TrustedAccessRoleBinding_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TrustedAccessRoleBinding to hub returns original",
+		prop.ForAll(RunResourceConversionTestForTrustedAccessRoleBinding, TrustedAccessRoleBindingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForTrustedAccessRoleBinding tests if a specific instance of TrustedAccessRoleBinding round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForTrustedAccessRoleBinding(subject TrustedAccessRoleBinding) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.TrustedAccessRoleBinding
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual TrustedAccessRoleBinding
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_TrustedAccessRoleBinding_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TrustedAccessRoleBinding to TrustedAccessRoleBinding via AssignProperties_To_TrustedAccessRoleBinding & AssignProperties_From_TrustedAccessRoleBinding returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTrustedAccessRoleBinding, TrustedAccessRoleBindingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTrustedAccessRoleBinding tests if a specific instance of TrustedAccessRoleBinding can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTrustedAccessRoleBinding(subject TrustedAccessRoleBinding) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.TrustedAccessRoleBinding
+	err := copied.AssignProperties_To_TrustedAccessRoleBinding(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TrustedAccessRoleBinding
+	err = actual.AssignProperties_From_TrustedAccessRoleBinding(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_TrustedAccessRoleBinding_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +163,48 @@ func TrustedAccessRoleBindingGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForTrustedAccessRoleBinding(gens map[string]gopter.Gen) {
 	gens["Spec"] = TrustedAccessRoleBinding_SpecGenerator()
 	gens["Status"] = TrustedAccessRoleBinding_STATUSGenerator()
+}
+
+func Test_TrustedAccessRoleBinding_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TrustedAccessRoleBinding_STATUS to TrustedAccessRoleBinding_STATUS via AssignProperties_To_TrustedAccessRoleBinding_STATUS & AssignProperties_From_TrustedAccessRoleBinding_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTrustedAccessRoleBinding_STATUS, TrustedAccessRoleBinding_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTrustedAccessRoleBinding_STATUS tests if a specific instance of TrustedAccessRoleBinding_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTrustedAccessRoleBinding_STATUS(subject TrustedAccessRoleBinding_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.TrustedAccessRoleBinding_STATUS
+	err := copied.AssignProperties_To_TrustedAccessRoleBinding_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TrustedAccessRoleBinding_STATUS
+	err = actual.AssignProperties_From_TrustedAccessRoleBinding_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_TrustedAccessRoleBinding_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -157,6 +285,48 @@ func AddIndependentPropertyGeneratorsForTrustedAccessRoleBinding_STATUS(gens map
 // AddRelatedPropertyGeneratorsForTrustedAccessRoleBinding_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTrustedAccessRoleBinding_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_TrustedAccessRoleBinding_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TrustedAccessRoleBinding_Spec to TrustedAccessRoleBinding_Spec via AssignProperties_To_TrustedAccessRoleBinding_Spec & AssignProperties_From_TrustedAccessRoleBinding_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTrustedAccessRoleBinding_Spec, TrustedAccessRoleBinding_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTrustedAccessRoleBinding_Spec tests if a specific instance of TrustedAccessRoleBinding_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTrustedAccessRoleBinding_Spec(subject TrustedAccessRoleBinding_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.TrustedAccessRoleBinding_Spec
+	err := copied.AssignProperties_To_TrustedAccessRoleBinding_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TrustedAccessRoleBinding_Spec
+	err = actual.AssignProperties_From_TrustedAccessRoleBinding_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_TrustedAccessRoleBinding_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

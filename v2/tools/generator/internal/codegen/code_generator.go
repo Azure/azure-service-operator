@@ -174,6 +174,7 @@ func createAllPipelineStages(
 
 		pipeline.ReplaceAnyTypeWithJSON(),
 		pipeline.ImprovePropertyDescriptions(),
+		pipeline.StripDocumentation(configuration, log),
 
 		pipeline.FixOptionalCollectionAliases(),
 

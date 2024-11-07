@@ -1413,6 +1413,10 @@ TrustedAccessRoleBinding: Resource
     │   ├── LastModifiedByType: *string
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
+augmentConversionForAdvancedNetworking: Interface
+augmentConversionForAdvancedNetworkingObservability: Interface
+augmentConversionForAdvancedNetworkingObservability_STATUS: Interface
+augmentConversionForAdvancedNetworking_STATUS: Interface
 augmentConversionForAgentPoolArtifactStreamingProfile: Interface
 augmentConversionForAgentPoolArtifactStreamingProfile_STATUS: Interface
 augmentConversionForAgentPoolGPUProfile: Interface
