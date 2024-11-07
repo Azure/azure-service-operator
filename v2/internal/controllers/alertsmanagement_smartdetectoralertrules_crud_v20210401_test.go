@@ -70,7 +70,7 @@ func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 			},
 		},
 	}
-	tc.CreateResourcesAndWait(alertRule, acct)
+	tc.CreateResourcesAndWait(alertRule, ag, acct)
 
 	// Ensure that the status is what we expect
 	tc.Expect(alertRule.Status.Id).ToNot(BeNil())
