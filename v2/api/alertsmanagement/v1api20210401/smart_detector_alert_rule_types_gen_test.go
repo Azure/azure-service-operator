@@ -318,9 +318,15 @@ func DetectorGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDetector(generators)
 	detectorGenerator = gen.Struct(reflect.TypeOf(Detector{}), generators)
 
 	return detectorGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDetector is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDetector(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DetectorParameterDefinition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

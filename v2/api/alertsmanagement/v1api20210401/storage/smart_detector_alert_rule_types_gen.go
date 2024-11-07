@@ -251,12 +251,9 @@ type ActionGroupsInformation_STATUS struct {
 // Storage version of v1api20210401.Detector
 // The detector information. By default this is not populated, unless it's specified in expandDetector
 type Detector struct {
+	Id          *string                `json:"id,omitempty"`
 	Parameters  map[string]v1.JSON     `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Reference: The detector id.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // Storage version of v1api20210401.Detector_STATUS

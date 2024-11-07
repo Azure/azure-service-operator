@@ -109,6 +109,7 @@ var alertRuleProperties_State_Values = map[string]AlertRuleProperties_State{
 
 // The detector information. By default this is not populated, unless it's specified in expandDetector
 type Detector struct {
+	// Id: The detector id.
 	Id *string `json:"id,omitempty"`
 
 	// Parameters: The detector's parameters.'

@@ -1652,12 +1652,12 @@ var alertRuleProperties_State_STATUS_Values = map[string]AlertRuleProperties_Sta
 
 // The detector information. By default this is not populated, unless it's specified in expandDetector
 type Detector struct {
+	// +kubebuilder:validation:Required
+	// Id: The detector id.
+	Id *string `json:"id,omitempty"`
+
 	// Parameters: The detector's parameters.'
 	Parameters map[string]v1.JSON `json:"parameters,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Reference: The detector id.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Detector{}
@@ -1670,13 +1670,9 @@ func (detector *Detector) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	result := &arm.Detector{}
 
 	// Set property "Id":
-	if detector.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*detector.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if detector.Id != nil {
+		id := *detector.Id
+		result.Id = &id
 	}
 
 	// Set property "Parameters":
@@ -1701,6 +1697,12 @@ func (detector *Detector) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Detector, got %T", armInput)
 	}
 
+	// Set property "Id":
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		detector.Id = &id
+	}
+
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		detector.Parameters = make(map[string]v1.JSON, len(typedInput.Parameters))
@@ -1709,14 +1711,15 @@ func (detector *Detector) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		}
 	}
 
-	// no assignment for property "Reference"
-
 	// No error
 	return nil
 }
 
 // AssignProperties_From_Detector populates our Detector from the provided source Detector
 func (detector *Detector) AssignProperties_From_Detector(source *storage.Detector) error {
+
+	// Id
+	detector.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Parameters
 	if source.Parameters != nil {
@@ -1731,14 +1734,6 @@ func (detector *Detector) AssignProperties_From_Detector(source *storage.Detecto
 		detector.Parameters = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		detector.Reference = &reference
-	} else {
-		detector.Reference = nil
-	}
-
 	// No error
 	return nil
 }
@@ -1747,6 +1742,9 @@ func (detector *Detector) AssignProperties_From_Detector(source *storage.Detecto
 func (detector *Detector) AssignProperties_To_Detector(destination *storage.Detector) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(detector.Id)
 
 	// Parameters
 	if detector.Parameters != nil {
@@ -1759,14 +1757,6 @@ func (detector *Detector) AssignProperties_To_Detector(destination *storage.Dete
 		destination.Parameters = parameterMap
 	} else {
 		destination.Parameters = nil
-	}
-
-	// Reference
-	if detector.Reference != nil {
-		reference := detector.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Update the property bag
@@ -1783,6 +1773,9 @@ func (detector *Detector) AssignProperties_To_Detector(destination *storage.Dete
 // Initialize_From_Detector_STATUS populates our Detector from the provided source Detector_STATUS
 func (detector *Detector) Initialize_From_Detector_STATUS(source *Detector_STATUS) error {
 
+	// Id
+	detector.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Parameters
 	if source.Parameters != nil {
 		parameterMap := make(map[string]v1.JSON, len(source.Parameters))
@@ -1794,14 +1787,6 @@ func (detector *Detector) Initialize_From_Detector_STATUS(source *Detector_STATU
 		detector.Parameters = parameterMap
 	} else {
 		detector.Parameters = nil
-	}
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		detector.Reference = &reference
-	} else {
-		detector.Reference = nil
 	}
 
 	// No error
