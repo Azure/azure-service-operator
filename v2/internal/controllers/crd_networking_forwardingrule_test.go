@@ -33,7 +33,7 @@ func Test_Networking_ForwardingRuleSet_CRUD(t *testing.T) {
 	ruleSet := &network.DnsForwardingRuleset{
 		ObjectMeta: tc.MakeObjectMeta("ruleset"),
 		Spec: network.DnsForwardingRuleset_Spec{
-			DnsResolverOutboundEndpoints: []network.DnsresolverSubResource{
+			DnsResolverOutboundEndpoints: []network.SubResource{
 				{
 					Reference: tc.MakeReferenceFromResource(outboundEP),
 				},
@@ -114,7 +114,7 @@ func DnsForwardingRuleset_VirtualNetworkLink_CRUD(tc *testcommon.KubePerTestCont
 		ObjectMeta: tc.MakeObjectMeta("rule"),
 		Spec: network.DnsForwardingRuleSetsVirtualNetworkLink_Spec{
 			Owner: testcommon.AsOwner(set),
-			VirtualNetwork: &network.DnsresolverSubResource{
+			VirtualNetwork: &network.SubResource{
 				Reference: tc.MakeReferenceFromResource(vnet),
 			},
 		},

@@ -34,11 +34,5 @@ type VirtualNetworkLinkProperties_STATUS struct {
 	ProvisioningState *DnsresolverProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.
-	VirtualNetwork *DnsresolverSubResource_STATUS `json:"virtualNetwork,omitempty"`
-}
-
-// Reference to another ARM resource.
-type DnsresolverSubResource_STATUS struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	VirtualNetwork *SubResource_STATUS `json:"virtualNetwork,omitempty"`
 }

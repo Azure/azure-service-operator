@@ -594,10 +594,10 @@ func AddIndependentPropertyGeneratorsForNatGateway_STATUS(gens map[string]gopter
 
 // AddRelatedPropertyGeneratorsForNatGateway_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNatGateway_STATUS(gens map[string]gopter.Gen) {
-	gens["PublicIpAddresses"] = gen.SliceOf(ApplicationGatewaySubResource_STATUSGenerator())
-	gens["PublicIpPrefixes"] = gen.SliceOf(ApplicationGatewaySubResource_STATUSGenerator())
+	gens["PublicIpAddresses"] = gen.SliceOf(SubResource_STATUSGenerator())
+	gens["PublicIpPrefixes"] = gen.SliceOf(SubResource_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(NatGatewaySku_STATUSGenerator())
-	gens["Subnets"] = gen.SliceOf(ApplicationGatewaySubResource_STATUSGenerator())
+	gens["Subnets"] = gen.SliceOf(SubResource_STATUSGenerator())
 }
 
 func Test_NatGateway_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -720,7 +720,7 @@ func AddIndependentPropertyGeneratorsForNatGateway_Spec(gens map[string]gopter.G
 // AddRelatedPropertyGeneratorsForNatGateway_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNatGateway_Spec(gens map[string]gopter.Gen) {
 	gens["OperatorSpec"] = gen.PtrOf(NatGatewayOperatorSpecGenerator())
-	gens["PublicIpAddresses"] = gen.SliceOf(ApplicationGatewaySubResourceGenerator())
-	gens["PublicIpPrefixes"] = gen.SliceOf(ApplicationGatewaySubResourceGenerator())
+	gens["PublicIpAddresses"] = gen.SliceOf(SubResourceGenerator())
+	gens["PublicIpPrefixes"] = gen.SliceOf(SubResourceGenerator())
 	gens["Sku"] = gen.PtrOf(NatGatewaySkuGenerator())
 }

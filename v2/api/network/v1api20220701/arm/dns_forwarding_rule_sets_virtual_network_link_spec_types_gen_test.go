@@ -92,67 +92,6 @@ func AddRelatedPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_Spec
 	gens["Properties"] = gen.PtrOf(VirtualNetworkLinkPropertiesGenerator())
 }
 
-func Test_DnsresolverSubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DnsresolverSubResource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsresolverSubResource, DnsresolverSubResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDnsresolverSubResource runs a test to see if a specific instance of DnsresolverSubResource round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsresolverSubResource(subject DnsresolverSubResource) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DnsresolverSubResource
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DnsresolverSubResource instances for property testing - lazily instantiated by
-// DnsresolverSubResourceGenerator()
-var dnsresolverSubResourceGenerator gopter.Gen
-
-// DnsresolverSubResourceGenerator returns a generator of DnsresolverSubResource instances for property testing.
-func DnsresolverSubResourceGenerator() gopter.Gen {
-	if dnsresolverSubResourceGenerator != nil {
-		return dnsresolverSubResourceGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsresolverSubResource(generators)
-	dnsresolverSubResourceGenerator = gen.Struct(reflect.TypeOf(DnsresolverSubResource{}), generators)
-
-	return dnsresolverSubResourceGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDnsresolverSubResource is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsresolverSubResource(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_VirtualNetworkLinkProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -227,5 +166,5 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkLinkProperties(gens map[st
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkLinkProperties is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetworkLinkProperties(gens map[string]gopter.Gen) {
-	gens["VirtualNetwork"] = gen.PtrOf(DnsresolverSubResourceGenerator())
+	gens["VirtualNetwork"] = gen.PtrOf(SubResourceGenerator())
 }

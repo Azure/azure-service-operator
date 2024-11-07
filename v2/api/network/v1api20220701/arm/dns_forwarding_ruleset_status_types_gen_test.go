@@ -96,7 +96,7 @@ func AddIndependentPropertyGeneratorsForDnsForwardingRulesetProperties_STATUS(ge
 
 // AddRelatedPropertyGeneratorsForDnsForwardingRulesetProperties_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDnsForwardingRulesetProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["DnsResolverOutboundEndpoints"] = gen.SliceOf(DnsresolverSubResource_STATUSGenerator())
+	gens["DnsResolverOutboundEndpoints"] = gen.SliceOf(SubResource_STATUSGenerator())
 }
 
 func Test_DnsForwardingRuleset_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

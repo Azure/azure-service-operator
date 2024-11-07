@@ -1213,7 +1213,7 @@ func AddRelatedPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS(ge
 	gens["BackendHttpSettingsCollection"] = gen.SliceOf(ApplicationGatewayBackendHttpSettings_STATUSGenerator())
 	gens["BackendSettingsCollection"] = gen.SliceOf(ApplicationGatewayBackendSettings_STATUSGenerator())
 	gens["CustomErrorConfigurations"] = gen.SliceOf(ApplicationGatewayCustomError_STATUSGenerator())
-	gens["FirewallPolicy"] = gen.PtrOf(ApplicationGatewaySubResource_STATUSGenerator())
+	gens["FirewallPolicy"] = gen.PtrOf(SubResource_STATUSGenerator())
 	gens["FrontendIPConfigurations"] = gen.SliceOf(ApplicationGatewayFrontendIPConfiguration_STATUSGenerator())
 	gens["FrontendPorts"] = gen.SliceOf(ApplicationGatewayFrontendPort_STATUSGenerator())
 	gens["GatewayIPConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator())
@@ -1784,67 +1784,6 @@ func AddIndependentPropertyGeneratorsForApplicationGatewaySslProfile_STATUS(gens
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ApplicationGatewaySubResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewaySubResource_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewaySubResource_STATUS, ApplicationGatewaySubResource_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewaySubResource_STATUS runs a test to see if a specific instance of ApplicationGatewaySubResource_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewaySubResource_STATUS(subject ApplicationGatewaySubResource_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewaySubResource_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewaySubResource_STATUS instances for property testing - lazily instantiated by
-// ApplicationGatewaySubResource_STATUSGenerator()
-var applicationGatewaySubResource_STATUSGenerator gopter.Gen
-
-// ApplicationGatewaySubResource_STATUSGenerator returns a generator of ApplicationGatewaySubResource_STATUS instances for property testing.
-func ApplicationGatewaySubResource_STATUSGenerator() gopter.Gen {
-	if applicationGatewaySubResource_STATUSGenerator != nil {
-		return applicationGatewaySubResource_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewaySubResource_STATUS(generators)
-	applicationGatewaySubResource_STATUSGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewaySubResource_STATUS{}), generators)
-
-	return applicationGatewaySubResource_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewaySubResource_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewaySubResource_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_ApplicationGatewayTrustedClientCertificate_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2338,4 +2277,64 @@ func ManagedServiceIdentity_UserAssignedIdentities_STATUSGenerator() gopter.Gen 
 func AddIndependentPropertyGeneratorsForManagedServiceIdentity_UserAssignedIdentities_STATUS(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_SubResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SubResource_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSubResource_STATUS, SubResource_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSubResource_STATUS runs a test to see if a specific instance of SubResource_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubResource_STATUS(subject SubResource_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SubResource_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SubResource_STATUS instances for property testing - lazily instantiated by SubResource_STATUSGenerator()
+var subResource_STATUSGenerator gopter.Gen
+
+// SubResource_STATUSGenerator returns a generator of SubResource_STATUS instances for property testing.
+func SubResource_STATUSGenerator() gopter.Gen {
+	if subResource_STATUSGenerator != nil {
+		return subResource_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSubResource_STATUS(generators)
+	subResource_STATUSGenerator = gen.Struct(reflect.TypeOf(SubResource_STATUS{}), generators)
+
+	return subResource_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSubResource_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubResource_STATUS(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

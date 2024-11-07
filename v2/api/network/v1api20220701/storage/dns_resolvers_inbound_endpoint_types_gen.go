@@ -247,19 +247,19 @@ type DnsResolversInboundEndpointOperatorSpec struct {
 // Storage version of v1api20220701.IpConfiguration
 // IP configuration.
 type IpConfiguration struct {
-	PrivateIpAddress          *string                 `json:"privateIpAddress,omitempty"`
-	PrivateIpAllocationMethod *string                 `json:"privateIpAllocationMethod,omitempty"`
-	PropertyBag               genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	Subnet                    *DnsresolverSubResource `json:"subnet,omitempty"`
+	PrivateIpAddress          *string                `json:"privateIpAddress,omitempty"`
+	PrivateIpAllocationMethod *string                `json:"privateIpAllocationMethod,omitempty"`
+	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Subnet                    *SubResource           `json:"subnet,omitempty"`
 }
 
 // Storage version of v1api20220701.IpConfiguration_STATUS
 // IP configuration.
 type IpConfiguration_STATUS struct {
-	PrivateIpAddress          *string                        `json:"privateIpAddress,omitempty"`
-	PrivateIpAllocationMethod *string                        `json:"privateIpAllocationMethod,omitempty"`
-	PropertyBag               genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	Subnet                    *DnsresolverSubResource_STATUS `json:"subnet,omitempty"`
+	PrivateIpAddress          *string                `json:"privateIpAddress,omitempty"`
+	PrivateIpAllocationMethod *string                `json:"privateIpAllocationMethod,omitempty"`
+	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Subnet                    *SubResource_STATUS    `json:"subnet,omitempty"`
 }
 
 func init() {

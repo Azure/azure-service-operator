@@ -38,5 +38,5 @@ func (ruleset *DnsForwardingRuleset_Spec) GetType() string {
 type DnsForwardingRulesetProperties struct {
 	// DnsResolverOutboundEndpoints: The reference to the DNS resolver outbound endpoints that are used to route DNS queries
 	// matching the forwarding rules in the ruleset to the target DNS servers.
-	DnsResolverOutboundEndpoints []DnsresolverSubResource `json:"dnsResolverOutboundEndpoints,omitempty"`
+	DnsResolverOutboundEndpoints []SubResource `json:"dnsResolverOutboundEndpoints,omitempty"`
 }

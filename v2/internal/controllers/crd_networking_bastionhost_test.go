@@ -46,10 +46,10 @@ func Test_Networking_BastionHost_CRUD(t *testing.T) {
 			IpConfigurations: []network.BastionHostIPConfiguration{
 				{
 					Name: to.Ptr("IpConf"),
-					PublicIPAddress: &network.BastionHostSubResource{
+					PublicIPAddress: &network.SubResource{
 						Reference: tc.MakeReferenceFromResource(publicIPAddress),
 					},
-					Subnet: &network.BastionHostSubResource{
+					Subnet: &network.SubResource{
 						Reference: tc.MakeReferenceFromResource(subnet),
 					},
 				},

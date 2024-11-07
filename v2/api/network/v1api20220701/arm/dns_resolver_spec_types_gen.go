@@ -37,5 +37,5 @@ func (resolver *DnsResolver_Spec) GetType() string {
 // Represents the properties of a DNS resolver.
 type DnsResolverProperties struct {
 	// VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.
-	VirtualNetwork *DnsresolverSubResource `json:"virtualNetwork,omitempty"`
+	VirtualNetwork *SubResource `json:"virtualNetwork,omitempty"`
 }

@@ -95,9 +95,9 @@ func AddIndependentPropertyGeneratorsForNatGatewayPropertiesFormat_STATUS(gens m
 
 // AddRelatedPropertyGeneratorsForNatGatewayPropertiesFormat_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNatGatewayPropertiesFormat_STATUS(gens map[string]gopter.Gen) {
-	gens["PublicIpAddresses"] = gen.SliceOf(ApplicationGatewaySubResource_STATUSGenerator())
-	gens["PublicIpPrefixes"] = gen.SliceOf(ApplicationGatewaySubResource_STATUSGenerator())
-	gens["Subnets"] = gen.SliceOf(ApplicationGatewaySubResource_STATUSGenerator())
+	gens["PublicIpAddresses"] = gen.SliceOf(SubResource_STATUSGenerator())
+	gens["PublicIpPrefixes"] = gen.SliceOf(SubResource_STATUSGenerator())
+	gens["Subnets"] = gen.SliceOf(SubResource_STATUSGenerator())
 }
 
 func Test_NatGatewaySku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

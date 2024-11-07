@@ -75,7 +75,7 @@ func DnsForwardingRulesetPropertiesGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForDnsForwardingRulesetProperties is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDnsForwardingRulesetProperties(gens map[string]gopter.Gen) {
-	gens["DnsResolverOutboundEndpoints"] = gen.SliceOf(DnsresolverSubResourceGenerator())
+	gens["DnsResolverOutboundEndpoints"] = gen.SliceOf(SubResourceGenerator())
 }
 
 func Test_DnsForwardingRuleset_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

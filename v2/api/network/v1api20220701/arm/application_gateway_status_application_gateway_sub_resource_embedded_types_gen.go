@@ -66,7 +66,7 @@ type ApplicationGatewayPropertiesFormat_STATUS struct {
 	EnableHttp2 *bool `json:"enableHttp2,omitempty"`
 
 	// FirewallPolicy: Reference to the FirewallPolicy resource.
-	FirewallPolicy *ApplicationGatewaySubResource_STATUS `json:"firewallPolicy,omitempty"`
+	FirewallPolicy *SubResource_STATUS `json:"firewallPolicy,omitempty"`
 
 	// ForceFirewallPolicyAssociation: If true, associates a firewall policy with an application gateway regardless whether the
 	// policy differs from the WAF Config.
@@ -390,12 +390,6 @@ type ApplicationGatewaySslProfile_STATUS struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Reference to another subresource.
-type ApplicationGatewaySubResource_STATUS struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
 // Trusted client certificates of an application gateway.
 type ApplicationGatewayTrustedClientCertificate_STATUS struct {
 	// Id: Resource ID.
@@ -470,6 +464,12 @@ type ManagedServiceIdentity_UserAssignedIdentities_STATUS struct {
 
 	// PrincipalId: The principal id of user assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
+}
+
+// Reference to another ARM resource.
+type SubResource_STATUS struct {
+	// Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 }
 
 type ApplicationGatewayCustomError_StatusCode_STATUS string

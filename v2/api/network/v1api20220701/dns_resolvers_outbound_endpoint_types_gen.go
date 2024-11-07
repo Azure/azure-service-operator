@@ -391,7 +391,7 @@ type DnsResolversOutboundEndpoint_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// Subnet: The reference to the subnet used for the outbound endpoint.
-	Subnet *DnsresolverSubResource `json:"subnet,omitempty"`
+	Subnet *SubResource `json:"subnet,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -424,7 +424,7 @@ func (endpoint *DnsResolversOutboundEndpoint_Spec) ConvertToARM(resolved genrunt
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnet_ARM.(*arm.DnsresolverSubResource)
+		subnet := *subnet_ARM.(*arm.SubResource)
 		result.Properties.Subnet = &subnet
 	}
 
@@ -471,7 +471,7 @@ func (endpoint *DnsResolversOutboundEndpoint_Spec) PopulateFromARM(owner genrunt
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
-			var subnet1 DnsresolverSubResource
+			var subnet1 SubResource
 			err := subnet1.PopulateFromARM(owner, *typedInput.Properties.Subnet)
 			if err != nil {
 				return err
@@ -574,10 +574,10 @@ func (endpoint *DnsResolversOutboundEndpoint_Spec) AssignProperties_From_DnsReso
 
 	// Subnet
 	if source.Subnet != nil {
-		var subnet DnsresolverSubResource
-		err := subnet.AssignProperties_From_DnsresolverSubResource(source.Subnet)
+		var subnet SubResource
+		err := subnet.AssignProperties_From_SubResource(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DnsresolverSubResource() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
 		}
 		endpoint.Subnet = &subnet
 	} else {
@@ -627,10 +627,10 @@ func (endpoint *DnsResolversOutboundEndpoint_Spec) AssignProperties_To_DnsResolv
 
 	// Subnet
 	if endpoint.Subnet != nil {
-		var subnet storage.DnsresolverSubResource
-		err := endpoint.Subnet.AssignProperties_To_DnsresolverSubResource(&subnet)
+		var subnet storage.SubResource
+		err := endpoint.Subnet.AssignProperties_To_SubResource(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DnsresolverSubResource() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -659,10 +659,10 @@ func (endpoint *DnsResolversOutboundEndpoint_Spec) Initialize_From_DnsResolversO
 
 	// Subnet
 	if source.Subnet != nil {
-		var subnet DnsresolverSubResource
-		err := subnet.Initialize_From_DnsresolverSubResource_STATUS(source.Subnet)
+		var subnet SubResource
+		err := subnet.Initialize_From_SubResource_STATUS(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DnsresolverSubResource_STATUS() to populate field Subnet")
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field Subnet")
 		}
 		endpoint.Subnet = &subnet
 	} else {
@@ -711,7 +711,7 @@ type DnsResolversOutboundEndpoint_STATUS struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
 	// Subnet: The reference to the subnet used for the outbound endpoint.
-	Subnet *DnsresolverSubResource_STATUS `json:"subnet,omitempty"`
+	Subnet *SubResource_STATUS `json:"subnet,omitempty"`
 
 	// SystemData: Metadata pertaining to creation and last modification of the resource.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
@@ -837,7 +837,7 @@ func (endpoint *DnsResolversOutboundEndpoint_STATUS) PopulateFromARM(owner genru
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
-			var subnet1 DnsresolverSubResource_STATUS
+			var subnet1 SubResource_STATUS
 			err := subnet1.PopulateFromARM(owner, *typedInput.Properties.Subnet)
 			if err != nil {
 				return err
@@ -908,10 +908,10 @@ func (endpoint *DnsResolversOutboundEndpoint_STATUS) AssignProperties_From_DnsRe
 
 	// Subnet
 	if source.Subnet != nil {
-		var subnet DnsresolverSubResource_STATUS
-		err := subnet.AssignProperties_From_DnsresolverSubResource_STATUS(source.Subnet)
+		var subnet SubResource_STATUS
+		err := subnet.AssignProperties_From_SubResource_STATUS(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DnsresolverSubResource_STATUS() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field Subnet")
 		}
 		endpoint.Subnet = &subnet
 	} else {
@@ -973,10 +973,10 @@ func (endpoint *DnsResolversOutboundEndpoint_STATUS) AssignProperties_To_DnsReso
 
 	// Subnet
 	if endpoint.Subnet != nil {
-		var subnet storage.DnsresolverSubResource_STATUS
-		err := endpoint.Subnet.AssignProperties_To_DnsresolverSubResource_STATUS(&subnet)
+		var subnet storage.SubResource_STATUS
+		err := endpoint.Subnet.AssignProperties_To_SubResource_STATUS(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DnsresolverSubResource_STATUS() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {

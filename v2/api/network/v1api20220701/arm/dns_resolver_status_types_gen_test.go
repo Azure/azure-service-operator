@@ -97,7 +97,7 @@ func AddIndependentPropertyGeneratorsForDnsResolverProperties_STATUS(gens map[st
 
 // AddRelatedPropertyGeneratorsForDnsResolverProperties_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDnsResolverProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["VirtualNetwork"] = gen.PtrOf(DnsresolverSubResource_STATUSGenerator())
+	gens["VirtualNetwork"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
 func Test_DnsResolver_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

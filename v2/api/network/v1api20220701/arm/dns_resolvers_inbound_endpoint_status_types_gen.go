@@ -52,7 +52,7 @@ type IpConfiguration_STATUS struct {
 	PrivateIpAllocationMethod *IpConfiguration_PrivateIpAllocationMethod_STATUS `json:"privateIpAllocationMethod,omitempty"`
 
 	// Subnet: The reference to the subnet bound to the IP configuration.
-	Subnet *DnsresolverSubResource_STATUS `json:"subnet,omitempty"`
+	Subnet *SubResource_STATUS `json:"subnet,omitempty"`
 }
 
 type IpConfiguration_PrivateIpAllocationMethod_STATUS string

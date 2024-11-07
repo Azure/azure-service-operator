@@ -269,7 +269,7 @@ func (in *ApplicationGatewayBackendHttpSettings) DeepCopyInto(out *ApplicationGa
 	}
 	if in.AuthenticationCertificates != nil {
 		in, out := &in.AuthenticationCertificates, &out.AuthenticationCertificates
-		*out = make([]ApplicationGatewaySubResource, len(*in))
+		*out = make([]SubResource, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -311,7 +311,7 @@ func (in *ApplicationGatewayBackendHttpSettings) DeepCopyInto(out *ApplicationGa
 	}
 	if in.Probe != nil {
 		in, out := &in.Probe, &out.Probe
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProbeEnabled != nil {
@@ -338,7 +338,7 @@ func (in *ApplicationGatewayBackendHttpSettings) DeepCopyInto(out *ApplicationGa
 	}
 	if in.TrustedRootCertificates != nil {
 		in, out := &in.TrustedRootCertificates, &out.TrustedRootCertificates
-		*out = make([]ApplicationGatewaySubResource, len(*in))
+		*out = make([]SubResource, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -407,7 +407,7 @@ func (in *ApplicationGatewayBackendSettings) DeepCopyInto(out *ApplicationGatewa
 	}
 	if in.Probe != nil {
 		in, out := &in.Probe, &out.Probe
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.PropertyBag != nil {
@@ -429,7 +429,7 @@ func (in *ApplicationGatewayBackendSettings) DeepCopyInto(out *ApplicationGatewa
 	}
 	if in.TrustedRootCertificates != nil {
 		in, out := &in.TrustedRootCertificates, &out.TrustedRootCertificates
-		*out = make([]ApplicationGatewaySubResource, len(*in))
+		*out = make([]SubResource, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -759,7 +759,7 @@ func (in *ApplicationGatewayFrontendIPConfiguration) DeepCopyInto(out *Applicati
 	}
 	if in.PrivateLinkConfiguration != nil {
 		in, out := &in.PrivateLinkConfiguration, &out.PrivateLinkConfiguration
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.PropertyBag != nil {
@@ -771,12 +771,12 @@ func (in *ApplicationGatewayFrontendIPConfiguration) DeepCopyInto(out *Applicati
 	}
 	if in.PublicIPAddress != nil {
 		in, out := &in.PublicIPAddress, &out.PublicIPAddress
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Subnet != nil {
 		in, out := &in.Subnet, &out.Subnet
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -985,17 +985,17 @@ func (in *ApplicationGatewayHttpListener) DeepCopyInto(out *ApplicationGatewayHt
 	}
 	if in.FirewallPolicy != nil {
 		in, out := &in.FirewallPolicy, &out.FirewallPolicy
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.FrontendIPConfiguration != nil {
 		in, out := &in.FrontendIPConfiguration, &out.FrontendIPConfiguration
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.FrontendPort != nil {
 		in, out := &in.FrontendPort, &out.FrontendPort
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HostName != nil {
@@ -1032,12 +1032,12 @@ func (in *ApplicationGatewayHttpListener) DeepCopyInto(out *ApplicationGatewayHt
 	}
 	if in.SslCertificate != nil {
 		in, out := &in.SslCertificate, &out.SslCertificate
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SslProfile != nil {
 		in, out := &in.SslProfile, &out.SslProfile
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1096,7 +1096,7 @@ func (in *ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedd
 	}
 	if in.Subnet != nil {
 		in, out := &in.Subnet, &out.Subnet
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1175,12 +1175,12 @@ func (in *ApplicationGatewayListener) DeepCopyInto(out *ApplicationGatewayListen
 	*out = *in
 	if in.FrontendIPConfiguration != nil {
 		in, out := &in.FrontendIPConfiguration, &out.FrontendIPConfiguration
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.FrontendPort != nil {
 		in, out := &in.FrontendPort, &out.FrontendPort
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -1202,12 +1202,12 @@ func (in *ApplicationGatewayListener) DeepCopyInto(out *ApplicationGatewayListen
 	}
 	if in.SslCertificate != nil {
 		in, out := &in.SslCertificate, &out.SslCertificate
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SslProfile != nil {
 		in, out := &in.SslProfile, &out.SslProfile
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1689,7 +1689,7 @@ func (in *ApplicationGatewayRedirectConfiguration) DeepCopyInto(out *Application
 	}
 	if in.PathRules != nil {
 		in, out := &in.PathRules, &out.PathRules
-		*out = make([]ApplicationGatewaySubResource, len(*in))
+		*out = make([]SubResource, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -1708,14 +1708,14 @@ func (in *ApplicationGatewayRedirectConfiguration) DeepCopyInto(out *Application
 	}
 	if in.RequestRoutingRules != nil {
 		in, out := &in.RequestRoutingRules, &out.RequestRoutingRules
-		*out = make([]ApplicationGatewaySubResource, len(*in))
+		*out = make([]SubResource, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.TargetListener != nil {
 		in, out := &in.TargetListener, &out.TargetListener
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetUrl != nil {
@@ -1725,7 +1725,7 @@ func (in *ApplicationGatewayRedirectConfiguration) DeepCopyInto(out *Application
 	}
 	if in.UrlPathMaps != nil {
 		in, out := &in.UrlPathMaps, &out.UrlPathMaps
-		*out = make([]ApplicationGatewaySubResource, len(*in))
+		*out = make([]SubResource, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -1774,22 +1774,22 @@ func (in *ApplicationGatewayRequestRoutingRule) DeepCopyInto(out *ApplicationGat
 	*out = *in
 	if in.BackendAddressPool != nil {
 		in, out := &in.BackendAddressPool, &out.BackendAddressPool
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendHttpSettings != nil {
 		in, out := &in.BackendHttpSettings, &out.BackendHttpSettings
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HttpListener != nil {
 		in, out := &in.HttpListener, &out.HttpListener
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LoadDistributionPolicy != nil {
 		in, out := &in.LoadDistributionPolicy, &out.LoadDistributionPolicy
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -1811,12 +1811,12 @@ func (in *ApplicationGatewayRequestRoutingRule) DeepCopyInto(out *ApplicationGat
 	}
 	if in.RedirectConfiguration != nil {
 		in, out := &in.RedirectConfiguration, &out.RedirectConfiguration
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RewriteRuleSet != nil {
 		in, out := &in.RewriteRuleSet, &out.RewriteRuleSet
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RuleType != nil {
@@ -1826,7 +1826,7 @@ func (in *ApplicationGatewayRequestRoutingRule) DeepCopyInto(out *ApplicationGat
 	}
 	if in.UrlPathMap != nil {
 		in, out := &in.UrlPathMap, &out.UrlPathMap
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -2061,17 +2061,17 @@ func (in *ApplicationGatewayRoutingRule) DeepCopyInto(out *ApplicationGatewayRou
 	*out = *in
 	if in.BackendAddressPool != nil {
 		in, out := &in.BackendAddressPool, &out.BackendAddressPool
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendSettings != nil {
 		in, out := &in.BackendSettings, &out.BackendSettings
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Listener != nil {
 		in, out := &in.Listener, &out.Listener
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -2399,7 +2399,7 @@ func (in *ApplicationGatewaySslProfile) DeepCopyInto(out *ApplicationGatewaySslP
 	}
 	if in.TrustedClientCertificates != nil {
 		in, out := &in.TrustedClientCertificates, &out.TrustedClientCertificates
-		*out = make([]ApplicationGatewaySubResource, len(*in))
+		*out = make([]SubResource, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -2439,60 +2439,6 @@ func (in *ApplicationGatewaySslProfile_STATUS) DeepCopy() *ApplicationGatewaySsl
 		return nil
 	}
 	out := new(ApplicationGatewaySslProfile_STATUS)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ApplicationGatewaySubResource) DeepCopyInto(out *ApplicationGatewaySubResource) {
-	*out = *in
-	if in.PropertyBag != nil {
-		in, out := &in.PropertyBag, &out.PropertyBag
-		*out = make(genruntime.PropertyBag, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-	if in.Reference != nil {
-		in, out := &in.Reference, &out.Reference
-		*out = new(genruntime.ResourceReference)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ApplicationGatewaySubResource.
-func (in *ApplicationGatewaySubResource) DeepCopy() *ApplicationGatewaySubResource {
-	if in == nil {
-		return nil
-	}
-	out := new(ApplicationGatewaySubResource)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ApplicationGatewaySubResource_STATUS) DeepCopyInto(out *ApplicationGatewaySubResource_STATUS) {
-	*out = *in
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
-	if in.PropertyBag != nil {
-		in, out := &in.PropertyBag, &out.PropertyBag
-		*out = make(genruntime.PropertyBag, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ApplicationGatewaySubResource_STATUS.
-func (in *ApplicationGatewaySubResource_STATUS) DeepCopy() *ApplicationGatewaySubResource_STATUS {
-	if in == nil {
-		return nil
-	}
-	out := new(ApplicationGatewaySubResource_STATUS)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -2662,27 +2608,27 @@ func (in *ApplicationGatewayUrlPathMap) DeepCopyInto(out *ApplicationGatewayUrlP
 	*out = *in
 	if in.DefaultBackendAddressPool != nil {
 		in, out := &in.DefaultBackendAddressPool, &out.DefaultBackendAddressPool
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultBackendHttpSettings != nil {
 		in, out := &in.DefaultBackendHttpSettings, &out.DefaultBackendHttpSettings
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultLoadDistributionPolicy != nil {
 		in, out := &in.DefaultLoadDistributionPolicy, &out.DefaultLoadDistributionPolicy
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultRedirectConfiguration != nil {
 		in, out := &in.DefaultRedirectConfiguration, &out.DefaultRedirectConfiguration
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultRewriteRuleSet != nil {
 		in, out := &in.DefaultRewriteRuleSet, &out.DefaultRewriteRuleSet
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -2962,7 +2908,7 @@ func (in *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) Deep
 	}
 	if in.FirewallPolicy != nil {
 		in, out := &in.FirewallPolicy, &out.FirewallPolicy
-		*out = new(ApplicationGatewaySubResource_STATUS)
+		*out = new(SubResource_STATUS)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ForceFirewallPolicyAssociation != nil {
@@ -3242,7 +3188,7 @@ func (in *ApplicationGateway_Spec) DeepCopyInto(out *ApplicationGateway_Spec) {
 	}
 	if in.FirewallPolicy != nil {
 		in, out := &in.FirewallPolicy, &out.FirewallPolicy
-		*out = new(ApplicationGatewaySubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ForceFirewallPolicyAssociation != nil {
@@ -3543,12 +3489,12 @@ func (in *BastionHostIPConfiguration) DeepCopyInto(out *BastionHostIPConfigurati
 	}
 	if in.PublicIPAddress != nil {
 		in, out := &in.PublicIPAddress, &out.PublicIPAddress
-		*out = new(BastionHostSubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Subnet != nil {
 		in, out := &in.Subnet, &out.Subnet
-		*out = new(BastionHostSubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3662,33 +3608,6 @@ func (in *BastionHostOperatorSpec) DeepCopy() *BastionHostOperatorSpec {
 		return nil
 	}
 	out := new(BastionHostOperatorSpec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *BastionHostSubResource) DeepCopyInto(out *BastionHostSubResource) {
-	*out = *in
-	if in.PropertyBag != nil {
-		in, out := &in.PropertyBag, &out.PropertyBag
-		*out = make(genruntime.PropertyBag, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-	if in.Reference != nil {
-		in, out := &in.Reference, &out.Reference
-		*out = new(genruntime.ResourceReference)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BastionHostSubResource.
-func (in *BastionHostSubResource) DeepCopy() *BastionHostSubResource {
-	if in == nil {
-		return nil
-	}
-	out := new(BastionHostSubResource)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -4330,7 +4249,7 @@ func (in *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) DeepCopyInto(out *DnsF
 	}
 	if in.VirtualNetwork != nil {
 		in, out := &in.VirtualNetwork, &out.VirtualNetwork
-		*out = new(DnsresolverSubResource_STATUS)
+		*out = new(SubResource_STATUS)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -4374,7 +4293,7 @@ func (in *DnsForwardingRuleSetsVirtualNetworkLink_Spec) DeepCopyInto(out *DnsFor
 	}
 	if in.VirtualNetwork != nil {
 		in, out := &in.VirtualNetwork, &out.VirtualNetwork
-		*out = new(DnsresolverSubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -4504,7 +4423,7 @@ func (in *DnsForwardingRuleset_STATUS) DeepCopyInto(out *DnsForwardingRuleset_ST
 	}
 	if in.DnsResolverOutboundEndpoints != nil {
 		in, out := &in.DnsResolverOutboundEndpoints, &out.DnsResolverOutboundEndpoints
-		*out = make([]DnsresolverSubResource_STATUS, len(*in))
+		*out = make([]SubResource_STATUS, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -4580,7 +4499,7 @@ func (in *DnsForwardingRuleset_Spec) DeepCopyInto(out *DnsForwardingRuleset_Spec
 	*out = *in
 	if in.DnsResolverOutboundEndpoints != nil {
 		in, out := &in.DnsResolverOutboundEndpoints, &out.DnsResolverOutboundEndpoints
-		*out = make([]DnsresolverSubResource, len(*in))
+		*out = make([]SubResource, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -4800,7 +4719,7 @@ func (in *DnsResolver_STATUS) DeepCopyInto(out *DnsResolver_STATUS) {
 	}
 	if in.VirtualNetwork != nil {
 		in, out := &in.VirtualNetwork, &out.VirtualNetwork
-		*out = new(DnsresolverSubResource_STATUS)
+		*out = new(SubResource_STATUS)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -4849,7 +4768,7 @@ func (in *DnsResolver_Spec) DeepCopyInto(out *DnsResolver_Spec) {
 	}
 	if in.VirtualNetwork != nil {
 		in, out := &in.VirtualNetwork, &out.VirtualNetwork
-		*out = new(DnsresolverSubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -5253,7 +5172,7 @@ func (in *DnsResolversOutboundEndpoint_STATUS) DeepCopyInto(out *DnsResolversOut
 	}
 	if in.Subnet != nil {
 		in, out := &in.Subnet, &out.Subnet
-		*out = new(DnsresolverSubResource_STATUS)
+		*out = new(SubResource_STATUS)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SystemData != nil {
@@ -5312,7 +5231,7 @@ func (in *DnsResolversOutboundEndpoint_Spec) DeepCopyInto(out *DnsResolversOutbo
 	}
 	if in.Subnet != nil {
 		in, out := &in.Subnet, &out.Subnet
-		*out = new(DnsresolverSubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Tags != nil {
@@ -5330,60 +5249,6 @@ func (in *DnsResolversOutboundEndpoint_Spec) DeepCopy() *DnsResolversOutboundEnd
 		return nil
 	}
 	out := new(DnsResolversOutboundEndpoint_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DnsresolverSubResource) DeepCopyInto(out *DnsresolverSubResource) {
-	*out = *in
-	if in.PropertyBag != nil {
-		in, out := &in.PropertyBag, &out.PropertyBag
-		*out = make(genruntime.PropertyBag, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-	if in.Reference != nil {
-		in, out := &in.Reference, &out.Reference
-		*out = new(genruntime.ResourceReference)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DnsresolverSubResource.
-func (in *DnsresolverSubResource) DeepCopy() *DnsresolverSubResource {
-	if in == nil {
-		return nil
-	}
-	out := new(DnsresolverSubResource)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DnsresolverSubResource_STATUS) DeepCopyInto(out *DnsresolverSubResource_STATUS) {
-	*out = *in
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
-	if in.PropertyBag != nil {
-		in, out := &in.PropertyBag, &out.PropertyBag
-		*out = make(genruntime.PropertyBag, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DnsresolverSubResource_STATUS.
-func (in *DnsresolverSubResource_STATUS) DeepCopy() *DnsresolverSubResource_STATUS {
-	if in == nil {
-		return nil
-	}
-	out := new(DnsresolverSubResource_STATUS)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -5528,7 +5393,7 @@ func (in *IpConfiguration) DeepCopyInto(out *IpConfiguration) {
 	}
 	if in.Subnet != nil {
 		in, out := &in.Subnet, &out.Subnet
-		*out = new(DnsresolverSubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -5565,7 +5430,7 @@ func (in *IpConfiguration_STATUS) DeepCopyInto(out *IpConfiguration_STATUS) {
 	}
 	if in.Subnet != nil {
 		in, out := &in.Subnet, &out.Subnet
-		*out = new(DnsresolverSubResource_STATUS)
+		*out = new(SubResource_STATUS)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -5987,14 +5852,14 @@ func (in *NatGateway_STATUS) DeepCopyInto(out *NatGateway_STATUS) {
 	}
 	if in.PublicIpAddresses != nil {
 		in, out := &in.PublicIpAddresses, &out.PublicIpAddresses
-		*out = make([]ApplicationGatewaySubResource_STATUS, len(*in))
+		*out = make([]SubResource_STATUS, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.PublicIpPrefixes != nil {
 		in, out := &in.PublicIpPrefixes, &out.PublicIpPrefixes
-		*out = make([]ApplicationGatewaySubResource_STATUS, len(*in))
+		*out = make([]SubResource_STATUS, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -6011,7 +5876,7 @@ func (in *NatGateway_STATUS) DeepCopyInto(out *NatGateway_STATUS) {
 	}
 	if in.Subnets != nil {
 		in, out := &in.Subnets, &out.Subnets
-		*out = make([]ApplicationGatewaySubResource_STATUS, len(*in))
+		*out = make([]SubResource_STATUS, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -6104,14 +5969,14 @@ func (in *NatGateway_Spec) DeepCopyInto(out *NatGateway_Spec) {
 	}
 	if in.PublicIpAddresses != nil {
 		in, out := &in.PublicIpAddresses, &out.PublicIpAddresses
-		*out = make([]ApplicationGatewaySubResource, len(*in))
+		*out = make([]SubResource, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.PublicIpPrefixes != nil {
 		in, out := &in.PublicIpPrefixes, &out.PublicIpPrefixes
-		*out = make([]ApplicationGatewaySubResource, len(*in))
+		*out = make([]SubResource, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -7767,7 +7632,7 @@ func (in *PublicIPPrefix_STATUS) DeepCopyInto(out *PublicIPPrefix_STATUS) {
 	}
 	if in.CustomIPPrefix != nil {
 		in, out := &in.CustomIPPrefix, &out.CustomIPPrefix
-		*out = new(PublicIpPrefixSubResource_STATUS)
+		*out = new(SubResource_STATUS)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Etag != nil {
@@ -7799,7 +7664,7 @@ func (in *PublicIPPrefix_STATUS) DeepCopyInto(out *PublicIPPrefix_STATUS) {
 	}
 	if in.LoadBalancerFrontendIpConfiguration != nil {
 		in, out := &in.LoadBalancerFrontendIpConfiguration, &out.LoadBalancerFrontendIpConfiguration
-		*out = new(PublicIpPrefixSubResource_STATUS)
+		*out = new(SubResource_STATUS)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Location != nil {
@@ -7890,7 +7755,7 @@ func (in *PublicIPPrefix_Spec) DeepCopyInto(out *PublicIPPrefix_Spec) {
 	*out = *in
 	if in.CustomIPPrefix != nil {
 		in, out := &in.CustomIPPrefix, &out.CustomIPPrefix
-		*out = new(PublicIpPrefixSubResource)
+		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ExtendedLocation != nil {
@@ -7967,60 +7832,6 @@ func (in *PublicIPPrefix_Spec) DeepCopy() *PublicIPPrefix_Spec {
 		return nil
 	}
 	out := new(PublicIPPrefix_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *PublicIpPrefixSubResource) DeepCopyInto(out *PublicIpPrefixSubResource) {
-	*out = *in
-	if in.PropertyBag != nil {
-		in, out := &in.PropertyBag, &out.PropertyBag
-		*out = make(genruntime.PropertyBag, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-	if in.Reference != nil {
-		in, out := &in.Reference, &out.Reference
-		*out = new(genruntime.ResourceReference)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PublicIpPrefixSubResource.
-func (in *PublicIpPrefixSubResource) DeepCopy() *PublicIpPrefixSubResource {
-	if in == nil {
-		return nil
-	}
-	out := new(PublicIpPrefixSubResource)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *PublicIpPrefixSubResource_STATUS) DeepCopyInto(out *PublicIpPrefixSubResource_STATUS) {
-	*out = *in
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
-	if in.PropertyBag != nil {
-		in, out := &in.PropertyBag, &out.PropertyBag
-		*out = make(genruntime.PropertyBag, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PublicIpPrefixSubResource_STATUS.
-func (in *PublicIpPrefixSubResource_STATUS) DeepCopy() *PublicIpPrefixSubResource_STATUS {
-	if in == nil {
-		return nil
-	}
-	out := new(PublicIpPrefixSubResource_STATUS)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -8208,6 +8019,60 @@ func (in *Sku_STATUS) DeepCopy() *Sku_STATUS {
 		return nil
 	}
 	out := new(Sku_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *SubResource) DeepCopyInto(out *SubResource) {
+	*out = *in
+	if in.PropertyBag != nil {
+		in, out := &in.PropertyBag, &out.PropertyBag
+		*out = make(genruntime.PropertyBag, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+	if in.Reference != nil {
+		in, out := &in.Reference, &out.Reference
+		*out = new(genruntime.ResourceReference)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new SubResource.
+func (in *SubResource) DeepCopy() *SubResource {
+	if in == nil {
+		return nil
+	}
+	out := new(SubResource)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *SubResource_STATUS) DeepCopyInto(out *SubResource_STATUS) {
+	*out = *in
+	if in.Id != nil {
+		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
+	}
+	if in.PropertyBag != nil {
+		in, out := &in.PropertyBag, &out.PropertyBag
+		*out = make(genruntime.PropertyBag, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new SubResource_STATUS.
+func (in *SubResource_STATUS) DeepCopy() *SubResource_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(SubResource_STATUS)
 	in.DeepCopyInto(out)
 	return out
 }

@@ -73,7 +73,7 @@ type ApplicationGatewayPropertiesFormat struct {
 	EnableHttp2 *bool `json:"enableHttp2,omitempty"`
 
 	// FirewallPolicy: Reference to the FirewallPolicy resource.
-	FirewallPolicy *ApplicationGatewaySubResource `json:"firewallPolicy,omitempty"`
+	FirewallPolicy *SubResource `json:"firewallPolicy,omitempty"`
 
 	// ForceFirewallPolicyAssociation: If true, associates a firewall policy with an application gateway regardless whether the
 	// policy differs from the WAF Config.
@@ -386,11 +386,6 @@ type ApplicationGatewaySslProfile struct {
 	Properties *ApplicationGatewaySslProfilePropertiesFormat `json:"properties,omitempty"`
 }
 
-// Reference to another subresource.
-type ApplicationGatewaySubResource struct {
-	Id *string `json:"id,omitempty"`
-}
-
 // Trusted client certificates of an application gateway.
 type ApplicationGatewayTrustedClientCertificate struct {
 	// Name: Name of the trusted client certificate that is unique within an Application Gateway.
@@ -469,6 +464,11 @@ var managedServiceIdentity_Type_Values = map[string]ManagedServiceIdentity_Type{
 	"userassigned":                 ManagedServiceIdentity_Type_UserAssigned,
 }
 
+// Reference to another ARM resource.
+type SubResource struct {
+	Id *string `json:"id,omitempty"`
+}
+
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
 }
@@ -491,7 +491,7 @@ type ApplicationGatewayBackendHttpSettingsPropertiesFormat struct {
 	AffinityCookieName *string `json:"affinityCookieName,omitempty"`
 
 	// AuthenticationCertificates: Array of references to application gateway authentication certificates.
-	AuthenticationCertificates []ApplicationGatewaySubResource `json:"authenticationCertificates,omitempty"`
+	AuthenticationCertificates []SubResource `json:"authenticationCertificates,omitempty"`
 
 	// ConnectionDraining: Connection draining of the backend http settings resource.
 	ConnectionDraining *ApplicationGatewayConnectionDraining `json:"connectionDraining,omitempty"`
@@ -514,7 +514,7 @@ type ApplicationGatewayBackendHttpSettingsPropertiesFormat struct {
 	Port *int `json:"port,omitempty"`
 
 	// Probe: Probe resource of an application gateway.
-	Probe *ApplicationGatewaySubResource `json:"probe,omitempty"`
+	Probe *SubResource `json:"probe,omitempty"`
 
 	// ProbeEnabled: Whether the probe is enabled. Default value is false.
 	ProbeEnabled *bool `json:"probeEnabled,omitempty"`
@@ -527,7 +527,7 @@ type ApplicationGatewayBackendHttpSettingsPropertiesFormat struct {
 	RequestTimeout *int `json:"requestTimeout,omitempty"`
 
 	// TrustedRootCertificates: Array of references to application gateway trusted root certificates.
-	TrustedRootCertificates []ApplicationGatewaySubResource `json:"trustedRootCertificates,omitempty"`
+	TrustedRootCertificates []SubResource `json:"trustedRootCertificates,omitempty"`
 }
 
 // Properties of Backend address pool settings of an application gateway.
@@ -543,7 +543,7 @@ type ApplicationGatewayBackendSettingsPropertiesFormat struct {
 	Port *int `json:"port,omitempty"`
 
 	// Probe: Probe resource of an application gateway.
-	Probe *ApplicationGatewaySubResource `json:"probe,omitempty"`
+	Probe *SubResource `json:"probe,omitempty"`
 
 	// Protocol: The protocol used to communicate with the backend.
 	Protocol *ApplicationGatewayProtocol `json:"protocol,omitempty"`
@@ -553,7 +553,7 @@ type ApplicationGatewayBackendSettingsPropertiesFormat struct {
 	Timeout *int `json:"timeout,omitempty"`
 
 	// TrustedRootCertificates: Array of references to application gateway trusted root certificates.
-	TrustedRootCertificates []ApplicationGatewaySubResource `json:"trustedRootCertificates,omitempty"`
+	TrustedRootCertificates []SubResource `json:"trustedRootCertificates,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"HttpStatus403","HttpStatus502"}
@@ -602,13 +602,13 @@ type ApplicationGatewayFrontendIPConfigurationPropertiesFormat struct {
 	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
 
 	// PrivateLinkConfiguration: Reference to the application gateway private link configuration.
-	PrivateLinkConfiguration *ApplicationGatewaySubResource `json:"privateLinkConfiguration,omitempty"`
+	PrivateLinkConfiguration *SubResource `json:"privateLinkConfiguration,omitempty"`
 
 	// PublicIPAddress: Reference to the PublicIP resource.
-	PublicIPAddress *ApplicationGatewaySubResource `json:"publicIPAddress,omitempty"`
+	PublicIPAddress *SubResource `json:"publicIPAddress,omitempty"`
 
 	// Subnet: Reference to the subnet resource.
-	Subnet *ApplicationGatewaySubResource `json:"subnet,omitempty"`
+	Subnet *SubResource `json:"subnet,omitempty"`
 }
 
 // Properties of Frontend port of an application gateway.
@@ -623,13 +623,13 @@ type ApplicationGatewayHttpListenerPropertiesFormat struct {
 	CustomErrorConfigurations []ApplicationGatewayCustomError `json:"customErrorConfigurations,omitempty"`
 
 	// FirewallPolicy: Reference to the FirewallPolicy resource.
-	FirewallPolicy *ApplicationGatewaySubResource `json:"firewallPolicy,omitempty"`
+	FirewallPolicy *SubResource `json:"firewallPolicy,omitempty"`
 
 	// FrontendIPConfiguration: Frontend IP configuration resource of an application gateway.
-	FrontendIPConfiguration *ApplicationGatewaySubResource `json:"frontendIPConfiguration,omitempty"`
+	FrontendIPConfiguration *SubResource `json:"frontendIPConfiguration,omitempty"`
 
 	// FrontendPort: Frontend port resource of an application gateway.
-	FrontendPort *ApplicationGatewaySubResource `json:"frontendPort,omitempty"`
+	FrontendPort *SubResource `json:"frontendPort,omitempty"`
 
 	// HostName: Host name of HTTP listener.
 	HostName *string `json:"hostName,omitempty"`
@@ -644,34 +644,34 @@ type ApplicationGatewayHttpListenerPropertiesFormat struct {
 	RequireServerNameIndication *bool `json:"requireServerNameIndication,omitempty"`
 
 	// SslCertificate: SSL certificate resource of an application gateway.
-	SslCertificate *ApplicationGatewaySubResource `json:"sslCertificate,omitempty"`
+	SslCertificate *SubResource `json:"sslCertificate,omitempty"`
 
 	// SslProfile: SSL profile resource of the application gateway.
-	SslProfile *ApplicationGatewaySubResource `json:"sslProfile,omitempty"`
+	SslProfile *SubResource `json:"sslProfile,omitempty"`
 }
 
 // Properties of IP configuration of an application gateway.
 type ApplicationGatewayIPConfigurationPropertiesFormat struct {
 	// Subnet: Reference to the subnet resource. A subnet from where application gateway gets its private address.
-	Subnet *ApplicationGatewaySubResource `json:"subnet,omitempty"`
+	Subnet *SubResource `json:"subnet,omitempty"`
 }
 
 // Properties of listener of an application gateway.
 type ApplicationGatewayListenerPropertiesFormat struct {
 	// FrontendIPConfiguration: Frontend IP configuration resource of an application gateway.
-	FrontendIPConfiguration *ApplicationGatewaySubResource `json:"frontendIPConfiguration,omitempty"`
+	FrontendIPConfiguration *SubResource `json:"frontendIPConfiguration,omitempty"`
 
 	// FrontendPort: Frontend port resource of an application gateway.
-	FrontendPort *ApplicationGatewaySubResource `json:"frontendPort,omitempty"`
+	FrontendPort *SubResource `json:"frontendPort,omitempty"`
 
 	// Protocol: Protocol of the listener.
 	Protocol *ApplicationGatewayProtocol `json:"protocol,omitempty"`
 
 	// SslCertificate: SSL certificate resource of an application gateway.
-	SslCertificate *ApplicationGatewaySubResource `json:"sslCertificate,omitempty"`
+	SslCertificate *SubResource `json:"sslCertificate,omitempty"`
 
 	// SslProfile: SSL profile resource of the application gateway.
-	SslProfile *ApplicationGatewaySubResource `json:"sslProfile,omitempty"`
+	SslProfile *SubResource `json:"sslProfile,omitempty"`
 }
 
 // Properties of Load Distribution Policy of an application gateway.
@@ -740,52 +740,52 @@ type ApplicationGatewayRedirectConfigurationPropertiesFormat struct {
 	IncludeQueryString *bool `json:"includeQueryString,omitempty"`
 
 	// PathRules: Path rules specifying redirect configuration.
-	PathRules []ApplicationGatewaySubResource `json:"pathRules,omitempty"`
+	PathRules []SubResource `json:"pathRules,omitempty"`
 
 	// RedirectType: HTTP redirection type.
 	RedirectType *RedirectTypeEnum `json:"redirectType,omitempty"`
 
 	// RequestRoutingRules: Request routing specifying redirect configuration.
-	RequestRoutingRules []ApplicationGatewaySubResource `json:"requestRoutingRules,omitempty"`
+	RequestRoutingRules []SubResource `json:"requestRoutingRules,omitempty"`
 
 	// TargetListener: Reference to a listener to redirect the request to.
-	TargetListener *ApplicationGatewaySubResource `json:"targetListener,omitempty"`
+	TargetListener *SubResource `json:"targetListener,omitempty"`
 
 	// TargetUrl: Url to redirect the request to.
 	TargetUrl *string `json:"targetUrl,omitempty"`
 
 	// UrlPathMaps: Url path maps specifying default redirect configuration.
-	UrlPathMaps []ApplicationGatewaySubResource `json:"urlPathMaps,omitempty"`
+	UrlPathMaps []SubResource `json:"urlPathMaps,omitempty"`
 }
 
 // Properties of request routing rule of the application gateway.
 type ApplicationGatewayRequestRoutingRulePropertiesFormat struct {
 	// BackendAddressPool: Backend address pool resource of the application gateway.
-	BackendAddressPool *ApplicationGatewaySubResource `json:"backendAddressPool,omitempty"`
+	BackendAddressPool *SubResource `json:"backendAddressPool,omitempty"`
 
 	// BackendHttpSettings: Backend http settings resource of the application gateway.
-	BackendHttpSettings *ApplicationGatewaySubResource `json:"backendHttpSettings,omitempty"`
+	BackendHttpSettings *SubResource `json:"backendHttpSettings,omitempty"`
 
 	// HttpListener: Http listener resource of the application gateway.
-	HttpListener *ApplicationGatewaySubResource `json:"httpListener,omitempty"`
+	HttpListener *SubResource `json:"httpListener,omitempty"`
 
 	// LoadDistributionPolicy: Load Distribution Policy resource of the application gateway.
-	LoadDistributionPolicy *ApplicationGatewaySubResource `json:"loadDistributionPolicy,omitempty"`
+	LoadDistributionPolicy *SubResource `json:"loadDistributionPolicy,omitempty"`
 
 	// Priority: Priority of the request routing rule.
 	Priority *int `json:"priority,omitempty"`
 
 	// RedirectConfiguration: Redirect configuration resource of the application gateway.
-	RedirectConfiguration *ApplicationGatewaySubResource `json:"redirectConfiguration,omitempty"`
+	RedirectConfiguration *SubResource `json:"redirectConfiguration,omitempty"`
 
 	// RewriteRuleSet: Rewrite Rule Set resource in Basic rule of the application gateway.
-	RewriteRuleSet *ApplicationGatewaySubResource `json:"rewriteRuleSet,omitempty"`
+	RewriteRuleSet *SubResource `json:"rewriteRuleSet,omitempty"`
 
 	// RuleType: Rule type.
 	RuleType *ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType `json:"ruleType,omitempty"`
 
 	// UrlPathMap: URL path map resource of the application gateway.
-	UrlPathMap *ApplicationGatewaySubResource `json:"urlPathMap,omitempty"`
+	UrlPathMap *SubResource `json:"urlPathMap,omitempty"`
 }
 
 // Properties of rewrite rule set of the application gateway.
@@ -797,13 +797,13 @@ type ApplicationGatewayRewriteRuleSetPropertiesFormat struct {
 // Properties of routing rule of the application gateway.
 type ApplicationGatewayRoutingRulePropertiesFormat struct {
 	// BackendAddressPool: Backend address pool resource of the application gateway.
-	BackendAddressPool *ApplicationGatewaySubResource `json:"backendAddressPool,omitempty"`
+	BackendAddressPool *SubResource `json:"backendAddressPool,omitempty"`
 
 	// BackendSettings: Backend settings resource of the application gateway.
-	BackendSettings *ApplicationGatewaySubResource `json:"backendSettings,omitempty"`
+	BackendSettings *SubResource `json:"backendSettings,omitempty"`
 
 	// Listener: Listener resource of the application gateway.
-	Listener *ApplicationGatewaySubResource `json:"listener,omitempty"`
+	Listener *SubResource `json:"listener,omitempty"`
 
 	// Priority: Priority of the routing rule.
 	Priority *int `json:"priority,omitempty"`
@@ -891,7 +891,7 @@ type ApplicationGatewaySslProfilePropertiesFormat struct {
 	SslPolicy *ApplicationGatewaySslPolicy `json:"sslPolicy,omitempty"`
 
 	// TrustedClientCertificates: Array of references to application gateway trusted client certificates.
-	TrustedClientCertificates []ApplicationGatewaySubResource `json:"trustedClientCertificates,omitempty"`
+	TrustedClientCertificates []SubResource `json:"trustedClientCertificates,omitempty"`
 }
 
 // Trusted client certificates properties of an application gateway.
@@ -912,19 +912,19 @@ type ApplicationGatewayTrustedRootCertificatePropertiesFormat struct {
 // Properties of UrlPathMap of the application gateway.
 type ApplicationGatewayUrlPathMapPropertiesFormat struct {
 	// DefaultBackendAddressPool: Default backend address pool resource of URL path map.
-	DefaultBackendAddressPool *ApplicationGatewaySubResource `json:"defaultBackendAddressPool,omitempty"`
+	DefaultBackendAddressPool *SubResource `json:"defaultBackendAddressPool,omitempty"`
 
 	// DefaultBackendHttpSettings: Default backend http settings resource of URL path map.
-	DefaultBackendHttpSettings *ApplicationGatewaySubResource `json:"defaultBackendHttpSettings,omitempty"`
+	DefaultBackendHttpSettings *SubResource `json:"defaultBackendHttpSettings,omitempty"`
 
 	// DefaultLoadDistributionPolicy: Default Load Distribution Policy resource of URL path map.
-	DefaultLoadDistributionPolicy *ApplicationGatewaySubResource `json:"defaultLoadDistributionPolicy,omitempty"`
+	DefaultLoadDistributionPolicy *SubResource `json:"defaultLoadDistributionPolicy,omitempty"`
 
 	// DefaultRedirectConfiguration: Default redirect configuration resource of URL path map.
-	DefaultRedirectConfiguration *ApplicationGatewaySubResource `json:"defaultRedirectConfiguration,omitempty"`
+	DefaultRedirectConfiguration *SubResource `json:"defaultRedirectConfiguration,omitempty"`
 
 	// DefaultRewriteRuleSet: Default Rewrite rule set resource of URL path map.
-	DefaultRewriteRuleSet *ApplicationGatewaySubResource `json:"defaultRewriteRuleSet,omitempty"`
+	DefaultRewriteRuleSet *SubResource `json:"defaultRewriteRuleSet,omitempty"`
 
 	// PathRules: Path rule of URL path map resource.
 	PathRules []ApplicationGatewayPathRule `json:"pathRules,omitempty"`

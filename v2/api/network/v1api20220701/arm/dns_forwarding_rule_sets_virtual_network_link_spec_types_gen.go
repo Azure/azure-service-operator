@@ -35,10 +35,5 @@ type VirtualNetworkLinkProperties struct {
 	Metadata map[string]string `json:"metadata,omitempty"`
 
 	// VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.
-	VirtualNetwork *DnsresolverSubResource `json:"virtualNetwork,omitempty"`
-}
-
-// Reference to another ARM resource.
-type DnsresolverSubResource struct {
-	Id *string `json:"id,omitempty"`
+	VirtualNetwork *SubResource `json:"virtualNetwork,omitempty"`
 }

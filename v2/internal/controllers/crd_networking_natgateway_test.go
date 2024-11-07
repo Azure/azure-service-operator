@@ -29,7 +29,7 @@ func Test_Networking_NatGateway_CRUD(t *testing.T) {
 		Spec: network.NatGateway_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			PublicIpAddresses: []network.ApplicationGatewaySubResource{
+			PublicIpAddresses: []network.SubResource{
 				{
 					Reference: tc.MakeReferenceFromResource(publicIPAddress),
 				},

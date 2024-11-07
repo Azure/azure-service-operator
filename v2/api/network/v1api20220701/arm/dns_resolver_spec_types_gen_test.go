@@ -75,7 +75,7 @@ func DnsResolverPropertiesGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForDnsResolverProperties is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDnsResolverProperties(gens map[string]gopter.Gen) {
-	gens["VirtualNetwork"] = gen.PtrOf(DnsresolverSubResourceGenerator())
+	gens["VirtualNetwork"] = gen.PtrOf(SubResourceGenerator())
 }
 
 func Test_DnsResolver_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

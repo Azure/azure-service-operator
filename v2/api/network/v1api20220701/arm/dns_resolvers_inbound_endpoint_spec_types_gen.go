@@ -49,7 +49,7 @@ type IpConfiguration struct {
 	PrivateIpAllocationMethod *IpConfiguration_PrivateIpAllocationMethod `json:"privateIpAllocationMethod,omitempty"`
 
 	// Subnet: The reference to the subnet bound to the IP configuration.
-	Subnet *DnsresolverSubResource `json:"subnet,omitempty"`
+	Subnet *SubResource `json:"subnet,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Dynamic","Static"}

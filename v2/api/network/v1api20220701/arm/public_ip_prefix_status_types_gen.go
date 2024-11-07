@@ -39,7 +39,7 @@ type PublicIPPrefix_STATUS struct {
 // Public IP prefix properties.
 type PublicIPPrefixPropertiesFormat_STATUS struct {
 	// CustomIPPrefix: The customIpPrefix that this prefix is associated with.
-	CustomIPPrefix *PublicIpPrefixSubResource_STATUS `json:"customIPPrefix,omitempty"`
+	CustomIPPrefix *SubResource_STATUS `json:"customIPPrefix,omitempty"`
 
 	// IpPrefix: The allocated Prefix.
 	IpPrefix *string `json:"ipPrefix,omitempty"`
@@ -49,7 +49,7 @@ type PublicIPPrefixPropertiesFormat_STATUS struct {
 
 	// LoadBalancerFrontendIpConfiguration: The reference to load balancer frontend IP configuration associated with the public
 	// IP prefix.
-	LoadBalancerFrontendIpConfiguration *PublicIpPrefixSubResource_STATUS `json:"loadBalancerFrontendIpConfiguration,omitempty"`
+	LoadBalancerFrontendIpConfiguration *SubResource_STATUS `json:"loadBalancerFrontendIpConfiguration,omitempty"`
 
 	// NatGateway: NatGateway of Public IP Prefix.
 	NatGateway *NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded `json:"natGateway,omitempty"`
@@ -146,12 +146,6 @@ const (
 var publicIPPrefixSku_Tier_STATUS_Values = map[string]PublicIPPrefixSku_Tier_STATUS{
 	"global":   PublicIPPrefixSku_Tier_STATUS_Global,
 	"regional": PublicIPPrefixSku_Tier_STATUS_Regional,
-}
-
-// Reference to another subresource.
-type PublicIpPrefixSubResource_STATUS struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
 }
 
 // Reference to a public IP address.

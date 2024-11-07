@@ -164,8 +164,8 @@ func AddIndependentPropertyGeneratorsForBastionHostIPConfigurationPropertiesForm
 
 // AddRelatedPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat(gens map[string]gopter.Gen) {
-	gens["PublicIPAddress"] = gen.PtrOf(BastionHostSubResourceGenerator())
-	gens["Subnet"] = gen.PtrOf(BastionHostSubResourceGenerator())
+	gens["PublicIPAddress"] = gen.PtrOf(SubResourceGenerator())
+	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
 }
 
 func Test_BastionHostPropertiesFormat_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -247,67 +247,6 @@ func AddIndependentPropertyGeneratorsForBastionHostPropertiesFormat(gens map[str
 // AddRelatedPropertyGeneratorsForBastionHostPropertiesFormat is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBastionHostPropertiesFormat(gens map[string]gopter.Gen) {
 	gens["IpConfigurations"] = gen.SliceOf(BastionHostIPConfigurationGenerator())
-}
-
-func Test_BastionHostSubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BastionHostSubResource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBastionHostSubResource, BastionHostSubResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBastionHostSubResource runs a test to see if a specific instance of BastionHostSubResource round trips to JSON and back losslessly
-func RunJSONSerializationTestForBastionHostSubResource(subject BastionHostSubResource) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BastionHostSubResource
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BastionHostSubResource instances for property testing - lazily instantiated by
-// BastionHostSubResourceGenerator()
-var bastionHostSubResourceGenerator gopter.Gen
-
-// BastionHostSubResourceGenerator returns a generator of BastionHostSubResource instances for property testing.
-func BastionHostSubResourceGenerator() gopter.Gen {
-	if bastionHostSubResourceGenerator != nil {
-		return bastionHostSubResourceGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBastionHostSubResource(generators)
-	bastionHostSubResourceGenerator = gen.Struct(reflect.TypeOf(BastionHostSubResource{}), generators)
-
-	return bastionHostSubResourceGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBastionHostSubResource is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBastionHostSubResource(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_BastionHost_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

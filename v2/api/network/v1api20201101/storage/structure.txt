@@ -1144,4 +1144,5 @@ augmentConversionForExtendedLocation: Interface
 augmentConversionForExtendedLocation_STATUS: Interface
 augmentConversionForIpTag: Interface
 augmentConversionForIpTag_STATUS: Interface
+augmentConversionForSubResource: Interface
 augmentConversionForSubResource_STATUS: Interface

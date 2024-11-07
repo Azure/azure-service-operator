@@ -378,7 +378,7 @@ type DnsForwardingRuleset_Spec struct {
 	// +kubebuilder:validation:Required
 	// DnsResolverOutboundEndpoints: The reference to the DNS resolver outbound endpoints that are used to route DNS queries
 	// matching the forwarding rules in the ruleset to the target DNS servers.
-	DnsResolverOutboundEndpoints []DnsresolverSubResource `json:"dnsResolverOutboundEndpoints,omitempty"`
+	DnsResolverOutboundEndpoints []SubResource `json:"dnsResolverOutboundEndpoints,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Location: The geo-location where the resource lives
@@ -425,7 +425,7 @@ func (ruleset *DnsForwardingRuleset_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.DnsResolverOutboundEndpoints = append(result.Properties.DnsResolverOutboundEndpoints, *item_ARM.(*arm.DnsresolverSubResource))
+		result.Properties.DnsResolverOutboundEndpoints = append(result.Properties.DnsResolverOutboundEndpoints, *item_ARM.(*arm.SubResource))
 	}
 
 	// Set property "Tags":
@@ -457,7 +457,7 @@ func (ruleset *DnsForwardingRuleset_Spec) PopulateFromARM(owner genruntime.Arbit
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.DnsResolverOutboundEndpoints {
-			var item1 DnsresolverSubResource
+			var item1 SubResource
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -550,14 +550,14 @@ func (ruleset *DnsForwardingRuleset_Spec) AssignProperties_From_DnsForwardingRul
 
 	// DnsResolverOutboundEndpoints
 	if source.DnsResolverOutboundEndpoints != nil {
-		dnsResolverOutboundEndpointList := make([]DnsresolverSubResource, len(source.DnsResolverOutboundEndpoints))
+		dnsResolverOutboundEndpointList := make([]SubResource, len(source.DnsResolverOutboundEndpoints))
 		for dnsResolverOutboundEndpointIndex, dnsResolverOutboundEndpointItem := range source.DnsResolverOutboundEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			dnsResolverOutboundEndpointItem := dnsResolverOutboundEndpointItem
-			var dnsResolverOutboundEndpoint DnsresolverSubResource
-			err := dnsResolverOutboundEndpoint.AssignProperties_From_DnsresolverSubResource(&dnsResolverOutboundEndpointItem)
+			var dnsResolverOutboundEndpoint SubResource
+			err := dnsResolverOutboundEndpoint.AssignProperties_From_SubResource(&dnsResolverOutboundEndpointItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_DnsresolverSubResource() to populate field DnsResolverOutboundEndpoints")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DnsResolverOutboundEndpoints")
 			}
 			dnsResolverOutboundEndpointList[dnsResolverOutboundEndpointIndex] = dnsResolverOutboundEndpoint
 		}
@@ -606,14 +606,14 @@ func (ruleset *DnsForwardingRuleset_Spec) AssignProperties_To_DnsForwardingRules
 
 	// DnsResolverOutboundEndpoints
 	if ruleset.DnsResolverOutboundEndpoints != nil {
-		dnsResolverOutboundEndpointList := make([]storage.DnsresolverSubResource, len(ruleset.DnsResolverOutboundEndpoints))
+		dnsResolverOutboundEndpointList := make([]storage.SubResource, len(ruleset.DnsResolverOutboundEndpoints))
 		for dnsResolverOutboundEndpointIndex, dnsResolverOutboundEndpointItem := range ruleset.DnsResolverOutboundEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			dnsResolverOutboundEndpointItem := dnsResolverOutboundEndpointItem
-			var dnsResolverOutboundEndpoint storage.DnsresolverSubResource
-			err := dnsResolverOutboundEndpointItem.AssignProperties_To_DnsresolverSubResource(&dnsResolverOutboundEndpoint)
+			var dnsResolverOutboundEndpoint storage.SubResource
+			err := dnsResolverOutboundEndpointItem.AssignProperties_To_SubResource(&dnsResolverOutboundEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_DnsresolverSubResource() to populate field DnsResolverOutboundEndpoints")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DnsResolverOutboundEndpoints")
 			}
 			dnsResolverOutboundEndpointList[dnsResolverOutboundEndpointIndex] = dnsResolverOutboundEndpoint
 		}
@@ -667,14 +667,14 @@ func (ruleset *DnsForwardingRuleset_Spec) Initialize_From_DnsForwardingRuleset_S
 
 	// DnsResolverOutboundEndpoints
 	if source.DnsResolverOutboundEndpoints != nil {
-		dnsResolverOutboundEndpointList := make([]DnsresolverSubResource, len(source.DnsResolverOutboundEndpoints))
+		dnsResolverOutboundEndpointList := make([]SubResource, len(source.DnsResolverOutboundEndpoints))
 		for dnsResolverOutboundEndpointIndex, dnsResolverOutboundEndpointItem := range source.DnsResolverOutboundEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			dnsResolverOutboundEndpointItem := dnsResolverOutboundEndpointItem
-			var dnsResolverOutboundEndpoint DnsresolverSubResource
-			err := dnsResolverOutboundEndpoint.Initialize_From_DnsresolverSubResource_STATUS(&dnsResolverOutboundEndpointItem)
+			var dnsResolverOutboundEndpoint SubResource
+			err := dnsResolverOutboundEndpoint.Initialize_From_SubResource_STATUS(&dnsResolverOutboundEndpointItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_DnsresolverSubResource_STATUS() to populate field DnsResolverOutboundEndpoints")
+				return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field DnsResolverOutboundEndpoints")
 			}
 			dnsResolverOutboundEndpointList[dnsResolverOutboundEndpointIndex] = dnsResolverOutboundEndpoint
 		}
@@ -710,7 +710,7 @@ type DnsForwardingRuleset_STATUS struct {
 
 	// DnsResolverOutboundEndpoints: The reference to the DNS resolver outbound endpoints that are used to route DNS queries
 	// matching the forwarding rules in the ruleset to the target DNS servers.
-	DnsResolverOutboundEndpoints []DnsresolverSubResource_STATUS `json:"dnsResolverOutboundEndpoints,omitempty"`
+	DnsResolverOutboundEndpoints []SubResource_STATUS `json:"dnsResolverOutboundEndpoints,omitempty"`
 
 	// Etag: ETag of the DNS forwarding ruleset.
 	Etag *string `json:"etag,omitempty"`
@@ -812,7 +812,7 @@ func (ruleset *DnsForwardingRuleset_STATUS) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.DnsResolverOutboundEndpoints {
-			var item1 DnsresolverSubResource_STATUS
+			var item1 SubResource_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -902,14 +902,14 @@ func (ruleset *DnsForwardingRuleset_STATUS) AssignProperties_From_DnsForwardingR
 
 	// DnsResolverOutboundEndpoints
 	if source.DnsResolverOutboundEndpoints != nil {
-		dnsResolverOutboundEndpointList := make([]DnsresolverSubResource_STATUS, len(source.DnsResolverOutboundEndpoints))
+		dnsResolverOutboundEndpointList := make([]SubResource_STATUS, len(source.DnsResolverOutboundEndpoints))
 		for dnsResolverOutboundEndpointIndex, dnsResolverOutboundEndpointItem := range source.DnsResolverOutboundEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			dnsResolverOutboundEndpointItem := dnsResolverOutboundEndpointItem
-			var dnsResolverOutboundEndpoint DnsresolverSubResource_STATUS
-			err := dnsResolverOutboundEndpoint.AssignProperties_From_DnsresolverSubResource_STATUS(&dnsResolverOutboundEndpointItem)
+			var dnsResolverOutboundEndpoint SubResource_STATUS
+			err := dnsResolverOutboundEndpoint.AssignProperties_From_SubResource_STATUS(&dnsResolverOutboundEndpointItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_DnsresolverSubResource_STATUS() to populate field DnsResolverOutboundEndpoints")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DnsResolverOutboundEndpoints")
 			}
 			dnsResolverOutboundEndpointList[dnsResolverOutboundEndpointIndex] = dnsResolverOutboundEndpoint
 		}
@@ -974,14 +974,14 @@ func (ruleset *DnsForwardingRuleset_STATUS) AssignProperties_To_DnsForwardingRul
 
 	// DnsResolverOutboundEndpoints
 	if ruleset.DnsResolverOutboundEndpoints != nil {
-		dnsResolverOutboundEndpointList := make([]storage.DnsresolverSubResource_STATUS, len(ruleset.DnsResolverOutboundEndpoints))
+		dnsResolverOutboundEndpointList := make([]storage.SubResource_STATUS, len(ruleset.DnsResolverOutboundEndpoints))
 		for dnsResolverOutboundEndpointIndex, dnsResolverOutboundEndpointItem := range ruleset.DnsResolverOutboundEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			dnsResolverOutboundEndpointItem := dnsResolverOutboundEndpointItem
-			var dnsResolverOutboundEndpoint storage.DnsresolverSubResource_STATUS
-			err := dnsResolverOutboundEndpointItem.AssignProperties_To_DnsresolverSubResource_STATUS(&dnsResolverOutboundEndpoint)
+			var dnsResolverOutboundEndpoint storage.SubResource_STATUS
+			err := dnsResolverOutboundEndpointItem.AssignProperties_To_SubResource_STATUS(&dnsResolverOutboundEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_DnsresolverSubResource_STATUS() to populate field DnsResolverOutboundEndpoints")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DnsResolverOutboundEndpoints")
 			}
 			dnsResolverOutboundEndpointList[dnsResolverOutboundEndpointIndex] = dnsResolverOutboundEndpoint
 		}

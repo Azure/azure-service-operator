@@ -4,6 +4,7 @@
 package storage
 
 import (
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -181,7 +182,7 @@ type ApplicationGateway_Spec struct {
 	CustomErrorConfigurations      []ApplicationGatewayCustomError                                            `json:"customErrorConfigurations,omitempty"`
 	EnableFips                     *bool                                                                      `json:"enableFips,omitempty"`
 	EnableHttp2                    *bool                                                                      `json:"enableHttp2,omitempty"`
-	FirewallPolicy                 *ApplicationGatewaySubResource                                             `json:"firewallPolicy,omitempty"`
+	FirewallPolicy                 *SubResource                                                               `json:"firewallPolicy,omitempty"`
 	ForceFirewallPolicyAssociation *bool                                                                      `json:"forceFirewallPolicyAssociation,omitempty"`
 	FrontendIPConfigurations       []ApplicationGatewayFrontendIPConfiguration                                `json:"frontendIPConfigurations,omitempty"`
 	FrontendPorts                  []ApplicationGatewayFrontendPort                                           `json:"frontendPorts,omitempty"`
@@ -252,7 +253,7 @@ type ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded struct {
 	EnableFips                          *bool                                                                             `json:"enableFips,omitempty"`
 	EnableHttp2                         *bool                                                                             `json:"enableHttp2,omitempty"`
 	Etag                                *string                                                                           `json:"etag,omitempty"`
-	FirewallPolicy                      *ApplicationGatewaySubResource_STATUS                                             `json:"firewallPolicy,omitempty"`
+	FirewallPolicy                      *SubResource_STATUS                                                               `json:"firewallPolicy,omitempty"`
 	ForceFirewallPolicyAssociation      *bool                                                                             `json:"forceFirewallPolicyAssociation,omitempty"`
 	FrontendIPConfigurations            []ApplicationGatewayFrontendIPConfiguration_STATUS                                `json:"frontendIPConfigurations,omitempty"`
 	FrontendPorts                       []ApplicationGatewayFrontendPort_STATUS                                           `json:"frontendPorts,omitempty"`
@@ -359,7 +360,7 @@ type ApplicationGatewayBackendAddressPool_STATUS struct {
 // Backend address pool settings of an application gateway.
 type ApplicationGatewayBackendHttpSettings struct {
 	AffinityCookieName             *string                               `json:"affinityCookieName,omitempty"`
-	AuthenticationCertificates     []ApplicationGatewaySubResource       `json:"authenticationCertificates,omitempty"`
+	AuthenticationCertificates     []SubResource                         `json:"authenticationCertificates,omitempty"`
 	ConnectionDraining             *ApplicationGatewayConnectionDraining `json:"connectionDraining,omitempty"`
 	CookieBasedAffinity            *string                               `json:"cookieBasedAffinity,omitempty"`
 	HostName                       *string                               `json:"hostName,omitempty"`
@@ -367,12 +368,12 @@ type ApplicationGatewayBackendHttpSettings struct {
 	Path                           *string                               `json:"path,omitempty"`
 	PickHostNameFromBackendAddress *bool                                 `json:"pickHostNameFromBackendAddress,omitempty"`
 	Port                           *int                                  `json:"port,omitempty"`
-	Probe                          *ApplicationGatewaySubResource        `json:"probe,omitempty"`
+	Probe                          *SubResource                          `json:"probe,omitempty"`
 	ProbeEnabled                   *bool                                 `json:"probeEnabled,omitempty"`
 	PropertyBag                    genruntime.PropertyBag                `json:"$propertyBag,omitempty"`
 	Protocol                       *string                               `json:"protocol,omitempty"`
 	RequestTimeout                 *int                                  `json:"requestTimeout,omitempty"`
-	TrustedRootCertificates        []ApplicationGatewaySubResource       `json:"trustedRootCertificates,omitempty"`
+	TrustedRootCertificates        []SubResource                         `json:"trustedRootCertificates,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayBackendHttpSettings_STATUS
@@ -385,15 +386,15 @@ type ApplicationGatewayBackendHttpSettings_STATUS struct {
 // Storage version of v1api20220701.ApplicationGatewayBackendSettings
 // Backend address pool settings of an application gateway.
 type ApplicationGatewayBackendSettings struct {
-	HostName                       *string                         `json:"hostName,omitempty"`
-	Name                           *string                         `json:"name,omitempty"`
-	PickHostNameFromBackendAddress *bool                           `json:"pickHostNameFromBackendAddress,omitempty"`
-	Port                           *int                            `json:"port,omitempty"`
-	Probe                          *ApplicationGatewaySubResource  `json:"probe,omitempty"`
-	PropertyBag                    genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
-	Protocol                       *string                         `json:"protocol,omitempty"`
-	Timeout                        *int                            `json:"timeout,omitempty"`
-	TrustedRootCertificates        []ApplicationGatewaySubResource `json:"trustedRootCertificates,omitempty"`
+	HostName                       *string                `json:"hostName,omitempty"`
+	Name                           *string                `json:"name,omitempty"`
+	PickHostNameFromBackendAddress *bool                  `json:"pickHostNameFromBackendAddress,omitempty"`
+	Port                           *int                   `json:"port,omitempty"`
+	Probe                          *SubResource           `json:"probe,omitempty"`
+	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Protocol                       *string                `json:"protocol,omitempty"`
+	Timeout                        *int                   `json:"timeout,omitempty"`
+	TrustedRootCertificates        []SubResource          `json:"trustedRootCertificates,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayBackendSettings_STATUS
@@ -422,13 +423,13 @@ type ApplicationGatewayCustomError_STATUS struct {
 // Storage version of v1api20220701.ApplicationGatewayFrontendIPConfiguration
 // Frontend IP configuration of an application gateway.
 type ApplicationGatewayFrontendIPConfiguration struct {
-	Name                      *string                        `json:"name,omitempty"`
-	PrivateIPAddress          *string                        `json:"privateIPAddress,omitempty"`
-	PrivateIPAllocationMethod *string                        `json:"privateIPAllocationMethod,omitempty"`
-	PrivateLinkConfiguration  *ApplicationGatewaySubResource `json:"privateLinkConfiguration,omitempty"`
-	PropertyBag               genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	PublicIPAddress           *ApplicationGatewaySubResource `json:"publicIPAddress,omitempty"`
-	Subnet                    *ApplicationGatewaySubResource `json:"subnet,omitempty"`
+	Name                      *string                `json:"name,omitempty"`
+	PrivateIPAddress          *string                `json:"privateIPAddress,omitempty"`
+	PrivateIPAllocationMethod *string                `json:"privateIPAllocationMethod,omitempty"`
+	PrivateLinkConfiguration  *SubResource           `json:"privateLinkConfiguration,omitempty"`
+	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PublicIPAddress           *SubResource           `json:"publicIPAddress,omitempty"`
+	Subnet                    *SubResource           `json:"subnet,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayFrontendIPConfiguration_STATUS
@@ -473,17 +474,17 @@ type ApplicationGatewayGlobalConfiguration_STATUS struct {
 // Http listener of an application gateway.
 type ApplicationGatewayHttpListener struct {
 	CustomErrorConfigurations   []ApplicationGatewayCustomError `json:"customErrorConfigurations,omitempty"`
-	FirewallPolicy              *ApplicationGatewaySubResource  `json:"firewallPolicy,omitempty"`
-	FrontendIPConfiguration     *ApplicationGatewaySubResource  `json:"frontendIPConfiguration,omitempty"`
-	FrontendPort                *ApplicationGatewaySubResource  `json:"frontendPort,omitempty"`
+	FirewallPolicy              *SubResource                    `json:"firewallPolicy,omitempty"`
+	FrontendIPConfiguration     *SubResource                    `json:"frontendIPConfiguration,omitempty"`
+	FrontendPort                *SubResource                    `json:"frontendPort,omitempty"`
 	HostName                    *string                         `json:"hostName,omitempty"`
 	HostNames                   []string                        `json:"hostNames,omitempty"`
 	Name                        *string                         `json:"name,omitempty"`
 	PropertyBag                 genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
 	Protocol                    *string                         `json:"protocol,omitempty"`
 	RequireServerNameIndication *bool                           `json:"requireServerNameIndication,omitempty"`
-	SslCertificate              *ApplicationGatewaySubResource  `json:"sslCertificate,omitempty"`
-	SslProfile                  *ApplicationGatewaySubResource  `json:"sslProfile,omitempty"`
+	SslCertificate              *SubResource                    `json:"sslCertificate,omitempty"`
+	SslProfile                  *SubResource                    `json:"sslProfile,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayHttpListener_STATUS
@@ -496,9 +497,9 @@ type ApplicationGatewayHttpListener_STATUS struct {
 // Storage version of v1api20220701.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded
 // IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed.
 type ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded struct {
-	Name        *string                        `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	Subnet      *ApplicationGatewaySubResource `json:"subnet,omitempty"`
+	Name        *string                `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Subnet      *SubResource           `json:"subnet,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded
@@ -511,13 +512,13 @@ type ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbe
 // Storage version of v1api20220701.ApplicationGatewayListener
 // Listener of an application gateway.
 type ApplicationGatewayListener struct {
-	FrontendIPConfiguration *ApplicationGatewaySubResource `json:"frontendIPConfiguration,omitempty"`
-	FrontendPort            *ApplicationGatewaySubResource `json:"frontendPort,omitempty"`
-	Name                    *string                        `json:"name,omitempty"`
-	PropertyBag             genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	Protocol                *string                        `json:"protocol,omitempty"`
-	SslCertificate          *ApplicationGatewaySubResource `json:"sslCertificate,omitempty"`
-	SslProfile              *ApplicationGatewaySubResource `json:"sslProfile,omitempty"`
+	FrontendIPConfiguration *SubResource           `json:"frontendIPConfiguration,omitempty"`
+	FrontendPort            *SubResource           `json:"frontendPort,omitempty"`
+	Name                    *string                `json:"name,omitempty"`
+	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Protocol                *string                `json:"protocol,omitempty"`
+	SslCertificate          *SubResource           `json:"sslCertificate,omitempty"`
+	SslProfile              *SubResource           `json:"sslProfile,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayListener_STATUS
@@ -601,16 +602,16 @@ type ApplicationGatewayProbe_STATUS struct {
 // Storage version of v1api20220701.ApplicationGatewayRedirectConfiguration
 // Redirect configuration of an application gateway.
 type ApplicationGatewayRedirectConfiguration struct {
-	IncludePath         *bool                           `json:"includePath,omitempty"`
-	IncludeQueryString  *bool                           `json:"includeQueryString,omitempty"`
-	Name                *string                         `json:"name,omitempty"`
-	PathRules           []ApplicationGatewaySubResource `json:"pathRules,omitempty"`
-	PropertyBag         genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
-	RedirectType        *string                         `json:"redirectType,omitempty"`
-	RequestRoutingRules []ApplicationGatewaySubResource `json:"requestRoutingRules,omitempty"`
-	TargetListener      *ApplicationGatewaySubResource  `json:"targetListener,omitempty"`
-	TargetUrl           *string                         `json:"targetUrl,omitempty"`
-	UrlPathMaps         []ApplicationGatewaySubResource `json:"urlPathMaps,omitempty"`
+	IncludePath         *bool                  `json:"includePath,omitempty"`
+	IncludeQueryString  *bool                  `json:"includeQueryString,omitempty"`
+	Name                *string                `json:"name,omitempty"`
+	PathRules           []SubResource          `json:"pathRules,omitempty"`
+	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RedirectType        *string                `json:"redirectType,omitempty"`
+	RequestRoutingRules []SubResource          `json:"requestRoutingRules,omitempty"`
+	TargetListener      *SubResource           `json:"targetListener,omitempty"`
+	TargetUrl           *string                `json:"targetUrl,omitempty"`
+	UrlPathMaps         []SubResource          `json:"urlPathMaps,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayRedirectConfiguration_STATUS
@@ -623,17 +624,17 @@ type ApplicationGatewayRedirectConfiguration_STATUS struct {
 // Storage version of v1api20220701.ApplicationGatewayRequestRoutingRule
 // Request routing rule of an application gateway.
 type ApplicationGatewayRequestRoutingRule struct {
-	BackendAddressPool     *ApplicationGatewaySubResource `json:"backendAddressPool,omitempty"`
-	BackendHttpSettings    *ApplicationGatewaySubResource `json:"backendHttpSettings,omitempty"`
-	HttpListener           *ApplicationGatewaySubResource `json:"httpListener,omitempty"`
-	LoadDistributionPolicy *ApplicationGatewaySubResource `json:"loadDistributionPolicy,omitempty"`
-	Name                   *string                        `json:"name,omitempty"`
-	Priority               *int                           `json:"priority,omitempty"`
-	PropertyBag            genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	RedirectConfiguration  *ApplicationGatewaySubResource `json:"redirectConfiguration,omitempty"`
-	RewriteRuleSet         *ApplicationGatewaySubResource `json:"rewriteRuleSet,omitempty"`
-	RuleType               *string                        `json:"ruleType,omitempty"`
-	UrlPathMap             *ApplicationGatewaySubResource `json:"urlPathMap,omitempty"`
+	BackendAddressPool     *SubResource           `json:"backendAddressPool,omitempty"`
+	BackendHttpSettings    *SubResource           `json:"backendHttpSettings,omitempty"`
+	HttpListener           *SubResource           `json:"httpListener,omitempty"`
+	LoadDistributionPolicy *SubResource           `json:"loadDistributionPolicy,omitempty"`
+	Name                   *string                `json:"name,omitempty"`
+	Priority               *int                   `json:"priority,omitempty"`
+	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RedirectConfiguration  *SubResource           `json:"redirectConfiguration,omitempty"`
+	RewriteRuleSet         *SubResource           `json:"rewriteRuleSet,omitempty"`
+	RuleType               *string                `json:"ruleType,omitempty"`
+	UrlPathMap             *SubResource           `json:"urlPathMap,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayRequestRoutingRule_STATUS
@@ -661,13 +662,13 @@ type ApplicationGatewayRewriteRuleSet_STATUS struct {
 // Storage version of v1api20220701.ApplicationGatewayRoutingRule
 // Routing rule of an application gateway.
 type ApplicationGatewayRoutingRule struct {
-	BackendAddressPool *ApplicationGatewaySubResource `json:"backendAddressPool,omitempty"`
-	BackendSettings    *ApplicationGatewaySubResource `json:"backendSettings,omitempty"`
-	Listener           *ApplicationGatewaySubResource `json:"listener,omitempty"`
-	Name               *string                        `json:"name,omitempty"`
-	Priority           *int                           `json:"priority,omitempty"`
-	PropertyBag        genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	RuleType           *string                        `json:"ruleType,omitempty"`
+	BackendAddressPool *SubResource           `json:"backendAddressPool,omitempty"`
+	BackendSettings    *SubResource           `json:"backendSettings,omitempty"`
+	Listener           *SubResource           `json:"listener,omitempty"`
+	Name               *string                `json:"name,omitempty"`
+	Priority           *int                   `json:"priority,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RuleType           *string                `json:"ruleType,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayRoutingRule_STATUS
@@ -741,28 +742,12 @@ type ApplicationGatewaySslProfile struct {
 	Name                      *string                                    `json:"name,omitempty"`
 	PropertyBag               genruntime.PropertyBag                     `json:"$propertyBag,omitempty"`
 	SslPolicy                 *ApplicationGatewaySslPolicy               `json:"sslPolicy,omitempty"`
-	TrustedClientCertificates []ApplicationGatewaySubResource            `json:"trustedClientCertificates,omitempty"`
+	TrustedClientCertificates []SubResource                              `json:"trustedClientCertificates,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewaySslProfile_STATUS
 // SSL profile of an application gateway.
 type ApplicationGatewaySslProfile_STATUS struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20220701.ApplicationGatewaySubResource
-// Reference to another subresource.
-type ApplicationGatewaySubResource struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-// Storage version of v1api20220701.ApplicationGatewaySubResource_STATUS
-// Reference to another subresource.
-type ApplicationGatewaySubResource_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -801,14 +786,14 @@ type ApplicationGatewayTrustedRootCertificate_STATUS struct {
 // Storage version of v1api20220701.ApplicationGatewayUrlPathMap
 // UrlPathMaps give a url path to the backend mapping information for PathBasedRouting.
 type ApplicationGatewayUrlPathMap struct {
-	DefaultBackendAddressPool     *ApplicationGatewaySubResource `json:"defaultBackendAddressPool,omitempty"`
-	DefaultBackendHttpSettings    *ApplicationGatewaySubResource `json:"defaultBackendHttpSettings,omitempty"`
-	DefaultLoadDistributionPolicy *ApplicationGatewaySubResource `json:"defaultLoadDistributionPolicy,omitempty"`
-	DefaultRedirectConfiguration  *ApplicationGatewaySubResource `json:"defaultRedirectConfiguration,omitempty"`
-	DefaultRewriteRuleSet         *ApplicationGatewaySubResource `json:"defaultRewriteRuleSet,omitempty"`
-	Name                          *string                        `json:"name,omitempty"`
-	PathRules                     []ApplicationGatewayPathRule   `json:"pathRules,omitempty"`
-	PropertyBag                   genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	DefaultBackendAddressPool     *SubResource                 `json:"defaultBackendAddressPool,omitempty"`
+	DefaultBackendHttpSettings    *SubResource                 `json:"defaultBackendHttpSettings,omitempty"`
+	DefaultLoadDistributionPolicy *SubResource                 `json:"defaultLoadDistributionPolicy,omitempty"`
+	DefaultRedirectConfiguration  *SubResource                 `json:"defaultRedirectConfiguration,omitempty"`
+	DefaultRewriteRuleSet         *SubResource                 `json:"defaultRewriteRuleSet,omitempty"`
+	Name                          *string                      `json:"name,omitempty"`
+	PathRules                     []ApplicationGatewayPathRule `json:"pathRules,omitempty"`
+	PropertyBag                   genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayUrlPathMap_STATUS
@@ -866,6 +851,78 @@ type ManagedServiceIdentity_STATUS struct {
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
 	Type                   *string                                                         `json:"type,omitempty"`
 	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
+}
+
+// Storage version of v1api20220701.SubResource
+// Reference to another ARM resource.
+type SubResource struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// Storage version of v1api20220701.SubResource_STATUS
+// Reference to another ARM resource.
+type SubResource_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_SubResource_STATUS populates our SubResource_STATUS from the provided source SubResource_STATUS
+func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(source *storage.SubResource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		resource.PropertyBag = propertyBag
+	} else {
+		resource.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSubResource_STATUS interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SubResource_STATUS populates the provided destination SubResource_STATUS from our SubResource_STATUS
+func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(destination *storage.SubResource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSubResource_STATUS interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220701.ApplicationGatewayBackendAddress
@@ -970,6 +1027,11 @@ type ApplicationGatewayRewriteRule struct {
 	Name         *string                                  `json:"name,omitempty"`
 	PropertyBag  genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
 	RuleSequence *int                                     `json:"ruleSequence,omitempty"`
+}
+
+type augmentConversionForSubResource_STATUS interface {
+	AssignPropertiesFrom(src *storage.SubResource_STATUS) error
+	AssignPropertiesTo(dst *storage.SubResource_STATUS) error
 }
 
 // Storage version of v1api20220701.ManagedServiceIdentity_UserAssignedIdentities_STATUS
