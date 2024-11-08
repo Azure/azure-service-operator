@@ -53,22 +53,36 @@ var _ conversion.Convertible = &NetworkSecurityGroupsSecurityRule{}
 
 // ConvertFrom populates our NetworkSecurityGroupsSecurityRule from the provided hub NetworkSecurityGroupsSecurityRule
 func (rule *NetworkSecurityGroupsSecurityRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NetworkSecurityGroupsSecurityRule)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20201101/storage/NetworkSecurityGroupsSecurityRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NetworkSecurityGroupsSecurityRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_NetworkSecurityGroupsSecurityRule(source)
+	err = rule.AssignProperties_From_NetworkSecurityGroupsSecurityRule(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NetworkSecurityGroupsSecurityRule from our NetworkSecurityGroupsSecurityRule
 func (rule *NetworkSecurityGroupsSecurityRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NetworkSecurityGroupsSecurityRule)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20201101/storage/NetworkSecurityGroupsSecurityRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NetworkSecurityGroupsSecurityRule
+	err := rule.AssignProperties_To_NetworkSecurityGroupsSecurityRule(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_NetworkSecurityGroupsSecurityRule(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20201101-networksecuritygroupssecurityrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networksecuritygroupssecurityrules,verbs=create;update,versions=v1api20201101,name=default.v1api20201101.networksecuritygroupssecurityrules.network.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (rule *NetworkSecurityGroupsSecurityRule) SecretDestinationExpressions() []
 		return nil
 	}
 	return rule.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &NetworkSecurityGroupsSecurityRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *NetworkSecurityGroupsSecurityRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*NetworkSecurityGroupsSecurityRule_STATUS); ok {
-		return rule.Spec.Initialize_From_NetworkSecurityGroupsSecurityRule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type NetworkSecurityGroupsSecurityRule_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &NetworkSecurityGroupsSecurityRule{}
@@ -1018,103 +1021,6 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignProperties_To_NetworkS
 	return nil
 }
 
-// Initialize_From_NetworkSecurityGroupsSecurityRule_STATUS populates our NetworkSecurityGroupsSecurityRule_Spec from the provided source NetworkSecurityGroupsSecurityRule_STATUS
-func (rule *NetworkSecurityGroupsSecurityRule_Spec) Initialize_From_NetworkSecurityGroupsSecurityRule_STATUS(source *NetworkSecurityGroupsSecurityRule_STATUS) error {
-
-	// Access
-	if source.Access != nil {
-		access := genruntime.ToEnum(string(*source.Access), securityRuleAccess_Values)
-		rule.Access = &access
-	} else {
-		rule.Access = nil
-	}
-
-	// Description
-	rule.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DestinationAddressPrefix
-	rule.DestinationAddressPrefix = genruntime.ClonePointerToString(source.DestinationAddressPrefix)
-
-	// DestinationAddressPrefixes
-	rule.DestinationAddressPrefixes = genruntime.CloneSliceOfString(source.DestinationAddressPrefixes)
-
-	// DestinationApplicationSecurityGroups
-	if source.DestinationApplicationSecurityGroups != nil {
-		destinationApplicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded, len(source.DestinationApplicationSecurityGroups))
-		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range source.DestinationApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
-			var destinationApplicationSecurityGroup ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
-			err := destinationApplicationSecurityGroup.Initialize_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&destinationApplicationSecurityGroupItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
-			}
-			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
-		}
-		rule.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
-	} else {
-		rule.DestinationApplicationSecurityGroups = nil
-	}
-
-	// DestinationPortRange
-	rule.DestinationPortRange = genruntime.ClonePointerToString(source.DestinationPortRange)
-
-	// DestinationPortRanges
-	rule.DestinationPortRanges = genruntime.CloneSliceOfString(source.DestinationPortRanges)
-
-	// Direction
-	if source.Direction != nil {
-		direction := genruntime.ToEnum(string(*source.Direction), securityRuleDirection_Values)
-		rule.Direction = &direction
-	} else {
-		rule.Direction = nil
-	}
-
-	// Priority
-	rule.Priority = genruntime.ClonePointerToInt(source.Priority)
-
-	// Protocol
-	if source.Protocol != nil {
-		protocol := genruntime.ToEnum(string(*source.Protocol), securityRulePropertiesFormat_Protocol_Values)
-		rule.Protocol = &protocol
-	} else {
-		rule.Protocol = nil
-	}
-
-	// SourceAddressPrefix
-	rule.SourceAddressPrefix = genruntime.ClonePointerToString(source.SourceAddressPrefix)
-
-	// SourceAddressPrefixes
-	rule.SourceAddressPrefixes = genruntime.CloneSliceOfString(source.SourceAddressPrefixes)
-
-	// SourceApplicationSecurityGroups
-	if source.SourceApplicationSecurityGroups != nil {
-		sourceApplicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded, len(source.SourceApplicationSecurityGroups))
-		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range source.SourceApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
-			var sourceApplicationSecurityGroup ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
-			err := sourceApplicationSecurityGroup.Initialize_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&sourceApplicationSecurityGroupItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
-			}
-			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
-		}
-		rule.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
-	} else {
-		rule.SourceApplicationSecurityGroups = nil
-	}
-
-	// SourcePortRange
-	rule.SourcePortRange = genruntime.ClonePointerToString(source.SourcePortRange)
-
-	// SourcePortRanges
-	rule.SourcePortRanges = genruntime.CloneSliceOfString(source.SourcePortRanges)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (rule *NetworkSecurityGroupsSecurityRule_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1836,21 +1742,6 @@ func (embedded *ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded populates our ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded from the provided source ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
-func (embedded *ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded) Initialize_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(source *ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
 	}
 
 	// No error

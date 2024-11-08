@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,48 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded to ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded via AssignProperties_To_ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded & AssignProperties_From_ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded, ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded tests if a specific instance of ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(subject ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	err := copied.AssignProperties_To_ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	err = actual.AssignProperties_From_ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -79,6 +122,48 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayIPConfiguration_STATUS
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded to ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded via AssignProperties_To_ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded & AssignProperties_From_ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded, ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded tests if a specific instance of ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded(subject ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded
+	err := copied.AssignProperties_To_ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded
+	err = actual.AssignProperties_From_ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -132,6 +217,48 @@ func ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedde
 	applicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded{}), generators)
 
 	return applicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator
+}
+
+func Test_Delegation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Delegation to Delegation via AssignProperties_To_Delegation & AssignProperties_From_Delegation returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDelegation, DelegationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDelegation tests if a specific instance of Delegation can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDelegation(subject Delegation) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Delegation
+	err := copied.AssignProperties_To_Delegation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Delegation
+	err = actual.AssignProperties_From_Delegation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Delegation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -193,6 +320,48 @@ func DelegationGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDelegation(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ServiceName"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Delegation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Delegation_STATUS to Delegation_STATUS via AssignProperties_To_Delegation_STATUS & AssignProperties_From_Delegation_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDelegation_STATUS, Delegation_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDelegation_STATUS tests if a specific instance of Delegation_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDelegation_STATUS(subject Delegation_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Delegation_STATUS
+	err := copied.AssignProperties_To_Delegation_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Delegation_STATUS
+	err = actual.AssignProperties_From_Delegation_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Delegation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -261,6 +430,48 @@ func AddIndependentPropertyGeneratorsForDelegation_STATUS(gens map[string]gopter
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_IPConfigurationProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IPConfigurationProfile_STATUS to IPConfigurationProfile_STATUS via AssignProperties_To_IPConfigurationProfile_STATUS & AssignProperties_From_IPConfigurationProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIPConfigurationProfile_STATUS, IPConfigurationProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIPConfigurationProfile_STATUS tests if a specific instance of IPConfigurationProfile_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForIPConfigurationProfile_STATUS(subject IPConfigurationProfile_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.IPConfigurationProfile_STATUS
+	err := copied.AssignProperties_To_IPConfigurationProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IPConfigurationProfile_STATUS
+	err = actual.AssignProperties_From_IPConfigurationProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_IPConfigurationProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -320,6 +531,48 @@ func IPConfigurationProfile_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIPConfigurationProfile_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIPConfigurationProfile_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded to IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded via AssignProperties_To_IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded & AssignProperties_From_IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded, IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded tests if a specific instance of IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(subject IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	err := copied.AssignProperties_To_IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	err = actual.AssignProperties_From_IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -383,6 +636,48 @@ func AddIndependentPropertyGeneratorsForIPConfiguration_STATUS_VirtualNetworks_S
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded to NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded via AssignProperties_To_NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded & AssignProperties_From_NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded, NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded tests if a specific instance of NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded(subject NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded
+	err := copied.AssignProperties_To_NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded
+	err = actual.AssignProperties_From_NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -436,6 +731,48 @@ func NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbeddedGenerato
 	networkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded{}), generators)
 
 	return networkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator
+}
+
+func Test_NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded to NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded via AssignProperties_To_NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded & AssignProperties_From_NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded, NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded tests if a specific instance of NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(subject NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	err := copied.AssignProperties_To_NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	err = actual.AssignProperties_From_NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -499,6 +836,48 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroup_STATUS_VirtualNetwo
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded to PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded via AssignProperties_To_PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded & AssignProperties_From_PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded, PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded tests if a specific instance of PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(subject PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	err := copied.AssignProperties_To_PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	err = actual.AssignProperties_From_PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -558,6 +937,48 @@ func PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator(
 // AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ResourceNavigationLink_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ResourceNavigationLink_STATUS to ResourceNavigationLink_STATUS via AssignProperties_To_ResourceNavigationLink_STATUS & AssignProperties_From_ResourceNavigationLink_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForResourceNavigationLink_STATUS, ResourceNavigationLink_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForResourceNavigationLink_STATUS tests if a specific instance of ResourceNavigationLink_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForResourceNavigationLink_STATUS(subject ResourceNavigationLink_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ResourceNavigationLink_STATUS
+	err := copied.AssignProperties_To_ResourceNavigationLink_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ResourceNavigationLink_STATUS
+	err = actual.AssignProperties_From_ResourceNavigationLink_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ResourceNavigationLink_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -621,6 +1042,48 @@ func AddIndependentPropertyGeneratorsForResourceNavigationLink_STATUS(gens map[s
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded to RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded via AssignProperties_To_RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded & AssignProperties_From_RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded, RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded tests if a specific instance of RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded(subject RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded
+	err := copied.AssignProperties_To_RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded
+	err = actual.AssignProperties_From_RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -674,6 +1137,48 @@ func RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator() gopter
 	routeTableSpec_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded{}), generators)
 
 	return routeTableSpec_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator
+}
+
+func Test_RouteTable_STATUS_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RouteTable_STATUS_SubResourceEmbedded to RouteTable_STATUS_SubResourceEmbedded via AssignProperties_To_RouteTable_STATUS_SubResourceEmbedded & AssignProperties_From_RouteTable_STATUS_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRouteTable_STATUS_SubResourceEmbedded, RouteTable_STATUS_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRouteTable_STATUS_SubResourceEmbedded tests if a specific instance of RouteTable_STATUS_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRouteTable_STATUS_SubResourceEmbedded(subject RouteTable_STATUS_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RouteTable_STATUS_SubResourceEmbedded
+	err := copied.AssignProperties_To_RouteTable_STATUS_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RouteTable_STATUS_SubResourceEmbedded
+	err = actual.AssignProperties_From_RouteTable_STATUS_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RouteTable_STATUS_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -737,6 +1242,48 @@ func AddIndependentPropertyGeneratorsForRouteTable_STATUS_SubResourceEmbedded(ge
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServiceAssociationLink_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServiceAssociationLink_STATUS to ServiceAssociationLink_STATUS via AssignProperties_To_ServiceAssociationLink_STATUS & AssignProperties_From_ServiceAssociationLink_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceAssociationLink_STATUS, ServiceAssociationLink_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServiceAssociationLink_STATUS tests if a specific instance of ServiceAssociationLink_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServiceAssociationLink_STATUS(subject ServiceAssociationLink_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServiceAssociationLink_STATUS
+	err := copied.AssignProperties_To_ServiceAssociationLink_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServiceAssociationLink_STATUS
+	err = actual.AssignProperties_From_ServiceAssociationLink_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServiceAssociationLink_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -798,6 +1345,48 @@ func AddIndependentPropertyGeneratorsForServiceAssociationLink_STATUS(gens map[s
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded to ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded via AssignProperties_To_ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded & AssignProperties_From_ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded, ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded tests if a specific instance of ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded(subject ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded
+	err := copied.AssignProperties_To_ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded
+	err = actual.AssignProperties_From_ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -851,6 +1440,48 @@ func ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbeddedGenerat
 	serviceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded{}), generators)
 
 	return serviceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator
+}
+
+func Test_ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded to ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded via AssignProperties_To_ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded & AssignProperties_From_ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded, ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded tests if a specific instance of ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(subject ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	err := copied.AssignProperties_To_ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	err = actual.AssignProperties_From_ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -914,6 +1545,48 @@ func AddIndependentPropertyGeneratorsForServiceEndpointPolicy_STATUS_VirtualNetw
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServiceEndpointPropertiesFormat_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServiceEndpointPropertiesFormat to ServiceEndpointPropertiesFormat via AssignProperties_To_ServiceEndpointPropertiesFormat & AssignProperties_From_ServiceEndpointPropertiesFormat returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceEndpointPropertiesFormat, ServiceEndpointPropertiesFormatGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServiceEndpointPropertiesFormat tests if a specific instance of ServiceEndpointPropertiesFormat can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServiceEndpointPropertiesFormat(subject ServiceEndpointPropertiesFormat) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServiceEndpointPropertiesFormat
+	err := copied.AssignProperties_To_ServiceEndpointPropertiesFormat(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServiceEndpointPropertiesFormat
+	err = actual.AssignProperties_From_ServiceEndpointPropertiesFormat(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServiceEndpointPropertiesFormat_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -974,6 +1647,48 @@ func ServiceEndpointPropertiesFormatGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormat(gens map[string]gopter.Gen) {
 	gens["Locations"] = gen.SliceOf(gen.AlphaString())
 	gens["Service"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ServiceEndpointPropertiesFormat_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServiceEndpointPropertiesFormat_STATUS to ServiceEndpointPropertiesFormat_STATUS via AssignProperties_To_ServiceEndpointPropertiesFormat_STATUS & AssignProperties_From_ServiceEndpointPropertiesFormat_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceEndpointPropertiesFormat_STATUS, ServiceEndpointPropertiesFormat_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServiceEndpointPropertiesFormat_STATUS tests if a specific instance of ServiceEndpointPropertiesFormat_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServiceEndpointPropertiesFormat_STATUS(subject ServiceEndpointPropertiesFormat_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServiceEndpointPropertiesFormat_STATUS
+	err := copied.AssignProperties_To_ServiceEndpointPropertiesFormat_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServiceEndpointPropertiesFormat_STATUS
+	err = actual.AssignProperties_From_ServiceEndpointPropertiesFormat_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServiceEndpointPropertiesFormat_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1039,6 +1754,91 @@ func AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormat_STATUS(g
 	gens["Service"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_VirtualNetworksSubnet_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworksSubnet to hub returns original",
+		prop.ForAll(RunResourceConversionTestForVirtualNetworksSubnet, VirtualNetworksSubnetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForVirtualNetworksSubnet tests if a specific instance of VirtualNetworksSubnet round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForVirtualNetworksSubnet(subject VirtualNetworksSubnet) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.VirtualNetworksSubnet
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual VirtualNetworksSubnet
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualNetworksSubnet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworksSubnet to VirtualNetworksSubnet via AssignProperties_To_VirtualNetworksSubnet & AssignProperties_From_VirtualNetworksSubnet returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworksSubnet, VirtualNetworksSubnetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworksSubnet tests if a specific instance of VirtualNetworksSubnet can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworksSubnet(subject VirtualNetworksSubnet) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.VirtualNetworksSubnet
+	err := copied.AssignProperties_To_VirtualNetworksSubnet(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworksSubnet
+	err = actual.AssignProperties_From_VirtualNetworksSubnet(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_VirtualNetworksSubnet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1101,6 +1901,48 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSubnet(gens map[string]gopter
 	gens["Status"] = VirtualNetworksSubnet_STATUSGenerator()
 }
 
+func Test_VirtualNetworksSubnetOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworksSubnetOperatorSpec to VirtualNetworksSubnetOperatorSpec via AssignProperties_To_VirtualNetworksSubnetOperatorSpec & AssignProperties_From_VirtualNetworksSubnetOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworksSubnetOperatorSpec, VirtualNetworksSubnetOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworksSubnetOperatorSpec tests if a specific instance of VirtualNetworksSubnetOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworksSubnetOperatorSpec(subject VirtualNetworksSubnetOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.VirtualNetworksSubnetOperatorSpec
+	err := copied.AssignProperties_To_VirtualNetworksSubnetOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworksSubnetOperatorSpec
+	err = actual.AssignProperties_From_VirtualNetworksSubnetOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_VirtualNetworksSubnetOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1154,6 +1996,48 @@ func VirtualNetworksSubnetOperatorSpecGenerator() gopter.Gen {
 	virtualNetworksSubnetOperatorSpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworksSubnetOperatorSpec{}), generators)
 
 	return virtualNetworksSubnetOperatorSpecGenerator
+}
+
+func Test_VirtualNetworksSubnet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworksSubnet_STATUS to VirtualNetworksSubnet_STATUS via AssignProperties_To_VirtualNetworksSubnet_STATUS & AssignProperties_From_VirtualNetworksSubnet_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworksSubnet_STATUS, VirtualNetworksSubnet_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworksSubnet_STATUS tests if a specific instance of VirtualNetworksSubnet_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworksSubnet_STATUS(subject VirtualNetworksSubnet_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.VirtualNetworksSubnet_STATUS
+	err := copied.AssignProperties_To_VirtualNetworksSubnet_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworksSubnet_STATUS
+	err = actual.AssignProperties_From_VirtualNetworksSubnet_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_VirtualNetworksSubnet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1250,6 +2134,48 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSubnet_STATUS(gens map[string
 	gens["ServiceAssociationLinks"] = gen.SliceOf(ServiceAssociationLink_STATUSGenerator())
 	gens["ServiceEndpointPolicies"] = gen.SliceOf(ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbeddedGenerator())
 	gens["ServiceEndpoints"] = gen.SliceOf(ServiceEndpointPropertiesFormat_STATUSGenerator())
+}
+
+func Test_VirtualNetworksSubnet_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworksSubnet_Spec to VirtualNetworksSubnet_Spec via AssignProperties_To_VirtualNetworksSubnet_Spec & AssignProperties_From_VirtualNetworksSubnet_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworksSubnet_Spec, VirtualNetworksSubnet_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworksSubnet_Spec tests if a specific instance of VirtualNetworksSubnet_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworksSubnet_Spec(subject VirtualNetworksSubnet_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.VirtualNetworksSubnet_Spec
+	err := copied.AssignProperties_To_VirtualNetworksSubnet_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworksSubnet_Spec
+	err = actual.AssignProperties_From_VirtualNetworksSubnet_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_VirtualNetworksSubnet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

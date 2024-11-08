@@ -5,7 +5,8 @@ package v1api20200601
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
+	v20240601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForPrivateDnsZonesTXTRecord(subject PrivateDnsZone
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.PrivateDnsZonesTXTRecord
+	var hub v20240601s.PrivateDnsZonesTXTRecord
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForPrivateDnsZonesTXTRecord(subject PrivateDnsZone
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateDnsZonesTXTRecord
+	var other v20200601s.PrivateDnsZonesTXTRecord
 	err := copied.AssignProperties_To_PrivateDnsZonesTXTRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForPrivateDnsZonesTXTRecordOperatorSpec(subject Pr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateDnsZonesTXTRecordOperatorSpec
+	var other v20200601s.PrivateDnsZonesTXTRecordOperatorSpec
 	err := copied.AssignProperties_To_PrivateDnsZonesTXTRecordOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForPrivateDnsZonesTXTRecord_STATUS(subject Private
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateDnsZonesTXTRecord_STATUS
+	var other v20200601s.PrivateDnsZonesTXTRecord_STATUS
 	err := copied.AssignProperties_To_PrivateDnsZonesTXTRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -412,7 +413,7 @@ func RunPropertyAssignmentTestForPrivateDnsZonesTXTRecord_Spec(subject PrivateDn
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateDnsZonesTXTRecord_Spec
+	var other v20200601s.PrivateDnsZonesTXTRecord_Spec
 	err := copied.AssignProperties_To_PrivateDnsZonesTXTRecord_Spec(&other)
 	if err != nil {
 		return err.Error()

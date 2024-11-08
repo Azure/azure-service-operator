@@ -53,22 +53,36 @@ var _ conversion.Convertible = &NetworkInterface{}
 
 // ConvertFrom populates our NetworkInterface from the provided hub NetworkInterface
 func (networkInterface *NetworkInterface) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NetworkInterface)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20201101/storage/NetworkInterface but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NetworkInterface
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return networkInterface.AssignProperties_From_NetworkInterface(source)
+	err = networkInterface.AssignProperties_From_NetworkInterface(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to networkInterface")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NetworkInterface from our NetworkInterface
 func (networkInterface *NetworkInterface) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NetworkInterface)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20201101/storage/NetworkInterface but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NetworkInterface
+	err := networkInterface.AssignProperties_To_NetworkInterface(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from networkInterface")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return networkInterface.AssignProperties_To_NetworkInterface(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20201101-networkinterface,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networkinterfaces,verbs=create;update,versions=v1api20201101,name=default.v1api20201101.networkinterfaces.network.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (networkInterface *NetworkInterface) SecretDestinationExpressions() []*core
 		return nil
 	}
 	return networkInterface.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &NetworkInterface{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (networkInterface *NetworkInterface) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded); ok {
-		return networkInterface.Spec.Initialize_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(s)
-	}
-
-	return fmt.Errorf("expected Status of type NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &NetworkInterface{}
@@ -956,109 +959,6 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkInterface_Spec from the provided source NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
-func (networkInterface *NetworkInterface_Spec) Initialize_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(source *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// DnsSettings
-	if source.DnsSettings != nil {
-		var dnsSetting NetworkInterfaceDnsSettings
-		err := dnsSetting.Initialize_From_NetworkInterfaceDnsSettings_STATUS(source.DnsSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NetworkInterfaceDnsSettings_STATUS() to populate field DnsSettings")
-		}
-		networkInterface.DnsSettings = &dnsSetting
-	} else {
-		networkInterface.DnsSettings = nil
-	}
-
-	// EnableAcceleratedNetworking
-	if source.EnableAcceleratedNetworking != nil {
-		enableAcceleratedNetworking := *source.EnableAcceleratedNetworking
-		networkInterface.EnableAcceleratedNetworking = &enableAcceleratedNetworking
-	} else {
-		networkInterface.EnableAcceleratedNetworking = nil
-	}
-
-	// EnableIPForwarding
-	if source.EnableIPForwarding != nil {
-		enableIPForwarding := *source.EnableIPForwarding
-		networkInterface.EnableIPForwarding = &enableIPForwarding
-	} else {
-		networkInterface.EnableIPForwarding = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		networkInterface.ExtendedLocation = &extendedLocation
-	} else {
-		networkInterface.ExtendedLocation = nil
-	}
-
-	// IpConfigurations
-	if source.IpConfigurations != nil {
-		ipConfigurationList := make([]NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded, len(source.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
-			err := ipConfiguration.Initialize_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&ipConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
-			}
-			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
-		}
-		networkInterface.IpConfigurations = ipConfigurationList
-	} else {
-		networkInterface.IpConfigurations = nil
-	}
-
-	// Location
-	networkInterface.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkSecurityGroup
-	if source.NetworkSecurityGroup != nil {
-		var networkSecurityGroup NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
-		err := networkSecurityGroup.Initialize_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source.NetworkSecurityGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
-		}
-		networkInterface.NetworkSecurityGroup = &networkSecurityGroup
-	} else {
-		networkInterface.NetworkSecurityGroup = nil
-	}
-
-	// NicType
-	if source.NicType != nil {
-		nicType := genruntime.ToEnum(string(*source.NicType), networkInterfacePropertiesFormat_NicType_Values)
-		networkInterface.NicType = &nicType
-	} else {
-		networkInterface.NicType = nil
-	}
-
-	// PrivateLinkService
-	if source.PrivateLinkService != nil {
-		var privateLinkService PrivateLinkServiceSpec
-		err := privateLinkService.Initialize_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(source.PrivateLinkService)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateLinkService")
-		}
-		networkInterface.PrivateLinkService = &privateLinkService
-	} else {
-		networkInterface.PrivateLinkService = nil
-	}
-
-	// Tags
-	networkInterface.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1984,19 +1884,6 @@ func (settings *NetworkInterfaceDnsSettings) AssignProperties_To_NetworkInterfac
 	return nil
 }
 
-// Initialize_From_NetworkInterfaceDnsSettings_STATUS populates our NetworkInterfaceDnsSettings from the provided source NetworkInterfaceDnsSettings_STATUS
-func (settings *NetworkInterfaceDnsSettings) Initialize_From_NetworkInterfaceDnsSettings_STATUS(source *NetworkInterfaceDnsSettings_STATUS) error {
-
-	// DnsServers
-	settings.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
-
-	// InternalDnsNameLabel
-	settings.InternalDnsNameLabel = genruntime.ClonePointerToString(source.InternalDnsNameLabel)
-
-	// No error
-	return nil
-}
-
 // DNS settings of a network interface.
 type NetworkInterfaceDnsSettings_STATUS struct {
 	// AppliedDnsServers: If the VM that uses this NIC is part of an Availability Set, then this list will have the union of
@@ -2723,157 +2610,6 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded from the provided source NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded) Initialize_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(source *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// ApplicationGatewayBackendAddressPools
-	if source.ApplicationGatewayBackendAddressPools != nil {
-		applicationGatewayBackendAddressPoolList := make([]ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded, len(source.ApplicationGatewayBackendAddressPools))
-		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
-			var applicationGatewayBackendAddressPool ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
-			err := applicationGatewayBackendAddressPool.Initialize_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPoolItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
-			}
-			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
-		}
-		embedded.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
-	} else {
-		embedded.ApplicationGatewayBackendAddressPools = nil
-	}
-
-	// ApplicationSecurityGroups
-	if source.ApplicationSecurityGroups != nil {
-		applicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded, len(source.ApplicationSecurityGroups))
-		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupItem := applicationSecurityGroupItem
-			var applicationSecurityGroup ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
-			err := applicationSecurityGroup.Initialize_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroupItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
-			}
-			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
-		}
-		embedded.ApplicationSecurityGroups = applicationSecurityGroupList
-	} else {
-		embedded.ApplicationSecurityGroups = nil
-	}
-
-	// LoadBalancerBackendAddressPools
-	if source.LoadBalancerBackendAddressPools != nil {
-		loadBalancerBackendAddressPoolList := make([]BackendAddressPool_NetworkInterface_SubResourceEmbedded, len(source.LoadBalancerBackendAddressPools))
-		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
-			var loadBalancerBackendAddressPool BackendAddressPool_NetworkInterface_SubResourceEmbedded
-			err := loadBalancerBackendAddressPool.Initialize_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPoolItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
-			}
-			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
-		}
-		embedded.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
-	} else {
-		embedded.LoadBalancerBackendAddressPools = nil
-	}
-
-	// LoadBalancerInboundNatRules
-	if source.LoadBalancerInboundNatRules != nil {
-		loadBalancerInboundNatRuleList := make([]InboundNatRule_NetworkInterface_SubResourceEmbedded, len(source.LoadBalancerInboundNatRules))
-		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range source.LoadBalancerInboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
-			var loadBalancerInboundNatRule InboundNatRule_NetworkInterface_SubResourceEmbedded
-			err := loadBalancerInboundNatRule.Initialize_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
-			}
-			loadBalancerInboundNatRuleList[loadBalancerInboundNatRuleIndex] = loadBalancerInboundNatRule
-		}
-		embedded.LoadBalancerInboundNatRules = loadBalancerInboundNatRuleList
-	} else {
-		embedded.LoadBalancerInboundNatRules = nil
-	}
-
-	// Name
-	embedded.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		embedded.Primary = &primary
-	} else {
-		embedded.Primary = nil
-	}
-
-	// PrivateIPAddress
-	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
-
-	// PrivateIPAddressVersion
-	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := genruntime.ToEnum(string(*source.PrivateIPAddressVersion), iPVersion_Values)
-		embedded.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		embedded.PrivateIPAddressVersion = nil
-	}
-
-	// PrivateIPAllocationMethod
-	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := genruntime.ToEnum(string(*source.PrivateIPAllocationMethod), iPAllocationMethod_Values)
-		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		embedded.PrivateIPAllocationMethod = nil
-	}
-
-	// PublicIPAddress
-	if source.PublicIPAddress != nil {
-		var publicIPAddress PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded
-		err := publicIPAddress.Initialize_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(source.PublicIPAddress)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
-		}
-		embedded.PublicIPAddress = &publicIPAddress
-	} else {
-		embedded.PublicIPAddress = nil
-	}
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet Subnet_NetworkInterface_SubResourceEmbedded
-		err := subnet.Initialize_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(source.Subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
-		}
-		embedded.Subnet = &subnet
-	} else {
-		embedded.Subnet = nil
-	}
-
-	// VirtualNetworkTaps
-	if source.VirtualNetworkTaps != nil {
-		virtualNetworkTapList := make([]VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded, len(source.VirtualNetworkTaps))
-		for virtualNetworkTapIndex, virtualNetworkTapItem := range source.VirtualNetworkTaps {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkTapItem := virtualNetworkTapItem
-			var virtualNetworkTap VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
-			err := virtualNetworkTap.Initialize_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&virtualNetworkTapItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
-			}
-			virtualNetworkTapList[virtualNetworkTapIndex] = virtualNetworkTap
-		}
-		embedded.VirtualNetworkTaps = virtualNetworkTapList
-	} else {
-		embedded.VirtualNetworkTaps = nil
 	}
 
 	// No error
@@ -3858,21 +3594,6 @@ func (embedded *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) A
 	return nil
 }
 
-// Initialize_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded from the provided source NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) Initialize_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Private endpoint resource.
 type PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	// Id: Resource ID.
@@ -4075,21 +3796,6 @@ func (service *PrivateLinkServiceSpec) AssignProperties_To_PrivateLinkServiceSpe
 	return nil
 }
 
-// Initialize_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded populates our PrivateLinkServiceSpec from the provided source PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
-func (service *PrivateLinkServiceSpec) Initialize_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(source *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		service.Reference = &reference
-	} else {
-		service.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Backend Address Pool of an application gateway.
 type ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded struct {
 	// Reference: Resource ID.
@@ -4168,21 +3874,6 @@ func (embedded *ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourc
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates our ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded from the provided source ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded) Initialize_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(source *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
 	}
 
 	// No error
@@ -4391,21 +4082,6 @@ func (embedded *ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedde
 	return nil
 }
 
-// Initialize_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates our ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded from the provided source ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) Initialize_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source *ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Pool of backend IP addresses.
 type BackendAddressPool_NetworkInterface_SubResourceEmbedded struct {
 	// Reference: Resource ID.
@@ -4484,21 +4160,6 @@ func (embedded *BackendAddressPool_NetworkInterface_SubResourceEmbedded) AssignP
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates our BackendAddressPool_NetworkInterface_SubResourceEmbedded from the provided source BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *BackendAddressPool_NetworkInterface_SubResourceEmbedded) Initialize_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(source *BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
 	}
 
 	// No error
@@ -4642,21 +4303,6 @@ func (embedded *InboundNatRule_NetworkInterface_SubResourceEmbedded) AssignPrope
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded populates our InboundNatRule_NetworkInterface_SubResourceEmbedded from the provided source InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *InboundNatRule_NetworkInterface_SubResourceEmbedded) Initialize_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(source *InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
 	}
 
 	// No error
@@ -4953,21 +4599,6 @@ func (embedded *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded) Assign
 	return nil
 }
 
-// Initialize_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded populates our PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded from the provided source PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded) Initialize_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(source *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Subnet in a virtual network resource.
 type Subnet_NetworkInterface_SubResourceEmbedded struct {
 	// Reference: Resource ID.
@@ -5046,21 +4677,6 @@ func (embedded *Subnet_NetworkInterface_SubResourceEmbedded) AssignProperties_To
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded populates our Subnet_NetworkInterface_SubResourceEmbedded from the provided source Subnet_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *Subnet_NetworkInterface_SubResourceEmbedded) Initialize_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(source *Subnet_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
 	}
 
 	// No error
@@ -5263,21 +4879,6 @@ func (embedded *VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded) Assi
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded populates our VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded from the provided source VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded) Initialize_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(source *VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
 	}
 
 	// No error

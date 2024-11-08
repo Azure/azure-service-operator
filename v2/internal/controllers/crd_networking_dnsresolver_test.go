@@ -24,7 +24,7 @@ func Test_Networking_DnsResolver_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	vnet := newVNet(tc, testcommon.AsOwner(rg), []string{"10.0.0.0/8"})
+	vnet := newVNet20201101(tc, testcommon.AsOwner(rg), []string{"10.0.0.0/8"})
 
 	resolver := newDnsResolver(tc, rg, vnet)
 
@@ -66,7 +66,7 @@ func Test_Networking_DnsResolver_CRUD(t *testing.T) {
 }
 
 func DnsResolver_InboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolver *network.DnsResolver, vnet *v1api20201101.VirtualNetwork) {
-	subnet := newSubnet(tc, vnet, "10.0.0.0/24")
+	subnet := newSubnet20201101(tc, vnet, "10.0.0.0/24")
 	tc.CreateResourceAndWait(subnet)
 	defer tc.DeleteResourceAndWait(subnet)
 
@@ -105,7 +105,7 @@ func DnsResolver_InboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolve
 }
 
 func DnsResolver_OutboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolver *network.DnsResolver, vnet *v1api20201101.VirtualNetwork) {
-	subnet := newSubnet(tc, vnet, "10.225.0.0/28")
+	subnet := newSubnet20201101(tc, vnet, "10.225.0.0/28")
 	tc.CreateResourceAndWait(subnet)
 	defer tc.DeleteResourceAndWait(subnet)
 

@@ -5,7 +5,8 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForBastionHost(subject BastionHost) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.BastionHost
+	var hub v20240301s.BastionHost
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForBastionHost(subject BastionHost) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BastionHost
+	var other v20220701s.BastionHost
 	err := copied.AssignProperties_To_BastionHost(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForBastionHostIPConfiguration(subject BastionHostI
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BastionHostIPConfiguration
+	var other v20220701s.BastionHostIPConfiguration
 	err := copied.AssignProperties_To_BastionHostIPConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -300,7 +301,7 @@ func RunPropertyAssignmentTestForBastionHostIPConfiguration_STATUS(subject Basti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BastionHostIPConfiguration_STATUS
+	var other v20220701s.BastionHostIPConfiguration_STATUS
 	err := copied.AssignProperties_To_BastionHostIPConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -403,7 +404,7 @@ func RunPropertyAssignmentTestForBastionHostOperatorSpec(subject BastionHostOper
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BastionHostOperatorSpec
+	var other v20220701s.BastionHostOperatorSpec
 	err := copied.AssignProperties_To_BastionHostOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -500,7 +501,7 @@ func RunPropertyAssignmentTestForBastionHost_STATUS(subject BastionHost_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BastionHost_STATUS
+	var other v20220701s.BastionHost_STATUS
 	err := copied.AssignProperties_To_BastionHost_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -636,7 +637,7 @@ func RunPropertyAssignmentTestForBastionHost_Spec(subject BastionHost_Spec) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BastionHost_Spec
+	var other v20220701s.BastionHost_Spec
 	err := copied.AssignProperties_To_BastionHost_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -765,7 +766,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Sku
+	var other v20220701s.Sku
 	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
@@ -867,7 +868,7 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Sku_STATUS
+	var other v20220701s.Sku_STATUS
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()

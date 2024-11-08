@@ -53,22 +53,36 @@ var _ conversion.Convertible = &PrivateDnsZonesPTRRecord{}
 
 // ConvertFrom populates our PrivateDnsZonesPTRRecord from the provided hub PrivateDnsZonesPTRRecord
 func (record *PrivateDnsZonesPTRRecord) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.PrivateDnsZonesPTRRecord)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20200601/storage/PrivateDnsZonesPTRRecord but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.PrivateDnsZonesPTRRecord
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return record.AssignProperties_From_PrivateDnsZonesPTRRecord(source)
+	err = record.AssignProperties_From_PrivateDnsZonesPTRRecord(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to record")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub PrivateDnsZonesPTRRecord from our PrivateDnsZonesPTRRecord
 func (record *PrivateDnsZonesPTRRecord) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.PrivateDnsZonesPTRRecord)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20200601/storage/PrivateDnsZonesPTRRecord but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.PrivateDnsZonesPTRRecord
+	err := record.AssignProperties_To_PrivateDnsZonesPTRRecord(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from record")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return record.AssignProperties_To_PrivateDnsZonesPTRRecord(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20200601-privatednszonesptrrecord,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=privatednszonesptrrecords,verbs=create;update,versions=v1api20200601,name=default.v1api20200601.privatednszonesptrrecords.network.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (record *PrivateDnsZonesPTRRecord) SecretDestinationExpressions() []*core.D
 		return nil
 	}
 	return record.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &PrivateDnsZonesPTRRecord{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (record *PrivateDnsZonesPTRRecord) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*PrivateDnsZonesPTRRecord_STATUS); ok {
-		return record.Spec.Initialize_From_PrivateDnsZonesPTRRecord_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type PrivateDnsZonesPTRRecord_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &PrivateDnsZonesPTRRecord{}
@@ -1078,154 +1081,6 @@ func (record *PrivateDnsZonesPTRRecord_Spec) AssignProperties_To_PrivateDnsZones
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_PrivateDnsZonesPTRRecord_STATUS populates our PrivateDnsZonesPTRRecord_Spec from the provided source PrivateDnsZonesPTRRecord_STATUS
-func (record *PrivateDnsZonesPTRRecord_Spec) Initialize_From_PrivateDnsZonesPTRRecord_STATUS(source *PrivateDnsZonesPTRRecord_STATUS) error {
-
-	// ARecords
-	if source.ARecords != nil {
-		aRecordList := make([]ARecord, len(source.ARecords))
-		for aRecordIndex, aRecordItem := range source.ARecords {
-			// Shadow the loop variable to avoid aliasing
-			aRecordItem := aRecordItem
-			var aRecord ARecord
-			err := aRecord.Initialize_From_ARecord_STATUS(&aRecordItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ARecord_STATUS() to populate field ARecords")
-			}
-			aRecordList[aRecordIndex] = aRecord
-		}
-		record.ARecords = aRecordList
-	} else {
-		record.ARecords = nil
-	}
-
-	// AaaaRecords
-	if source.AaaaRecords != nil {
-		aaaaRecordList := make([]AaaaRecord, len(source.AaaaRecords))
-		for aaaaRecordIndex, aaaaRecordItem := range source.AaaaRecords {
-			// Shadow the loop variable to avoid aliasing
-			aaaaRecordItem := aaaaRecordItem
-			var aaaaRecord AaaaRecord
-			err := aaaaRecord.Initialize_From_AaaaRecord_STATUS(&aaaaRecordItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_AaaaRecord_STATUS() to populate field AaaaRecords")
-			}
-			aaaaRecordList[aaaaRecordIndex] = aaaaRecord
-		}
-		record.AaaaRecords = aaaaRecordList
-	} else {
-		record.AaaaRecords = nil
-	}
-
-	// CnameRecord
-	if source.CnameRecord != nil {
-		var cnameRecord CnameRecord
-		err := cnameRecord.Initialize_From_CnameRecord_STATUS(source.CnameRecord)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CnameRecord_STATUS() to populate field CnameRecord")
-		}
-		record.CnameRecord = &cnameRecord
-	} else {
-		record.CnameRecord = nil
-	}
-
-	// Etag
-	record.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Metadata
-	record.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
-
-	// MxRecords
-	if source.MxRecords != nil {
-		mxRecordList := make([]MxRecord, len(source.MxRecords))
-		for mxRecordIndex, mxRecordItem := range source.MxRecords {
-			// Shadow the loop variable to avoid aliasing
-			mxRecordItem := mxRecordItem
-			var mxRecord MxRecord
-			err := mxRecord.Initialize_From_MxRecord_STATUS(&mxRecordItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_MxRecord_STATUS() to populate field MxRecords")
-			}
-			mxRecordList[mxRecordIndex] = mxRecord
-		}
-		record.MxRecords = mxRecordList
-	} else {
-		record.MxRecords = nil
-	}
-
-	// PtrRecords
-	if source.PtrRecords != nil {
-		ptrRecordList := make([]PtrRecord, len(source.PtrRecords))
-		for ptrRecordIndex, ptrRecordItem := range source.PtrRecords {
-			// Shadow the loop variable to avoid aliasing
-			ptrRecordItem := ptrRecordItem
-			var ptrRecord PtrRecord
-			err := ptrRecord.Initialize_From_PtrRecord_STATUS(&ptrRecordItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_PtrRecord_STATUS() to populate field PtrRecords")
-			}
-			ptrRecordList[ptrRecordIndex] = ptrRecord
-		}
-		record.PtrRecords = ptrRecordList
-	} else {
-		record.PtrRecords = nil
-	}
-
-	// SoaRecord
-	if source.SoaRecord != nil {
-		var soaRecord SoaRecord
-		err := soaRecord.Initialize_From_SoaRecord_STATUS(source.SoaRecord)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SoaRecord_STATUS() to populate field SoaRecord")
-		}
-		record.SoaRecord = &soaRecord
-	} else {
-		record.SoaRecord = nil
-	}
-
-	// SrvRecords
-	if source.SrvRecords != nil {
-		srvRecordList := make([]SrvRecord, len(source.SrvRecords))
-		for srvRecordIndex, srvRecordItem := range source.SrvRecords {
-			// Shadow the loop variable to avoid aliasing
-			srvRecordItem := srvRecordItem
-			var srvRecord SrvRecord
-			err := srvRecord.Initialize_From_SrvRecord_STATUS(&srvRecordItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SrvRecord_STATUS() to populate field SrvRecords")
-			}
-			srvRecordList[srvRecordIndex] = srvRecord
-		}
-		record.SrvRecords = srvRecordList
-	} else {
-		record.SrvRecords = nil
-	}
-
-	// Ttl
-	record.Ttl = genruntime.ClonePointerToInt(source.Ttl)
-
-	// TxtRecords
-	if source.TxtRecords != nil {
-		txtRecordList := make([]TxtRecord, len(source.TxtRecords))
-		for txtRecordIndex, txtRecordItem := range source.TxtRecords {
-			// Shadow the loop variable to avoid aliasing
-			txtRecordItem := txtRecordItem
-			var txtRecord TxtRecord
-			err := txtRecord.Initialize_From_TxtRecord_STATUS(&txtRecordItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_TxtRecord_STATUS() to populate field TxtRecords")
-			}
-			txtRecordList[txtRecordIndex] = txtRecord
-		}
-		record.TxtRecords = txtRecordList
-	} else {
-		record.TxtRecords = nil
 	}
 
 	// No error

@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,48 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_IpTag_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IpTag to IpTag via AssignProperties_To_IpTag & AssignProperties_From_IpTag returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIpTag, IpTagGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIpTag tests if a specific instance of IpTag can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForIpTag(subject IpTag) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.IpTag
+	err := copied.AssignProperties_To_IpTag(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IpTag
+	err = actual.AssignProperties_From_IpTag(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_IpTag_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +119,48 @@ func IpTagGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIpTag(gens map[string]gopter.Gen) {
 	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
 	gens["Tag"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IpTag_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IpTag_STATUS to IpTag_STATUS via AssignProperties_To_IpTag_STATUS & AssignProperties_From_IpTag_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIpTag_STATUS, IpTag_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIpTag_STATUS tests if a specific instance of IpTag_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForIpTag_STATUS(subject IpTag_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.IpTag_STATUS
+	err := copied.AssignProperties_To_IpTag_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IpTag_STATUS
+	err = actual.AssignProperties_From_IpTag_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_IpTag_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -139,6 +224,48 @@ func AddIndependentPropertyGeneratorsForIpTag_STATUS(gens map[string]gopter.Gen)
 	gens["Tag"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded to NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded via AssignProperties_To_NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded & AssignProperties_From_NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNatGatewaySpec_PublicIPPrefix_SubResourceEmbedded, NatGatewaySpec_PublicIPPrefix_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNatGatewaySpec_PublicIPPrefix_SubResourceEmbedded tests if a specific instance of NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNatGatewaySpec_PublicIPPrefix_SubResourceEmbedded(subject NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded
+	err := copied.AssignProperties_To_NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded
+	err = actual.AssignProperties_From_NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -192,6 +319,48 @@ func NatGatewaySpec_PublicIPPrefix_SubResourceEmbeddedGenerator() gopter.Gen {
 	natGatewaySpec_PublicIPPrefix_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded{}), generators)
 
 	return natGatewaySpec_PublicIPPrefix_SubResourceEmbeddedGenerator
+}
+
+func Test_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded to NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded via AssignProperties_To_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded & AssignProperties_From_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded, NatGateway_STATUS_PublicIPPrefix_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded tests if a specific instance of NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded(subject NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded
+	err := copied.AssignProperties_To_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded
+	err = actual.AssignProperties_From_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -255,6 +424,91 @@ func AddIndependentPropertyGeneratorsForNatGateway_STATUS_PublicIPPrefix_SubReso
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_PublicIPPrefix_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PublicIPPrefix to hub returns original",
+		prop.ForAll(RunResourceConversionTestForPublicIPPrefix, PublicIPPrefixGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForPublicIPPrefix tests if a specific instance of PublicIPPrefix round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForPublicIPPrefix(subject PublicIPPrefix) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.PublicIPPrefix
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual PublicIPPrefix
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_PublicIPPrefix_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PublicIPPrefix to PublicIPPrefix via AssignProperties_To_PublicIPPrefix & AssignProperties_From_PublicIPPrefix returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPublicIPPrefix, PublicIPPrefixGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPublicIPPrefix tests if a specific instance of PublicIPPrefix can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPublicIPPrefix(subject PublicIPPrefix) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PublicIPPrefix
+	err := copied.AssignProperties_To_PublicIPPrefix(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PublicIPPrefix
+	err = actual.AssignProperties_From_PublicIPPrefix(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PublicIPPrefix_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -316,6 +570,48 @@ func AddRelatedPropertyGeneratorsForPublicIPPrefix(gens map[string]gopter.Gen) {
 	gens["Status"] = PublicIPPrefix_STATUSGenerator()
 }
 
+func Test_PublicIPPrefixOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PublicIPPrefixOperatorSpec to PublicIPPrefixOperatorSpec via AssignProperties_To_PublicIPPrefixOperatorSpec & AssignProperties_From_PublicIPPrefixOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPublicIPPrefixOperatorSpec, PublicIPPrefixOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPublicIPPrefixOperatorSpec tests if a specific instance of PublicIPPrefixOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPublicIPPrefixOperatorSpec(subject PublicIPPrefixOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PublicIPPrefixOperatorSpec
+	err := copied.AssignProperties_To_PublicIPPrefixOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PublicIPPrefixOperatorSpec
+	err = actual.AssignProperties_From_PublicIPPrefixOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PublicIPPrefixOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -369,6 +665,48 @@ func PublicIPPrefixOperatorSpecGenerator() gopter.Gen {
 	publicIPPrefixOperatorSpecGenerator = gen.Struct(reflect.TypeOf(PublicIPPrefixOperatorSpec{}), generators)
 
 	return publicIPPrefixOperatorSpecGenerator
+}
+
+func Test_PublicIPPrefixSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PublicIPPrefixSku to PublicIPPrefixSku via AssignProperties_To_PublicIPPrefixSku & AssignProperties_From_PublicIPPrefixSku returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPublicIPPrefixSku, PublicIPPrefixSkuGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPublicIPPrefixSku tests if a specific instance of PublicIPPrefixSku can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPublicIPPrefixSku(subject PublicIPPrefixSku) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PublicIPPrefixSku
+	err := copied.AssignProperties_To_PublicIPPrefixSku(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PublicIPPrefixSku
+	err = actual.AssignProperties_From_PublicIPPrefixSku(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_PublicIPPrefixSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -432,6 +770,48 @@ func AddIndependentPropertyGeneratorsForPublicIPPrefixSku(gens map[string]gopter
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_PublicIPPrefixSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PublicIPPrefixSku_STATUS to PublicIPPrefixSku_STATUS via AssignProperties_To_PublicIPPrefixSku_STATUS & AssignProperties_From_PublicIPPrefixSku_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPublicIPPrefixSku_STATUS, PublicIPPrefixSku_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPublicIPPrefixSku_STATUS tests if a specific instance of PublicIPPrefixSku_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPublicIPPrefixSku_STATUS(subject PublicIPPrefixSku_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PublicIPPrefixSku_STATUS
+	err := copied.AssignProperties_To_PublicIPPrefixSku_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PublicIPPrefixSku_STATUS
+	err = actual.AssignProperties_From_PublicIPPrefixSku_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PublicIPPrefixSku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -492,6 +872,48 @@ func PublicIPPrefixSku_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPublicIPPrefixSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_PublicIPPrefix_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PublicIPPrefix_STATUS to PublicIPPrefix_STATUS via AssignProperties_To_PublicIPPrefix_STATUS & AssignProperties_From_PublicIPPrefix_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPublicIPPrefix_STATUS, PublicIPPrefix_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPublicIPPrefix_STATUS tests if a specific instance of PublicIPPrefix_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPublicIPPrefix_STATUS(subject PublicIPPrefix_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PublicIPPrefix_STATUS
+	err := copied.AssignProperties_To_PublicIPPrefix_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PublicIPPrefix_STATUS
+	err = actual.AssignProperties_From_PublicIPPrefix_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_PublicIPPrefix_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -588,6 +1010,48 @@ func AddRelatedPropertyGeneratorsForPublicIPPrefix_STATUS(gens map[string]gopter
 	gens["Sku"] = gen.PtrOf(PublicIPPrefixSku_STATUSGenerator())
 }
 
+func Test_PublicIPPrefix_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PublicIPPrefix_Spec to PublicIPPrefix_Spec via AssignProperties_To_PublicIPPrefix_Spec & AssignProperties_From_PublicIPPrefix_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPublicIPPrefix_Spec, PublicIPPrefix_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPublicIPPrefix_Spec tests if a specific instance of PublicIPPrefix_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPublicIPPrefix_Spec(subject PublicIPPrefix_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PublicIPPrefix_Spec
+	err := copied.AssignProperties_To_PublicIPPrefix_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PublicIPPrefix_Spec
+	err = actual.AssignProperties_From_PublicIPPrefix_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PublicIPPrefix_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -674,6 +1138,48 @@ func AddRelatedPropertyGeneratorsForPublicIPPrefix_Spec(gens map[string]gopter.G
 	gens["NatGateway"] = gen.PtrOf(NatGatewaySpec_PublicIPPrefix_SubResourceEmbeddedGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(PublicIPPrefixOperatorSpecGenerator())
 	gens["Sku"] = gen.PtrOf(PublicIPPrefixSkuGenerator())
+}
+
+func Test_ReferencedPublicIpAddress_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ReferencedPublicIpAddress_STATUS to ReferencedPublicIpAddress_STATUS via AssignProperties_To_ReferencedPublicIpAddress_STATUS & AssignProperties_From_ReferencedPublicIpAddress_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForReferencedPublicIpAddress_STATUS, ReferencedPublicIpAddress_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForReferencedPublicIpAddress_STATUS tests if a specific instance of ReferencedPublicIpAddress_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForReferencedPublicIpAddress_STATUS(subject ReferencedPublicIpAddress_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ReferencedPublicIpAddress_STATUS
+	err := copied.AssignProperties_To_ReferencedPublicIpAddress_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ReferencedPublicIpAddress_STATUS
+	err = actual.AssignProperties_From_ReferencedPublicIpAddress_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ReferencedPublicIpAddress_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

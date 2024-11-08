@@ -15,6 +15,7 @@ import (
 
 	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	network20240301 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -35,10 +36,33 @@ func newVMVirtualNetwork(tc *testcommon.KubePerTestContext, owner *genruntime.Kn
 	}
 }
 
+func newVMVirtualNetwork20240301(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network20240301.VirtualNetwork {
+	return &network20240301.VirtualNetwork{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
+		Spec: network20240301.VirtualNetwork_Spec{
+			Owner:    owner,
+			Location: tc.AzureRegion,
+			AddressSpace: &network20240301.AddressSpace{
+				AddressPrefixes: []string{"10.0.0.0/16"},
+			},
+		},
+	}
+}
+
 func newVMSubnet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.VirtualNetworksSubnet {
 	return &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnet_Spec{
+			Owner:         owner,
+			AddressPrefix: to.Ptr("10.0.0.0/24"),
+		},
+	}
+}
+
+func newVMSubnet20240301(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network20240301.VirtualNetworksSubnet {
+	return &network20240301.VirtualNetworksSubnet{
+		ObjectMeta: tc.MakeObjectMeta("subnet"),
+		Spec: network20240301.VirtualNetworksSubnet_Spec{
 			Owner:         owner,
 			AddressPrefix: to.Ptr("10.0.0.0/24"),
 		},

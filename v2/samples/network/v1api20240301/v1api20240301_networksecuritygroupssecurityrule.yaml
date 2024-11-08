@@ -1,0 +1,18 @@
+apiVersion: network.azure.com/v1api20240301
+kind: NetworkSecurityGroupsSecurityRule
+metadata:
+  name: samplerule
+  namespace: default
+spec:
+  owner:
+    name: samplensg
+  protocol: Tcp
+  sourcePortRange: 23-45
+  destinationPortRange: 46-56
+  sourceAddressPrefix: "*"
+  destinationAddressPrefix: "*"
+  access: Allow
+  priority: 123
+  direction: Inbound
+  description: Allow access to source port 23-45 and destination port 45-56
+

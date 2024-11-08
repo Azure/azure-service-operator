@@ -5,7 +5,8 @@ package v1api20201101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_STATUS_Virtua
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	var other v20201101s.ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -139,7 +140,7 @@ func RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_VirtualNetwor
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded
+	var other v20201101s.ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -236,7 +237,7 @@ func RunPropertyAssignmentTestForDelegation(subject Delegation) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Delegation
+	var other v20201101s.Delegation
 	err := copied.AssignProperties_To_Delegation(&other)
 	if err != nil {
 		return err.Error()
@@ -339,7 +340,7 @@ func RunPropertyAssignmentTestForDelegation_STATUS(subject Delegation_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Delegation_STATUS
+	var other v20201101s.Delegation_STATUS
 	err := copied.AssignProperties_To_Delegation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -451,7 +452,7 @@ func RunPropertyAssignmentTestForIPConfigurationProfile_STATUS(subject IPConfigu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IPConfigurationProfile_STATUS
+	var other v20201101s.IPConfigurationProfile_STATUS
 	err := copied.AssignProperties_To_IPConfigurationProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -554,7 +555,7 @@ func RunPropertyAssignmentTestForIPConfiguration_STATUS_VirtualNetworks_Subnet_S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	var other v20201101s.IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
 	err := copied.AssignProperties_To_IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -657,7 +658,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupSpec_VirtualNetworks_Subnet
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded
+	var other v20201101s.NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -754,7 +755,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_VirtualNetworks_Sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	var other v20201101s.NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -857,7 +858,7 @@ func RunPropertyAssignmentTestForPrivateEndpoint_STATUS_VirtualNetworks_Subnet_S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	var other v20201101s.PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
 	err := copied.AssignProperties_To_PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -960,7 +961,7 @@ func RunPropertyAssignmentTestForResourceNavigationLink_STATUS(subject ResourceN
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ResourceNavigationLink_STATUS
+	var other v20201101s.ResourceNavigationLink_STATUS
 	err := copied.AssignProperties_To_ResourceNavigationLink_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1063,7 +1064,7 @@ func RunPropertyAssignmentTestForRouteTableSpec_VirtualNetworks_Subnet_SubResour
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded
+	var other v20201101s.RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded
 	err := copied.AssignProperties_To_RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1160,7 +1161,7 @@ func RunPropertyAssignmentTestForRouteTable_STATUS_SubResourceEmbedded(subject R
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RouteTable_STATUS_SubResourceEmbedded
+	var other v20201101s.RouteTable_STATUS_SubResourceEmbedded
 	err := copied.AssignProperties_To_RouteTable_STATUS_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1263,7 +1264,7 @@ func RunPropertyAssignmentTestForServiceAssociationLink_STATUS(subject ServiceAs
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServiceAssociationLink_STATUS
+	var other v20201101s.ServiceAssociationLink_STATUS
 	err := copied.AssignProperties_To_ServiceAssociationLink_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1366,7 +1367,7 @@ func RunPropertyAssignmentTestForServiceEndpointPolicySpec_VirtualNetworks_Subne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded
+	var other v20201101s.ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded
 	err := copied.AssignProperties_To_ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1463,7 +1464,7 @@ func RunPropertyAssignmentTestForServiceEndpointPolicy_STATUS_VirtualNetworks_Su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+	var other v20201101s.ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
 	err := copied.AssignProperties_To_ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1566,7 +1567,7 @@ func RunPropertyAssignmentTestForServiceEndpointPropertiesFormat(subject Service
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServiceEndpointPropertiesFormat
+	var other v20201101s.ServiceEndpointPropertiesFormat
 	err := copied.AssignProperties_To_ServiceEndpointPropertiesFormat(&other)
 	if err != nil {
 		return err.Error()
@@ -1670,7 +1671,7 @@ func RunPropertyAssignmentTestForServiceEndpointPropertiesFormat_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServiceEndpointPropertiesFormat_STATUS
+	var other v20201101s.ServiceEndpointPropertiesFormat_STATUS
 	err := copied.AssignProperties_To_ServiceEndpointPropertiesFormat_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1780,7 +1781,7 @@ func RunResourceConversionTestForVirtualNetworksSubnet(subject VirtualNetworksSu
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.VirtualNetworksSubnet
+	var hub v20240301s.VirtualNetworksSubnet
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -1822,7 +1823,7 @@ func RunPropertyAssignmentTestForVirtualNetworksSubnet(subject VirtualNetworksSu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworksSubnet
+	var other v20201101s.VirtualNetworksSubnet
 	err := copied.AssignProperties_To_VirtualNetworksSubnet(&other)
 	if err != nil {
 		return err.Error()
@@ -1926,7 +1927,7 @@ func RunPropertyAssignmentTestForVirtualNetworksSubnetOperatorSpec(subject Virtu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworksSubnetOperatorSpec
+	var other v20201101s.VirtualNetworksSubnetOperatorSpec
 	err := copied.AssignProperties_To_VirtualNetworksSubnetOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -2023,7 +2024,7 @@ func RunPropertyAssignmentTestForVirtualNetworksSubnet_STATUS(subject VirtualNet
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworksSubnet_STATUS
+	var other v20201101s.VirtualNetworksSubnet_STATUS
 	err := copied.AssignProperties_To_VirtualNetworksSubnet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2165,7 +2166,7 @@ func RunPropertyAssignmentTestForVirtualNetworksSubnet_Spec(subject VirtualNetwo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworksSubnet_Spec
+	var other v20201101s.VirtualNetworksSubnet_Spec
 	err := copied.AssignProperties_To_VirtualNetworksSubnet_Spec(&other)
 	if err != nil {
 		return err.Error()

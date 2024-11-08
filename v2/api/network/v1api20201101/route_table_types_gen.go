@@ -53,22 +53,36 @@ var _ conversion.Convertible = &RouteTable{}
 
 // ConvertFrom populates our RouteTable from the provided hub RouteTable
 func (table *RouteTable) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RouteTable)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20201101/storage/RouteTable but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RouteTable
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return table.AssignProperties_From_RouteTable(source)
+	err = table.AssignProperties_From_RouteTable(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to table")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RouteTable from our RouteTable
 func (table *RouteTable) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RouteTable)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20201101/storage/RouteTable but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RouteTable
+	err := table.AssignProperties_To_RouteTable(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from table")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return table.AssignProperties_To_RouteTable(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20201101-routetable,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=routetables,verbs=create;update,versions=v1api20201101,name=default.v1api20201101.routetables.network.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (table *RouteTable) SecretDestinationExpressions() []*core.DestinationExpre
 		return nil
 	}
 	return table.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &RouteTable{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (table *RouteTable) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RouteTable_STATUS); ok {
-		return table.Spec.Initialize_From_RouteTable_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RouteTable_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &RouteTable{}
@@ -627,27 +630,6 @@ func (table *RouteTable_Spec) AssignProperties_To_RouteTable_Spec(destination *s
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RouteTable_STATUS populates our RouteTable_Spec from the provided source RouteTable_STATUS
-func (table *RouteTable_Spec) Initialize_From_RouteTable_STATUS(source *RouteTable_STATUS) error {
-
-	// DisableBgpRoutePropagation
-	if source.DisableBgpRoutePropagation != nil {
-		disableBgpRoutePropagation := *source.DisableBgpRoutePropagation
-		table.DisableBgpRoutePropagation = &disableBgpRoutePropagation
-	} else {
-		table.DisableBgpRoutePropagation = nil
-	}
-
-	// Location
-	table.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Tags
-	table.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
