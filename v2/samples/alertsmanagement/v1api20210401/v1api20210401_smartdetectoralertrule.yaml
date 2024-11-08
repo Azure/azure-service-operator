@@ -18,6 +18,4 @@ spec:
         kind: ActionGroup
         name: aso-sample-group
   scopeReferences:
-    - group: monitor.azure.com
-      kind: Account
-      name: aso-sample-acct
+    - ARMID: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/microsoft.insights/components/sampleappinsights

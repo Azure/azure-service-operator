@@ -12,8 +12,8 @@ import (
 	. "github.com/onsi/gomega"
 
 	alertsmanagement "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401"
-	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101"
-	monitor "github.com/Azure/azure-service-operator/v2/api/monitor/v1api20230403"
+	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202"
+	insightsag "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -25,17 +25,21 @@ func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
+	applicationType := insights.ApplicationInsightsComponentProperties_Application_Type_Web
 
-	acct := &monitor.Account{
-		ObjectMeta: tc.MakeObjectMeta("acct"),
-		Spec: monitor.Account_Spec{
+	component := &insights.Component{
+		ObjectMeta: tc.MakeObjectMeta("component"),
+		Spec: insights.Component_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
+			// According to their documentation you can set anything here, it's ignored.
+			Application_Type: &applicationType,
+			Kind:             to.Ptr("web"),
 		},
 	}
-	ag := &insights.ActionGroup{
+	ag := &insightsag.ActionGroup{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("actiongroup")),
-		Spec: insights.ActionGroup_Spec{
+		Spec: insightsag.ActionGroup_Spec{
 			Enabled:        to.Ptr(false),
 			GroupShortName: to.Ptr("ag"),
 			Location:       to.Ptr("global"),
@@ -66,11 +70,11 @@ func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 			Detector:     detectorId,
 			ActionGroups: actionGroup,
 			ScopeReferences: []genruntime.ResourceReference{
-				*tc.MakeReferenceFromResource(acct),
+				*tc.MakeReferenceFromResource(component),
 			},
 		},
 	}
-	tc.CreateResourcesAndWait(alertRule, ag, acct)
+	tc.CreateResourcesAndWait(alertRule, ag, component)
 
 	// Ensure that the status is what we expect
 	tc.Expect(alertRule.Status.Id).ToNot(BeNil())
