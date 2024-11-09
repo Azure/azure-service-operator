@@ -62,7 +62,7 @@ func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 	alertRule := &alertsmanagement.SmartDetectorAlertRule{
 		ObjectMeta: tc.MakeObjectMeta("smartalertrules"),
 		Spec: alertsmanagement.SmartDetectorAlertRule_Spec{
-			Location:     tc.AzureRegion,
+			Location:     to.Ptr("Global"),
 			Owner:        testcommon.AsOwner(rg),
 			State:        &state,
 			Severity:     &severity,
