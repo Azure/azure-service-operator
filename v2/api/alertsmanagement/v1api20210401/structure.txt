@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2021-04-01"
 SmartDetectorAlertRule: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (12 properties)
+├── Spec: Object (13 properties)
 │   ├── ActionGroups: *Object (3 properties)
 │   │   ├── CustomEmailSubject: *string
 │   │   ├── CustomWebhookPayload: *string
@@ -17,6 +17,9 @@ SmartDetectorAlertRule: Resource
 │   │   └── Parameters: map[string]v1.JSON
 │   ├── Frequency: *string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── ScopeReferences: genruntime.ResourceReference[]
 │   ├── Severity: *Enum (5 values)

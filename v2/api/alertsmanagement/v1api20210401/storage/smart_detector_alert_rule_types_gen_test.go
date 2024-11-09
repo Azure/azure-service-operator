@@ -408,6 +408,61 @@ func AddRelatedPropertyGeneratorsForSmartDetectorAlertRule(gens map[string]gopte
 	gens["Status"] = SmartDetectorAlertRule_STATUSGenerator()
 }
 
+func Test_SmartDetectorAlertRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SmartDetectorAlertRuleOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSmartDetectorAlertRuleOperatorSpec, SmartDetectorAlertRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSmartDetectorAlertRuleOperatorSpec runs a test to see if a specific instance of SmartDetectorAlertRuleOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSmartDetectorAlertRuleOperatorSpec(subject SmartDetectorAlertRuleOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SmartDetectorAlertRuleOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SmartDetectorAlertRuleOperatorSpec instances for property testing - lazily instantiated by
+// SmartDetectorAlertRuleOperatorSpecGenerator()
+var smartDetectorAlertRuleOperatorSpecGenerator gopter.Gen
+
+// SmartDetectorAlertRuleOperatorSpecGenerator returns a generator of SmartDetectorAlertRuleOperatorSpec instances for property testing.
+func SmartDetectorAlertRuleOperatorSpecGenerator() gopter.Gen {
+	if smartDetectorAlertRuleOperatorSpecGenerator != nil {
+		return smartDetectorAlertRuleOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	smartDetectorAlertRuleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SmartDetectorAlertRuleOperatorSpec{}), generators)
+
+	return smartDetectorAlertRuleOperatorSpecGenerator
+}
+
 func Test_SmartDetectorAlertRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -579,6 +634,7 @@ func AddIndependentPropertyGeneratorsForSmartDetectorAlertRule_Spec(gens map[str
 func AddRelatedPropertyGeneratorsForSmartDetectorAlertRule_Spec(gens map[string]gopter.Gen) {
 	gens["ActionGroups"] = gen.PtrOf(ActionGroupsInformationGenerator())
 	gens["Detector"] = gen.PtrOf(DetectorGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(SmartDetectorAlertRuleOperatorSpecGenerator())
 	gens["Throttling"] = gen.PtrOf(ThrottlingInformationGenerator())
 }
 

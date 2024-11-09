@@ -709,6 +709,103 @@ func AddRelatedPropertyGeneratorsForSmartDetectorAlertRule(gens map[string]gopte
 	gens["Status"] = SmartDetectorAlertRule_STATUSGenerator()
 }
 
+func Test_SmartDetectorAlertRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SmartDetectorAlertRuleOperatorSpec to SmartDetectorAlertRuleOperatorSpec via AssignProperties_To_SmartDetectorAlertRuleOperatorSpec & AssignProperties_From_SmartDetectorAlertRuleOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSmartDetectorAlertRuleOperatorSpec, SmartDetectorAlertRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSmartDetectorAlertRuleOperatorSpec tests if a specific instance of SmartDetectorAlertRuleOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSmartDetectorAlertRuleOperatorSpec(subject SmartDetectorAlertRuleOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SmartDetectorAlertRuleOperatorSpec
+	err := copied.AssignProperties_To_SmartDetectorAlertRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SmartDetectorAlertRuleOperatorSpec
+	err = actual.AssignProperties_From_SmartDetectorAlertRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SmartDetectorAlertRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SmartDetectorAlertRuleOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSmartDetectorAlertRuleOperatorSpec, SmartDetectorAlertRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSmartDetectorAlertRuleOperatorSpec runs a test to see if a specific instance of SmartDetectorAlertRuleOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSmartDetectorAlertRuleOperatorSpec(subject SmartDetectorAlertRuleOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SmartDetectorAlertRuleOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SmartDetectorAlertRuleOperatorSpec instances for property testing - lazily instantiated by
+// SmartDetectorAlertRuleOperatorSpecGenerator()
+var smartDetectorAlertRuleOperatorSpecGenerator gopter.Gen
+
+// SmartDetectorAlertRuleOperatorSpecGenerator returns a generator of SmartDetectorAlertRuleOperatorSpec instances for property testing.
+func SmartDetectorAlertRuleOperatorSpecGenerator() gopter.Gen {
+	if smartDetectorAlertRuleOperatorSpecGenerator != nil {
+		return smartDetectorAlertRuleOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	smartDetectorAlertRuleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SmartDetectorAlertRuleOperatorSpec{}), generators)
+
+	return smartDetectorAlertRuleOperatorSpecGenerator
+}
+
 func Test_SmartDetectorAlertRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -973,6 +1070,7 @@ func AddIndependentPropertyGeneratorsForSmartDetectorAlertRule_Spec(gens map[str
 func AddRelatedPropertyGeneratorsForSmartDetectorAlertRule_Spec(gens map[string]gopter.Gen) {
 	gens["ActionGroups"] = gen.PtrOf(ActionGroupsInformationGenerator())
 	gens["Detector"] = gen.PtrOf(DetectorGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(SmartDetectorAlertRuleOperatorSpecGenerator())
 	gens["Throttling"] = gen.PtrOf(ThrottlingInformationGenerator())
 }
 
