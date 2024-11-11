@@ -35,7 +35,7 @@ type DnsForwardingRuleset_STATUS struct {
 type DnsForwardingRulesetProperties_STATUS struct {
 	// DnsResolverOutboundEndpoints: The reference to the DNS resolver outbound endpoints that are used to route DNS queries
 	// matching the forwarding rules in the ruleset to the target DNS servers.
-	DnsResolverOutboundEndpoints []DnsresolverSubResource_STATUS `json:"dnsResolverOutboundEndpoints,omitempty"`
+	DnsResolverOutboundEndpoints []SubResource_STATUS `json:"dnsResolverOutboundEndpoints,omitempty"`
 
 	// ProvisioningState: The current provisioning state of the DNS forwarding ruleset. This is a read-only property and any
 	// attempt to set this value will be ignored.

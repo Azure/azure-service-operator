@@ -229,5 +229,5 @@ func AddIndependentPropertyGeneratorsForIpConfiguration(gens map[string]gopter.G
 
 // AddRelatedPropertyGeneratorsForIpConfiguration is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIpConfiguration(gens map[string]gopter.Gen) {
-	gens["Subnet"] = gen.PtrOf(DnsresolverSubResourceGenerator())
+	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
 }

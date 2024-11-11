@@ -177,7 +177,7 @@ type DnsResolver_Spec struct {
 	Owner          *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Tags           map[string]string                  `json:"tags,omitempty"`
-	VirtualNetwork *DnsresolverSubResource            `json:"virtualNetwork,omitempty"`
+	VirtualNetwork *SubResource                       `json:"virtualNetwork,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &DnsResolver_Spec{}
@@ -203,19 +203,19 @@ func (resolver *DnsResolver_Spec) ConvertSpecTo(destination genruntime.Convertib
 // Storage version of v1api20220701.DnsResolver_STATUS
 // Describes a DNS resolver.
 type DnsResolver_STATUS struct {
-	Conditions        []conditions.Condition         `json:"conditions,omitempty"`
-	DnsResolverState  *string                        `json:"dnsResolverState,omitempty"`
-	Etag              *string                        `json:"etag,omitempty"`
-	Id                *string                        `json:"id,omitempty"`
-	Location          *string                        `json:"location,omitempty"`
-	Name              *string                        `json:"name,omitempty"`
-	PropertyBag       genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                        `json:"provisioningState,omitempty"`
-	ResourceGuid      *string                        `json:"resourceGuid,omitempty"`
-	SystemData        *SystemData_STATUS             `json:"systemData,omitempty"`
-	Tags              map[string]string              `json:"tags,omitempty"`
-	Type              *string                        `json:"type,omitempty"`
-	VirtualNetwork    *DnsresolverSubResource_STATUS `json:"virtualNetwork,omitempty"`
+	Conditions        []conditions.Condition `json:"conditions,omitempty"`
+	DnsResolverState  *string                `json:"dnsResolverState,omitempty"`
+	Etag              *string                `json:"etag,omitempty"`
+	Id                *string                `json:"id,omitempty"`
+	Location          *string                `json:"location,omitempty"`
+	Name              *string                `json:"name,omitempty"`
+	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProvisioningState *string                `json:"provisioningState,omitempty"`
+	ResourceGuid      *string                `json:"resourceGuid,omitempty"`
+	SystemData        *SystemData_STATUS     `json:"systemData,omitempty"`
+	Tags              map[string]string      `json:"tags,omitempty"`
+	Type              *string                `json:"type,omitempty"`
+	VirtualNetwork    *SubResource_STATUS    `json:"virtualNetwork,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DnsResolver_STATUS{}

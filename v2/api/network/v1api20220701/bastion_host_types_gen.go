@@ -1536,11 +1536,11 @@ type BastionHostIPConfiguration struct {
 
 	// +kubebuilder:validation:Required
 	// PublicIPAddress: Reference of the PublicIP resource.
-	PublicIPAddress *BastionHostSubResource `json:"publicIPAddress,omitempty"`
+	PublicIPAddress *SubResource `json:"publicIPAddress,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Subnet: Reference of the subnet resource.
-	Subnet *BastionHostSubResource `json:"subnet,omitempty"`
+	Subnet *SubResource `json:"subnet,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BastionHostIPConfiguration{}
@@ -1575,7 +1575,7 @@ func (configuration *BastionHostIPConfiguration) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		publicIPAddress := *publicIPAddress_ARM.(*arm.BastionHostSubResource)
+		publicIPAddress := *publicIPAddress_ARM.(*arm.SubResource)
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if configuration.Subnet != nil {
@@ -1583,7 +1583,7 @@ func (configuration *BastionHostIPConfiguration) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnet_ARM.(*arm.BastionHostSubResource)
+		subnet := *subnet_ARM.(*arm.SubResource)
 		result.Properties.Subnet = &subnet
 	}
 	return result, nil
@@ -1622,7 +1622,7 @@ func (configuration *BastionHostIPConfiguration) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddress != nil {
-			var publicIPAddress1 BastionHostSubResource
+			var publicIPAddress1 SubResource
 			err := publicIPAddress1.PopulateFromARM(owner, *typedInput.Properties.PublicIPAddress)
 			if err != nil {
 				return err
@@ -1636,7 +1636,7 @@ func (configuration *BastionHostIPConfiguration) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
-			var subnet1 BastionHostSubResource
+			var subnet1 SubResource
 			err := subnet1.PopulateFromARM(owner, *typedInput.Properties.Subnet)
 			if err != nil {
 				return err
@@ -1667,10 +1667,10 @@ func (configuration *BastionHostIPConfiguration) AssignProperties_From_BastionHo
 
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
-		var publicIPAddress BastionHostSubResource
-		err := publicIPAddress.AssignProperties_From_BastionHostSubResource(source.PublicIPAddress)
+		var publicIPAddress SubResource
+		err := publicIPAddress.AssignProperties_From_SubResource(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BastionHostSubResource() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIPAddress")
 		}
 		configuration.PublicIPAddress = &publicIPAddress
 	} else {
@@ -1679,10 +1679,10 @@ func (configuration *BastionHostIPConfiguration) AssignProperties_From_BastionHo
 
 	// Subnet
 	if source.Subnet != nil {
-		var subnet BastionHostSubResource
-		err := subnet.AssignProperties_From_BastionHostSubResource(source.Subnet)
+		var subnet SubResource
+		err := subnet.AssignProperties_From_SubResource(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BastionHostSubResource() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
 		}
 		configuration.Subnet = &subnet
 	} else {
@@ -1711,10 +1711,10 @@ func (configuration *BastionHostIPConfiguration) AssignProperties_To_BastionHost
 
 	// PublicIPAddress
 	if configuration.PublicIPAddress != nil {
-		var publicIPAddress storage.BastionHostSubResource
-		err := configuration.PublicIPAddress.AssignProperties_To_BastionHostSubResource(&publicIPAddress)
+		var publicIPAddress storage.SubResource
+		err := configuration.PublicIPAddress.AssignProperties_To_SubResource(&publicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BastionHostSubResource() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIPAddress")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -1723,10 +1723,10 @@ func (configuration *BastionHostIPConfiguration) AssignProperties_To_BastionHost
 
 	// Subnet
 	if configuration.Subnet != nil {
-		var subnet storage.BastionHostSubResource
-		err := configuration.Subnet.AssignProperties_To_BastionHostSubResource(&subnet)
+		var subnet storage.SubResource
+		err := configuration.Subnet.AssignProperties_To_SubResource(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BastionHostSubResource() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -2095,90 +2095,6 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 		destination.Name = &name
 	} else {
 		destination.Name = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Reference to another subresource.
-type BastionHostSubResource struct {
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &BastionHostSubResource{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (resource *BastionHostSubResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if resource == nil {
-		return nil, nil
-	}
-	result := &arm.BastionHostSubResource{}
-
-	// Set property "Id":
-	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *BastionHostSubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.BastionHostSubResource{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *BastionHostSubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(arm.BastionHostSubResource)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BastionHostSubResource, got %T", armInput)
-	}
-
-	// no assignment for property "Reference"
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_BastionHostSubResource populates our BastionHostSubResource from the provided source BastionHostSubResource
-func (resource *BastionHostSubResource) AssignProperties_From_BastionHostSubResource(source *storage.BastionHostSubResource) error {
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_BastionHostSubResource populates the provided destination BastionHostSubResource from our BastionHostSubResource
-func (resource *BastionHostSubResource) AssignProperties_To_BastionHostSubResource(destination *storage.BastionHostSubResource) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Reference
-	if resource.Reference != nil {
-		reference := resource.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Update the property bag

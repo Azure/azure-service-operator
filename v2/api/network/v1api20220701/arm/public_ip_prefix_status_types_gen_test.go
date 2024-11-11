@@ -219,9 +219,9 @@ func AddIndependentPropertyGeneratorsForPublicIPPrefixPropertiesFormat_STATUS(ge
 
 // AddRelatedPropertyGeneratorsForPublicIPPrefixPropertiesFormat_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPublicIPPrefixPropertiesFormat_STATUS(gens map[string]gopter.Gen) {
-	gens["CustomIPPrefix"] = gen.PtrOf(PublicIpPrefixSubResource_STATUSGenerator())
+	gens["CustomIPPrefix"] = gen.PtrOf(SubResource_STATUSGenerator())
 	gens["IpTags"] = gen.SliceOf(IpTag_STATUSGenerator())
-	gens["LoadBalancerFrontendIpConfiguration"] = gen.PtrOf(PublicIpPrefixSubResource_STATUSGenerator())
+	gens["LoadBalancerFrontendIpConfiguration"] = gen.PtrOf(SubResource_STATUSGenerator())
 	gens["NatGateway"] = gen.PtrOf(NatGateway_STATUS_PublicIPPrefix_SubResourceEmbeddedGenerator())
 	gens["PublicIPAddresses"] = gen.SliceOf(ReferencedPublicIpAddress_STATUSGenerator())
 }
@@ -371,67 +371,6 @@ func AddRelatedPropertyGeneratorsForPublicIPPrefix_STATUS(gens map[string]gopter
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
 	gens["Properties"] = gen.PtrOf(PublicIPPrefixPropertiesFormat_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(PublicIPPrefixSku_STATUSGenerator())
-}
-
-func Test_PublicIpPrefixSubResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PublicIpPrefixSubResource_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPublicIpPrefixSubResource_STATUS, PublicIpPrefixSubResource_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPublicIpPrefixSubResource_STATUS runs a test to see if a specific instance of PublicIpPrefixSubResource_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPublicIpPrefixSubResource_STATUS(subject PublicIpPrefixSubResource_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PublicIpPrefixSubResource_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PublicIpPrefixSubResource_STATUS instances for property testing - lazily instantiated by
-// PublicIpPrefixSubResource_STATUSGenerator()
-var publicIpPrefixSubResource_STATUSGenerator gopter.Gen
-
-// PublicIpPrefixSubResource_STATUSGenerator returns a generator of PublicIpPrefixSubResource_STATUS instances for property testing.
-func PublicIpPrefixSubResource_STATUSGenerator() gopter.Gen {
-	if publicIpPrefixSubResource_STATUSGenerator != nil {
-		return publicIpPrefixSubResource_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPublicIpPrefixSubResource_STATUS(generators)
-	publicIpPrefixSubResource_STATUSGenerator = gen.Struct(reflect.TypeOf(PublicIpPrefixSubResource_STATUS{}), generators)
-
-	return publicIpPrefixSubResource_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPublicIpPrefixSubResource_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPublicIpPrefixSubResource_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ReferencedPublicIpAddress_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

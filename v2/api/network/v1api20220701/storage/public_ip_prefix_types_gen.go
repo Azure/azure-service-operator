@@ -166,7 +166,7 @@ type PublicIPPrefix_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName        string                                             `json:"azureName,omitempty"`
-	CustomIPPrefix   *PublicIpPrefixSubResource                         `json:"customIPPrefix,omitempty"`
+	CustomIPPrefix   *SubResource                                       `json:"customIPPrefix,omitempty"`
 	ExtendedLocation *ExtendedLocation                                  `json:"extendedLocation,omitempty"`
 	IpTags           []IpTag                                            `json:"ipTags,omitempty"`
 	Location         *string                                            `json:"location,omitempty"`
@@ -211,13 +211,13 @@ func (prefix *PublicIPPrefix_Spec) ConvertSpecTo(destination genruntime.Converti
 // Public IP prefix resource.
 type PublicIPPrefix_STATUS struct {
 	Conditions                          []conditions.Condition                                `json:"conditions,omitempty"`
-	CustomIPPrefix                      *PublicIpPrefixSubResource_STATUS                     `json:"customIPPrefix,omitempty"`
+	CustomIPPrefix                      *SubResource_STATUS                                   `json:"customIPPrefix,omitempty"`
 	Etag                                *string                                               `json:"etag,omitempty"`
 	ExtendedLocation                    *ExtendedLocation_STATUS                              `json:"extendedLocation,omitempty"`
 	Id                                  *string                                               `json:"id,omitempty"`
 	IpPrefix                            *string                                               `json:"ipPrefix,omitempty"`
 	IpTags                              []IpTag_STATUS                                        `json:"ipTags,omitempty"`
-	LoadBalancerFrontendIpConfiguration *PublicIpPrefixSubResource_STATUS                     `json:"loadBalancerFrontendIpConfiguration,omitempty"`
+	LoadBalancerFrontendIpConfiguration *SubResource_STATUS                                   `json:"loadBalancerFrontendIpConfiguration,omitempty"`
 	Location                            *string                                               `json:"location,omitempty"`
 	Name                                *string                                               `json:"name,omitempty"`
 	NatGateway                          *NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded `json:"natGateway,omitempty"`
@@ -307,22 +307,6 @@ type PublicIPPrefixSku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
-}
-
-// Storage version of v1api20220701.PublicIpPrefixSubResource
-// Reference to another subresource.
-type PublicIpPrefixSubResource struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-// Storage version of v1api20220701.PublicIpPrefixSubResource_STATUS
-// Reference to another subresource.
-type PublicIpPrefixSubResource_STATUS struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20220701.ReferencedPublicIpAddress_STATUS

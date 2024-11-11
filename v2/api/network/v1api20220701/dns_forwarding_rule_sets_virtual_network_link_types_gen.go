@@ -390,7 +390,7 @@ type DnsForwardingRuleSetsVirtualNetworkLink_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.
-	VirtualNetwork *DnsresolverSubResource `json:"virtualNetwork,omitempty"`
+	VirtualNetwork *SubResource `json:"virtualNetwork,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DnsForwardingRuleSetsVirtualNetworkLink_Spec{}
@@ -420,7 +420,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) ConvertToARM(resolved 
 		if err != nil {
 			return nil, err
 		}
-		virtualNetwork := *virtualNetwork_ARM.(*arm.DnsresolverSubResource)
+		virtualNetwork := *virtualNetwork_ARM.(*arm.SubResource)
 		result.Properties.VirtualNetwork = &virtualNetwork
 	}
 	return result, nil
@@ -464,7 +464,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) PopulateFromARM(owner 
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetwork != nil {
-			var virtualNetwork1 DnsresolverSubResource
+			var virtualNetwork1 SubResource
 			err := virtualNetwork1.PopulateFromARM(owner, *typedInput.Properties.VirtualNetwork)
 			if err != nil {
 				return err
@@ -559,10 +559,10 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) AssignProperties_From_
 
 	// VirtualNetwork
 	if source.VirtualNetwork != nil {
-		var virtualNetwork DnsresolverSubResource
-		err := virtualNetwork.AssignProperties_From_DnsresolverSubResource(source.VirtualNetwork)
+		var virtualNetwork SubResource
+		err := virtualNetwork.AssignProperties_From_SubResource(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DnsresolverSubResource() to populate field VirtualNetwork")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualNetwork")
 		}
 		link.VirtualNetwork = &virtualNetwork
 	} else {
@@ -609,10 +609,10 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) AssignProperties_To_Dn
 
 	// VirtualNetwork
 	if link.VirtualNetwork != nil {
-		var virtualNetwork storage.DnsresolverSubResource
-		err := link.VirtualNetwork.AssignProperties_To_DnsresolverSubResource(&virtualNetwork)
+		var virtualNetwork storage.SubResource
+		err := link.VirtualNetwork.AssignProperties_To_SubResource(&virtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DnsresolverSubResource() to populate field VirtualNetwork")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualNetwork")
 		}
 		destination.VirtualNetwork = &virtualNetwork
 	} else {
@@ -638,10 +638,10 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) Initialize_From_DnsFor
 
 	// VirtualNetwork
 	if source.VirtualNetwork != nil {
-		var virtualNetwork DnsresolverSubResource
-		err := virtualNetwork.Initialize_From_DnsresolverSubResource_STATUS(source.VirtualNetwork)
+		var virtualNetwork SubResource
+		err := virtualNetwork.Initialize_From_SubResource_STATUS(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DnsresolverSubResource_STATUS() to populate field VirtualNetwork")
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		link.VirtualNetwork = &virtualNetwork
 	} else {
@@ -690,7 +690,7 @@ type DnsForwardingRuleSetsVirtualNetworkLink_STATUS struct {
 	Type *string `json:"type,omitempty"`
 
 	// VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.
-	VirtualNetwork *DnsresolverSubResource_STATUS `json:"virtualNetwork,omitempty"`
+	VirtualNetwork *SubResource_STATUS `json:"virtualNetwork,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DnsForwardingRuleSetsVirtualNetworkLink_STATUS{}
@@ -820,7 +820,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) PopulateFromARM(owne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetwork != nil {
-			var virtualNetwork1 DnsresolverSubResource_STATUS
+			var virtualNetwork1 SubResource_STATUS
 			err := virtualNetwork1.PopulateFromARM(owner, *typedInput.Properties.VirtualNetwork)
 			if err != nil {
 				return err
@@ -878,10 +878,10 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) AssignProperties_Fro
 
 	// VirtualNetwork
 	if source.VirtualNetwork != nil {
-		var virtualNetwork DnsresolverSubResource_STATUS
-		err := virtualNetwork.AssignProperties_From_DnsresolverSubResource_STATUS(source.VirtualNetwork)
+		var virtualNetwork SubResource_STATUS
+		err := virtualNetwork.AssignProperties_From_SubResource_STATUS(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DnsresolverSubResource_STATUS() to populate field VirtualNetwork")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		link.VirtualNetwork = &virtualNetwork
 	} else {
@@ -937,10 +937,10 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) AssignProperties_To_
 
 	// VirtualNetwork
 	if link.VirtualNetwork != nil {
-		var virtualNetwork storage.DnsresolverSubResource_STATUS
-		err := link.VirtualNetwork.AssignProperties_To_DnsresolverSubResource_STATUS(&virtualNetwork)
+		var virtualNetwork storage.SubResource_STATUS
+		err := link.VirtualNetwork.AssignProperties_To_SubResource_STATUS(&virtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DnsresolverSubResource_STATUS() to populate field VirtualNetwork")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		destination.VirtualNetwork = &virtualNetwork
 	} else {
@@ -1050,165 +1050,6 @@ func (operator *DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec) AssignPrope
 	} else {
 		destination.SecretExpressions = nil
 	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Reference to another ARM resource.
-type DnsresolverSubResource struct {
-	// +kubebuilder:validation:Required
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DnsresolverSubResource{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (resource *DnsresolverSubResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if resource == nil {
-		return nil, nil
-	}
-	result := &arm.DnsresolverSubResource{}
-
-	// Set property "Id":
-	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *DnsresolverSubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.DnsresolverSubResource{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *DnsresolverSubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(arm.DnsresolverSubResource)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsresolverSubResource, got %T", armInput)
-	}
-
-	// no assignment for property "Reference"
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_DnsresolverSubResource populates our DnsresolverSubResource from the provided source DnsresolverSubResource
-func (resource *DnsresolverSubResource) AssignProperties_From_DnsresolverSubResource(source *storage.DnsresolverSubResource) error {
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_DnsresolverSubResource populates the provided destination DnsresolverSubResource from our DnsresolverSubResource
-func (resource *DnsresolverSubResource) AssignProperties_To_DnsresolverSubResource(destination *storage.DnsresolverSubResource) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Reference
-	if resource.Reference != nil {
-		reference := resource.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DnsresolverSubResource_STATUS populates our DnsresolverSubResource from the provided source DnsresolverSubResource_STATUS
-func (resource *DnsresolverSubResource) Initialize_From_DnsresolverSubResource_STATUS(source *DnsresolverSubResource_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Reference to another ARM resource.
-type DnsresolverSubResource_STATUS struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &DnsresolverSubResource_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *DnsresolverSubResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.DnsresolverSubResource_STATUS{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *DnsresolverSubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.DnsresolverSubResource_STATUS)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsresolverSubResource_STATUS, got %T", armInput)
-	}
-
-	// Set property "Id":
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		resource.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_DnsresolverSubResource_STATUS populates our DnsresolverSubResource_STATUS from the provided source DnsresolverSubResource_STATUS
-func (resource *DnsresolverSubResource_STATUS) AssignProperties_From_DnsresolverSubResource_STATUS(source *storage.DnsresolverSubResource_STATUS) error {
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_DnsresolverSubResource_STATUS populates the provided destination DnsresolverSubResource_STATUS from our DnsresolverSubResource_STATUS
-func (resource *DnsresolverSubResource_STATUS) AssignProperties_To_DnsresolverSubResource_STATUS(destination *storage.DnsresolverSubResource_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

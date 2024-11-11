@@ -154,5 +154,5 @@ func OutboundEndpointPropertiesGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForOutboundEndpointProperties is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForOutboundEndpointProperties(gens map[string]gopter.Gen) {
-	gens["Subnet"] = gen.PtrOf(DnsresolverSubResourceGenerator())
+	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
 }

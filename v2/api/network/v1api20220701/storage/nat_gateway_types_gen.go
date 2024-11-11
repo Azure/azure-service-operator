@@ -177,8 +177,8 @@ type NatGateway_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner             *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicIpAddresses []ApplicationGatewaySubResource    `json:"publicIpAddresses,omitempty"`
-	PublicIpPrefixes  []ApplicationGatewaySubResource    `json:"publicIpPrefixes,omitempty"`
+	PublicIpAddresses []SubResource                      `json:"publicIpAddresses,omitempty"`
+	PublicIpPrefixes  []SubResource                      `json:"publicIpPrefixes,omitempty"`
 	Sku               *NatGatewaySku                     `json:"sku,omitempty"`
 	Tags              map[string]string                  `json:"tags,omitempty"`
 	Zones             []string                           `json:"zones,omitempty"`
@@ -207,22 +207,22 @@ func (gateway *NatGateway_Spec) ConvertSpecTo(destination genruntime.Convertible
 // Storage version of v1api20220701.NatGateway_STATUS
 // Nat Gateway resource.
 type NatGateway_STATUS struct {
-	Conditions           []conditions.Condition                 `json:"conditions,omitempty"`
-	Etag                 *string                                `json:"etag,omitempty"`
-	Id                   *string                                `json:"id,omitempty"`
-	IdleTimeoutInMinutes *int                                   `json:"idleTimeoutInMinutes,omitempty"`
-	Location             *string                                `json:"location,omitempty"`
-	Name                 *string                                `json:"name,omitempty"`
-	PropertyBag          genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
-	ProvisioningState    *string                                `json:"provisioningState,omitempty"`
-	PublicIpAddresses    []ApplicationGatewaySubResource_STATUS `json:"publicIpAddresses,omitempty"`
-	PublicIpPrefixes     []ApplicationGatewaySubResource_STATUS `json:"publicIpPrefixes,omitempty"`
-	ResourceGuid         *string                                `json:"resourceGuid,omitempty"`
-	Sku                  *NatGatewaySku_STATUS                  `json:"sku,omitempty"`
-	Subnets              []ApplicationGatewaySubResource_STATUS `json:"subnets,omitempty"`
-	Tags                 map[string]string                      `json:"tags,omitempty"`
-	Type                 *string                                `json:"type,omitempty"`
-	Zones                []string                               `json:"zones,omitempty"`
+	Conditions           []conditions.Condition `json:"conditions,omitempty"`
+	Etag                 *string                `json:"etag,omitempty"`
+	Id                   *string                `json:"id,omitempty"`
+	IdleTimeoutInMinutes *int                   `json:"idleTimeoutInMinutes,omitempty"`
+	Location             *string                `json:"location,omitempty"`
+	Name                 *string                `json:"name,omitempty"`
+	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProvisioningState    *string                `json:"provisioningState,omitempty"`
+	PublicIpAddresses    []SubResource_STATUS   `json:"publicIpAddresses,omitempty"`
+	PublicIpPrefixes     []SubResource_STATUS   `json:"publicIpPrefixes,omitempty"`
+	ResourceGuid         *string                `json:"resourceGuid,omitempty"`
+	Sku                  *NatGatewaySku_STATUS  `json:"sku,omitempty"`
+	Subnets              []SubResource_STATUS   `json:"subnets,omitempty"`
+	Tags                 map[string]string      `json:"tags,omitempty"`
+	Type                 *string                `json:"type,omitempty"`
+	Zones                []string               `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &NatGateway_STATUS{}

@@ -46,7 +46,7 @@ func (prefix *PublicIPPrefix_Spec) GetType() string {
 // Public IP prefix properties.
 type PublicIPPrefixPropertiesFormat struct {
 	// CustomIPPrefix: The customIpPrefix that this prefix is associated with.
-	CustomIPPrefix *PublicIpPrefixSubResource `json:"customIPPrefix,omitempty"`
+	CustomIPPrefix *SubResource `json:"customIPPrefix,omitempty"`
 
 	// IpTags: The list of tags associated with the public IP prefix.
 	IpTags []IpTag `json:"ipTags,omitempty"`
@@ -121,9 +121,4 @@ const (
 var publicIPPrefixSku_Tier_Values = map[string]PublicIPPrefixSku_Tier{
 	"global":   PublicIPPrefixSku_Tier_Global,
 	"regional": PublicIPPrefixSku_Tier_Regional,
-}
-
-// Reference to another subresource.
-type PublicIpPrefixSubResource struct {
-	Id *string `json:"id,omitempty"`
 }

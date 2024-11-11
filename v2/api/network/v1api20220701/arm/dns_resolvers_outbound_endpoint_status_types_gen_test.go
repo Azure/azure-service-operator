@@ -179,5 +179,5 @@ func AddIndependentPropertyGeneratorsForOutboundEndpointProperties_STATUS(gens m
 
 // AddRelatedPropertyGeneratorsForOutboundEndpointProperties_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForOutboundEndpointProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Subnet"] = gen.PtrOf(DnsresolverSubResource_STATUSGenerator())
+	gens["Subnet"] = gen.PtrOf(SubResource_STATUSGenerator())
 }

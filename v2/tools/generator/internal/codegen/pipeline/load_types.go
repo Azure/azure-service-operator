@@ -406,6 +406,20 @@ func mergeTypesForPackage(
 	typeNameCounts := make(map[astmodel.InternalTypeName]int)
 	for _, typesFromFile := range typesFromFiles {
 		for name := range typesFromFile.OtherDefinitions {
+			// TODO: This is very hacky
+			if strings.Contains(name.String(), "network/v1api20220701/SubResource") {
+				def := typesFromFile.OtherDefinitions[name]
+				ot, ok := def.Type().(*astmodel.ObjectType)
+				if ok {
+					prop, foundProp := ot.Property("Id")
+					if foundProp {
+						ot = ot.WithProperty(prop.MakeOptional())
+						def = def.WithType(ot)
+					}
+				}
+				typesFromFile.OtherDefinitions[name] = def
+			}
+
 			typeNameCounts[name] += 1
 		}
 	}

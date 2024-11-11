@@ -411,7 +411,7 @@ type ApplicationGateway_Spec struct {
 	EnableHttp2 *bool `json:"enableHttp2,omitempty"`
 
 	// FirewallPolicy: Reference to the FirewallPolicy resource.
-	FirewallPolicy *ApplicationGatewaySubResource `json:"firewallPolicy,omitempty"`
+	FirewallPolicy *SubResource `json:"firewallPolicy,omitempty"`
 
 	// ForceFirewallPolicyAssociation: If true, associates a firewall policy with an application gateway regardless whether the
 	// policy differs from the WAF Config.
@@ -636,7 +636,7 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		firewallPolicy := *firewallPolicy_ARM.(*arm.ApplicationGatewaySubResource)
+		firewallPolicy := *firewallPolicy_ARM.(*arm.SubResource)
 		result.Properties.FirewallPolicy = &firewallPolicy
 	}
 	if gateway.ForceFirewallPolicyAssociation != nil {
@@ -926,7 +926,7 @@ func (gateway *ApplicationGateway_Spec) PopulateFromARM(owner genruntime.Arbitra
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FirewallPolicy != nil {
-			var firewallPolicy1 ApplicationGatewaySubResource
+			var firewallPolicy1 SubResource
 			err := firewallPolicy1.PopulateFromARM(owner, *typedInput.Properties.FirewallPolicy)
 			if err != nil {
 				return err
@@ -1440,10 +1440,10 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 
 	// FirewallPolicy
 	if source.FirewallPolicy != nil {
-		var firewallPolicy ApplicationGatewaySubResource
-		err := firewallPolicy.AssignProperties_From_ApplicationGatewaySubResource(source.FirewallPolicy)
+		var firewallPolicy SubResource
+		err := firewallPolicy.AssignProperties_From_SubResource(source.FirewallPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field FirewallPolicy")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FirewallPolicy")
 		}
 		gateway.FirewallPolicy = &firewallPolicy
 	} else {
@@ -1985,10 +1985,10 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 
 	// FirewallPolicy
 	if gateway.FirewallPolicy != nil {
-		var firewallPolicy storage.ApplicationGatewaySubResource
-		err := gateway.FirewallPolicy.AssignProperties_To_ApplicationGatewaySubResource(&firewallPolicy)
+		var firewallPolicy storage.SubResource
+		err := gateway.FirewallPolicy.AssignProperties_To_SubResource(&firewallPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field FirewallPolicy")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FirewallPolicy")
 		}
 		destination.FirewallPolicy = &firewallPolicy
 	} else {
@@ -2535,10 +2535,10 @@ func (gateway *ApplicationGateway_Spec) Initialize_From_ApplicationGateway_STATU
 
 	// FirewallPolicy
 	if source.FirewallPolicy != nil {
-		var firewallPolicy ApplicationGatewaySubResource
-		err := firewallPolicy.Initialize_From_ApplicationGatewaySubResource_STATUS(source.FirewallPolicy)
+		var firewallPolicy SubResource
+		err := firewallPolicy.Initialize_From_SubResource_STATUS(source.FirewallPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ApplicationGatewaySubResource_STATUS() to populate field FirewallPolicy")
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field FirewallPolicy")
 		}
 		gateway.FirewallPolicy = &firewallPolicy
 	} else {
@@ -2979,7 +2979,7 @@ type ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded struct {
 	Etag *string `json:"etag,omitempty"`
 
 	// FirewallPolicy: Reference to the FirewallPolicy resource.
-	FirewallPolicy *ApplicationGatewaySubResource_STATUS `json:"firewallPolicy,omitempty"`
+	FirewallPolicy *SubResource_STATUS `json:"firewallPolicy,omitempty"`
 
 	// ForceFirewallPolicyAssociation: If true, associates a firewall policy with an application gateway regardless whether the
 	// policy differs from the WAF Config.
@@ -3270,7 +3270,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FirewallPolicy != nil {
-			var firewallPolicy1 ApplicationGatewaySubResource_STATUS
+			var firewallPolicy1 SubResource_STATUS
 			err := firewallPolicy1.PopulateFromARM(owner, *typedInput.Properties.FirewallPolicy)
 			if err != nil {
 				return err
@@ -3791,10 +3791,10 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 
 	// FirewallPolicy
 	if source.FirewallPolicy != nil {
-		var firewallPolicy ApplicationGatewaySubResource_STATUS
-		err := firewallPolicy.AssignProperties_From_ApplicationGatewaySubResource_STATUS(source.FirewallPolicy)
+		var firewallPolicy SubResource_STATUS
+		err := firewallPolicy.AssignProperties_From_SubResource_STATUS(source.FirewallPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource_STATUS() to populate field FirewallPolicy")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field FirewallPolicy")
 		}
 		embedded.FirewallPolicy = &firewallPolicy
 	} else {
@@ -4367,10 +4367,10 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 
 	// FirewallPolicy
 	if embedded.FirewallPolicy != nil {
-		var firewallPolicy storage.ApplicationGatewaySubResource_STATUS
-		err := embedded.FirewallPolicy.AssignProperties_To_ApplicationGatewaySubResource_STATUS(&firewallPolicy)
+		var firewallPolicy storage.SubResource_STATUS
+		err := embedded.FirewallPolicy.AssignProperties_To_SubResource_STATUS(&firewallPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource_STATUS() to populate field FirewallPolicy")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field FirewallPolicy")
 		}
 		destination.FirewallPolicy = &firewallPolicy
 	} else {
@@ -5416,7 +5416,7 @@ type ApplicationGatewayBackendHttpSettings struct {
 	AffinityCookieName *string `json:"affinityCookieName,omitempty"`
 
 	// AuthenticationCertificates: Array of references to application gateway authentication certificates.
-	AuthenticationCertificates []ApplicationGatewaySubResource `json:"authenticationCertificates,omitempty"`
+	AuthenticationCertificates []SubResource `json:"authenticationCertificates,omitempty"`
 
 	// ConnectionDraining: Connection draining of the backend http settings resource.
 	ConnectionDraining *ApplicationGatewayConnectionDraining `json:"connectionDraining,omitempty"`
@@ -5442,7 +5442,7 @@ type ApplicationGatewayBackendHttpSettings struct {
 	Port *int `json:"port,omitempty"`
 
 	// Probe: Probe resource of an application gateway.
-	Probe *ApplicationGatewaySubResource `json:"probe,omitempty"`
+	Probe *SubResource `json:"probe,omitempty"`
 
 	// ProbeEnabled: Whether the probe is enabled. Default value is false.
 	ProbeEnabled *bool `json:"probeEnabled,omitempty"`
@@ -5455,7 +5455,7 @@ type ApplicationGatewayBackendHttpSettings struct {
 	RequestTimeout *int `json:"requestTimeout,omitempty"`
 
 	// TrustedRootCertificates: Array of references to application gateway trusted root certificates.
-	TrustedRootCertificates []ApplicationGatewaySubResource `json:"trustedRootCertificates,omitempty"`
+	TrustedRootCertificates []SubResource `json:"trustedRootCertificates,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ApplicationGatewayBackendHttpSettings{}
@@ -5498,7 +5498,7 @@ func (settings *ApplicationGatewayBackendHttpSettings) ConvertToARM(resolved gen
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.AuthenticationCertificates = append(result.Properties.AuthenticationCertificates, *item_ARM.(*arm.ApplicationGatewaySubResource))
+		result.Properties.AuthenticationCertificates = append(result.Properties.AuthenticationCertificates, *item_ARM.(*arm.SubResource))
 	}
 	if settings.ConnectionDraining != nil {
 		connectionDraining_ARM, err := (*settings.ConnectionDraining).ConvertToARM(resolved)
@@ -5535,7 +5535,7 @@ func (settings *ApplicationGatewayBackendHttpSettings) ConvertToARM(resolved gen
 		if err != nil {
 			return nil, err
 		}
-		probe := *probe_ARM.(*arm.ApplicationGatewaySubResource)
+		probe := *probe_ARM.(*arm.SubResource)
 		result.Properties.Probe = &probe
 	}
 	if settings.ProbeEnabled != nil {
@@ -5557,7 +5557,7 @@ func (settings *ApplicationGatewayBackendHttpSettings) ConvertToARM(resolved gen
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.TrustedRootCertificates = append(result.Properties.TrustedRootCertificates, *item_ARM.(*arm.ApplicationGatewaySubResource))
+		result.Properties.TrustedRootCertificates = append(result.Properties.TrustedRootCertificates, *item_ARM.(*arm.SubResource))
 	}
 	return result, nil
 }
@@ -5587,7 +5587,7 @@ func (settings *ApplicationGatewayBackendHttpSettings) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AuthenticationCertificates {
-			var item1 ApplicationGatewaySubResource
+			var item1 SubResource
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -5667,7 +5667,7 @@ func (settings *ApplicationGatewayBackendHttpSettings) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Probe != nil {
-			var probe1 ApplicationGatewaySubResource
+			var probe1 SubResource
 			err := probe1.PopulateFromARM(owner, *typedInput.Properties.Probe)
 			if err != nil {
 				return err
@@ -5710,7 +5710,7 @@ func (settings *ApplicationGatewayBackendHttpSettings) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.TrustedRootCertificates {
-			var item1 ApplicationGatewaySubResource
+			var item1 SubResource
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -5731,14 +5731,14 @@ func (settings *ApplicationGatewayBackendHttpSettings) AssignProperties_From_App
 
 	// AuthenticationCertificates
 	if source.AuthenticationCertificates != nil {
-		authenticationCertificateList := make([]ApplicationGatewaySubResource, len(source.AuthenticationCertificates))
+		authenticationCertificateList := make([]SubResource, len(source.AuthenticationCertificates))
 		for authenticationCertificateIndex, authenticationCertificateItem := range source.AuthenticationCertificates {
 			// Shadow the loop variable to avoid aliasing
 			authenticationCertificateItem := authenticationCertificateItem
-			var authenticationCertificate ApplicationGatewaySubResource
-			err := authenticationCertificate.AssignProperties_From_ApplicationGatewaySubResource(&authenticationCertificateItem)
+			var authenticationCertificate SubResource
+			err := authenticationCertificate.AssignProperties_From_SubResource(&authenticationCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field AuthenticationCertificates")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field AuthenticationCertificates")
 			}
 			authenticationCertificateList[authenticationCertificateIndex] = authenticationCertificate
 		}
@@ -5790,10 +5790,10 @@ func (settings *ApplicationGatewayBackendHttpSettings) AssignProperties_From_App
 
 	// Probe
 	if source.Probe != nil {
-		var probe ApplicationGatewaySubResource
-		err := probe.AssignProperties_From_ApplicationGatewaySubResource(source.Probe)
+		var probe SubResource
+		err := probe.AssignProperties_From_SubResource(source.Probe)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field Probe")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Probe")
 		}
 		settings.Probe = &probe
 	} else {
@@ -5822,14 +5822,14 @@ func (settings *ApplicationGatewayBackendHttpSettings) AssignProperties_From_App
 
 	// TrustedRootCertificates
 	if source.TrustedRootCertificates != nil {
-		trustedRootCertificateList := make([]ApplicationGatewaySubResource, len(source.TrustedRootCertificates))
+		trustedRootCertificateList := make([]SubResource, len(source.TrustedRootCertificates))
 		for trustedRootCertificateIndex, trustedRootCertificateItem := range source.TrustedRootCertificates {
 			// Shadow the loop variable to avoid aliasing
 			trustedRootCertificateItem := trustedRootCertificateItem
-			var trustedRootCertificate ApplicationGatewaySubResource
-			err := trustedRootCertificate.AssignProperties_From_ApplicationGatewaySubResource(&trustedRootCertificateItem)
+			var trustedRootCertificate SubResource
+			err := trustedRootCertificate.AssignProperties_From_SubResource(&trustedRootCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field TrustedRootCertificates")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field TrustedRootCertificates")
 			}
 			trustedRootCertificateList[trustedRootCertificateIndex] = trustedRootCertificate
 		}
@@ -5852,14 +5852,14 @@ func (settings *ApplicationGatewayBackendHttpSettings) AssignProperties_To_Appli
 
 	// AuthenticationCertificates
 	if settings.AuthenticationCertificates != nil {
-		authenticationCertificateList := make([]storage.ApplicationGatewaySubResource, len(settings.AuthenticationCertificates))
+		authenticationCertificateList := make([]storage.SubResource, len(settings.AuthenticationCertificates))
 		for authenticationCertificateIndex, authenticationCertificateItem := range settings.AuthenticationCertificates {
 			// Shadow the loop variable to avoid aliasing
 			authenticationCertificateItem := authenticationCertificateItem
-			var authenticationCertificate storage.ApplicationGatewaySubResource
-			err := authenticationCertificateItem.AssignProperties_To_ApplicationGatewaySubResource(&authenticationCertificate)
+			var authenticationCertificate storage.SubResource
+			err := authenticationCertificateItem.AssignProperties_To_SubResource(&authenticationCertificate)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field AuthenticationCertificates")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field AuthenticationCertificates")
 			}
 			authenticationCertificateList[authenticationCertificateIndex] = authenticationCertificate
 		}
@@ -5910,10 +5910,10 @@ func (settings *ApplicationGatewayBackendHttpSettings) AssignProperties_To_Appli
 
 	// Probe
 	if settings.Probe != nil {
-		var probe storage.ApplicationGatewaySubResource
-		err := settings.Probe.AssignProperties_To_ApplicationGatewaySubResource(&probe)
+		var probe storage.SubResource
+		err := settings.Probe.AssignProperties_To_SubResource(&probe)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field Probe")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Probe")
 		}
 		destination.Probe = &probe
 	} else {
@@ -5941,14 +5941,14 @@ func (settings *ApplicationGatewayBackendHttpSettings) AssignProperties_To_Appli
 
 	// TrustedRootCertificates
 	if settings.TrustedRootCertificates != nil {
-		trustedRootCertificateList := make([]storage.ApplicationGatewaySubResource, len(settings.TrustedRootCertificates))
+		trustedRootCertificateList := make([]storage.SubResource, len(settings.TrustedRootCertificates))
 		for trustedRootCertificateIndex, trustedRootCertificateItem := range settings.TrustedRootCertificates {
 			// Shadow the loop variable to avoid aliasing
 			trustedRootCertificateItem := trustedRootCertificateItem
-			var trustedRootCertificate storage.ApplicationGatewaySubResource
-			err := trustedRootCertificateItem.AssignProperties_To_ApplicationGatewaySubResource(&trustedRootCertificate)
+			var trustedRootCertificate storage.SubResource
+			err := trustedRootCertificateItem.AssignProperties_To_SubResource(&trustedRootCertificate)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field TrustedRootCertificates")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field TrustedRootCertificates")
 			}
 			trustedRootCertificateList[trustedRootCertificateIndex] = trustedRootCertificate
 		}
@@ -6050,7 +6050,7 @@ type ApplicationGatewayBackendSettings struct {
 	Port *int `json:"port,omitempty"`
 
 	// Probe: Probe resource of an application gateway.
-	Probe *ApplicationGatewaySubResource `json:"probe,omitempty"`
+	Probe *SubResource `json:"probe,omitempty"`
 
 	// Protocol: The protocol used to communicate with the backend.
 	Protocol *ApplicationGatewayProtocol `json:"protocol,omitempty"`
@@ -6060,7 +6060,7 @@ type ApplicationGatewayBackendSettings struct {
 	Timeout *int `json:"timeout,omitempty"`
 
 	// TrustedRootCertificates: Array of references to application gateway trusted root certificates.
-	TrustedRootCertificates []ApplicationGatewaySubResource `json:"trustedRootCertificates,omitempty"`
+	TrustedRootCertificates []SubResource `json:"trustedRootCertificates,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ApplicationGatewayBackendSettings{}
@@ -6105,7 +6105,7 @@ func (settings *ApplicationGatewayBackendSettings) ConvertToARM(resolved genrunt
 		if err != nil {
 			return nil, err
 		}
-		probe := *probe_ARM.(*arm.ApplicationGatewaySubResource)
+		probe := *probe_ARM.(*arm.SubResource)
 		result.Properties.Probe = &probe
 	}
 	if settings.Protocol != nil {
@@ -6123,7 +6123,7 @@ func (settings *ApplicationGatewayBackendSettings) ConvertToARM(resolved genrunt
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.TrustedRootCertificates = append(result.Properties.TrustedRootCertificates, *item_ARM.(*arm.ApplicationGatewaySubResource))
+		result.Properties.TrustedRootCertificates = append(result.Properties.TrustedRootCertificates, *item_ARM.(*arm.SubResource))
 	}
 	return result, nil
 }
@@ -6177,7 +6177,7 @@ func (settings *ApplicationGatewayBackendSettings) PopulateFromARM(owner genrunt
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Probe != nil {
-			var probe1 ApplicationGatewaySubResource
+			var probe1 SubResource
 			err := probe1.PopulateFromARM(owner, *typedInput.Properties.Probe)
 			if err != nil {
 				return err
@@ -6211,7 +6211,7 @@ func (settings *ApplicationGatewayBackendSettings) PopulateFromARM(owner genrunt
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.TrustedRootCertificates {
-			var item1 ApplicationGatewaySubResource
+			var item1 SubResource
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -6246,10 +6246,10 @@ func (settings *ApplicationGatewayBackendSettings) AssignProperties_From_Applica
 
 	// Probe
 	if source.Probe != nil {
-		var probe ApplicationGatewaySubResource
-		err := probe.AssignProperties_From_ApplicationGatewaySubResource(source.Probe)
+		var probe SubResource
+		err := probe.AssignProperties_From_SubResource(source.Probe)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field Probe")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Probe")
 		}
 		settings.Probe = &probe
 	} else {
@@ -6270,14 +6270,14 @@ func (settings *ApplicationGatewayBackendSettings) AssignProperties_From_Applica
 
 	// TrustedRootCertificates
 	if source.TrustedRootCertificates != nil {
-		trustedRootCertificateList := make([]ApplicationGatewaySubResource, len(source.TrustedRootCertificates))
+		trustedRootCertificateList := make([]SubResource, len(source.TrustedRootCertificates))
 		for trustedRootCertificateIndex, trustedRootCertificateItem := range source.TrustedRootCertificates {
 			// Shadow the loop variable to avoid aliasing
 			trustedRootCertificateItem := trustedRootCertificateItem
-			var trustedRootCertificate ApplicationGatewaySubResource
-			err := trustedRootCertificate.AssignProperties_From_ApplicationGatewaySubResource(&trustedRootCertificateItem)
+			var trustedRootCertificate SubResource
+			err := trustedRootCertificate.AssignProperties_From_SubResource(&trustedRootCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field TrustedRootCertificates")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field TrustedRootCertificates")
 			}
 			trustedRootCertificateList[trustedRootCertificateIndex] = trustedRootCertificate
 		}
@@ -6314,10 +6314,10 @@ func (settings *ApplicationGatewayBackendSettings) AssignProperties_To_Applicati
 
 	// Probe
 	if settings.Probe != nil {
-		var probe storage.ApplicationGatewaySubResource
-		err := settings.Probe.AssignProperties_To_ApplicationGatewaySubResource(&probe)
+		var probe storage.SubResource
+		err := settings.Probe.AssignProperties_To_SubResource(&probe)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field Probe")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Probe")
 		}
 		destination.Probe = &probe
 	} else {
@@ -6337,14 +6337,14 @@ func (settings *ApplicationGatewayBackendSettings) AssignProperties_To_Applicati
 
 	// TrustedRootCertificates
 	if settings.TrustedRootCertificates != nil {
-		trustedRootCertificateList := make([]storage.ApplicationGatewaySubResource, len(settings.TrustedRootCertificates))
+		trustedRootCertificateList := make([]storage.SubResource, len(settings.TrustedRootCertificates))
 		for trustedRootCertificateIndex, trustedRootCertificateItem := range settings.TrustedRootCertificates {
 			// Shadow the loop variable to avoid aliasing
 			trustedRootCertificateItem := trustedRootCertificateItem
-			var trustedRootCertificate storage.ApplicationGatewaySubResource
-			err := trustedRootCertificateItem.AssignProperties_To_ApplicationGatewaySubResource(&trustedRootCertificate)
+			var trustedRootCertificate storage.SubResource
+			err := trustedRootCertificateItem.AssignProperties_To_SubResource(&trustedRootCertificate)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field TrustedRootCertificates")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field TrustedRootCertificates")
 			}
 			trustedRootCertificateList[trustedRootCertificateIndex] = trustedRootCertificate
 		}
@@ -6657,13 +6657,13 @@ type ApplicationGatewayFrontendIPConfiguration struct {
 	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
 
 	// PrivateLinkConfiguration: Reference to the application gateway private link configuration.
-	PrivateLinkConfiguration *ApplicationGatewaySubResource `json:"privateLinkConfiguration,omitempty"`
+	PrivateLinkConfiguration *SubResource `json:"privateLinkConfiguration,omitempty"`
 
 	// PublicIPAddress: Reference to the PublicIP resource.
-	PublicIPAddress *ApplicationGatewaySubResource `json:"publicIPAddress,omitempty"`
+	PublicIPAddress *SubResource `json:"publicIPAddress,omitempty"`
 
 	// Subnet: Reference to the subnet resource.
-	Subnet *ApplicationGatewaySubResource `json:"subnet,omitempty"`
+	Subnet *SubResource `json:"subnet,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ApplicationGatewayFrontendIPConfiguration{}
@@ -6704,7 +6704,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) ConvertToARM(res
 		if err != nil {
 			return nil, err
 		}
-		privateLinkConfiguration := *privateLinkConfiguration_ARM.(*arm.ApplicationGatewaySubResource)
+		privateLinkConfiguration := *privateLinkConfiguration_ARM.(*arm.SubResource)
 		result.Properties.PrivateLinkConfiguration = &privateLinkConfiguration
 	}
 	if configuration.PublicIPAddress != nil {
@@ -6712,7 +6712,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) ConvertToARM(res
 		if err != nil {
 			return nil, err
 		}
-		publicIPAddress := *publicIPAddress_ARM.(*arm.ApplicationGatewaySubResource)
+		publicIPAddress := *publicIPAddress_ARM.(*arm.SubResource)
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if configuration.Subnet != nil {
@@ -6720,7 +6720,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) ConvertToARM(res
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnet_ARM.(*arm.ApplicationGatewaySubResource)
+		subnet := *subnet_ARM.(*arm.SubResource)
 		result.Properties.Subnet = &subnet
 	}
 	return result, nil
@@ -6768,7 +6768,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) PopulateFromARM(
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkConfiguration != nil {
-			var privateLinkConfiguration1 ApplicationGatewaySubResource
+			var privateLinkConfiguration1 SubResource
 			err := privateLinkConfiguration1.PopulateFromARM(owner, *typedInput.Properties.PrivateLinkConfiguration)
 			if err != nil {
 				return err
@@ -6782,7 +6782,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) PopulateFromARM(
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddress != nil {
-			var publicIPAddress1 ApplicationGatewaySubResource
+			var publicIPAddress1 SubResource
 			err := publicIPAddress1.PopulateFromARM(owner, *typedInput.Properties.PublicIPAddress)
 			if err != nil {
 				return err
@@ -6796,7 +6796,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) PopulateFromARM(
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
-			var subnet1 ApplicationGatewaySubResource
+			var subnet1 SubResource
 			err := subnet1.PopulateFromARM(owner, *typedInput.Properties.Subnet)
 			if err != nil {
 				return err
@@ -6830,10 +6830,10 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) AssignProperties
 
 	// PrivateLinkConfiguration
 	if source.PrivateLinkConfiguration != nil {
-		var privateLinkConfiguration ApplicationGatewaySubResource
-		err := privateLinkConfiguration.AssignProperties_From_ApplicationGatewaySubResource(source.PrivateLinkConfiguration)
+		var privateLinkConfiguration SubResource
+		err := privateLinkConfiguration.AssignProperties_From_SubResource(source.PrivateLinkConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field PrivateLinkConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PrivateLinkConfiguration")
 		}
 		configuration.PrivateLinkConfiguration = &privateLinkConfiguration
 	} else {
@@ -6842,10 +6842,10 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) AssignProperties
 
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
-		var publicIPAddress ApplicationGatewaySubResource
-		err := publicIPAddress.AssignProperties_From_ApplicationGatewaySubResource(source.PublicIPAddress)
+		var publicIPAddress SubResource
+		err := publicIPAddress.AssignProperties_From_SubResource(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIPAddress")
 		}
 		configuration.PublicIPAddress = &publicIPAddress
 	} else {
@@ -6854,10 +6854,10 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) AssignProperties
 
 	// Subnet
 	if source.Subnet != nil {
-		var subnet ApplicationGatewaySubResource
-		err := subnet.AssignProperties_From_ApplicationGatewaySubResource(source.Subnet)
+		var subnet SubResource
+		err := subnet.AssignProperties_From_SubResource(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
 		}
 		configuration.Subnet = &subnet
 	} else {
@@ -6889,10 +6889,10 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) AssignProperties
 
 	// PrivateLinkConfiguration
 	if configuration.PrivateLinkConfiguration != nil {
-		var privateLinkConfiguration storage.ApplicationGatewaySubResource
-		err := configuration.PrivateLinkConfiguration.AssignProperties_To_ApplicationGatewaySubResource(&privateLinkConfiguration)
+		var privateLinkConfiguration storage.SubResource
+		err := configuration.PrivateLinkConfiguration.AssignProperties_To_SubResource(&privateLinkConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field PrivateLinkConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PrivateLinkConfiguration")
 		}
 		destination.PrivateLinkConfiguration = &privateLinkConfiguration
 	} else {
@@ -6901,10 +6901,10 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) AssignProperties
 
 	// PublicIPAddress
 	if configuration.PublicIPAddress != nil {
-		var publicIPAddress storage.ApplicationGatewaySubResource
-		err := configuration.PublicIPAddress.AssignProperties_To_ApplicationGatewaySubResource(&publicIPAddress)
+		var publicIPAddress storage.SubResource
+		err := configuration.PublicIPAddress.AssignProperties_To_SubResource(&publicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIPAddress")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -6913,10 +6913,10 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) AssignProperties
 
 	// Subnet
 	if configuration.Subnet != nil {
-		var subnet storage.ApplicationGatewaySubResource
-		err := configuration.Subnet.AssignProperties_To_ApplicationGatewaySubResource(&subnet)
+		var subnet storage.SubResource
+		err := configuration.Subnet.AssignProperties_To_SubResource(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -7405,13 +7405,13 @@ type ApplicationGatewayHttpListener struct {
 	CustomErrorConfigurations []ApplicationGatewayCustomError `json:"customErrorConfigurations,omitempty"`
 
 	// FirewallPolicy: Reference to the FirewallPolicy resource.
-	FirewallPolicy *ApplicationGatewaySubResource `json:"firewallPolicy,omitempty"`
+	FirewallPolicy *SubResource `json:"firewallPolicy,omitempty"`
 
 	// FrontendIPConfiguration: Frontend IP configuration resource of an application gateway.
-	FrontendIPConfiguration *ApplicationGatewaySubResource `json:"frontendIPConfiguration,omitempty"`
+	FrontendIPConfiguration *SubResource `json:"frontendIPConfiguration,omitempty"`
 
 	// FrontendPort: Frontend port resource of an application gateway.
-	FrontendPort *ApplicationGatewaySubResource `json:"frontendPort,omitempty"`
+	FrontendPort *SubResource `json:"frontendPort,omitempty"`
 
 	// HostName: Host name of HTTP listener.
 	HostName *string `json:"hostName,omitempty"`
@@ -7429,10 +7429,10 @@ type ApplicationGatewayHttpListener struct {
 	RequireServerNameIndication *bool `json:"requireServerNameIndication,omitempty"`
 
 	// SslCertificate: SSL certificate resource of an application gateway.
-	SslCertificate *ApplicationGatewaySubResource `json:"sslCertificate,omitempty"`
+	SslCertificate *SubResource `json:"sslCertificate,omitempty"`
 
 	// SslProfile: SSL profile resource of the application gateway.
-	SslProfile *ApplicationGatewaySubResource `json:"sslProfile,omitempty"`
+	SslProfile *SubResource `json:"sslProfile,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ApplicationGatewayHttpListener{}
@@ -7475,7 +7475,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		firewallPolicy := *firewallPolicy_ARM.(*arm.ApplicationGatewaySubResource)
+		firewallPolicy := *firewallPolicy_ARM.(*arm.SubResource)
 		result.Properties.FirewallPolicy = &firewallPolicy
 	}
 	if listener.FrontendIPConfiguration != nil {
@@ -7483,7 +7483,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*arm.ApplicationGatewaySubResource)
+		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*arm.SubResource)
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if listener.FrontendPort != nil {
@@ -7491,7 +7491,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		frontendPort := *frontendPort_ARM.(*arm.ApplicationGatewaySubResource)
+		frontendPort := *frontendPort_ARM.(*arm.SubResource)
 		result.Properties.FrontendPort = &frontendPort
 	}
 	if listener.HostName != nil {
@@ -7516,7 +7516,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		sslCertificate := *sslCertificate_ARM.(*arm.ApplicationGatewaySubResource)
+		sslCertificate := *sslCertificate_ARM.(*arm.SubResource)
 		result.Properties.SslCertificate = &sslCertificate
 	}
 	if listener.SslProfile != nil {
@@ -7524,7 +7524,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		sslProfile := *sslProfile_ARM.(*arm.ApplicationGatewaySubResource)
+		sslProfile := *sslProfile_ARM.(*arm.SubResource)
 		result.Properties.SslProfile = &sslProfile
 	}
 	return result, nil
@@ -7559,7 +7559,7 @@ func (listener *ApplicationGatewayHttpListener) PopulateFromARM(owner genruntime
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FirewallPolicy != nil {
-			var firewallPolicy1 ApplicationGatewaySubResource
+			var firewallPolicy1 SubResource
 			err := firewallPolicy1.PopulateFromARM(owner, *typedInput.Properties.FirewallPolicy)
 			if err != nil {
 				return err
@@ -7573,7 +7573,7 @@ func (listener *ApplicationGatewayHttpListener) PopulateFromARM(owner genruntime
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendIPConfiguration != nil {
-			var frontendIPConfiguration1 ApplicationGatewaySubResource
+			var frontendIPConfiguration1 SubResource
 			err := frontendIPConfiguration1.PopulateFromARM(owner, *typedInput.Properties.FrontendIPConfiguration)
 			if err != nil {
 				return err
@@ -7587,7 +7587,7 @@ func (listener *ApplicationGatewayHttpListener) PopulateFromARM(owner genruntime
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendPort != nil {
-			var frontendPort1 ApplicationGatewaySubResource
+			var frontendPort1 SubResource
 			err := frontendPort1.PopulateFromARM(owner, *typedInput.Properties.FrontendPort)
 			if err != nil {
 				return err
@@ -7644,7 +7644,7 @@ func (listener *ApplicationGatewayHttpListener) PopulateFromARM(owner genruntime
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SslCertificate != nil {
-			var sslCertificate1 ApplicationGatewaySubResource
+			var sslCertificate1 SubResource
 			err := sslCertificate1.PopulateFromARM(owner, *typedInput.Properties.SslCertificate)
 			if err != nil {
 				return err
@@ -7658,7 +7658,7 @@ func (listener *ApplicationGatewayHttpListener) PopulateFromARM(owner genruntime
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SslProfile != nil {
-			var sslProfile1 ApplicationGatewaySubResource
+			var sslProfile1 SubResource
 			err := sslProfile1.PopulateFromARM(owner, *typedInput.Properties.SslProfile)
 			if err != nil {
 				return err
@@ -7695,10 +7695,10 @@ func (listener *ApplicationGatewayHttpListener) AssignProperties_From_Applicatio
 
 	// FirewallPolicy
 	if source.FirewallPolicy != nil {
-		var firewallPolicy ApplicationGatewaySubResource
-		err := firewallPolicy.AssignProperties_From_ApplicationGatewaySubResource(source.FirewallPolicy)
+		var firewallPolicy SubResource
+		err := firewallPolicy.AssignProperties_From_SubResource(source.FirewallPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field FirewallPolicy")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FirewallPolicy")
 		}
 		listener.FirewallPolicy = &firewallPolicy
 	} else {
@@ -7707,10 +7707,10 @@ func (listener *ApplicationGatewayHttpListener) AssignProperties_From_Applicatio
 
 	// FrontendIPConfiguration
 	if source.FrontendIPConfiguration != nil {
-		var frontendIPConfiguration ApplicationGatewaySubResource
-		err := frontendIPConfiguration.AssignProperties_From_ApplicationGatewaySubResource(source.FrontendIPConfiguration)
+		var frontendIPConfiguration SubResource
+		err := frontendIPConfiguration.AssignProperties_From_SubResource(source.FrontendIPConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field FrontendIPConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FrontendIPConfiguration")
 		}
 		listener.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -7719,10 +7719,10 @@ func (listener *ApplicationGatewayHttpListener) AssignProperties_From_Applicatio
 
 	// FrontendPort
 	if source.FrontendPort != nil {
-		var frontendPort ApplicationGatewaySubResource
-		err := frontendPort.AssignProperties_From_ApplicationGatewaySubResource(source.FrontendPort)
+		var frontendPort SubResource
+		err := frontendPort.AssignProperties_From_SubResource(source.FrontendPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field FrontendPort")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FrontendPort")
 		}
 		listener.FrontendPort = &frontendPort
 	} else {
@@ -7757,10 +7757,10 @@ func (listener *ApplicationGatewayHttpListener) AssignProperties_From_Applicatio
 
 	// SslCertificate
 	if source.SslCertificate != nil {
-		var sslCertificate ApplicationGatewaySubResource
-		err := sslCertificate.AssignProperties_From_ApplicationGatewaySubResource(source.SslCertificate)
+		var sslCertificate SubResource
+		err := sslCertificate.AssignProperties_From_SubResource(source.SslCertificate)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field SslCertificate")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SslCertificate")
 		}
 		listener.SslCertificate = &sslCertificate
 	} else {
@@ -7769,10 +7769,10 @@ func (listener *ApplicationGatewayHttpListener) AssignProperties_From_Applicatio
 
 	// SslProfile
 	if source.SslProfile != nil {
-		var sslProfile ApplicationGatewaySubResource
-		err := sslProfile.AssignProperties_From_ApplicationGatewaySubResource(source.SslProfile)
+		var sslProfile SubResource
+		err := sslProfile.AssignProperties_From_SubResource(source.SslProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field SslProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SslProfile")
 		}
 		listener.SslProfile = &sslProfile
 	} else {
@@ -7808,10 +7808,10 @@ func (listener *ApplicationGatewayHttpListener) AssignProperties_To_ApplicationG
 
 	// FirewallPolicy
 	if listener.FirewallPolicy != nil {
-		var firewallPolicy storage.ApplicationGatewaySubResource
-		err := listener.FirewallPolicy.AssignProperties_To_ApplicationGatewaySubResource(&firewallPolicy)
+		var firewallPolicy storage.SubResource
+		err := listener.FirewallPolicy.AssignProperties_To_SubResource(&firewallPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field FirewallPolicy")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FirewallPolicy")
 		}
 		destination.FirewallPolicy = &firewallPolicy
 	} else {
@@ -7820,10 +7820,10 @@ func (listener *ApplicationGatewayHttpListener) AssignProperties_To_ApplicationG
 
 	// FrontendIPConfiguration
 	if listener.FrontendIPConfiguration != nil {
-		var frontendIPConfiguration storage.ApplicationGatewaySubResource
-		err := listener.FrontendIPConfiguration.AssignProperties_To_ApplicationGatewaySubResource(&frontendIPConfiguration)
+		var frontendIPConfiguration storage.SubResource
+		err := listener.FrontendIPConfiguration.AssignProperties_To_SubResource(&frontendIPConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field FrontendIPConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FrontendIPConfiguration")
 		}
 		destination.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -7832,10 +7832,10 @@ func (listener *ApplicationGatewayHttpListener) AssignProperties_To_ApplicationG
 
 	// FrontendPort
 	if listener.FrontendPort != nil {
-		var frontendPort storage.ApplicationGatewaySubResource
-		err := listener.FrontendPort.AssignProperties_To_ApplicationGatewaySubResource(&frontendPort)
+		var frontendPort storage.SubResource
+		err := listener.FrontendPort.AssignProperties_To_SubResource(&frontendPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field FrontendPort")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FrontendPort")
 		}
 		destination.FrontendPort = &frontendPort
 	} else {
@@ -7869,10 +7869,10 @@ func (listener *ApplicationGatewayHttpListener) AssignProperties_To_ApplicationG
 
 	// SslCertificate
 	if listener.SslCertificate != nil {
-		var sslCertificate storage.ApplicationGatewaySubResource
-		err := listener.SslCertificate.AssignProperties_To_ApplicationGatewaySubResource(&sslCertificate)
+		var sslCertificate storage.SubResource
+		err := listener.SslCertificate.AssignProperties_To_SubResource(&sslCertificate)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field SslCertificate")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SslCertificate")
 		}
 		destination.SslCertificate = &sslCertificate
 	} else {
@@ -7881,10 +7881,10 @@ func (listener *ApplicationGatewayHttpListener) AssignProperties_To_ApplicationG
 
 	// SslProfile
 	if listener.SslProfile != nil {
-		var sslProfile storage.ApplicationGatewaySubResource
-		err := listener.SslProfile.AssignProperties_To_ApplicationGatewaySubResource(&sslProfile)
+		var sslProfile storage.SubResource
+		err := listener.SslProfile.AssignProperties_To_SubResource(&sslProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field SslProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SslProfile")
 		}
 		destination.SslProfile = &sslProfile
 	} else {
@@ -7974,7 +7974,7 @@ type ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded st
 	Name *string `json:"name,omitempty"`
 
 	// Subnet: Reference to the subnet resource. A subnet from where application gateway gets its private address.
-	Subnet *ApplicationGatewaySubResource `json:"subnet,omitempty"`
+	Subnet *SubResource `json:"subnet,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded{}
@@ -8001,7 +8001,7 @@ func (embedded *ApplicationGatewayIPConfiguration_ApplicationGateway_SubResource
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnet_ARM.(*arm.ApplicationGatewaySubResource)
+		subnet := *subnet_ARM.(*arm.SubResource)
 		result.Properties.Subnet = &subnet
 	}
 	return result, nil
@@ -8029,7 +8029,7 @@ func (embedded *ApplicationGatewayIPConfiguration_ApplicationGateway_SubResource
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
-			var subnet1 ApplicationGatewaySubResource
+			var subnet1 SubResource
 			err := subnet1.PopulateFromARM(owner, *typedInput.Properties.Subnet)
 			if err != nil {
 				return err
@@ -8051,10 +8051,10 @@ func (embedded *ApplicationGatewayIPConfiguration_ApplicationGateway_SubResource
 
 	// Subnet
 	if source.Subnet != nil {
-		var subnet ApplicationGatewaySubResource
-		err := subnet.AssignProperties_From_ApplicationGatewaySubResource(source.Subnet)
+		var subnet SubResource
+		err := subnet.AssignProperties_From_SubResource(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
 		}
 		embedded.Subnet = &subnet
 	} else {
@@ -8075,10 +8075,10 @@ func (embedded *ApplicationGatewayIPConfiguration_ApplicationGateway_SubResource
 
 	// Subnet
 	if embedded.Subnet != nil {
-		var subnet storage.ApplicationGatewaySubResource
-		err := embedded.Subnet.AssignProperties_To_ApplicationGatewaySubResource(&subnet)
+		var subnet storage.SubResource
+		err := embedded.Subnet.AssignProperties_To_SubResource(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -8165,10 +8165,10 @@ func (embedded *ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubR
 // Listener of an application gateway.
 type ApplicationGatewayListener struct {
 	// FrontendIPConfiguration: Frontend IP configuration resource of an application gateway.
-	FrontendIPConfiguration *ApplicationGatewaySubResource `json:"frontendIPConfiguration,omitempty"`
+	FrontendIPConfiguration *SubResource `json:"frontendIPConfiguration,omitempty"`
 
 	// FrontendPort: Frontend port resource of an application gateway.
-	FrontendPort *ApplicationGatewaySubResource `json:"frontendPort,omitempty"`
+	FrontendPort *SubResource `json:"frontendPort,omitempty"`
 
 	// Name: Name of the listener that is unique within an Application Gateway.
 	Name *string `json:"name,omitempty"`
@@ -8177,10 +8177,10 @@ type ApplicationGatewayListener struct {
 	Protocol *ApplicationGatewayProtocol `json:"protocol,omitempty"`
 
 	// SslCertificate: SSL certificate resource of an application gateway.
-	SslCertificate *ApplicationGatewaySubResource `json:"sslCertificate,omitempty"`
+	SslCertificate *SubResource `json:"sslCertificate,omitempty"`
 
 	// SslProfile: SSL profile resource of the application gateway.
-	SslProfile *ApplicationGatewaySubResource `json:"sslProfile,omitempty"`
+	SslProfile *SubResource `json:"sslProfile,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ApplicationGatewayListener{}
@@ -8211,7 +8211,7 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*arm.ApplicationGatewaySubResource)
+		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*arm.SubResource)
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if listener.FrontendPort != nil {
@@ -8219,7 +8219,7 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		frontendPort := *frontendPort_ARM.(*arm.ApplicationGatewaySubResource)
+		frontendPort := *frontendPort_ARM.(*arm.SubResource)
 		result.Properties.FrontendPort = &frontendPort
 	}
 	if listener.Protocol != nil {
@@ -8233,7 +8233,7 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		sslCertificate := *sslCertificate_ARM.(*arm.ApplicationGatewaySubResource)
+		sslCertificate := *sslCertificate_ARM.(*arm.SubResource)
 		result.Properties.SslCertificate = &sslCertificate
 	}
 	if listener.SslProfile != nil {
@@ -8241,7 +8241,7 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		sslProfile := *sslProfile_ARM.(*arm.ApplicationGatewaySubResource)
+		sslProfile := *sslProfile_ARM.(*arm.SubResource)
 		result.Properties.SslProfile = &sslProfile
 	}
 	return result, nil
@@ -8263,7 +8263,7 @@ func (listener *ApplicationGatewayListener) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendIPConfiguration != nil {
-			var frontendIPConfiguration1 ApplicationGatewaySubResource
+			var frontendIPConfiguration1 SubResource
 			err := frontendIPConfiguration1.PopulateFromARM(owner, *typedInput.Properties.FrontendIPConfiguration)
 			if err != nil {
 				return err
@@ -8277,7 +8277,7 @@ func (listener *ApplicationGatewayListener) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendPort != nil {
-			var frontendPort1 ApplicationGatewaySubResource
+			var frontendPort1 SubResource
 			err := frontendPort1.PopulateFromARM(owner, *typedInput.Properties.FrontendPort)
 			if err != nil {
 				return err
@@ -8308,7 +8308,7 @@ func (listener *ApplicationGatewayListener) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SslCertificate != nil {
-			var sslCertificate1 ApplicationGatewaySubResource
+			var sslCertificate1 SubResource
 			err := sslCertificate1.PopulateFromARM(owner, *typedInput.Properties.SslCertificate)
 			if err != nil {
 				return err
@@ -8322,7 +8322,7 @@ func (listener *ApplicationGatewayListener) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SslProfile != nil {
-			var sslProfile1 ApplicationGatewaySubResource
+			var sslProfile1 SubResource
 			err := sslProfile1.PopulateFromARM(owner, *typedInput.Properties.SslProfile)
 			if err != nil {
 				return err
@@ -8341,10 +8341,10 @@ func (listener *ApplicationGatewayListener) AssignProperties_From_ApplicationGat
 
 	// FrontendIPConfiguration
 	if source.FrontendIPConfiguration != nil {
-		var frontendIPConfiguration ApplicationGatewaySubResource
-		err := frontendIPConfiguration.AssignProperties_From_ApplicationGatewaySubResource(source.FrontendIPConfiguration)
+		var frontendIPConfiguration SubResource
+		err := frontendIPConfiguration.AssignProperties_From_SubResource(source.FrontendIPConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field FrontendIPConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FrontendIPConfiguration")
 		}
 		listener.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -8353,10 +8353,10 @@ func (listener *ApplicationGatewayListener) AssignProperties_From_ApplicationGat
 
 	// FrontendPort
 	if source.FrontendPort != nil {
-		var frontendPort ApplicationGatewaySubResource
-		err := frontendPort.AssignProperties_From_ApplicationGatewaySubResource(source.FrontendPort)
+		var frontendPort SubResource
+		err := frontendPort.AssignProperties_From_SubResource(source.FrontendPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field FrontendPort")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FrontendPort")
 		}
 		listener.FrontendPort = &frontendPort
 	} else {
@@ -8377,10 +8377,10 @@ func (listener *ApplicationGatewayListener) AssignProperties_From_ApplicationGat
 
 	// SslCertificate
 	if source.SslCertificate != nil {
-		var sslCertificate ApplicationGatewaySubResource
-		err := sslCertificate.AssignProperties_From_ApplicationGatewaySubResource(source.SslCertificate)
+		var sslCertificate SubResource
+		err := sslCertificate.AssignProperties_From_SubResource(source.SslCertificate)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field SslCertificate")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SslCertificate")
 		}
 		listener.SslCertificate = &sslCertificate
 	} else {
@@ -8389,10 +8389,10 @@ func (listener *ApplicationGatewayListener) AssignProperties_From_ApplicationGat
 
 	// SslProfile
 	if source.SslProfile != nil {
-		var sslProfile ApplicationGatewaySubResource
-		err := sslProfile.AssignProperties_From_ApplicationGatewaySubResource(source.SslProfile)
+		var sslProfile SubResource
+		err := sslProfile.AssignProperties_From_SubResource(source.SslProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field SslProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SslProfile")
 		}
 		listener.SslProfile = &sslProfile
 	} else {
@@ -8410,10 +8410,10 @@ func (listener *ApplicationGatewayListener) AssignProperties_To_ApplicationGatew
 
 	// FrontendIPConfiguration
 	if listener.FrontendIPConfiguration != nil {
-		var frontendIPConfiguration storage.ApplicationGatewaySubResource
-		err := listener.FrontendIPConfiguration.AssignProperties_To_ApplicationGatewaySubResource(&frontendIPConfiguration)
+		var frontendIPConfiguration storage.SubResource
+		err := listener.FrontendIPConfiguration.AssignProperties_To_SubResource(&frontendIPConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field FrontendIPConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FrontendIPConfiguration")
 		}
 		destination.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -8422,10 +8422,10 @@ func (listener *ApplicationGatewayListener) AssignProperties_To_ApplicationGatew
 
 	// FrontendPort
 	if listener.FrontendPort != nil {
-		var frontendPort storage.ApplicationGatewaySubResource
-		err := listener.FrontendPort.AssignProperties_To_ApplicationGatewaySubResource(&frontendPort)
+		var frontendPort storage.SubResource
+		err := listener.FrontendPort.AssignProperties_To_SubResource(&frontendPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field FrontendPort")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FrontendPort")
 		}
 		destination.FrontendPort = &frontendPort
 	} else {
@@ -8445,10 +8445,10 @@ func (listener *ApplicationGatewayListener) AssignProperties_To_ApplicationGatew
 
 	// SslCertificate
 	if listener.SslCertificate != nil {
-		var sslCertificate storage.ApplicationGatewaySubResource
-		err := listener.SslCertificate.AssignProperties_To_ApplicationGatewaySubResource(&sslCertificate)
+		var sslCertificate storage.SubResource
+		err := listener.SslCertificate.AssignProperties_To_SubResource(&sslCertificate)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field SslCertificate")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SslCertificate")
 		}
 		destination.SslCertificate = &sslCertificate
 	} else {
@@ -8457,10 +8457,10 @@ func (listener *ApplicationGatewayListener) AssignProperties_To_ApplicationGatew
 
 	// SslProfile
 	if listener.SslProfile != nil {
-		var sslProfile storage.ApplicationGatewaySubResource
-		err := listener.SslProfile.AssignProperties_To_ApplicationGatewaySubResource(&sslProfile)
+		var sslProfile storage.SubResource
+		err := listener.SslProfile.AssignProperties_To_SubResource(&sslProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field SslProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SslProfile")
 		}
 		destination.SslProfile = &sslProfile
 	} else {
@@ -9676,22 +9676,22 @@ type ApplicationGatewayRedirectConfiguration struct {
 	Name *string `json:"name,omitempty"`
 
 	// PathRules: Path rules specifying redirect configuration.
-	PathRules []ApplicationGatewaySubResource `json:"pathRules,omitempty"`
+	PathRules []SubResource `json:"pathRules,omitempty"`
 
 	// RedirectType: HTTP redirection type.
 	RedirectType *RedirectTypeEnum `json:"redirectType,omitempty"`
 
 	// RequestRoutingRules: Request routing specifying redirect configuration.
-	RequestRoutingRules []ApplicationGatewaySubResource `json:"requestRoutingRules,omitempty"`
+	RequestRoutingRules []SubResource `json:"requestRoutingRules,omitempty"`
 
 	// TargetListener: Reference to a listener to redirect the request to.
-	TargetListener *ApplicationGatewaySubResource `json:"targetListener,omitempty"`
+	TargetListener *SubResource `json:"targetListener,omitempty"`
 
 	// TargetUrl: Url to redirect the request to.
 	TargetUrl *string `json:"targetUrl,omitempty"`
 
 	// UrlPathMaps: Url path maps specifying default redirect configuration.
-	UrlPathMaps []ApplicationGatewaySubResource `json:"urlPathMaps,omitempty"`
+	UrlPathMaps []SubResource `json:"urlPathMaps,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ApplicationGatewayRedirectConfiguration{}
@@ -9733,7 +9733,7 @@ func (configuration *ApplicationGatewayRedirectConfiguration) ConvertToARM(resol
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PathRules = append(result.Properties.PathRules, *item_ARM.(*arm.ApplicationGatewaySubResource))
+		result.Properties.PathRules = append(result.Properties.PathRules, *item_ARM.(*arm.SubResource))
 	}
 	if configuration.RedirectType != nil {
 		var temp string
@@ -9746,14 +9746,14 @@ func (configuration *ApplicationGatewayRedirectConfiguration) ConvertToARM(resol
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.RequestRoutingRules = append(result.Properties.RequestRoutingRules, *item_ARM.(*arm.ApplicationGatewaySubResource))
+		result.Properties.RequestRoutingRules = append(result.Properties.RequestRoutingRules, *item_ARM.(*arm.SubResource))
 	}
 	if configuration.TargetListener != nil {
 		targetListener_ARM, err := (*configuration.TargetListener).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		targetListener := *targetListener_ARM.(*arm.ApplicationGatewaySubResource)
+		targetListener := *targetListener_ARM.(*arm.SubResource)
 		result.Properties.TargetListener = &targetListener
 	}
 	if configuration.TargetUrl != nil {
@@ -9765,7 +9765,7 @@ func (configuration *ApplicationGatewayRedirectConfiguration) ConvertToARM(resol
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.UrlPathMaps = append(result.Properties.UrlPathMaps, *item_ARM.(*arm.ApplicationGatewaySubResource))
+		result.Properties.UrlPathMaps = append(result.Properties.UrlPathMaps, *item_ARM.(*arm.SubResource))
 	}
 	return result, nil
 }
@@ -9810,7 +9810,7 @@ func (configuration *ApplicationGatewayRedirectConfiguration) PopulateFromARM(ow
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PathRules {
-			var item1 ApplicationGatewaySubResource
+			var item1 SubResource
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -9834,7 +9834,7 @@ func (configuration *ApplicationGatewayRedirectConfiguration) PopulateFromARM(ow
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.RequestRoutingRules {
-			var item1 ApplicationGatewaySubResource
+			var item1 SubResource
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -9847,7 +9847,7 @@ func (configuration *ApplicationGatewayRedirectConfiguration) PopulateFromARM(ow
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TargetListener != nil {
-			var targetListener1 ApplicationGatewaySubResource
+			var targetListener1 SubResource
 			err := targetListener1.PopulateFromARM(owner, *typedInput.Properties.TargetListener)
 			if err != nil {
 				return err
@@ -9870,7 +9870,7 @@ func (configuration *ApplicationGatewayRedirectConfiguration) PopulateFromARM(ow
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.UrlPathMaps {
-			var item1 ApplicationGatewaySubResource
+			var item1 SubResource
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -9907,14 +9907,14 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_F
 
 	// PathRules
 	if source.PathRules != nil {
-		pathRuleList := make([]ApplicationGatewaySubResource, len(source.PathRules))
+		pathRuleList := make([]SubResource, len(source.PathRules))
 		for pathRuleIndex, pathRuleItem := range source.PathRules {
 			// Shadow the loop variable to avoid aliasing
 			pathRuleItem := pathRuleItem
-			var pathRule ApplicationGatewaySubResource
-			err := pathRule.AssignProperties_From_ApplicationGatewaySubResource(&pathRuleItem)
+			var pathRule SubResource
+			err := pathRule.AssignProperties_From_SubResource(&pathRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field PathRules")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PathRules")
 			}
 			pathRuleList[pathRuleIndex] = pathRule
 		}
@@ -9934,14 +9934,14 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_F
 
 	// RequestRoutingRules
 	if source.RequestRoutingRules != nil {
-		requestRoutingRuleList := make([]ApplicationGatewaySubResource, len(source.RequestRoutingRules))
+		requestRoutingRuleList := make([]SubResource, len(source.RequestRoutingRules))
 		for requestRoutingRuleIndex, requestRoutingRuleItem := range source.RequestRoutingRules {
 			// Shadow the loop variable to avoid aliasing
 			requestRoutingRuleItem := requestRoutingRuleItem
-			var requestRoutingRule ApplicationGatewaySubResource
-			err := requestRoutingRule.AssignProperties_From_ApplicationGatewaySubResource(&requestRoutingRuleItem)
+			var requestRoutingRule SubResource
+			err := requestRoutingRule.AssignProperties_From_SubResource(&requestRoutingRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field RequestRoutingRules")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field RequestRoutingRules")
 			}
 			requestRoutingRuleList[requestRoutingRuleIndex] = requestRoutingRule
 		}
@@ -9952,10 +9952,10 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_F
 
 	// TargetListener
 	if source.TargetListener != nil {
-		var targetListener ApplicationGatewaySubResource
-		err := targetListener.AssignProperties_From_ApplicationGatewaySubResource(source.TargetListener)
+		var targetListener SubResource
+		err := targetListener.AssignProperties_From_SubResource(source.TargetListener)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field TargetListener")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field TargetListener")
 		}
 		configuration.TargetListener = &targetListener
 	} else {
@@ -9967,14 +9967,14 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_F
 
 	// UrlPathMaps
 	if source.UrlPathMaps != nil {
-		urlPathMapList := make([]ApplicationGatewaySubResource, len(source.UrlPathMaps))
+		urlPathMapList := make([]SubResource, len(source.UrlPathMaps))
 		for urlPathMapIndex, urlPathMapItem := range source.UrlPathMaps {
 			// Shadow the loop variable to avoid aliasing
 			urlPathMapItem := urlPathMapItem
-			var urlPathMap ApplicationGatewaySubResource
-			err := urlPathMap.AssignProperties_From_ApplicationGatewaySubResource(&urlPathMapItem)
+			var urlPathMap SubResource
+			err := urlPathMap.AssignProperties_From_SubResource(&urlPathMapItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field UrlPathMaps")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field UrlPathMaps")
 			}
 			urlPathMapList[urlPathMapIndex] = urlPathMap
 		}
@@ -10013,14 +10013,14 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_T
 
 	// PathRules
 	if configuration.PathRules != nil {
-		pathRuleList := make([]storage.ApplicationGatewaySubResource, len(configuration.PathRules))
+		pathRuleList := make([]storage.SubResource, len(configuration.PathRules))
 		for pathRuleIndex, pathRuleItem := range configuration.PathRules {
 			// Shadow the loop variable to avoid aliasing
 			pathRuleItem := pathRuleItem
-			var pathRule storage.ApplicationGatewaySubResource
-			err := pathRuleItem.AssignProperties_To_ApplicationGatewaySubResource(&pathRule)
+			var pathRule storage.SubResource
+			err := pathRuleItem.AssignProperties_To_SubResource(&pathRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field PathRules")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PathRules")
 			}
 			pathRuleList[pathRuleIndex] = pathRule
 		}
@@ -10039,14 +10039,14 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_T
 
 	// RequestRoutingRules
 	if configuration.RequestRoutingRules != nil {
-		requestRoutingRuleList := make([]storage.ApplicationGatewaySubResource, len(configuration.RequestRoutingRules))
+		requestRoutingRuleList := make([]storage.SubResource, len(configuration.RequestRoutingRules))
 		for requestRoutingRuleIndex, requestRoutingRuleItem := range configuration.RequestRoutingRules {
 			// Shadow the loop variable to avoid aliasing
 			requestRoutingRuleItem := requestRoutingRuleItem
-			var requestRoutingRule storage.ApplicationGatewaySubResource
-			err := requestRoutingRuleItem.AssignProperties_To_ApplicationGatewaySubResource(&requestRoutingRule)
+			var requestRoutingRule storage.SubResource
+			err := requestRoutingRuleItem.AssignProperties_To_SubResource(&requestRoutingRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field RequestRoutingRules")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field RequestRoutingRules")
 			}
 			requestRoutingRuleList[requestRoutingRuleIndex] = requestRoutingRule
 		}
@@ -10057,10 +10057,10 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_T
 
 	// TargetListener
 	if configuration.TargetListener != nil {
-		var targetListener storage.ApplicationGatewaySubResource
-		err := configuration.TargetListener.AssignProperties_To_ApplicationGatewaySubResource(&targetListener)
+		var targetListener storage.SubResource
+		err := configuration.TargetListener.AssignProperties_To_SubResource(&targetListener)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field TargetListener")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field TargetListener")
 		}
 		destination.TargetListener = &targetListener
 	} else {
@@ -10072,14 +10072,14 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_T
 
 	// UrlPathMaps
 	if configuration.UrlPathMaps != nil {
-		urlPathMapList := make([]storage.ApplicationGatewaySubResource, len(configuration.UrlPathMaps))
+		urlPathMapList := make([]storage.SubResource, len(configuration.UrlPathMaps))
 		for urlPathMapIndex, urlPathMapItem := range configuration.UrlPathMaps {
 			// Shadow the loop variable to avoid aliasing
 			urlPathMapItem := urlPathMapItem
-			var urlPathMap storage.ApplicationGatewaySubResource
-			err := urlPathMapItem.AssignProperties_To_ApplicationGatewaySubResource(&urlPathMap)
+			var urlPathMap storage.SubResource
+			err := urlPathMapItem.AssignProperties_To_SubResource(&urlPathMap)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field UrlPathMaps")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field UrlPathMaps")
 			}
 			urlPathMapList[urlPathMapIndex] = urlPathMap
 		}
@@ -10168,16 +10168,16 @@ func (configuration *ApplicationGatewayRedirectConfiguration_STATUS) AssignPrope
 // Request routing rule of an application gateway.
 type ApplicationGatewayRequestRoutingRule struct {
 	// BackendAddressPool: Backend address pool resource of the application gateway.
-	BackendAddressPool *ApplicationGatewaySubResource `json:"backendAddressPool,omitempty"`
+	BackendAddressPool *SubResource `json:"backendAddressPool,omitempty"`
 
 	// BackendHttpSettings: Backend http settings resource of the application gateway.
-	BackendHttpSettings *ApplicationGatewaySubResource `json:"backendHttpSettings,omitempty"`
+	BackendHttpSettings *SubResource `json:"backendHttpSettings,omitempty"`
 
 	// HttpListener: Http listener resource of the application gateway.
-	HttpListener *ApplicationGatewaySubResource `json:"httpListener,omitempty"`
+	HttpListener *SubResource `json:"httpListener,omitempty"`
 
 	// LoadDistributionPolicy: Load Distribution Policy resource of the application gateway.
-	LoadDistributionPolicy *ApplicationGatewaySubResource `json:"loadDistributionPolicy,omitempty"`
+	LoadDistributionPolicy *SubResource `json:"loadDistributionPolicy,omitempty"`
 
 	// Name: Name of the request routing rule that is unique within an Application Gateway.
 	Name *string `json:"name,omitempty"`
@@ -10188,16 +10188,16 @@ type ApplicationGatewayRequestRoutingRule struct {
 	Priority *int `json:"priority,omitempty"`
 
 	// RedirectConfiguration: Redirect configuration resource of the application gateway.
-	RedirectConfiguration *ApplicationGatewaySubResource `json:"redirectConfiguration,omitempty"`
+	RedirectConfiguration *SubResource `json:"redirectConfiguration,omitempty"`
 
 	// RewriteRuleSet: Rewrite Rule Set resource in Basic rule of the application gateway.
-	RewriteRuleSet *ApplicationGatewaySubResource `json:"rewriteRuleSet,omitempty"`
+	RewriteRuleSet *SubResource `json:"rewriteRuleSet,omitempty"`
 
 	// RuleType: Rule type.
 	RuleType *ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType `json:"ruleType,omitempty"`
 
 	// UrlPathMap: URL path map resource of the application gateway.
-	UrlPathMap *ApplicationGatewaySubResource `json:"urlPathMap,omitempty"`
+	UrlPathMap *SubResource `json:"urlPathMap,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ApplicationGatewayRequestRoutingRule{}
@@ -10232,7 +10232,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		backendAddressPool := *backendAddressPool_ARM.(*arm.ApplicationGatewaySubResource)
+		backendAddressPool := *backendAddressPool_ARM.(*arm.SubResource)
 		result.Properties.BackendAddressPool = &backendAddressPool
 	}
 	if rule.BackendHttpSettings != nil {
@@ -10240,7 +10240,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		backendHttpSettings := *backendHttpSettings_ARM.(*arm.ApplicationGatewaySubResource)
+		backendHttpSettings := *backendHttpSettings_ARM.(*arm.SubResource)
 		result.Properties.BackendHttpSettings = &backendHttpSettings
 	}
 	if rule.HttpListener != nil {
@@ -10248,7 +10248,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		httpListener := *httpListener_ARM.(*arm.ApplicationGatewaySubResource)
+		httpListener := *httpListener_ARM.(*arm.SubResource)
 		result.Properties.HttpListener = &httpListener
 	}
 	if rule.LoadDistributionPolicy != nil {
@@ -10256,7 +10256,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		loadDistributionPolicy := *loadDistributionPolicy_ARM.(*arm.ApplicationGatewaySubResource)
+		loadDistributionPolicy := *loadDistributionPolicy_ARM.(*arm.SubResource)
 		result.Properties.LoadDistributionPolicy = &loadDistributionPolicy
 	}
 	if rule.Priority != nil {
@@ -10268,7 +10268,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		redirectConfiguration := *redirectConfiguration_ARM.(*arm.ApplicationGatewaySubResource)
+		redirectConfiguration := *redirectConfiguration_ARM.(*arm.SubResource)
 		result.Properties.RedirectConfiguration = &redirectConfiguration
 	}
 	if rule.RewriteRuleSet != nil {
@@ -10276,7 +10276,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		rewriteRuleSet := *rewriteRuleSet_ARM.(*arm.ApplicationGatewaySubResource)
+		rewriteRuleSet := *rewriteRuleSet_ARM.(*arm.SubResource)
 		result.Properties.RewriteRuleSet = &rewriteRuleSet
 	}
 	if rule.RuleType != nil {
@@ -10290,7 +10290,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		urlPathMap := *urlPathMap_ARM.(*arm.ApplicationGatewaySubResource)
+		urlPathMap := *urlPathMap_ARM.(*arm.SubResource)
 		result.Properties.UrlPathMap = &urlPathMap
 	}
 	return result, nil
@@ -10312,7 +10312,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) PopulateFromARM(owner genrunti
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendAddressPool != nil {
-			var backendAddressPool1 ApplicationGatewaySubResource
+			var backendAddressPool1 SubResource
 			err := backendAddressPool1.PopulateFromARM(owner, *typedInput.Properties.BackendAddressPool)
 			if err != nil {
 				return err
@@ -10326,7 +10326,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) PopulateFromARM(owner genrunti
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendHttpSettings != nil {
-			var backendHttpSettings1 ApplicationGatewaySubResource
+			var backendHttpSettings1 SubResource
 			err := backendHttpSettings1.PopulateFromARM(owner, *typedInput.Properties.BackendHttpSettings)
 			if err != nil {
 				return err
@@ -10340,7 +10340,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) PopulateFromARM(owner genrunti
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HttpListener != nil {
-			var httpListener1 ApplicationGatewaySubResource
+			var httpListener1 SubResource
 			err := httpListener1.PopulateFromARM(owner, *typedInput.Properties.HttpListener)
 			if err != nil {
 				return err
@@ -10354,7 +10354,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) PopulateFromARM(owner genrunti
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LoadDistributionPolicy != nil {
-			var loadDistributionPolicy1 ApplicationGatewaySubResource
+			var loadDistributionPolicy1 SubResource
 			err := loadDistributionPolicy1.PopulateFromARM(owner, *typedInput.Properties.LoadDistributionPolicy)
 			if err != nil {
 				return err
@@ -10383,7 +10383,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) PopulateFromARM(owner genrunti
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RedirectConfiguration != nil {
-			var redirectConfiguration1 ApplicationGatewaySubResource
+			var redirectConfiguration1 SubResource
 			err := redirectConfiguration1.PopulateFromARM(owner, *typedInput.Properties.RedirectConfiguration)
 			if err != nil {
 				return err
@@ -10397,7 +10397,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) PopulateFromARM(owner genrunti
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RewriteRuleSet != nil {
-			var rewriteRuleSet1 ApplicationGatewaySubResource
+			var rewriteRuleSet1 SubResource
 			err := rewriteRuleSet1.PopulateFromARM(owner, *typedInput.Properties.RewriteRuleSet)
 			if err != nil {
 				return err
@@ -10422,7 +10422,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) PopulateFromARM(owner genrunti
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UrlPathMap != nil {
-			var urlPathMap1 ApplicationGatewaySubResource
+			var urlPathMap1 SubResource
 			err := urlPathMap1.PopulateFromARM(owner, *typedInput.Properties.UrlPathMap)
 			if err != nil {
 				return err
@@ -10441,10 +10441,10 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_From_Applicat
 
 	// BackendAddressPool
 	if source.BackendAddressPool != nil {
-		var backendAddressPool ApplicationGatewaySubResource
-		err := backendAddressPool.AssignProperties_From_ApplicationGatewaySubResource(source.BackendAddressPool)
+		var backendAddressPool SubResource
+		err := backendAddressPool.AssignProperties_From_SubResource(source.BackendAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field BackendAddressPool")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field BackendAddressPool")
 		}
 		rule.BackendAddressPool = &backendAddressPool
 	} else {
@@ -10453,10 +10453,10 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_From_Applicat
 
 	// BackendHttpSettings
 	if source.BackendHttpSettings != nil {
-		var backendHttpSetting ApplicationGatewaySubResource
-		err := backendHttpSetting.AssignProperties_From_ApplicationGatewaySubResource(source.BackendHttpSettings)
+		var backendHttpSetting SubResource
+		err := backendHttpSetting.AssignProperties_From_SubResource(source.BackendHttpSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field BackendHttpSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field BackendHttpSettings")
 		}
 		rule.BackendHttpSettings = &backendHttpSetting
 	} else {
@@ -10465,10 +10465,10 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_From_Applicat
 
 	// HttpListener
 	if source.HttpListener != nil {
-		var httpListener ApplicationGatewaySubResource
-		err := httpListener.AssignProperties_From_ApplicationGatewaySubResource(source.HttpListener)
+		var httpListener SubResource
+		err := httpListener.AssignProperties_From_SubResource(source.HttpListener)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field HttpListener")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field HttpListener")
 		}
 		rule.HttpListener = &httpListener
 	} else {
@@ -10477,10 +10477,10 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_From_Applicat
 
 	// LoadDistributionPolicy
 	if source.LoadDistributionPolicy != nil {
-		var loadDistributionPolicy ApplicationGatewaySubResource
-		err := loadDistributionPolicy.AssignProperties_From_ApplicationGatewaySubResource(source.LoadDistributionPolicy)
+		var loadDistributionPolicy SubResource
+		err := loadDistributionPolicy.AssignProperties_From_SubResource(source.LoadDistributionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field LoadDistributionPolicy")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field LoadDistributionPolicy")
 		}
 		rule.LoadDistributionPolicy = &loadDistributionPolicy
 	} else {
@@ -10500,10 +10500,10 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_From_Applicat
 
 	// RedirectConfiguration
 	if source.RedirectConfiguration != nil {
-		var redirectConfiguration ApplicationGatewaySubResource
-		err := redirectConfiguration.AssignProperties_From_ApplicationGatewaySubResource(source.RedirectConfiguration)
+		var redirectConfiguration SubResource
+		err := redirectConfiguration.AssignProperties_From_SubResource(source.RedirectConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field RedirectConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field RedirectConfiguration")
 		}
 		rule.RedirectConfiguration = &redirectConfiguration
 	} else {
@@ -10512,10 +10512,10 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_From_Applicat
 
 	// RewriteRuleSet
 	if source.RewriteRuleSet != nil {
-		var rewriteRuleSet ApplicationGatewaySubResource
-		err := rewriteRuleSet.AssignProperties_From_ApplicationGatewaySubResource(source.RewriteRuleSet)
+		var rewriteRuleSet SubResource
+		err := rewriteRuleSet.AssignProperties_From_SubResource(source.RewriteRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field RewriteRuleSet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field RewriteRuleSet")
 		}
 		rule.RewriteRuleSet = &rewriteRuleSet
 	} else {
@@ -10533,10 +10533,10 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_From_Applicat
 
 	// UrlPathMap
 	if source.UrlPathMap != nil {
-		var urlPathMap ApplicationGatewaySubResource
-		err := urlPathMap.AssignProperties_From_ApplicationGatewaySubResource(source.UrlPathMap)
+		var urlPathMap SubResource
+		err := urlPathMap.AssignProperties_From_SubResource(source.UrlPathMap)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field UrlPathMap")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field UrlPathMap")
 		}
 		rule.UrlPathMap = &urlPathMap
 	} else {
@@ -10554,10 +10554,10 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_To_Applicatio
 
 	// BackendAddressPool
 	if rule.BackendAddressPool != nil {
-		var backendAddressPool storage.ApplicationGatewaySubResource
-		err := rule.BackendAddressPool.AssignProperties_To_ApplicationGatewaySubResource(&backendAddressPool)
+		var backendAddressPool storage.SubResource
+		err := rule.BackendAddressPool.AssignProperties_To_SubResource(&backendAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field BackendAddressPool")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field BackendAddressPool")
 		}
 		destination.BackendAddressPool = &backendAddressPool
 	} else {
@@ -10566,10 +10566,10 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_To_Applicatio
 
 	// BackendHttpSettings
 	if rule.BackendHttpSettings != nil {
-		var backendHttpSetting storage.ApplicationGatewaySubResource
-		err := rule.BackendHttpSettings.AssignProperties_To_ApplicationGatewaySubResource(&backendHttpSetting)
+		var backendHttpSetting storage.SubResource
+		err := rule.BackendHttpSettings.AssignProperties_To_SubResource(&backendHttpSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field BackendHttpSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field BackendHttpSettings")
 		}
 		destination.BackendHttpSettings = &backendHttpSetting
 	} else {
@@ -10578,10 +10578,10 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_To_Applicatio
 
 	// HttpListener
 	if rule.HttpListener != nil {
-		var httpListener storage.ApplicationGatewaySubResource
-		err := rule.HttpListener.AssignProperties_To_ApplicationGatewaySubResource(&httpListener)
+		var httpListener storage.SubResource
+		err := rule.HttpListener.AssignProperties_To_SubResource(&httpListener)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field HttpListener")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field HttpListener")
 		}
 		destination.HttpListener = &httpListener
 	} else {
@@ -10590,10 +10590,10 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_To_Applicatio
 
 	// LoadDistributionPolicy
 	if rule.LoadDistributionPolicy != nil {
-		var loadDistributionPolicy storage.ApplicationGatewaySubResource
-		err := rule.LoadDistributionPolicy.AssignProperties_To_ApplicationGatewaySubResource(&loadDistributionPolicy)
+		var loadDistributionPolicy storage.SubResource
+		err := rule.LoadDistributionPolicy.AssignProperties_To_SubResource(&loadDistributionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field LoadDistributionPolicy")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field LoadDistributionPolicy")
 		}
 		destination.LoadDistributionPolicy = &loadDistributionPolicy
 	} else {
@@ -10613,10 +10613,10 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_To_Applicatio
 
 	// RedirectConfiguration
 	if rule.RedirectConfiguration != nil {
-		var redirectConfiguration storage.ApplicationGatewaySubResource
-		err := rule.RedirectConfiguration.AssignProperties_To_ApplicationGatewaySubResource(&redirectConfiguration)
+		var redirectConfiguration storage.SubResource
+		err := rule.RedirectConfiguration.AssignProperties_To_SubResource(&redirectConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field RedirectConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field RedirectConfiguration")
 		}
 		destination.RedirectConfiguration = &redirectConfiguration
 	} else {
@@ -10625,10 +10625,10 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_To_Applicatio
 
 	// RewriteRuleSet
 	if rule.RewriteRuleSet != nil {
-		var rewriteRuleSet storage.ApplicationGatewaySubResource
-		err := rule.RewriteRuleSet.AssignProperties_To_ApplicationGatewaySubResource(&rewriteRuleSet)
+		var rewriteRuleSet storage.SubResource
+		err := rule.RewriteRuleSet.AssignProperties_To_SubResource(&rewriteRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field RewriteRuleSet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field RewriteRuleSet")
 		}
 		destination.RewriteRuleSet = &rewriteRuleSet
 	} else {
@@ -10645,10 +10645,10 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_To_Applicatio
 
 	// UrlPathMap
 	if rule.UrlPathMap != nil {
-		var urlPathMap storage.ApplicationGatewaySubResource
-		err := rule.UrlPathMap.AssignProperties_To_ApplicationGatewaySubResource(&urlPathMap)
+		var urlPathMap storage.SubResource
+		err := rule.UrlPathMap.AssignProperties_To_SubResource(&urlPathMap)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field UrlPathMap")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field UrlPathMap")
 		}
 		destination.UrlPathMap = &urlPathMap
 	} else {
@@ -10939,13 +10939,13 @@ func (ruleSet *ApplicationGatewayRewriteRuleSet_STATUS) AssignProperties_To_Appl
 // Routing rule of an application gateway.
 type ApplicationGatewayRoutingRule struct {
 	// BackendAddressPool: Backend address pool resource of the application gateway.
-	BackendAddressPool *ApplicationGatewaySubResource `json:"backendAddressPool,omitempty"`
+	BackendAddressPool *SubResource `json:"backendAddressPool,omitempty"`
 
 	// BackendSettings: Backend settings resource of the application gateway.
-	BackendSettings *ApplicationGatewaySubResource `json:"backendSettings,omitempty"`
+	BackendSettings *SubResource `json:"backendSettings,omitempty"`
 
 	// Listener: Listener resource of the application gateway.
-	Listener *ApplicationGatewaySubResource `json:"listener,omitempty"`
+	Listener *SubResource `json:"listener,omitempty"`
 
 	// Name: Name of the routing rule that is unique within an Application Gateway.
 	Name *string `json:"name,omitempty"`
@@ -10988,7 +10988,7 @@ func (rule *ApplicationGatewayRoutingRule) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		backendAddressPool := *backendAddressPool_ARM.(*arm.ApplicationGatewaySubResource)
+		backendAddressPool := *backendAddressPool_ARM.(*arm.SubResource)
 		result.Properties.BackendAddressPool = &backendAddressPool
 	}
 	if rule.BackendSettings != nil {
@@ -10996,7 +10996,7 @@ func (rule *ApplicationGatewayRoutingRule) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		backendSettings := *backendSettings_ARM.(*arm.ApplicationGatewaySubResource)
+		backendSettings := *backendSettings_ARM.(*arm.SubResource)
 		result.Properties.BackendSettings = &backendSettings
 	}
 	if rule.Listener != nil {
@@ -11004,7 +11004,7 @@ func (rule *ApplicationGatewayRoutingRule) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		listener := *listener_ARM.(*arm.ApplicationGatewaySubResource)
+		listener := *listener_ARM.(*arm.SubResource)
 		result.Properties.Listener = &listener
 	}
 	if rule.Priority != nil {
@@ -11036,7 +11036,7 @@ func (rule *ApplicationGatewayRoutingRule) PopulateFromARM(owner genruntime.Arbi
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendAddressPool != nil {
-			var backendAddressPool1 ApplicationGatewaySubResource
+			var backendAddressPool1 SubResource
 			err := backendAddressPool1.PopulateFromARM(owner, *typedInput.Properties.BackendAddressPool)
 			if err != nil {
 				return err
@@ -11050,7 +11050,7 @@ func (rule *ApplicationGatewayRoutingRule) PopulateFromARM(owner genruntime.Arbi
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendSettings != nil {
-			var backendSettings1 ApplicationGatewaySubResource
+			var backendSettings1 SubResource
 			err := backendSettings1.PopulateFromARM(owner, *typedInput.Properties.BackendSettings)
 			if err != nil {
 				return err
@@ -11064,7 +11064,7 @@ func (rule *ApplicationGatewayRoutingRule) PopulateFromARM(owner genruntime.Arbi
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Listener != nil {
-			var listener1 ApplicationGatewaySubResource
+			var listener1 SubResource
 			err := listener1.PopulateFromARM(owner, *typedInput.Properties.Listener)
 			if err != nil {
 				return err
@@ -11109,10 +11109,10 @@ func (rule *ApplicationGatewayRoutingRule) AssignProperties_From_ApplicationGate
 
 	// BackendAddressPool
 	if source.BackendAddressPool != nil {
-		var backendAddressPool ApplicationGatewaySubResource
-		err := backendAddressPool.AssignProperties_From_ApplicationGatewaySubResource(source.BackendAddressPool)
+		var backendAddressPool SubResource
+		err := backendAddressPool.AssignProperties_From_SubResource(source.BackendAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field BackendAddressPool")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field BackendAddressPool")
 		}
 		rule.BackendAddressPool = &backendAddressPool
 	} else {
@@ -11121,10 +11121,10 @@ func (rule *ApplicationGatewayRoutingRule) AssignProperties_From_ApplicationGate
 
 	// BackendSettings
 	if source.BackendSettings != nil {
-		var backendSetting ApplicationGatewaySubResource
-		err := backendSetting.AssignProperties_From_ApplicationGatewaySubResource(source.BackendSettings)
+		var backendSetting SubResource
+		err := backendSetting.AssignProperties_From_SubResource(source.BackendSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field BackendSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field BackendSettings")
 		}
 		rule.BackendSettings = &backendSetting
 	} else {
@@ -11133,10 +11133,10 @@ func (rule *ApplicationGatewayRoutingRule) AssignProperties_From_ApplicationGate
 
 	// Listener
 	if source.Listener != nil {
-		var listener ApplicationGatewaySubResource
-		err := listener.AssignProperties_From_ApplicationGatewaySubResource(source.Listener)
+		var listener SubResource
+		err := listener.AssignProperties_From_SubResource(source.Listener)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field Listener")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Listener")
 		}
 		rule.Listener = &listener
 	} else {
@@ -11174,10 +11174,10 @@ func (rule *ApplicationGatewayRoutingRule) AssignProperties_To_ApplicationGatewa
 
 	// BackendAddressPool
 	if rule.BackendAddressPool != nil {
-		var backendAddressPool storage.ApplicationGatewaySubResource
-		err := rule.BackendAddressPool.AssignProperties_To_ApplicationGatewaySubResource(&backendAddressPool)
+		var backendAddressPool storage.SubResource
+		err := rule.BackendAddressPool.AssignProperties_To_SubResource(&backendAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field BackendAddressPool")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field BackendAddressPool")
 		}
 		destination.BackendAddressPool = &backendAddressPool
 	} else {
@@ -11186,10 +11186,10 @@ func (rule *ApplicationGatewayRoutingRule) AssignProperties_To_ApplicationGatewa
 
 	// BackendSettings
 	if rule.BackendSettings != nil {
-		var backendSetting storage.ApplicationGatewaySubResource
-		err := rule.BackendSettings.AssignProperties_To_ApplicationGatewaySubResource(&backendSetting)
+		var backendSetting storage.SubResource
+		err := rule.BackendSettings.AssignProperties_To_SubResource(&backendSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field BackendSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field BackendSettings")
 		}
 		destination.BackendSettings = &backendSetting
 	} else {
@@ -11198,10 +11198,10 @@ func (rule *ApplicationGatewayRoutingRule) AssignProperties_To_ApplicationGatewa
 
 	// Listener
 	if rule.Listener != nil {
-		var listener storage.ApplicationGatewaySubResource
-		err := rule.Listener.AssignProperties_To_ApplicationGatewaySubResource(&listener)
+		var listener storage.SubResource
+		err := rule.Listener.AssignProperties_To_SubResource(&listener)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field Listener")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Listener")
 		}
 		destination.Listener = &listener
 	} else {
@@ -12336,7 +12336,7 @@ type ApplicationGatewaySslProfile struct {
 	SslPolicy *ApplicationGatewaySslPolicy `json:"sslPolicy,omitempty"`
 
 	// TrustedClientCertificates: Array of references to application gateway trusted client certificates.
-	TrustedClientCertificates []ApplicationGatewaySubResource `json:"trustedClientCertificates,omitempty"`
+	TrustedClientCertificates []SubResource `json:"trustedClientCertificates,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ApplicationGatewaySslProfile{}
@@ -12381,7 +12381,7 @@ func (profile *ApplicationGatewaySslProfile) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.TrustedClientCertificates = append(result.Properties.TrustedClientCertificates, *item_ARM.(*arm.ApplicationGatewaySubResource))
+		result.Properties.TrustedClientCertificates = append(result.Properties.TrustedClientCertificates, *item_ARM.(*arm.SubResource))
 	}
 	return result, nil
 }
@@ -12436,7 +12436,7 @@ func (profile *ApplicationGatewaySslProfile) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.TrustedClientCertificates {
-			var item1 ApplicationGatewaySubResource
+			var item1 SubResource
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -12481,14 +12481,14 @@ func (profile *ApplicationGatewaySslProfile) AssignProperties_From_ApplicationGa
 
 	// TrustedClientCertificates
 	if source.TrustedClientCertificates != nil {
-		trustedClientCertificateList := make([]ApplicationGatewaySubResource, len(source.TrustedClientCertificates))
+		trustedClientCertificateList := make([]SubResource, len(source.TrustedClientCertificates))
 		for trustedClientCertificateIndex, trustedClientCertificateItem := range source.TrustedClientCertificates {
 			// Shadow the loop variable to avoid aliasing
 			trustedClientCertificateItem := trustedClientCertificateItem
-			var trustedClientCertificate ApplicationGatewaySubResource
-			err := trustedClientCertificate.AssignProperties_From_ApplicationGatewaySubResource(&trustedClientCertificateItem)
+			var trustedClientCertificate SubResource
+			err := trustedClientCertificate.AssignProperties_From_SubResource(&trustedClientCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field TrustedClientCertificates")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field TrustedClientCertificates")
 			}
 			trustedClientCertificateList[trustedClientCertificateIndex] = trustedClientCertificate
 		}
@@ -12535,14 +12535,14 @@ func (profile *ApplicationGatewaySslProfile) AssignProperties_To_ApplicationGate
 
 	// TrustedClientCertificates
 	if profile.TrustedClientCertificates != nil {
-		trustedClientCertificateList := make([]storage.ApplicationGatewaySubResource, len(profile.TrustedClientCertificates))
+		trustedClientCertificateList := make([]storage.SubResource, len(profile.TrustedClientCertificates))
 		for trustedClientCertificateIndex, trustedClientCertificateItem := range profile.TrustedClientCertificates {
 			// Shadow the loop variable to avoid aliasing
 			trustedClientCertificateItem := trustedClientCertificateItem
-			var trustedClientCertificate storage.ApplicationGatewaySubResource
-			err := trustedClientCertificateItem.AssignProperties_To_ApplicationGatewaySubResource(&trustedClientCertificate)
+			var trustedClientCertificate storage.SubResource
+			err := trustedClientCertificateItem.AssignProperties_To_SubResource(&trustedClientCertificate)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field TrustedClientCertificates")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field TrustedClientCertificates")
 			}
 			trustedClientCertificateList[trustedClientCertificateIndex] = trustedClientCertificate
 		}
@@ -12616,164 +12616,6 @@ func (profile *ApplicationGatewaySslProfile_STATUS) AssignProperties_To_Applicat
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(profile.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Reference to another subresource.
-type ApplicationGatewaySubResource struct {
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ApplicationGatewaySubResource{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (resource *ApplicationGatewaySubResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if resource == nil {
-		return nil, nil
-	}
-	result := &arm.ApplicationGatewaySubResource{}
-
-	// Set property "Id":
-	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *ApplicationGatewaySubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.ApplicationGatewaySubResource{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *ApplicationGatewaySubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(arm.ApplicationGatewaySubResource)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewaySubResource, got %T", armInput)
-	}
-
-	// no assignment for property "Reference"
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ApplicationGatewaySubResource populates our ApplicationGatewaySubResource from the provided source ApplicationGatewaySubResource
-func (resource *ApplicationGatewaySubResource) AssignProperties_From_ApplicationGatewaySubResource(source *storage.ApplicationGatewaySubResource) error {
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ApplicationGatewaySubResource populates the provided destination ApplicationGatewaySubResource from our ApplicationGatewaySubResource
-func (resource *ApplicationGatewaySubResource) AssignProperties_To_ApplicationGatewaySubResource(destination *storage.ApplicationGatewaySubResource) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Reference
-	if resource.Reference != nil {
-		reference := resource.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ApplicationGatewaySubResource_STATUS populates our ApplicationGatewaySubResource from the provided source ApplicationGatewaySubResource_STATUS
-func (resource *ApplicationGatewaySubResource) Initialize_From_ApplicationGatewaySubResource_STATUS(source *ApplicationGatewaySubResource_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Reference to another subresource.
-type ApplicationGatewaySubResource_STATUS struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &ApplicationGatewaySubResource_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *ApplicationGatewaySubResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.ApplicationGatewaySubResource_STATUS{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *ApplicationGatewaySubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.ApplicationGatewaySubResource_STATUS)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewaySubResource_STATUS, got %T", armInput)
-	}
-
-	// Set property "Id":
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		resource.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ApplicationGatewaySubResource_STATUS populates our ApplicationGatewaySubResource_STATUS from the provided source ApplicationGatewaySubResource_STATUS
-func (resource *ApplicationGatewaySubResource_STATUS) AssignProperties_From_ApplicationGatewaySubResource_STATUS(source *storage.ApplicationGatewaySubResource_STATUS) error {
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ApplicationGatewaySubResource_STATUS populates the provided destination ApplicationGatewaySubResource_STATUS from our ApplicationGatewaySubResource_STATUS
-func (resource *ApplicationGatewaySubResource_STATUS) AssignProperties_To_ApplicationGatewaySubResource_STATUS(destination *storage.ApplicationGatewaySubResource_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -13159,19 +13001,19 @@ func (certificate *ApplicationGatewayTrustedRootCertificate_STATUS) AssignProper
 // UrlPathMaps give a url path to the backend mapping information for PathBasedRouting.
 type ApplicationGatewayUrlPathMap struct {
 	// DefaultBackendAddressPool: Default backend address pool resource of URL path map.
-	DefaultBackendAddressPool *ApplicationGatewaySubResource `json:"defaultBackendAddressPool,omitempty"`
+	DefaultBackendAddressPool *SubResource `json:"defaultBackendAddressPool,omitempty"`
 
 	// DefaultBackendHttpSettings: Default backend http settings resource of URL path map.
-	DefaultBackendHttpSettings *ApplicationGatewaySubResource `json:"defaultBackendHttpSettings,omitempty"`
+	DefaultBackendHttpSettings *SubResource `json:"defaultBackendHttpSettings,omitempty"`
 
 	// DefaultLoadDistributionPolicy: Default Load Distribution Policy resource of URL path map.
-	DefaultLoadDistributionPolicy *ApplicationGatewaySubResource `json:"defaultLoadDistributionPolicy,omitempty"`
+	DefaultLoadDistributionPolicy *SubResource `json:"defaultLoadDistributionPolicy,omitempty"`
 
 	// DefaultRedirectConfiguration: Default redirect configuration resource of URL path map.
-	DefaultRedirectConfiguration *ApplicationGatewaySubResource `json:"defaultRedirectConfiguration,omitempty"`
+	DefaultRedirectConfiguration *SubResource `json:"defaultRedirectConfiguration,omitempty"`
 
 	// DefaultRewriteRuleSet: Default Rewrite rule set resource of URL path map.
-	DefaultRewriteRuleSet *ApplicationGatewaySubResource `json:"defaultRewriteRuleSet,omitempty"`
+	DefaultRewriteRuleSet *SubResource `json:"defaultRewriteRuleSet,omitempty"`
 
 	// Name: Name of the URL path map that is unique within an Application Gateway.
 	Name *string `json:"name,omitempty"`
@@ -13209,7 +13051,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		defaultBackendAddressPool := *defaultBackendAddressPool_ARM.(*arm.ApplicationGatewaySubResource)
+		defaultBackendAddressPool := *defaultBackendAddressPool_ARM.(*arm.SubResource)
 		result.Properties.DefaultBackendAddressPool = &defaultBackendAddressPool
 	}
 	if pathMap.DefaultBackendHttpSettings != nil {
@@ -13217,7 +13059,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		defaultBackendHttpSettings := *defaultBackendHttpSettings_ARM.(*arm.ApplicationGatewaySubResource)
+		defaultBackendHttpSettings := *defaultBackendHttpSettings_ARM.(*arm.SubResource)
 		result.Properties.DefaultBackendHttpSettings = &defaultBackendHttpSettings
 	}
 	if pathMap.DefaultLoadDistributionPolicy != nil {
@@ -13225,7 +13067,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		defaultLoadDistributionPolicy := *defaultLoadDistributionPolicy_ARM.(*arm.ApplicationGatewaySubResource)
+		defaultLoadDistributionPolicy := *defaultLoadDistributionPolicy_ARM.(*arm.SubResource)
 		result.Properties.DefaultLoadDistributionPolicy = &defaultLoadDistributionPolicy
 	}
 	if pathMap.DefaultRedirectConfiguration != nil {
@@ -13233,7 +13075,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		defaultRedirectConfiguration := *defaultRedirectConfiguration_ARM.(*arm.ApplicationGatewaySubResource)
+		defaultRedirectConfiguration := *defaultRedirectConfiguration_ARM.(*arm.SubResource)
 		result.Properties.DefaultRedirectConfiguration = &defaultRedirectConfiguration
 	}
 	if pathMap.DefaultRewriteRuleSet != nil {
@@ -13241,7 +13083,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		defaultRewriteRuleSet := *defaultRewriteRuleSet_ARM.(*arm.ApplicationGatewaySubResource)
+		defaultRewriteRuleSet := *defaultRewriteRuleSet_ARM.(*arm.SubResource)
 		result.Properties.DefaultRewriteRuleSet = &defaultRewriteRuleSet
 	}
 	for _, item := range pathMap.PathRules {
@@ -13270,7 +13112,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultBackendAddressPool != nil {
-			var defaultBackendAddressPool1 ApplicationGatewaySubResource
+			var defaultBackendAddressPool1 SubResource
 			err := defaultBackendAddressPool1.PopulateFromARM(owner, *typedInput.Properties.DefaultBackendAddressPool)
 			if err != nil {
 				return err
@@ -13284,7 +13126,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultBackendHttpSettings != nil {
-			var defaultBackendHttpSettings1 ApplicationGatewaySubResource
+			var defaultBackendHttpSettings1 SubResource
 			err := defaultBackendHttpSettings1.PopulateFromARM(owner, *typedInput.Properties.DefaultBackendHttpSettings)
 			if err != nil {
 				return err
@@ -13298,7 +13140,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultLoadDistributionPolicy != nil {
-			var defaultLoadDistributionPolicy1 ApplicationGatewaySubResource
+			var defaultLoadDistributionPolicy1 SubResource
 			err := defaultLoadDistributionPolicy1.PopulateFromARM(owner, *typedInput.Properties.DefaultLoadDistributionPolicy)
 			if err != nil {
 				return err
@@ -13312,7 +13154,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultRedirectConfiguration != nil {
-			var defaultRedirectConfiguration1 ApplicationGatewaySubResource
+			var defaultRedirectConfiguration1 SubResource
 			err := defaultRedirectConfiguration1.PopulateFromARM(owner, *typedInput.Properties.DefaultRedirectConfiguration)
 			if err != nil {
 				return err
@@ -13326,7 +13168,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultRewriteRuleSet != nil {
-			var defaultRewriteRuleSet1 ApplicationGatewaySubResource
+			var defaultRewriteRuleSet1 SubResource
 			err := defaultRewriteRuleSet1.PopulateFromARM(owner, *typedInput.Properties.DefaultRewriteRuleSet)
 			if err != nil {
 				return err
@@ -13364,10 +13206,10 @@ func (pathMap *ApplicationGatewayUrlPathMap) AssignProperties_From_ApplicationGa
 
 	// DefaultBackendAddressPool
 	if source.DefaultBackendAddressPool != nil {
-		var defaultBackendAddressPool ApplicationGatewaySubResource
-		err := defaultBackendAddressPool.AssignProperties_From_ApplicationGatewaySubResource(source.DefaultBackendAddressPool)
+		var defaultBackendAddressPool SubResource
+		err := defaultBackendAddressPool.AssignProperties_From_SubResource(source.DefaultBackendAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field DefaultBackendAddressPool")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DefaultBackendAddressPool")
 		}
 		pathMap.DefaultBackendAddressPool = &defaultBackendAddressPool
 	} else {
@@ -13376,10 +13218,10 @@ func (pathMap *ApplicationGatewayUrlPathMap) AssignProperties_From_ApplicationGa
 
 	// DefaultBackendHttpSettings
 	if source.DefaultBackendHttpSettings != nil {
-		var defaultBackendHttpSetting ApplicationGatewaySubResource
-		err := defaultBackendHttpSetting.AssignProperties_From_ApplicationGatewaySubResource(source.DefaultBackendHttpSettings)
+		var defaultBackendHttpSetting SubResource
+		err := defaultBackendHttpSetting.AssignProperties_From_SubResource(source.DefaultBackendHttpSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field DefaultBackendHttpSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DefaultBackendHttpSettings")
 		}
 		pathMap.DefaultBackendHttpSettings = &defaultBackendHttpSetting
 	} else {
@@ -13388,10 +13230,10 @@ func (pathMap *ApplicationGatewayUrlPathMap) AssignProperties_From_ApplicationGa
 
 	// DefaultLoadDistributionPolicy
 	if source.DefaultLoadDistributionPolicy != nil {
-		var defaultLoadDistributionPolicy ApplicationGatewaySubResource
-		err := defaultLoadDistributionPolicy.AssignProperties_From_ApplicationGatewaySubResource(source.DefaultLoadDistributionPolicy)
+		var defaultLoadDistributionPolicy SubResource
+		err := defaultLoadDistributionPolicy.AssignProperties_From_SubResource(source.DefaultLoadDistributionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field DefaultLoadDistributionPolicy")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DefaultLoadDistributionPolicy")
 		}
 		pathMap.DefaultLoadDistributionPolicy = &defaultLoadDistributionPolicy
 	} else {
@@ -13400,10 +13242,10 @@ func (pathMap *ApplicationGatewayUrlPathMap) AssignProperties_From_ApplicationGa
 
 	// DefaultRedirectConfiguration
 	if source.DefaultRedirectConfiguration != nil {
-		var defaultRedirectConfiguration ApplicationGatewaySubResource
-		err := defaultRedirectConfiguration.AssignProperties_From_ApplicationGatewaySubResource(source.DefaultRedirectConfiguration)
+		var defaultRedirectConfiguration SubResource
+		err := defaultRedirectConfiguration.AssignProperties_From_SubResource(source.DefaultRedirectConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field DefaultRedirectConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DefaultRedirectConfiguration")
 		}
 		pathMap.DefaultRedirectConfiguration = &defaultRedirectConfiguration
 	} else {
@@ -13412,10 +13254,10 @@ func (pathMap *ApplicationGatewayUrlPathMap) AssignProperties_From_ApplicationGa
 
 	// DefaultRewriteRuleSet
 	if source.DefaultRewriteRuleSet != nil {
-		var defaultRewriteRuleSet ApplicationGatewaySubResource
-		err := defaultRewriteRuleSet.AssignProperties_From_ApplicationGatewaySubResource(source.DefaultRewriteRuleSet)
+		var defaultRewriteRuleSet SubResource
+		err := defaultRewriteRuleSet.AssignProperties_From_SubResource(source.DefaultRewriteRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field DefaultRewriteRuleSet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DefaultRewriteRuleSet")
 		}
 		pathMap.DefaultRewriteRuleSet = &defaultRewriteRuleSet
 	} else {
@@ -13454,10 +13296,10 @@ func (pathMap *ApplicationGatewayUrlPathMap) AssignProperties_To_ApplicationGate
 
 	// DefaultBackendAddressPool
 	if pathMap.DefaultBackendAddressPool != nil {
-		var defaultBackendAddressPool storage.ApplicationGatewaySubResource
-		err := pathMap.DefaultBackendAddressPool.AssignProperties_To_ApplicationGatewaySubResource(&defaultBackendAddressPool)
+		var defaultBackendAddressPool storage.SubResource
+		err := pathMap.DefaultBackendAddressPool.AssignProperties_To_SubResource(&defaultBackendAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field DefaultBackendAddressPool")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DefaultBackendAddressPool")
 		}
 		destination.DefaultBackendAddressPool = &defaultBackendAddressPool
 	} else {
@@ -13466,10 +13308,10 @@ func (pathMap *ApplicationGatewayUrlPathMap) AssignProperties_To_ApplicationGate
 
 	// DefaultBackendHttpSettings
 	if pathMap.DefaultBackendHttpSettings != nil {
-		var defaultBackendHttpSetting storage.ApplicationGatewaySubResource
-		err := pathMap.DefaultBackendHttpSettings.AssignProperties_To_ApplicationGatewaySubResource(&defaultBackendHttpSetting)
+		var defaultBackendHttpSetting storage.SubResource
+		err := pathMap.DefaultBackendHttpSettings.AssignProperties_To_SubResource(&defaultBackendHttpSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field DefaultBackendHttpSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DefaultBackendHttpSettings")
 		}
 		destination.DefaultBackendHttpSettings = &defaultBackendHttpSetting
 	} else {
@@ -13478,10 +13320,10 @@ func (pathMap *ApplicationGatewayUrlPathMap) AssignProperties_To_ApplicationGate
 
 	// DefaultLoadDistributionPolicy
 	if pathMap.DefaultLoadDistributionPolicy != nil {
-		var defaultLoadDistributionPolicy storage.ApplicationGatewaySubResource
-		err := pathMap.DefaultLoadDistributionPolicy.AssignProperties_To_ApplicationGatewaySubResource(&defaultLoadDistributionPolicy)
+		var defaultLoadDistributionPolicy storage.SubResource
+		err := pathMap.DefaultLoadDistributionPolicy.AssignProperties_To_SubResource(&defaultLoadDistributionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field DefaultLoadDistributionPolicy")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DefaultLoadDistributionPolicy")
 		}
 		destination.DefaultLoadDistributionPolicy = &defaultLoadDistributionPolicy
 	} else {
@@ -13490,10 +13332,10 @@ func (pathMap *ApplicationGatewayUrlPathMap) AssignProperties_To_ApplicationGate
 
 	// DefaultRedirectConfiguration
 	if pathMap.DefaultRedirectConfiguration != nil {
-		var defaultRedirectConfiguration storage.ApplicationGatewaySubResource
-		err := pathMap.DefaultRedirectConfiguration.AssignProperties_To_ApplicationGatewaySubResource(&defaultRedirectConfiguration)
+		var defaultRedirectConfiguration storage.SubResource
+		err := pathMap.DefaultRedirectConfiguration.AssignProperties_To_SubResource(&defaultRedirectConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field DefaultRedirectConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DefaultRedirectConfiguration")
 		}
 		destination.DefaultRedirectConfiguration = &defaultRedirectConfiguration
 	} else {
@@ -13502,10 +13344,10 @@ func (pathMap *ApplicationGatewayUrlPathMap) AssignProperties_To_ApplicationGate
 
 	// DefaultRewriteRuleSet
 	if pathMap.DefaultRewriteRuleSet != nil {
-		var defaultRewriteRuleSet storage.ApplicationGatewaySubResource
-		err := pathMap.DefaultRewriteRuleSet.AssignProperties_To_ApplicationGatewaySubResource(&defaultRewriteRuleSet)
+		var defaultRewriteRuleSet storage.SubResource
+		err := pathMap.DefaultRewriteRuleSet.AssignProperties_To_SubResource(&defaultRewriteRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field DefaultRewriteRuleSet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DefaultRewriteRuleSet")
 		}
 		destination.DefaultRewriteRuleSet = &defaultRewriteRuleSet
 	} else {
@@ -14733,6 +14575,164 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServic
 	} else {
 		destination.UserAssignedIdentities = nil
 	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Reference to another ARM resource.
+type SubResource struct {
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &SubResource{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if resource == nil {
+		return nil, nil
+	}
+	result := &arm.SubResource{}
+
+	// Set property "Id":
+	if resource.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (resource *SubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.SubResource{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	_, ok := armInput.(arm.SubResource)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubResource, got %T", armInput)
+	}
+
+	// no assignment for property "Reference"
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_SubResource populates our SubResource from the provided source SubResource
+func (resource *SubResource) AssignProperties_From_SubResource(source *storage.SubResource) error {
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		resource.Reference = &reference
+	} else {
+		resource.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SubResource populates the provided destination SubResource from our SubResource
+func (resource *SubResource) AssignProperties_To_SubResource(destination *storage.SubResource) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Reference
+	if resource.Reference != nil {
+		reference := resource.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_SubResource_STATUS populates our SubResource from the provided source SubResource_STATUS
+func (resource *SubResource) Initialize_From_SubResource_STATUS(source *SubResource_STATUS) error {
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		resource.Reference = &reference
+	} else {
+		resource.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Reference to another ARM resource.
+type SubResource_STATUS struct {
+	// Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &SubResource_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (resource *SubResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.SubResource_STATUS{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (resource *SubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.SubResource_STATUS)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubResource_STATUS, got %T", armInput)
+	}
+
+	// Set property "Id":
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_SubResource_STATUS populates our SubResource_STATUS from the provided source SubResource_STATUS
+func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(source *storage.SubResource_STATUS) error {
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SubResource_STATUS populates the provided destination SubResource_STATUS from our SubResource_STATUS
+func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(destination *storage.SubResource_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

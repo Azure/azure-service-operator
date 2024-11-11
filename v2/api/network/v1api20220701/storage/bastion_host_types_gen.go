@@ -254,11 +254,11 @@ func (host *BastionHost_STATUS) ConvertStatusTo(destination genruntime.Convertib
 // Storage version of v1api20220701.BastionHostIPConfiguration
 // IP configuration of an Bastion Host.
 type BastionHostIPConfiguration struct {
-	Name                      *string                 `json:"name,omitempty"`
-	PrivateIPAllocationMethod *string                 `json:"privateIPAllocationMethod,omitempty"`
-	PropertyBag               genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	PublicIPAddress           *BastionHostSubResource `json:"publicIPAddress,omitempty"`
-	Subnet                    *BastionHostSubResource `json:"subnet,omitempty"`
+	Name                      *string                `json:"name,omitempty"`
+	PrivateIPAllocationMethod *string                `json:"privateIPAllocationMethod,omitempty"`
+	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PublicIPAddress           *SubResource           `json:"publicIPAddress,omitempty"`
+	Subnet                    *SubResource           `json:"subnet,omitempty"`
 }
 
 // Storage version of v1api20220701.BastionHostIPConfiguration_STATUS
@@ -288,15 +288,6 @@ type Sku struct {
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20220701.BastionHostSubResource
-// Reference to another subresource.
-type BastionHostSubResource struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 func init() {

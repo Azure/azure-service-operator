@@ -37,5 +37,5 @@ func (endpoint *DnsResolversOutboundEndpoint_Spec) GetType() string {
 // Represents the properties of an outbound endpoint for a DNS resolver.
 type OutboundEndpointProperties struct {
 	// Subnet: The reference to the subnet used for the outbound endpoint.
-	Subnet *DnsresolverSubResource `json:"subnet,omitempty"`
+	Subnet *SubResource `json:"subnet,omitempty"`
 }

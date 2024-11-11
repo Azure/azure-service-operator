@@ -99,13 +99,8 @@ type BastionHostIPConfigurationPropertiesFormat struct {
 	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
 
 	// PublicIPAddress: Reference of the PublicIP resource.
-	PublicIPAddress *BastionHostSubResource `json:"publicIPAddress,omitempty"`
+	PublicIPAddress *SubResource `json:"publicIPAddress,omitempty"`
 
 	// Subnet: Reference of the subnet resource.
-	Subnet *BastionHostSubResource `json:"subnet,omitempty"`
-}
-
-// Reference to another subresource.
-type BastionHostSubResource struct {
-	Id *string `json:"id,omitempty"`
+	Subnet *SubResource `json:"subnet,omitempty"`
 }

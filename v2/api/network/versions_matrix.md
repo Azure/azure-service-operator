@@ -115,8 +115,6 @@
 | ApplicationGatewaySslProfile                                                                 |               |               |               |               |               | v1api20220701 |               |
 | ApplicationGatewaySslProfilePropertiesFormat                                                 |               |               |               |               |               | v1api20220701 |               |
 | ApplicationGatewaySslProfile_STATUS                                                          |               |               |               |               |               | v1api20220701 |               |
-| ApplicationGatewaySubResource                                                                |               |               |               |               |               | v1api20220701 |               |
-| ApplicationGatewaySubResource_STATUS                                                         |               |               |               |               |               | v1api20220701 |               |
 | ApplicationGatewayTrustedClientCertificate                                                   |               |               |               |               |               | v1api20220701 |               |
 | ApplicationGatewayTrustedClientCertificatePropertiesFormat                                   |               |               |               |               |               | v1api20220701 |               |
 | ApplicationGatewayTrustedClientCertificate_STATUS                                            |               |               |               |               |               | v1api20220701 |               |
@@ -158,7 +156,6 @@
 | BastionHostPropertiesFormat                                                                  |               |               |               |               |               | v1api20220701 |               |
 | BastionHostPropertiesFormat_STATUS                                                           |               |               |               |               |               | v1api20220701 |               |
 | BastionHostProvisioningState_STATUS                                                          |               |               |               |               |               | v1api20220701 |               |
-| BastionHostSubResource                                                                       |               |               |               |               |               | v1api20220701 |               |
 | BastionHost_STATUS                                                                           |               |               |               |               |               | v1api20220701 |               |
 | BastionHost_Spec                                                                             |               |               |               |               |               | v1api20220701 |               |
 | BgpSettings                                                                                  |               |               |               | v1api20201101 |               |               |               |
@@ -236,8 +233,6 @@
 | DnsZonesTXTRecord_STATUS                                                                     | v1api20180501 |               |               |               |               |               |               |
 | DnsZonesTXTRecord_Spec                                                                       | v1api20180501 |               |               |               |               |               |               |
 | DnsresolverProvisioningState_STATUS                                                          |               |               |               |               |               | v1api20220701 |               |
-| DnsresolverSubResource                                                                       |               |               |               |               |               | v1api20220701 |               |
-| DnsresolverSubResource_STATUS                                                                |               |               |               |               |               | v1api20220701 |               |
 | EndpointProperties                                                                           |               |               |               |               | v1api20220401 |               |               |
 | EndpointProperties_AlwaysServe                                                               |               |               |               |               | v1api20220401 |               |               |
 | EndpointProperties_AlwaysServe_STATUS                                                        |               |               |               |               | v1api20220401 |               |               |
@@ -570,8 +565,6 @@
 | PublicIPPrefix_STATUS                                                                        |               |               |               |               |               | v1api20220701 |               |
 | PublicIPPrefix_Spec                                                                          |               |               |               |               |               | v1api20220701 |               |
 | PublicIpPrefixProvisioningState_STATUS                                                       |               |               |               |               |               | v1api20220701 |               |
-| PublicIpPrefixSubResource                                                                    |               |               |               |               |               | v1api20220701 |               |
-| PublicIpPrefixSubResource_STATUS                                                             |               |               |               |               |               | v1api20220701 |               |
 | RadiusServer                                                                                 |               |               |               | v1api20201101 |               |               |               |
 | RadiusServer_STATUS                                                                          |               |               |               | v1api20201101 |               |               |               |
 | RecordSetProperties                                                                          | v1api20180501 |               | v1api20200601 |               |               |               |               |
@@ -625,8 +618,8 @@
 | SoaRecord_STATUS                                                                             | v1api20180501 |               | v1api20200601 |               |               |               |               |
 | SrvRecord                                                                                    | v1api20180501 |               | v1api20200601 |               |               |               |               |
 | SrvRecord_STATUS                                                                             | v1api20180501 |               | v1api20200601 |               |               |               |               |
-| SubResource                                                                                  | v1api20180501 |               | v1api20200601 | v1api20201101 |               |               |               |
-| SubResource_STATUS                                                                           | v1api20180501 |               | v1api20200601 | v1api20201101 |               |               | v1api20240101 |
+| SubResource                                                                                  | v1api20180501 |               | v1api20200601 | v1api20201101 |               | v1api20220701 |               |
+| SubResource_STATUS                                                                           | v1api20180501 |               | v1api20200601 | v1api20201101 |               | v1api20220701 | v1api20240101 |
 | SubnetPropertiesFormat_PrivateEndpointNetworkPolicies                                        |               |               |               | v1api20201101 |               |               |               |
 | SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS                                 |               |               |               | v1api20201101 |               |               |               |
 | SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies                                     |               |               |               | v1api20201101 |               |               |               |

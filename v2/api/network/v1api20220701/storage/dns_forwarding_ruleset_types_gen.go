@@ -166,7 +166,7 @@ type DnsForwardingRuleset_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                    string                            `json:"azureName,omitempty"`
-	DnsResolverOutboundEndpoints []DnsresolverSubResource          `json:"dnsResolverOutboundEndpoints,omitempty"`
+	DnsResolverOutboundEndpoints []SubResource                     `json:"dnsResolverOutboundEndpoints,omitempty"`
 	Location                     *string                           `json:"location,omitempty"`
 	OperatorSpec                 *DnsForwardingRulesetOperatorSpec `json:"operatorSpec,omitempty"`
 	OriginalVersion              string                            `json:"originalVersion,omitempty"`
@@ -203,18 +203,18 @@ func (ruleset *DnsForwardingRuleset_Spec) ConvertSpecTo(destination genruntime.C
 // Storage version of v1api20220701.DnsForwardingRuleset_STATUS
 // Describes a DNS forwarding ruleset.
 type DnsForwardingRuleset_STATUS struct {
-	Conditions                   []conditions.Condition          `json:"conditions,omitempty"`
-	DnsResolverOutboundEndpoints []DnsresolverSubResource_STATUS `json:"dnsResolverOutboundEndpoints,omitempty"`
-	Etag                         *string                         `json:"etag,omitempty"`
-	Id                           *string                         `json:"id,omitempty"`
-	Location                     *string                         `json:"location,omitempty"`
-	Name                         *string                         `json:"name,omitempty"`
-	PropertyBag                  genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
-	ProvisioningState            *string                         `json:"provisioningState,omitempty"`
-	ResourceGuid                 *string                         `json:"resourceGuid,omitempty"`
-	SystemData                   *SystemData_STATUS              `json:"systemData,omitempty"`
-	Tags                         map[string]string               `json:"tags,omitempty"`
-	Type                         *string                         `json:"type,omitempty"`
+	Conditions                   []conditions.Condition `json:"conditions,omitempty"`
+	DnsResolverOutboundEndpoints []SubResource_STATUS   `json:"dnsResolverOutboundEndpoints,omitempty"`
+	Etag                         *string                `json:"etag,omitempty"`
+	Id                           *string                `json:"id,omitempty"`
+	Location                     *string                `json:"location,omitempty"`
+	Name                         *string                `json:"name,omitempty"`
+	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProvisioningState            *string                `json:"provisioningState,omitempty"`
+	ResourceGuid                 *string                `json:"resourceGuid,omitempty"`
+	SystemData                   *SystemData_STATUS     `json:"systemData,omitempty"`
+	Tags                         map[string]string      `json:"tags,omitempty"`
+	Type                         *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DnsForwardingRuleset_STATUS{}

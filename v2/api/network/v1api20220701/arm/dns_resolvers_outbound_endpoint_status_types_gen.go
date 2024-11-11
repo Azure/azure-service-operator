@@ -40,5 +40,5 @@ type OutboundEndpointProperties_STATUS struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
 	// Subnet: The reference to the subnet used for the outbound endpoint.
-	Subnet *DnsresolverSubResource_STATUS `json:"subnet,omitempty"`
+	Subnet *SubResource_STATUS `json:"subnet,omitempty"`
 }

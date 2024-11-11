@@ -63,18 +63,18 @@ func Test_Networking_ApplicationGateway_CRUD(t *testing.T) {
 			GatewayIPConfigurations:  appGtwFIPConfig,
 			FrontendIPConfigurations: appGtwFeIpConfig,
 			FrontendPorts:            appGtwFEPorts,
-			FirewallPolicy: &network.ApplicationGatewaySubResource{
+			FirewallPolicy: &network.SubResource{
 				Reference: tc.MakeReferenceFromResource(appGtwWaf),
 			},
 			HttpListeners: []network.ApplicationGatewayHttpListener{
 				{
 					Name: to.Ptr(appGtsListenerName),
-					FrontendIPConfiguration: &network.ApplicationGatewaySubResource{
+					FrontendIPConfiguration: &network.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: appGtwFeIpConfigID,
 						},
 					},
-					FrontendPort: &network.ApplicationGatewaySubResource{
+					FrontendPort: &network.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: appGtwFePortsID,
 						},
@@ -88,17 +88,17 @@ func Test_Networking_ApplicationGateway_CRUD(t *testing.T) {
 			RequestRoutingRules: []network.ApplicationGatewayRequestRoutingRule{
 				{
 					Name: to.Ptr("app-gtw-routing-rule-1"),
-					BackendAddressPool: &network.ApplicationGatewaySubResource{
+					BackendAddressPool: &network.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: appGtwBackendPoolsID,
 						},
 					},
-					BackendHttpSettings: &network.ApplicationGatewaySubResource{
+					BackendHttpSettings: &network.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: appGtwBackendHttpSettingsID,
 						},
 					},
-					HttpListener: &network.ApplicationGatewaySubResource{
+					HttpListener: &network.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: appGtwFHttpListenerID,
 						},
@@ -130,7 +130,7 @@ func defineApplicationGatewayIPConfiguration(subnet *genruntime.ResourceReferenc
 	appGtwFeIpConfig := []network.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded{
 		{
 			Name: to.Ptr(subResName),
-			Subnet: &network.ApplicationGatewaySubResource{
+			Subnet: &network.SubResource{
 				Reference: subnet,
 			},
 		},
@@ -198,13 +198,13 @@ func defineApplicationGatewayFrontendIPConfiguration(tc *testcommon.KubePerTestC
 			Name:                      to.Ptr(appGtwFeIpName),
 			PrivateIPAddress:          to.Ptr("10.0.0.10"),
 			PrivateIPAllocationMethod: to.Ptr(network.IPAllocationMethod_Static),
-			Subnet: &network.ApplicationGatewaySubResource{
+			Subnet: &network.SubResource{
 				Reference: subnet,
 			},
 		},
 		{
 			Name: to.Ptr(appGtwFeIpName2),
-			PublicIPAddress: &network.ApplicationGatewaySubResource{
+			PublicIPAddress: &network.SubResource{
 				Reference: publicIP,
 			},
 		},

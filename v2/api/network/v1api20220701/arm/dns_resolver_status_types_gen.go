@@ -45,7 +45,7 @@ type DnsResolverProperties_STATUS struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
 	// VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.
-	VirtualNetwork *DnsresolverSubResource_STATUS `json:"virtualNetwork,omitempty"`
+	VirtualNetwork *SubResource_STATUS `json:"virtualNetwork,omitempty"`
 }
 
 type DnsResolverProperties_DnsResolverState_STATUS string

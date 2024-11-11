@@ -392,10 +392,10 @@ type NatGateway_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// PublicIpAddresses: An array of public ip addresses associated with the nat gateway resource.
-	PublicIpAddresses []ApplicationGatewaySubResource `json:"publicIpAddresses,omitempty"`
+	PublicIpAddresses []SubResource `json:"publicIpAddresses,omitempty"`
 
 	// PublicIpPrefixes: An array of public ip prefixes associated with the nat gateway resource.
-	PublicIpPrefixes []ApplicationGatewaySubResource `json:"publicIpPrefixes,omitempty"`
+	PublicIpPrefixes []SubResource `json:"publicIpPrefixes,omitempty"`
 
 	// Sku: The nat gateway SKU.
 	Sku *NatGatewaySku `json:"sku,omitempty"`
@@ -440,14 +440,14 @@ func (gateway *NatGateway_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PublicIpAddresses = append(result.Properties.PublicIpAddresses, *item_ARM.(*arm.ApplicationGatewaySubResource))
+		result.Properties.PublicIpAddresses = append(result.Properties.PublicIpAddresses, *item_ARM.(*arm.SubResource))
 	}
 	for _, item := range gateway.PublicIpPrefixes {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PublicIpPrefixes = append(result.Properties.PublicIpPrefixes, *item_ARM.(*arm.ApplicationGatewaySubResource))
+		result.Properties.PublicIpPrefixes = append(result.Properties.PublicIpPrefixes, *item_ARM.(*arm.SubResource))
 	}
 
 	// Set property "Sku":
@@ -517,7 +517,7 @@ func (gateway *NatGateway_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PublicIpAddresses {
-			var item1 ApplicationGatewaySubResource
+			var item1 SubResource
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -530,7 +530,7 @@ func (gateway *NatGateway_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PublicIpPrefixes {
-			var item1 ApplicationGatewaySubResource
+			var item1 SubResource
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -651,14 +651,14 @@ func (gateway *NatGateway_Spec) AssignProperties_From_NatGateway_Spec(source *st
 
 	// PublicIpAddresses
 	if source.PublicIpAddresses != nil {
-		publicIpAddressList := make([]ApplicationGatewaySubResource, len(source.PublicIpAddresses))
+		publicIpAddressList := make([]SubResource, len(source.PublicIpAddresses))
 		for publicIpAddressIndex, publicIpAddressItem := range source.PublicIpAddresses {
 			// Shadow the loop variable to avoid aliasing
 			publicIpAddressItem := publicIpAddressItem
-			var publicIpAddress ApplicationGatewaySubResource
-			err := publicIpAddress.AssignProperties_From_ApplicationGatewaySubResource(&publicIpAddressItem)
+			var publicIpAddress SubResource
+			err := publicIpAddress.AssignProperties_From_SubResource(&publicIpAddressItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field PublicIpAddresses")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIpAddresses")
 			}
 			publicIpAddressList[publicIpAddressIndex] = publicIpAddress
 		}
@@ -669,14 +669,14 @@ func (gateway *NatGateway_Spec) AssignProperties_From_NatGateway_Spec(source *st
 
 	// PublicIpPrefixes
 	if source.PublicIpPrefixes != nil {
-		publicIpPrefixList := make([]ApplicationGatewaySubResource, len(source.PublicIpPrefixes))
+		publicIpPrefixList := make([]SubResource, len(source.PublicIpPrefixes))
 		for publicIpPrefixIndex, publicIpPrefixItem := range source.PublicIpPrefixes {
 			// Shadow the loop variable to avoid aliasing
 			publicIpPrefixItem := publicIpPrefixItem
-			var publicIpPrefix ApplicationGatewaySubResource
-			err := publicIpPrefix.AssignProperties_From_ApplicationGatewaySubResource(&publicIpPrefixItem)
+			var publicIpPrefix SubResource
+			err := publicIpPrefix.AssignProperties_From_SubResource(&publicIpPrefixItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource() to populate field PublicIpPrefixes")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIpPrefixes")
 			}
 			publicIpPrefixList[publicIpPrefixIndex] = publicIpPrefix
 		}
@@ -746,14 +746,14 @@ func (gateway *NatGateway_Spec) AssignProperties_To_NatGateway_Spec(destination 
 
 	// PublicIpAddresses
 	if gateway.PublicIpAddresses != nil {
-		publicIpAddressList := make([]storage.ApplicationGatewaySubResource, len(gateway.PublicIpAddresses))
+		publicIpAddressList := make([]storage.SubResource, len(gateway.PublicIpAddresses))
 		for publicIpAddressIndex, publicIpAddressItem := range gateway.PublicIpAddresses {
 			// Shadow the loop variable to avoid aliasing
 			publicIpAddressItem := publicIpAddressItem
-			var publicIpAddress storage.ApplicationGatewaySubResource
-			err := publicIpAddressItem.AssignProperties_To_ApplicationGatewaySubResource(&publicIpAddress)
+			var publicIpAddress storage.SubResource
+			err := publicIpAddressItem.AssignProperties_To_SubResource(&publicIpAddress)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field PublicIpAddresses")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIpAddresses")
 			}
 			publicIpAddressList[publicIpAddressIndex] = publicIpAddress
 		}
@@ -764,14 +764,14 @@ func (gateway *NatGateway_Spec) AssignProperties_To_NatGateway_Spec(destination 
 
 	// PublicIpPrefixes
 	if gateway.PublicIpPrefixes != nil {
-		publicIpPrefixList := make([]storage.ApplicationGatewaySubResource, len(gateway.PublicIpPrefixes))
+		publicIpPrefixList := make([]storage.SubResource, len(gateway.PublicIpPrefixes))
 		for publicIpPrefixIndex, publicIpPrefixItem := range gateway.PublicIpPrefixes {
 			// Shadow the loop variable to avoid aliasing
 			publicIpPrefixItem := publicIpPrefixItem
-			var publicIpPrefix storage.ApplicationGatewaySubResource
-			err := publicIpPrefixItem.AssignProperties_To_ApplicationGatewaySubResource(&publicIpPrefix)
+			var publicIpPrefix storage.SubResource
+			err := publicIpPrefixItem.AssignProperties_To_SubResource(&publicIpPrefix)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource() to populate field PublicIpPrefixes")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIpPrefixes")
 			}
 			publicIpPrefixList[publicIpPrefixIndex] = publicIpPrefix
 		}
@@ -820,14 +820,14 @@ func (gateway *NatGateway_Spec) Initialize_From_NatGateway_STATUS(source *NatGat
 
 	// PublicIpAddresses
 	if source.PublicIpAddresses != nil {
-		publicIpAddressList := make([]ApplicationGatewaySubResource, len(source.PublicIpAddresses))
+		publicIpAddressList := make([]SubResource, len(source.PublicIpAddresses))
 		for publicIpAddressIndex, publicIpAddressItem := range source.PublicIpAddresses {
 			// Shadow the loop variable to avoid aliasing
 			publicIpAddressItem := publicIpAddressItem
-			var publicIpAddress ApplicationGatewaySubResource
-			err := publicIpAddress.Initialize_From_ApplicationGatewaySubResource_STATUS(&publicIpAddressItem)
+			var publicIpAddress SubResource
+			err := publicIpAddress.Initialize_From_SubResource_STATUS(&publicIpAddressItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ApplicationGatewaySubResource_STATUS() to populate field PublicIpAddresses")
+				return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field PublicIpAddresses")
 			}
 			publicIpAddressList[publicIpAddressIndex] = publicIpAddress
 		}
@@ -838,14 +838,14 @@ func (gateway *NatGateway_Spec) Initialize_From_NatGateway_STATUS(source *NatGat
 
 	// PublicIpPrefixes
 	if source.PublicIpPrefixes != nil {
-		publicIpPrefixList := make([]ApplicationGatewaySubResource, len(source.PublicIpPrefixes))
+		publicIpPrefixList := make([]SubResource, len(source.PublicIpPrefixes))
 		for publicIpPrefixIndex, publicIpPrefixItem := range source.PublicIpPrefixes {
 			// Shadow the loop variable to avoid aliasing
 			publicIpPrefixItem := publicIpPrefixItem
-			var publicIpPrefix ApplicationGatewaySubResource
-			err := publicIpPrefix.Initialize_From_ApplicationGatewaySubResource_STATUS(&publicIpPrefixItem)
+			var publicIpPrefix SubResource
+			err := publicIpPrefix.Initialize_From_SubResource_STATUS(&publicIpPrefixItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ApplicationGatewaySubResource_STATUS() to populate field PublicIpPrefixes")
+				return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field PublicIpPrefixes")
 			}
 			publicIpPrefixList[publicIpPrefixIndex] = publicIpPrefix
 		}
@@ -908,10 +908,10 @@ type NatGateway_STATUS struct {
 	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicIpAddresses: An array of public ip addresses associated with the nat gateway resource.
-	PublicIpAddresses []ApplicationGatewaySubResource_STATUS `json:"publicIpAddresses,omitempty"`
+	PublicIpAddresses []SubResource_STATUS `json:"publicIpAddresses,omitempty"`
 
 	// PublicIpPrefixes: An array of public ip prefixes associated with the nat gateway resource.
-	PublicIpPrefixes []ApplicationGatewaySubResource_STATUS `json:"publicIpPrefixes,omitempty"`
+	PublicIpPrefixes []SubResource_STATUS `json:"publicIpPrefixes,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the NAT gateway resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -920,7 +920,7 @@ type NatGateway_STATUS struct {
 	Sku *NatGatewaySku_STATUS `json:"sku,omitempty"`
 
 	// Subnets: An array of references to the subnets using this nat gateway resource.
-	Subnets []ApplicationGatewaySubResource_STATUS `json:"subnets,omitempty"`
+	Subnets []SubResource_STATUS `json:"subnets,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -1046,7 +1046,7 @@ func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PublicIpAddresses {
-			var item1 ApplicationGatewaySubResource_STATUS
+			var item1 SubResource_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -1059,7 +1059,7 @@ func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PublicIpPrefixes {
-			var item1 ApplicationGatewaySubResource_STATUS
+			var item1 SubResource_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -1092,7 +1092,7 @@ func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Subnets {
-			var item1 ApplicationGatewaySubResource_STATUS
+			var item1 SubResource_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -1156,14 +1156,14 @@ func (gateway *NatGateway_STATUS) AssignProperties_From_NatGateway_STATUS(source
 
 	// PublicIpAddresses
 	if source.PublicIpAddresses != nil {
-		publicIpAddressList := make([]ApplicationGatewaySubResource_STATUS, len(source.PublicIpAddresses))
+		publicIpAddressList := make([]SubResource_STATUS, len(source.PublicIpAddresses))
 		for publicIpAddressIndex, publicIpAddressItem := range source.PublicIpAddresses {
 			// Shadow the loop variable to avoid aliasing
 			publicIpAddressItem := publicIpAddressItem
-			var publicIpAddress ApplicationGatewaySubResource_STATUS
-			err := publicIpAddress.AssignProperties_From_ApplicationGatewaySubResource_STATUS(&publicIpAddressItem)
+			var publicIpAddress SubResource_STATUS
+			err := publicIpAddress.AssignProperties_From_SubResource_STATUS(&publicIpAddressItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource_STATUS() to populate field PublicIpAddresses")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field PublicIpAddresses")
 			}
 			publicIpAddressList[publicIpAddressIndex] = publicIpAddress
 		}
@@ -1174,14 +1174,14 @@ func (gateway *NatGateway_STATUS) AssignProperties_From_NatGateway_STATUS(source
 
 	// PublicIpPrefixes
 	if source.PublicIpPrefixes != nil {
-		publicIpPrefixList := make([]ApplicationGatewaySubResource_STATUS, len(source.PublicIpPrefixes))
+		publicIpPrefixList := make([]SubResource_STATUS, len(source.PublicIpPrefixes))
 		for publicIpPrefixIndex, publicIpPrefixItem := range source.PublicIpPrefixes {
 			// Shadow the loop variable to avoid aliasing
 			publicIpPrefixItem := publicIpPrefixItem
-			var publicIpPrefix ApplicationGatewaySubResource_STATUS
-			err := publicIpPrefix.AssignProperties_From_ApplicationGatewaySubResource_STATUS(&publicIpPrefixItem)
+			var publicIpPrefix SubResource_STATUS
+			err := publicIpPrefix.AssignProperties_From_SubResource_STATUS(&publicIpPrefixItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource_STATUS() to populate field PublicIpPrefixes")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field PublicIpPrefixes")
 			}
 			publicIpPrefixList[publicIpPrefixIndex] = publicIpPrefix
 		}
@@ -1207,14 +1207,14 @@ func (gateway *NatGateway_STATUS) AssignProperties_From_NatGateway_STATUS(source
 
 	// Subnets
 	if source.Subnets != nil {
-		subnetList := make([]ApplicationGatewaySubResource_STATUS, len(source.Subnets))
+		subnetList := make([]SubResource_STATUS, len(source.Subnets))
 		for subnetIndex, subnetItem := range source.Subnets {
 			// Shadow the loop variable to avoid aliasing
 			subnetItem := subnetItem
-			var subnet ApplicationGatewaySubResource_STATUS
-			err := subnet.AssignProperties_From_ApplicationGatewaySubResource_STATUS(&subnetItem)
+			var subnet SubResource_STATUS
+			err := subnet.AssignProperties_From_SubResource_STATUS(&subnetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewaySubResource_STATUS() to populate field Subnets")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field Subnets")
 			}
 			subnetList[subnetIndex] = subnet
 		}
@@ -1269,14 +1269,14 @@ func (gateway *NatGateway_STATUS) AssignProperties_To_NatGateway_STATUS(destinat
 
 	// PublicIpAddresses
 	if gateway.PublicIpAddresses != nil {
-		publicIpAddressList := make([]storage.ApplicationGatewaySubResource_STATUS, len(gateway.PublicIpAddresses))
+		publicIpAddressList := make([]storage.SubResource_STATUS, len(gateway.PublicIpAddresses))
 		for publicIpAddressIndex, publicIpAddressItem := range gateway.PublicIpAddresses {
 			// Shadow the loop variable to avoid aliasing
 			publicIpAddressItem := publicIpAddressItem
-			var publicIpAddress storage.ApplicationGatewaySubResource_STATUS
-			err := publicIpAddressItem.AssignProperties_To_ApplicationGatewaySubResource_STATUS(&publicIpAddress)
+			var publicIpAddress storage.SubResource_STATUS
+			err := publicIpAddressItem.AssignProperties_To_SubResource_STATUS(&publicIpAddress)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource_STATUS() to populate field PublicIpAddresses")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field PublicIpAddresses")
 			}
 			publicIpAddressList[publicIpAddressIndex] = publicIpAddress
 		}
@@ -1287,14 +1287,14 @@ func (gateway *NatGateway_STATUS) AssignProperties_To_NatGateway_STATUS(destinat
 
 	// PublicIpPrefixes
 	if gateway.PublicIpPrefixes != nil {
-		publicIpPrefixList := make([]storage.ApplicationGatewaySubResource_STATUS, len(gateway.PublicIpPrefixes))
+		publicIpPrefixList := make([]storage.SubResource_STATUS, len(gateway.PublicIpPrefixes))
 		for publicIpPrefixIndex, publicIpPrefixItem := range gateway.PublicIpPrefixes {
 			// Shadow the loop variable to avoid aliasing
 			publicIpPrefixItem := publicIpPrefixItem
-			var publicIpPrefix storage.ApplicationGatewaySubResource_STATUS
-			err := publicIpPrefixItem.AssignProperties_To_ApplicationGatewaySubResource_STATUS(&publicIpPrefix)
+			var publicIpPrefix storage.SubResource_STATUS
+			err := publicIpPrefixItem.AssignProperties_To_SubResource_STATUS(&publicIpPrefix)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource_STATUS() to populate field PublicIpPrefixes")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field PublicIpPrefixes")
 			}
 			publicIpPrefixList[publicIpPrefixIndex] = publicIpPrefix
 		}
@@ -1320,14 +1320,14 @@ func (gateway *NatGateway_STATUS) AssignProperties_To_NatGateway_STATUS(destinat
 
 	// Subnets
 	if gateway.Subnets != nil {
-		subnetList := make([]storage.ApplicationGatewaySubResource_STATUS, len(gateway.Subnets))
+		subnetList := make([]storage.SubResource_STATUS, len(gateway.Subnets))
 		for subnetIndex, subnetItem := range gateway.Subnets {
 			// Shadow the loop variable to avoid aliasing
 			subnetItem := subnetItem
-			var subnet storage.ApplicationGatewaySubResource_STATUS
-			err := subnetItem.AssignProperties_To_ApplicationGatewaySubResource_STATUS(&subnet)
+			var subnet storage.SubResource_STATUS
+			err := subnetItem.AssignProperties_To_SubResource_STATUS(&subnet)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewaySubResource_STATUS() to populate field Subnets")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field Subnets")
 			}
 			subnetList[subnetIndex] = subnet
 		}

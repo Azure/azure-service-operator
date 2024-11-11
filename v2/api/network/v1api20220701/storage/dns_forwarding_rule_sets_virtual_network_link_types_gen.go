@@ -176,7 +176,7 @@ type DnsForwardingRuleSetsVirtualNetworkLink_Spec struct {
 	// reference to a network.azure.com/DnsForwardingRuleset resource
 	Owner          *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"DnsForwardingRuleset"`
 	PropertyBag    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	VirtualNetwork *DnsresolverSubResource            `json:"virtualNetwork,omitempty"`
+	VirtualNetwork *SubResource                       `json:"virtualNetwork,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &DnsForwardingRuleSetsVirtualNetworkLink_Spec{}
@@ -201,16 +201,16 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) ConvertSpecTo(destinat
 
 // Storage version of v1api20220701.DnsForwardingRuleSetsVirtualNetworkLink_STATUS
 type DnsForwardingRuleSetsVirtualNetworkLink_STATUS struct {
-	Conditions        []conditions.Condition         `json:"conditions,omitempty"`
-	Etag              *string                        `json:"etag,omitempty"`
-	Id                *string                        `json:"id,omitempty"`
-	Metadata          map[string]string              `json:"metadata,omitempty"`
-	Name              *string                        `json:"name,omitempty"`
-	PropertyBag       genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                        `json:"provisioningState,omitempty"`
-	SystemData        *SystemData_STATUS             `json:"systemData,omitempty"`
-	Type              *string                        `json:"type,omitempty"`
-	VirtualNetwork    *DnsresolverSubResource_STATUS `json:"virtualNetwork,omitempty"`
+	Conditions        []conditions.Condition `json:"conditions,omitempty"`
+	Etag              *string                `json:"etag,omitempty"`
+	Id                *string                `json:"id,omitempty"`
+	Metadata          map[string]string      `json:"metadata,omitempty"`
+	Name              *string                `json:"name,omitempty"`
+	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProvisioningState *string                `json:"provisioningState,omitempty"`
+	SystemData        *SystemData_STATUS     `json:"systemData,omitempty"`
+	Type              *string                `json:"type,omitempty"`
+	VirtualNetwork    *SubResource_STATUS    `json:"virtualNetwork,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DnsForwardingRuleSetsVirtualNetworkLink_STATUS{}
@@ -239,23 +239,6 @@ type DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
-}
-
-// Storage version of v1api20220701.DnsresolverSubResource
-// Reference to another ARM resource.
-type DnsresolverSubResource struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-// Storage version of v1api20220701.DnsresolverSubResource_STATUS
-// Reference to another ARM resource.
-type DnsresolverSubResource_STATUS struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 func init() {

@@ -212,7 +212,7 @@ func AddIndependentPropertyGeneratorsForPublicIPPrefixPropertiesFormat(gens map[
 
 // AddRelatedPropertyGeneratorsForPublicIPPrefixPropertiesFormat is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPublicIPPrefixPropertiesFormat(gens map[string]gopter.Gen) {
-	gens["CustomIPPrefix"] = gen.PtrOf(PublicIpPrefixSubResourceGenerator())
+	gens["CustomIPPrefix"] = gen.PtrOf(SubResourceGenerator())
 	gens["IpTags"] = gen.SliceOf(IpTagGenerator())
 	gens["NatGateway"] = gen.PtrOf(NatGatewaySpec_PublicIPPrefix_SubResourceEmbeddedGenerator())
 }
@@ -358,65 +358,4 @@ func AddRelatedPropertyGeneratorsForPublicIPPrefix_Spec(gens map[string]gopter.G
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["Properties"] = gen.PtrOf(PublicIPPrefixPropertiesFormatGenerator())
 	gens["Sku"] = gen.PtrOf(PublicIPPrefixSkuGenerator())
-}
-
-func Test_PublicIpPrefixSubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PublicIpPrefixSubResource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPublicIpPrefixSubResource, PublicIpPrefixSubResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPublicIpPrefixSubResource runs a test to see if a specific instance of PublicIpPrefixSubResource round trips to JSON and back losslessly
-func RunJSONSerializationTestForPublicIpPrefixSubResource(subject PublicIpPrefixSubResource) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PublicIpPrefixSubResource
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PublicIpPrefixSubResource instances for property testing - lazily instantiated by
-// PublicIpPrefixSubResourceGenerator()
-var publicIpPrefixSubResourceGenerator gopter.Gen
-
-// PublicIpPrefixSubResourceGenerator returns a generator of PublicIpPrefixSubResource instances for property testing.
-func PublicIpPrefixSubResourceGenerator() gopter.Gen {
-	if publicIpPrefixSubResourceGenerator != nil {
-		return publicIpPrefixSubResourceGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPublicIpPrefixSubResource(generators)
-	publicIpPrefixSubResourceGenerator = gen.Struct(reflect.TypeOf(PublicIpPrefixSubResource{}), generators)
-
-	return publicIpPrefixSubResourceGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPublicIpPrefixSubResource is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPublicIpPrefixSubResource(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

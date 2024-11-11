@@ -1153,3 +1153,4 @@ PublicIPPrefix: Resource
     ├── Tags: map[string]string
     ├── Type: *string
     └── Zones: string[]
+augmentConversionForSubResource_STATUS: Interface

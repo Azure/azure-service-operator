@@ -42,16 +42,16 @@ type NatGatewayPropertiesFormat_STATUS struct {
 	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicIpAddresses: An array of public ip addresses associated with the nat gateway resource.
-	PublicIpAddresses []ApplicationGatewaySubResource_STATUS `json:"publicIpAddresses,omitempty"`
+	PublicIpAddresses []SubResource_STATUS `json:"publicIpAddresses,omitempty"`
 
 	// PublicIpPrefixes: An array of public ip prefixes associated with the nat gateway resource.
-	PublicIpPrefixes []ApplicationGatewaySubResource_STATUS `json:"publicIpPrefixes,omitempty"`
+	PublicIpPrefixes []SubResource_STATUS `json:"publicIpPrefixes,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the NAT gateway resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
 	// Subnets: An array of references to the subnets using this nat gateway resource.
-	Subnets []ApplicationGatewaySubResource_STATUS `json:"subnets,omitempty"`
+	Subnets []SubResource_STATUS `json:"subnets,omitempty"`
 }
 
 // SKU of nat gateway.

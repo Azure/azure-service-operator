@@ -46,10 +46,10 @@ type NatGatewayPropertiesFormat struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// PublicIpAddresses: An array of public ip addresses associated with the nat gateway resource.
-	PublicIpAddresses []ApplicationGatewaySubResource `json:"publicIpAddresses,omitempty"`
+	PublicIpAddresses []SubResource `json:"publicIpAddresses,omitempty"`
 
 	// PublicIpPrefixes: An array of public ip prefixes associated with the nat gateway resource.
-	PublicIpPrefixes []ApplicationGatewaySubResource `json:"publicIpPrefixes,omitempty"`
+	PublicIpPrefixes []SubResource `json:"publicIpPrefixes,omitempty"`
 }
 
 // SKU of nat gateway.

@@ -394,7 +394,7 @@ type DnsResolver_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.
-	VirtualNetwork *DnsresolverSubResource `json:"virtualNetwork,omitempty"`
+	VirtualNetwork *SubResource `json:"virtualNetwork,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DnsResolver_Spec{}
@@ -424,7 +424,7 @@ func (resolver *DnsResolver_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		if err != nil {
 			return nil, err
 		}
-		virtualNetwork := *virtualNetwork_ARM.(*arm.DnsresolverSubResource)
+		virtualNetwork := *virtualNetwork_ARM.(*arm.SubResource)
 		result.Properties.VirtualNetwork = &virtualNetwork
 	}
 
@@ -479,7 +479,7 @@ func (resolver *DnsResolver_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetwork != nil {
-			var virtualNetwork1 DnsresolverSubResource
+			var virtualNetwork1 SubResource
 			err := virtualNetwork1.PopulateFromARM(owner, *typedInput.Properties.VirtualNetwork)
 			if err != nil {
 				return err
@@ -577,10 +577,10 @@ func (resolver *DnsResolver_Spec) AssignProperties_From_DnsResolver_Spec(source 
 
 	// VirtualNetwork
 	if source.VirtualNetwork != nil {
-		var virtualNetwork DnsresolverSubResource
-		err := virtualNetwork.AssignProperties_From_DnsresolverSubResource(source.VirtualNetwork)
+		var virtualNetwork SubResource
+		err := virtualNetwork.AssignProperties_From_SubResource(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DnsresolverSubResource() to populate field VirtualNetwork")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualNetwork")
 		}
 		resolver.VirtualNetwork = &virtualNetwork
 	} else {
@@ -630,10 +630,10 @@ func (resolver *DnsResolver_Spec) AssignProperties_To_DnsResolver_Spec(destinati
 
 	// VirtualNetwork
 	if resolver.VirtualNetwork != nil {
-		var virtualNetwork storage.DnsresolverSubResource
-		err := resolver.VirtualNetwork.AssignProperties_To_DnsresolverSubResource(&virtualNetwork)
+		var virtualNetwork storage.SubResource
+		err := resolver.VirtualNetwork.AssignProperties_To_SubResource(&virtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DnsresolverSubResource() to populate field VirtualNetwork")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualNetwork")
 		}
 		destination.VirtualNetwork = &virtualNetwork
 	} else {
@@ -662,10 +662,10 @@ func (resolver *DnsResolver_Spec) Initialize_From_DnsResolver_STATUS(source *Dns
 
 	// VirtualNetwork
 	if source.VirtualNetwork != nil {
-		var virtualNetwork DnsresolverSubResource
-		err := virtualNetwork.Initialize_From_DnsresolverSubResource_STATUS(source.VirtualNetwork)
+		var virtualNetwork SubResource
+		err := virtualNetwork.Initialize_From_SubResource_STATUS(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DnsresolverSubResource_STATUS() to populate field VirtualNetwork")
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		resolver.VirtualNetwork = &virtualNetwork
 	} else {
@@ -723,7 +723,7 @@ type DnsResolver_STATUS struct {
 	Type *string `json:"type,omitempty"`
 
 	// VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.
-	VirtualNetwork *DnsresolverSubResource_STATUS `json:"virtualNetwork,omitempty"`
+	VirtualNetwork *SubResource_STATUS `json:"virtualNetwork,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DnsResolver_STATUS{}
@@ -876,7 +876,7 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetwork != nil {
-			var virtualNetwork1 DnsresolverSubResource_STATUS
+			var virtualNetwork1 SubResource_STATUS
 			err := virtualNetwork1.PopulateFromARM(owner, *typedInput.Properties.VirtualNetwork)
 			if err != nil {
 				return err
@@ -949,10 +949,10 @@ func (resolver *DnsResolver_STATUS) AssignProperties_From_DnsResolver_STATUS(sou
 
 	// VirtualNetwork
 	if source.VirtualNetwork != nil {
-		var virtualNetwork DnsresolverSubResource_STATUS
-		err := virtualNetwork.AssignProperties_From_DnsresolverSubResource_STATUS(source.VirtualNetwork)
+		var virtualNetwork SubResource_STATUS
+		err := virtualNetwork.AssignProperties_From_SubResource_STATUS(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DnsresolverSubResource_STATUS() to populate field VirtualNetwork")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		resolver.VirtualNetwork = &virtualNetwork
 	} else {
@@ -1022,10 +1022,10 @@ func (resolver *DnsResolver_STATUS) AssignProperties_To_DnsResolver_STATUS(desti
 
 	// VirtualNetwork
 	if resolver.VirtualNetwork != nil {
-		var virtualNetwork storage.DnsresolverSubResource_STATUS
-		err := resolver.VirtualNetwork.AssignProperties_To_DnsresolverSubResource_STATUS(&virtualNetwork)
+		var virtualNetwork storage.SubResource_STATUS
+		err := resolver.VirtualNetwork.AssignProperties_To_SubResource_STATUS(&virtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DnsresolverSubResource_STATUS() to populate field VirtualNetwork")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		destination.VirtualNetwork = &virtualNetwork
 	} else {
