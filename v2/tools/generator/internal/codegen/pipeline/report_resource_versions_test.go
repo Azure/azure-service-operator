@@ -162,6 +162,7 @@ func TestResourceVersionsReportGroupInfo_GivenGroup_ReturnsExpectedResult(t *tes
 
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
+			t.Parallel()
 			g := NewGomegaWithT(t)
 
 			report := &ResourceVersionsReport{} // empty report
