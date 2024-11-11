@@ -155,6 +155,20 @@ Diagnostic Logs.</p>
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#insights.azure.com/v1api20210501preview.DiagnosticSettingOperatorSpec">
+DiagnosticSettingOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">
@@ -220,6 +234,50 @@ DiagnosticSetting_STATUS
 </em>
 </td>
 <td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="insights.azure.com/v1api20210501preview.DiagnosticSettingOperatorSpec">DiagnosticSettingOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSetting_Spec">DiagnosticSetting_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
 </td>
 </tr>
 </tbody>
@@ -409,80 +467,6 @@ Example:
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20210501preview.DiagnosticSetting_STATUS_ARM">DiagnosticSetting_STATUS_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.DiagnosticSettings_STATUS_ARM">
-DiagnosticSettings_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Properties of a Diagnostic Settings Resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.SystemData_STATUS_ARM">
-SystemData_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata related to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20210501preview.DiagnosticSetting_Spec">DiagnosticSetting_Spec
 </h3>
 <p>
@@ -589,6 +573,20 @@ Diagnostic Logs.</p>
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#insights.azure.com/v1api20210501preview.DiagnosticSettingOperatorSpec">
+DiagnosticSettingOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">
@@ -638,288 +636,6 @@ genruntime.ResourceReference
 <td>
 <p>WorkspaceReference: The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic
 Logs. Example:
-/&#x200b;subscriptions/&#x200b;4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/&#x200b;resourceGroups/&#x200b;insights-integration/&#x200b;providers/&#x200b;Microsoft.OperationalInsights/&#x200b;workspaces/&#x200b;viruela2</&#x200b;p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20210501preview.DiagnosticSetting_Spec_ARM">DiagnosticSetting_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.DiagnosticSettings_ARM">
-DiagnosticSettings_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Properties of a Diagnostic Settings Resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20210501preview.DiagnosticSettings_ARM">DiagnosticSettings_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSetting_Spec_ARM">DiagnosticSetting_Spec_ARM</a>)
-</p>
-<div>
-<p>The diagnostic settings.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>eventHubAuthorizationRuleId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>eventHubName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EventHubName: The name of the event hub. If none is specified, the default event hub will be selected.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>logAnalyticsDestinationType</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LogAnalyticsDestinationType: A string indicating whether the export to Log Analytics should use the default destination
-type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized
-category name>. Possible values are: Dedicated and null (null is default.)</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>logs</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.LogSettings_ARM">
-[]LogSettings_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Logs: The list of logs settings.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>marketplacePartnerId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>metrics</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.MetricSettings_ARM">
-[]MetricSettings_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Metrics: The list of metric settings.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceBusRuleId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ServiceBusRuleId: The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>workspaceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20210501preview.DiagnosticSettings_STATUS_ARM">DiagnosticSettings_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSetting_STATUS_ARM">DiagnosticSetting_STATUS_ARM</a>)
-</p>
-<div>
-<p>The diagnostic settings.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>eventHubAuthorizationRuleId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EventHubAuthorizationRuleId: The resource Id for the event hub authorization rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>eventHubName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EventHubName: The name of the event hub. If none is specified, the default event hub will be selected.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>logAnalyticsDestinationType</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LogAnalyticsDestinationType: A string indicating whether the export to Log Analytics should use the default destination
-type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized
-category name>. Possible values are: Dedicated and null (null is default.)</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>logs</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.LogSettings_STATUS_ARM">
-[]LogSettings_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Logs: The list of logs settings.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>marketplacePartnerId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MarketplacePartnerId: The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic
-Logs.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>metrics</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.MetricSettings_STATUS_ARM">
-[]MetricSettings_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Metrics: The list of metric settings.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceBusRuleId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ServiceBusRuleId: The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StorageAccountId: The resource ID of the storage account to which you would like to send Diagnostic Logs.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workspaceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>WorkspaceId: The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs.
-Example:
 /&#x200b;subscriptions/&#x200b;4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/&#x200b;resourceGroups/&#x200b;insights-integration/&#x200b;providers/&#x200b;Microsoft.OperationalInsights/&#x200b;workspaces/&#x200b;viruela2</&#x200b;p>
 </td>
 </tr>
@@ -982,72 +698,6 @@ bool
 <em>
 <a href="#insights.azure.com/v1api20210501preview.RetentionPolicy">
 RetentionPolicy
-</a>
-</em>
-</td>
-<td>
-<p>RetentionPolicy: the retention policy for this log.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20210501preview.LogSettings_ARM">LogSettings_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSettings_ARM">DiagnosticSettings_ARM</a>)
-</p>
-<div>
-<p>Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>category</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Category: Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of
-Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>categoryGroup</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CategoryGroup: Name of a Diagnostic Log category group for a resource type this setting is applied to. To obtain the
-list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: a value indicating whether this log is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionPolicy</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.RetentionPolicy_ARM">
-RetentionPolicy_ARM
 </a>
 </em>
 </td>
@@ -1123,72 +773,6 @@ RetentionPolicy_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20210501preview.LogSettings_STATUS_ARM">LogSettings_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSettings_STATUS_ARM">DiagnosticSettings_STATUS_ARM</a>)
-</p>
-<div>
-<p>Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>category</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Category: Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of
-Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>categoryGroup</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CategoryGroup: Name of a Diagnostic Log category group for a resource type this setting is applied to. To obtain the
-list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: a value indicating whether this log is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionPolicy</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.RetentionPolicy_STATUS_ARM">
-RetentionPolicy_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>RetentionPolicy: the retention policy for this log.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20210501preview.MetricSettings">MetricSettings
 </h3>
 <p>
@@ -1234,71 +818,6 @@ bool
 <em>
 <a href="#insights.azure.com/v1api20210501preview.RetentionPolicy">
 RetentionPolicy
-</a>
-</em>
-</td>
-<td>
-<p>RetentionPolicy: the retention policy for this category.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>timeGrain</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TimeGrain: the timegrain of the metric in ISO8601 format.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20210501preview.MetricSettings_ARM">MetricSettings_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSettings_ARM">DiagnosticSettings_ARM</a>)
-</p>
-<div>
-<p>Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>category</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Category: Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of
-Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: a value indicating whether this category is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionPolicy</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.RetentionPolicy_ARM">
-RetentionPolicy_ARM
 </a>
 </em>
 </td>
@@ -1384,115 +903,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20210501preview.MetricSettings_STATUS_ARM">MetricSettings_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSettings_STATUS_ARM">DiagnosticSettings_STATUS_ARM</a>)
-</p>
-<div>
-<p>Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>category</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Category: Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of
-Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: a value indicating whether this category is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionPolicy</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.RetentionPolicy_STATUS_ARM">
-RetentionPolicy_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>RetentionPolicy: the retention policy for this category.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>timeGrain</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TimeGrain: the timegrain of the metric in ISO8601 format.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20210501preview.RetentionPolicy">RetentionPolicy
 </h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.LogSettings">LogSettings</a>, <a href="#insights.azure.com/v1api20210501preview.MetricSettings">MetricSettings</a>)
-</p>
-<div>
-<p>Specifies the retention policy for the log.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>days</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Days: the number of days for the retention in days. A value of 0 will retain the events indefinitely.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: a value indicating whether the retention policy is enabled.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20210501preview.RetentionPolicy_ARM">RetentionPolicy_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.LogSettings_ARM">LogSettings_ARM</a>, <a href="#insights.azure.com/v1api20210501preview.MetricSettings_ARM">MetricSettings_ARM</a>)
 </p>
 <div>
 <p>Specifies the retention policy for the log.</p>
@@ -1569,46 +983,6 @@ bool
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20210501preview.RetentionPolicy_STATUS_ARM">RetentionPolicy_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.LogSettings_STATUS_ARM">LogSettings_STATUS_ARM</a>, <a href="#insights.azure.com/v1api20210501preview.MetricSettings_STATUS_ARM">MetricSettings_STATUS_ARM</a>)
-</p>
-<div>
-<p>Specifies the retention policy for the log.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>days</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Days: the number of days for the retention in days. A value of 0 will retain the events indefinitely.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: a value indicating whether the retention policy is enabled.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20210501preview.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
@@ -1633,58 +1007,10 @@ bool
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="insights.azure.com/v1api20210501preview.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="insights.azure.com/v1api20210501preview.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20210501preview.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1784,94 +1110,6 @@ string
 <em>
 <a href="#insights.azure.com/v1api20210501preview.SystemData_LastModifiedByType_STATUS">
 SystemData_LastModifiedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20210501preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSetting_STATUS_ARM">DiagnosticSetting_STATUS_ARM</a>)
-</p>
-<div>
-<p>Metadata pertaining to creation and last modification of the resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedBy: The identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.SystemData_CreatedByType_STATUS_ARM">
-SystemData_CreatedByType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CreatedByType: The type of identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.SystemData_LastModifiedByType_STATUS_ARM">
-SystemData_LastModifiedByType_STATUS_ARM
 </a>
 </em>
 </td>

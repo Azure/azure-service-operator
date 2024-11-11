@@ -55,8 +55,8 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#managedidentity.azure.com/v1api20220131preview.UserAssignedIdentities_FederatedIdentityCredential_Spec">
-UserAssignedIdentities_FederatedIdentityCredential_Spec
+<a href="#managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredential_Spec">
+FederatedIdentityCredential_Spec
 </a>
 </em>
 </td>
@@ -113,6 +113,20 @@ genruntime.ConfigMapReference
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredentialOperatorSpec">
+FederatedIdentityCredentialOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -157,8 +171,8 @@ genruntime.ConfigMapReference
 <td>
 <code>status</code><br/>
 <em>
-<a href="#managedidentity.azure.com/v1api20220131preview.UserAssignedIdentities_FederatedIdentityCredential_STATUS">
-UserAssignedIdentities_FederatedIdentityCredential_STATUS
+<a href="#managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredential_STATUS">
+FederatedIdentityCredential_STATUS
 </a>
 </em>
 </td>
@@ -167,13 +181,13 @@ UserAssignedIdentities_FederatedIdentityCredential_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredentialProperties_ARM">FederatedIdentityCredentialProperties_ARM
+<h3 id="managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredentialOperatorSpec">FederatedIdentityCredentialOperatorSpec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#managedidentity.azure.com/v1api20220131preview.UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM">UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM</a>)
+(<em>Appears on:</em><a href="#managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredential_Spec">FederatedIdentityCredential_Spec</a>)
 </p>
 <div>
-<p>The properties associated with a federated identity credential.</p>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
 </div>
 <table>
 <thead>
@@ -185,91 +199,33 @@ UserAssignedIdentities_FederatedIdentityCredential_STATUS
 <tbody>
 <tr>
 <td>
-<code>audiences</code><br/>
+<code>configMapExpressions</code><br/>
 <em>
-[]string
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
 </em>
 </td>
 <td>
-<p>Audiences: The list of audiences that can appear in the issued token.</p>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>issuer</code><br/>
+<code>secretExpressions</code><br/>
 <em>
-string
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
 </em>
 </td>
 <td>
-<p>Issuer: The URL of the issuer to be trusted.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>subject</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Subject: The identifier of the external identity.</p>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredentialProperties_STATUS_ARM">FederatedIdentityCredentialProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#managedidentity.azure.com/v1api20220131preview.UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM">UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM</a>)
-</p>
-<div>
-<p>The properties associated with a federated identity credential.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>audiences</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>Audiences: The list of audiences that can appear in the issued token.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>issuer</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Issuer: The URL of the issuer to be trusted.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>subject</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Subject: The identifier of the external identity.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="managedidentity.azure.com/v1api20220131preview.UserAssignedIdentities_FederatedIdentityCredential_STATUS">UserAssignedIdentities_FederatedIdentityCredential_STATUS
+<h3 id="managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredential_STATUS">FederatedIdentityCredential_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredential">FederatedIdentityCredential</a>)
@@ -366,68 +322,7 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="managedidentity.azure.com/v1api20220131preview.UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM">UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredentialProperties_STATUS_ARM">
-FederatedIdentityCredentialProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The properties associated with the federated identity credential.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="managedidentity.azure.com/v1api20220131preview.UserAssignedIdentities_FederatedIdentityCredential_Spec">UserAssignedIdentities_FederatedIdentityCredential_Spec
+<h3 id="managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredential_Spec">FederatedIdentityCredential_Spec
 </h3>
 <p>
 (<em>Appears on:</em><a href="#managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredential">FederatedIdentityCredential</a>)
@@ -491,6 +386,20 @@ genruntime.ConfigMapReference
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredentialOperatorSpec">
+FederatedIdentityCredentialOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -526,43 +435,6 @@ genruntime.ConfigMapReference
 </td>
 <td>
 <p>SubjectFromConfig: The identifier of the external identity.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="managedidentity.azure.com/v1api20220131preview.UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM">UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredentialProperties_ARM">
-FederatedIdentityCredentialProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The properties associated with the federated identity credential.</p>
 </td>
 </tr>
 </tbody>

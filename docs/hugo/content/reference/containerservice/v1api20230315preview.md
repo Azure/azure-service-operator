@@ -422,7 +422,7 @@ string
 <h3 id="containerservice.azure.com/v1api20230315preview.FleetMemberProvisioningState_STATUS">FleetMemberProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleets_Member_STATUS">Fleets_Member_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsMember_STATUS">FleetsMember_STATUS</a>)
 </p>
 <div>
 <p>The provisioning state of the last accepted operation.</p>
@@ -495,6 +495,32 @@ retrieved from Azure.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
 <tr>
 <td>
 <code>secrets</code><br/>
@@ -805,8 +831,8 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#containerservice.azure.com/v1api20230315preview.Fleets_Member_Spec">
-Fleets_Member_Spec
+<a href="#containerservice.azure.com/v1api20230315preview.FleetsMember_Spec">
+FleetsMember_Spec
 </a>
 </em>
 </td>
@@ -854,6 +880,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230315preview.FleetsMemberOperatorSpec">
+FleetsMemberOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -874,8 +914,8 @@ reference to a containerservice.azure.com/Fleet resource</p>
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerservice.azure.com/v1api20230315preview.Fleets_Member_STATUS">
-Fleets_Member_STATUS
+<a href="#containerservice.azure.com/v1api20230315preview.FleetsMember_STATUS">
+FleetsMember_STATUS
 </a>
 </em>
 </td>
@@ -884,12 +924,13 @@ Fleets_Member_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetsUpdateRun">FleetsUpdateRun
+<h3 id="containerservice.azure.com/v1api20230315preview.FleetsMemberOperatorSpec">FleetsMemberOperatorSpec
 </h3>
+<p>
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsMember_Spec">FleetsMember_Spec</a>)
+</p>
 <div>
-<p>Generator information:
-- Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ContainerService/&#x200b;fleets/&#x200b;{fleetName}/&#x200b;updateRuns/&#x200b;{updateRunName}</&#x200b;p>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
 </div>
 <table>
 <thead>
@@ -901,106 +942,33 @@ Fleets_Member_STATUS
 <tbody>
 <tr>
 <td>
-<code>metadata</code><br/>
+<code>configMapExpressions</code><br/>
 <em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
 </a>
 </em>
 </td>
 <td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>spec</code><br/>
+<code>secretExpressions</code><br/>
 <em>
-<a href="#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_Spec">
-Fleets_UpdateRun_Spec
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
 </a>
 </em>
 </td>
 <td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedClusterUpdate</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate">
-ManagedClusterUpdate
-</a>
-</em>
-</td>
-<td>
-<p>ManagedClusterUpdate: The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be
-modified until the run is started.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a containerservice.azure.com/Fleet resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>strategy</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy">
-UpdateRunStrategy
-</a>
-</em>
-</td>
-<td>
-<p>Strategy: The strategy defines the order in which the clusters will be updated.
-If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single
-UpdateGroup targeting all members.
-The strategy of the UpdateRun can be modified until the run is started.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS">
-Fleets_UpdateRun_STATUS
-</a>
-</em>
-</td>
-<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="containerservice.azure.com/v1api20230315preview.Fleets_Member_STATUS">Fleets_Member_STATUS
+<h3 id="containerservice.azure.com/v1api20230315preview.FleetsMember_STATUS">FleetsMember_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsMember">FleetsMember</a>)
@@ -1127,7 +1095,7 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="containerservice.azure.com/v1api20230315preview.Fleets_Member_Spec">Fleets_Member_Spec
+<h3 id="containerservice.azure.com/v1api20230315preview.FleetsMember_Spec">FleetsMember_Spec
 </h3>
 <p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsMember">FleetsMember</a>)
@@ -1182,6 +1150,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230315preview.FleetsMemberOperatorSpec">
+FleetsMemberOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -1197,7 +1179,181 @@ reference to a containerservice.azure.com/Fleet resource</p>
 </tr>
 </tbody>
 </table>
-<h3 id="containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS">Fleets_UpdateRun_STATUS
+<h3 id="containerservice.azure.com/v1api20230315preview.FleetsUpdateRun">FleetsUpdateRun
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ContainerService/&#x200b;fleets/&#x200b;{fleetName}/&#x200b;updateRuns/&#x200b;{updateRunName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_Spec">
+FleetsUpdateRun_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>managedClusterUpdate</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate">
+ManagedClusterUpdate
+</a>
+</em>
+</td>
+<td>
+<p>ManagedClusterUpdate: The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be
+modified until the run is started.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRunOperatorSpec">
+FleetsUpdateRunOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a containerservice.azure.com/Fleet resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>strategy</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy">
+UpdateRunStrategy
+</a>
+</em>
+</td>
+<td>
+<p>Strategy: The strategy defines the order in which the clusters will be updated.
+If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single
+UpdateGroup targeting all members.
+The strategy of the UpdateRun can be modified until the run is started.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_STATUS">
+FleetsUpdateRun_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerservice.azure.com/v1api20230315preview.FleetsUpdateRunOperatorSpec">FleetsUpdateRunOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_Spec">FleetsUpdateRun_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_STATUS">FleetsUpdateRun_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun">FleetsUpdateRun</a>)
@@ -1344,7 +1500,7 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_Spec">Fleets_UpdateRun_Spec
+<h3 id="containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_Spec">FleetsUpdateRun_Spec
 </h3>
 <p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun">FleetsUpdateRun</a>)
@@ -1387,6 +1543,20 @@ modified until the run is started.</p>
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRunOperatorSpec">
+FleetsUpdateRunOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -1421,7 +1591,7 @@ The strategy of the UpdateRun can be modified until the run is started.</p>
 <h3 id="containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate">ManagedClusterUpdate
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_Spec">Fleets_UpdateRun_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_Spec">FleetsUpdateRun_Spec</a>)
 </p>
 <div>
 <p>The update to be applied to the ManagedClusters.</p>
@@ -1452,7 +1622,7 @@ ManagedClusterUpgradeSpec
 <h3 id="containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate_STATUS">ManagedClusterUpdate_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS">Fleets_UpdateRun_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_STATUS">FleetsUpdateRun_STATUS</a>)
 </p>
 <div>
 <p>The update to be applied to the ManagedClusters.</p>
@@ -1721,7 +1891,7 @@ UpdateStatus_STATUS
 <h3 id="containerservice.azure.com/v1api20230315preview.SystemData_STATUS">SystemData_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleet_STATUS">Fleet_STATUS</a>, <a href="#containerservice.azure.com/v1api20230315preview.Fleets_Member_STATUS">Fleets_Member_STATUS</a>, <a href="#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS">Fleets_UpdateRun_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleet_STATUS">Fleet_STATUS</a>, <a href="#containerservice.azure.com/v1api20230315preview.FleetsMember_STATUS">FleetsMember_STATUS</a>, <a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_STATUS">FleetsUpdateRun_STATUS</a>)
 </p>
 <div>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
@@ -1924,7 +2094,7 @@ It must match a group name of an existing fleet member.</p>
 <h3 id="containerservice.azure.com/v1api20230315preview.UpdateRunProvisioningState_STATUS">UpdateRunProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS">Fleets_UpdateRun_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_STATUS">FleetsUpdateRun_STATUS</a>)
 </p>
 <div>
 <p>The provisioning state of the UpdateRun resource.</p>
@@ -1947,7 +2117,7 @@ It must match a group name of an existing fleet member.</p>
 <h3 id="containerservice.azure.com/v1api20230315preview.UpdateRunStatus_STATUS">UpdateRunStatus_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS">Fleets_UpdateRun_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_STATUS">FleetsUpdateRun_STATUS</a>)
 </p>
 <div>
 <p>The status of a UpdateRun.</p>
@@ -1991,7 +2161,7 @@ UpdateStatus_STATUS
 <h3 id="containerservice.azure.com/v1api20230315preview.UpdateRunStrategy">UpdateRunStrategy
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_Spec">Fleets_UpdateRun_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_Spec">FleetsUpdateRun_Spec</a>)
 </p>
 <div>
 <p>Defines the update sequence of the clusters via stages and groups.
@@ -2028,7 +2198,7 @@ A valid strategy contains no duplicate groups within or across stages.</p>
 <h3 id="containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_STATUS">UpdateRunStrategy_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS">Fleets_UpdateRun_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_STATUS">FleetsUpdateRun_STATUS</a>)
 </p>
 <div>
 <p>Defines the update sequence of the clusters via stages and groups.

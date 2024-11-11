@@ -147,7 +147,7 @@ AdvancedNetworkingObservability_STATUS
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolArtifactStreamingProfile">AgentPoolArtifactStreamingProfile
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 </div>
@@ -176,7 +176,7 @@ this feature, container images must also enable artifact streaming on ACR. If no
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolArtifactStreamingProfile_STATUS">AgentPoolArtifactStreamingProfile_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 </div>
@@ -205,7 +205,7 @@ this feature, container images must also enable artifact streaming on ACR. If no
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolGPUProfile">AgentPoolGPUProfile
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 </div>
@@ -236,7 +236,7 @@ installation themselves.</p>
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolGPUProfile_STATUS">AgentPoolGPUProfile_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 </div>
@@ -267,7 +267,7 @@ installation themselves.</p>
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolGatewayProfile">AgentPoolGatewayProfile
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>Profile of the managed cluster gateway agent pool.</p>
@@ -300,7 +300,7 @@ nodes/IPs, /28 = 16 nodes/IPs">28, 31</a>. The default value is 31.</p>
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolGatewayProfile_STATUS">AgentPoolGatewayProfile_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>Profile of the managed cluster gateway agent pool.</p>
@@ -333,7 +333,7 @@ nodes/IPs, /28 = 16 nodes/IPs">28, 31</a>. The default value is 31.</p>
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolMode">AgentPoolMode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions
@@ -357,7 +357,7 @@ and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-syste
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolMode_STATUS">AgentPoolMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions
@@ -381,7 +381,7 @@ and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-syste
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolNetworkProfile">AgentPoolNetworkProfile
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>Network settings of an agent pool.</p>
@@ -439,7 +439,7 @@ created.</p>
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolNetworkProfile_STATUS">AgentPoolNetworkProfile_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>Network settings of an agent pool.</p>
@@ -536,7 +536,7 @@ created.</p>
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolSecurityProfile">AgentPoolSecurityProfile
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>The security settings of an agent pool.</p>
@@ -591,7 +591,7 @@ AgentPoolSSHAccess
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolSecurityProfile_STATUS">AgentPoolSecurityProfile_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>The security settings of an agent pool.</p>
@@ -646,7 +646,7 @@ AgentPoolSSHAccess_STATUS
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolType">AgentPoolType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>The type of Agent Pool.</p>
@@ -669,7 +669,7 @@ AgentPoolSSHAccess_STATUS
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolType_STATUS">AgentPoolType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>The type of Agent Pool.</p>
@@ -692,7 +692,7 @@ AgentPoolSSHAccess_STATUS
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolUpgradeSettings">AgentPoolUpgradeSettings
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>Settings for upgrading an agentpool</p>
@@ -764,7 +764,7 @@ remaining per-node drain timeout or pod is still being in a running state, can a
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolUpgradeSettings_STATUS">AgentPoolUpgradeSettings_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>Settings for upgrading an agentpool</p>
@@ -876,7 +876,7 @@ remaining per-node drain timeout or pod is still being in a running state, can a
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolWindowsProfile">AgentPoolWindowsProfile
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>The Windows agent pool&rsquo;s specific profile.</p>
@@ -906,7 +906,7 @@ Gateway and the Windows agent pool does not have node public IP enabled.</p>
 <h3 id="containerservice.azure.com/v1api20240402preview.AgentPoolWindowsProfile_STATUS">AgentPoolWindowsProfile_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>The Windows agent pool&rsquo;s specific profile.</p>
@@ -2276,7 +2276,7 @@ see <a href="https://aka.ms/aks/static-egress-gateway">https://aka.ms/aks/static
 <h3 id="containerservice.azure.com/v1api20240402preview.ContainerServiceOSDisk">ContainerServiceOSDisk
 (<code>int</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 </div>
@@ -2405,7 +2405,7 @@ without headers.</p>
 <h3 id="containerservice.azure.com/v1api20240402preview.CreationData">CreationData
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedCluster_Spec">ManagedCluster_Spec</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedCluster_Spec">ManagedCluster_Spec</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>Data used when creating a target resource from a source resource.</p>
@@ -2436,7 +2436,7 @@ genruntime.ResourceReference
 <h3 id="containerservice.azure.com/v1api20240402preview.CreationData_STATUS">CreationData_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>Data used when creating a target resource from a source resource.</p>
@@ -2767,7 +2767,7 @@ ExtendedLocationType_STATUS
 <h3 id="containerservice.azure.com/v1api20240402preview.GPUInstanceProfile">GPUInstanceProfile
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.</p>
@@ -2794,7 +2794,7 @@ ExtendedLocationType_STATUS
 <h3 id="containerservice.azure.com/v1api20240402preview.GPUInstanceProfile_STATUS">GPUInstanceProfile_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.</p>
@@ -3543,7 +3543,7 @@ When canary upgrade is in progress, this can only hold two consecutive values. F
 <h3 id="containerservice.azure.com/v1api20240402preview.KubeletConfig">KubeletConfig
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>See <a href="https://docs.microsoft.com/azure/aks/custom-node-configuration">AKS custom node configuration</a> for more details.</p>
@@ -3688,7 +3688,7 @@ are &lsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and
 <h3 id="containerservice.azure.com/v1api20240402preview.KubeletConfig_STATUS">KubeletConfig_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>See <a href="https://docs.microsoft.com/azure/aks/custom-node-configuration">AKS custom node configuration</a> for more details.</p>
@@ -3833,7 +3833,7 @@ are &lsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and
 <h3 id="containerservice.azure.com/v1api20240402preview.KubeletDiskType">KubeletDiskType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.</p>
@@ -3854,7 +3854,7 @@ are &lsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and
 <h3 id="containerservice.azure.com/v1api20240402preview.KubeletDiskType_STATUS">KubeletDiskType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.</p>
@@ -3917,7 +3917,7 @@ are &lsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and
 <h3 id="containerservice.azure.com/v1api20240402preview.LinuxOSConfig">LinuxOSConfig
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>See <a href="https://docs.microsoft.com/azure/aks/custom-node-configuration">AKS custom node configuration</a> for more details.</p>
@@ -3985,7 +3985,7 @@ Hugepages</a>.</p>
 <h3 id="containerservice.azure.com/v1api20240402preview.LinuxOSConfig_STATUS">LinuxOSConfig_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>See <a href="https://docs.microsoft.com/azure/aks/custom-node-configuration">AKS custom node configuration</a> for more details.</p>
@@ -9618,6 +9618,19 @@ retrieved from Azure.</p>
 <tbody>
 <tr>
 <td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>configMaps</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterOperatorConfigMaps">
@@ -9627,6 +9640,19 @@ ManagedClusterOperatorConfigMaps
 </td>
 <td>
 <p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
 </td>
 </tr>
 <tr>
@@ -14059,8 +14085,8 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">
-ManagedClusters_AgentPool_Spec
+<a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">
+ManagedClustersAgentPool_Spec
 </a>
 </em>
 </td>
@@ -14440,6 +14466,20 @@ genruntime.ResourceReference
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPoolOperatorSpec">
+ManagedClustersAgentPoolOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>orchestratorVersion</code><br/>
 <em>
 string
@@ -14771,8 +14811,8 @@ WorkloadRuntime
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">
-ManagedClusters_AgentPool_STATUS
+<a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">
+ManagedClustersAgentPool_STATUS
 </a>
 </em>
 </td>
@@ -14781,7 +14821,51 @@ ManagedClusters_AgentPool_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS
+<h3 id="containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPoolOperatorSpec">ManagedClustersAgentPoolOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool">ManagedClustersAgentPool</a>)
@@ -15547,7 +15631,7 @@ WorkloadRuntime_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec
+<h3 id="containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec
 </h3>
 <p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool">ManagedClustersAgentPool</a>)
@@ -15934,6 +16018,20 @@ genruntime.ResourceReference
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPoolOperatorSpec">
+ManagedClustersAgentPoolOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>orchestratorVersion</code><br/>
 <em>
 string
@@ -16260,188 +16358,6 @@ WorkloadRuntime
 </tr>
 </tbody>
 </table>
-<h3 id="containerservice.azure.com/v1api20240402preview.ManagedClusters_TrustedAccessRoleBinding_STATUS">ManagedClusters_TrustedAccessRoleBinding_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBinding">TrustedAccessRoleBinding</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. E.g.
-&ldquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}&rdquo;</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBindingProperties_ProvisioningState_STATUS">
-TrustedAccessRoleBindingProperties_ProvisioningState_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: The current provisioning state of trusted access role binding.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>roles</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>Roles: A list of roles to bind, each item is a resource type qualified role name. For example:
-&lsquo;Microsoft.MachineLearningServices/workspaces/reader&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SourceResourceId: The ARM resource ID of source resource that trusted access is configured for.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20240402preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20240402preview.ManagedClusters_TrustedAccessRoleBinding_Spec">ManagedClusters_TrustedAccessRoleBinding_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBinding">TrustedAccessRoleBinding</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a containerservice.azure.com/ManagedCluster resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>roles</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>Roles: A list of roles to bind, each item is a resource type qualified role name. For example:
-&lsquo;Microsoft.MachineLearningServices/workspaces/reader&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>SourceResourceReference: The ARM resource ID of source resource that trusted access is configured for.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="containerservice.azure.com/v1api20240402preview.ManualScaleProfile">ManualScaleProfile
 </h3>
 <p>
@@ -16747,7 +16663,7 @@ use the next size.</p>
 <h3 id="containerservice.azure.com/v1api20240402preview.OSDiskType">OSDiskType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise,
@@ -16770,7 +16686,7 @@ OS</a>.</p>
 <h3 id="containerservice.azure.com/v1api20240402preview.OSDiskType_STATUS">OSDiskType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise,
@@ -16793,7 +16709,7 @@ OS</a>.</p>
 <h3 id="containerservice.azure.com/v1api20240402preview.OSSKU">OSSKU
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if
@@ -16825,7 +16741,7 @@ OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 aft
 <h3 id="containerservice.azure.com/v1api20240402preview.OSSKU_STATUS">OSSKU_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if
@@ -16857,7 +16773,7 @@ OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 aft
 <h3 id="containerservice.azure.com/v1api20240402preview.OSType">OSType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>The operating system type. The default is Linux.</p>
@@ -16878,7 +16794,7 @@ OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 aft
 <h3 id="containerservice.azure.com/v1api20240402preview.OSType_STATUS">OSType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>The operating system type. The default is Linux.</p>
@@ -16899,7 +16815,7 @@ OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 aft
 <h3 id="containerservice.azure.com/v1api20240402preview.PodIPAllocationMode">PodIPAllocationMode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is &lsquo;DynamicIndividual&rsquo;.</p>
@@ -16920,7 +16836,7 @@ OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 aft
 <h3 id="containerservice.azure.com/v1api20240402preview.PodIPAllocationMode_STATUS">PodIPAllocationMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is &lsquo;DynamicIndividual&rsquo;.</p>
@@ -17135,7 +17051,7 @@ PortRange_Protocol_STATUS
 <h3 id="containerservice.azure.com/v1api20240402preview.PowerState">PowerState
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>Describes the Power State of the cluster</p>
@@ -17206,7 +17122,7 @@ PowerState_Code
 <h3 id="containerservice.azure.com/v1api20240402preview.PowerState_STATUS">PowerState_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>Describes the Power State of the cluster</p>
@@ -17619,7 +17535,7 @@ string
 <h3 id="containerservice.azure.com/v1api20240402preview.ScaleDownMode">ScaleDownMode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>Describes how VMs are added to or removed from Agent Pools. See <a href="https://docs.microsoft.com/azure/virtual-machines/states-billing">billing
@@ -17641,7 +17557,7 @@ states</a>.</p>
 <h3 id="containerservice.azure.com/v1api20240402preview.ScaleDownMode_STATUS">ScaleDownMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>Describes how VMs are added to or removed from Agent Pools. See <a href="https://docs.microsoft.com/azure/virtual-machines/states-billing">billing
@@ -17700,8 +17616,7 @@ at most one AutoScaleProfile is allowed.</p>
 </em>
 </td>
 <td>
-<p>Manual: Specifications on how to scale the VirtualMachines agent pool to a fixed size. Currently, at most one
-ManualScaleProfile is allowed.</p>
+<p>Manual: Specifications on how to scale the VirtualMachines agent pool to a fixed size.</p>
 </td>
 </tr>
 </tbody>
@@ -17746,8 +17661,7 @@ at most one AutoScaleProfile is allowed.</p>
 </em>
 </td>
 <td>
-<p>Manual: Specifications on how to scale the VirtualMachines agent pool to a fixed size. Currently, at most one
-ManualScaleProfile is allowed.</p>
+<p>Manual: Specifications on how to scale the VirtualMachines agent pool to a fixed size.</p>
 </td>
 </tr>
 </tbody>
@@ -17755,7 +17669,7 @@ ManualScaleProfile is allowed.</p>
 <h3 id="containerservice.azure.com/v1api20240402preview.ScaleSetEvictionPolicy">ScaleSetEvictionPolicy
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information
@@ -17777,7 +17691,7 @@ about eviction see <a href="https://docs.microsoft.com/azure/virtual-machines/sp
 <h3 id="containerservice.azure.com/v1api20240402preview.ScaleSetEvictionPolicy_STATUS">ScaleSetEvictionPolicy_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information
@@ -17799,7 +17713,7 @@ about eviction see <a href="https://docs.microsoft.com/azure/virtual-machines/sp
 <h3 id="containerservice.azure.com/v1api20240402preview.ScaleSetPriority">ScaleSetPriority
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>The Virtual Machine Scale Set priority.</p>
@@ -17820,7 +17734,7 @@ about eviction see <a href="https://docs.microsoft.com/azure/virtual-machines/sp
 <h3 id="containerservice.azure.com/v1api20240402preview.ScaleSetPriority_STATUS">ScaleSetPriority_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>The Virtual Machine Scale Set priority.</p>
@@ -18669,7 +18583,7 @@ int
 <h3 id="containerservice.azure.com/v1api20240402preview.SystemData_STATUS">SystemData_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_TrustedAccessRoleBinding_STATUS">ManagedClusters_TrustedAccessRoleBinding_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBinding_STATUS">TrustedAccessRoleBinding_STATUS</a>)
 </p>
 <div>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
@@ -18787,8 +18701,8 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_TrustedAccessRoleBinding_Spec">
-ManagedClusters_TrustedAccessRoleBinding_Spec
+<a href="#containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBinding_Spec">
+TrustedAccessRoleBinding_Spec
 </a>
 </em>
 </td>
@@ -18806,6 +18720,20 @@ string
 <td>
 <p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBindingOperatorSpec">
+TrustedAccessRoleBindingOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>
@@ -18855,8 +18783,8 @@ genruntime.ResourceReference
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_TrustedAccessRoleBinding_STATUS">
-ManagedClusters_TrustedAccessRoleBinding_STATUS
+<a href="#containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBinding_STATUS">
+TrustedAccessRoleBinding_STATUS
 </a>
 </em>
 </td>
@@ -18865,10 +18793,54 @@ ManagedClusters_TrustedAccessRoleBinding_STATUS
 </tr>
 </tbody>
 </table>
+<h3 id="containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBindingOperatorSpec">TrustedAccessRoleBindingOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBinding_Spec">TrustedAccessRoleBinding_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBindingProperties_ProvisioningState_STATUS">TrustedAccessRoleBindingProperties_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_TrustedAccessRoleBinding_STATUS">ManagedClusters_TrustedAccessRoleBinding_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBinding_STATUS">TrustedAccessRoleBinding_STATUS</a>)
 </p>
 <div>
 </div>
@@ -18890,6 +18862,202 @@ ManagedClusters_TrustedAccessRoleBinding_STATUS
 </tr><tr><td><p>&#34;Updating&#34;</p></td>
 <td></td>
 </tr></tbody>
+</table>
+<h3 id="containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBinding_STATUS">TrustedAccessRoleBinding_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBinding">TrustedAccessRoleBinding</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. E.g.
+&ldquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}&rdquo;</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBindingProperties_ProvisioningState_STATUS">
+TrustedAccessRoleBindingProperties_ProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The current provisioning state of trusted access role binding.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>roles</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>Roles: A list of roles to bind, each item is a resource type qualified role name. For example:
+&lsquo;Microsoft.MachineLearningServices/workspaces/reader&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceResourceId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SourceResourceId: The ARM resource ID of source resource that trusted access is configured for.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20240402preview.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBinding_Spec">TrustedAccessRoleBinding_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBinding">TrustedAccessRoleBinding</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20240402preview.TrustedAccessRoleBindingOperatorSpec">
+TrustedAccessRoleBindingOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a containerservice.azure.com/ManagedCluster resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>roles</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>Roles: A list of roles to bind, each item is a resource type qualified role name. For example:
+&lsquo;Microsoft.MachineLearningServices/workspaces/reader&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceResourceReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>SourceResourceReference: The ARM resource ID of source resource that trusted access is configured for.</p>
+</td>
+</tr>
+</tbody>
 </table>
 <h3 id="containerservice.azure.com/v1api20240402preview.UpgradeOverrideSettings">UpgradeOverrideSettings
 </h3>
@@ -19114,7 +19282,7 @@ string
 <h3 id="containerservice.azure.com/v1api20240402preview.VirtualMachineNodes">VirtualMachineNodes
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>Current status on a group of nodes of the same vm size.</p>
@@ -19154,7 +19322,7 @@ string
 <h3 id="containerservice.azure.com/v1api20240402preview.VirtualMachineNodes_STATUS">VirtualMachineNodes_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>Current status on a group of nodes of the same vm size.</p>
@@ -19194,7 +19362,7 @@ string
 <h3 id="containerservice.azure.com/v1api20240402preview.VirtualMachinesProfile">VirtualMachinesProfile
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>Specifications on VirtualMachines agent pool.</p>
@@ -19225,7 +19393,7 @@ ScaleProfile
 <h3 id="containerservice.azure.com/v1api20240402preview.VirtualMachinesProfile_STATUS">VirtualMachinesProfile_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>Specifications on VirtualMachines agent pool.</p>
@@ -19362,7 +19530,7 @@ Set it to empty if you have configured the DNS server in the vnet which is used 
 <h3 id="containerservice.azure.com/v1api20240402preview.WorkloadRuntime">WorkloadRuntime
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 <p>Determines the type of workload a node can run.</p>
@@ -19385,7 +19553,7 @@ Set it to empty if you have configured the DNS server in the vnet which is used 
 <h3 id="containerservice.azure.com/v1api20240402preview.WorkloadRuntime_STATUS">WorkloadRuntime_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 <p>Determines the type of workload a node can run.</p>
