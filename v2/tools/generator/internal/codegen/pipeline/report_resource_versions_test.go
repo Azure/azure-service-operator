@@ -12,6 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/sebdah/goldie/v2"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
@@ -94,4 +95,83 @@ func TestGolden_ReportAllResourceVersions(t *testing.T) {
 		To(Succeed())
 
 	gold.Assert(t, t.Name(), []byte(buffer.String()))
+}
+
+func TestResourceVersionsReportGroupInfo_GivenGroup_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+
+	storagePkg := test.MakeLocalPackageReference("storage", "v20230101")
+
+	storageAccount := ResourceVersionsReportResourceItem{
+		name:          astmodel.MakeInternalTypeName(storagePkg, "StorageAccount"),
+		armType:       "Microsoft.Storage/storageAccounts",
+		armVersion:    "2023-01-01",
+		supportedFrom: "v2.0.0",
+	}
+
+	alertsManagementPkg := test.MakeLocalPackageReference("alertsmanagement", "v20210401")
+
+	smartDetector := ResourceVersionsReportResourceItem{
+		name:          astmodel.MakeInternalTypeName(alertsManagementPkg, "SmartDetector"),
+		armType:       "microsoft.alertsManagement/smartDetectorAlertRules",
+		armVersion:    "2021-04-01",
+		supportedFrom: "v2.11.0",
+	}
+
+	prometheusRuleGroup := ResourceVersionsReportResourceItem{
+		name:    astmodel.MakeInternalTypeName(alertsManagementPkg, "PrometheusRuleGroup"),
+		armType: "Microsoft.AlertsManagement/prometheusRuleGroups",
+	}
+
+	cases := map[string]struct {
+		group            string
+		items            set.Set[ResourceVersionsReportResourceItem]
+		expectedGroup    string
+		expectedProvider string
+		expectedTitle    string
+	}{
+		"StorageAccount": {
+			group:            "storage",
+			items:            set.Make(storageAccount),
+			expectedGroup:    "storage",
+			expectedProvider: "Microsoft.Storage",
+			expectedTitle:    "Storage",
+		},
+		"SmartDetector": {
+			group:            "alertsmanagement",
+			items:            set.Make(smartDetector),
+			expectedGroup:    "alertsmanagement",
+			expectedProvider: "Microsoft.alertsManagement",
+			expectedTitle:    "AlertsManagement",
+		},
+		"PrometheusRuleGroup": {
+			group:            "alertsmanagement",
+			items:            set.Make(prometheusRuleGroup),
+			expectedGroup:    "alertsmanagement",
+			expectedProvider: "Microsoft.AlertsManagement",
+			expectedTitle:    "AlertsManagement",
+		},
+		"Prefers Correct Case": {
+			group:            "alertsmanagement",
+			items:            set.Make(smartDetector, prometheusRuleGroup),
+			expectedGroup:    "alertsmanagement",
+			expectedProvider: "Microsoft.AlertsManagement",
+			expectedTitle:    "AlertsManagement",
+		},
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			report := &ResourceVersionsReport{} // empty report
+
+			info := report.groupInfo(c.group, c.items)
+			g.Expect(info).ToNot(BeNil())
+			g.Expect(info.Group).To(Equal(c.expectedGroup))
+			g.Expect(info.Provider).To(Equal(c.expectedProvider))
+			g.Expect(info.Title).To(Equal(c.expectedTitle))
+		})
+	}
 }

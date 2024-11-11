@@ -175,14 +175,14 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 		name := rsrc.Name()
 		pkg := name.PackageReference()
 
-		defType := astmodel.MustBeResourceType(rsrc.Type())
-		armVersion := strings.Trim(defType.APIVersionEnumValue().Value, "\"")
-		item := report.createItem(name, defType.ARMType(), armVersion)
-
 		if astmodel.IsStoragePackageReference(pkg) {
 			// Skip storage versions - they're an implementation detail
 			continue
 		}
+
+		defType := astmodel.MustBeResourceType(rsrc.Type())
+		armVersion := strings.Trim(defType.APIVersionEnumValue().Value, "\"")
+		item := report.createItem(name, defType.ARMType(), armVersion)
 
 		report.addItem(item)
 	}
@@ -741,18 +741,45 @@ func (report *ResourceVersionsReport) writeFragment(name string, data any, buffe
 	return nil
 }
 
-// groupTitle returns the title to use for the given group, based on the first resource found in that group
+type reportMetadataQuality int
+
+const (
+	poor   reportMetadataQuality = 10
+	good   reportMetadataQuality = 20
+	better reportMetadataQuality = 30
+	best   reportMetadataQuality = 40
+)
+
+// groupTitle returns metadata to use for the given group.
+// group is the name of the group to generate metadata for.
+// items is the set of items in the group.
+// Some resource-providers (incl alertsmanagement) are inconsistent with letter casing, so we
+// look for the best information we have.
 func (report *ResourceVersionsReport) groupInfo(
 	group string,
 	items set.Set[ResourceVersionsReportResourceItem],
 ) *ResourceVersionsReportGroupInfo {
-	caser := cases.Title(language.English)
+	caser := cases.Title(language.English, cases.NoLower)
 	result := &ResourceVersionsReportGroupInfo{
 		Group:    group,
 		Title:    caser.String(group),
 		Provider: caser.String(group),
 	}
+	currentQuality := poor
 
+	saveCandidate := func(
+		title string,
+		provider string,
+		quality reportMetadataQuality,
+	) {
+		if quality > currentQuality {
+			result.Title = title
+			result.Provider = provider
+			currentQuality = quality
+		}
+	}
+
+	// Scan through available resources to find better values for Title & Provider
 	for item := range items {
 		if item.armType == "" {
 			// Didn't find a resource, keep looking
@@ -761,17 +788,27 @@ func (report *ResourceVersionsReport) groupInfo(
 
 		// Slice off the part before the first "/" to get the Provider name
 		parts := strings.Split(item.armType, "/")
-		if len(parts) == 0 {
-			// String doesn't look like a resource type, keep looking
-			continue
+		provider := parts[0]
+
+		const prefix = "Microsoft."
+		if strings.HasPrefix(provider, prefix) {
+			// If the provider starts with exactly "Microsoft." (with a case-sensitive check),
+			// that's our best bet for a properly cased provider name
+			saveCandidate(
+				strings.TrimPrefix(provider, prefix),
+				provider,
+				best)
+		} else if strings.HasPrefix(strings.ToLower(provider), strings.ToLower(prefix)) {
+			// If the provider starts with "Microsoft." (but doesn't match the case exactly),
+			// that's not so good, but better than the defaults
+			saveCandidate(
+				caser.String(provider[len(prefix):]),
+				caser.String(provider),
+				better)
+		} else {
+			// Just use what we have
+			saveCandidate(provider, provider, good)
 		}
-
-		// Store the provider name
-		result.Provider = parts[0]
-
-		// Remove the "Microsoft." prefix to make the title
-		result.Title = strings.TrimPrefix(result.Provider, "Microsoft.")
-		break
 	}
 
 	return result
