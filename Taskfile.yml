@@ -72,6 +72,7 @@ tasks:
       - controller:quick-checks
       - asoctl:quick-checks
       - crossplane:quick-checks
+      - mangle-test:quick-checks
     cmds:
       - task: format-code # Run after the deps to avoid racing with generated file creation
 
@@ -1109,7 +1110,11 @@ tasks:
       - task: doc:crd-api
 
   ############### Utility targets ###############
-  
+
+  mangle-test:quick-checks:
+    cmds:
+      - task: mangle-test:lint
+
   mangle-test:lint:
     desc: Run mangle-test fast lint checks.
     dir: '{{.MANGLE_ROOT}}'
