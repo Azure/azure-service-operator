@@ -25,7 +25,7 @@ Resource Types:
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolArtifactStreamingProfile">AgentPoolArtifactStreamingProfile
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 </div>
@@ -45,8 +45,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Artifact streaming speeds up the cold-start of containers on a node through on-demand image loading. To use
-this feature, container images must also enable artifact streaming on ACR. If not specified, the default is false.</p>
 </td>
 </tr>
 </tbody>
@@ -54,7 +52,7 @@ this feature, container images must also enable artifact streaming on ACR. If no
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolArtifactStreamingProfile_STATUS">AgentPoolArtifactStreamingProfile_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 </div>
@@ -74,8 +72,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Artifact streaming speeds up the cold-start of containers on a node through on-demand image loading. To use
-this feature, container images must also enable artifact streaming on ACR. If not specified, the default is false.</p>
 </td>
 </tr>
 </tbody>
@@ -83,7 +79,7 @@ this feature, container images must also enable artifact streaming on ACR. If no
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolGPUProfile">AgentPoolGPUProfile
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 </div>
@@ -103,10 +99,6 @@ bool
 </em>
 </td>
 <td>
-<p>InstallGPUDriver: The default value is true when the vmSize of the agent pool contains a GPU, false otherwise. GPU
-Driver Installation can only be set true when VM has an associated GPU resource. Setting this field to false prevents
-automatic GPU driver installation. In that case, in order for the GPU to be usable, the user must perform GPU driver
-installation themselves.</p>
 </td>
 </tr>
 </tbody>
@@ -114,7 +106,7 @@ installation themselves.</p>
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolGPUProfile_STATUS">AgentPoolGPUProfile_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
 </div>
@@ -134,10 +126,6 @@ bool
 </em>
 </td>
 <td>
-<p>InstallGPUDriver: The default value is true when the vmSize of the agent pool contains a GPU, false otherwise. GPU
-Driver Installation can only be set true when VM has an associated GPU resource. Setting this field to false prevents
-automatic GPU driver installation. In that case, in order for the GPU to be usable, the user must perform GPU driver
-installation themselves.</p>
 </td>
 </tr>
 </tbody>
@@ -145,11 +133,9 @@ installation themselves.</p>
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolMode">AgentPoolMode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions
-and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></p>
 </div>
 <table>
 <thead>
@@ -167,11 +153,9 @@ and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-syste
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolMode_STATUS">AgentPoolMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions
-and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></p>
 </div>
 <table>
 <thead>
@@ -189,10 +173,9 @@ and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-syste
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile">AgentPoolNetworkProfile
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>Network settings of an agent pool.</p>
 </div>
 <table>
 <thead>
@@ -212,7 +195,6 @@ and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-syste
 </em>
 </td>
 <td>
-<p>AllowedHostPorts: The port ranges that are allowed to access. The specified ranges are allowed to overlap.</p>
 </td>
 </tr>
 <tr>
@@ -225,8 +207,6 @@ and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-syste
 </em>
 </td>
 <td>
-<p>ApplicationSecurityGroupsReferences: The IDs of the application security groups which agent pool will associate when
-created.</p>
 </td>
 </tr>
 <tr>
@@ -239,7 +219,6 @@ created.</p>
 </em>
 </td>
 <td>
-<p>NodePublicIPTags: IPTags of instance-level public IPs.</p>
 </td>
 </tr>
 </tbody>
@@ -247,10 +226,9 @@ created.</p>
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile_STATUS">AgentPoolNetworkProfile_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>Network settings of an agent pool.</p>
 </div>
 <table>
 <thead>
@@ -270,7 +248,6 @@ created.</p>
 </em>
 </td>
 <td>
-<p>AllowedHostPorts: The port ranges that are allowed to access. The specified ranges are allowed to overlap.</p>
 </td>
 </tr>
 <tr>
@@ -281,7 +258,6 @@ created.</p>
 </em>
 </td>
 <td>
-<p>ApplicationSecurityGroups: The IDs of the application security groups which agent pool will associate when created.</p>
 </td>
 </tr>
 <tr>
@@ -294,7 +270,6 @@ created.</p>
 </em>
 </td>
 <td>
-<p>NodePublicIPTags: IPTags of instance-level public IPs.</p>
 </td>
 </tr>
 </tbody>
@@ -305,7 +280,6 @@ created.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.AgentPoolSecurityProfile">AgentPoolSecurityProfile</a>)
 </p>
 <div>
-<p>SSH access method of an agent pool.</p>
 </div>
 <table>
 <thead>
@@ -326,7 +300,6 @@ created.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.AgentPoolSecurityProfile_STATUS">AgentPoolSecurityProfile_STATUS</a>)
 </p>
 <div>
-<p>SSH access method of an agent pool.</p>
 </div>
 <table>
 <thead>
@@ -344,10 +317,9 @@ created.</p>
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolSecurityProfile">AgentPoolSecurityProfile
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>The security settings of an agent pool.</p>
 </div>
 <table>
 <thead>
@@ -365,8 +337,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableSecureBoot: Secure Boot is a feature of Trusted Launch which ensures that only signed operating systems and
-drivers can boot. For more details, see aka.ms/aks/trustedlaunch.  If not specified, the default is false.</p>
 </td>
 </tr>
 <tr>
@@ -377,8 +347,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableVTPM: vTPM is a Trusted Launch feature for configuring a dedicated secure vault for keys and measurements held
-locally on the node. For more details, see aka.ms/aks/trustedlaunch. If not specified, the default is false.</p>
 </td>
 </tr>
 <tr>
@@ -391,7 +359,6 @@ AgentPoolSSHAccess
 </em>
 </td>
 <td>
-<p>SshAccess: SSH access method of an agent pool.</p>
 </td>
 </tr>
 </tbody>
@@ -399,10 +366,9 @@ AgentPoolSSHAccess
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolSecurityProfile_STATUS">AgentPoolSecurityProfile_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>The security settings of an agent pool.</p>
 </div>
 <table>
 <thead>
@@ -420,8 +386,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableSecureBoot: Secure Boot is a feature of Trusted Launch which ensures that only signed operating systems and
-drivers can boot. For more details, see aka.ms/aks/trustedlaunch.  If not specified, the default is false.</p>
 </td>
 </tr>
 <tr>
@@ -432,8 +396,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableVTPM: vTPM is a Trusted Launch feature for configuring a dedicated secure vault for keys and measurements held
-locally on the node. For more details, see aka.ms/aks/trustedlaunch. If not specified, the default is false.</p>
 </td>
 </tr>
 <tr>
@@ -446,7 +408,6 @@ AgentPoolSSHAccess_STATUS
 </em>
 </td>
 <td>
-<p>SshAccess: SSH access method of an agent pool.</p>
 </td>
 </tr>
 </tbody>
@@ -454,10 +415,9 @@ AgentPoolSSHAccess_STATUS
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolType">AgentPoolType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>The type of Agent Pool.</p>
 </div>
 <table>
 <thead>
@@ -477,10 +437,9 @@ AgentPoolSSHAccess_STATUS
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolType_STATUS">AgentPoolType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>The type of Agent Pool.</p>
 </div>
 <table>
 <thead>
@@ -500,10 +459,9 @@ AgentPoolSSHAccess_STATUS
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolUpgradeSettings">AgentPoolUpgradeSettings
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>Settings for upgrading an agentpool</p>
 </div>
 <table>
 <thead>
@@ -521,9 +479,6 @@ int
 </em>
 </td>
 <td>
-<p>DrainTimeoutInMinutes: The amount of time (in minutes) to wait on eviction of pods and graceful termination per node.
-This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not
-specified, the default is 30 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -534,10 +489,6 @@ string
 </em>
 </td>
 <td>
-<p>MaxSurge: This can either be set to an integer (e.g. &lsquo;5&rsquo;) or a percentage (e.g. &lsquo;50%&rsquo;). If a percentage is specified, it
-is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded
-up. If not specified, the default is 1. For more information, including best practices, see:
-<a href="https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade">https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade</a></p>
 </td>
 </tr>
 <tr>
@@ -548,8 +499,6 @@ int
 </em>
 </td>
 <td>
-<p>NodeSoakDurationInMinutes: The amount of time (in minutes) to wait after draining a node and before reimaging it and
-moving on to next node. If not specified, the default is 0 minutes.</p>
 </td>
 </tr>
 </tbody>
@@ -557,10 +506,9 @@ moving on to next node. If not specified, the default is 0 minutes.</p>
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolUpgradeSettings_STATUS">AgentPoolUpgradeSettings_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>Settings for upgrading an agentpool</p>
 </div>
 <table>
 <thead>
@@ -578,9 +526,6 @@ int
 </em>
 </td>
 <td>
-<p>DrainTimeoutInMinutes: The amount of time (in minutes) to wait on eviction of pods and graceful termination per node.
-This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not
-specified, the default is 30 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -591,10 +536,6 @@ string
 </em>
 </td>
 <td>
-<p>MaxSurge: This can either be set to an integer (e.g. &lsquo;5&rsquo;) or a percentage (e.g. &lsquo;50%&rsquo;). If a percentage is specified, it
-is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded
-up. If not specified, the default is 1. For more information, including best practices, see:
-<a href="https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade">https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade</a></p>
 </td>
 </tr>
 <tr>
@@ -605,8 +546,6 @@ int
 </em>
 </td>
 <td>
-<p>NodeSoakDurationInMinutes: The amount of time (in minutes) to wait after draining a node and before reimaging it and
-moving on to next node. If not specified, the default is 0 minutes.</p>
 </td>
 </tr>
 </tbody>
@@ -614,10 +553,9 @@ moving on to next node. If not specified, the default is 0 minutes.</p>
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolWindowsProfile">AgentPoolWindowsProfile
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>The Windows agent pool&rsquo;s specific profile.</p>
 </div>
 <table>
 <thead>
@@ -635,8 +573,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableOutboundNat: The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT
-Gateway and the Windows agent pool does not have node public IP enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -644,10 +580,9 @@ Gateway and the Windows agent pool does not have node public IP enabled.</p>
 <h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolWindowsProfile_STATUS">AgentPoolWindowsProfile_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>The Windows agent pool&rsquo;s specific profile.</p>
 </div>
 <table>
 <thead>
@@ -665,8 +600,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableOutboundNat: The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT
-Gateway and the Windows agent pool does not have node public IP enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -677,7 +610,6 @@ Gateway and the Windows agent pool does not have node public IP enabled.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>)
 </p>
 <div>
-<p>Azure Key Vault key management service settings for the security profile.</p>
 </div>
 <table>
 <thead>
@@ -695,7 +627,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable Azure Key Vault key management service. The default is false.</p>
 </td>
 </tr>
 <tr>
@@ -706,10 +637,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyId: Identifier of Azure Key Vault key. See <a href="https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name">key identifier
-format</a>
-for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key
-identifier. When Azure Key Vault key management service is disabled, leave the field empty.</p>
 </td>
 </tr>
 <tr>
@@ -722,9 +649,6 @@ AzureKeyVaultKms_KeyVaultNetworkAccess
 </em>
 </td>
 <td>
-<p>KeyVaultNetworkAccess: Network access of key vault. The possible values are <code>Public</code> and <code>Private</code>. <code>Public</code> means the
-key vault allows public access from all networks. <code>Private</code> means the key vault disables public access and enables
-private link. The default value is <code>Public</code>.</p>
 </td>
 </tr>
 <tr>
@@ -737,8 +661,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>KeyVaultResourceReference: Resource ID of key vault. When keyVaultNetworkAccess is <code>Private</code>, this field is required and
-must be a valid resource ID. When keyVaultNetworkAccess is <code>Public</code>, leave the field empty.</p>
 </td>
 </tr>
 </tbody>
@@ -789,7 +711,6 @@ must be a valid resource ID. When keyVaultNetworkAccess is <code>Public</code>, 
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile_STATUS">ManagedClusterSecurityProfile_STATUS</a>)
 </p>
 <div>
-<p>Azure Key Vault key management service settings for the security profile.</p>
 </div>
 <table>
 <thead>
@@ -807,7 +728,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable Azure Key Vault key management service. The default is false.</p>
 </td>
 </tr>
 <tr>
@@ -818,10 +738,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyId: Identifier of Azure Key Vault key. See <a href="https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name">key identifier
-format</a>
-for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key
-identifier. When Azure Key Vault key management service is disabled, leave the field empty.</p>
 </td>
 </tr>
 <tr>
@@ -834,9 +750,6 @@ AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS
 </em>
 </td>
 <td>
-<p>KeyVaultNetworkAccess: Network access of key vault. The possible values are <code>Public</code> and <code>Private</code>. <code>Public</code> means the
-key vault allows public access from all networks. <code>Private</code> means the key vault disables public access and enables
-private link. The default value is <code>Public</code>.</p>
 </td>
 </tr>
 <tr>
@@ -847,8 +760,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVaultResourceId: Resource ID of key vault. When keyVaultNetworkAccess is <code>Private</code>, this field is required and must
-be a valid resource ID. When keyVaultNetworkAccess is <code>Public</code>, leave the field empty.</p>
 </td>
 </tr>
 </tbody>
@@ -859,7 +770,6 @@ be a valid resource ID. When keyVaultNetworkAccess is <code>Public</code>, leave
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Settings for upgrading a cluster.</p>
 </div>
 <table>
 <thead>
@@ -879,7 +789,6 @@ UpgradeOverrideSettings
 </em>
 </td>
 <td>
-<p>OverrideSettings: Settings for overrides.</p>
 </td>
 </tr>
 </tbody>
@@ -890,7 +799,6 @@ UpgradeOverrideSettings
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Settings for upgrading a cluster.</p>
 </div>
 <table>
 <thead>
@@ -910,7 +818,6 @@ UpgradeOverrideSettings_STATUS
 </em>
 </td>
 <td>
-<p>OverrideSettings: Settings for overrides.</p>
 </td>
 </tr>
 </tbody>
@@ -921,7 +828,6 @@ UpgradeOverrideSettings_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Profile for Linux VMs in the container service cluster.</p>
 </div>
 <table>
 <thead>
@@ -939,7 +845,6 @@ string
 </em>
 </td>
 <td>
-<p>AdminUsername: The administrator username to use for Linux VMs.</p>
 </td>
 </tr>
 <tr>
@@ -952,7 +857,6 @@ ContainerServiceSshConfiguration
 </em>
 </td>
 <td>
-<p>Ssh: The SSH configuration for Linux-based VMs running on Azure.</p>
 </td>
 </tr>
 </tbody>
@@ -963,7 +867,6 @@ ContainerServiceSshConfiguration
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Profile for Linux VMs in the container service cluster.</p>
 </div>
 <table>
 <thead>
@@ -981,7 +884,6 @@ string
 </em>
 </td>
 <td>
-<p>AdminUsername: The administrator username to use for Linux VMs.</p>
 </td>
 </tr>
 <tr>
@@ -994,7 +896,6 @@ ContainerServiceSshConfiguration_STATUS
 </em>
 </td>
 <td>
-<p>Ssh: The SSH configuration for Linux-based VMs running on Azure.</p>
 </td>
 </tr>
 </tbody>
@@ -1005,7 +906,6 @@ ContainerServiceSshConfiguration_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Profile of network configuration.</p>
 </div>
 <table>
 <thead>
@@ -1023,8 +923,6 @@ string
 </em>
 </td>
 <td>
-<p>DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
-range specified in serviceCidr.</p>
 </td>
 </tr>
 <tr>
@@ -1037,8 +935,6 @@ range specified in serviceCidr.</p>
 </em>
 </td>
 <td>
-<p>IpFamilies: IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value
-is IPv4. For dual-stack, the expected values are IPv4 and IPv6.</p>
 </td>
 </tr>
 <tr>
@@ -1051,9 +947,6 @@ ContainerServiceNetworkProfile_KubeProxyConfig
 </em>
 </td>
 <td>
-<p>KubeProxyConfig: Holds configuration customizations for kube-proxy. Any values not defined will use the kube-proxy
-defaulting behavior. See <a href="https://v">https://v</a><version>.docs.kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/
-where <version> is represented by a <major version>-<minor version> string. Kubernetes version 1.23 would be &lsquo;1-23&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1066,7 +959,6 @@ ManagedClusterLoadBalancerProfile
 </em>
 </td>
 <td>
-<p>LoadBalancerProfile: Profile of the cluster load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -1079,9 +971,6 @@ LoadBalancerSku
 </em>
 </td>
 <td>
-<p>LoadBalancerSku: The default is &lsquo;standard&rsquo;. See <a href="https://docs.microsoft.com/azure/load-balancer/skus">Azure Load Balancer
-SKUs</a> for more information about the differences between load
-balancer SKUs.</p>
 </td>
 </tr>
 <tr>
@@ -1094,8 +983,6 @@ NetworkMonitoring
 </em>
 </td>
 <td>
-<p>Monitoring: This addon can be used to configure network monitoring and generate network monitoring data in Prometheus
-format</p>
 </td>
 </tr>
 <tr>
@@ -1108,7 +995,6 @@ ManagedClusterNATGatewayProfile
 </em>
 </td>
 <td>
-<p>NatGatewayProfile: Profile of the cluster NAT gateway.</p>
 </td>
 </tr>
 <tr>
@@ -1121,7 +1007,6 @@ NetworkDataplane
 </em>
 </td>
 <td>
-<p>NetworkDataplane: Network dataplane used in the Kubernetes cluster.</p>
 </td>
 </tr>
 <tr>
@@ -1134,7 +1019,6 @@ NetworkMode
 </em>
 </td>
 <td>
-<p>NetworkMode: This cannot be specified if networkPlugin is anything other than &lsquo;azure&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1147,7 +1031,6 @@ NetworkPlugin
 </em>
 </td>
 <td>
-<p>NetworkPlugin: Network plugin used for building the Kubernetes network.</p>
 </td>
 </tr>
 <tr>
@@ -1160,7 +1043,6 @@ NetworkPluginMode
 </em>
 </td>
 <td>
-<p>NetworkPluginMode: Network plugin mode used for building the Kubernetes network.</p>
 </td>
 </tr>
 <tr>
@@ -1173,7 +1055,6 @@ NetworkPolicy
 </em>
 </td>
 <td>
-<p>NetworkPolicy: Network policy used for building the Kubernetes network.</p>
 </td>
 </tr>
 <tr>
@@ -1186,8 +1067,6 @@ ContainerServiceNetworkProfile_OutboundType
 </em>
 </td>
 <td>
-<p>OutboundType: This can only be set at cluster creation time and cannot be changed later. For more information see
-<a href="https://docs.microsoft.com/azure/aks/egress-outboundtype">egress outbound type</a>.</p>
 </td>
 </tr>
 <tr>
@@ -1198,7 +1077,6 @@ string
 </em>
 </td>
 <td>
-<p>PodCidr: A CIDR notation IP range from which to assign pod IPs when kubenet is used.</p>
 </td>
 </tr>
 <tr>
@@ -1209,8 +1087,6 @@ string
 </em>
 </td>
 <td>
-<p>PodCidrs: One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is
-expected for dual-stack networking.</p>
 </td>
 </tr>
 <tr>
@@ -1221,8 +1097,6 @@ string
 </em>
 </td>
 <td>
-<p>ServiceCidr: A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP
-ranges.</p>
 </td>
 </tr>
 <tr>
@@ -1233,8 +1107,6 @@ ranges.</p>
 </em>
 </td>
 <td>
-<p>ServiceCidrs: One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is
-expected for dual-stack networking. They must not overlap with any Subnet IP ranges.</p>
 </td>
 </tr>
 </tbody>
@@ -1262,8 +1134,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable on kube-proxy on the cluster (if no &lsquo;kubeProxyConfig&rsquo; exists, kube-proxy is enabled in AKS by
-default without these customizations).</p>
 </td>
 </tr>
 <tr>
@@ -1276,7 +1146,6 @@ ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig
 </em>
 </td>
 <td>
-<p>IpvsConfig: Holds configuration customizations for IPVS. May only be specified if &lsquo;mode&rsquo; is set to &lsquo;IPVS&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1289,7 +1158,6 @@ ContainerServiceNetworkProfile_KubeProxyConfig_Mode
 </em>
 </td>
 <td>
-<p>Mode: Specify which proxy mode to use (&lsquo;IPTABLES&rsquo; or &lsquo;IPVS&rsquo;)</p>
 </td>
 </tr>
 </tbody>
@@ -1319,7 +1187,6 @@ ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler
 </em>
 </td>
 <td>
-<p>Scheduler: IPVS scheduler, for more information please see <a href="http://www.linuxvirtualserver.org/docs/scheduling.html">http://www.linuxvirtualserver.org/docs/scheduling.html</a>.</p>
 </td>
 </tr>
 <tr>
@@ -1330,8 +1197,6 @@ int
 </em>
 </td>
 <td>
-<p>TcpFinTimeoutSeconds: The timeout value used for IPVS TCP sessions after receiving a FIN in seconds. Must be a positive
-integer value.</p>
 </td>
 </tr>
 <tr>
@@ -1342,7 +1207,6 @@ int
 </em>
 </td>
 <td>
-<p>TcpTimeoutSeconds: The timeout value used for idle IPVS TCP sessions in seconds. Must be a positive integer value.</p>
 </td>
 </tr>
 <tr>
@@ -1353,7 +1217,6 @@ int
 </em>
 </td>
 <td>
-<p>UdpTimeoutSeconds: The timeout value used for IPVS UDP packets in seconds. Must be a positive integer value.</p>
 </td>
 </tr>
 </tbody>
@@ -1383,7 +1246,6 @@ ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS
 </em>
 </td>
 <td>
-<p>Scheduler: IPVS scheduler, for more information please see <a href="http://www.linuxvirtualserver.org/docs/scheduling.html">http://www.linuxvirtualserver.org/docs/scheduling.html</a>.</p>
 </td>
 </tr>
 <tr>
@@ -1394,8 +1256,6 @@ int
 </em>
 </td>
 <td>
-<p>TcpFinTimeoutSeconds: The timeout value used for IPVS TCP sessions after receiving a FIN in seconds. Must be a positive
-integer value.</p>
 </td>
 </tr>
 <tr>
@@ -1406,7 +1266,6 @@ int
 </em>
 </td>
 <td>
-<p>TcpTimeoutSeconds: The timeout value used for idle IPVS TCP sessions in seconds. Must be a positive integer value.</p>
 </td>
 </tr>
 <tr>
@@ -1417,7 +1276,6 @@ int
 </em>
 </td>
 <td>
-<p>UdpTimeoutSeconds: The timeout value used for IPVS UDP packets in seconds. Must be a positive integer value.</p>
 </td>
 </tr>
 </tbody>
@@ -1525,8 +1383,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable on kube-proxy on the cluster (if no &lsquo;kubeProxyConfig&rsquo; exists, kube-proxy is enabled in AKS by
-default without these customizations).</p>
 </td>
 </tr>
 <tr>
@@ -1539,7 +1395,6 @@ ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS
 </em>
 </td>
 <td>
-<p>IpvsConfig: Holds configuration customizations for IPVS. May only be specified if &lsquo;mode&rsquo; is set to &lsquo;IPVS&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1552,7 +1407,6 @@ ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS
 </em>
 </td>
 <td>
-<p>Mode: Specify which proxy mode to use (&lsquo;IPTABLES&rsquo; or &lsquo;IPVS&rsquo;)</p>
 </td>
 </tr>
 </tbody>
@@ -1611,7 +1465,6 @@ ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Profile of network configuration.</p>
 </div>
 <table>
 <thead>
@@ -1629,8 +1482,6 @@ string
 </em>
 </td>
 <td>
-<p>DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
-range specified in serviceCidr.</p>
 </td>
 </tr>
 <tr>
@@ -1643,8 +1494,6 @@ range specified in serviceCidr.</p>
 </em>
 </td>
 <td>
-<p>IpFamilies: IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value
-is IPv4. For dual-stack, the expected values are IPv4 and IPv6.</p>
 </td>
 </tr>
 <tr>
@@ -1657,9 +1506,6 @@ ContainerServiceNetworkProfile_KubeProxyConfig_STATUS
 </em>
 </td>
 <td>
-<p>KubeProxyConfig: Holds configuration customizations for kube-proxy. Any values not defined will use the kube-proxy
-defaulting behavior. See <a href="https://v">https://v</a><version>.docs.kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/
-where <version> is represented by a <major version>-<minor version> string. Kubernetes version 1.23 would be &lsquo;1-23&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1672,7 +1518,6 @@ ManagedClusterLoadBalancerProfile_STATUS
 </em>
 </td>
 <td>
-<p>LoadBalancerProfile: Profile of the cluster load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -1685,9 +1530,6 @@ LoadBalancerSku_STATUS
 </em>
 </td>
 <td>
-<p>LoadBalancerSku: The default is &lsquo;standard&rsquo;. See <a href="https://docs.microsoft.com/azure/load-balancer/skus">Azure Load Balancer
-SKUs</a> for more information about the differences between load
-balancer SKUs.</p>
 </td>
 </tr>
 <tr>
@@ -1700,8 +1542,6 @@ NetworkMonitoring_STATUS
 </em>
 </td>
 <td>
-<p>Monitoring: This addon can be used to configure network monitoring and generate network monitoring data in Prometheus
-format</p>
 </td>
 </tr>
 <tr>
@@ -1714,7 +1554,6 @@ ManagedClusterNATGatewayProfile_STATUS
 </em>
 </td>
 <td>
-<p>NatGatewayProfile: Profile of the cluster NAT gateway.</p>
 </td>
 </tr>
 <tr>
@@ -1727,7 +1566,6 @@ NetworkDataplane_STATUS
 </em>
 </td>
 <td>
-<p>NetworkDataplane: Network dataplane used in the Kubernetes cluster.</p>
 </td>
 </tr>
 <tr>
@@ -1740,7 +1578,6 @@ NetworkMode_STATUS
 </em>
 </td>
 <td>
-<p>NetworkMode: This cannot be specified if networkPlugin is anything other than &lsquo;azure&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1753,7 +1590,6 @@ NetworkPlugin_STATUS
 </em>
 </td>
 <td>
-<p>NetworkPlugin: Network plugin used for building the Kubernetes network.</p>
 </td>
 </tr>
 <tr>
@@ -1766,7 +1602,6 @@ NetworkPluginMode_STATUS
 </em>
 </td>
 <td>
-<p>NetworkPluginMode: Network plugin mode used for building the Kubernetes network.</p>
 </td>
 </tr>
 <tr>
@@ -1779,7 +1614,6 @@ NetworkPolicy_STATUS
 </em>
 </td>
 <td>
-<p>NetworkPolicy: Network policy used for building the Kubernetes network.</p>
 </td>
 </tr>
 <tr>
@@ -1792,8 +1626,6 @@ ContainerServiceNetworkProfile_OutboundType_STATUS
 </em>
 </td>
 <td>
-<p>OutboundType: This can only be set at cluster creation time and cannot be changed later. For more information see
-<a href="https://docs.microsoft.com/azure/aks/egress-outboundtype">egress outbound type</a>.</p>
 </td>
 </tr>
 <tr>
@@ -1804,7 +1636,6 @@ string
 </em>
 </td>
 <td>
-<p>PodCidr: A CIDR notation IP range from which to assign pod IPs when kubenet is used.</p>
 </td>
 </tr>
 <tr>
@@ -1815,8 +1646,6 @@ string
 </em>
 </td>
 <td>
-<p>PodCidrs: One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is
-expected for dual-stack networking.</p>
 </td>
 </tr>
 <tr>
@@ -1827,8 +1656,6 @@ string
 </em>
 </td>
 <td>
-<p>ServiceCidr: A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP
-ranges.</p>
 </td>
 </tr>
 <tr>
@@ -1839,8 +1666,6 @@ ranges.</p>
 </em>
 </td>
 <td>
-<p>ServiceCidrs: One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is
-expected for dual-stack networking. They must not overlap with any Subnet IP ranges.</p>
 </td>
 </tr>
 </tbody>
@@ -1848,7 +1673,7 @@ expected for dual-stack networking. They must not overlap with any Subnet IP ran
 <h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceOSDisk">ContainerServiceOSDisk
 (<code>int</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
 </div>
@@ -1858,7 +1683,6 @@ expected for dual-stack networking. They must not overlap with any Subnet IP ran
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceLinuxProfile">ContainerServiceLinuxProfile</a>)
 </p>
 <div>
-<p>SSH configuration for Linux-based VMs running on Azure.</p>
 </div>
 <table>
 <thead>
@@ -1878,7 +1702,6 @@ expected for dual-stack networking. They must not overlap with any Subnet IP ran
 </em>
 </td>
 <td>
-<p>PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.</p>
 </td>
 </tr>
 </tbody>
@@ -1889,7 +1712,6 @@ expected for dual-stack networking. They must not overlap with any Subnet IP ran
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceLinuxProfile_STATUS">ContainerServiceLinuxProfile_STATUS</a>)
 </p>
 <div>
-<p>SSH configuration for Linux-based VMs running on Azure.</p>
 </div>
 <table>
 <thead>
@@ -1909,7 +1731,6 @@ expected for dual-stack networking. They must not overlap with any Subnet IP ran
 </em>
 </td>
 <td>
-<p>PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.</p>
 </td>
 </tr>
 </tbody>
@@ -1920,7 +1741,6 @@ expected for dual-stack networking. They must not overlap with any Subnet IP ran
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceSshConfiguration">ContainerServiceSshConfiguration</a>)
 </p>
 <div>
-<p>Contains information about SSH certificate public key data.</p>
 </div>
 <table>
 <thead>
@@ -1938,8 +1758,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or
-without headers.</p>
 </td>
 </tr>
 </tbody>
@@ -1950,7 +1768,6 @@ without headers.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceSshConfiguration_STATUS">ContainerServiceSshConfiguration_STATUS</a>)
 </p>
 <div>
-<p>Contains information about SSH certificate public key data.</p>
 </div>
 <table>
 <thead>
@@ -1968,8 +1785,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or
-without headers.</p>
 </td>
 </tr>
 </tbody>
@@ -1977,10 +1792,9 @@ without headers.</p>
 <h3 id="containerservice.azure.com/v1api20231102preview.CreationData">CreationData
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>Data used when creating a target resource from a source resource.</p>
 </div>
 <table>
 <thead>
@@ -2000,7 +1814,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>SourceResourceReference: This is the ARM ID of the source object to be used to create the target object.</p>
 </td>
 </tr>
 </tbody>
@@ -2008,10 +1821,9 @@ genruntime.ResourceReference
 <h3 id="containerservice.azure.com/v1api20231102preview.CreationData_STATUS">CreationData_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>Data used when creating a target resource from a source resource.</p>
 </div>
 <table>
 <thead>
@@ -2029,7 +1841,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceResourceId: This is the ARM ID of the source object to be used to create the target object.</p>
 </td>
 </tr>
 </tbody>
@@ -2040,7 +1851,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity">ManagedClusterIdentity</a>)
 </p>
 <div>
-<p>Delegated resource properties - internal use only.</p>
 </div>
 <table>
 <thead>
@@ -2058,7 +1868,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The source resource location - internal use only.</p>
 </td>
 </tr>
 <tr>
@@ -2069,7 +1878,6 @@ string
 </em>
 </td>
 <td>
-<p>ReferralResource: The delegation id of the referral delegation (optional) - internal use only.</p>
 </td>
 </tr>
 <tr>
@@ -2082,7 +1890,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>ResourceReference: The ARM resource id of the delegated resource - internal use only.</p>
 </td>
 </tr>
 <tr>
@@ -2093,7 +1900,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant id of the delegated resource - internal use only.</p>
 </td>
 </tr>
 </tbody>
@@ -2104,7 +1910,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity_STATUS">ManagedClusterIdentity_STATUS</a>)
 </p>
 <div>
-<p>Delegated resource properties - internal use only.</p>
 </div>
 <table>
 <thead>
@@ -2122,7 +1927,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The source resource location - internal use only.</p>
 </td>
 </tr>
 <tr>
@@ -2133,7 +1937,6 @@ string
 </em>
 </td>
 <td>
-<p>ReferralResource: The delegation id of the referral delegation (optional) - internal use only.</p>
 </td>
 </tr>
 <tr>
@@ -2144,7 +1947,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceId: The ARM resource id of the delegated resource - internal use only.</p>
 </td>
 </tr>
 <tr>
@@ -2155,7 +1957,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant id of the delegated resource - internal use only.</p>
 </td>
 </tr>
 </tbody>
@@ -2166,9 +1967,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterProperties_AutoScalerProfile">ManagedClusterProperties_AutoScalerProfile</a>)
 </p>
 <div>
-<p>If not specified, the default is &lsquo;random&rsquo;. See
-<a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders">expanders</a> for more
-information.</p>
 </div>
 <table>
 <thead>
@@ -2193,9 +1991,6 @@ information.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterProperties_AutoScalerProfile_STATUS">ManagedClusterProperties_AutoScalerProfile_STATUS</a>)
 </p>
 <div>
-<p>If not specified, the default is &lsquo;random&rsquo;. See
-<a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders">expanders</a> for more
-information.</p>
 </div>
 <table>
 <thead>
@@ -2220,7 +2015,6 @@ information.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>The complex type of the extended location.</p>
 </div>
 <table>
 <thead>
@@ -2238,7 +2032,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -2251,7 +2044,6 @@ ExtendedLocationType
 </em>
 </td>
 <td>
-<p>Type: The type of the extended location.</p>
 </td>
 </tr>
 </tbody>
@@ -2262,7 +2054,6 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ExtendedLocation">ExtendedLocation</a>)
 </p>
 <div>
-<p>The type of extendedLocation.</p>
 </div>
 <table>
 <thead>
@@ -2281,7 +2072,6 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ExtendedLocation_STATUS">ExtendedLocation_STATUS</a>)
 </p>
 <div>
-<p>The type of extendedLocation.</p>
 </div>
 <table>
 <thead>
@@ -2300,7 +2090,6 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>The complex type of the extended location.</p>
 </div>
 <table>
 <thead>
@@ -2318,7 +2107,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -2331,7 +2119,6 @@ ExtendedLocationType_STATUS
 </em>
 </td>
 <td>
-<p>Type: The type of the extended location.</p>
 </td>
 </tr>
 </tbody>
@@ -2339,10 +2126,9 @@ ExtendedLocationType_STATUS
 <h3 id="containerservice.azure.com/v1api20231102preview.GPUInstanceProfile">GPUInstanceProfile
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.</p>
 </div>
 <table>
 <thead>
@@ -2366,10 +2152,9 @@ ExtendedLocationType_STATUS
 <h3 id="containerservice.azure.com/v1api20231102preview.GPUInstanceProfile_STATUS">GPUInstanceProfile_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.</p>
 </div>
 <table>
 <thead>
@@ -2396,7 +2181,6 @@ ExtendedLocationType_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile">AgentPoolNetworkProfile</a>)
 </p>
 <div>
-<p>Contains the IPTag associated with the object.</p>
 </div>
 <table>
 <thead>
@@ -2414,7 +2198,6 @@ string
 </em>
 </td>
 <td>
-<p>IpTagType: The IP tag type. Example: RoutingPreference.</p>
 </td>
 </tr>
 <tr>
@@ -2425,7 +2208,6 @@ string
 </em>
 </td>
 <td>
-<p>Tag: The value of the IP tag associated with the public IP. Example: Internet.</p>
 </td>
 </tr>
 </tbody>
@@ -2436,7 +2218,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile_STATUS">AgentPoolNetworkProfile_STATUS</a>)
 </p>
 <div>
-<p>Contains the IPTag associated with the object.</p>
 </div>
 <table>
 <thead>
@@ -2454,7 +2235,6 @@ string
 </em>
 </td>
 <td>
-<p>IpTagType: The IP tag type. Example: RoutingPreference.</p>
 </td>
 </tr>
 <tr>
@@ -2465,7 +2245,6 @@ string
 </em>
 </td>
 <td>
-<p>Tag: The value of the IP tag associated with the public IP. Example: Internet.</p>
 </td>
 </tr>
 </tbody>
@@ -2476,7 +2255,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
 </p>
 <div>
-<p>To determine if address belongs IPv4 or IPv6 family.</p>
 </div>
 <table>
 <thead>
@@ -2497,7 +2275,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
 </p>
 <div>
-<p>To determine if address belongs IPv4 or IPv6 family.</p>
 </div>
 <table>
 <thead>
@@ -2518,8 +2295,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioServiceMesh">IstioServiceMesh</a>)
 </p>
 <div>
-<p>Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described
-here <a href="https://aka.ms/asm-plugin-ca">https://aka.ms/asm-plugin-ca</a></p>
 </div>
 <table>
 <thead>
@@ -2539,7 +2314,6 @@ IstioPluginCertificateAuthority
 </em>
 </td>
 <td>
-<p>Plugin: Plugin certificates information for Service Mesh.</p>
 </td>
 </tr>
 </tbody>
@@ -2550,8 +2324,6 @@ IstioPluginCertificateAuthority
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioServiceMesh_STATUS">IstioServiceMesh_STATUS</a>)
 </p>
 <div>
-<p>Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described
-here <a href="https://aka.ms/asm-plugin-ca">https://aka.ms/asm-plugin-ca</a></p>
 </div>
 <table>
 <thead>
@@ -2571,7 +2343,6 @@ IstioPluginCertificateAuthority_STATUS
 </em>
 </td>
 <td>
-<p>Plugin: Plugin certificates information for Service Mesh.</p>
 </td>
 </tr>
 </tbody>
@@ -2582,7 +2353,6 @@ IstioPluginCertificateAuthority_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioServiceMesh">IstioServiceMesh</a>)
 </p>
 <div>
-<p>Istio components configuration.</p>
 </div>
 <table>
 <thead>
@@ -2602,7 +2372,6 @@ IstioPluginCertificateAuthority_STATUS
 </em>
 </td>
 <td>
-<p>EgressGateways: Istio egress gateways.</p>
 </td>
 </tr>
 <tr>
@@ -2615,7 +2384,6 @@ IstioPluginCertificateAuthority_STATUS
 </em>
 </td>
 <td>
-<p>IngressGateways: Istio ingress gateways.</p>
 </td>
 </tr>
 </tbody>
@@ -2626,7 +2394,6 @@ IstioPluginCertificateAuthority_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioServiceMesh_STATUS">IstioServiceMesh_STATUS</a>)
 </p>
 <div>
-<p>Istio components configuration.</p>
 </div>
 <table>
 <thead>
@@ -2646,7 +2413,6 @@ IstioPluginCertificateAuthority_STATUS
 </em>
 </td>
 <td>
-<p>EgressGateways: Istio egress gateways.</p>
 </td>
 </tr>
 <tr>
@@ -2659,7 +2425,6 @@ IstioPluginCertificateAuthority_STATUS
 </em>
 </td>
 <td>
-<p>IngressGateways: Istio ingress gateways.</p>
 </td>
 </tr>
 </tbody>
@@ -2670,7 +2435,6 @@ IstioPluginCertificateAuthority_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioComponents">IstioComponents</a>)
 </p>
 <div>
-<p>Istio egress gateway configuration.</p>
 </div>
 <table>
 <thead>
@@ -2688,7 +2452,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable the egress gateway.</p>
 </td>
 </tr>
 <tr>
@@ -2699,7 +2462,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>NodeSelector: NodeSelector for scheduling the egress gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -2710,7 +2472,6 @@ map[string]string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioComponents_STATUS">IstioComponents_STATUS</a>)
 </p>
 <div>
-<p>Istio egress gateway configuration.</p>
 </div>
 <table>
 <thead>
@@ -2728,7 +2489,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable the egress gateway.</p>
 </td>
 </tr>
 <tr>
@@ -2739,7 +2499,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>NodeSelector: NodeSelector for scheduling the egress gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -2750,8 +2509,6 @@ map[string]string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioComponents">IstioComponents</a>)
 </p>
 <div>
-<p>Istio ingress gateway configuration. For now, we support up to one external ingress gateway named
-<code>aks-istio-ingressgateway-external</code> and one internal ingress gateway named <code>aks-istio-ingressgateway-internal</code>.</p>
 </div>
 <table>
 <thead>
@@ -2769,7 +2526,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable the ingress gateway.</p>
 </td>
 </tr>
 <tr>
@@ -2782,7 +2538,6 @@ IstioIngressGateway_Mode
 </em>
 </td>
 <td>
-<p>Mode: Mode of an ingress gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -2833,8 +2588,6 @@ IstioIngressGateway_Mode
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioComponents_STATUS">IstioComponents_STATUS</a>)
 </p>
 <div>
-<p>Istio ingress gateway configuration. For now, we support up to one external ingress gateway named
-<code>aks-istio-ingressgateway-external</code> and one internal ingress gateway named <code>aks-istio-ingressgateway-internal</code>.</p>
 </div>
 <table>
 <thead>
@@ -2852,7 +2605,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable the ingress gateway.</p>
 </td>
 </tr>
 <tr>
@@ -2865,7 +2617,6 @@ IstioIngressGateway_Mode_STATUS
 </em>
 </td>
 <td>
-<p>Mode: Mode of an ingress gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -2876,7 +2627,6 @@ IstioIngressGateway_Mode_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioCertificateAuthority">IstioCertificateAuthority</a>)
 </p>
 <div>
-<p>Plugin certificates information for Service Mesh.</p>
 </div>
 <table>
 <thead>
@@ -2894,7 +2644,6 @@ string
 </em>
 </td>
 <td>
-<p>CertChainObjectName: Certificate chain object name in Azure Key Vault.</p>
 </td>
 </tr>
 <tr>
@@ -2905,7 +2654,6 @@ string
 </em>
 </td>
 <td>
-<p>CertObjectName: Intermediate certificate object name in Azure Key Vault.</p>
 </td>
 </tr>
 <tr>
@@ -2916,7 +2664,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyObjectName: Intermediate certificate private key object name in Azure Key Vault.</p>
 </td>
 </tr>
 <tr>
@@ -2929,7 +2676,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>KeyVaultReference: The resource ID of the Key Vault.</p>
 </td>
 </tr>
 <tr>
@@ -2940,7 +2686,6 @@ string
 </em>
 </td>
 <td>
-<p>RootCertObjectName: Root certificate object name in Azure Key Vault.</p>
 </td>
 </tr>
 </tbody>
@@ -2951,7 +2696,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioCertificateAuthority_STATUS">IstioCertificateAuthority_STATUS</a>)
 </p>
 <div>
-<p>Plugin certificates information for Service Mesh.</p>
 </div>
 <table>
 <thead>
@@ -2969,7 +2713,6 @@ string
 </em>
 </td>
 <td>
-<p>CertChainObjectName: Certificate chain object name in Azure Key Vault.</p>
 </td>
 </tr>
 <tr>
@@ -2980,7 +2723,6 @@ string
 </em>
 </td>
 <td>
-<p>CertObjectName: Intermediate certificate object name in Azure Key Vault.</p>
 </td>
 </tr>
 <tr>
@@ -2991,7 +2733,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyObjectName: Intermediate certificate private key object name in Azure Key Vault.</p>
 </td>
 </tr>
 <tr>
@@ -3002,7 +2743,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVaultId: The resource ID of the Key Vault.</p>
 </td>
 </tr>
 <tr>
@@ -3013,7 +2753,6 @@ string
 </em>
 </td>
 <td>
-<p>RootCertObjectName: Root certificate object name in Azure Key Vault.</p>
 </td>
 </tr>
 </tbody>
@@ -3024,7 +2763,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ServiceMeshProfile">ServiceMeshProfile</a>)
 </p>
 <div>
-<p>Istio service mesh configuration.</p>
 </div>
 <table>
 <thead>
@@ -3044,8 +2782,6 @@ IstioCertificateAuthority
 </em>
 </td>
 <td>
-<p>CertificateAuthority: Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin
-certificates as described  here <a href="https://aka.ms/asm-plugin-ca">https://aka.ms/asm-plugin-ca</a></p>
 </td>
 </tr>
 <tr>
@@ -3058,7 +2794,6 @@ IstioComponents
 </em>
 </td>
 <td>
-<p>Components: Istio components configuration.</p>
 </td>
 </tr>
 <tr>
@@ -3069,9 +2804,6 @@ IstioComponents
 </em>
 </td>
 <td>
-<p>Revisions: The list of revisions of the Istio control plane. When an upgrade is not in progress, this holds one value.
-When canary upgrade is in progress, this can only hold two consecutive values. For more information, see:
-<a href="https://learn.microsoft.com/en-us/azure/aks/istio-upgrade">https://learn.microsoft.com/en-us/azure/aks/istio-upgrade</a></p>
 </td>
 </tr>
 </tbody>
@@ -3082,7 +2814,6 @@ When canary upgrade is in progress, this can only hold two consecutive values. F
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ServiceMeshProfile_STATUS">ServiceMeshProfile_STATUS</a>)
 </p>
 <div>
-<p>Istio service mesh configuration.</p>
 </div>
 <table>
 <thead>
@@ -3102,8 +2833,6 @@ IstioCertificateAuthority_STATUS
 </em>
 </td>
 <td>
-<p>CertificateAuthority: Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin
-certificates as described  here <a href="https://aka.ms/asm-plugin-ca">https://aka.ms/asm-plugin-ca</a></p>
 </td>
 </tr>
 <tr>
@@ -3116,7 +2845,6 @@ IstioComponents_STATUS
 </em>
 </td>
 <td>
-<p>Components: Istio components configuration.</p>
 </td>
 </tr>
 <tr>
@@ -3127,9 +2855,6 @@ IstioComponents_STATUS
 </em>
 </td>
 <td>
-<p>Revisions: The list of revisions of the Istio control plane. When an upgrade is not in progress, this holds one value.
-When canary upgrade is in progress, this can only hold two consecutive values. For more information, see:
-<a href="https://learn.microsoft.com/en-us/azure/aks/istio-upgrade">https://learn.microsoft.com/en-us/azure/aks/istio-upgrade</a></p>
 </td>
 </tr>
 </tbody>
@@ -3137,10 +2862,9 @@ When canary upgrade is in progress, this can only hold two consecutive values. F
 <h3 id="containerservice.azure.com/v1api20231102preview.KubeletConfig">KubeletConfig
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>See <a href="https://docs.microsoft.com/azure/aks/custom-node-configuration">AKS custom node configuration</a> for more details.</p>
 </div>
 <table>
 <thead>
@@ -3158,7 +2882,6 @@ When canary upgrade is in progress, this can only hold two consecutive values. F
 </em>
 </td>
 <td>
-<p>AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in <code>*</code>).</p>
 </td>
 </tr>
 <tr>
@@ -3169,8 +2892,6 @@ int
 </em>
 </td>
 <td>
-<p>ContainerLogMaxFiles: The maximum number of container log files that can be present for a container. The number must be
-≥ 2.</p>
 </td>
 </tr>
 <tr>
@@ -3181,7 +2902,6 @@ int
 </em>
 </td>
 <td>
-<p>ContainerLogMaxSizeMB: The maximum size (e.g. 10Mi) of container log file before it is rotated.</p>
 </td>
 </tr>
 <tr>
@@ -3192,7 +2912,6 @@ bool
 </em>
 </td>
 <td>
-<p>CpuCfsQuota: The default is true.</p>
 </td>
 </tr>
 <tr>
@@ -3203,8 +2922,6 @@ string
 </em>
 </td>
 <td>
-<p>CpuCfsQuotaPeriod: The default is &lsquo;100ms.&rsquo; Valid values are a sequence of decimal numbers with an optional fraction and
-a unit suffix. For example: &lsquo;300ms&rsquo;, &lsquo;2h45m&rsquo;. Supported units are &lsquo;ns&rsquo;, &lsquo;us&rsquo;, &lsquo;ms&rsquo;, &rsquo;s&rsquo;, &rsquo;m&rsquo;, and &lsquo;h&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -3215,9 +2932,6 @@ string
 </em>
 </td>
 <td>
-<p>CpuManagerPolicy: The default is &lsquo;none&rsquo;. See <a href="https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies">Kubernetes CPU management
-policies</a> for more
-information. Allowed values are &lsquo;none&rsquo; and &lsquo;static&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -3228,7 +2942,6 @@ bool
 </em>
 </td>
 <td>
-<p>FailSwapOn: If set to true it will make the Kubelet fail to start if swap is enabled on the node.</p>
 </td>
 </tr>
 <tr>
@@ -3239,7 +2952,6 @@ int
 </em>
 </td>
 <td>
-<p>ImageGcHighThreshold: To disable image garbage collection, set to 100. The default is 85%</p>
 </td>
 </tr>
 <tr>
@@ -3250,7 +2962,6 @@ int
 </em>
 </td>
 <td>
-<p>ImageGcLowThreshold: This cannot be set higher than imageGcHighThreshold. The default is 80%</p>
 </td>
 </tr>
 <tr>
@@ -3261,7 +2972,6 @@ int
 </em>
 </td>
 <td>
-<p>PodMaxPids: The maximum number of processes per pod.</p>
 </td>
 </tr>
 <tr>
@@ -3272,9 +2982,6 @@ string
 </em>
 </td>
 <td>
-<p>TopologyManagerPolicy: For more information see <a href="https://kubernetes.io/docs/tasks/administer-cluster/topology-manager">Kubernetes Topology
-Manager</a>. The default is &lsquo;none&rsquo;. Allowed values
-are &lsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and &lsquo;single-numa-node&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -3282,10 +2989,9 @@ are &lsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and
 <h3 id="containerservice.azure.com/v1api20231102preview.KubeletConfig_STATUS">KubeletConfig_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>See <a href="https://docs.microsoft.com/azure/aks/custom-node-configuration">AKS custom node configuration</a> for more details.</p>
 </div>
 <table>
 <thead>
@@ -3303,7 +3009,6 @@ are &lsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and
 </em>
 </td>
 <td>
-<p>AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in <code>*</code>).</p>
 </td>
 </tr>
 <tr>
@@ -3314,8 +3019,6 @@ int
 </em>
 </td>
 <td>
-<p>ContainerLogMaxFiles: The maximum number of container log files that can be present for a container. The number must be
-≥ 2.</p>
 </td>
 </tr>
 <tr>
@@ -3326,7 +3029,6 @@ int
 </em>
 </td>
 <td>
-<p>ContainerLogMaxSizeMB: The maximum size (e.g. 10Mi) of container log file before it is rotated.</p>
 </td>
 </tr>
 <tr>
@@ -3337,7 +3039,6 @@ bool
 </em>
 </td>
 <td>
-<p>CpuCfsQuota: The default is true.</p>
 </td>
 </tr>
 <tr>
@@ -3348,8 +3049,6 @@ string
 </em>
 </td>
 <td>
-<p>CpuCfsQuotaPeriod: The default is &lsquo;100ms.&rsquo; Valid values are a sequence of decimal numbers with an optional fraction and
-a unit suffix. For example: &lsquo;300ms&rsquo;, &lsquo;2h45m&rsquo;. Supported units are &lsquo;ns&rsquo;, &lsquo;us&rsquo;, &lsquo;ms&rsquo;, &rsquo;s&rsquo;, &rsquo;m&rsquo;, and &lsquo;h&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -3360,9 +3059,6 @@ string
 </em>
 </td>
 <td>
-<p>CpuManagerPolicy: The default is &lsquo;none&rsquo;. See <a href="https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies">Kubernetes CPU management
-policies</a> for more
-information. Allowed values are &lsquo;none&rsquo; and &lsquo;static&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -3373,7 +3069,6 @@ bool
 </em>
 </td>
 <td>
-<p>FailSwapOn: If set to true it will make the Kubelet fail to start if swap is enabled on the node.</p>
 </td>
 </tr>
 <tr>
@@ -3384,7 +3079,6 @@ int
 </em>
 </td>
 <td>
-<p>ImageGcHighThreshold: To disable image garbage collection, set to 100. The default is 85%</p>
 </td>
 </tr>
 <tr>
@@ -3395,7 +3089,6 @@ int
 </em>
 </td>
 <td>
-<p>ImageGcLowThreshold: This cannot be set higher than imageGcHighThreshold. The default is 80%</p>
 </td>
 </tr>
 <tr>
@@ -3406,7 +3099,6 @@ int
 </em>
 </td>
 <td>
-<p>PodMaxPids: The maximum number of processes per pod.</p>
 </td>
 </tr>
 <tr>
@@ -3417,9 +3109,6 @@ string
 </em>
 </td>
 <td>
-<p>TopologyManagerPolicy: For more information see <a href="https://kubernetes.io/docs/tasks/administer-cluster/topology-manager">Kubernetes Topology
-Manager</a>. The default is &lsquo;none&rsquo;. Allowed values
-are &lsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and &lsquo;single-numa-node&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -3427,10 +3116,9 @@ are &lsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and
 <h3 id="containerservice.azure.com/v1api20231102preview.KubeletDiskType">KubeletDiskType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.</p>
 </div>
 <table>
 <thead>
@@ -3448,10 +3136,9 @@ are &lsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and
 <h3 id="containerservice.azure.com/v1api20231102preview.KubeletDiskType_STATUS">KubeletDiskType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.</p>
 </div>
 <table>
 <thead>
@@ -3472,7 +3159,6 @@ are &lsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Different support tiers for AKS managed clusters</p>
 </div>
 <table>
 <thead>
@@ -3493,7 +3179,6 @@ are &lsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Different support tiers for AKS managed clusters</p>
 </div>
 <table>
 <thead>
@@ -3511,10 +3196,9 @@ are &lsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and
 <h3 id="containerservice.azure.com/v1api20231102preview.LinuxOSConfig">LinuxOSConfig
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>See <a href="https://docs.microsoft.com/azure/aks/custom-node-configuration">AKS custom node configuration</a> for more details.</p>
 </div>
 <table>
 <thead>
@@ -3532,7 +3216,6 @@ int
 </em>
 </td>
 <td>
-<p>SwapFileSizeMB: The size in MB of a swap file that will be created on each node.</p>
 </td>
 </tr>
 <tr>
@@ -3545,7 +3228,6 @@ SysctlConfig
 </em>
 </td>
 <td>
-<p>Sysctls: Sysctl settings for Linux agent nodes.</p>
 </td>
 </tr>
 <tr>
@@ -3556,9 +3238,6 @@ string
 </em>
 </td>
 <td>
-<p>TransparentHugePageDefrag: Valid values are &lsquo;always&rsquo;, &lsquo;defer&rsquo;, &lsquo;defer+madvise&rsquo;, &lsquo;madvise&rsquo; and &lsquo;never&rsquo;. The default is
-&lsquo;madvise&rsquo;. For more information see <a href="https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge">Transparent
-Hugepages</a>.</p>
 </td>
 </tr>
 <tr>
@@ -3569,9 +3248,6 @@ string
 </em>
 </td>
 <td>
-<p>TransparentHugePageEnabled: Valid values are &lsquo;always&rsquo;, &lsquo;madvise&rsquo;, and &lsquo;never&rsquo;. The default is &lsquo;always&rsquo;. For more
-information see <a href="https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge">Transparent
-Hugepages</a>.</p>
 </td>
 </tr>
 </tbody>
@@ -3579,10 +3255,9 @@ Hugepages</a>.</p>
 <h3 id="containerservice.azure.com/v1api20231102preview.LinuxOSConfig_STATUS">LinuxOSConfig_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>See <a href="https://docs.microsoft.com/azure/aks/custom-node-configuration">AKS custom node configuration</a> for more details.</p>
 </div>
 <table>
 <thead>
@@ -3600,7 +3275,6 @@ int
 </em>
 </td>
 <td>
-<p>SwapFileSizeMB: The size in MB of a swap file that will be created on each node.</p>
 </td>
 </tr>
 <tr>
@@ -3613,7 +3287,6 @@ SysctlConfig_STATUS
 </em>
 </td>
 <td>
-<p>Sysctls: Sysctl settings for Linux agent nodes.</p>
 </td>
 </tr>
 <tr>
@@ -3624,9 +3297,6 @@ string
 </em>
 </td>
 <td>
-<p>TransparentHugePageDefrag: Valid values are &lsquo;always&rsquo;, &lsquo;defer&rsquo;, &lsquo;defer+madvise&rsquo;, &lsquo;madvise&rsquo; and &lsquo;never&rsquo;. The default is
-&lsquo;madvise&rsquo;. For more information see <a href="https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge">Transparent
-Hugepages</a>.</p>
 </td>
 </tr>
 <tr>
@@ -3637,9 +3307,6 @@ string
 </em>
 </td>
 <td>
-<p>TransparentHugePageEnabled: Valid values are &lsquo;always&rsquo;, &lsquo;madvise&rsquo;, and &lsquo;never&rsquo;. The default is &lsquo;always&rsquo;. For more
-information see <a href="https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge">Transparent
-Hugepages</a>.</p>
 </td>
 </tr>
 </tbody>
@@ -3650,8 +3317,6 @@ Hugepages</a>.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
 </p>
 <div>
-<p>The default is &lsquo;standard&rsquo;. See <a href="https://docs.microsoft.com/azure/load-balancer/skus">Azure Load Balancer SKUs</a> for more
-information about the differences between load balancer SKUs.</p>
 </div>
 <table>
 <thead>
@@ -3672,8 +3337,6 @@ information about the differences between load balancer SKUs.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
 </p>
 <div>
-<p>The default is &lsquo;standard&rsquo;. See <a href="https://docs.microsoft.com/azure/load-balancer/skus">Azure Load Balancer SKUs</a> for more
-information about the differences between load balancer SKUs.</p>
 </div>
 <table>
 <thead>
@@ -3691,9 +3354,6 @@ information about the differences between load balancer SKUs.</p>
 <h3 id="containerservice.azure.com/v1api20231102preview.ManagedCluster">ManagedCluster
 </h3>
 <div>
-<p>Generator information:
-- Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/managedClusters.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ContainerService/&#x200b;managedClusters/&#x200b;{resourceName}</&#x200b;p>
 </div>
 <table>
 <thead>
@@ -3740,7 +3400,6 @@ ManagedClusterAADProfile
 </em>
 </td>
 <td>
-<p>AadProfile: The Azure Active Directory configuration.</p>
 </td>
 </tr>
 <tr>
@@ -3753,7 +3412,6 @@ map[string]./api/containerservice/v1api20231102preview.ManagedClusterAddonProfil
 </em>
 </td>
 <td>
-<p>AddonProfiles: The profile of managed cluster add-on.</p>
 </td>
 </tr>
 <tr>
@@ -3766,7 +3424,6 @@ map[string]./api/containerservice/v1api20231102preview.ManagedClusterAddonProfil
 </em>
 </td>
 <td>
-<p>AgentPoolProfiles: The agent pool properties.</p>
 </td>
 </tr>
 <tr>
@@ -3779,7 +3436,6 @@ ManagedClusterAIToolchainOperatorProfile
 </em>
 </td>
 <td>
-<p>AiToolchainOperatorProfile: AI toolchain operator settings that apply to the whole cluster.</p>
 </td>
 </tr>
 <tr>
@@ -3792,7 +3448,6 @@ ManagedClusterAPIServerAccessProfile
 </em>
 </td>
 <td>
-<p>ApiServerAccessProfile: The access profile for managed cluster API server.</p>
 </td>
 </tr>
 <tr>
@@ -3805,7 +3460,6 @@ ManagedClusterProperties_AutoScalerProfile
 </em>
 </td>
 <td>
-<p>AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when enabled</p>
 </td>
 </tr>
 <tr>
@@ -3818,7 +3472,6 @@ ManagedClusterAutoUpgradeProfile
 </em>
 </td>
 <td>
-<p>AutoUpgradeProfile: The auto upgrade configuration.</p>
 </td>
 </tr>
 <tr>
@@ -3831,7 +3484,6 @@ ManagedClusterAzureMonitorProfile
 </em>
 </td>
 <td>
-<p>AzureMonitorProfile: Prometheus addon profile for the container service cluster</p>
 </td>
 </tr>
 <tr>
@@ -3856,8 +3508,6 @@ CreationData
 </em>
 </td>
 <td>
-<p>CreationData: CreationData to be used to specify the source Snapshot ID if the cluster will be created/upgraded using a
-snapshot.</p>
 </td>
 </tr>
 <tr>
@@ -3868,9 +3518,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAccounts: If set to true, getting static credentials will be disabled for this cluster. This must only be
-used on Managed Clusters that are AAD enabled. For more details see <a href="https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview">disable local
-accounts</a>.</p>
 </td>
 </tr>
 <tr>
@@ -3883,8 +3530,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>DiskEncryptionSetReference: This is of the form:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Compute/&#x200b;diskEncryptionSets/&#x200b;{encryptionSetName}&rsquo;</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -3895,7 +3540,6 @@ string
 </em>
 </td>
 <td>
-<p>DnsPrefix: This cannot be updated once the Managed Cluster has been created.</p>
 </td>
 </tr>
 <tr>
@@ -3906,9 +3550,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableNamespaceResources: The default value is false. It can be enabled/disabled on creation and updating of the managed
-cluster. See <a href="https://aka.ms/NamespaceARMResource">https://aka.ms/NamespaceARMResource</a> for more details on Namespace as
-a ARM Resource.</p>
 </td>
 </tr>
 <tr>
@@ -3919,9 +3560,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePodSecurityPolicy: (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was
-deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at <a href="https://aka.ms/k8s/psp">https://aka.ms/k8s/psp</a> and
-<a href="https://aka.ms/aks/psp">https://aka.ms/aks/psp</a>.</p>
 </td>
 </tr>
 <tr>
@@ -3932,7 +3570,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableRBAC: Whether to enable Kubernetes Role-Based Access Control.</p>
 </td>
 </tr>
 <tr>
@@ -3945,7 +3582,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the Virtual Machine.</p>
 </td>
 </tr>
 <tr>
@@ -3956,7 +3592,6 @@ string
 </em>
 </td>
 <td>
-<p>FqdnSubdomain: This cannot be updated once the Managed Cluster has been created.</p>
 </td>
 </tr>
 <tr>
@@ -3969,7 +3604,6 @@ ManagedClusterHTTPProxyConfig
 </em>
 </td>
 <td>
-<p>HttpProxyConfig: Configurations for provisioning the cluster with HTTP proxy servers.</p>
 </td>
 </tr>
 <tr>
@@ -3982,7 +3616,6 @@ ManagedClusterIdentity
 </em>
 </td>
 <td>
-<p>Identity: The identity of the managed cluster, if configured.</p>
 </td>
 </tr>
 <tr>
@@ -3995,7 +3628,6 @@ map[string]./api/containerservice/v1api20231102preview.UserAssignedIdentity
 </em>
 </td>
 <td>
-<p>IdentityProfile: Identities associated with the cluster.</p>
 </td>
 </tr>
 <tr>
@@ -4008,7 +3640,6 @@ ManagedClusterIngressProfile
 </em>
 </td>
 <td>
-<p>IngressProfile: Ingress profile for the managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -4019,10 +3650,6 @@ string
 </em>
 </td>
 <td>
-<p>KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades
-must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt;
-1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See <a href="https://docs.microsoft.com/azure/aks/upgrade-cluster">upgrading an AKS
-cluster</a> for more details.</p>
 </td>
 </tr>
 <tr>
@@ -4035,7 +3662,6 @@ ContainerServiceLinuxProfile
 </em>
 </td>
 <td>
-<p>LinuxProfile: The profile for Linux VMs in the Managed Cluster.</p>
 </td>
 </tr>
 <tr>
@@ -4046,7 +3672,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -4059,7 +3684,6 @@ ManagedClusterMetricsProfile
 </em>
 </td>
 <td>
-<p>MetricsProfile: Optional cluster metrics configuration.</p>
 </td>
 </tr>
 <tr>
@@ -4072,7 +3696,6 @@ ContainerServiceNetworkProfile
 </em>
 </td>
 <td>
-<p>NetworkProfile: The network configuration profile.</p>
 </td>
 </tr>
 <tr>
@@ -4085,7 +3708,6 @@ ManagedClusterNodeProvisioningProfile
 </em>
 </td>
 <td>
-<p>NodeProvisioningProfile: Node provisioning settings that apply to the whole cluster.</p>
 </td>
 </tr>
 <tr>
@@ -4096,7 +3718,6 @@ string
 </em>
 </td>
 <td>
-<p>NodeResourceGroup: The name of the resource group containing agent pool nodes.</p>
 </td>
 </tr>
 <tr>
@@ -4109,7 +3730,6 @@ ManagedClusterNodeResourceGroupProfile
 </em>
 </td>
 <td>
-<p>NodeResourceGroupProfile: The node resource group configuration profile.</p>
 </td>
 </tr>
 <tr>
@@ -4122,7 +3742,6 @@ ManagedClusterOIDCIssuerProfile
 </em>
 </td>
 <td>
-<p>OidcIssuerProfile: The OIDC issuer profile of the Managed Cluster.</p>
 </td>
 </tr>
 <tr>
@@ -4164,8 +3783,6 @@ ManagedClusterPodIdentityProfile
 </em>
 </td>
 <td>
-<p>PodIdentityProfile: See <a href="https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity">use AAD pod identity</a> for more
-details on AAD pod identity integration.</p>
 </td>
 </tr>
 <tr>
@@ -4178,7 +3795,6 @@ details on AAD pod identity integration.</p>
 </em>
 </td>
 <td>
-<p>PrivateLinkResources: Private link resources associated with the cluster.</p>
 </td>
 </tr>
 <tr>
@@ -4191,7 +3807,6 @@ ManagedClusterProperties_PublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Allow or deny public network access for AKS</p>
 </td>
 </tr>
 <tr>
@@ -4204,7 +3819,6 @@ SafeguardsProfile
 </em>
 </td>
 <td>
-<p>SafeguardsProfile: The Safeguards profile holds all the safeguards information for a given cluster</p>
 </td>
 </tr>
 <tr>
@@ -4217,7 +3831,6 @@ ManagedClusterSecurityProfile
 </em>
 </td>
 <td>
-<p>SecurityProfile: Security profile for the managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -4230,7 +3843,6 @@ ServiceMeshProfile
 </em>
 </td>
 <td>
-<p>ServiceMeshProfile: Service mesh profile for a managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -4243,8 +3855,6 @@ ManagedClusterServicePrincipalProfile
 </em>
 </td>
 <td>
-<p>ServicePrincipalProfile: Information about a service principal identity for the cluster to use for manipulating Azure
-APIs.</p>
 </td>
 </tr>
 <tr>
@@ -4257,7 +3867,6 @@ ManagedClusterSKU
 </em>
 </td>
 <td>
-<p>Sku: The managed cluster SKU.</p>
 </td>
 </tr>
 <tr>
@@ -4270,7 +3879,6 @@ ManagedClusterStorageProfile
 </em>
 </td>
 <td>
-<p>StorageProfile: Storage profile for the managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -4283,7 +3891,6 @@ KubernetesSupportPlan
 </em>
 </td>
 <td>
-<p>SupportPlan: The support plan for the Managed Cluster. If unspecified, the default is &lsquo;KubernetesOfficial&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -4294,7 +3901,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -4307,7 +3913,6 @@ ClusterUpgradeSettings
 </em>
 </td>
 <td>
-<p>UpgradeSettings: Settings for upgrading a cluster.</p>
 </td>
 </tr>
 <tr>
@@ -4320,7 +3925,6 @@ ManagedClusterWindowsProfile
 </em>
 </td>
 <td>
-<p>WindowsProfile: The profile for Windows VMs in the Managed Cluster.</p>
 </td>
 </tr>
 <tr>
@@ -4333,7 +3937,6 @@ ManagedClusterWorkloadAutoScalerProfile
 </em>
 </td>
 <td>
-<p>WorkloadAutoScalerProfile: Workload Auto-scaler profile for the managed cluster.</p>
 </td>
 </tr>
 </table>
@@ -4359,7 +3962,6 @@ ManagedCluster_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>For more details see <a href="https://docs.microsoft.com/azure/aks/managed-aad">managed AAD on AKS</a>.</p>
 </div>
 <table>
 <thead>
@@ -4377,7 +3979,6 @@ ManagedCluster_STATUS
 </em>
 </td>
 <td>
-<p>AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role of the cluster.</p>
 </td>
 </tr>
 <tr>
@@ -4388,7 +3989,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientAppID: (DEPRECATED) The client AAD application ID. Learn more at <a href="https://aka.ms/aks/aad-legacy">https://aka.ms/aks/aad-legacy</a>.</p>
 </td>
 </tr>
 <tr>
@@ -4399,7 +3999,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAzureRBAC: Whether to enable Azure RBAC for Kubernetes authorization.</p>
 </td>
 </tr>
 <tr>
@@ -4410,7 +4009,6 @@ bool
 </em>
 </td>
 <td>
-<p>Managed: Whether to enable managed AAD.</p>
 </td>
 </tr>
 <tr>
@@ -4421,7 +4019,6 @@ string
 </em>
 </td>
 <td>
-<p>ServerAppID: (DEPRECATED) The server AAD application ID. Learn more at <a href="https://aka.ms/aks/aad-legacy">https://aka.ms/aks/aad-legacy</a>.</p>
 </td>
 </tr>
 <tr>
@@ -4432,7 +4029,6 @@ string
 </em>
 </td>
 <td>
-<p>ServerAppSecret: (DEPRECATED) The server AAD application secret. Learn more at <a href="https://aka.ms/aks/aad-legacy">https://aka.ms/aks/aad-legacy</a>.</p>
 </td>
 </tr>
 <tr>
@@ -4443,8 +4039,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantID: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment
-subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -4455,7 +4049,6 @@ subscription.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>For more details see <a href="https://docs.microsoft.com/azure/aks/managed-aad">managed AAD on AKS</a>.</p>
 </div>
 <table>
 <thead>
@@ -4473,7 +4066,6 @@ subscription.</p>
 </em>
 </td>
 <td>
-<p>AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role of the cluster.</p>
 </td>
 </tr>
 <tr>
@@ -4484,7 +4076,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientAppID: (DEPRECATED) The client AAD application ID. Learn more at <a href="https://aka.ms/aks/aad-legacy">https://aka.ms/aks/aad-legacy</a>.</p>
 </td>
 </tr>
 <tr>
@@ -4495,7 +4086,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAzureRBAC: Whether to enable Azure RBAC for Kubernetes authorization.</p>
 </td>
 </tr>
 <tr>
@@ -4506,7 +4096,6 @@ bool
 </em>
 </td>
 <td>
-<p>Managed: Whether to enable managed AAD.</p>
 </td>
 </tr>
 <tr>
@@ -4517,7 +4106,6 @@ string
 </em>
 </td>
 <td>
-<p>ServerAppID: (DEPRECATED) The server AAD application ID. Learn more at <a href="https://aka.ms/aks/aad-legacy">https://aka.ms/aks/aad-legacy</a>.</p>
 </td>
 </tr>
 <tr>
@@ -4528,7 +4116,6 @@ string
 </em>
 </td>
 <td>
-<p>ServerAppSecret: (DEPRECATED) The server AAD application secret. Learn more at <a href="https://aka.ms/aks/aad-legacy">https://aka.ms/aks/aad-legacy</a>.</p>
 </td>
 </tr>
 <tr>
@@ -4539,8 +4126,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantID: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment
-subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -4551,9 +4136,6 @@ subscription.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>When enabling the operator, a set of AKS managed CRDs and controllers will be installed in the cluster. The operator
-automates the deployment of OSS models for inference and/or training purposes. It provides a set of preset models and
-enables distributed inference against them.</p>
 </div>
 <table>
 <thead>
@@ -4571,7 +4153,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates if AI toolchain operator  enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -4582,9 +4163,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>When enabling the operator, a set of AKS managed CRDs and controllers will be installed in the cluster. The operator
-automates the deployment of OSS models for inference and/or training purposes. It provides a set of preset models and
-enables distributed inference against them.</p>
 </div>
 <table>
 <thead>
@@ -4602,7 +4180,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates if AI toolchain operator  enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -4613,7 +4190,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Access profile for managed cluster API server.</p>
 </div>
 <table>
 <thead>
@@ -4631,9 +4207,6 @@ bool
 </em>
 </td>
 <td>
-<p>AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g. 137.117.106.<sup>88</sup>&frasl;<sub>29</sub>. This feature is not compatible with
-clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see <a href="https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges">API
-server authorized IP ranges</a>.</p>
 </td>
 </tr>
 <tr>
@@ -4644,7 +4217,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableRunCommand: Whether to disable run command for the cluster or not.</p>
 </td>
 </tr>
 <tr>
@@ -4655,8 +4227,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePrivateCluster: For more details, see <a href="https://docs.microsoft.com/azure/aks/private-clusters">Creating a private AKS
-cluster</a>.</p>
 </td>
 </tr>
 <tr>
@@ -4667,7 +4237,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePrivateClusterPublicFQDN: Whether to create additional public FQDN for private cluster or not.</p>
 </td>
 </tr>
 <tr>
@@ -4678,7 +4247,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableVnetIntegration: Whether to enable apiserver vnet integration for the cluster or not.</p>
 </td>
 </tr>
 <tr>
@@ -4689,9 +4257,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateDNSZone: The default is System. For more details see <a href="https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone">configure private DNS
-zone</a>. Allowed values are &lsquo;system&rsquo; and
-&lsquo;none&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -4702,8 +4267,6 @@ string
 </em>
 </td>
 <td>
-<p>SubnetId: It is required when: 1. creating a new cluster with BYO Vnet; 2. updating an existing cluster to enable
-apiserver vnet integration.</p>
 </td>
 </tr>
 </tbody>
@@ -4714,7 +4277,6 @@ apiserver vnet integration.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Access profile for managed cluster API server.</p>
 </div>
 <table>
 <thead>
@@ -4732,9 +4294,6 @@ apiserver vnet integration.</p>
 </em>
 </td>
 <td>
-<p>AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g. 137.117.106.<sup>88</sup>&frasl;<sub>29</sub>. This feature is not compatible with
-clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see <a href="https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges">API
-server authorized IP ranges</a>.</p>
 </td>
 </tr>
 <tr>
@@ -4745,7 +4304,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableRunCommand: Whether to disable run command for the cluster or not.</p>
 </td>
 </tr>
 <tr>
@@ -4756,8 +4314,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePrivateCluster: For more details, see <a href="https://docs.microsoft.com/azure/aks/private-clusters">Creating a private AKS
-cluster</a>.</p>
 </td>
 </tr>
 <tr>
@@ -4768,7 +4324,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePrivateClusterPublicFQDN: Whether to create additional public FQDN for private cluster or not.</p>
 </td>
 </tr>
 <tr>
@@ -4779,7 +4334,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableVnetIntegration: Whether to enable apiserver vnet integration for the cluster or not.</p>
 </td>
 </tr>
 <tr>
@@ -4790,9 +4344,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateDNSZone: The default is System. For more details see <a href="https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone">configure private DNS
-zone</a>. Allowed values are &lsquo;system&rsquo; and
-&lsquo;none&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -4803,8 +4354,6 @@ string
 </em>
 </td>
 <td>
-<p>SubnetId: It is required when: 1. creating a new cluster with BYO Vnet; 2. updating an existing cluster to enable
-apiserver vnet integration.</p>
 </td>
 </tr>
 </tbody>
@@ -4815,7 +4364,6 @@ apiserver vnet integration.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>A Kubernetes add-on profile for a managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -4833,7 +4381,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Config: Key-value pairs for configuring an add-on.</p>
 </td>
 </tr>
 <tr>
@@ -4844,7 +4391,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether the add-on is enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -4855,7 +4401,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>A Kubernetes add-on profile for a managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -4873,7 +4418,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Config: Key-value pairs for configuring an add-on.</p>
 </td>
 </tr>
 <tr>
@@ -4884,7 +4428,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether the add-on is enabled or not.</p>
 </td>
 </tr>
 <tr>
@@ -4897,7 +4440,6 @@ UserAssignedIdentity_STATUS
 </em>
 </td>
 <td>
-<p>Identity: Information of user assigned identity used by this add-on.</p>
 </td>
 </tr>
 </tbody>
@@ -4908,7 +4450,6 @@ UserAssignedIdentity_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Profile for the container service agent pool.</p>
 </div>
 <table>
 <thead>
@@ -4928,7 +4469,6 @@ AgentPoolArtifactStreamingProfile
 </em>
 </td>
 <td>
-<p>ArtifactStreamingProfile: Configuration for using artifact streaming on AKS.</p>
 </td>
 </tr>
 <tr>
@@ -4939,8 +4479,6 @@ AgentPoolArtifactStreamingProfile
 </em>
 </td>
 <td>
-<p>AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
-property is &lsquo;VirtualMachineScaleSets&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -4953,7 +4491,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>CapacityReservationGroupReference: AKS will associate the specified agent pool with the Capacity Reservation Group.</p>
 </td>
 </tr>
 <tr>
@@ -4964,8 +4501,6 @@ int
 </em>
 </td>
 <td>
-<p>Count: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive)
-for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.</p>
 </td>
 </tr>
 <tr>
@@ -4978,8 +4513,6 @@ CreationData
 </em>
 </td>
 <td>
-<p>CreationData: CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using
-a snapshot.</p>
 </td>
 </tr>
 <tr>
@@ -4990,7 +4523,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAutoScaling: Whether to enable auto-scaler</p>
 </td>
 </tr>
 <tr>
@@ -5001,9 +4533,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableCustomCATrust: When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a
-daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded
-certificates into node trust stores. Defaults to false.</p>
 </td>
 </tr>
 <tr>
@@ -5014,8 +4543,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableEncryptionAtHost: This is only supported on certain VM sizes and in certain Azure regions. For more information,
-see: <a href="https://docs.microsoft.com/azure/aks/enable-host-encryption">https://docs.microsoft.com/azure/aks/enable-host-encryption</a></p>
 </td>
 </tr>
 <tr>
@@ -5026,9 +4553,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFIPS: See <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview">Add a FIPS-enabled node
-pool</a> for more
-details.</p>
 </td>
 </tr>
 <tr>
@@ -5039,11 +4563,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableNodePublicIP: Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses.
-A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine
-to minimize hops. For more information see <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools">assigning a public IP per
-node</a>. The
-default is false.</p>
 </td>
 </tr>
 <tr>
@@ -5054,7 +4573,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableUltraSSD: Whether to enable UltraSSD</p>
 </td>
 </tr>
 <tr>
@@ -5067,7 +4585,6 @@ GPUInstanceProfile
 </em>
 </td>
 <td>
-<p>GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.</p>
 </td>
 </tr>
 <tr>
@@ -5080,7 +4597,6 @@ AgentPoolGPUProfile
 </em>
 </td>
 <td>
-<p>GpuProfile: The GPU settings of an agent pool.</p>
 </td>
 </tr>
 <tr>
@@ -5093,9 +4609,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>HostGroupReference: This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Compute/&#x200b;hostGroups/&#x200b;{hostGroupName}.
-For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</p>
 </td>
 </tr>
 <tr>
@@ -5108,7 +4621,6 @@ KubeletConfig
 </em>
 </td>
 <td>
-<p>KubeletConfig: The Kubelet configuration on the agent pool nodes.</p>
 </td>
 </tr>
 <tr>
@@ -5121,8 +4633,6 @@ KubeletDiskType
 </em>
 </td>
 <td>
-<p>KubeletDiskType: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral
-storage.</p>
 </td>
 </tr>
 <tr>
@@ -5135,7 +4645,6 @@ LinuxOSConfig
 </em>
 </td>
 <td>
-<p>LinuxOSConfig: The OS configuration of Linux agent nodes.</p>
 </td>
 </tr>
 <tr>
@@ -5146,7 +4655,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxCount: The maximum number of nodes for auto-scaling</p>
 </td>
 </tr>
 <tr>
@@ -5157,7 +4665,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxPods: The maximum number of pods that can run on a node.</p>
 </td>
 </tr>
 <tr>
@@ -5168,9 +4675,6 @@ string
 </em>
 </td>
 <td>
-<p>MessageOfTheDay: A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of
-the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e.,
-will be printed raw and not be executed as a script).</p>
 </td>
 </tr>
 <tr>
@@ -5181,7 +4685,6 @@ int
 </em>
 </td>
 <td>
-<p>MinCount: The minimum number of nodes for auto-scaling</p>
 </td>
 </tr>
 <tr>
@@ -5194,8 +4697,6 @@ AgentPoolMode
 </em>
 </td>
 <td>
-<p>Mode: A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool
-restrictions  and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></p>
 </td>
 </tr>
 <tr>
@@ -5206,7 +4707,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Windows agent pool names must be 6 characters or less.</p>
 </td>
 </tr>
 <tr>
@@ -5219,7 +4719,6 @@ AgentPoolNetworkProfile
 </em>
 </td>
 <td>
-<p>NetworkProfile: Network-related settings of an agent pool.</p>
 </td>
 </tr>
 <tr>
@@ -5230,11 +4729,6 @@ AgentPoolNetworkProfile
 </em>
 </td>
 <td>
-<p>NodeInitializationTaints: These taints will not be reconciled by AKS and can be removed with a kubectl call. This field
-can be modified after node pool is created, but nodes will not be recreated with new taints until another operation that
-requires recreation (e.g. node image upgrade) happens. These taints allow for required configuration to run before the
-node is ready to accept workloads, for example &lsquo;key1=value1:NoSchedule&rsquo; that then can be removed with <code>kubectl taint
-nodes node1 key1=value1:NoSchedule-</code></p>
 </td>
 </tr>
 <tr>
@@ -5245,7 +4739,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>NodeLabels: The node labels to be persisted across all nodes in agent pool.</p>
 </td>
 </tr>
 <tr>
@@ -5258,8 +4751,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>NodePublicIPPrefixReference: This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;publicIPPrefixes/&#x200b;{publicIPPrefixName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -5270,7 +4761,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>NodeTaints: The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.</p>
 </td>
 </tr>
 <tr>
@@ -5281,13 +4771,6 @@ string
 </em>
 </td>
 <td>
-<p>OrchestratorVersion: Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is
-specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same
-<major.minor> once it has been created will not trigger an upgrade, even if a newer patch version is available. As a
-best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version
-must have the same major version as the control plane. The node pool minor version must be within two minor versions of
-the control plane version. The node pool version cannot be greater than the control plane version. For more information
-see <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool">upgrading a node pool</a>.</p>
 </td>
 </tr>
 <tr>
@@ -5312,9 +4795,6 @@ OSDiskType
 </em>
 </td>
 <td>
-<p>OsDiskType: The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested
-OSDiskSizeGB. Otherwise,  defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral
-OS</a>.</p>
 </td>
 </tr>
 <tr>
@@ -5327,9 +4807,6 @@ OSSKU
 </em>
 </td>
 <td>
-<p>OsSKU: Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or
-Windows2019 if  OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is
-deprecated.</p>
 </td>
 </tr>
 <tr>
@@ -5342,7 +4819,6 @@ OSType
 </em>
 </td>
 <td>
-<p>OsType: The operating system type. The default is Linux.</p>
 </td>
 </tr>
 <tr>
@@ -5355,9 +4831,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>PodSubnetReference: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details).
-This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -5370,9 +4843,6 @@ PowerState
 </em>
 </td>
 <td>
-<p>PowerState: When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this
-field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only
-be stopped if it is Running and provisioning state is Succeeded</p>
 </td>
 </tr>
 <tr>
@@ -5385,7 +4855,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>ProximityPlacementGroupReference: The ID for Proximity Placement Group.</p>
 </td>
 </tr>
 <tr>
@@ -5398,7 +4867,6 @@ ScaleDownMode
 </em>
 </td>
 <td>
-<p>ScaleDownMode: This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.</p>
 </td>
 </tr>
 <tr>
@@ -5411,8 +4879,6 @@ ScaleSetEvictionPolicy
 </em>
 </td>
 <td>
-<p>ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is &lsquo;Spot&rsquo;. If not specified, the default is
-&lsquo;Delete&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -5425,7 +4891,6 @@ ScaleSetPriority
 </em>
 </td>
 <td>
-<p>ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is &lsquo;Regular&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -5438,7 +4903,6 @@ AgentPoolSecurityProfile
 </em>
 </td>
 <td>
-<p>SecurityProfile: The security settings of an agent pool.</p>
 </td>
 </tr>
 <tr>
@@ -5449,9 +4913,6 @@ float64
 </em>
 </td>
 <td>
-<p>SpotMaxPrice: Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any
-on-demand price. For more details on spot pricing, see <a href="https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing">spot VMs
-pricing</a></p>
 </td>
 </tr>
 <tr>
@@ -5462,7 +4923,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: The tags to be persisted on the agent pool virtual machine scale set.</p>
 </td>
 </tr>
 <tr>
@@ -5475,7 +4935,6 @@ AgentPoolType
 </em>
 </td>
 <td>
-<p>Type: The type of Agent Pool.</p>
 </td>
 </tr>
 <tr>
@@ -5488,7 +4947,6 @@ AgentPoolUpgradeSettings
 </em>
 </td>
 <td>
-<p>UpgradeSettings: Settings for upgrading the agentpool</p>
 </td>
 </tr>
 <tr>
@@ -5513,7 +4971,6 @@ VirtualMachinesProfile
 </em>
 </td>
 <td>
-<p>VirtualMachinesProfile: Specifications on VirtualMachines agent pool.</p>
 </td>
 </tr>
 <tr>
@@ -5524,9 +4981,6 @@ string
 </em>
 </td>
 <td>
-<p>VmSize: VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods
-might fail to run correctly. For more details on restricted VM sizes, see:
-<a href="https://docs.microsoft.com/azure/aks/quotas-skus-regions">https://docs.microsoft.com/azure/aks/quotas-skus-regions</a></p>
 </td>
 </tr>
 <tr>
@@ -5539,9 +4993,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>VnetSubnetReference: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is
-specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -5554,7 +5005,6 @@ AgentPoolWindowsProfile
 </em>
 </td>
 <td>
-<p>WindowsProfile: The Windows agent pool&rsquo;s specific profile.</p>
 </td>
 </tr>
 <tr>
@@ -5567,7 +5017,6 @@ WorkloadRuntime
 </em>
 </td>
 <td>
-<p>WorkloadRuntime: Determines the type of workload a node can run.</p>
 </td>
 </tr>
 </tbody>
@@ -5578,7 +5027,6 @@ WorkloadRuntime
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Profile for the container service agent pool.</p>
 </div>
 <table>
 <thead>
@@ -5598,7 +5046,6 @@ AgentPoolArtifactStreamingProfile_STATUS
 </em>
 </td>
 <td>
-<p>ArtifactStreamingProfile: Configuration for using artifact streaming on AKS.</p>
 </td>
 </tr>
 <tr>
@@ -5609,8 +5056,6 @@ AgentPoolArtifactStreamingProfile_STATUS
 </em>
 </td>
 <td>
-<p>AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
-property is &lsquo;VirtualMachineScaleSets&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -5621,7 +5066,6 @@ string
 </em>
 </td>
 <td>
-<p>CapacityReservationGroupID: AKS will associate the specified agent pool with the Capacity Reservation Group.</p>
 </td>
 </tr>
 <tr>
@@ -5632,8 +5076,6 @@ int
 </em>
 </td>
 <td>
-<p>Count: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive)
-for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.</p>
 </td>
 </tr>
 <tr>
@@ -5646,8 +5088,6 @@ CreationData_STATUS
 </em>
 </td>
 <td>
-<p>CreationData: CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using
-a snapshot.</p>
 </td>
 </tr>
 <tr>
@@ -5658,9 +5098,6 @@ string
 </em>
 </td>
 <td>
-<p>CurrentOrchestratorVersion: If orchestratorVersion was a fully specified version <major.minor.patch>, this field will be
-exactly equal to it. If orchestratorVersion was <major.minor>, this field will contain the full <major.minor.patch>
-version being used.</p>
 </td>
 </tr>
 <tr>
@@ -5671,7 +5108,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAutoScaling: Whether to enable auto-scaler</p>
 </td>
 </tr>
 <tr>
@@ -5682,9 +5118,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableCustomCATrust: When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a
-daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded
-certificates into node trust stores. Defaults to false.</p>
 </td>
 </tr>
 <tr>
@@ -5695,8 +5128,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableEncryptionAtHost: This is only supported on certain VM sizes and in certain Azure regions. For more information,
-see: <a href="https://docs.microsoft.com/azure/aks/enable-host-encryption">https://docs.microsoft.com/azure/aks/enable-host-encryption</a></p>
 </td>
 </tr>
 <tr>
@@ -5707,9 +5138,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFIPS: See <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview">Add a FIPS-enabled node
-pool</a> for more
-details.</p>
 </td>
 </tr>
 <tr>
@@ -5720,11 +5148,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableNodePublicIP: Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses.
-A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine
-to minimize hops. For more information see <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools">assigning a public IP per
-node</a>. The
-default is false.</p>
 </td>
 </tr>
 <tr>
@@ -5735,7 +5158,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableUltraSSD: Whether to enable UltraSSD</p>
 </td>
 </tr>
 <tr>
@@ -5748,7 +5170,6 @@ GPUInstanceProfile_STATUS
 </em>
 </td>
 <td>
-<p>GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.</p>
 </td>
 </tr>
 <tr>
@@ -5761,7 +5182,6 @@ AgentPoolGPUProfile_STATUS
 </em>
 </td>
 <td>
-<p>GpuProfile: The GPU settings of an agent pool.</p>
 </td>
 </tr>
 <tr>
@@ -5772,9 +5192,6 @@ string
 </em>
 </td>
 <td>
-<p>HostGroupID: This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Compute/&#x200b;hostGroups/&#x200b;{hostGroupName}.
-For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</p>
 </td>
 </tr>
 <tr>
@@ -5787,7 +5204,6 @@ KubeletConfig_STATUS
 </em>
 </td>
 <td>
-<p>KubeletConfig: The Kubelet configuration on the agent pool nodes.</p>
 </td>
 </tr>
 <tr>
@@ -5800,8 +5216,6 @@ KubeletDiskType_STATUS
 </em>
 </td>
 <td>
-<p>KubeletDiskType: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral
-storage.</p>
 </td>
 </tr>
 <tr>
@@ -5814,7 +5228,6 @@ LinuxOSConfig_STATUS
 </em>
 </td>
 <td>
-<p>LinuxOSConfig: The OS configuration of Linux agent nodes.</p>
 </td>
 </tr>
 <tr>
@@ -5825,7 +5238,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxCount: The maximum number of nodes for auto-scaling</p>
 </td>
 </tr>
 <tr>
@@ -5836,7 +5248,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxPods: The maximum number of pods that can run on a node.</p>
 </td>
 </tr>
 <tr>
@@ -5847,9 +5258,6 @@ string
 </em>
 </td>
 <td>
-<p>MessageOfTheDay: A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of
-the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e.,
-will be printed raw and not be executed as a script).</p>
 </td>
 </tr>
 <tr>
@@ -5860,7 +5268,6 @@ int
 </em>
 </td>
 <td>
-<p>MinCount: The minimum number of nodes for auto-scaling</p>
 </td>
 </tr>
 <tr>
@@ -5873,8 +5280,6 @@ AgentPoolMode_STATUS
 </em>
 </td>
 <td>
-<p>Mode: A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool
-restrictions  and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></p>
 </td>
 </tr>
 <tr>
@@ -5885,7 +5290,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Windows agent pool names must be 6 characters or less.</p>
 </td>
 </tr>
 <tr>
@@ -5898,7 +5302,6 @@ AgentPoolNetworkProfile_STATUS
 </em>
 </td>
 <td>
-<p>NetworkProfile: Network-related settings of an agent pool.</p>
 </td>
 </tr>
 <tr>
@@ -5909,7 +5312,6 @@ string
 </em>
 </td>
 <td>
-<p>NodeImageVersion: The version of node image</p>
 </td>
 </tr>
 <tr>
@@ -5920,11 +5322,6 @@ string
 </em>
 </td>
 <td>
-<p>NodeInitializationTaints: These taints will not be reconciled by AKS and can be removed with a kubectl call. This field
-can be modified after node pool is created, but nodes will not be recreated with new taints until another operation that
-requires recreation (e.g. node image upgrade) happens. These taints allow for required configuration to run before the
-node is ready to accept workloads, for example &lsquo;key1=value1:NoSchedule&rsquo; that then can be removed with <code>kubectl taint
-nodes node1 key1=value1:NoSchedule-</code></p>
 </td>
 </tr>
 <tr>
@@ -5935,7 +5332,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>NodeLabels: The node labels to be persisted across all nodes in agent pool.</p>
 </td>
 </tr>
 <tr>
@@ -5946,8 +5342,6 @@ string
 </em>
 </td>
 <td>
-<p>NodePublicIPPrefixID: This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;publicIPPrefixes/&#x200b;{publicIPPrefixName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -5958,7 +5352,6 @@ string
 </em>
 </td>
 <td>
-<p>NodeTaints: The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.</p>
 </td>
 </tr>
 <tr>
@@ -5969,13 +5362,6 @@ string
 </em>
 </td>
 <td>
-<p>OrchestratorVersion: Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is
-specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same
-<major.minor> once it has been created will not trigger an upgrade, even if a newer patch version is available. As a
-best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version
-must have the same major version as the control plane. The node pool minor version must be within two minor versions of
-the control plane version. The node pool version cannot be greater than the control plane version. For more information
-see <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool">upgrading a node pool</a>.</p>
 </td>
 </tr>
 <tr>
@@ -5998,9 +5384,6 @@ OSDiskType_STATUS
 </em>
 </td>
 <td>
-<p>OsDiskType: The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested
-OSDiskSizeGB. Otherwise,  defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral
-OS</a>.</p>
 </td>
 </tr>
 <tr>
@@ -6013,9 +5396,6 @@ OSSKU_STATUS
 </em>
 </td>
 <td>
-<p>OsSKU: Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or
-Windows2019 if  OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is
-deprecated.</p>
 </td>
 </tr>
 <tr>
@@ -6028,7 +5408,6 @@ OSType_STATUS
 </em>
 </td>
 <td>
-<p>OsType: The operating system type. The default is Linux.</p>
 </td>
 </tr>
 <tr>
@@ -6039,9 +5418,6 @@ string
 </em>
 </td>
 <td>
-<p>PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
-of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -6054,9 +5430,6 @@ PowerState_STATUS
 </em>
 </td>
 <td>
-<p>PowerState: When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this
-field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only
-be stopped if it is Running and provisioning state is Succeeded</p>
 </td>
 </tr>
 <tr>
@@ -6067,7 +5440,6 @@ string
 </em>
 </td>
 <td>
-<p>ProvisioningState: The current deployment or provisioning state.</p>
 </td>
 </tr>
 <tr>
@@ -6078,7 +5450,6 @@ string
 </em>
 </td>
 <td>
-<p>ProximityPlacementGroupID: The ID for Proximity Placement Group.</p>
 </td>
 </tr>
 <tr>
@@ -6091,7 +5462,6 @@ ScaleDownMode_STATUS
 </em>
 </td>
 <td>
-<p>ScaleDownMode: This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.</p>
 </td>
 </tr>
 <tr>
@@ -6104,8 +5474,6 @@ ScaleSetEvictionPolicy_STATUS
 </em>
 </td>
 <td>
-<p>ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is &lsquo;Spot&rsquo;. If not specified, the default is
-&lsquo;Delete&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -6118,7 +5486,6 @@ ScaleSetPriority_STATUS
 </em>
 </td>
 <td>
-<p>ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is &lsquo;Regular&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -6131,7 +5498,6 @@ AgentPoolSecurityProfile_STATUS
 </em>
 </td>
 <td>
-<p>SecurityProfile: The security settings of an agent pool.</p>
 </td>
 </tr>
 <tr>
@@ -6142,9 +5508,6 @@ float64
 </em>
 </td>
 <td>
-<p>SpotMaxPrice: Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any
-on-demand price. For more details on spot pricing, see <a href="https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing">spot VMs
-pricing</a></p>
 </td>
 </tr>
 <tr>
@@ -6155,7 +5518,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: The tags to be persisted on the agent pool virtual machine scale set.</p>
 </td>
 </tr>
 <tr>
@@ -6168,7 +5530,6 @@ AgentPoolType_STATUS
 </em>
 </td>
 <td>
-<p>Type: The type of Agent Pool.</p>
 </td>
 </tr>
 <tr>
@@ -6181,7 +5542,6 @@ AgentPoolUpgradeSettings_STATUS
 </em>
 </td>
 <td>
-<p>UpgradeSettings: Settings for upgrading the agentpool</p>
 </td>
 </tr>
 <tr>
@@ -6206,7 +5566,6 @@ VirtualMachinesProfile_STATUS
 </em>
 </td>
 <td>
-<p>VirtualMachinesProfile: Specifications on VirtualMachines agent pool.</p>
 </td>
 </tr>
 <tr>
@@ -6217,9 +5576,6 @@ string
 </em>
 </td>
 <td>
-<p>VmSize: VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods
-might fail to run correctly. For more details on restricted VM sizes, see:
-<a href="https://docs.microsoft.com/azure/aks/quotas-skus-regions">https://docs.microsoft.com/azure/aks/quotas-skus-regions</a></p>
 </td>
 </tr>
 <tr>
@@ -6230,9 +5586,6 @@ string
 </em>
 </td>
 <td>
-<p>VnetSubnetID: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified,
-this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -6245,7 +5598,6 @@ AgentPoolWindowsProfile_STATUS
 </em>
 </td>
 <td>
-<p>WindowsProfile: The Windows agent pool&rsquo;s specific profile.</p>
 </td>
 </tr>
 <tr>
@@ -6258,7 +5610,6 @@ WorkloadRuntime_STATUS
 </em>
 </td>
 <td>
-<p>WorkloadRuntime: Determines the type of workload a node can run.</p>
 </td>
 </tr>
 </tbody>
@@ -6269,7 +5620,6 @@ WorkloadRuntime_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Auto upgrade profile for a managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -6289,7 +5639,6 @@ ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel
 </em>
 </td>
 <td>
-<p>NodeOSUpgradeChannel: The default is Unmanaged, but may change to either NodeImage or SecurityPatch at GA.</p>
 </td>
 </tr>
 <tr>
@@ -6302,8 +5651,6 @@ ManagedClusterAutoUpgradeProfile_UpgradeChannel
 </em>
 </td>
 <td>
-<p>UpgradeChannel: For more information see <a href="https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel">setting the AKS cluster auto-upgrade
-channel</a>.</p>
 </td>
 </tr>
 </tbody>
@@ -6362,7 +5709,6 @@ channel</a>.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Auto upgrade profile for a managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -6382,7 +5728,6 @@ ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS
 </em>
 </td>
 <td>
-<p>NodeOSUpgradeChannel: The default is Unmanaged, but may change to either NodeImage or SecurityPatch at GA.</p>
 </td>
 </tr>
 <tr>
@@ -6395,8 +5740,6 @@ ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS
 </em>
 </td>
 <td>
-<p>UpgradeChannel: For more information see <a href="https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel">setting the AKS cluster auto-upgrade
-channel</a>.</p>
 </td>
 </tr>
 </tbody>
@@ -6459,7 +5802,6 @@ channel</a>.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Prometheus addon profile for the container service cluster</p>
 </div>
 <table>
 <thead>
@@ -6479,8 +5821,6 @@ ManagedClusterAzureMonitorProfileLogs
 </em>
 </td>
 <td>
-<p>Logs: Logs profile for the Azure Monitor Infrastructure and Application Logs. Collect out-of-the-box Kubernetes
-infrastructure  &amp; application logs to send to Azure Monitor. See aka.ms/AzureMonitorContainerInsights for an overview.</p>
 </td>
 </tr>
 <tr>
@@ -6493,7 +5833,6 @@ ManagedClusterAzureMonitorProfileMetrics
 </em>
 </td>
 <td>
-<p>Metrics: Metrics profile for the prometheus service addon</p>
 </td>
 </tr>
 </tbody>
@@ -6504,9 +5843,6 @@ ManagedClusterAzureMonitorProfileMetrics
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileLogs">ManagedClusterAzureMonitorProfileLogs</a>)
 </p>
 <div>
-<p>Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces
-through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See
-aka.ms/AzureMonitorApplicationMonitoring for an overview.</p>
 </div>
 <table>
 <thead>
@@ -6524,7 +5860,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates if Application Monitoring enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -6535,9 +5870,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileMetrics">ManagedClusterAzureMonitorProfileMetrics</a>)
 </p>
 <div>
-<p>Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects
-OpenTelemetry metrics through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See
-aka.ms/AzureMonitorApplicationMonitoring for an overview.</p>
 </div>
 <table>
 <thead>
@@ -6555,7 +5887,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates if Application Monitoring Open Telemetry Metrics is enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -6566,9 +5897,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileMetrics_STATUS">ManagedClusterAzureMonitorProfileMetrics_STATUS</a>)
 </p>
 <div>
-<p>Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects
-OpenTelemetry metrics through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See
-aka.ms/AzureMonitorApplicationMonitoring for an overview.</p>
 </div>
 <table>
 <thead>
@@ -6586,7 +5914,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates if Application Monitoring Open Telemetry Metrics is enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -6597,9 +5924,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileLogs_STATUS">ManagedClusterAzureMonitorProfileLogs_STATUS</a>)
 </p>
 <div>
-<p>Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces
-through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See
-aka.ms/AzureMonitorApplicationMonitoring for an overview.</p>
 </div>
 <table>
 <thead>
@@ -6617,7 +5941,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates if Application Monitoring enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -6628,8 +5951,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileLogs">ManagedClusterAzureMonitorProfileLogs</a>)
 </p>
 <div>
-<p>Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout &amp; stderr logs etc. See
-aka.ms/AzureMonitorContainerInsights for an overview.</p>
 </div>
 <table>
 <thead>
@@ -6647,7 +5968,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates if Azure Monitor Container Insights Logs Addon is enabled or not.</p>
 </td>
 </tr>
 <tr>
@@ -6660,8 +5980,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>LogAnalyticsWorkspaceResourceReference: Fully Qualified ARM Resource Id of Azure Log Analytics Workspace for storing
-Azure Monitor Container Insights Logs.</p>
 </td>
 </tr>
 <tr>
@@ -6674,8 +5992,6 @@ ManagedClusterAzureMonitorProfileWindowsHostLogs
 </em>
 </td>
 <td>
-<p>WindowsHostLogs: Windows Host Logs Profile for Kubernetes Windows Nodes Log Collection. Collects ETW, Event Logs and
-Text logs etc. See  aka.ms/AzureMonitorContainerInsights for an overview.</p>
 </td>
 </tr>
 </tbody>
@@ -6686,8 +6002,6 @@ Text logs etc. See  aka.ms/AzureMonitorContainerInsights for an overview.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileLogs_STATUS">ManagedClusterAzureMonitorProfileLogs_STATUS</a>)
 </p>
 <div>
-<p>Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout &amp; stderr logs etc. See
-aka.ms/AzureMonitorContainerInsights for an overview.</p>
 </div>
 <table>
 <thead>
@@ -6705,7 +6019,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates if Azure Monitor Container Insights Logs Addon is enabled or not.</p>
 </td>
 </tr>
 <tr>
@@ -6716,8 +6029,6 @@ string
 </em>
 </td>
 <td>
-<p>LogAnalyticsWorkspaceResourceId: Fully Qualified ARM Resource Id of Azure Log Analytics Workspace for storing Azure
-Monitor Container Insights Logs.</p>
 </td>
 </tr>
 <tr>
@@ -6730,8 +6041,6 @@ ManagedClusterAzureMonitorProfileWindowsHostLogs_STATUS
 </em>
 </td>
 <td>
-<p>WindowsHostLogs: Windows Host Logs Profile for Kubernetes Windows Nodes Log Collection. Collects ETW, Event Logs and
-Text logs etc. See  aka.ms/AzureMonitorContainerInsights for an overview.</p>
 </td>
 </tr>
 </tbody>
@@ -6742,7 +6051,6 @@ Text logs etc. See  aka.ms/AzureMonitorContainerInsights for an overview.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileMetrics">ManagedClusterAzureMonitorProfileMetrics</a>)
 </p>
 <div>
-<p>Kube State Metrics for prometheus addon profile for the container service cluster</p>
 </div>
 <table>
 <thead>
@@ -6760,8 +6068,6 @@ string
 </em>
 </td>
 <td>
-<p>MetricAnnotationsAllowList: Comma-separated list of additional Kubernetes label keys that will be used in the resource&rsquo;s
-labels metric.</p>
 </td>
 </tr>
 <tr>
@@ -6772,8 +6078,6 @@ string
 </em>
 </td>
 <td>
-<p>MetricLabelsAllowlist: Comma-separated list of Kubernetes annotations keys that will be used in the resource&rsquo;s labels
-metric.</p>
 </td>
 </tr>
 </tbody>
@@ -6784,7 +6088,6 @@ metric.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileMetrics_STATUS">ManagedClusterAzureMonitorProfileMetrics_STATUS</a>)
 </p>
 <div>
-<p>Kube State Metrics for prometheus addon profile for the container service cluster</p>
 </div>
 <table>
 <thead>
@@ -6802,8 +6105,6 @@ string
 </em>
 </td>
 <td>
-<p>MetricAnnotationsAllowList: Comma-separated list of additional Kubernetes label keys that will be used in the resource&rsquo;s
-labels metric.</p>
 </td>
 </tr>
 <tr>
@@ -6814,8 +6115,6 @@ string
 </em>
 </td>
 <td>
-<p>MetricLabelsAllowlist: Comma-separated list of Kubernetes annotations keys that will be used in the resource&rsquo;s labels
-metric.</p>
 </td>
 </tr>
 </tbody>
@@ -6826,8 +6125,6 @@ metric.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfile">ManagedClusterAzureMonitorProfile</a>)
 </p>
 <div>
-<p>Logs profile for the Azure Monitor Infrastructure and Application Logs. Collect out-of-the-box Kubernetes infrastructure
-&amp; application logs to send to Azure Monitor. See aka.ms/AzureMonitorContainerInsights for an overview.</p>
 </div>
 <table>
 <thead>
@@ -6847,9 +6144,6 @@ ManagedClusterAzureMonitorProfileAppMonitoring
 </em>
 </td>
 <td>
-<p>AppMonitoring: Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics
-and traces  through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See
-aka.ms/AzureMonitorApplicationMonitoring for an overview.</p>
 </td>
 </tr>
 <tr>
@@ -6862,8 +6156,6 @@ ManagedClusterAzureMonitorProfileContainerInsights
 </em>
 </td>
 <td>
-<p>ContainerInsights: Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout &amp;
-stderr logs etc. See  aka.ms/AzureMonitorContainerInsights for an overview.</p>
 </td>
 </tr>
 </tbody>
@@ -6874,8 +6166,6 @@ stderr logs etc. See  aka.ms/AzureMonitorContainerInsights for an overview.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfile_STATUS">ManagedClusterAzureMonitorProfile_STATUS</a>)
 </p>
 <div>
-<p>Logs profile for the Azure Monitor Infrastructure and Application Logs. Collect out-of-the-box Kubernetes infrastructure
-&amp; application logs to send to Azure Monitor. See aka.ms/AzureMonitorContainerInsights for an overview.</p>
 </div>
 <table>
 <thead>
@@ -6895,9 +6185,6 @@ ManagedClusterAzureMonitorProfileAppMonitoring_STATUS
 </em>
 </td>
 <td>
-<p>AppMonitoring: Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics
-and traces  through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See
-aka.ms/AzureMonitorApplicationMonitoring for an overview.</p>
 </td>
 </tr>
 <tr>
@@ -6910,8 +6197,6 @@ ManagedClusterAzureMonitorProfileContainerInsights_STATUS
 </em>
 </td>
 <td>
-<p>ContainerInsights: Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout &amp;
-stderr logs etc. See  aka.ms/AzureMonitorContainerInsights for an overview.</p>
 </td>
 </tr>
 </tbody>
@@ -6922,7 +6207,6 @@ stderr logs etc. See  aka.ms/AzureMonitorContainerInsights for an overview.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfile">ManagedClusterAzureMonitorProfile</a>)
 </p>
 <div>
-<p>Metrics profile for the prometheus service addon</p>
 </div>
 <table>
 <thead>
@@ -6942,9 +6226,6 @@ ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
 </em>
 </td>
 <td>
-<p>AppMonitoringOpenTelemetryMetrics: Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application
-Container Metrics. Collects  OpenTelemetry metrics through auto-instrumentation of the application using Azure Monitor
-OpenTelemetry based SDKs. See  aka.ms/AzureMonitorApplicationMonitoring for an overview.</p>
 </td>
 </tr>
 <tr>
@@ -6955,7 +6236,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable the Prometheus collector</p>
 </td>
 </tr>
 <tr>
@@ -6968,7 +6248,6 @@ ManagedClusterAzureMonitorProfileKubeStateMetrics
 </em>
 </td>
 <td>
-<p>KubeStateMetrics: Kube State Metrics for prometheus addon profile for the container service cluster</p>
 </td>
 </tr>
 </tbody>
@@ -6979,7 +6258,6 @@ ManagedClusterAzureMonitorProfileKubeStateMetrics
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfile_STATUS">ManagedClusterAzureMonitorProfile_STATUS</a>)
 </p>
 <div>
-<p>Metrics profile for the prometheus service addon</p>
 </div>
 <table>
 <thead>
@@ -6999,9 +6277,6 @@ ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS
 </em>
 </td>
 <td>
-<p>AppMonitoringOpenTelemetryMetrics: Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application
-Container Metrics. Collects  OpenTelemetry metrics through auto-instrumentation of the application using Azure Monitor
-OpenTelemetry based SDKs. See  aka.ms/AzureMonitorApplicationMonitoring for an overview.</p>
 </td>
 </tr>
 <tr>
@@ -7012,7 +6287,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable the Prometheus collector</p>
 </td>
 </tr>
 <tr>
@@ -7025,7 +6299,6 @@ ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS
 </em>
 </td>
 <td>
-<p>KubeStateMetrics: Kube State Metrics for prometheus addon profile for the container service cluster</p>
 </td>
 </tr>
 </tbody>
@@ -7036,8 +6309,6 @@ ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileContainerInsights">ManagedClusterAzureMonitorProfileContainerInsights</a>)
 </p>
 <div>
-<p>Windows Host Logs Profile for Kubernetes Windows Nodes Log Collection. Collects ETW, Event Logs and Text logs etc. See
-aka.ms/AzureMonitorContainerInsights for an overview.</p>
 </div>
 <table>
 <thead>
@@ -7055,7 +6326,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates if Windows Host Log Collection is enabled or not for Azure Monitor Container Insights Logs Addon.</p>
 </td>
 </tr>
 </tbody>
@@ -7066,8 +6336,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileContainerInsights_STATUS">ManagedClusterAzureMonitorProfileContainerInsights_STATUS</a>)
 </p>
 <div>
-<p>Windows Host Logs Profile for Kubernetes Windows Nodes Log Collection. Collects ETW, Event Logs and Text logs etc. See
-aka.ms/AzureMonitorContainerInsights for an overview.</p>
 </div>
 <table>
 <thead>
@@ -7085,7 +6353,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates if Windows Host Log Collection is enabled or not for Azure Monitor Container Insights Logs Addon.</p>
 </td>
 </tr>
 </tbody>
@@ -7096,7 +6363,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Prometheus addon profile for the container service cluster</p>
 </div>
 <table>
 <thead>
@@ -7116,8 +6382,6 @@ ManagedClusterAzureMonitorProfileLogs_STATUS
 </em>
 </td>
 <td>
-<p>Logs: Logs profile for the Azure Monitor Infrastructure and Application Logs. Collect out-of-the-box Kubernetes
-infrastructure  &amp; application logs to send to Azure Monitor. See aka.ms/AzureMonitorContainerInsights for an overview.</p>
 </td>
 </tr>
 <tr>
@@ -7130,7 +6394,6 @@ ManagedClusterAzureMonitorProfileMetrics_STATUS
 </em>
 </td>
 <td>
-<p>Metrics: Metrics profile for the prometheus service addon</p>
 </td>
 </tr>
 </tbody>
@@ -7141,7 +6404,6 @@ ManagedClusterAzureMonitorProfileMetrics_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterMetricsProfile">ManagedClusterMetricsProfile</a>)
 </p>
 <div>
-<p>The cost analysis configuration for the cluster</p>
 </div>
 <table>
 <thead>
@@ -7159,9 +6421,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: The Managed Cluster sku.tier must be set to &lsquo;Standard&rsquo; to enable this feature. Enabling this will add
-Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the
-default is false. For more information see aka.ms/aks/docs/cost-analysis.</p>
 </td>
 </tr>
 </tbody>
@@ -7172,7 +6431,6 @@ default is false. For more information see aka.ms/aks/docs/cost-analysis.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterMetricsProfile_STATUS">ManagedClusterMetricsProfile_STATUS</a>)
 </p>
 <div>
-<p>The cost analysis configuration for the cluster</p>
 </div>
 <table>
 <thead>
@@ -7190,9 +6448,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: The Managed Cluster sku.tier must be set to &lsquo;Standard&rsquo; to enable this feature. Enabling this will add
-Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the
-default is false. For more information see aka.ms/aks/docs/cost-analysis.</p>
 </td>
 </tr>
 </tbody>
@@ -7203,7 +6458,6 @@ default is false. For more information see aka.ms/aks/docs/cost-analysis.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Cluster HTTP proxy configuration.</p>
 </div>
 <table>
 <thead>
@@ -7221,7 +6475,6 @@ string
 </em>
 </td>
 <td>
-<p>HttpProxy: The HTTP proxy server endpoint to use.</p>
 </td>
 </tr>
 <tr>
@@ -7232,7 +6485,6 @@ string
 </em>
 </td>
 <td>
-<p>HttpsProxy: The HTTPS proxy server endpoint to use.</p>
 </td>
 </tr>
 <tr>
@@ -7243,7 +6495,6 @@ string
 </em>
 </td>
 <td>
-<p>NoProxy: The endpoints that should not go through proxy.</p>
 </td>
 </tr>
 <tr>
@@ -7254,7 +6505,6 @@ string
 </em>
 </td>
 <td>
-<p>TrustedCa: Alternative CA cert to use for connecting to proxy servers.</p>
 </td>
 </tr>
 </tbody>
@@ -7265,7 +6515,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Cluster HTTP proxy configuration.</p>
 </div>
 <table>
 <thead>
@@ -7283,8 +6532,6 @@ string
 </em>
 </td>
 <td>
-<p>EffectiveNoProxy: A read-only list of all endpoints for which traffic should not be sent to the proxy. This list is a
-superset of noProxy and values injected by AKS.</p>
 </td>
 </tr>
 <tr>
@@ -7295,7 +6542,6 @@ string
 </em>
 </td>
 <td>
-<p>HttpProxy: The HTTP proxy server endpoint to use.</p>
 </td>
 </tr>
 <tr>
@@ -7306,7 +6552,6 @@ string
 </em>
 </td>
 <td>
-<p>HttpsProxy: The HTTPS proxy server endpoint to use.</p>
 </td>
 </tr>
 <tr>
@@ -7317,7 +6562,6 @@ string
 </em>
 </td>
 <td>
-<p>NoProxy: The endpoints that should not go through proxy.</p>
 </td>
 </tr>
 <tr>
@@ -7328,7 +6572,6 @@ string
 </em>
 </td>
 <td>
-<p>TrustedCa: Alternative CA cert to use for connecting to proxy servers.</p>
 </td>
 </tr>
 </tbody>
@@ -7339,7 +6582,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Identity for the managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -7359,8 +6601,6 @@ map[string]./api/containerservice/v1api20231102preview.DelegatedResource
 </em>
 </td>
 <td>
-<p>DelegatedResources: The delegated identity resources assigned to this managed cluster. This can only be set by another
-Azure Resource Provider, and managed cluster only accept one delegated identity resource. Internal use only.</p>
 </td>
 </tr>
 <tr>
@@ -7373,8 +6613,6 @@ ManagedClusterIdentity_Type
 </em>
 </td>
 <td>
-<p>Type: For more information see <a href="https://docs.microsoft.com/azure/aks/use-managed-identity">use managed identities in
-AKS</a>.</p>
 </td>
 </tr>
 <tr>
@@ -7387,8 +6625,6 @@ AKS</a>.</p>
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: The keys must be ARM resource IDs in the form:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -7399,7 +6635,6 @@ AKS</a>.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Identity for the managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -7419,8 +6654,6 @@ map[string]./api/containerservice/v1api20231102preview.DelegatedResource_STATUS
 </em>
 </td>
 <td>
-<p>DelegatedResources: The delegated identity resources assigned to this managed cluster. This can only be set by another
-Azure Resource Provider, and managed cluster only accept one delegated identity resource. Internal use only.</p>
 </td>
 </tr>
 <tr>
@@ -7431,7 +6664,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of the system assigned identity which is used by master components.</p>
 </td>
 </tr>
 <tr>
@@ -7442,7 +6674,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant id of the system assigned identity which is used by master components.</p>
 </td>
 </tr>
 <tr>
@@ -7455,8 +6686,6 @@ ManagedClusterIdentity_Type_STATUS
 </em>
 </td>
 <td>
-<p>Type: For more information see <a href="https://docs.microsoft.com/azure/aks/use-managed-identity">use managed identities in
-AKS</a>.</p>
 </td>
 </tr>
 <tr>
@@ -7469,8 +6698,6 @@ map[string]./api/containerservice/v1api20231102preview.ManagedClusterIdentity_Us
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: The keys must be ARM resource IDs in the form:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -7542,7 +6769,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The client id of user assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -7553,7 +6779,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of user assigned identity.</p>
 </td>
 </tr>
 </tbody>
@@ -7564,7 +6789,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Ingress profile for the container service cluster.</p>
 </div>
 <table>
 <thead>
@@ -7584,7 +6808,6 @@ ManagedClusterIngressProfileWebAppRouting
 </em>
 </td>
 <td>
-<p>WebAppRouting: Web App Routing settings for the ingress profile.</p>
 </td>
 </tr>
 </tbody>
@@ -7595,7 +6818,6 @@ ManagedClusterIngressProfileWebAppRouting
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfile">ManagedClusterIngressProfile</a>)
 </p>
 <div>
-<p>Web App Routing settings for the ingress profile.</p>
 </div>
 <table>
 <thead>
@@ -7615,9 +6837,6 @@ ManagedClusterIngressProfileWebAppRouting
 </em>
 </td>
 <td>
-<p>DnsZoneResourceReferences: Resource IDs of the DNS zones to be associated with the Web App Routing add-on. Used only
-when Web App Routing is enabled. Public and private DNS zones can be in different resource groups, but all public DNS
-zones must be in the same resource group and all private DNS zones must be in the same resource group.</p>
 </td>
 </tr>
 <tr>
@@ -7628,7 +6847,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable Web App Routing.</p>
 </td>
 </tr>
 </tbody>
@@ -7639,7 +6857,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfile_STATUS">ManagedClusterIngressProfile_STATUS</a>)
 </p>
 <div>
-<p>Web App Routing settings for the ingress profile.</p>
 </div>
 <table>
 <thead>
@@ -7657,9 +6874,6 @@ bool
 </em>
 </td>
 <td>
-<p>DnsZoneResourceIds: Resource IDs of the DNS zones to be associated with the Web App Routing add-on. Used only when Web
-App Routing is enabled. Public and private DNS zones can be in different resource groups, but all public DNS zones must
-be in the same resource group and all private DNS zones must be in the same resource group.</p>
 </td>
 </tr>
 <tr>
@@ -7670,7 +6884,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable Web App Routing.</p>
 </td>
 </tr>
 <tr>
@@ -7683,10 +6896,6 @@ UserAssignedIdentity_STATUS
 </em>
 </td>
 <td>
-<p>Identity: Managed identity of the Web Application Routing add-on. This is the identity that should be granted
-permissions, for example, to manage the associated Azure DNS resource and get certificates from Azure Key Vault. See
-<a href="https://learn.microsoft.com/en-us/azure/aks/web-app-routing?tabs=with-osm">this overview of the add-on</a> for more
-instructions.</p>
 </td>
 </tr>
 </tbody>
@@ -7697,7 +6906,6 @@ instructions.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Ingress profile for the container service cluster.</p>
 </div>
 <table>
 <thead>
@@ -7717,7 +6925,6 @@ ManagedClusterIngressProfileWebAppRouting_STATUS
 </em>
 </td>
 <td>
-<p>WebAppRouting: Web App Routing settings for the ingress profile.</p>
 </td>
 </tr>
 </tbody>
@@ -7728,7 +6935,6 @@ ManagedClusterIngressProfileWebAppRouting_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
 </p>
 <div>
-<p>Profile of the managed cluster load balancer.</p>
 </div>
 <table>
 <thead>
@@ -7746,8 +6952,6 @@ int
 </em>
 </td>
 <td>
-<p>AllocatedOutboundPorts: The desired number of allocated SNAT ports per VM. Allowed values are in the range of 0 to 64000
-(inclusive). The default value is 0 which results in Azure dynamically allocating ports.</p>
 </td>
 </tr>
 <tr>
@@ -7760,7 +6964,6 @@ ManagedClusterLoadBalancerProfile_BackendPoolType
 </em>
 </td>
 <td>
-<p>BackendPoolType: The type of the managed inbound Load Balancer BackendPool.</p>
 </td>
 </tr>
 <tr>
@@ -7773,7 +6976,6 @@ ManagedClusterLoadBalancerProfile_BackendPoolType
 </em>
 </td>
 <td>
-<p>EffectiveOutboundIPs: The effective outbound IP resources of the cluster load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -7784,7 +6986,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableMultipleStandardLoadBalancers: Enable multiple standard load balancers per AKS cluster or not.</p>
 </td>
 </tr>
 <tr>
@@ -7795,8 +6996,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120
-(inclusive). The default value is 30 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -7809,7 +7008,6 @@ ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
 </em>
 </td>
 <td>
-<p>ManagedOutboundIPs: Desired managed outbound IPs for the cluster load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -7822,7 +7020,6 @@ ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
 </em>
 </td>
 <td>
-<p>OutboundIPPrefixes: Desired outbound IP Prefix resources for the cluster load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -7835,7 +7032,6 @@ ManagedClusterLoadBalancerProfile_OutboundIPs
 </em>
 </td>
 <td>
-<p>OutboundIPs: Desired outbound IP resources for the cluster load balancer.</p>
 </td>
 </tr>
 </tbody>
@@ -7903,8 +7099,6 @@ int
 </em>
 </td>
 <td>
-<p>Count: The desired number of IPv4 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values
-must be in the range of 1 to 100 (inclusive). The default value is 1.</p>
 </td>
 </tr>
 <tr>
@@ -7915,8 +7109,6 @@ int
 </em>
 </td>
 <td>
-<p>CountIPv6: The desired number of IPv6 outbound IPs created/managed by Azure for the cluster load balancer. Allowed
-values must be in the range of 1 to 100 (inclusive). The default value is 0 for single-stack and 1 for dual-stack.</p>
 </td>
 </tr>
 </tbody>
@@ -7944,8 +7136,6 @@ int
 </em>
 </td>
 <td>
-<p>Count: The desired number of IPv4 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values
-must be in the range of 1 to 100 (inclusive). The default value is 1.</p>
 </td>
 </tr>
 <tr>
@@ -7956,8 +7146,6 @@ int
 </em>
 </td>
 <td>
-<p>CountIPv6: The desired number of IPv6 outbound IPs created/managed by Azure for the cluster load balancer. Allowed
-values must be in the range of 1 to 100 (inclusive). The default value is 0 for single-stack and 1 for dual-stack.</p>
 </td>
 </tr>
 </tbody>
@@ -7987,7 +7175,6 @@ values must be in the range of 1 to 100 (inclusive). The default value is 0 for 
 </em>
 </td>
 <td>
-<p>PublicIPPrefixes: A list of public IP prefix resources.</p>
 </td>
 </tr>
 </tbody>
@@ -8017,7 +7204,6 @@ values must be in the range of 1 to 100 (inclusive). The default value is 0 for 
 </em>
 </td>
 <td>
-<p>PublicIPPrefixes: A list of public IP prefix resources.</p>
 </td>
 </tr>
 </tbody>
@@ -8047,7 +7233,6 @@ values must be in the range of 1 to 100 (inclusive). The default value is 0 for 
 </em>
 </td>
 <td>
-<p>PublicIPs: A list of public IP resources.</p>
 </td>
 </tr>
 </tbody>
@@ -8077,7 +7262,6 @@ values must be in the range of 1 to 100 (inclusive). The default value is 0 for 
 </em>
 </td>
 <td>
-<p>PublicIPs: A list of public IP resources.</p>
 </td>
 </tr>
 </tbody>
@@ -8088,7 +7272,6 @@ values must be in the range of 1 to 100 (inclusive). The default value is 0 for 
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
 </p>
 <div>
-<p>Profile of the managed cluster load balancer.</p>
 </div>
 <table>
 <thead>
@@ -8106,8 +7289,6 @@ int
 </em>
 </td>
 <td>
-<p>AllocatedOutboundPorts: The desired number of allocated SNAT ports per VM. Allowed values are in the range of 0 to 64000
-(inclusive). The default value is 0 which results in Azure dynamically allocating ports.</p>
 </td>
 </tr>
 <tr>
@@ -8120,7 +7301,6 @@ ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS
 </em>
 </td>
 <td>
-<p>BackendPoolType: The type of the managed inbound Load Balancer BackendPool.</p>
 </td>
 </tr>
 <tr>
@@ -8133,7 +7313,6 @@ ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS
 </em>
 </td>
 <td>
-<p>EffectiveOutboundIPs: The effective outbound IP resources of the cluster load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -8144,7 +7323,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableMultipleStandardLoadBalancers: Enable multiple standard load balancers per AKS cluster or not.</p>
 </td>
 </tr>
 <tr>
@@ -8155,8 +7333,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120
-(inclusive). The default value is 30 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -8169,7 +7345,6 @@ ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
 </em>
 </td>
 <td>
-<p>ManagedOutboundIPs: Desired managed outbound IPs for the cluster load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -8182,7 +7357,6 @@ ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
 </em>
 </td>
 <td>
-<p>OutboundIPPrefixes: Desired outbound IP Prefix resources for the cluster load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -8195,7 +7369,6 @@ ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
 </em>
 </td>
 <td>
-<p>OutboundIPs: Desired outbound IP resources for the cluster load balancer.</p>
 </td>
 </tr>
 </tbody>
@@ -8206,7 +7379,6 @@ ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNATGatewayProfile">ManagedClusterNATGatewayProfile</a>)
 </p>
 <div>
-<p>Profile of the managed outbound IP resources of the managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -8224,8 +7396,6 @@ int
 </em>
 </td>
 <td>
-<p>Count: The desired number of outbound IPs created/managed by Azure. Allowed values must be in the range of 1 to 16
-(inclusive). The default value is 1.</p>
 </td>
 </tr>
 </tbody>
@@ -8236,7 +7406,6 @@ int
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNATGatewayProfile_STATUS">ManagedClusterNATGatewayProfile_STATUS</a>)
 </p>
 <div>
-<p>Profile of the managed outbound IP resources of the managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -8254,8 +7423,6 @@ int
 </em>
 </td>
 <td>
-<p>Count: The desired number of outbound IPs created/managed by Azure. Allowed values must be in the range of 1 to 16
-(inclusive). The default value is 1.</p>
 </td>
 </tr>
 </tbody>
@@ -8266,7 +7433,6 @@ int
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>The metrics profile for the ManagedCluster.</p>
 </div>
 <table>
 <thead>
@@ -8286,7 +7452,6 @@ ManagedClusterCostAnalysis
 </em>
 </td>
 <td>
-<p>CostAnalysis: The cost analysis configuration for the cluster</p>
 </td>
 </tr>
 </tbody>
@@ -8297,7 +7462,6 @@ ManagedClusterCostAnalysis
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>The metrics profile for the ManagedCluster.</p>
 </div>
 <table>
 <thead>
@@ -8317,7 +7481,6 @@ ManagedClusterCostAnalysis_STATUS
 </em>
 </td>
 <td>
-<p>CostAnalysis: The cost analysis configuration for the cluster</p>
 </td>
 </tr>
 </tbody>
@@ -8328,7 +7491,6 @@ ManagedClusterCostAnalysis_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
 </p>
 <div>
-<p>Profile of the managed cluster NAT gateway.</p>
 </div>
 <table>
 <thead>
@@ -8348,7 +7510,6 @@ ManagedClusterCostAnalysis_STATUS
 </em>
 </td>
 <td>
-<p>EffectiveOutboundIPs: The effective outbound IP resources of the cluster NAT gateway.</p>
 </td>
 </tr>
 <tr>
@@ -8359,8 +7520,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120
-(inclusive). The default value is 4 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -8373,7 +7532,6 @@ ManagedClusterManagedOutboundIPProfile
 </em>
 </td>
 <td>
-<p>ManagedOutboundIPProfile: Profile of the managed outbound IP resources of the cluster NAT gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -8384,7 +7542,6 @@ ManagedClusterManagedOutboundIPProfile
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
 </p>
 <div>
-<p>Profile of the managed cluster NAT gateway.</p>
 </div>
 <table>
 <thead>
@@ -8404,7 +7561,6 @@ ManagedClusterManagedOutboundIPProfile
 </em>
 </td>
 <td>
-<p>EffectiveOutboundIPs: The effective outbound IP resources of the cluster NAT gateway.</p>
 </td>
 </tr>
 <tr>
@@ -8415,8 +7571,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120
-(inclusive). The default value is 4 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -8429,7 +7583,6 @@ ManagedClusterManagedOutboundIPProfile_STATUS
 </em>
 </td>
 <td>
-<p>ManagedOutboundIPProfile: Profile of the managed outbound IP resources of the cluster NAT gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -8459,7 +7612,6 @@ ManagedClusterNodeProvisioningProfile_Mode
 </em>
 </td>
 <td>
-<p>Mode: Once the mode it set to Auto, it cannot be changed back to Manual.</p>
 </td>
 </tr>
 </tbody>
@@ -8529,7 +7681,6 @@ ManagedClusterNodeProvisioningProfile_Mode_STATUS
 </em>
 </td>
 <td>
-<p>Mode: Once the mode it set to Auto, it cannot be changed back to Manual.</p>
 </td>
 </tr>
 </tbody>
@@ -8540,7 +7691,6 @@ ManagedClusterNodeProvisioningProfile_Mode_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Node resource group lockdown profile for a managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -8560,7 +7710,6 @@ ManagedClusterNodeResourceGroupProfile_RestrictionLevel
 </em>
 </td>
 <td>
-<p>RestrictionLevel: The restriction level applied to the cluster&rsquo;s node resource group</p>
 </td>
 </tr>
 </tbody>
@@ -8611,7 +7760,6 @@ ManagedClusterNodeResourceGroupProfile_RestrictionLevel
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Node resource group lockdown profile for a managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -8631,7 +7779,6 @@ ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS
 </em>
 </td>
 <td>
-<p>RestrictionLevel: The restriction level applied to the cluster&rsquo;s node resource group</p>
 </td>
 </tr>
 </tbody>
@@ -8642,7 +7789,6 @@ ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>The OIDC issuer profile of the Managed Cluster.</p>
 </div>
 <table>
 <thead>
@@ -8660,7 +7806,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether the OIDC issuer is enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -8671,7 +7816,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>The OIDC issuer profile of the Managed Cluster.</p>
 </div>
 <table>
 <thead>
@@ -8689,7 +7833,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether the OIDC issuer is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -8700,7 +7843,6 @@ string
 </em>
 </td>
 <td>
-<p>IssuerURL: The OIDC issuer url of the Managed Cluster.</p>
 </td>
 </tr>
 </tbody>
@@ -8799,6 +7941,19 @@ retrieved from Azure.</p>
 <tbody>
 <tr>
 <td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>configMaps</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterOperatorConfigMaps">
@@ -8808,6 +7963,19 @@ ManagedClusterOperatorConfigMaps
 </td>
 <td>
 <p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
 </td>
 </tr>
 <tr>
@@ -8831,7 +7999,6 @@ ManagedClusterOperatorSecrets
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProfile">ManagedClusterPodIdentityProfile</a>)
 </p>
 <div>
-<p>Details about the pod identity assigned to the Managed Cluster.</p>
 </div>
 <table>
 <thead>
@@ -8849,7 +8016,6 @@ string
 </em>
 </td>
 <td>
-<p>BindingSelector: The binding selector to use for the AzureIdentityBinding resource.</p>
 </td>
 </tr>
 <tr>
@@ -8862,7 +8028,6 @@ UserAssignedIdentity
 </em>
 </td>
 <td>
-<p>Identity: The user assigned identity details.</p>
 </td>
 </tr>
 <tr>
@@ -8873,7 +8038,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the pod identity.</p>
 </td>
 </tr>
 <tr>
@@ -8884,7 +8048,6 @@ string
 </em>
 </td>
 <td>
-<p>Namespace: The namespace of the pod identity.</p>
 </td>
 </tr>
 </tbody>
@@ -8895,8 +8058,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProfile">ManagedClusterPodIdentityProfile</a>)
 </p>
 <div>
-<p>See <a href="https://azure.github.io/aad-pod-identity/docs/configure/application_exception/">disable AAD Pod Identity for a specific
-Pod/Application</a> for more details.</p>
 </div>
 <table>
 <thead>
@@ -8914,7 +8075,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the pod identity exception.</p>
 </td>
 </tr>
 <tr>
@@ -8925,7 +8085,6 @@ string
 </em>
 </td>
 <td>
-<p>Namespace: The namespace of the pod identity exception.</p>
 </td>
 </tr>
 <tr>
@@ -8936,7 +8095,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>PodLabels: The pod labels to match.</p>
 </td>
 </tr>
 </tbody>
@@ -8947,8 +8105,6 @@ map[string]string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProfile_STATUS">ManagedClusterPodIdentityProfile_STATUS</a>)
 </p>
 <div>
-<p>See <a href="https://azure.github.io/aad-pod-identity/docs/configure/application_exception/">disable AAD Pod Identity for a specific
-Pod/Application</a> for more details.</p>
 </div>
 <table>
 <thead>
@@ -8966,7 +8122,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the pod identity exception.</p>
 </td>
 </tr>
 <tr>
@@ -8977,7 +8132,6 @@ string
 </em>
 </td>
 <td>
-<p>Namespace: The namespace of the pod identity exception.</p>
 </td>
 </tr>
 <tr>
@@ -8988,7 +8142,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>PodLabels: The pod labels to match.</p>
 </td>
 </tr>
 </tbody>
@@ -8999,8 +8152,6 @@ map[string]string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>See <a href="https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity">use AAD pod identity</a> for more details on pod
-identity integration.</p>
 </div>
 <table>
 <thead>
@@ -9018,10 +8169,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowNetworkPluginKubenet: Running in Kubenet is disabled by default due to the security related nature of AAD Pod
-Identity and the risks of IP spoofing. See <a href="https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities">using Kubenet network plugin with AAD Pod
-Identity</a>
-for more information.</p>
 </td>
 </tr>
 <tr>
@@ -9032,7 +8179,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether the pod identity addon is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -9045,7 +8191,6 @@ bool
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: The pod identities to use in the cluster.</p>
 </td>
 </tr>
 <tr>
@@ -9058,7 +8203,6 @@ bool
 </em>
 </td>
 <td>
-<p>UserAssignedIdentityExceptions: The pod identity exceptions to allow.</p>
 </td>
 </tr>
 </tbody>
@@ -9069,8 +8213,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>See <a href="https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity">use AAD pod identity</a> for more details on pod
-identity integration.</p>
 </div>
 <table>
 <thead>
@@ -9088,10 +8230,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowNetworkPluginKubenet: Running in Kubenet is disabled by default due to the security related nature of AAD Pod
-Identity and the risks of IP spoofing. See <a href="https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities">using Kubenet network plugin with AAD Pod
-Identity</a>
-for more information.</p>
 </td>
 </tr>
 <tr>
@@ -9102,7 +8240,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether the pod identity addon is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -9115,7 +8252,6 @@ bool
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: The pod identities to use in the cluster.</p>
 </td>
 </tr>
 <tr>
@@ -9128,7 +8264,6 @@ bool
 </em>
 </td>
 <td>
-<p>UserAssignedIdentityExceptions: The pod identity exceptions to allow.</p>
 </td>
 </tr>
 </tbody>
@@ -9139,7 +8274,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProvisioningError_STATUS">ManagedClusterPodIdentityProvisioningError_STATUS</a>)
 </p>
 <div>
-<p>An error response from the pod identity provisioning.</p>
 </div>
 <table>
 <thead>
@@ -9157,7 +8291,6 @@ string
 </em>
 </td>
 <td>
-<p>Code: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.</p>
 </td>
 </tr>
 <tr>
@@ -9170,7 +8303,6 @@ string
 </em>
 </td>
 <td>
-<p>Details: A list of additional details about the error.</p>
 </td>
 </tr>
 <tr>
@@ -9181,7 +8313,6 @@ string
 </em>
 </td>
 <td>
-<p>Message: A message describing the error, intended to be suitable for display in a user interface.</p>
 </td>
 </tr>
 <tr>
@@ -9192,7 +8323,6 @@ string
 </em>
 </td>
 <td>
-<p>Target: The target of the particular error. For example, the name of the property in error.</p>
 </td>
 </tr>
 </tbody>
@@ -9220,7 +8350,6 @@ string
 </em>
 </td>
 <td>
-<p>Code: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.</p>
 </td>
 </tr>
 <tr>
@@ -9231,7 +8360,6 @@ string
 </em>
 </td>
 <td>
-<p>Message: A message describing the error, intended to be suitable for display in a user interface.</p>
 </td>
 </tr>
 <tr>
@@ -9242,7 +8370,6 @@ string
 </em>
 </td>
 <td>
-<p>Target: The target of the particular error. For example, the name of the property in error.</p>
 </td>
 </tr>
 </tbody>
@@ -9253,7 +8380,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity_ProvisioningInfo_STATUS">ManagedClusterPodIdentity_ProvisioningInfo_STATUS</a>)
 </p>
 <div>
-<p>An error response from the pod identity provisioning.</p>
 </div>
 <table>
 <thead>
@@ -9273,7 +8399,6 @@ ManagedClusterPodIdentityProvisioningErrorBody_STATUS
 </em>
 </td>
 <td>
-<p>Error: Details about the error.</p>
 </td>
 </tr>
 </tbody>
@@ -9303,7 +8428,6 @@ ManagedClusterPodIdentityProvisioningError_STATUS
 </em>
 </td>
 <td>
-<p>Error: Pod identity assignment error (if any).</p>
 </td>
 </tr>
 </tbody>
@@ -9342,7 +8466,6 @@ ManagedClusterPodIdentityProvisioningError_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProfile_STATUS">ManagedClusterPodIdentityProfile_STATUS</a>)
 </p>
 <div>
-<p>Details about the pod identity assigned to the Managed Cluster.</p>
 </div>
 <table>
 <thead>
@@ -9360,7 +8483,6 @@ string
 </em>
 </td>
 <td>
-<p>BindingSelector: The binding selector to use for the AzureIdentityBinding resource.</p>
 </td>
 </tr>
 <tr>
@@ -9373,7 +8495,6 @@ UserAssignedIdentity_STATUS
 </em>
 </td>
 <td>
-<p>Identity: The user assigned identity details.</p>
 </td>
 </tr>
 <tr>
@@ -9384,7 +8505,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the pod identity.</p>
 </td>
 </tr>
 <tr>
@@ -9395,7 +8515,6 @@ string
 </em>
 </td>
 <td>
-<p>Namespace: The namespace of the pod identity.</p>
 </td>
 </tr>
 <tr>
@@ -9420,7 +8539,6 @@ ManagedClusterPodIdentity_ProvisioningState_STATUS
 </em>
 </td>
 <td>
-<p>ProvisioningState: The current provisioning state of the pod identity.</p>
 </td>
 </tr>
 </tbody>
@@ -9448,7 +8566,6 @@ string
 </em>
 </td>
 <td>
-<p>BalanceSimilarNodeGroups: Valid values are &lsquo;true&rsquo; and &lsquo;false&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -9459,9 +8576,6 @@ bool
 </em>
 </td>
 <td>
-<p>DaemonsetEvictionForEmptyNodes: If set to true, all daemonset pods on empty nodes will be evicted before deletion of the
-node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be
-deleted without ensuring that daemonset pods are deleted or evicted.</p>
 </td>
 </tr>
 <tr>
@@ -9472,9 +8586,6 @@ bool
 </em>
 </td>
 <td>
-<p>DaemonsetEvictionForOccupiedNodes: If set to true, all daemonset pods on occupied nodes will be evicted before deletion
-of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node
-will be deleted without ensuring that daemonset pods are deleted or evicted.</p>
 </td>
 </tr>
 <tr>
@@ -9487,7 +8598,6 @@ Expander
 </em>
 </td>
 <td>
-<p>Expander: Available values are: &lsquo;least-waste&rsquo;, &lsquo;most-pods&rsquo;, &lsquo;priority&rsquo;, &lsquo;random&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -9498,8 +8608,6 @@ bool
 </em>
 </td>
 <td>
-<p>IgnoreDaemonsetsUtilization: If set to true, the resources used by daemonset will be taken into account when making
-scaling down decisions.</p>
 </td>
 </tr>
 <tr>
@@ -9510,7 +8618,6 @@ string
 </em>
 </td>
 <td>
-<p>MaxEmptyBulkDelete: The default is 10.</p>
 </td>
 </tr>
 <tr>
@@ -9521,7 +8628,6 @@ string
 </em>
 </td>
 <td>
-<p>MaxGracefulTerminationSec: The default is 600.</p>
 </td>
 </tr>
 <tr>
@@ -9532,8 +8638,6 @@ string
 </em>
 </td>
 <td>
-<p>MaxNodeProvisionTime: The default is &lsquo;15m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than
-minutes (m) is supported.</p>
 </td>
 </tr>
 <tr>
@@ -9544,7 +8648,6 @@ string
 </em>
 </td>
 <td>
-<p>MaxTotalUnreadyPercentage: The default is 45. The maximum is 100 and the minimum is 0.</p>
 </td>
 </tr>
 <tr>
@@ -9555,9 +8658,6 @@ string
 </em>
 </td>
 <td>
-<p>NewPodScaleUpDelay: For scenarios like burst/batch scale where you don&rsquo;t want CA to act before the kubernetes scheduler
-could schedule all the pods, you can tell CA to ignore unscheduled pods before they&rsquo;re a certain age. The default is
-&lsquo;0s&rsquo;. Values must be an integer followed by a unit (&rsquo;s&rsquo; for seconds, &rsquo;m&rsquo; for minutes, &lsquo;h&rsquo; for hours, etc).</p>
 </td>
 </tr>
 <tr>
@@ -9568,7 +8668,6 @@ string
 </em>
 </td>
 <td>
-<p>OkTotalUnreadyCount: This must be an integer. The default is 3.</p>
 </td>
 </tr>
 <tr>
@@ -9579,8 +8678,6 @@ string
 </em>
 </td>
 <td>
-<p>ScaleDownDelayAfterAdd: The default is &lsquo;10m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than
-minutes (m) is supported.</p>
 </td>
 </tr>
 <tr>
@@ -9591,8 +8688,6 @@ string
 </em>
 </td>
 <td>
-<p>ScaleDownDelayAfterDelete: The default is the scan-interval. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of
-time other than minutes (m) is supported.</p>
 </td>
 </tr>
 <tr>
@@ -9603,8 +8698,6 @@ string
 </em>
 </td>
 <td>
-<p>ScaleDownDelayAfterFailure: The default is &lsquo;3m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other
-than minutes (m) is supported.</p>
 </td>
 </tr>
 <tr>
@@ -9615,8 +8708,6 @@ string
 </em>
 </td>
 <td>
-<p>ScaleDownUnneededTime: The default is &lsquo;10m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than
-minutes (m) is supported.</p>
 </td>
 </tr>
 <tr>
@@ -9627,8 +8718,6 @@ string
 </em>
 </td>
 <td>
-<p>ScaleDownUnreadyTime: The default is &lsquo;20m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than
-minutes (m) is supported.</p>
 </td>
 </tr>
 <tr>
@@ -9639,7 +8728,6 @@ string
 </em>
 </td>
 <td>
-<p>ScaleDownUtilizationThreshold: The default is &lsquo;0.5&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -9650,7 +8738,6 @@ string
 </em>
 </td>
 <td>
-<p>ScanInterval: The default is &lsquo;10&rsquo;. Values must be an integer number of seconds.</p>
 </td>
 </tr>
 <tr>
@@ -9661,7 +8748,6 @@ string
 </em>
 </td>
 <td>
-<p>SkipNodesWithLocalStorage: The default is true.</p>
 </td>
 </tr>
 <tr>
@@ -9672,7 +8758,6 @@ string
 </em>
 </td>
 <td>
-<p>SkipNodesWithSystemPods: The default is true.</p>
 </td>
 </tr>
 </tbody>
@@ -9700,7 +8785,6 @@ string
 </em>
 </td>
 <td>
-<p>BalanceSimilarNodeGroups: Valid values are &lsquo;true&rsquo; and &lsquo;false&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -9711,9 +8795,6 @@ bool
 </em>
 </td>
 <td>
-<p>DaemonsetEvictionForEmptyNodes: If set to true, all daemonset pods on empty nodes will be evicted before deletion of the
-node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be
-deleted without ensuring that daemonset pods are deleted or evicted.</p>
 </td>
 </tr>
 <tr>
@@ -9724,9 +8805,6 @@ bool
 </em>
 </td>
 <td>
-<p>DaemonsetEvictionForOccupiedNodes: If set to true, all daemonset pods on occupied nodes will be evicted before deletion
-of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node
-will be deleted without ensuring that daemonset pods are deleted or evicted.</p>
 </td>
 </tr>
 <tr>
@@ -9739,7 +8817,6 @@ Expander_STATUS
 </em>
 </td>
 <td>
-<p>Expander: Available values are: &lsquo;least-waste&rsquo;, &lsquo;most-pods&rsquo;, &lsquo;priority&rsquo;, &lsquo;random&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -9750,8 +8827,6 @@ bool
 </em>
 </td>
 <td>
-<p>IgnoreDaemonsetsUtilization: If set to true, the resources used by daemonset will be taken into account when making
-scaling down decisions.</p>
 </td>
 </tr>
 <tr>
@@ -9762,7 +8837,6 @@ string
 </em>
 </td>
 <td>
-<p>MaxEmptyBulkDelete: The default is 10.</p>
 </td>
 </tr>
 <tr>
@@ -9773,7 +8847,6 @@ string
 </em>
 </td>
 <td>
-<p>MaxGracefulTerminationSec: The default is 600.</p>
 </td>
 </tr>
 <tr>
@@ -9784,8 +8857,6 @@ string
 </em>
 </td>
 <td>
-<p>MaxNodeProvisionTime: The default is &lsquo;15m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than
-minutes (m) is supported.</p>
 </td>
 </tr>
 <tr>
@@ -9796,7 +8867,6 @@ string
 </em>
 </td>
 <td>
-<p>MaxTotalUnreadyPercentage: The default is 45. The maximum is 100 and the minimum is 0.</p>
 </td>
 </tr>
 <tr>
@@ -9807,9 +8877,6 @@ string
 </em>
 </td>
 <td>
-<p>NewPodScaleUpDelay: For scenarios like burst/batch scale where you don&rsquo;t want CA to act before the kubernetes scheduler
-could schedule all the pods, you can tell CA to ignore unscheduled pods before they&rsquo;re a certain age. The default is
-&lsquo;0s&rsquo;. Values must be an integer followed by a unit (&rsquo;s&rsquo; for seconds, &rsquo;m&rsquo; for minutes, &lsquo;h&rsquo; for hours, etc).</p>
 </td>
 </tr>
 <tr>
@@ -9820,7 +8887,6 @@ string
 </em>
 </td>
 <td>
-<p>OkTotalUnreadyCount: This must be an integer. The default is 3.</p>
 </td>
 </tr>
 <tr>
@@ -9831,8 +8897,6 @@ string
 </em>
 </td>
 <td>
-<p>ScaleDownDelayAfterAdd: The default is &lsquo;10m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than
-minutes (m) is supported.</p>
 </td>
 </tr>
 <tr>
@@ -9843,8 +8907,6 @@ string
 </em>
 </td>
 <td>
-<p>ScaleDownDelayAfterDelete: The default is the scan-interval. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of
-time other than minutes (m) is supported.</p>
 </td>
 </tr>
 <tr>
@@ -9855,8 +8917,6 @@ string
 </em>
 </td>
 <td>
-<p>ScaleDownDelayAfterFailure: The default is &lsquo;3m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other
-than minutes (m) is supported.</p>
 </td>
 </tr>
 <tr>
@@ -9867,8 +8927,6 @@ string
 </em>
 </td>
 <td>
-<p>ScaleDownUnneededTime: The default is &lsquo;10m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than
-minutes (m) is supported.</p>
 </td>
 </tr>
 <tr>
@@ -9879,8 +8937,6 @@ string
 </em>
 </td>
 <td>
-<p>ScaleDownUnreadyTime: The default is &lsquo;20m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than
-minutes (m) is supported.</p>
 </td>
 </tr>
 <tr>
@@ -9891,7 +8947,6 @@ string
 </em>
 </td>
 <td>
-<p>ScaleDownUtilizationThreshold: The default is &lsquo;0.5&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -9902,7 +8957,6 @@ string
 </em>
 </td>
 <td>
-<p>ScanInterval: The default is &lsquo;10&rsquo;. Values must be an integer number of seconds.</p>
 </td>
 </tr>
 <tr>
@@ -9913,7 +8967,6 @@ string
 </em>
 </td>
 <td>
-<p>SkipNodesWithLocalStorage: The default is true.</p>
 </td>
 </tr>
 <tr>
@@ -9924,7 +8977,6 @@ string
 </em>
 </td>
 <td>
-<p>SkipNodesWithSystemPods: The default is true.</p>
 </td>
 </tr>
 </tbody>
@@ -9979,7 +9031,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>The SKU of a Managed Cluster.</p>
 </div>
 <table>
 <thead>
@@ -9999,7 +9050,6 @@ ManagedClusterSKU_Name
 </em>
 </td>
 <td>
-<p>Name: The name of a managed cluster SKU.</p>
 </td>
 </tr>
 <tr>
@@ -10012,8 +9062,6 @@ ManagedClusterSKU_Tier
 </em>
 </td>
 <td>
-<p>Tier: If not specified, the default is &lsquo;Free&rsquo;. See <a href="https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers">AKS Pricing
-Tier</a> for more details.</p>
 </td>
 </tr>
 </tbody>
@@ -10060,7 +9108,6 @@ Tier</a> for more details.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>The SKU of a Managed Cluster.</p>
 </div>
 <table>
 <thead>
@@ -10080,7 +9127,6 @@ ManagedClusterSKU_Name_STATUS
 </em>
 </td>
 <td>
-<p>Name: The name of a managed cluster SKU.</p>
 </td>
 </tr>
 <tr>
@@ -10093,8 +9139,6 @@ ManagedClusterSKU_Tier_STATUS
 </em>
 </td>
 <td>
-<p>Tier: If not specified, the default is &lsquo;Free&rsquo;. See <a href="https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers">AKS Pricing
-Tier</a> for more details.</p>
 </td>
 </tr>
 </tbody>
@@ -10149,7 +9193,6 @@ Tier</a> for more details.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Security profile for the container service cluster.</p>
 </div>
 <table>
 <thead>
@@ -10169,8 +9212,6 @@ AzureKeyVaultKms
 </em>
 </td>
 <td>
-<p>AzureKeyVaultKms: Azure Key Vault <a href="https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/">key management
-service</a> settings for the security profile.</p>
 </td>
 </tr>
 <tr>
@@ -10183,9 +9224,6 @@ ManagedClusterSecurityProfileCustomCATrustCertificates
 </em>
 </td>
 <td>
-<p>CustomCATrustCertificates: A list of up to 10 base64 encoded CAs that will be added to the trust store on nodes with the
-Custom CA Trust feature enabled. For more information see <a href="https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority">Custom CA Trust
-Certificates</a></p>
 </td>
 </tr>
 <tr>
@@ -10198,7 +9236,6 @@ ManagedClusterSecurityProfileDefender
 </em>
 </td>
 <td>
-<p>Defender: Microsoft Defender settings for the security profile.</p>
 </td>
 </tr>
 <tr>
@@ -10211,7 +9248,6 @@ ManagedClusterSecurityProfileImageCleaner
 </em>
 </td>
 <td>
-<p>ImageCleaner: Image Cleaner settings for the security profile.</p>
 </td>
 </tr>
 <tr>
@@ -10224,9 +9260,6 @@ ManagedClusterSecurityProfileImageIntegrity
 </em>
 </td>
 <td>
-<p>ImageIntegrity: Image integrity is a feature that works with Azure Policy to verify image integrity by signature. This
-will not have any effect unless Azure Policy is applied to enforce image signatures. See
-<a href="https://aka.ms/aks/image-integrity">https://aka.ms/aks/image-integrity</a> for how to use this feature via policy.</p>
 </td>
 </tr>
 <tr>
@@ -10239,9 +9272,6 @@ ManagedClusterSecurityProfileNodeRestriction
 </em>
 </td>
 <td>
-<p>NodeRestriction: <a href="https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#noderestriction">Node
-Restriction</a> settings
-for the security profile.</p>
 </td>
 </tr>
 <tr>
@@ -10254,8 +9284,6 @@ ManagedClusterSecurityProfileWorkloadIdentity
 </em>
 </td>
 <td>
-<p>WorkloadIdentity: Workload identity settings for the security profile. Workload identity enables Kubernetes applications
-to access Azure cloud resources securely with Azure AD. See <a href="https://aka.ms/aks/wi">https://aka.ms/aks/wi</a> for more details.</p>
 </td>
 </tr>
 </tbody>
@@ -10273,7 +9301,6 @@ to access Azure cloud resources securely with Azure AD. See <a href="https://aka
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>)
 </p>
 <div>
-<p>Microsoft Defender settings for the security profile.</p>
 </div>
 <table>
 <thead>
@@ -10293,9 +9320,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>LogAnalyticsWorkspaceResourceReference: Resource ID of the Log Analytics workspace to be associated with Microsoft
-Defender. When Microsoft Defender is enabled, this field is required and must be a valid workspace resource ID. When
-Microsoft Defender is disabled, leave the field empty.</p>
 </td>
 </tr>
 <tr>
@@ -10308,7 +9332,6 @@ ManagedClusterSecurityProfileDefenderSecurityMonitoring
 </em>
 </td>
 <td>
-<p>SecurityMonitoring: Microsoft Defender threat detection for Cloud settings for the security profile.</p>
 </td>
 </tr>
 </tbody>
@@ -10319,7 +9342,6 @@ ManagedClusterSecurityProfileDefenderSecurityMonitoring
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileDefender">ManagedClusterSecurityProfileDefender</a>)
 </p>
 <div>
-<p>Microsoft Defender settings for the security profile threat detection.</p>
 </div>
 <table>
 <thead>
@@ -10337,7 +9359,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable Defender threat detection</p>
 </td>
 </tr>
 </tbody>
@@ -10348,7 +9369,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileDefender_STATUS">ManagedClusterSecurityProfileDefender_STATUS</a>)
 </p>
 <div>
-<p>Microsoft Defender settings for the security profile threat detection.</p>
 </div>
 <table>
 <thead>
@@ -10366,7 +9386,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable Defender threat detection</p>
 </td>
 </tr>
 </tbody>
@@ -10377,7 +9396,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile_STATUS">ManagedClusterSecurityProfile_STATUS</a>)
 </p>
 <div>
-<p>Microsoft Defender settings for the security profile.</p>
 </div>
 <table>
 <thead>
@@ -10395,9 +9413,6 @@ string
 </em>
 </td>
 <td>
-<p>LogAnalyticsWorkspaceResourceId: Resource ID of the Log Analytics workspace to be associated with Microsoft Defender.
-When Microsoft Defender is enabled, this field is required and must be a valid workspace resource ID. When Microsoft
-Defender is disabled, leave the field empty.</p>
 </td>
 </tr>
 <tr>
@@ -10410,7 +9425,6 @@ ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
 </em>
 </td>
 <td>
-<p>SecurityMonitoring: Microsoft Defender threat detection for Cloud settings for the security profile.</p>
 </td>
 </tr>
 </tbody>
@@ -10421,8 +9435,6 @@ ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>)
 </p>
 <div>
-<p>Image Cleaner removes unused images from nodes, freeing up disk space and helping to reduce attack surface area. Here
-are settings for the security profile.</p>
 </div>
 <table>
 <thead>
@@ -10440,7 +9452,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable Image Cleaner on AKS cluster.</p>
 </td>
 </tr>
 <tr>
@@ -10451,7 +9462,6 @@ int
 </em>
 </td>
 <td>
-<p>IntervalHours: Image Cleaner scanning interval in hours.</p>
 </td>
 </tr>
 </tbody>
@@ -10462,8 +9472,6 @@ int
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile_STATUS">ManagedClusterSecurityProfile_STATUS</a>)
 </p>
 <div>
-<p>Image Cleaner removes unused images from nodes, freeing up disk space and helping to reduce attack surface area. Here
-are settings for the security profile.</p>
 </div>
 <table>
 <thead>
@@ -10481,7 +9489,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable Image Cleaner on AKS cluster.</p>
 </td>
 </tr>
 <tr>
@@ -10492,7 +9499,6 @@ int
 </em>
 </td>
 <td>
-<p>IntervalHours: Image Cleaner scanning interval in hours.</p>
 </td>
 </tr>
 </tbody>
@@ -10503,7 +9509,6 @@ int
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>)
 </p>
 <div>
-<p>Image integrity related settings for the security profile.</p>
 </div>
 <table>
 <thead>
@@ -10521,7 +9526,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable image integrity. The default value is false.</p>
 </td>
 </tr>
 </tbody>
@@ -10532,7 +9536,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile_STATUS">ManagedClusterSecurityProfile_STATUS</a>)
 </p>
 <div>
-<p>Image integrity related settings for the security profile.</p>
 </div>
 <table>
 <thead>
@@ -10550,7 +9553,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable image integrity. The default value is false.</p>
 </td>
 </tr>
 </tbody>
@@ -10561,7 +9563,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>)
 </p>
 <div>
-<p>Node Restriction settings for the security profile.</p>
 </div>
 <table>
 <thead>
@@ -10579,7 +9580,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable Node Restriction</p>
 </td>
 </tr>
 </tbody>
@@ -10590,7 +9590,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile_STATUS">ManagedClusterSecurityProfile_STATUS</a>)
 </p>
 <div>
-<p>Node Restriction settings for the security profile.</p>
 </div>
 <table>
 <thead>
@@ -10608,7 +9607,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable Node Restriction</p>
 </td>
 </tr>
 </tbody>
@@ -10619,7 +9617,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>)
 </p>
 <div>
-<p>Workload identity settings for the security profile.</p>
 </div>
 <table>
 <thead>
@@ -10637,7 +9634,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable workload identity.</p>
 </td>
 </tr>
 </tbody>
@@ -10648,7 +9644,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile_STATUS">ManagedClusterSecurityProfile_STATUS</a>)
 </p>
 <div>
-<p>Workload identity settings for the security profile.</p>
 </div>
 <table>
 <thead>
@@ -10666,7 +9661,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable workload identity.</p>
 </td>
 </tr>
 </tbody>
@@ -10677,7 +9671,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Security profile for the container service cluster.</p>
 </div>
 <table>
 <thead>
@@ -10697,8 +9690,6 @@ AzureKeyVaultKms_STATUS
 </em>
 </td>
 <td>
-<p>AzureKeyVaultKms: Azure Key Vault <a href="https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/">key management
-service</a> settings for the security profile.</p>
 </td>
 </tr>
 <tr>
@@ -10709,9 +9700,6 @@ service</a> settings for the security profile.</p>
 </em>
 </td>
 <td>
-<p>CustomCATrustCertificates: A list of up to 10 base64 encoded CAs that will be added to the trust store on nodes with the
-Custom CA Trust feature enabled. For more information see <a href="https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority">Custom CA Trust
-Certificates</a></p>
 </td>
 </tr>
 <tr>
@@ -10724,7 +9712,6 @@ ManagedClusterSecurityProfileDefender_STATUS
 </em>
 </td>
 <td>
-<p>Defender: Microsoft Defender settings for the security profile.</p>
 </td>
 </tr>
 <tr>
@@ -10737,7 +9724,6 @@ ManagedClusterSecurityProfileImageCleaner_STATUS
 </em>
 </td>
 <td>
-<p>ImageCleaner: Image Cleaner settings for the security profile.</p>
 </td>
 </tr>
 <tr>
@@ -10750,9 +9736,6 @@ ManagedClusterSecurityProfileImageIntegrity_STATUS
 </em>
 </td>
 <td>
-<p>ImageIntegrity: Image integrity is a feature that works with Azure Policy to verify image integrity by signature. This
-will not have any effect unless Azure Policy is applied to enforce image signatures. See
-<a href="https://aka.ms/aks/image-integrity">https://aka.ms/aks/image-integrity</a> for how to use this feature via policy.</p>
 </td>
 </tr>
 <tr>
@@ -10765,9 +9748,6 @@ ManagedClusterSecurityProfileNodeRestriction_STATUS
 </em>
 </td>
 <td>
-<p>NodeRestriction: <a href="https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#noderestriction">Node
-Restriction</a> settings
-for the security profile.</p>
 </td>
 </tr>
 <tr>
@@ -10780,8 +9760,6 @@ ManagedClusterSecurityProfileWorkloadIdentity_STATUS
 </em>
 </td>
 <td>
-<p>WorkloadIdentity: Workload identity settings for the security profile. Workload identity enables Kubernetes applications
-to access Azure cloud resources securely with Azure AD. See <a href="https://aka.ms/aks/wi">https://aka.ms/aks/wi</a> for more details.</p>
 </td>
 </tr>
 </tbody>
@@ -10792,7 +9770,6 @@ to access Azure cloud resources securely with Azure AD. See <a href="https://aka
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Information about a service principal identity for the cluster to use for manipulating Azure APIs.</p>
 </div>
 <table>
 <thead>
@@ -10810,7 +9787,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The ID for the service principal.</p>
 </td>
 </tr>
 <tr>
@@ -10823,7 +9799,6 @@ genruntime.SecretReference
 </em>
 </td>
 <td>
-<p>Secret: The secret password associated with the service principal in plain text.</p>
 </td>
 </tr>
 </tbody>
@@ -10834,7 +9809,6 @@ genruntime.SecretReference
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Information about a service principal identity for the cluster to use for manipulating Azure APIs.</p>
 </div>
 <table>
 <thead>
@@ -10852,7 +9826,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The ID for the service principal.</p>
 </td>
 </tr>
 </tbody>
@@ -10863,7 +9836,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Storage profile for the container service cluster.</p>
 </div>
 <table>
 <thead>
@@ -10883,7 +9855,6 @@ ManagedClusterStorageProfileBlobCSIDriver
 </em>
 </td>
 <td>
-<p>BlobCSIDriver: AzureBlob CSI Driver settings for the storage profile.</p>
 </td>
 </tr>
 <tr>
@@ -10896,7 +9867,6 @@ ManagedClusterStorageProfileDiskCSIDriver
 </em>
 </td>
 <td>
-<p>DiskCSIDriver: AzureDisk CSI Driver settings for the storage profile.</p>
 </td>
 </tr>
 <tr>
@@ -10909,7 +9879,6 @@ ManagedClusterStorageProfileFileCSIDriver
 </em>
 </td>
 <td>
-<p>FileCSIDriver: AzureFile CSI Driver settings for the storage profile.</p>
 </td>
 </tr>
 <tr>
@@ -10922,7 +9891,6 @@ ManagedClusterStorageProfileSnapshotController
 </em>
 </td>
 <td>
-<p>SnapshotController: Snapshot Controller settings for the storage profile.</p>
 </td>
 </tr>
 </tbody>
@@ -10933,7 +9901,6 @@ ManagedClusterStorageProfileSnapshotController
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile">ManagedClusterStorageProfile</a>)
 </p>
 <div>
-<p>AzureBlob CSI Driver settings for the storage profile.</p>
 </div>
 <table>
 <thead>
@@ -10951,7 +9918,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable AzureBlob CSI Driver. The default value is false.</p>
 </td>
 </tr>
 </tbody>
@@ -10962,7 +9928,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile_STATUS">ManagedClusterStorageProfile_STATUS</a>)
 </p>
 <div>
-<p>AzureBlob CSI Driver settings for the storage profile.</p>
 </div>
 <table>
 <thead>
@@ -10980,7 +9945,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable AzureBlob CSI Driver. The default value is false.</p>
 </td>
 </tr>
 </tbody>
@@ -10991,7 +9955,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile">ManagedClusterStorageProfile</a>)
 </p>
 <div>
-<p>AzureDisk CSI Driver settings for the storage profile.</p>
 </div>
 <table>
 <thead>
@@ -11009,7 +9972,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable AzureDisk CSI Driver. The default value is true.</p>
 </td>
 </tr>
 <tr>
@@ -11020,7 +9982,6 @@ string
 </em>
 </td>
 <td>
-<p>Version: The version of AzureDisk CSI Driver. The default value is v1.</p>
 </td>
 </tr>
 </tbody>
@@ -11031,7 +9992,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile_STATUS">ManagedClusterStorageProfile_STATUS</a>)
 </p>
 <div>
-<p>AzureDisk CSI Driver settings for the storage profile.</p>
 </div>
 <table>
 <thead>
@@ -11049,7 +10009,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable AzureDisk CSI Driver. The default value is true.</p>
 </td>
 </tr>
 <tr>
@@ -11060,7 +10019,6 @@ string
 </em>
 </td>
 <td>
-<p>Version: The version of AzureDisk CSI Driver. The default value is v1.</p>
 </td>
 </tr>
 </tbody>
@@ -11071,7 +10029,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile">ManagedClusterStorageProfile</a>)
 </p>
 <div>
-<p>AzureFile CSI Driver settings for the storage profile.</p>
 </div>
 <table>
 <thead>
@@ -11089,7 +10046,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable AzureFile CSI Driver. The default value is true.</p>
 </td>
 </tr>
 </tbody>
@@ -11100,7 +10056,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile_STATUS">ManagedClusterStorageProfile_STATUS</a>)
 </p>
 <div>
-<p>AzureFile CSI Driver settings for the storage profile.</p>
 </div>
 <table>
 <thead>
@@ -11118,7 +10073,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable AzureFile CSI Driver. The default value is true.</p>
 </td>
 </tr>
 </tbody>
@@ -11129,7 +10083,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile">ManagedClusterStorageProfile</a>)
 </p>
 <div>
-<p>Snapshot Controller settings for the storage profile.</p>
 </div>
 <table>
 <thead>
@@ -11147,7 +10100,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable Snapshot Controller. The default value is true.</p>
 </td>
 </tr>
 </tbody>
@@ -11158,7 +10110,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile_STATUS">ManagedClusterStorageProfile_STATUS</a>)
 </p>
 <div>
-<p>Snapshot Controller settings for the storage profile.</p>
 </div>
 <table>
 <thead>
@@ -11176,7 +10127,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable Snapshot Controller. The default value is true.</p>
 </td>
 </tr>
 </tbody>
@@ -11187,7 +10137,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Storage profile for the container service cluster.</p>
 </div>
 <table>
 <thead>
@@ -11207,7 +10156,6 @@ ManagedClusterStorageProfileBlobCSIDriver_STATUS
 </em>
 </td>
 <td>
-<p>BlobCSIDriver: AzureBlob CSI Driver settings for the storage profile.</p>
 </td>
 </tr>
 <tr>
@@ -11220,7 +10168,6 @@ ManagedClusterStorageProfileDiskCSIDriver_STATUS
 </em>
 </td>
 <td>
-<p>DiskCSIDriver: AzureDisk CSI Driver settings for the storage profile.</p>
 </td>
 </tr>
 <tr>
@@ -11233,7 +10180,6 @@ ManagedClusterStorageProfileFileCSIDriver_STATUS
 </em>
 </td>
 <td>
-<p>FileCSIDriver: AzureFile CSI Driver settings for the storage profile.</p>
 </td>
 </tr>
 <tr>
@@ -11246,7 +10192,6 @@ ManagedClusterStorageProfileSnapshotController_STATUS
 </em>
 </td>
 <td>
-<p>SnapshotController: Snapshot Controller settings for the storage profile.</p>
 </td>
 </tr>
 </tbody>
@@ -11257,7 +10202,6 @@ ManagedClusterStorageProfileSnapshotController_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Profile for Windows VMs in the managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -11277,16 +10221,6 @@ genruntime.SecretReference
 </em>
 </td>
 <td>
-<p>AdminPassword: Specifies the password of the administrator account.
-Minimum-length: 8 characters
-Max-length: 123 characters
-Complexity requirements: 3 out of 4 conditions below need to be fulfilled
-Has lower characters
-Has upper characters
-Has a digit
-Has a special character (Regex match [\W_])
-Disallowed values: &ldquo;abc@123&rdquo;, &ldquo;P@$$w0rd&rdquo;, &ldquo;P@ssw0rd&rdquo;, &ldquo;P@ssword123&rdquo;, &ldquo;Pa$$word&rdquo;, &ldquo;pass@word1&rdquo;, &ldquo;Password!&rdquo;, &ldquo;Password1&rdquo;,
-&ldquo;Password22&rdquo;, &ldquo;iloveyou!&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -11297,13 +10231,6 @@ string
 </em>
 </td>
 <td>
-<p>AdminUsername: Specifies the name of the administrator account.
-Restriction: Cannot end in &ldquo;.&rdquo;
-Disallowed values: &ldquo;administrator&rdquo;, &ldquo;admin&rdquo;, &ldquo;user&rdquo;, &ldquo;user1&rdquo;, &ldquo;test&rdquo;, &ldquo;user2&rdquo;, &ldquo;test1&rdquo;, &ldquo;user3&rdquo;, &ldquo;admin1&rdquo;, &ldquo;1&rdquo;, &ldquo;123&rdquo;,
-&ldquo;a&rdquo;, &ldquo;actuser&rdquo;, &ldquo;adm&rdquo;, &ldquo;admin2&rdquo;, &ldquo;aspnet&rdquo;, &ldquo;backup&rdquo;, &ldquo;console&rdquo;, &ldquo;david&rdquo;, &ldquo;guest&rdquo;, &ldquo;john&rdquo;, &ldquo;owner&rdquo;, &ldquo;root&rdquo;, &ldquo;server&rdquo;,
-&ldquo;sql&rdquo;, &ldquo;support&rdquo;, &ldquo;support_388945a0&rdquo;, &ldquo;sys&rdquo;, &ldquo;test2&rdquo;, &ldquo;test3&rdquo;, &ldquo;user4&rdquo;, &ldquo;user5&rdquo;.
-Minimum-length: 1 character
-Max-length: 20 characters</p>
 </td>
 </tr>
 <tr>
@@ -11314,8 +10241,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableCSIProxy: For more details on CSI proxy, see the <a href="https://github.com/kubernetes-csi/csi-proxy">CSI proxy GitHub
-repo</a>.</p>
 </td>
 </tr>
 <tr>
@@ -11328,7 +10253,6 @@ WindowsGmsaProfile
 </em>
 </td>
 <td>
-<p>GmsaProfile: The Windows gMSA Profile in the Managed Cluster.</p>
 </td>
 </tr>
 <tr>
@@ -11341,8 +10265,6 @@ ManagedClusterWindowsProfile_LicenseType
 </em>
 </td>
 <td>
-<p>LicenseType: The license type to use for Windows VMs. See <a href="https://azure.microsoft.com/pricing/hybrid-benefit/faq/">Azure Hybrid User
-Benefits</a> for more details.</p>
 </td>
 </tr>
 </tbody>
@@ -11393,7 +10315,6 @@ Benefits</a> for more details.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Profile for Windows VMs in the managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -11411,13 +10332,6 @@ string
 </em>
 </td>
 <td>
-<p>AdminUsername: Specifies the name of the administrator account.
-Restriction: Cannot end in &ldquo;.&rdquo;
-Disallowed values: &ldquo;administrator&rdquo;, &ldquo;admin&rdquo;, &ldquo;user&rdquo;, &ldquo;user1&rdquo;, &ldquo;test&rdquo;, &ldquo;user2&rdquo;, &ldquo;test1&rdquo;, &ldquo;user3&rdquo;, &ldquo;admin1&rdquo;, &ldquo;1&rdquo;, &ldquo;123&rdquo;,
-&ldquo;a&rdquo;, &ldquo;actuser&rdquo;, &ldquo;adm&rdquo;, &ldquo;admin2&rdquo;, &ldquo;aspnet&rdquo;, &ldquo;backup&rdquo;, &ldquo;console&rdquo;, &ldquo;david&rdquo;, &ldquo;guest&rdquo;, &ldquo;john&rdquo;, &ldquo;owner&rdquo;, &ldquo;root&rdquo;, &ldquo;server&rdquo;,
-&ldquo;sql&rdquo;, &ldquo;support&rdquo;, &ldquo;support_388945a0&rdquo;, &ldquo;sys&rdquo;, &ldquo;test2&rdquo;, &ldquo;test3&rdquo;, &ldquo;user4&rdquo;, &ldquo;user5&rdquo;.
-Minimum-length: 1 character
-Max-length: 20 characters</p>
 </td>
 </tr>
 <tr>
@@ -11428,8 +10342,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableCSIProxy: For more details on CSI proxy, see the <a href="https://github.com/kubernetes-csi/csi-proxy">CSI proxy GitHub
-repo</a>.</p>
 </td>
 </tr>
 <tr>
@@ -11442,7 +10354,6 @@ WindowsGmsaProfile_STATUS
 </em>
 </td>
 <td>
-<p>GmsaProfile: The Windows gMSA Profile in the Managed Cluster.</p>
 </td>
 </tr>
 <tr>
@@ -11455,8 +10366,6 @@ ManagedClusterWindowsProfile_LicenseType_STATUS
 </em>
 </td>
 <td>
-<p>LicenseType: The license type to use for Windows VMs. See <a href="https://azure.microsoft.com/pricing/hybrid-benefit/faq/">Azure Hybrid User
-Benefits</a> for more details.</p>
 </td>
 </tr>
 </tbody>
@@ -11467,7 +10376,6 @@ Benefits</a> for more details.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Workload Auto-scaler profile for the managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -11487,7 +10395,6 @@ ManagedClusterWorkloadAutoScalerProfileKeda
 </em>
 </td>
 <td>
-<p>Keda: KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile.</p>
 </td>
 </tr>
 <tr>
@@ -11510,7 +10417,6 @@ ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfile">ManagedClusterWorkloadAutoScalerProfile</a>)
 </p>
 <div>
-<p>KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile.</p>
 </div>
 <table>
 <thead>
@@ -11528,7 +10434,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable KEDA.</p>
 </td>
 </tr>
 </tbody>
@@ -11539,7 +10444,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfile_STATUS">ManagedClusterWorkloadAutoScalerProfile_STATUS</a>)
 </p>
 <div>
-<p>KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile.</p>
 </div>
 <table>
 <thead>
@@ -11557,7 +10461,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable KEDA.</p>
 </td>
 </tr>
 </tbody>
@@ -11587,7 +10490,6 @@ ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling
 </em>
 </td>
 <td>
-<p>AddonAutoscaling: Whether VPA add-on is enabled and configured to scale AKS-managed add-ons.</p>
 </td>
 </tr>
 <tr>
@@ -11598,7 +10500,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable VPA add-on in cluster. Default value is false.</p>
 </td>
 </tr>
 </tbody>
@@ -11668,7 +10569,6 @@ ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_ST
 </em>
 </td>
 <td>
-<p>AddonAutoscaling: Whether VPA add-on is enabled and configured to scale AKS-managed add-ons.</p>
 </td>
 </tr>
 <tr>
@@ -11679,7 +10579,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Whether to enable VPA add-on in cluster. Default value is false.</p>
 </td>
 </tr>
 </tbody>
@@ -11690,7 +10589,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Workload Auto-scaler profile for the managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -11710,7 +10608,6 @@ ManagedClusterWorkloadAutoScalerProfileKeda_STATUS
 </em>
 </td>
 <td>
-<p>Keda: KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile.</p>
 </td>
 </tr>
 <tr>
@@ -11733,7 +10630,6 @@ ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster">ManagedCluster</a>)
 </p>
 <div>
-<p>Managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -11753,7 +10649,6 @@ ManagedClusterAADProfile_STATUS
 </em>
 </td>
 <td>
-<p>AadProfile: The Azure Active Directory configuration.</p>
 </td>
 </tr>
 <tr>
@@ -11766,7 +10661,6 @@ map[string]./api/containerservice/v1api20231102preview.ManagedClusterAddonProfil
 </em>
 </td>
 <td>
-<p>AddonProfiles: The profile of managed cluster add-on.</p>
 </td>
 </tr>
 <tr>
@@ -11779,7 +10673,6 @@ map[string]./api/containerservice/v1api20231102preview.ManagedClusterAddonProfil
 </em>
 </td>
 <td>
-<p>AgentPoolProfiles: The agent pool properties.</p>
 </td>
 </tr>
 <tr>
@@ -11792,7 +10685,6 @@ ManagedClusterAIToolchainOperatorProfile_STATUS
 </em>
 </td>
 <td>
-<p>AiToolchainOperatorProfile: AI toolchain operator settings that apply to the whole cluster.</p>
 </td>
 </tr>
 <tr>
@@ -11805,7 +10697,6 @@ ManagedClusterAPIServerAccessProfile_STATUS
 </em>
 </td>
 <td>
-<p>ApiServerAccessProfile: The access profile for managed cluster API server.</p>
 </td>
 </tr>
 <tr>
@@ -11818,7 +10709,6 @@ ManagedClusterProperties_AutoScalerProfile_STATUS
 </em>
 </td>
 <td>
-<p>AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when enabled</p>
 </td>
 </tr>
 <tr>
@@ -11831,7 +10721,6 @@ ManagedClusterAutoUpgradeProfile_STATUS
 </em>
 </td>
 <td>
-<p>AutoUpgradeProfile: The auto upgrade configuration.</p>
 </td>
 </tr>
 <tr>
@@ -11844,7 +10733,6 @@ ManagedClusterAzureMonitorProfile_STATUS
 </em>
 </td>
 <td>
-<p>AzureMonitorProfile: Prometheus addon profile for the container service cluster</p>
 </td>
 </tr>
 <tr>
@@ -11855,9 +10743,6 @@ string
 </em>
 </td>
 <td>
-<p>AzurePortalFQDN: The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some
-responses, which Kubernetes APIServer doesn&rsquo;t handle by default. This special FQDN supports CORS, allowing the Azure
-Portal to function properly.</p>
 </td>
 </tr>
 <tr>
@@ -11883,8 +10768,6 @@ CreationData_STATUS
 </em>
 </td>
 <td>
-<p>CreationData: CreationData to be used to specify the source Snapshot ID if the cluster will be created/upgraded using a
-snapshot.</p>
 </td>
 </tr>
 <tr>
@@ -11895,7 +10778,6 @@ string
 </em>
 </td>
 <td>
-<p>CurrentKubernetesVersion: The version of Kubernetes the Managed Cluster is running.</p>
 </td>
 </tr>
 <tr>
@@ -11906,9 +10788,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAccounts: If set to true, getting static credentials will be disabled for this cluster. This must only be
-used on Managed Clusters that are AAD enabled. For more details see <a href="https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview">disable local
-accounts</a>.</p>
 </td>
 </tr>
 <tr>
@@ -11919,8 +10798,6 @@ string
 </em>
 </td>
 <td>
-<p>DiskEncryptionSetID: This is of the form:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Compute/&#x200b;diskEncryptionSets/&#x200b;{encryptionSetName}&rsquo;</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -11931,7 +10808,6 @@ string
 </em>
 </td>
 <td>
-<p>DnsPrefix: This cannot be updated once the Managed Cluster has been created.</p>
 </td>
 </tr>
 <tr>
@@ -11942,9 +10818,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableNamespaceResources: The default value is false. It can be enabled/disabled on creation and updating of the managed
-cluster. See <a href="https://aka.ms/NamespaceARMResource">https://aka.ms/NamespaceARMResource</a> for more details on Namespace as
-a ARM Resource.</p>
 </td>
 </tr>
 <tr>
@@ -11955,9 +10828,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePodSecurityPolicy: (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was
-deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at <a href="https://aka.ms/k8s/psp">https://aka.ms/k8s/psp</a> and
-<a href="https://aka.ms/aks/psp">https://aka.ms/aks/psp</a>.</p>
 </td>
 </tr>
 <tr>
@@ -11968,7 +10838,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableRBAC: Whether to enable Kubernetes Role-Based Access Control.</p>
 </td>
 </tr>
 <tr>
@@ -11981,7 +10850,6 @@ ExtendedLocation_STATUS
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the Virtual Machine.</p>
 </td>
 </tr>
 <tr>
@@ -11992,7 +10860,6 @@ string
 </em>
 </td>
 <td>
-<p>Fqdn: The FQDN of the master pool.</p>
 </td>
 </tr>
 <tr>
@@ -12003,7 +10870,6 @@ string
 </em>
 </td>
 <td>
-<p>FqdnSubdomain: This cannot be updated once the Managed Cluster has been created.</p>
 </td>
 </tr>
 <tr>
@@ -12016,7 +10882,6 @@ ManagedClusterHTTPProxyConfig_STATUS
 </em>
 </td>
 <td>
-<p>HttpProxyConfig: Configurations for provisioning the cluster with HTTP proxy servers.</p>
 </td>
 </tr>
 <tr>
@@ -12027,8 +10892,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. E.g.
-&ldquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}&rdquo;</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -12041,7 +10904,6 @@ ManagedClusterIdentity_STATUS
 </em>
 </td>
 <td>
-<p>Identity: The identity of the managed cluster, if configured.</p>
 </td>
 </tr>
 <tr>
@@ -12054,7 +10916,6 @@ map[string]./api/containerservice/v1api20231102preview.UserAssignedIdentity_STAT
 </em>
 </td>
 <td>
-<p>IdentityProfile: Identities associated with the cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12067,7 +10928,6 @@ ManagedClusterIngressProfile_STATUS
 </em>
 </td>
 <td>
-<p>IngressProfile: Ingress profile for the managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12078,10 +10938,6 @@ string
 </em>
 </td>
 <td>
-<p>KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades
-must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt;
-1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See <a href="https://docs.microsoft.com/azure/aks/upgrade-cluster">upgrading an AKS
-cluster</a> for more details.</p>
 </td>
 </tr>
 <tr>
@@ -12094,7 +10950,6 @@ ContainerServiceLinuxProfile_STATUS
 </em>
 </td>
 <td>
-<p>LinuxProfile: The profile for Linux VMs in the Managed Cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12105,7 +10960,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -12116,7 +10970,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxAgentPools: The max number of agent pools for the managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12129,7 +10982,6 @@ ManagedClusterMetricsProfile_STATUS
 </em>
 </td>
 <td>
-<p>MetricsProfile: Optional cluster metrics configuration.</p>
 </td>
 </tr>
 <tr>
@@ -12140,7 +10992,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -12153,7 +11004,6 @@ ContainerServiceNetworkProfile_STATUS
 </em>
 </td>
 <td>
-<p>NetworkProfile: The network configuration profile.</p>
 </td>
 </tr>
 <tr>
@@ -12166,7 +11016,6 @@ ManagedClusterNodeProvisioningProfile_STATUS
 </em>
 </td>
 <td>
-<p>NodeProvisioningProfile: Node provisioning settings that apply to the whole cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12177,7 +11026,6 @@ string
 </em>
 </td>
 <td>
-<p>NodeResourceGroup: The name of the resource group containing agent pool nodes.</p>
 </td>
 </tr>
 <tr>
@@ -12190,7 +11038,6 @@ ManagedClusterNodeResourceGroupProfile_STATUS
 </em>
 </td>
 <td>
-<p>NodeResourceGroupProfile: The node resource group configuration profile.</p>
 </td>
 </tr>
 <tr>
@@ -12203,7 +11050,6 @@ ManagedClusterOIDCIssuerProfile_STATUS
 </em>
 </td>
 <td>
-<p>OidcIssuerProfile: The OIDC issuer profile of the Managed Cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12216,8 +11062,6 @@ ManagedClusterPodIdentityProfile_STATUS
 </em>
 </td>
 <td>
-<p>PodIdentityProfile: See <a href="https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity">use AAD pod identity</a> for more
-details on AAD pod identity integration.</p>
 </td>
 </tr>
 <tr>
@@ -12230,7 +11074,6 @@ PowerState_STATUS
 </em>
 </td>
 <td>
-<p>PowerState: The Power State of the cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12241,7 +11084,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateFQDN: The FQDN of private cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12254,7 +11096,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateLinkResources: Private link resources associated with the cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12265,7 +11106,6 @@ string
 </em>
 </td>
 <td>
-<p>ProvisioningState: The current provisioning state.</p>
 </td>
 </tr>
 <tr>
@@ -12278,7 +11118,6 @@ ManagedClusterProperties_PublicNetworkAccess_STATUS
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Allow or deny public network access for AKS</p>
 </td>
 </tr>
 <tr>
@@ -12289,8 +11128,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceUID: The resourceUID uniquely identifies ManagedClusters that reuse ARM ResourceIds (i.e: create, delete, create
-sequence)</p>
 </td>
 </tr>
 <tr>
@@ -12303,7 +11140,6 @@ SafeguardsProfile_STATUS
 </em>
 </td>
 <td>
-<p>SafeguardsProfile: The Safeguards profile holds all the safeguards information for a given cluster</p>
 </td>
 </tr>
 <tr>
@@ -12316,7 +11152,6 @@ ManagedClusterSecurityProfile_STATUS
 </em>
 </td>
 <td>
-<p>SecurityProfile: Security profile for the managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12329,7 +11164,6 @@ ServiceMeshProfile_STATUS
 </em>
 </td>
 <td>
-<p>ServiceMeshProfile: Service mesh profile for a managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12342,8 +11176,6 @@ ManagedClusterServicePrincipalProfile_STATUS
 </em>
 </td>
 <td>
-<p>ServicePrincipalProfile: Information about a service principal identity for the cluster to use for manipulating Azure
-APIs.</p>
 </td>
 </tr>
 <tr>
@@ -12356,7 +11188,6 @@ ManagedClusterSKU_STATUS
 </em>
 </td>
 <td>
-<p>Sku: The managed cluster SKU.</p>
 </td>
 </tr>
 <tr>
@@ -12369,7 +11200,6 @@ ManagedClusterStorageProfile_STATUS
 </em>
 </td>
 <td>
-<p>StorageProfile: Storage profile for the managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12382,7 +11212,6 @@ KubernetesSupportPlan_STATUS
 </em>
 </td>
 <td>
-<p>SupportPlan: The support plan for the Managed Cluster. If unspecified, the default is &lsquo;KubernetesOfficial&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -12395,7 +11224,6 @@ SystemData_STATUS
 </em>
 </td>
 <td>
-<p>SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.</p>
 </td>
 </tr>
 <tr>
@@ -12406,7 +11234,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -12417,7 +11244,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -12430,7 +11256,6 @@ ClusterUpgradeSettings_STATUS
 </em>
 </td>
 <td>
-<p>UpgradeSettings: Settings for upgrading a cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12443,7 +11268,6 @@ ManagedClusterWindowsProfile_STATUS
 </em>
 </td>
 <td>
-<p>WindowsProfile: The profile for Windows VMs in the Managed Cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12456,7 +11280,6 @@ ManagedClusterWorkloadAutoScalerProfile_STATUS
 </em>
 </td>
 <td>
-<p>WorkloadAutoScalerProfile: Workload Auto-scaler profile for the managed cluster.</p>
 </td>
 </tr>
 </tbody>
@@ -12486,7 +11309,6 @@ ManagedClusterAADProfile
 </em>
 </td>
 <td>
-<p>AadProfile: The Azure Active Directory configuration.</p>
 </td>
 </tr>
 <tr>
@@ -12499,7 +11321,6 @@ map[string]./api/containerservice/v1api20231102preview.ManagedClusterAddonProfil
 </em>
 </td>
 <td>
-<p>AddonProfiles: The profile of managed cluster add-on.</p>
 </td>
 </tr>
 <tr>
@@ -12512,7 +11333,6 @@ map[string]./api/containerservice/v1api20231102preview.ManagedClusterAddonProfil
 </em>
 </td>
 <td>
-<p>AgentPoolProfiles: The agent pool properties.</p>
 </td>
 </tr>
 <tr>
@@ -12525,7 +11345,6 @@ ManagedClusterAIToolchainOperatorProfile
 </em>
 </td>
 <td>
-<p>AiToolchainOperatorProfile: AI toolchain operator settings that apply to the whole cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12538,7 +11357,6 @@ ManagedClusterAPIServerAccessProfile
 </em>
 </td>
 <td>
-<p>ApiServerAccessProfile: The access profile for managed cluster API server.</p>
 </td>
 </tr>
 <tr>
@@ -12551,7 +11369,6 @@ ManagedClusterProperties_AutoScalerProfile
 </em>
 </td>
 <td>
-<p>AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when enabled</p>
 </td>
 </tr>
 <tr>
@@ -12564,7 +11381,6 @@ ManagedClusterAutoUpgradeProfile
 </em>
 </td>
 <td>
-<p>AutoUpgradeProfile: The auto upgrade configuration.</p>
 </td>
 </tr>
 <tr>
@@ -12577,7 +11393,6 @@ ManagedClusterAzureMonitorProfile
 </em>
 </td>
 <td>
-<p>AzureMonitorProfile: Prometheus addon profile for the container service cluster</p>
 </td>
 </tr>
 <tr>
@@ -12602,8 +11417,6 @@ CreationData
 </em>
 </td>
 <td>
-<p>CreationData: CreationData to be used to specify the source Snapshot ID if the cluster will be created/upgraded using a
-snapshot.</p>
 </td>
 </tr>
 <tr>
@@ -12614,9 +11427,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAccounts: If set to true, getting static credentials will be disabled for this cluster. This must only be
-used on Managed Clusters that are AAD enabled. For more details see <a href="https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview">disable local
-accounts</a>.</p>
 </td>
 </tr>
 <tr>
@@ -12629,8 +11439,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>DiskEncryptionSetReference: This is of the form:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Compute/&#x200b;diskEncryptionSets/&#x200b;{encryptionSetName}&rsquo;</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -12641,7 +11449,6 @@ string
 </em>
 </td>
 <td>
-<p>DnsPrefix: This cannot be updated once the Managed Cluster has been created.</p>
 </td>
 </tr>
 <tr>
@@ -12652,9 +11459,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableNamespaceResources: The default value is false. It can be enabled/disabled on creation and updating of the managed
-cluster. See <a href="https://aka.ms/NamespaceARMResource">https://aka.ms/NamespaceARMResource</a> for more details on Namespace as
-a ARM Resource.</p>
 </td>
 </tr>
 <tr>
@@ -12665,9 +11469,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePodSecurityPolicy: (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was
-deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at <a href="https://aka.ms/k8s/psp">https://aka.ms/k8s/psp</a> and
-<a href="https://aka.ms/aks/psp">https://aka.ms/aks/psp</a>.</p>
 </td>
 </tr>
 <tr>
@@ -12678,7 +11479,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableRBAC: Whether to enable Kubernetes Role-Based Access Control.</p>
 </td>
 </tr>
 <tr>
@@ -12691,7 +11491,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the Virtual Machine.</p>
 </td>
 </tr>
 <tr>
@@ -12702,7 +11501,6 @@ string
 </em>
 </td>
 <td>
-<p>FqdnSubdomain: This cannot be updated once the Managed Cluster has been created.</p>
 </td>
 </tr>
 <tr>
@@ -12715,7 +11513,6 @@ ManagedClusterHTTPProxyConfig
 </em>
 </td>
 <td>
-<p>HttpProxyConfig: Configurations for provisioning the cluster with HTTP proxy servers.</p>
 </td>
 </tr>
 <tr>
@@ -12728,7 +11525,6 @@ ManagedClusterIdentity
 </em>
 </td>
 <td>
-<p>Identity: The identity of the managed cluster, if configured.</p>
 </td>
 </tr>
 <tr>
@@ -12741,7 +11537,6 @@ map[string]./api/containerservice/v1api20231102preview.UserAssignedIdentity
 </em>
 </td>
 <td>
-<p>IdentityProfile: Identities associated with the cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12754,7 +11549,6 @@ ManagedClusterIngressProfile
 </em>
 </td>
 <td>
-<p>IngressProfile: Ingress profile for the managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12765,10 +11559,6 @@ string
 </em>
 </td>
 <td>
-<p>KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades
-must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt;
-1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See <a href="https://docs.microsoft.com/azure/aks/upgrade-cluster">upgrading an AKS
-cluster</a> for more details.</p>
 </td>
 </tr>
 <tr>
@@ -12781,7 +11571,6 @@ ContainerServiceLinuxProfile
 </em>
 </td>
 <td>
-<p>LinuxProfile: The profile for Linux VMs in the Managed Cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12792,7 +11581,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -12805,7 +11593,6 @@ ManagedClusterMetricsProfile
 </em>
 </td>
 <td>
-<p>MetricsProfile: Optional cluster metrics configuration.</p>
 </td>
 </tr>
 <tr>
@@ -12818,7 +11605,6 @@ ContainerServiceNetworkProfile
 </em>
 </td>
 <td>
-<p>NetworkProfile: The network configuration profile.</p>
 </td>
 </tr>
 <tr>
@@ -12831,7 +11617,6 @@ ManagedClusterNodeProvisioningProfile
 </em>
 </td>
 <td>
-<p>NodeProvisioningProfile: Node provisioning settings that apply to the whole cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12842,7 +11627,6 @@ string
 </em>
 </td>
 <td>
-<p>NodeResourceGroup: The name of the resource group containing agent pool nodes.</p>
 </td>
 </tr>
 <tr>
@@ -12855,7 +11639,6 @@ ManagedClusterNodeResourceGroupProfile
 </em>
 </td>
 <td>
-<p>NodeResourceGroupProfile: The node resource group configuration profile.</p>
 </td>
 </tr>
 <tr>
@@ -12868,7 +11651,6 @@ ManagedClusterOIDCIssuerProfile
 </em>
 </td>
 <td>
-<p>OidcIssuerProfile: The OIDC issuer profile of the Managed Cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12910,8 +11692,6 @@ ManagedClusterPodIdentityProfile
 </em>
 </td>
 <td>
-<p>PodIdentityProfile: See <a href="https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity">use AAD pod identity</a> for more
-details on AAD pod identity integration.</p>
 </td>
 </tr>
 <tr>
@@ -12924,7 +11704,6 @@ details on AAD pod identity integration.</p>
 </em>
 </td>
 <td>
-<p>PrivateLinkResources: Private link resources associated with the cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12937,7 +11716,6 @@ ManagedClusterProperties_PublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Allow or deny public network access for AKS</p>
 </td>
 </tr>
 <tr>
@@ -12950,7 +11728,6 @@ SafeguardsProfile
 </em>
 </td>
 <td>
-<p>SafeguardsProfile: The Safeguards profile holds all the safeguards information for a given cluster</p>
 </td>
 </tr>
 <tr>
@@ -12963,7 +11740,6 @@ ManagedClusterSecurityProfile
 </em>
 </td>
 <td>
-<p>SecurityProfile: Security profile for the managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12976,7 +11752,6 @@ ServiceMeshProfile
 </em>
 </td>
 <td>
-<p>ServiceMeshProfile: Service mesh profile for a managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -12989,8 +11764,6 @@ ManagedClusterServicePrincipalProfile
 </em>
 </td>
 <td>
-<p>ServicePrincipalProfile: Information about a service principal identity for the cluster to use for manipulating Azure
-APIs.</p>
 </td>
 </tr>
 <tr>
@@ -13003,7 +11776,6 @@ ManagedClusterSKU
 </em>
 </td>
 <td>
-<p>Sku: The managed cluster SKU.</p>
 </td>
 </tr>
 <tr>
@@ -13016,7 +11788,6 @@ ManagedClusterStorageProfile
 </em>
 </td>
 <td>
-<p>StorageProfile: Storage profile for the managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -13029,7 +11800,6 @@ KubernetesSupportPlan
 </em>
 </td>
 <td>
-<p>SupportPlan: The support plan for the Managed Cluster. If unspecified, the default is &lsquo;KubernetesOfficial&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -13040,7 +11810,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -13053,7 +11822,6 @@ ClusterUpgradeSettings
 </em>
 </td>
 <td>
-<p>UpgradeSettings: Settings for upgrading a cluster.</p>
 </td>
 </tr>
 <tr>
@@ -13066,7 +11834,6 @@ ManagedClusterWindowsProfile
 </em>
 </td>
 <td>
-<p>WindowsProfile: The profile for Windows VMs in the Managed Cluster.</p>
 </td>
 </tr>
 <tr>
@@ -13079,7 +11846,6 @@ ManagedClusterWorkloadAutoScalerProfile
 </em>
 </td>
 <td>
-<p>WorkloadAutoScalerProfile: Workload Auto-scaler profile for the managed cluster.</p>
 </td>
 </tr>
 </tbody>
@@ -13117,8 +11883,8 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">
-ManagedClusters_AgentPool_Spec
+<a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">
+ManagedClustersAgentPool_Spec
 </a>
 </em>
 </td>
@@ -13480,6 +12246,20 @@ genruntime.ResourceReference
 </td>
 <td>
 <p>NodeTaints: The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPoolOperatorSpec">
+ManagedClustersAgentPoolOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>
@@ -13801,8 +12581,8 @@ WorkloadRuntime
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">
-ManagedClusters_AgentPool_STATUS
+<a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">
+ManagedClustersAgentPool_STATUS
 </a>
 </em>
 </td>
@@ -13811,7 +12591,51 @@ ManagedClusters_AgentPool_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS
+<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPoolOperatorSpec">ManagedClustersAgentPoolOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool">ManagedClustersAgentPool</a>)
@@ -14536,7 +13360,7 @@ WorkloadRuntime_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec
+<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec
 </h3>
 <p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool">ManagedClustersAgentPool</a>)
@@ -14909,6 +13733,20 @@ genruntime.ResourceReference
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPoolOperatorSpec">
+ManagedClustersAgentPoolOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>orchestratorVersion</code><br/>
 <em>
 string
@@ -15227,7 +14065,6 @@ WorkloadRuntime
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ScaleProfile">ScaleProfile</a>)
 </p>
 <div>
-<p>Specifications on number of machines.</p>
 </div>
 <table>
 <thead>
@@ -15245,7 +14082,6 @@ int
 </em>
 </td>
 <td>
-<p>Count: Number of nodes.</p>
 </td>
 </tr>
 <tr>
@@ -15256,8 +14092,6 @@ int
 </em>
 </td>
 <td>
-<p>Sizes: The list of allowed vm sizes. AKS will use the first available one when scaling. If a VM size is unavailable
-(e.g. due to quota or regional capacity reasons), AKS will use the next size.</p>
 </td>
 </tr>
 </tbody>
@@ -15268,7 +14102,6 @@ int
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ScaleProfile_STATUS">ScaleProfile_STATUS</a>)
 </p>
 <div>
-<p>Specifications on number of machines.</p>
 </div>
 <table>
 <thead>
@@ -15286,7 +14119,6 @@ int
 </em>
 </td>
 <td>
-<p>Count: Number of nodes.</p>
 </td>
 </tr>
 <tr>
@@ -15297,8 +14129,6 @@ int
 </em>
 </td>
 <td>
-<p>Sizes: The list of allowed vm sizes. AKS will use the first available one when scaling. If a VM size is unavailable
-(e.g. due to quota or regional capacity reasons), AKS will use the next size.</p>
 </td>
 </tr>
 </tbody>
@@ -15309,7 +14139,6 @@ int
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
 </p>
 <div>
-<p>Network dataplane used in the Kubernetes cluster.</p>
 </div>
 <table>
 <thead>
@@ -15330,7 +14159,6 @@ int
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
 </p>
 <div>
-<p>Network dataplane used in the Kubernetes cluster.</p>
 </div>
 <table>
 <thead>
@@ -15351,7 +14179,6 @@ int
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
 </p>
 <div>
-<p>This cannot be specified if networkPlugin is anything other than &lsquo;azure&rsquo;.</p>
 </div>
 <table>
 <thead>
@@ -15372,7 +14199,6 @@ int
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
 </p>
 <div>
-<p>This cannot be specified if networkPlugin is anything other than &lsquo;azure&rsquo;.</p>
 </div>
 <table>
 <thead>
@@ -15393,7 +14219,6 @@ int
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
 </p>
 <div>
-<p>This addon can be used to configure network monitoring and generate network monitoring data in Prometheus format</p>
 </div>
 <table>
 <thead>
@@ -15411,7 +14236,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Enable or disable the network monitoring plugin on the cluster</p>
 </td>
 </tr>
 </tbody>
@@ -15422,7 +14246,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
 </p>
 <div>
-<p>This addon can be used to configure network monitoring and generate network monitoring data in Prometheus format</p>
 </div>
 <table>
 <thead>
@@ -15440,7 +14263,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Enable or disable the network monitoring plugin on the cluster</p>
 </td>
 </tr>
 </tbody>
@@ -15451,7 +14273,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
 </p>
 <div>
-<p>Network plugin used for building the Kubernetes network.</p>
 </div>
 <table>
 <thead>
@@ -15474,7 +14295,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
 </p>
 <div>
-<p>The mode the network plugin should use.</p>
 </div>
 <table>
 <thead>
@@ -15493,7 +14313,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
 </p>
 <div>
-<p>The mode the network plugin should use.</p>
 </div>
 <table>
 <thead>
@@ -15512,7 +14331,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
 </p>
 <div>
-<p>Network plugin used for building the Kubernetes network.</p>
 </div>
 <table>
 <thead>
@@ -15535,7 +14353,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
 </p>
 <div>
-<p>Network policy used for building the Kubernetes network.</p>
 </div>
 <table>
 <thead>
@@ -15560,7 +14377,6 @@ bool
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
 </p>
 <div>
-<p>Network policy used for building the Kubernetes network.</p>
 </div>
 <table>
 <thead>
@@ -15582,12 +14398,9 @@ bool
 <h3 id="containerservice.azure.com/v1api20231102preview.OSDiskType">OSDiskType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise,
-defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral
-OS</a>.</p>
 </div>
 <table>
 <thead>
@@ -15605,12 +14418,9 @@ OS</a>.</p>
 <h3 id="containerservice.azure.com/v1api20231102preview.OSDiskType_STATUS">OSDiskType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise,
-defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral
-OS</a>.</p>
 </div>
 <table>
 <thead>
@@ -15628,11 +14438,9 @@ OS</a>.</p>
 <h3 id="containerservice.azure.com/v1api20231102preview.OSSKU">OSSKU
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if
-OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated.</p>
 </div>
 <table>
 <thead>
@@ -15660,11 +14468,9 @@ OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 aft
 <h3 id="containerservice.azure.com/v1api20231102preview.OSSKU_STATUS">OSSKU_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if
-OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated.</p>
 </div>
 <table>
 <thead>
@@ -15692,10 +14498,9 @@ OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 aft
 <h3 id="containerservice.azure.com/v1api20231102preview.OSType">OSType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>The operating system type. The default is Linux.</p>
 </div>
 <table>
 <thead>
@@ -15713,10 +14518,9 @@ OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 aft
 <h3 id="containerservice.azure.com/v1api20231102preview.OSType_STATUS">OSType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>The operating system type. The default is Linux.</p>
 </div>
 <table>
 <thead>
@@ -15737,7 +14541,6 @@ OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 aft
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile">AgentPoolNetworkProfile</a>)
 </p>
 <div>
-<p>The port range.</p>
 </div>
 <table>
 <thead>
@@ -15755,8 +14558,6 @@ int
 </em>
 </td>
 <td>
-<p>PortEnd: The maximum port that is included in the range. It should be ranged from 1 to 65535, and be greater than or
-equal to portStart.</p>
 </td>
 </tr>
 <tr>
@@ -15767,8 +14568,6 @@ int
 </em>
 </td>
 <td>
-<p>PortStart: The minimum port that is included in the range. It should be ranged from 1 to 65535, and be less than or
-equal to portEnd.</p>
 </td>
 </tr>
 <tr>
@@ -15781,7 +14580,6 @@ PortRange_Protocol
 </em>
 </td>
 <td>
-<p>Protocol: The network protocol of the port.</p>
 </td>
 </tr>
 </tbody>
@@ -15832,7 +14630,6 @@ PortRange_Protocol
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile_STATUS">AgentPoolNetworkProfile_STATUS</a>)
 </p>
 <div>
-<p>The port range.</p>
 </div>
 <table>
 <thead>
@@ -15850,8 +14647,6 @@ int
 </em>
 </td>
 <td>
-<p>PortEnd: The maximum port that is included in the range. It should be ranged from 1 to 65535, and be greater than or
-equal to portStart.</p>
 </td>
 </tr>
 <tr>
@@ -15862,8 +14657,6 @@ int
 </em>
 </td>
 <td>
-<p>PortStart: The minimum port that is included in the range. It should be ranged from 1 to 65535, and be less than or
-equal to portEnd.</p>
 </td>
 </tr>
 <tr>
@@ -15876,7 +14669,6 @@ PortRange_Protocol_STATUS
 </em>
 </td>
 <td>
-<p>Protocol: The network protocol of the port.</p>
 </td>
 </tr>
 </tbody>
@@ -15884,10 +14676,9 @@ PortRange_Protocol_STATUS
 <h3 id="containerservice.azure.com/v1api20231102preview.PowerState">PowerState
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>Describes the Power State of the cluster</p>
 </div>
 <table>
 <thead>
@@ -15907,7 +14698,6 @@ PowerState_Code
 </em>
 </td>
 <td>
-<p>Code: Tells whether the cluster is Running or Stopped</p>
 </td>
 </tr>
 </tbody>
@@ -15955,10 +14745,9 @@ PowerState_Code
 <h3 id="containerservice.azure.com/v1api20231102preview.PowerState_STATUS">PowerState_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>Describes the Power State of the cluster</p>
 </div>
 <table>
 <thead>
@@ -15978,7 +14767,6 @@ PowerState_Code_STATUS
 </em>
 </td>
 <td>
-<p>Code: Tells whether the cluster is Running or Stopped</p>
 </td>
 </tr>
 </tbody>
@@ -15989,7 +14777,6 @@ PowerState_Code_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>A private link resource</p>
 </div>
 <table>
 <thead>
@@ -16007,7 +14794,6 @@ string
 </em>
 </td>
 <td>
-<p>GroupId: The group ID of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -16018,7 +14804,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the private link resource.</p>
 </td>
 </tr>
 <tr>
@@ -16031,7 +14816,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>Reference: The ID of the private link resource.</p>
 </td>
 </tr>
 <tr>
@@ -16042,7 +14826,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>RequiredMembers: The RequiredMembers of the resource</p>
 </td>
 </tr>
 <tr>
@@ -16053,7 +14836,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -16064,7 +14846,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>A private link resource</p>
 </div>
 <table>
 <thead>
@@ -16082,7 +14863,6 @@ string
 </em>
 </td>
 <td>
-<p>GroupId: The group ID of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -16093,7 +14873,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The ID of the private link resource.</p>
 </td>
 </tr>
 <tr>
@@ -16104,7 +14883,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the private link resource.</p>
 </td>
 </tr>
 <tr>
@@ -16115,7 +14893,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateLinkServiceID: The private link service ID of the resource, this field is exposed only to NRP internally.</p>
 </td>
 </tr>
 <tr>
@@ -16126,7 +14903,6 @@ string
 </em>
 </td>
 <td>
-<p>RequiredMembers: The RequiredMembers of the resource</p>
 </td>
 </tr>
 <tr>
@@ -16137,7 +14913,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -16148,7 +14923,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile">ManagedClusterLoadBalancerProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes">ManagedClusterLoadBalancerProfile_OutboundIPPrefixes</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPs">ManagedClusterLoadBalancerProfile_OutboundIPs</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNATGatewayProfile">ManagedClusterNATGatewayProfile</a>)
 </p>
 <div>
-<p>A reference to an Azure resource.</p>
 </div>
 <table>
 <thead>
@@ -16168,7 +14942,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>Reference: The fully qualified Azure resource id.</p>
 </td>
 </tr>
 </tbody>
@@ -16179,7 +14952,6 @@ genruntime.ResourceReference
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS">ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS">ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_STATUS">ManagedClusterLoadBalancerProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNATGatewayProfile_STATUS">ManagedClusterNATGatewayProfile_STATUS</a>)
 </p>
 <div>
-<p>A reference to an Azure resource.</p>
 </div>
 <table>
 <thead>
@@ -16197,7 +14969,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The fully qualified Azure resource id.</p>
 </td>
 </tr>
 </tbody>
@@ -16208,7 +14979,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>The Safeguards profile.</p>
 </div>
 <table>
 <thead>
@@ -16226,7 +14996,6 @@ string
 </em>
 </td>
 <td>
-<p>ExcludedNamespaces: List of namespaces excluded from Safeguards checks</p>
 </td>
 </tr>
 <tr>
@@ -16239,8 +15008,6 @@ SafeguardsProfile_Level
 </em>
 </td>
 <td>
-<p>Level: The Safeguards level to be used. By default, Safeguards is enabled for all namespaces except those that AKS
-excludes via systemExcludedNamespaces</p>
 </td>
 </tr>
 <tr>
@@ -16251,7 +15018,6 @@ string
 </em>
 </td>
 <td>
-<p>Version: The version of constraints to use</p>
 </td>
 </tr>
 </tbody>
@@ -16306,7 +15072,6 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>The Safeguards profile.</p>
 </div>
 <table>
 <thead>
@@ -16324,7 +15089,6 @@ string
 </em>
 </td>
 <td>
-<p>ExcludedNamespaces: List of namespaces excluded from Safeguards checks</p>
 </td>
 </tr>
 <tr>
@@ -16337,8 +15101,6 @@ SafeguardsProfile_Level_STATUS
 </em>
 </td>
 <td>
-<p>Level: The Safeguards level to be used. By default, Safeguards is enabled for all namespaces except those that AKS
-excludes via systemExcludedNamespaces</p>
 </td>
 </tr>
 <tr>
@@ -16349,7 +15111,6 @@ excludes via systemExcludedNamespaces</p>
 </em>
 </td>
 <td>
-<p>SystemExcludedNamespaces: List of namespaces specified by AKS to be excluded from Safeguards</p>
 </td>
 </tr>
 <tr>
@@ -16360,7 +15121,6 @@ string
 </em>
 </td>
 <td>
-<p>Version: The version of constraints to use</p>
 </td>
 </tr>
 </tbody>
@@ -16368,11 +15128,9 @@ string
 <h3 id="containerservice.azure.com/v1api20231102preview.ScaleDownMode">ScaleDownMode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>Describes how VMs are added to or removed from Agent Pools. See <a href="https://docs.microsoft.com/azure/virtual-machines/states-billing">billing
-states</a>.</p>
 </div>
 <table>
 <thead>
@@ -16390,11 +15148,9 @@ states</a>.</p>
 <h3 id="containerservice.azure.com/v1api20231102preview.ScaleDownMode_STATUS">ScaleDownMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>Describes how VMs are added to or removed from Agent Pools. See <a href="https://docs.microsoft.com/azure/virtual-machines/states-billing">billing
-states</a>.</p>
 </div>
 <table>
 <thead>
@@ -16415,7 +15171,6 @@ states</a>.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.VirtualMachinesProfile">VirtualMachinesProfile</a>)
 </p>
 <div>
-<p>Specifications on how to scale a VirtualMachines agent pool.</p>
 </div>
 <table>
 <thead>
@@ -16435,7 +15190,6 @@ states</a>.</p>
 </em>
 </td>
 <td>
-<p>Manual: Specifications on how to scale the VirtualMachines agent pool to a fixed size.</p>
 </td>
 </tr>
 </tbody>
@@ -16446,7 +15200,6 @@ states</a>.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.VirtualMachinesProfile_STATUS">VirtualMachinesProfile_STATUS</a>)
 </p>
 <div>
-<p>Specifications on how to scale a VirtualMachines agent pool.</p>
 </div>
 <table>
 <thead>
@@ -16466,7 +15219,6 @@ states</a>.</p>
 </em>
 </td>
 <td>
-<p>Manual: Specifications on how to scale the VirtualMachines agent pool to a fixed size.</p>
 </td>
 </tr>
 </tbody>
@@ -16474,11 +15226,9 @@ states</a>.</p>
 <h3 id="containerservice.azure.com/v1api20231102preview.ScaleSetEvictionPolicy">ScaleSetEvictionPolicy
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information
-about eviction see <a href="https://docs.microsoft.com/azure/virtual-machines/spot-vms">spot VMs</a></p>
 </div>
 <table>
 <thead>
@@ -16496,11 +15246,9 @@ about eviction see <a href="https://docs.microsoft.com/azure/virtual-machines/sp
 <h3 id="containerservice.azure.com/v1api20231102preview.ScaleSetEvictionPolicy_STATUS">ScaleSetEvictionPolicy_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information
-about eviction see <a href="https://docs.microsoft.com/azure/virtual-machines/spot-vms">spot VMs</a></p>
 </div>
 <table>
 <thead>
@@ -16518,10 +15266,9 @@ about eviction see <a href="https://docs.microsoft.com/azure/virtual-machines/sp
 <h3 id="containerservice.azure.com/v1api20231102preview.ScaleSetPriority">ScaleSetPriority
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>The Virtual Machine Scale Set priority.</p>
 </div>
 <table>
 <thead>
@@ -16539,10 +15286,9 @@ about eviction see <a href="https://docs.microsoft.com/azure/virtual-machines/sp
 <h3 id="containerservice.azure.com/v1api20231102preview.ScaleSetPriority_STATUS">ScaleSetPriority_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>The Virtual Machine Scale Set priority.</p>
 </div>
 <table>
 <thead>
@@ -16563,7 +15309,6 @@ about eviction see <a href="https://docs.microsoft.com/azure/virtual-machines/sp
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Service mesh profile for a managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -16583,7 +15328,6 @@ IstioServiceMesh
 </em>
 </td>
 <td>
-<p>Istio: Istio service mesh configuration.</p>
 </td>
 </tr>
 <tr>
@@ -16596,7 +15340,6 @@ ServiceMeshProfile_Mode
 </em>
 </td>
 <td>
-<p>Mode: Mode of the service mesh.</p>
 </td>
 </tr>
 </tbody>
@@ -16647,7 +15390,6 @@ ServiceMeshProfile_Mode
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Service mesh profile for a managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -16667,7 +15409,6 @@ IstioServiceMesh_STATUS
 </em>
 </td>
 <td>
-<p>Istio: Istio service mesh configuration.</p>
 </td>
 </tr>
 <tr>
@@ -16680,7 +15421,6 @@ ServiceMeshProfile_Mode_STATUS
 </em>
 </td>
 <td>
-<p>Mode: Mode of the service mesh.</p>
 </td>
 </tr>
 </tbody>
@@ -16691,7 +15431,6 @@ ServiceMeshProfile_Mode_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.LinuxOSConfig">LinuxOSConfig</a>)
 </p>
 <div>
-<p>Sysctl settings for Linux agent nodes.</p>
 </div>
 <table>
 <thead>
@@ -16709,7 +15448,6 @@ int
 </em>
 </td>
 <td>
-<p>FsAioMaxNr: Sysctl setting fs.aio-max-nr.</p>
 </td>
 </tr>
 <tr>
@@ -16720,7 +15458,6 @@ int
 </em>
 </td>
 <td>
-<p>FsFileMax: Sysctl setting fs.file-max.</p>
 </td>
 </tr>
 <tr>
@@ -16731,7 +15468,6 @@ int
 </em>
 </td>
 <td>
-<p>FsInotifyMaxUserWatches: Sysctl setting fs.inotify.max_user_watches.</p>
 </td>
 </tr>
 <tr>
@@ -16742,7 +15478,6 @@ int
 </em>
 </td>
 <td>
-<p>FsNrOpen: Sysctl setting fs.nr_open.</p>
 </td>
 </tr>
 <tr>
@@ -16753,7 +15488,6 @@ int
 </em>
 </td>
 <td>
-<p>KernelThreadsMax: Sysctl setting kernel.threads-max.</p>
 </td>
 </tr>
 <tr>
@@ -16764,7 +15498,6 @@ int
 </em>
 </td>
 <td>
-<p>NetCoreNetdevMaxBacklog: Sysctl setting net.core.netdev_max_backlog.</p>
 </td>
 </tr>
 <tr>
@@ -16775,7 +15508,6 @@ int
 </em>
 </td>
 <td>
-<p>NetCoreOptmemMax: Sysctl setting net.core.optmem_max.</p>
 </td>
 </tr>
 <tr>
@@ -16786,7 +15518,6 @@ int
 </em>
 </td>
 <td>
-<p>NetCoreRmemDefault: Sysctl setting net.core.rmem_default.</p>
 </td>
 </tr>
 <tr>
@@ -16797,7 +15528,6 @@ int
 </em>
 </td>
 <td>
-<p>NetCoreRmemMax: Sysctl setting net.core.rmem_max.</p>
 </td>
 </tr>
 <tr>
@@ -16808,7 +15538,6 @@ int
 </em>
 </td>
 <td>
-<p>NetCoreSomaxconn: Sysctl setting net.core.somaxconn.</p>
 </td>
 </tr>
 <tr>
@@ -16819,7 +15548,6 @@ int
 </em>
 </td>
 <td>
-<p>NetCoreWmemDefault: Sysctl setting net.core.wmem_default.</p>
 </td>
 </tr>
 <tr>
@@ -16830,7 +15558,6 @@ int
 </em>
 </td>
 <td>
-<p>NetCoreWmemMax: Sysctl setting net.core.wmem_max.</p>
 </td>
 </tr>
 <tr>
@@ -16841,7 +15568,6 @@ string
 </em>
 </td>
 <td>
-<p>NetIpv4IpLocalPortRange: Sysctl setting net.ipv4.ip_local_port_range.</p>
 </td>
 </tr>
 <tr>
@@ -16852,7 +15578,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4NeighDefaultGcThresh1: Sysctl setting net.ipv4.neigh.default.gc_thresh1.</p>
 </td>
 </tr>
 <tr>
@@ -16863,7 +15588,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4NeighDefaultGcThresh2: Sysctl setting net.ipv4.neigh.default.gc_thresh2.</p>
 </td>
 </tr>
 <tr>
@@ -16874,7 +15598,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4NeighDefaultGcThresh3: Sysctl setting net.ipv4.neigh.default.gc_thresh3.</p>
 </td>
 </tr>
 <tr>
@@ -16885,7 +15608,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4TcpFinTimeout: Sysctl setting net.ipv4.tcp_fin_timeout.</p>
 </td>
 </tr>
 <tr>
@@ -16896,7 +15618,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4TcpKeepaliveProbes: Sysctl setting net.ipv4.tcp_keepalive_probes.</p>
 </td>
 </tr>
 <tr>
@@ -16907,7 +15628,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4TcpKeepaliveTime: Sysctl setting net.ipv4.tcp_keepalive_time.</p>
 </td>
 </tr>
 <tr>
@@ -16918,7 +15638,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4TcpMaxSynBacklog: Sysctl setting net.ipv4.tcp_max_syn_backlog.</p>
 </td>
 </tr>
 <tr>
@@ -16929,7 +15648,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4TcpMaxTwBuckets: Sysctl setting net.ipv4.tcp_max_tw_buckets.</p>
 </td>
 </tr>
 <tr>
@@ -16940,7 +15658,6 @@ bool
 </em>
 </td>
 <td>
-<p>NetIpv4TcpTwReuse: Sysctl setting net.ipv4.tcp_tw_reuse.</p>
 </td>
 </tr>
 <tr>
@@ -16951,7 +15668,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4TcpkeepaliveIntvl: Sysctl setting net.ipv4.tcp_keepalive_intvl.</p>
 </td>
 </tr>
 <tr>
@@ -16962,7 +15678,6 @@ int
 </em>
 </td>
 <td>
-<p>NetNetfilterNfConntrackBuckets: Sysctl setting net.netfilter.nf_conntrack_buckets.</p>
 </td>
 </tr>
 <tr>
@@ -16973,7 +15688,6 @@ int
 </em>
 </td>
 <td>
-<p>NetNetfilterNfConntrackMax: Sysctl setting net.netfilter.nf_conntrack_max.</p>
 </td>
 </tr>
 <tr>
@@ -16984,7 +15698,6 @@ int
 </em>
 </td>
 <td>
-<p>VmMaxMapCount: Sysctl setting vm.max_map_count.</p>
 </td>
 </tr>
 <tr>
@@ -16995,7 +15708,6 @@ int
 </em>
 </td>
 <td>
-<p>VmSwappiness: Sysctl setting vm.swappiness.</p>
 </td>
 </tr>
 <tr>
@@ -17006,7 +15718,6 @@ int
 </em>
 </td>
 <td>
-<p>VmVfsCachePressure: Sysctl setting vm.vfs_cache_pressure.</p>
 </td>
 </tr>
 </tbody>
@@ -17017,7 +15728,6 @@ int
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.LinuxOSConfig_STATUS">LinuxOSConfig_STATUS</a>)
 </p>
 <div>
-<p>Sysctl settings for Linux agent nodes.</p>
 </div>
 <table>
 <thead>
@@ -17035,7 +15745,6 @@ int
 </em>
 </td>
 <td>
-<p>FsAioMaxNr: Sysctl setting fs.aio-max-nr.</p>
 </td>
 </tr>
 <tr>
@@ -17046,7 +15755,6 @@ int
 </em>
 </td>
 <td>
-<p>FsFileMax: Sysctl setting fs.file-max.</p>
 </td>
 </tr>
 <tr>
@@ -17057,7 +15765,6 @@ int
 </em>
 </td>
 <td>
-<p>FsInotifyMaxUserWatches: Sysctl setting fs.inotify.max_user_watches.</p>
 </td>
 </tr>
 <tr>
@@ -17068,7 +15775,6 @@ int
 </em>
 </td>
 <td>
-<p>FsNrOpen: Sysctl setting fs.nr_open.</p>
 </td>
 </tr>
 <tr>
@@ -17079,7 +15785,6 @@ int
 </em>
 </td>
 <td>
-<p>KernelThreadsMax: Sysctl setting kernel.threads-max.</p>
 </td>
 </tr>
 <tr>
@@ -17090,7 +15795,6 @@ int
 </em>
 </td>
 <td>
-<p>NetCoreNetdevMaxBacklog: Sysctl setting net.core.netdev_max_backlog.</p>
 </td>
 </tr>
 <tr>
@@ -17101,7 +15805,6 @@ int
 </em>
 </td>
 <td>
-<p>NetCoreOptmemMax: Sysctl setting net.core.optmem_max.</p>
 </td>
 </tr>
 <tr>
@@ -17112,7 +15815,6 @@ int
 </em>
 </td>
 <td>
-<p>NetCoreRmemDefault: Sysctl setting net.core.rmem_default.</p>
 </td>
 </tr>
 <tr>
@@ -17123,7 +15825,6 @@ int
 </em>
 </td>
 <td>
-<p>NetCoreRmemMax: Sysctl setting net.core.rmem_max.</p>
 </td>
 </tr>
 <tr>
@@ -17134,7 +15835,6 @@ int
 </em>
 </td>
 <td>
-<p>NetCoreSomaxconn: Sysctl setting net.core.somaxconn.</p>
 </td>
 </tr>
 <tr>
@@ -17145,7 +15845,6 @@ int
 </em>
 </td>
 <td>
-<p>NetCoreWmemDefault: Sysctl setting net.core.wmem_default.</p>
 </td>
 </tr>
 <tr>
@@ -17156,7 +15855,6 @@ int
 </em>
 </td>
 <td>
-<p>NetCoreWmemMax: Sysctl setting net.core.wmem_max.</p>
 </td>
 </tr>
 <tr>
@@ -17167,7 +15865,6 @@ string
 </em>
 </td>
 <td>
-<p>NetIpv4IpLocalPortRange: Sysctl setting net.ipv4.ip_local_port_range.</p>
 </td>
 </tr>
 <tr>
@@ -17178,7 +15875,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4NeighDefaultGcThresh1: Sysctl setting net.ipv4.neigh.default.gc_thresh1.</p>
 </td>
 </tr>
 <tr>
@@ -17189,7 +15885,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4NeighDefaultGcThresh2: Sysctl setting net.ipv4.neigh.default.gc_thresh2.</p>
 </td>
 </tr>
 <tr>
@@ -17200,7 +15895,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4NeighDefaultGcThresh3: Sysctl setting net.ipv4.neigh.default.gc_thresh3.</p>
 </td>
 </tr>
 <tr>
@@ -17211,7 +15905,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4TcpFinTimeout: Sysctl setting net.ipv4.tcp_fin_timeout.</p>
 </td>
 </tr>
 <tr>
@@ -17222,7 +15915,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4TcpKeepaliveProbes: Sysctl setting net.ipv4.tcp_keepalive_probes.</p>
 </td>
 </tr>
 <tr>
@@ -17233,7 +15925,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4TcpKeepaliveTime: Sysctl setting net.ipv4.tcp_keepalive_time.</p>
 </td>
 </tr>
 <tr>
@@ -17244,7 +15935,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4TcpMaxSynBacklog: Sysctl setting net.ipv4.tcp_max_syn_backlog.</p>
 </td>
 </tr>
 <tr>
@@ -17255,7 +15945,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4TcpMaxTwBuckets: Sysctl setting net.ipv4.tcp_max_tw_buckets.</p>
 </td>
 </tr>
 <tr>
@@ -17266,7 +15955,6 @@ bool
 </em>
 </td>
 <td>
-<p>NetIpv4TcpTwReuse: Sysctl setting net.ipv4.tcp_tw_reuse.</p>
 </td>
 </tr>
 <tr>
@@ -17277,7 +15965,6 @@ int
 </em>
 </td>
 <td>
-<p>NetIpv4TcpkeepaliveIntvl: Sysctl setting net.ipv4.tcp_keepalive_intvl.</p>
 </td>
 </tr>
 <tr>
@@ -17288,7 +15975,6 @@ int
 </em>
 </td>
 <td>
-<p>NetNetfilterNfConntrackBuckets: Sysctl setting net.netfilter.nf_conntrack_buckets.</p>
 </td>
 </tr>
 <tr>
@@ -17299,7 +15985,6 @@ int
 </em>
 </td>
 <td>
-<p>NetNetfilterNfConntrackMax: Sysctl setting net.netfilter.nf_conntrack_max.</p>
 </td>
 </tr>
 <tr>
@@ -17310,7 +15995,6 @@ int
 </em>
 </td>
 <td>
-<p>VmMaxMapCount: Sysctl setting vm.max_map_count.</p>
 </td>
 </tr>
 <tr>
@@ -17321,7 +16005,6 @@ int
 </em>
 </td>
 <td>
-<p>VmSwappiness: Sysctl setting vm.swappiness.</p>
 </td>
 </tr>
 <tr>
@@ -17332,7 +16015,6 @@ int
 </em>
 </td>
 <td>
-<p>VmVfsCachePressure: Sysctl setting vm.vfs_cache_pressure.</p>
 </td>
 </tr>
 </tbody>
@@ -17391,7 +16073,6 @@ int
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Metadata pertaining to creation and last modification of the resource.</p>
 </div>
 <table>
 <thead>
@@ -17409,7 +16090,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -17420,7 +16100,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -17433,7 +16112,6 @@ SystemData_CreatedByType_STATUS
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -17444,7 +16122,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
 </td>
 </tr>
 <tr>
@@ -17455,7 +16132,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
@@ -17468,7 +16144,6 @@ SystemData_LastModifiedByType_STATUS
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -17479,7 +16154,6 @@ SystemData_LastModifiedByType_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ClusterUpgradeSettings">ClusterUpgradeSettings</a>)
 </p>
 <div>
-<p>Settings for overrides when upgrading a cluster.</p>
 </div>
 <table>
 <thead>
@@ -17497,8 +16171,6 @@ bool
 </em>
 </td>
 <td>
-<p>ForceUpgrade: Whether to force upgrade the cluster. Note that this option instructs upgrade operation to bypass upgrade
-protections such as checking for deprecated API usage. Enable this option only with caution.</p>
 </td>
 </tr>
 <tr>
@@ -17509,9 +16181,6 @@ string
 </em>
 </td>
 <td>
-<p>Until: Until when the overrides are effective. Note that this only matches the start time of an upgrade, and the
-effectiveness won&rsquo;t change once an upgrade starts even if the <code>until</code> expires as upgrade proceeds. This field is not set
-by default. It must be set for the overrides to take effect.</p>
 </td>
 </tr>
 </tbody>
@@ -17522,7 +16191,6 @@ by default. It must be set for the overrides to take effect.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ClusterUpgradeSettings_STATUS">ClusterUpgradeSettings_STATUS</a>)
 </p>
 <div>
-<p>Settings for overrides when upgrading a cluster.</p>
 </div>
 <table>
 <thead>
@@ -17540,8 +16208,6 @@ bool
 </em>
 </td>
 <td>
-<p>ForceUpgrade: Whether to force upgrade the cluster. Note that this option instructs upgrade operation to bypass upgrade
-protections such as checking for deprecated API usage. Enable this option only with caution.</p>
 </td>
 </tr>
 <tr>
@@ -17552,9 +16218,6 @@ string
 </em>
 </td>
 <td>
-<p>Until: Until when the overrides are effective. Note that this only matches the start time of an upgrade, and the
-effectiveness won&rsquo;t change once an upgrade starts even if the <code>until</code> expires as upgrade proceeds. This field is not set
-by default. It must be set for the overrides to take effect.</p>
 </td>
 </tr>
 </tbody>
@@ -17565,7 +16228,6 @@ by default. It must be set for the overrides to take effect.</p>
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity">ManagedClusterPodIdentity</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
 </p>
 <div>
-<p>Details about a user assigned identity.</p>
 </div>
 <table>
 <thead>
@@ -17583,7 +16245,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The client ID of the user assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -17594,7 +16255,6 @@ string
 </em>
 </td>
 <td>
-<p>ObjectId: The object ID of the user assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -17607,7 +16267,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>ResourceReference: The resource ID of the user assigned identity.</p>
 </td>
 </tr>
 </tbody>
@@ -17618,7 +16277,6 @@ genruntime.ResourceReference
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity">ManagedClusterIdentity</a>)
 </p>
 <div>
-<p>Information about the user assigned identity for the resource</p>
 </div>
 <table>
 <thead>
@@ -17648,7 +16306,6 @@ genruntime.ResourceReference
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAddonProfile_STATUS">ManagedClusterAddonProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfileWebAppRouting_STATUS">ManagedClusterIngressProfileWebAppRouting_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity_STATUS">ManagedClusterPodIdentity_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
 </p>
 <div>
-<p>Details about a user assigned identity.</p>
 </div>
 <table>
 <thead>
@@ -17666,7 +16323,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The client ID of the user assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -17677,7 +16333,6 @@ string
 </em>
 </td>
 <td>
-<p>ObjectId: The object ID of the user assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -17688,7 +16343,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceId: The resource ID of the user assigned identity.</p>
 </td>
 </tr>
 </tbody>
@@ -17696,10 +16350,9 @@ string
 <h3 id="containerservice.azure.com/v1api20231102preview.VirtualMachineNodes">VirtualMachineNodes
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>Current status on a group of nodes of the same vm size.</p>
 </div>
 <table>
 <thead>
@@ -17717,7 +16370,6 @@ int
 </em>
 </td>
 <td>
-<p>Count: Number of nodes.</p>
 </td>
 </tr>
 <tr>
@@ -17728,7 +16380,6 @@ string
 </em>
 </td>
 <td>
-<p>Size: The VM size of the agents used to host this group of nodes.</p>
 </td>
 </tr>
 </tbody>
@@ -17736,10 +16387,9 @@ string
 <h3 id="containerservice.azure.com/v1api20231102preview.VirtualMachineNodes_STATUS">VirtualMachineNodes_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>Current status on a group of nodes of the same vm size.</p>
 </div>
 <table>
 <thead>
@@ -17757,7 +16407,6 @@ int
 </em>
 </td>
 <td>
-<p>Count: Number of nodes.</p>
 </td>
 </tr>
 <tr>
@@ -17768,7 +16417,6 @@ string
 </em>
 </td>
 <td>
-<p>Size: The VM size of the agents used to host this group of nodes.</p>
 </td>
 </tr>
 </tbody>
@@ -17776,10 +16424,9 @@ string
 <h3 id="containerservice.azure.com/v1api20231102preview.VirtualMachinesProfile">VirtualMachinesProfile
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>Specifications on VirtualMachines agent pool.</p>
 </div>
 <table>
 <thead>
@@ -17799,7 +16446,6 @@ ScaleProfile
 </em>
 </td>
 <td>
-<p>Scale: Specifications on how to scale a VirtualMachines agent pool.</p>
 </td>
 </tr>
 </tbody>
@@ -17807,10 +16453,9 @@ ScaleProfile
 <h3 id="containerservice.azure.com/v1api20231102preview.VirtualMachinesProfile_STATUS">VirtualMachinesProfile_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>Specifications on VirtualMachines agent pool.</p>
 </div>
 <table>
 <thead>
@@ -17830,7 +16475,6 @@ ScaleProfile_STATUS
 </em>
 </td>
 <td>
-<p>Scale: Specifications on how to scale a VirtualMachines agent pool.</p>
 </td>
 </tr>
 </tbody>
@@ -17841,7 +16485,6 @@ ScaleProfile_STATUS
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile">ManagedClusterWindowsProfile</a>)
 </p>
 <div>
-<p>Windows gMSA Profile in the managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -17859,8 +16502,6 @@ string
 </em>
 </td>
 <td>
-<p>DnsServer: Specifies the DNS server for Windows gMSA.
-Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -17871,7 +16512,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Specifies whether to enable Windows gMSA in the managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -17882,8 +16522,6 @@ string
 </em>
 </td>
 <td>
-<p>RootDomainName: Specifies the root domain name for Windows gMSA.
-Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster.</p>
 </td>
 </tr>
 </tbody>
@@ -17894,7 +16532,6 @@ Set it to empty if you have configured the DNS server in the vnet which is used 
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile_STATUS">ManagedClusterWindowsProfile_STATUS</a>)
 </p>
 <div>
-<p>Windows gMSA Profile in the managed cluster.</p>
 </div>
 <table>
 <thead>
@@ -17912,8 +16549,6 @@ string
 </em>
 </td>
 <td>
-<p>DnsServer: Specifies the DNS server for Windows gMSA.
-Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -17924,7 +16559,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Specifies whether to enable Windows gMSA in the managed cluster.</p>
 </td>
 </tr>
 <tr>
@@ -17935,8 +16569,6 @@ string
 </em>
 </td>
 <td>
-<p>RootDomainName: Specifies the root domain name for Windows gMSA.
-Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster.</p>
 </td>
 </tr>
 </tbody>
@@ -17944,10 +16576,9 @@ Set it to empty if you have configured the DNS server in the vnet which is used 
 <h3 id="containerservice.azure.com/v1api20231102preview.WorkloadRuntime">WorkloadRuntime
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
 </p>
 <div>
-<p>Determines the type of workload a node can run.</p>
 </div>
 <table>
 <thead>
@@ -17967,10 +16598,9 @@ Set it to empty if you have configured the DNS server in the vnet which is used 
 <h3 id="containerservice.azure.com/v1api20231102preview.WorkloadRuntime_STATUS">WorkloadRuntime_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusters_AgentPool_STATUS">ManagedClusters_AgentPool_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
 </p>
 <div>
-<p>Determines the type of workload a node can run.</p>
 </div>
 <table>
 <thead>
