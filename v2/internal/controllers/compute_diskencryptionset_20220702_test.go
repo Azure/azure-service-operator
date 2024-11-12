@@ -9,14 +9,16 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
 	. "github.com/onsi/gomega"
 
 	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702"
-	"github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
 	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
+
+	"github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

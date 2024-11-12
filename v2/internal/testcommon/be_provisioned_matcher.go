@@ -10,9 +10,10 @@ import (
 	"fmt"
 
 	gomegaformat "github.com/onsi/gomega/format"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
 	"github.com/onsi/gomega/types"
 	"github.com/pkg/errors"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )

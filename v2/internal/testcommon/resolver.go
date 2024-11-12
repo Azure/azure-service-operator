@@ -6,11 +6,12 @@ Licensed under the MIT license.
 package testcommon
 
 import (
+	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"

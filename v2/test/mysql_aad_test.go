@@ -10,8 +10,16 @@ import (
 	"os"
 	"testing"
 
-	_ "github.com/go-sql-driver/mysql" // sql drive link
 	. "github.com/onsi/gomega"
+
+	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
+	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	mysqlutil "github.com/Azure/azure-service-operator/v2/internal/util/mysql"
+
+	_ "github.com/go-sql-driver/mysql" // sql drive link
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -20,13 +28,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-
-	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
-	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
-	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
-	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-	mysqlutil "github.com/Azure/azure-service-operator/v2/internal/util/mysql"
 )
 
 const (

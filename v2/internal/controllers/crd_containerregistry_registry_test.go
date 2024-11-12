@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	containerregistry "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901"
+
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

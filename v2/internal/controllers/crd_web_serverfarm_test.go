@@ -8,9 +8,10 @@ package controllers_test
 import (
 	"testing"
 
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+
 	"github.com/onsi/gomega"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"

@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	cdn "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
+
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )

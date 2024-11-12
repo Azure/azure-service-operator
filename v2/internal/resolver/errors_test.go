@@ -11,8 +11,10 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	"github.com/pkg/errors"
+
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
+
+	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"

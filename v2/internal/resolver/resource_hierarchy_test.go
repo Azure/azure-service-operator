@@ -9,8 +9,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/google/uuid"
 	. "github.com/onsi/gomega"
+
+	"github.com/google/uuid"
 
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"

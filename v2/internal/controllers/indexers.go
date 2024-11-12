@@ -6,11 +6,11 @@ Licensed under the MIT license.
 package controllers
 
 import (
-	"sigs.k8s.io/controller-runtime/pkg/client"
-
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
 	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
 	azuresql "github.com/Azure/azure-service-operator/v2/api/sql/v1"
+
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // indexMySQLUserPassword an index function for mysql user passwords

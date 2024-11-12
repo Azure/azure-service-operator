@@ -10,13 +10,15 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	network20240301 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
+	"sigs.k8s.io/controller-runtime/pkg/client"
+
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"

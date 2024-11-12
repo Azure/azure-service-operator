@@ -9,8 +9,9 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	azcoreruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
+
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/pkg/errors"
 )
 

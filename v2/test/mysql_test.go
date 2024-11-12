@@ -9,16 +9,18 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql" // sql drive link
 	. "github.com/onsi/gomega"
-	v1 "k8s.io/api/core/v1"
 
 	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	mysqlutil "github.com/Azure/azure-service-operator/v2/internal/util/mysql"
+	v1 "k8s.io/api/core/v1"
+
+	_ "github.com/go-sql-driver/mysql" // sql drive link
+
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	mysqlutil "github.com/Azure/azure-service-operator/v2/internal/util/mysql"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

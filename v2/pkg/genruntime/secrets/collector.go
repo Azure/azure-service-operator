@@ -9,11 +9,12 @@ import (
 	"cmp"
 	"slices"
 
-	"github.com/pkg/errors"
-	"golang.org/x/exp/maps"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
+	"github.com/pkg/errors"
+	"golang.org/x/exp/maps"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

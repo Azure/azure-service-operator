@@ -8,10 +8,11 @@ package test
 import (
 	"testing"
 
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
 	v1 "k8s.io/api/core/v1"
+
 	"k8s.io/apimachinery/pkg/types"
 
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

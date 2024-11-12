@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
+
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

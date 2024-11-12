@@ -8,13 +8,15 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
 	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+
+	"github.com/kr/pretty"
+
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

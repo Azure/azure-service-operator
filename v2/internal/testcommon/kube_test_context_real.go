@@ -6,8 +6,9 @@ Licensed under the MIT license.
 package testcommon
 
 import (
-	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
+
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 )

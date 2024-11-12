@@ -9,15 +9,17 @@ import (
 	"context"
 	"database/sql"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
+	asosql "github.com/Azure/azure-service-operator/v2/api/sql/v1"
+	azuresqlutil "github.com/Azure/azure-service-operator/v2/internal/util/azuresql"
+
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
-	asosql "github.com/Azure/azure-service-operator/v2/api/sql/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
-	azuresqlutil "github.com/Azure/azure-service-operator/v2/internal/util/azuresql"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )

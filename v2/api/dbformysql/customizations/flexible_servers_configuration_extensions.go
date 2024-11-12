@@ -9,6 +9,7 @@ import (
 	"context"
 
 	api "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630"
+
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )

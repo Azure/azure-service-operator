@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
+
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 

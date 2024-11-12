@@ -9,16 +9,18 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/jackc/pgx/v5/stdlib" // the pgx lib
 	. "github.com/onsi/gomega"
-	v1 "k8s.io/api/core/v1"
 
 	postgresqlv1 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
 	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	postgresqlutil "github.com/Azure/azure-service-operator/v2/internal/util/postgresql"
+	v1 "k8s.io/api/core/v1"
+
+	_ "github.com/jackc/pgx/v5/stdlib" // the pgx lib
+
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	postgresqlutil "github.com/Azure/azure-service-operator/v2/internal/util/postgresql"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

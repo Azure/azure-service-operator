@@ -12,8 +12,9 @@ import (
 	. "github.com/onsi/gomega"
 
 	machinelearning "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
+
+	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 )
 
 func Test_SecretsSpecified_AllSecretsSpecifiedAllSecretsReturned(t *testing.T) {

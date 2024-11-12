@@ -10,9 +10,10 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+
+	"github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )

@@ -9,10 +9,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/go-logr/logr"
-
 	api "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201"
 	hub "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
+
+	"github.com/go-logr/logr"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"

@@ -8,8 +8,9 @@ package match
 import (
 	"strings"
 
-	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
+	"github.com/pkg/errors"
 )
 
 // multiMatcher is a matcher that contains multiple other matchers

@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	redis "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
+
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
 )

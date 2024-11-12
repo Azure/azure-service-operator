@@ -10,9 +10,10 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
+
 	"github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
-	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
 )
 
 func Test_SecretsSpecified_AllSecretsSpecifiedAllSecretsReturned(t *testing.T) {

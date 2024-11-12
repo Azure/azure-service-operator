@@ -12,8 +12,9 @@ import (
 	"strings"
 	"time"
 
-	_ "github.com/microsoft/go-mssqldb"
 	mssql "github.com/microsoft/go-mssqldb"
+
+	_ "github.com/microsoft/go-mssqldb"
 	"github.com/pkg/errors"
 )
 

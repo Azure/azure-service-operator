@@ -12,6 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	monitor "github.com/Azure/azure-service-operator/v2/api/monitor/v1api20230403"
+
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

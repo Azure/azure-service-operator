@@ -11,13 +11,14 @@ import (
 	"reflect"
 	"time"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
+	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
+
 	"github.com/go-logr/logr"
 	"github.com/google/cel-go/cel"
 	"github.com/jellydator/ttlcache/v3"
 	"github.com/pkg/errors"
-
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 )
 
 type ProgramCacher interface {

@@ -9,13 +9,14 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/go-logr/logr"
-	"github.com/google/cel-go/cel"
 	. "github.com/onsi/gomega"
-	"github.com/pkg/errors"
 
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
+
+	"github.com/go-logr/logr"
+	"github.com/google/cel-go/cel"
+	"github.com/pkg/errors"
 )
 
 func Test_ProgramCache(t *testing.T) {
