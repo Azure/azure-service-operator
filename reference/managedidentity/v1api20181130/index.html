@@ -35,7 +35,7 @@ UserAssignedIdentity Generator information: - Generated from: /msi/resource-mana
   <meta itemprop="description" content="managedidentity.azure.com/v1api20181130 Package v1api20181130 contains API Schema definitions for the managedidentity v1api20181130 API group
 Resource Types: APIVersion (string alias) Value Description &#34;2018-11-30&#34;
 UserAssignedIdentity Generator information: - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/ManagedIdentity.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/​userAssignedIdentities/​{resourceName}&lt;/​p&gt; Field Description metadata Kubernetes meta/v1.ObjectMeta Refer to the Kubernetes API documentation for the fields of the metadata field. spec UserAssignedIdentity_Spec azureName string AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be.">
-  <meta itemprop="wordCount" content="634">
+  <meta itemprop="wordCount" content="525">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="managedidentity.azure.com/v1api20181130">
   <meta name="twitter:description" content="managedidentity.azure.com/v1api20181130 Package v1api20181130 contains API Schema definitions for the managedidentity v1api20181130 API group
@@ -342,6 +342,8 @@ UserAssignedIdentity Generator information: - Generated from: /msi/resource-mana
   <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20240901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">containerservice.azure.com/v1api20240901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
@@ -973,6 +975,19 @@ genruntime.ConfigMapDestination
 <tbody>
 <tr>
 <td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>configMaps</code><br/>
 <em>
 <a href="#managedidentity.azure.com/v1api20181130.UserAssignedIdentityOperatorConfigMaps">
@@ -984,55 +999,17 @@ UserAssignedIdentityOperatorConfigMaps
 <p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
 </td>
 </tr>
-</tbody>
-</table>
-<h3 id="managedidentity.azure.com/v1api20181130.UserAssignedIdentityProperties_STATUS_ARM">UserAssignedIdentityProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#managedidentity.azure.com/v1api20181130.UserAssignedIdentity_STATUS_ARM">UserAssignedIdentity_STATUS_ARM</a>)
-</p>
-<div>
-<p>The properties associated with the user assigned identity.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>
-<code>clientId</code><br/>
+<code>secretExpressions</code><br/>
 <em>
-string
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
 </em>
 </td>
 <td>
-<p>ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The id of the service principal object associated with the created identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The id of the tenant which the identity belongs to.</p>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
 </td>
 </tr>
 </tbody>
@@ -1156,89 +1133,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="managedidentity.azure.com/v1api20181130.UserAssignedIdentity_STATUS_ARM">UserAssignedIdentity_STATUS_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#managedidentity.azure.com/v1api20181130.UserAssignedIdentityProperties_STATUS_ARM">
-UserAssignedIdentityProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The properties associated with the identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="managedidentity.azure.com/v1api20181130.UserAssignedIdentity_Spec">UserAssignedIdentity_Spec
 </h3>
 <p>
@@ -1304,52 +1198,6 @@ genruntime.KnownResourceReference
 <p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="managedidentity.azure.com/v1api20181130.UserAssignedIdentity_Spec_ARM">UserAssignedIdentity_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
 </td>
 </tr>
 <tr>

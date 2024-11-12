@@ -22,8 +22,8 @@
 Resource Types: APIVersion (string alias) Value Description &#34;2023-01-01&#34;
 AbsoluteDeleteOption (Appears on:DeleteOption) Field Description duration string Duration: Duration of deletion after given timespan
 objectType AbsoluteDeleteOption_ObjectType ObjectType: Type of the specific object - used for deserializing
-AbsoluteDeleteOption_ARM (Appears on:DeleteOption_ARM) Field Description duration string Duration: Duration of deletion after given timespan
-objectType AbsoluteDeleteOption_ObjectType_ARM ObjectType: Type of the specific object - used for deserializing">
+AbsoluteDeleteOption_ObjectType (string alias) (Appears on:AbsoluteDeleteOption) Value Description &#34;AbsoluteDeleteOption&#34;
+AbsoluteDeleteOption_ObjectType_STATUS (string alias) (Appears on:AbsoluteDeleteOption_STATUS) Value Description &#34;AbsoluteDeleteOption&#34;">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/dataprotection/v1api20230101/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="dataprotection.azure.com/v1api20230101">
@@ -31,8 +31,8 @@ objectType AbsoluteDeleteOption_ObjectType_ARM ObjectType: Type of the specific 
 Resource Types: APIVersion (string alias) Value Description &#34;2023-01-01&#34;
 AbsoluteDeleteOption (Appears on:DeleteOption) Field Description duration string Duration: Duration of deletion after given timespan
 objectType AbsoluteDeleteOption_ObjectType ObjectType: Type of the specific object - used for deserializing
-AbsoluteDeleteOption_ARM (Appears on:DeleteOption_ARM) Field Description duration string Duration: Duration of deletion after given timespan
-objectType AbsoluteDeleteOption_ObjectType_ARM ObjectType: Type of the specific object - used for deserializing">
+AbsoluteDeleteOption_ObjectType (string alias) (Appears on:AbsoluteDeleteOption) Value Description &#34;AbsoluteDeleteOption&#34;
+AbsoluteDeleteOption_ObjectType_STATUS (string alias) (Appears on:AbsoluteDeleteOption_STATUS) Value Description &#34;AbsoluteDeleteOption&#34;">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
@@ -42,17 +42,17 @@ objectType AbsoluteDeleteOption_ObjectType_ARM ObjectType: Type of the specific 
 Resource Types: APIVersion (string alias) Value Description &#34;2023-01-01&#34;
 AbsoluteDeleteOption (Appears on:DeleteOption) Field Description duration string Duration: Duration of deletion after given timespan
 objectType AbsoluteDeleteOption_ObjectType ObjectType: Type of the specific object - used for deserializing
-AbsoluteDeleteOption_ARM (Appears on:DeleteOption_ARM) Field Description duration string Duration: Duration of deletion after given timespan
-objectType AbsoluteDeleteOption_ObjectType_ARM ObjectType: Type of the specific object - used for deserializing">
-  <meta itemprop="wordCount" content="5767">
+AbsoluteDeleteOption_ObjectType (string alias) (Appears on:AbsoluteDeleteOption) Value Description &#34;AbsoluteDeleteOption&#34;
+AbsoluteDeleteOption_ObjectType_STATUS (string alias) (Appears on:AbsoluteDeleteOption_STATUS) Value Description &#34;AbsoluteDeleteOption&#34;">
+  <meta itemprop="wordCount" content="3288">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="dataprotection.azure.com/v1api20230101">
   <meta name="twitter:description" content="dataprotection.azure.com/v1api20230101 Package v1api20230101 contains API Schema definitions for the dataprotection v1api20230101 API group
 Resource Types: APIVersion (string alias) Value Description &#34;2023-01-01&#34;
 AbsoluteDeleteOption (Appears on:DeleteOption) Field Description duration string Duration: Duration of deletion after given timespan
 objectType AbsoluteDeleteOption_ObjectType ObjectType: Type of the specific object - used for deserializing
-AbsoluteDeleteOption_ARM (Appears on:DeleteOption_ARM) Field Description duration string Duration: Duration of deletion after given timespan
-objectType AbsoluteDeleteOption_ObjectType_ARM ObjectType: Type of the specific object - used for deserializing">
+AbsoluteDeleteOption_ObjectType (string alias) (Appears on:AbsoluteDeleteOption) Value Description &#34;AbsoluteDeleteOption&#34;
+AbsoluteDeleteOption_ObjectType_STATUS (string alias) (Appears on:AbsoluteDeleteOption_STATUS) Value Description &#34;AbsoluteDeleteOption&#34;">
 
 
 
@@ -354,6 +354,8 @@ objectType AbsoluteDeleteOption_ObjectType_ARM ObjectType: Type of the specific 
   <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20240901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">containerservice.azure.com/v1api20240901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
@@ -830,47 +832,6 @@ AbsoluteDeleteOption_ObjectType
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AbsoluteDeleteOption_ARM">AbsoluteDeleteOption_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.DeleteOption_ARM">DeleteOption_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>duration</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Duration: Duration of deletion after given timespan</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AbsoluteDeleteOption_ObjectType_ARM">
-AbsoluteDeleteOption_ObjectType_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AbsoluteDeleteOption_ObjectType">AbsoluteDeleteOption_ObjectType
 (<code>string</code> alias)</h3>
 <p>
@@ -889,46 +850,10 @@ AbsoluteDeleteOption_ObjectType_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AbsoluteDeleteOption_ObjectType_ARM">AbsoluteDeleteOption_ObjectType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AbsoluteDeleteOption_ARM">AbsoluteDeleteOption_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AbsoluteDeleteOption&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AbsoluteDeleteOption_ObjectType_STATUS">AbsoluteDeleteOption_ObjectType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AbsoluteDeleteOption_STATUS">AbsoluteDeleteOption_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AbsoluteDeleteOption&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.AbsoluteDeleteOption_ObjectType_STATUS_ARM">AbsoluteDeleteOption_ObjectType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AbsoluteDeleteOption_STATUS_ARM">AbsoluteDeleteOption_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -984,47 +909,6 @@ AbsoluteDeleteOption_ObjectType_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AbsoluteDeleteOption_STATUS_ARM">AbsoluteDeleteOption_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.DeleteOption_STATUS_ARM">DeleteOption_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>duration</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Duration: Duration of deletion after given timespan</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AbsoluteDeleteOption_ObjectType_STATUS_ARM">
-AbsoluteDeleteOption_ObjectType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AdhocBasedTaggingCriteria">AdhocBasedTaggingCriteria
 </h3>
 <p>
@@ -1056,37 +940,6 @@ RetentionTag
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AdhocBasedTaggingCriteria_ARM">AdhocBasedTaggingCriteria_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_ARM">AdhocBasedTriggerContext_ARM</a>)
-</p>
-<div>
-<p>Adhoc backup tagging criteria</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>tagInfo</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.RetentionTag_ARM">
-RetentionTag_ARM
-</a>
-</em>
-</td>
-<td>
-<p>TagInfo: Retention tag information</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AdhocBasedTaggingCriteria_STATUS">AdhocBasedTaggingCriteria_STATUS
 </h3>
 <p>
@@ -1109,37 +962,6 @@ RetentionTag_ARM
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.RetentionTag_STATUS">
 RetentionTag_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>TagInfo: Retention tag information</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.AdhocBasedTaggingCriteria_STATUS_ARM">AdhocBasedTaggingCriteria_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_STATUS_ARM">AdhocBasedTriggerContext_STATUS_ARM</a>)
-</p>
-<div>
-<p>Adhoc backup tagging criteria</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>tagInfo</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.RetentionTag_STATUS_ARM">
-RetentionTag_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1192,49 +1014,6 @@ AdhocBasedTaggingCriteria
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_ARM">AdhocBasedTriggerContext_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.TriggerContext_ARM">TriggerContext_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_ObjectType_ARM">
-AdhocBasedTriggerContext_ObjectType_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>taggingCriteria</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AdhocBasedTaggingCriteria_ARM">
-AdhocBasedTaggingCriteria_ARM
-</a>
-</em>
-</td>
-<td>
-<p>TaggingCriteria: Tagging Criteria containing retention tag for adhoc backup.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_ObjectType">AdhocBasedTriggerContext_ObjectType
 (<code>string</code> alias)</h3>
 <p>
@@ -1253,46 +1032,10 @@ AdhocBasedTaggingCriteria_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_ObjectType_ARM">AdhocBasedTriggerContext_ObjectType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_ARM">AdhocBasedTriggerContext_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AdhocBasedTriggerContext&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_ObjectType_STATUS">AdhocBasedTriggerContext_ObjectType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_STATUS">AdhocBasedTriggerContext_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AdhocBasedTriggerContext&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_ObjectType_STATUS_ARM">AdhocBasedTriggerContext_ObjectType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_STATUS_ARM">AdhocBasedTriggerContext_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1350,49 +1093,6 @@ AdhocBasedTaggingCriteria_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_STATUS_ARM">AdhocBasedTriggerContext_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.TriggerContext_STATUS_ARM">TriggerContext_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_ObjectType_STATUS_ARM">
-AdhocBasedTriggerContext_ObjectType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>taggingCriteria</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AdhocBasedTaggingCriteria_STATUS_ARM">
-AdhocBasedTaggingCriteria_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>TaggingCriteria: Tagging Criteria containing retention tag for adhoc backup.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AzureBackupParams">AzureBackupParams
 </h3>
 <p>
@@ -1434,47 +1134,6 @@ AzureBackupParams_ObjectType
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureBackupParams_ARM">AzureBackupParams_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupParameters_ARM">BackupParameters_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>backupType</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>BackupType: BackupType ; Full/Incremental etc</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureBackupParams_ObjectType_ARM">
-AzureBackupParams_ObjectType_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AzureBackupParams_ObjectType">AzureBackupParams_ObjectType
 (<code>string</code> alias)</h3>
 <p>
@@ -1493,46 +1152,10 @@ AzureBackupParams_ObjectType_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureBackupParams_ObjectType_ARM">AzureBackupParams_ObjectType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureBackupParams_ARM">AzureBackupParams_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AzureBackupParams&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AzureBackupParams_ObjectType_STATUS">AzureBackupParams_ObjectType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureBackupParams_STATUS">AzureBackupParams_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AzureBackupParams&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureBackupParams_ObjectType_STATUS_ARM">AzureBackupParams_ObjectType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureBackupParams_STATUS_ARM">AzureBackupParams_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1579,47 +1202,6 @@ string
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.AzureBackupParams_ObjectType_STATUS">
 AzureBackupParams_ObjectType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureBackupParams_STATUS_ARM">AzureBackupParams_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupParameters_STATUS_ARM">BackupParameters_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>backupType</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>BackupType: BackupType ; Full/Incremental etc</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureBackupParams_ObjectType_STATUS_ARM">
-AzureBackupParams_ObjectType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1705,82 +1287,6 @@ TriggerContext
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureBackupRule_ARM">AzureBackupRule_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BasePolicyRule_ARM">BasePolicyRule_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>backupParameters</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupParameters_ARM">
-BackupParameters_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataStore</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.DataStoreInfoBase_ARM">
-DataStoreInfoBase_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DataStore: DataStoreInfo base</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureBackupRule_ObjectType_ARM">
-AzureBackupRule_ObjectType_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>trigger</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.TriggerContext_ARM">
-TriggerContext_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AzureBackupRule_ObjectType">AzureBackupRule_ObjectType
 (<code>string</code> alias)</h3>
 <p>
@@ -1799,46 +1305,10 @@ TriggerContext_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureBackupRule_ObjectType_ARM">AzureBackupRule_ObjectType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureBackupRule_ARM">AzureBackupRule_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AzureBackupRule&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AzureBackupRule_ObjectType_STATUS">AzureBackupRule_ObjectType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureBackupRule_STATUS">AzureBackupRule_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AzureBackupRule&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureBackupRule_ObjectType_STATUS_ARM">AzureBackupRule_ObjectType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureBackupRule_STATUS_ARM">AzureBackupRule_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1929,82 +1399,6 @@ TriggerContext_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureBackupRule_STATUS_ARM">AzureBackupRule_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BasePolicyRule_STATUS_ARM">BasePolicyRule_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>backupParameters</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupParameters_STATUS_ARM">
-BackupParameters_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataStore</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.DataStoreInfoBase_STATUS_ARM">
-DataStoreInfoBase_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DataStore: DataStoreInfo base</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureBackupRule_ObjectType_STATUS_ARM">
-AzureBackupRule_ObjectType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>trigger</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.TriggerContext_STATUS_ARM">
-TriggerContext_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings">AzureMonitorAlertSettings
 </h3>
 <p>
@@ -2035,36 +1429,6 @@ AzureMonitorAlertSettings_AlertsForAllJobFailures
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings_ARM">AzureMonitorAlertSettings_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.MonitoringSettings_ARM">MonitoringSettings_ARM</a>)
-</p>
-<div>
-<p>Settings for Azure Monitor based alerts</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>alertsForAllJobFailures</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM">
-AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings_AlertsForAllJobFailures">AzureMonitorAlertSettings_AlertsForAllJobFailures
 (<code>string</code> alias)</h3>
 <p>
@@ -2085,50 +1449,10 @@ AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM">AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings_ARM">AzureMonitorAlertSettings_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS">AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings_STATUS">AzureMonitorAlertSettings_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM">AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings_STATUS_ARM">AzureMonitorAlertSettings_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2167,36 +1491,6 @@ AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS">
 AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings_STATUS_ARM">AzureMonitorAlertSettings_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.MonitoringSettings_STATUS_ARM">MonitoringSettings_STATUS_ARM</a>)
-</p>
-<div>
-<p>Settings for Azure Monitor based alerts</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>alertsForAllJobFailures</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM">
-AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2266,67 +1560,6 @@ AzureRetentionRule_ObjectType
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureRetentionRule_ARM">AzureRetentionRule_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BasePolicyRule_ARM">BasePolicyRule_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>isDefault</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lifecycles</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.SourceLifeCycle_ARM">
-[]SourceLifeCycle_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureRetentionRule_ObjectType_ARM">
-AzureRetentionRule_ObjectType_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AzureRetentionRule_ObjectType">AzureRetentionRule_ObjectType
 (<code>string</code> alias)</h3>
 <p>
@@ -2345,46 +1578,10 @@ AzureRetentionRule_ObjectType_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureRetentionRule_ObjectType_ARM">AzureRetentionRule_ObjectType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureRetentionRule_ARM">AzureRetentionRule_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AzureRetentionRule&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.AzureRetentionRule_ObjectType_STATUS">AzureRetentionRule_ObjectType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureRetentionRule_STATUS">AzureRetentionRule_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AzureRetentionRule&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureRetentionRule_ObjectType_STATUS_ARM">AzureRetentionRule_ObjectType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureRetentionRule_STATUS_ARM">AzureRetentionRule_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2460,67 +1657,6 @@ AzureRetentionRule_ObjectType_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.AzureRetentionRule_STATUS_ARM">AzureRetentionRule_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BasePolicyRule_STATUS_ARM">BasePolicyRule_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>isDefault</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lifecycles</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.SourceLifeCycle_STATUS_ARM">
-[]SourceLifeCycle_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureRetentionRule_ObjectType_STATUS_ARM">
-AzureRetentionRule_ObjectType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BackupCriteria">BackupCriteria
 </h3>
 <p>
@@ -2542,36 +1678,6 @@ AzureRetentionRule_ObjectType_STATUS_ARM
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria">
 ScheduleBasedBackupCriteria
-</a>
-</em>
-</td>
-<td>
-<p>ScheduleBasedBackupCriteria: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupCriteria_ARM">BackupCriteria_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.TaggingCriteria_ARM">TaggingCriteria_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>scheduleBasedBackupCriteria</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_ARM">
-ScheduleBasedBackupCriteria_ARM
 </a>
 </em>
 </td>
@@ -2611,36 +1717,6 @@ ScheduleBasedBackupCriteria_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupCriteria_STATUS_ARM">BackupCriteria_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.TaggingCriteria_STATUS_ARM">TaggingCriteria_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>scheduleBasedBackupCriteria</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_STATUS_ARM">
-ScheduleBasedBackupCriteria_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ScheduleBasedBackupCriteria: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BackupParameters">BackupParameters
 </h3>
 <p>
@@ -2671,36 +1747,6 @@ AzureBackupParams
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupParameters_ARM">BackupParameters_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureBackupRule_ARM">AzureBackupRule_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureBackupParams</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureBackupParams_ARM">
-AzureBackupParams_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AzureBackupParams: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BackupParameters_STATUS">BackupParameters_STATUS
 </h3>
 <p>
@@ -2722,36 +1768,6 @@ AzureBackupParams_ARM
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.AzureBackupParams_STATUS">
 AzureBackupParams_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>AzureBackupParams: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupParameters_STATUS_ARM">BackupParameters_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureBackupRule_STATUS_ARM">AzureBackupRule_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureBackupParams</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureBackupParams_STATUS_ARM">
-AzureBackupParams_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2814,59 +1830,6 @@ BackupPolicy_ObjectType
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupPolicy_ARM">BackupPolicy_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BaseBackupPolicy_ARM">BaseBackupPolicy_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>datasourceTypes</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>DatasourceTypes: Type of datasource for the backup management</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupPolicy_ObjectType_ARM">
-BackupPolicy_ObjectType_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>policyRules</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BasePolicyRule_ARM">
-[]BasePolicyRule_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PolicyRules: Policy rule dictionary that contains rules for each backuptype i.e Full/Incremental/Logs etc</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BackupPolicy_ObjectType">BackupPolicy_ObjectType
 (<code>string</code> alias)</h3>
 <p>
@@ -2885,46 +1848,10 @@ BackupPolicy_ObjectType_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupPolicy_ObjectType_ARM">BackupPolicy_ObjectType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupPolicy_ARM">BackupPolicy_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;BackupPolicy&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BackupPolicy_ObjectType_STATUS">BackupPolicy_ObjectType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupPolicy_STATUS">BackupPolicy_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;BackupPolicy&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupPolicy_ObjectType_STATUS_ARM">BackupPolicy_ObjectType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupPolicy_STATUS_ARM">BackupPolicy_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2992,59 +1919,6 @@ BackupPolicy_ObjectType_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupPolicy_STATUS_ARM">BackupPolicy_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BaseBackupPolicy_STATUS_ARM">BaseBackupPolicy_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>datasourceTypes</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>DatasourceTypes: Type of datasource for the backup management</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupPolicy_ObjectType_STATUS_ARM">
-BackupPolicy_ObjectType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>policyRules</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BasePolicyRule_STATUS_ARM">
-[]BasePolicyRule_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PolicyRules: Policy rule dictionary that contains rules for each backuptype i.e Full/Incremental/Logs etc</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BackupSchedule">BackupSchedule
 </h3>
 <p>
@@ -3085,90 +1959,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupSchedule_ARM">BackupSchedule_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_ARM">ScheduleBasedTriggerContext_ARM</a>)
-</p>
-<div>
-<p>Schedule for backup</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>repeatingTimeIntervals</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>RepeatingTimeIntervals: ISO 8601 repeating time interval format</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>timeZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TimeZone: Time zone for a schedule. Example: Pacific Standard Time</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BackupSchedule_STATUS">BackupSchedule_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_STATUS">ScheduleBasedTriggerContext_STATUS</a>)
-</p>
-<div>
-<p>Schedule for backup</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>repeatingTimeIntervals</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>RepeatingTimeIntervals: ISO 8601 repeating time interval format</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>timeZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TimeZone: Time zone for a schedule. Example: Pacific Standard Time</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupSchedule_STATUS_ARM">BackupSchedule_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_STATUS_ARM">ScheduleBasedTriggerContext_STATUS_ARM</a>)
 </p>
 <div>
 <p>Schedule for backup</p>
@@ -3401,6 +2195,19 @@ genruntime.ConfigMapDestination
 <tbody>
 <tr>
 <td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>configMaps</code><br/>
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.BackupVaultOperatorConfigMaps">
@@ -3410,6 +2217,19 @@ BackupVaultOperatorConfigMaps
 </td>
 <td>
 <p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
 </td>
 </tr>
 </tbody>
@@ -3550,126 +2370,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupVaultResource_STATUS_ARM">BackupVaultResource_STATUS_ARM
-</h3>
-<div>
-<p>Backup Vault Resource</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>eTag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ETag: Optional ETag.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource Id represents the complete path to the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.DppIdentityDetails_STATUS_ARM">
-DppIdentityDetails_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: Input Managed Identity Details</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Resource name associated with the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupVault_STATUS_ARM">
-BackupVault_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: BackupVaultResource properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.SystemData_STATUS_ARM">
-SystemData_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/&hellip;</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BackupVaultSpec">BackupVaultSpec
 </h3>
 <p>
@@ -3740,76 +2440,6 @@ SecuritySettings
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupVaultSpec_ARM">BackupVaultSpec_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVault_Spec_ARM">BackupVault_Spec_ARM</a>)
-</p>
-<div>
-<p>Backup Vault</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>featureSettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.FeatureSettings_ARM">
-FeatureSettings_ARM
-</a>
-</em>
-</td>
-<td>
-<p>FeatureSettings: Feature Settings</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>monitoringSettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.MonitoringSettings_ARM">
-MonitoringSettings_ARM
-</a>
-</em>
-</td>
-<td>
-<p>MonitoringSettings: Monitoring Settings</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>securitySettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.SecuritySettings_ARM">
-SecuritySettings_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SecuritySettings: Security Settings</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageSettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.StorageSetting_ARM">
-[]StorageSetting_ARM
-</a>
-</em>
-</td>
-<td>
-<p>StorageSettings: Storage Settings</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BackupVault_ProvisioningState_STATUS">BackupVault_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
@@ -3836,72 +2466,10 @@ SecuritySettings_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupVault_ProvisioningState_STATUS_ARM">BackupVault_ProvisioningState_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVault_STATUS_ARM">BackupVault_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Failed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Provisioning&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Unknown&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Updating&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BackupVault_ResourceMoveState_STATUS">BackupVault_ResourceMoveState_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVault_STATUS">BackupVault_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;CommitFailed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;CommitTimedout&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;CriticalFailure&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Failed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;InProgress&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;MoveSucceeded&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;PartialSuccess&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;PrepareFailed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;PrepareTimedout&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Unknown&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupVault_ResourceMoveState_STATUS_ARM">BackupVault_ResourceMoveState_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVault_STATUS_ARM">BackupVault_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4054,126 +2622,6 @@ SecuritySettings_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupVault_STATUS_ARM">BackupVault_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultResource_STATUS_ARM">BackupVaultResource_STATUS_ARM</a>)
-</p>
-<div>
-<p>Backup Vault</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>featureSettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.FeatureSettings_STATUS_ARM">
-FeatureSettings_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>FeatureSettings: Feature Settings</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isVaultProtectedByResourceGuard</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsVaultProtectedByResourceGuard: Is vault protected by resource guard</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>monitoringSettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.MonitoringSettings_STATUS_ARM">
-MonitoringSettings_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>MonitoringSettings: Monitoring Settings</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupVault_ProvisioningState_STATUS_ARM">
-BackupVault_ProvisioningState_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: Provisioning state of the BackupVault resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>resourceMoveDetails</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ResourceMoveDetails_STATUS_ARM">
-ResourceMoveDetails_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ResourceMoveDetails: Resource move details for backup vault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>resourceMoveState</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupVault_ResourceMoveState_STATUS_ARM">
-BackupVault_ResourceMoveState_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ResourceMoveState: Resource move state for backup vault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>securitySettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.SecuritySettings_STATUS_ARM">
-SecuritySettings_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SecuritySettings: Security Settings</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageSettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.StorageSetting_STATUS_ARM">
-[]StorageSetting_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>StorageSettings: Storage Settings</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BackupVault_Spec">BackupVault_Spec
 </h3>
 <p>
@@ -4280,78 +2728,6 @@ map[string]string
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupVault_Spec_ARM">BackupVault_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.DppIdentityDetails_ARM">
-DppIdentityDetails_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: Input Managed Identity Details</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupVaultSpec_ARM">
-BackupVaultSpec_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: BackupVaultResource properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicy">BackupVaultsBackupPolicy
 </h3>
 <div>
@@ -4385,8 +2761,8 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupVaults_BackupPolicy_Spec">
-BackupVaults_BackupPolicy_Spec
+<a href="#dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicy_Spec">
+BackupVaultsBackupPolicy_Spec
 </a>
 </em>
 </td>
@@ -4404,6 +2780,20 @@ string
 <td>
 <p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicyOperatorSpec">
+BackupVaultsBackupPolicyOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>
@@ -4441,8 +2831,8 @@ BaseBackupPolicy
 <td>
 <code>status</code><br/>
 <em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupVaults_BackupPolicy_STATUS">
-BackupVaults_BackupPolicy_STATUS
+<a href="#dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicy_STATUS">
+BackupVaultsBackupPolicy_STATUS
 </a>
 </em>
 </td>
@@ -4451,7 +2841,51 @@ BackupVaults_BackupPolicy_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupVaults_BackupPolicy_STATUS">BackupVaults_BackupPolicy_STATUS
+<h3 id="dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicyOperatorSpec">BackupVaultsBackupPolicyOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicy_Spec">BackupVaultsBackupPolicy_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicy_STATUS">BackupVaultsBackupPolicy_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicy">BackupVaultsBackupPolicy</a>)
@@ -4540,80 +2974,7 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupVaults_BackupPolicy_STATUS_ARM">BackupVaults_BackupPolicy_STATUS_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource Id represents the complete path to the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Resource name associated with the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BaseBackupPolicy_STATUS_ARM">
-BaseBackupPolicy_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: BaseBackupPolicyResource properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.SystemData_STATUS_ARM">
-SystemData_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/&hellip;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupVaults_BackupPolicy_Spec">BackupVaults_BackupPolicy_Spec
+<h3 id="dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicy_Spec">BackupVaultsBackupPolicy_Spec
 </h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicy">BackupVaultsBackupPolicy</a>)
@@ -4638,6 +2999,20 @@ string
 <td>
 <p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicyOperatorSpec">
+BackupVaultsBackupPolicyOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>
@@ -4670,47 +3045,10 @@ BaseBackupPolicy
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BackupVaults_BackupPolicy_Spec_ARM">BackupVaults_BackupPolicy_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BaseBackupPolicy_ARM">
-BaseBackupPolicy_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: BaseBackupPolicyResource properties</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BaseBackupPolicy">BaseBackupPolicy
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaults_BackupPolicy_Spec">BackupVaults_BackupPolicy_Spec</a>)
+(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicy_Spec">BackupVaultsBackupPolicy_Spec</a>)
 </p>
 <div>
 </div>
@@ -4737,40 +3075,10 @@ BackupPolicy
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BaseBackupPolicy_ARM">BaseBackupPolicy_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaults_BackupPolicy_Spec_ARM">BackupVaults_BackupPolicy_Spec_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>backupPolicy</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupPolicy_ARM">
-BackupPolicy_ARM
-</a>
-</em>
-</td>
-<td>
-<p>BackupPolicy: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BaseBackupPolicy_STATUS">BaseBackupPolicy_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaults_BackupPolicy_STATUS">BackupVaults_BackupPolicy_STATUS</a>)
+(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicy_STATUS">BackupVaultsBackupPolicy_STATUS</a>)
 </p>
 <div>
 </div>
@@ -4788,36 +3096,6 @@ BackupPolicy_ARM
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.BackupPolicy_STATUS">
 BackupPolicy_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>BackupPolicy: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.BaseBackupPolicy_STATUS_ARM">BaseBackupPolicy_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaults_BackupPolicy_STATUS_ARM">BackupVaults_BackupPolicy_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>backupPolicy</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupPolicy_STATUS_ARM">
-BackupPolicy_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4870,49 +3148,6 @@ AzureRetentionRule
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BasePolicyRule_ARM">BasePolicyRule_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupPolicy_ARM">BackupPolicy_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureBackupRule</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureBackupRule_ARM">
-AzureBackupRule_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AzureBackup: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureRetentionRule</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureRetentionRule_ARM">
-AzureRetentionRule_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AzureRetention: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.BasePolicyRule_STATUS">BasePolicyRule_STATUS
 </h3>
 <p>
@@ -4956,49 +3191,6 @@ AzureRetentionRule_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.BasePolicyRule_STATUS_ARM">BasePolicyRule_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupPolicy_STATUS_ARM">BackupPolicy_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureBackupRule</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureBackupRule_STATUS_ARM">
-AzureBackupRule_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AzureBackup: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureRetentionRule</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureRetentionRule_STATUS_ARM">
-AzureRetentionRule_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AzureRetention: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.CopyOnExpiryOption">CopyOnExpiryOption
 </h3>
 <p>
@@ -5029,36 +3221,6 @@ CopyOnExpiryOption_ObjectType
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.CopyOnExpiryOption_ARM">CopyOnExpiryOption_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CopyOption_ARM">CopyOption_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.CopyOnExpiryOption_ObjectType_ARM">
-CopyOnExpiryOption_ObjectType_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.CopyOnExpiryOption_ObjectType">CopyOnExpiryOption_ObjectType
 (<code>string</code> alias)</h3>
 <p>
@@ -5077,46 +3239,10 @@ CopyOnExpiryOption_ObjectType_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.CopyOnExpiryOption_ObjectType_ARM">CopyOnExpiryOption_ObjectType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CopyOnExpiryOption_ARM">CopyOnExpiryOption_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;CopyOnExpiryOption&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.CopyOnExpiryOption_ObjectType_STATUS">CopyOnExpiryOption_ObjectType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CopyOnExpiryOption_STATUS">CopyOnExpiryOption_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;CopyOnExpiryOption&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.CopyOnExpiryOption_ObjectType_STATUS_ARM">CopyOnExpiryOption_ObjectType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CopyOnExpiryOption_STATUS_ARM">CopyOnExpiryOption_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5152,36 +3278,6 @@ CopyOnExpiryOption_ObjectType_ARM
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.CopyOnExpiryOption_ObjectType_STATUS">
 CopyOnExpiryOption_ObjectType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.CopyOnExpiryOption_STATUS_ARM">CopyOnExpiryOption_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CopyOption_STATUS_ARM">CopyOption_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.CopyOnExpiryOption_ObjectType_STATUS_ARM">
-CopyOnExpiryOption_ObjectType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5247,62 +3343,6 @@ ImmediateCopyOption
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.CopyOption_ARM">CopyOption_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.TargetCopySetting_ARM">TargetCopySetting_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>copyOnExpiryOption</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.CopyOnExpiryOption_ARM">
-CopyOnExpiryOption_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CopyOnExpiry: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>customCopyOption</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.CustomCopyOption_ARM">
-CustomCopyOption_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CustomCopy: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>immediateCopyOption</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ImmediateCopyOption_ARM">
-ImmediateCopyOption_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ImmediateCopy: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.CopyOption_STATUS">CopyOption_STATUS
 </h3>
 <p>
@@ -5359,62 +3399,6 @@ ImmediateCopyOption_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.CopyOption_STATUS_ARM">CopyOption_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.TargetCopySetting_STATUS_ARM">TargetCopySetting_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>copyOnExpiryOption</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.CopyOnExpiryOption_STATUS_ARM">
-CopyOnExpiryOption_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CopyOnExpiry: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>customCopyOption</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.CustomCopyOption_STATUS_ARM">
-CustomCopyOption_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CustomCopy: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>immediateCopyOption</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ImmediateCopyOption_STATUS_ARM">
-ImmediateCopyOption_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ImmediateCopy: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings">CrossSubscriptionRestoreSettings
 </h3>
 <p>
@@ -5437,37 +3421,6 @@ ImmediateCopyOption_STATUS_ARM
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_State">
 CrossSubscriptionRestoreSettings_State
-</a>
-</em>
-</td>
-<td>
-<p>State: CrossSubscriptionRestore state</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_ARM">CrossSubscriptionRestoreSettings_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.FeatureSettings_ARM">FeatureSettings_ARM</a>)
-</p>
-<div>
-<p>CrossSubscriptionRestore Settings</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_State_ARM">
-CrossSubscriptionRestoreSettings_State_ARM
 </a>
 </em>
 </td>
@@ -5508,37 +3461,6 @@ CrossSubscriptionRestoreSettings_State_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_STATUS_ARM">CrossSubscriptionRestoreSettings_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.FeatureSettings_STATUS_ARM">FeatureSettings_STATUS_ARM</a>)
-</p>
-<div>
-<p>CrossSubscriptionRestore Settings</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_State_STATUS_ARM">
-CrossSubscriptionRestoreSettings_State_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>State: CrossSubscriptionRestore state</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_State">CrossSubscriptionRestoreSettings_State
 (<code>string</code> alias)</h3>
 <p>
@@ -5561,54 +3483,10 @@ CrossSubscriptionRestoreSettings_State_STATUS_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_State_ARM">CrossSubscriptionRestoreSettings_State_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_ARM">CrossSubscriptionRestoreSettings_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;PermanentlyDisabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_State_STATUS">CrossSubscriptionRestoreSettings_State_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_STATUS">CrossSubscriptionRestoreSettings_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;PermanentlyDisabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_State_STATUS_ARM">CrossSubscriptionRestoreSettings_State_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_STATUS_ARM">CrossSubscriptionRestoreSettings_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5668,47 +3546,6 @@ CustomCopyOption_ObjectType
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.CustomCopyOption_ARM">CustomCopyOption_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CopyOption_ARM">CopyOption_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>duration</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Duration: Data copied after given timespan</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.CustomCopyOption_ObjectType_ARM">
-CustomCopyOption_ObjectType_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.CustomCopyOption_ObjectType">CustomCopyOption_ObjectType
 (<code>string</code> alias)</h3>
 <p>
@@ -5727,46 +3564,10 @@ CustomCopyOption_ObjectType_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.CustomCopyOption_ObjectType_ARM">CustomCopyOption_ObjectType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CustomCopyOption_ARM">CustomCopyOption_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;CustomCopyOption&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.CustomCopyOption_ObjectType_STATUS">CustomCopyOption_ObjectType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CustomCopyOption_STATUS">CustomCopyOption_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;CustomCopyOption&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.CustomCopyOption_ObjectType_STATUS_ARM">CustomCopyOption_ObjectType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CustomCopyOption_STATUS_ARM">CustomCopyOption_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5822,47 +3623,6 @@ CustomCopyOption_ObjectType_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.CustomCopyOption_STATUS_ARM">CustomCopyOption_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CopyOption_STATUS_ARM">CopyOption_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>duration</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Duration: Data copied after given timespan</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.CustomCopyOption_ObjectType_STATUS_ARM">
-CustomCopyOption_ObjectType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.DataStoreInfoBase">DataStoreInfoBase
 </h3>
 <p>
@@ -5905,48 +3665,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.DataStoreInfoBase_ARM">DataStoreInfoBase_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureBackupRule_ARM">AzureBackupRule_ARM</a>, <a href="#dataprotection.azure.com/v1api20230101.SourceLifeCycle_ARM">SourceLifeCycle_ARM</a>, <a href="#dataprotection.azure.com/v1api20230101.TargetCopySetting_ARM">TargetCopySetting_ARM</a>)
-</p>
-<div>
-<p>DataStoreInfo base</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dataStoreType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.DataStoreInfoBase_DataStoreType_ARM">
-DataStoreInfoBase_DataStoreType_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DataStoreType: type of datastore; Operational/Vault/Archive</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ObjectType: Type of Datasource object, used to initialize the right inherited type</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.DataStoreInfoBase_DataStoreType">DataStoreInfoBase_DataStoreType
 (<code>string</code> alias)</h3>
 <p>
@@ -5969,54 +3687,10 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.DataStoreInfoBase_DataStoreType_ARM">DataStoreInfoBase_DataStoreType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.DataStoreInfoBase_ARM">DataStoreInfoBase_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ArchiveStore&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;OperationalStore&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;VaultStore&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.DataStoreInfoBase_DataStoreType_STATUS">DataStoreInfoBase_DataStoreType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.DataStoreInfoBase_STATUS">DataStoreInfoBase_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ArchiveStore&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;OperationalStore&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;VaultStore&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.DataStoreInfoBase_DataStoreType_STATUS_ARM">DataStoreInfoBase_DataStoreType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.DataStoreInfoBase_STATUS_ARM">DataStoreInfoBase_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6077,92 +3751,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.DataStoreInfoBase_STATUS_ARM">DataStoreInfoBase_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureBackupRule_STATUS_ARM">AzureBackupRule_STATUS_ARM</a>, <a href="#dataprotection.azure.com/v1api20230101.SourceLifeCycle_STATUS_ARM">SourceLifeCycle_STATUS_ARM</a>, <a href="#dataprotection.azure.com/v1api20230101.TargetCopySetting_STATUS_ARM">TargetCopySetting_STATUS_ARM</a>)
-</p>
-<div>
-<p>DataStoreInfo base</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dataStoreType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.DataStoreInfoBase_DataStoreType_STATUS_ARM">
-DataStoreInfoBase_DataStoreType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DataStoreType: type of datastore; Operational/Vault/Archive</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ObjectType: Type of Datasource object, used to initialize the right inherited type</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.Day">Day
 </h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria">ScheduleBasedBackupCriteria</a>)
-</p>
-<div>
-<p>Day of the week</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>date</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Date: Date of the month</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isLast</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsLast: Whether Date is last date of month</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.Day_ARM">Day_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_ARM">ScheduleBasedBackupCriteria_ARM</a>)
 </p>
 <div>
 <p>Day of the week</p>
@@ -6239,46 +3831,6 @@ bool
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.Day_STATUS_ARM">Day_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_STATUS_ARM">ScheduleBasedBackupCriteria_STATUS_ARM</a>)
-</p>
-<div>
-<p>Day of the week</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>date</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Date: Date of the month</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isLast</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsLast: Whether Date is last date of month</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.DeleteOption">DeleteOption
 </h3>
 <p>
@@ -6300,36 +3852,6 @@ bool
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.AbsoluteDeleteOption">
 AbsoluteDeleteOption
-</a>
-</em>
-</td>
-<td>
-<p>AbsoluteDeleteOption: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.DeleteOption_ARM">DeleteOption_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.SourceLifeCycle_ARM">SourceLifeCycle_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>absoluteDeleteOption</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AbsoluteDeleteOption_ARM">
-AbsoluteDeleteOption_ARM
 </a>
 </em>
 </td>
@@ -6369,36 +3891,6 @@ AbsoluteDeleteOption_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.DeleteOption_STATUS_ARM">DeleteOption_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.SourceLifeCycle_STATUS_ARM">SourceLifeCycle_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>absoluteDeleteOption</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AbsoluteDeleteOption_STATUS_ARM">
-AbsoluteDeleteOption_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AbsoluteDeleteOption: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.DppIdentityDetails">DppIdentityDetails
 </h3>
 <p>
@@ -6428,91 +3920,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.DppIdentityDetails_ARM">DppIdentityDetails_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVault_Spec_ARM">BackupVault_Spec_ARM</a>)
-</p>
-<div>
-<p>Identity details</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The identityType which can be either SystemAssigned or None</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.DppIdentityDetails_STATUS">DppIdentityDetails_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultResource_STATUS">BackupVaultResource_STATUS</a>)
-</p>
-<div>
-<p>Identity details</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The object ID of the service principal object for the managed identity that is used to grant role-based
-access to an Azure resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: A Globally Unique Identifier (GUID) that represents the Azure AD tenant where the resource is now a member.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The identityType which can be either SystemAssigned or None</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.DppIdentityDetails_STATUS_ARM">DppIdentityDetails_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultResource_STATUS_ARM">BackupVaultResource_STATUS_ARM</a>)
 </p>
 <div>
 <p>Identity details</p>
@@ -6592,37 +4003,6 @@ CrossSubscriptionRestoreSettings
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.FeatureSettings_ARM">FeatureSettings_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultSpec_ARM">BackupVaultSpec_ARM</a>)
-</p>
-<div>
-<p>Class containing feature settings of vault</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>crossSubscriptionRestoreSettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_ARM">
-CrossSubscriptionRestoreSettings_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CrossSubscriptionRestoreSettings: CrossSubscriptionRestore Settings</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.FeatureSettings_STATUS">FeatureSettings_STATUS
 </h3>
 <p>
@@ -6645,37 +4025,6 @@ CrossSubscriptionRestoreSettings_ARM
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_STATUS">
 CrossSubscriptionRestoreSettings_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CrossSubscriptionRestoreSettings: CrossSubscriptionRestore Settings</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.FeatureSettings_STATUS_ARM">FeatureSettings_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVault_STATUS_ARM">BackupVault_STATUS_ARM</a>)
-</p>
-<div>
-<p>Class containing feature settings of vault</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>crossSubscriptionRestoreSettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.CrossSubscriptionRestoreSettings_STATUS_ARM">
-CrossSubscriptionRestoreSettings_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6715,36 +4064,6 @@ ImmediateCopyOption_ObjectType
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ImmediateCopyOption_ARM">ImmediateCopyOption_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CopyOption_ARM">CopyOption_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ImmediateCopyOption_ObjectType_ARM">
-ImmediateCopyOption_ObjectType_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ImmediateCopyOption_ObjectType">ImmediateCopyOption_ObjectType
 (<code>string</code> alias)</h3>
 <p>
@@ -6763,46 +4082,10 @@ ImmediateCopyOption_ObjectType_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ImmediateCopyOption_ObjectType_ARM">ImmediateCopyOption_ObjectType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ImmediateCopyOption_ARM">ImmediateCopyOption_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ImmediateCopyOption&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ImmediateCopyOption_ObjectType_STATUS">ImmediateCopyOption_ObjectType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ImmediateCopyOption_STATUS">ImmediateCopyOption_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ImmediateCopyOption&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.ImmediateCopyOption_ObjectType_STATUS_ARM">ImmediateCopyOption_ObjectType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ImmediateCopyOption_STATUS_ARM">ImmediateCopyOption_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6847,36 +4130,6 @@ ImmediateCopyOption_ObjectType_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ImmediateCopyOption_STATUS_ARM">ImmediateCopyOption_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.CopyOption_STATUS_ARM">CopyOption_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ImmediateCopyOption_ObjectType_STATUS_ARM">
-ImmediateCopyOption_ObjectType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ImmutabilitySettings">ImmutabilitySettings
 </h3>
 <p>
@@ -6899,37 +4152,6 @@ ImmediateCopyOption_ObjectType_STATUS_ARM
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.ImmutabilitySettings_State">
 ImmutabilitySettings_State
-</a>
-</em>
-</td>
-<td>
-<p>State: Immutability state</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.ImmutabilitySettings_ARM">ImmutabilitySettings_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.SecuritySettings_ARM">SecuritySettings_ARM</a>)
-</p>
-<div>
-<p>Immutability Settings at vault level</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ImmutabilitySettings_State_ARM">
-ImmutabilitySettings_State_ARM
 </a>
 </em>
 </td>
@@ -6970,37 +4192,6 @@ ImmutabilitySettings_State_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ImmutabilitySettings_STATUS_ARM">ImmutabilitySettings_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.SecuritySettings_STATUS_ARM">SecuritySettings_STATUS_ARM</a>)
-</p>
-<div>
-<p>Immutability Settings at vault level</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ImmutabilitySettings_State_STATUS_ARM">
-ImmutabilitySettings_State_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>State: Immutability state</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ImmutabilitySettings_State">ImmutabilitySettings_State
 (<code>string</code> alias)</h3>
 <p>
@@ -7023,54 +4214,10 @@ ImmutabilitySettings_State_STATUS_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ImmutabilitySettings_State_ARM">ImmutabilitySettings_State_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ImmutabilitySettings_ARM">ImmutabilitySettings_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Locked&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Unlocked&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ImmutabilitySettings_State_STATUS">ImmutabilitySettings_State_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ImmutabilitySettings_STATUS">ImmutabilitySettings_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Locked&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Unlocked&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.ImmutabilitySettings_State_STATUS_ARM">ImmutabilitySettings_State_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ImmutabilitySettings_STATUS_ARM">ImmutabilitySettings_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7120,37 +4267,6 @@ AzureMonitorAlertSettings
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.MonitoringSettings_ARM">MonitoringSettings_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultSpec_ARM">BackupVaultSpec_ARM</a>)
-</p>
-<div>
-<p>Monitoring Settings</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureMonitorAlertSettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings_ARM">
-AzureMonitorAlertSettings_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AzureMonitorAlertSettings: Settings for Azure Monitor based alerts</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.MonitoringSettings_STATUS">MonitoringSettings_STATUS
 </h3>
 <p>
@@ -7182,114 +4298,10 @@ AzureMonitorAlertSettings_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.MonitoringSettings_STATUS_ARM">MonitoringSettings_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVault_STATUS_ARM">BackupVault_STATUS_ARM</a>)
-</p>
-<div>
-<p>Monitoring Settings</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureMonitorAlertSettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AzureMonitorAlertSettings_STATUS_ARM">
-AzureMonitorAlertSettings_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AzureMonitorAlertSettings: Settings for Azure Monitor based alerts</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ResourceMoveDetails_STATUS">ResourceMoveDetails_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVault_STATUS">BackupVault_STATUS</a>)
-</p>
-<div>
-<p>ResourceMoveDetails will be returned in response to GetResource call from ARM</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>completionTimeUtc</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CompletionTimeUtc: Completion time in UTC of latest ResourceMove operation attempted. ISO 8601 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operationId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>OperationId: CorrelationId of latest ResourceMove operation attempted</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceResourcePath</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SourceResourcePath: ARM resource path of source resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startTimeUtc</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StartTimeUtc: Start time in UTC of latest ResourceMove operation attempted. ISO 8601 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>targetResourcePath</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TargetResourcePath: ARM resource path of target resource used in latest ResourceMove operation</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.ResourceMoveDetails_STATUS_ARM">ResourceMoveDetails_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVault_STATUS_ARM">BackupVault_STATUS_ARM</a>)
 </p>
 <div>
 <p>ResourceMoveDetails will be returned in response to GetResource call from ARM</p>
@@ -7388,90 +4400,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.RetentionTag_ARM">RetentionTag_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AdhocBasedTaggingCriteria_ARM">AdhocBasedTaggingCriteria_ARM</a>, <a href="#dataprotection.azure.com/v1api20230101.TaggingCriteria_ARM">TaggingCriteria_ARM</a>)
-</p>
-<div>
-<p>Retention tag</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>tagName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TagName: Retention Tag Name to relate it to retention rule.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.RetentionTag_STATUS">RetentionTag_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AdhocBasedTaggingCriteria_STATUS">AdhocBasedTaggingCriteria_STATUS</a>, <a href="#dataprotection.azure.com/v1api20230101.TaggingCriteria_STATUS">TaggingCriteria_STATUS</a>)
-</p>
-<div>
-<p>Retention tag</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>eTag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ETag: Retention Tag version.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Retention Tag version.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tagName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TagName: Retention Tag Name to relate it to retention rule.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.RetentionTag_STATUS_ARM">RetentionTag_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AdhocBasedTaggingCriteria_STATUS_ARM">AdhocBasedTaggingCriteria_STATUS_ARM</a>, <a href="#dataprotection.azure.com/v1api20230101.TaggingCriteria_STATUS_ARM">TaggingCriteria_STATUS_ARM</a>)
 </p>
 <div>
 <p>Retention tag</p>
@@ -7626,143 +4558,10 @@ ScheduleBasedBackupCriteria_ObjectType
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_ARM">ScheduleBasedBackupCriteria_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupCriteria_ARM">BackupCriteria_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>absoluteCriteria</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM">
-[]ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AbsoluteCriteria: it contains absolute values like &ldquo;AllBackup&rdquo; / &ldquo;FirstOfDay&rdquo; / &ldquo;FirstOfWeek&rdquo; / &ldquo;FirstOfMonth&rdquo;
-and should be part of AbsoluteMarker enum</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>daysOfMonth</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.Day_ARM">
-[]Day_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DaysOfMonth: This is day of the month from 1 to 28 other wise last of month</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>daysOfTheWeek</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM">
-[]ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DaysOfTheWeek: It should be Sunday/Monday/T&hellip;./Saturday</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>monthsOfYear</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_MonthsOfYear_ARM">
-[]ScheduleBasedBackupCriteria_MonthsOfYear_ARM
-</a>
-</em>
-</td>
-<td>
-<p>MonthsOfYear: It should be January/February/&hellip;&hellip;/December</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_ObjectType_ARM">
-ScheduleBasedBackupCriteria_ObjectType_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scheduleTimes</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>ScheduleTimes: List of schedule times for backup</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>weeksOfTheMonth</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM">
-[]ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM
-</a>
-</em>
-</td>
-<td>
-<p>WeeksOfTheMonth: It should be First/Second/Third/Fourth/Last</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_AbsoluteCriteria">ScheduleBasedBackupCriteria_AbsoluteCriteria
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria">ScheduleBasedBackupCriteria</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AllBackup&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;FirstOfDay&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;FirstOfMonth&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;FirstOfWeek&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;FirstOfYear&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM">ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_ARM">ScheduleBasedBackupCriteria_ARM</a>)
 </p>
 <div>
 </div>
@@ -7811,66 +4610,10 @@ ScheduleBasedBackupCriteria_ObjectType_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM">ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_STATUS_ARM">ScheduleBasedBackupCriteria_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AllBackup&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;FirstOfDay&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;FirstOfMonth&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;FirstOfWeek&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;FirstOfYear&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_DaysOfTheWeek">ScheduleBasedBackupCriteria_DaysOfTheWeek
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria">ScheduleBasedBackupCriteria</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Friday&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Monday&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Saturday&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Sunday&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Thursday&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Tuesday&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Wednesday&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM">ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_ARM">ScheduleBasedBackupCriteria_ARM</a>)
 </p>
 <div>
 </div>
@@ -7927,80 +4670,10 @@ ScheduleBasedBackupCriteria_ObjectType_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM">ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_STATUS_ARM">ScheduleBasedBackupCriteria_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Friday&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Monday&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Saturday&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Sunday&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Thursday&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Tuesday&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Wednesday&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_MonthsOfYear">ScheduleBasedBackupCriteria_MonthsOfYear
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria">ScheduleBasedBackupCriteria</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;April&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;August&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;December&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;February&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;January&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;July&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;June&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;March&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;May&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;November&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;October&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;September&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_MonthsOfYear_ARM">ScheduleBasedBackupCriteria_MonthsOfYear_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_ARM">ScheduleBasedBackupCriteria_ARM</a>)
 </p>
 <div>
 </div>
@@ -8077,46 +4750,6 @@ ScheduleBasedBackupCriteria_ObjectType_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM">ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_STATUS_ARM">ScheduleBasedBackupCriteria_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;April&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;August&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;December&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;February&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;January&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;July&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;June&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;March&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;May&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;November&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;October&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;September&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_ObjectType">ScheduleBasedBackupCriteria_ObjectType
 (<code>string</code> alias)</h3>
 <p>
@@ -8135,46 +4768,10 @@ ScheduleBasedBackupCriteria_ObjectType_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_ObjectType_ARM">ScheduleBasedBackupCriteria_ObjectType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_ARM">ScheduleBasedBackupCriteria_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ScheduleBasedBackupCriteria&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_ObjectType_STATUS">ScheduleBasedBackupCriteria_ObjectType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_STATUS">ScheduleBasedBackupCriteria_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ScheduleBasedBackupCriteria&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_ObjectType_STATUS_ARM">ScheduleBasedBackupCriteria_ObjectType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_STATUS_ARM">ScheduleBasedBackupCriteria_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -8296,113 +4893,6 @@ ScheduleBasedBackupCriteria_ObjectType_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_STATUS_ARM">ScheduleBasedBackupCriteria_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupCriteria_STATUS_ARM">BackupCriteria_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>absoluteCriteria</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM">
-[]ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AbsoluteCriteria: it contains absolute values like &ldquo;AllBackup&rdquo; / &ldquo;FirstOfDay&rdquo; / &ldquo;FirstOfWeek&rdquo; / &ldquo;FirstOfMonth&rdquo;
-and should be part of AbsoluteMarker enum</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>daysOfMonth</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.Day_STATUS_ARM">
-[]Day_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DaysOfMonth: This is day of the month from 1 to 28 other wise last of month</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>daysOfTheWeek</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM">
-[]ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DaysOfTheWeek: It should be Sunday/Monday/T&hellip;./Saturday</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>monthsOfYear</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM">
-[]ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>MonthsOfYear: It should be January/February/&hellip;&hellip;/December</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_ObjectType_STATUS_ARM">
-ScheduleBasedBackupCriteria_ObjectType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scheduleTimes</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>ScheduleTimes: List of schedule times for backup</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>weeksOfTheMonth</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM">
-[]ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>WeeksOfTheMonth: It should be First/Second/Third/Fourth/Last</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_WeeksOfTheMonth">ScheduleBasedBackupCriteria_WeeksOfTheMonth
 (<code>string</code> alias)</h3>
 <p>
@@ -8429,62 +4919,10 @@ ScheduleBasedBackupCriteria_ObjectType_STATUS_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM">ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_ARM">ScheduleBasedBackupCriteria_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;First&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Fourth&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Last&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Second&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Third&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS">ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_STATUS">ScheduleBasedBackupCriteria_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;First&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Fourth&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Last&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Second&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Third&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM">ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedBackupCriteria_STATUS_ARM">ScheduleBasedBackupCriteria_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -8563,62 +5001,6 @@ BackupSchedule
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_ARM">ScheduleBasedTriggerContext_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.TriggerContext_ARM">TriggerContext_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_ObjectType_ARM">
-ScheduleBasedTriggerContext_ObjectType_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>schedule</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupSchedule_ARM">
-BackupSchedule_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Schedule: Schedule for this backup</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>taggingCriteria</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.TaggingCriteria_ARM">
-[]TaggingCriteria_ARM
-</a>
-</em>
-</td>
-<td>
-<p>TaggingCriteria: List of tags that can be applicable for given schedule.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_ObjectType">ScheduleBasedTriggerContext_ObjectType
 (<code>string</code> alias)</h3>
 <p>
@@ -8637,46 +5019,10 @@ BackupSchedule_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_ObjectType_ARM">ScheduleBasedTriggerContext_ObjectType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_ARM">ScheduleBasedTriggerContext_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ScheduleBasedTriggerContext&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_ObjectType_STATUS">ScheduleBasedTriggerContext_ObjectType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_STATUS">ScheduleBasedTriggerContext_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ScheduleBasedTriggerContext&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_ObjectType_STATUS_ARM">ScheduleBasedTriggerContext_ObjectType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_STATUS_ARM">ScheduleBasedTriggerContext_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -8747,62 +5093,6 @@ BackupSchedule_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_STATUS_ARM">ScheduleBasedTriggerContext_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.TriggerContext_STATUS_ARM">TriggerContext_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>objectType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_ObjectType_STATUS_ARM">
-ScheduleBasedTriggerContext_ObjectType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ObjectType: Type of the specific object - used for deserializing</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>schedule</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupSchedule_STATUS_ARM">
-BackupSchedule_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Schedule: Schedule for this backup</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>taggingCriteria</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.TaggingCriteria_STATUS_ARM">
-[]TaggingCriteria_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>TaggingCriteria: List of tags that can be applicable for given schedule.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.SecuritySettings">SecuritySettings
 </h3>
 <p>
@@ -8838,50 +5128,6 @@ ImmutabilitySettings
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.SoftDeleteSettings">
 SoftDeleteSettings
-</a>
-</em>
-</td>
-<td>
-<p>SoftDeleteSettings: Soft delete related settings</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.SecuritySettings_ARM">SecuritySettings_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultSpec_ARM">BackupVaultSpec_ARM</a>)
-</p>
-<div>
-<p>Class containing security settings of vault</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>immutabilitySettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ImmutabilitySettings_ARM">
-ImmutabilitySettings_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ImmutabilitySettings: Immutability Settings at vault level</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>softDeleteSettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.SoftDeleteSettings_ARM">
-SoftDeleteSettings_ARM
 </a>
 </em>
 </td>
@@ -8935,50 +5181,6 @@ SoftDeleteSettings_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.SecuritySettings_STATUS_ARM">SecuritySettings_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVault_STATUS_ARM">BackupVault_STATUS_ARM</a>)
-</p>
-<div>
-<p>Class containing security settings of vault</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>immutabilitySettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ImmutabilitySettings_STATUS_ARM">
-ImmutabilitySettings_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ImmutabilitySettings: Immutability Settings at vault level</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>softDeleteSettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.SoftDeleteSettings_STATUS_ARM">
-SoftDeleteSettings_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SoftDeleteSettings: Soft delete related settings</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.SoftDeleteSettings">SoftDeleteSettings
 </h3>
 <p>
@@ -9012,48 +5214,6 @@ float64
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.SoftDeleteSettings_State">
 SoftDeleteSettings_State
-</a>
-</em>
-</td>
-<td>
-<p>State: State of soft delete</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.SoftDeleteSettings_ARM">SoftDeleteSettings_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.SecuritySettings_ARM">SecuritySettings_ARM</a>)
-</p>
-<div>
-<p>Soft delete related settings</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>retentionDurationInDays</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-<p>RetentionDurationInDays: Soft delete retention duration</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.SoftDeleteSettings_State_ARM">
-SoftDeleteSettings_State_ARM
 </a>
 </em>
 </td>
@@ -9105,48 +5265,6 @@ SoftDeleteSettings_State_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.SoftDeleteSettings_STATUS_ARM">SoftDeleteSettings_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.SecuritySettings_STATUS_ARM">SecuritySettings_STATUS_ARM</a>)
-</p>
-<div>
-<p>Soft delete related settings</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>retentionDurationInDays</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-<p>RetentionDurationInDays: Soft delete retention duration</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.SoftDeleteSettings_State_STATUS_ARM">
-SoftDeleteSettings_State_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>State: State of soft delete</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.SoftDeleteSettings_State">SoftDeleteSettings_State
 (<code>string</code> alias)</h3>
 <p>
@@ -9169,54 +5287,10 @@ SoftDeleteSettings_State_STATUS_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.SoftDeleteSettings_State_ARM">SoftDeleteSettings_State_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.SoftDeleteSettings_ARM">SoftDeleteSettings_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AlwaysOn&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Off&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;On&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.SoftDeleteSettings_State_STATUS">SoftDeleteSettings_State_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.SoftDeleteSettings_STATUS">SoftDeleteSettings_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AlwaysOn&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Off&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;On&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.SoftDeleteSettings_State_STATUS_ARM">SoftDeleteSettings_State_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.SoftDeleteSettings_STATUS_ARM">SoftDeleteSettings_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -9290,61 +5364,6 @@ DataStoreInfoBase
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.SourceLifeCycle_ARM">SourceLifeCycle_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureRetentionRule_ARM">AzureRetentionRule_ARM</a>)
-</p>
-<div>
-<p>Source LifeCycle</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>deleteAfter</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.DeleteOption_ARM">
-DeleteOption_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceDataStore</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.DataStoreInfoBase_ARM">
-DataStoreInfoBase_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SourceDataStore: DataStoreInfo base</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>targetDataStoreCopySettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.TargetCopySetting_ARM">
-[]TargetCopySetting_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.SourceLifeCycle_STATUS">SourceLifeCycle_STATUS
 </h3>
 <p>
@@ -9400,61 +5419,6 @@ DataStoreInfoBase_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.SourceLifeCycle_STATUS_ARM">SourceLifeCycle_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureRetentionRule_STATUS_ARM">AzureRetentionRule_STATUS_ARM</a>)
-</p>
-<div>
-<p>Source LifeCycle</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>deleteAfter</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.DeleteOption_STATUS_ARM">
-DeleteOption_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceDataStore</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.DataStoreInfoBase_STATUS_ARM">
-DataStoreInfoBase_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SourceDataStore: DataStoreInfo base</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>targetDataStoreCopySettings</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.TargetCopySetting_STATUS_ARM">
-[]TargetCopySetting_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.StorageSetting">StorageSetting
 </h3>
 <p>
@@ -9499,50 +5463,6 @@ StorageSetting_Type
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.StorageSetting_ARM">StorageSetting_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultSpec_ARM">BackupVaultSpec_ARM</a>)
-</p>
-<div>
-<p>Storage setting</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>datastoreType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.StorageSetting_DatastoreType_ARM">
-StorageSetting_DatastoreType_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DatastoreType: Gets or sets the type of the datastore.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.StorageSetting_Type_ARM">
-StorageSetting_Type_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Type: Gets or sets the type.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.StorageSetting_DatastoreType">StorageSetting_DatastoreType
 (<code>string</code> alias)</h3>
 <p>
@@ -9565,54 +5485,10 @@ StorageSetting_Type_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.StorageSetting_DatastoreType_ARM">StorageSetting_DatastoreType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.StorageSetting_ARM">StorageSetting_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ArchiveStore&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;OperationalStore&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;VaultStore&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.StorageSetting_DatastoreType_STATUS">StorageSetting_DatastoreType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.StorageSetting_STATUS">StorageSetting_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ArchiveStore&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;OperationalStore&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;VaultStore&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.StorageSetting_DatastoreType_STATUS_ARM">StorageSetting_DatastoreType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.StorageSetting_STATUS_ARM">StorageSetting_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -9675,76 +5551,10 @@ StorageSetting_Type_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.StorageSetting_STATUS_ARM">StorageSetting_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVault_STATUS_ARM">BackupVault_STATUS_ARM</a>)
-</p>
-<div>
-<p>Storage setting</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>datastoreType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.StorageSetting_DatastoreType_STATUS_ARM">
-StorageSetting_DatastoreType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DatastoreType: Gets or sets the type of the datastore.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.StorageSetting_Type_STATUS_ARM">
-StorageSetting_Type_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Type: Gets or sets the type.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.StorageSetting_Type">StorageSetting_Type
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.StorageSetting">StorageSetting</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;GeoRedundant&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;LocallyRedundant&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ZoneRedundant&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.StorageSetting_Type_ARM">StorageSetting_Type_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.StorageSetting_ARM">StorageSetting_ARM</a>)
 </p>
 <div>
 </div>
@@ -9785,56 +5595,10 @@ StorageSetting_Type_STATUS_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.StorageSetting_Type_STATUS_ARM">StorageSetting_Type_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.StorageSetting_STATUS_ARM">StorageSetting_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;GeoRedundant&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;LocallyRedundant&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ZoneRedundant&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -9879,34 +5643,10 @@ StorageSetting_Type_STATUS_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.SystemData_STATUS">SystemData_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultResource_STATUS">BackupVaultResource_STATUS</a>, <a href="#dataprotection.azure.com/v1api20230101.BackupVaults_BackupPolicy_STATUS">BackupVaults_BackupPolicy_STATUS</a>)
+(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultResource_STATUS">BackupVaultResource_STATUS</a>, <a href="#dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicy_STATUS">BackupVaultsBackupPolicy_STATUS</a>)
 </p>
 <div>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
@@ -9991,94 +5731,6 @@ SystemData_LastModifiedByType_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.SystemData_STATUS_ARM">SystemData_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultResource_STATUS_ARM">BackupVaultResource_STATUS_ARM</a>, <a href="#dataprotection.azure.com/v1api20230101.BackupVaults_BackupPolicy_STATUS_ARM">BackupVaults_BackupPolicy_STATUS_ARM</a>)
-</p>
-<div>
-<p>Metadata pertaining to creation and last modification of the resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedBy: The identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.SystemData_CreatedByType_STATUS_ARM">
-SystemData_CreatedByType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CreatedByType: The type of identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.SystemData_LastModifiedByType_STATUS_ARM">
-SystemData_LastModifiedByType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.TaggingCriteria">TaggingCriteria
 </h3>
 <p>
@@ -10125,72 +5777,6 @@ bool
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.RetentionTag">
 RetentionTag
-</a>
-</em>
-</td>
-<td>
-<p>TagInfo: Retention tag information</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>taggingPriority</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>TaggingPriority: Retention Tag priority.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.TaggingCriteria_ARM">TaggingCriteria_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_ARM">ScheduleBasedTriggerContext_ARM</a>)
-</p>
-<div>
-<p>Tagging criteria</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>criteria</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupCriteria_ARM">
-[]BackupCriteria_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Criteria: Criteria which decides whether the tag can be applied to a triggered backup.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isDefault</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsDefault: Specifies if tag is default.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tagInfo</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.RetentionTag_ARM">
-RetentionTag_ARM
 </a>
 </em>
 </td>
@@ -10277,72 +5863,6 @@ int
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.TaggingCriteria_STATUS_ARM">TaggingCriteria_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_STATUS_ARM">ScheduleBasedTriggerContext_STATUS_ARM</a>)
-</p>
-<div>
-<p>Tagging criteria</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>criteria</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.BackupCriteria_STATUS_ARM">
-[]BackupCriteria_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Criteria: Criteria which decides whether the tag can be applied to a triggered backup.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isDefault</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsDefault: Specifies if tag is default.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tagInfo</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.RetentionTag_STATUS_ARM">
-RetentionTag_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>TagInfo: Retention tag information</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>taggingPriority</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>TaggingPriority: Retention Tag priority.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.TargetCopySetting">TargetCopySetting
 </h3>
 <p>
@@ -10378,50 +5898,6 @@ CopyOption
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.DataStoreInfoBase">
 DataStoreInfoBase
-</a>
-</em>
-</td>
-<td>
-<p>DataStore: Info of target datastore</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.TargetCopySetting_ARM">TargetCopySetting_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.SourceLifeCycle_ARM">SourceLifeCycle_ARM</a>)
-</p>
-<div>
-<p>Target copy settings</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>copyAfter</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.CopyOption_ARM">
-CopyOption_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CopyAfter: It can be CustomCopyOption or ImmediateCopyOption.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataStore</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.DataStoreInfoBase_ARM">
-DataStoreInfoBase_ARM
 </a>
 </em>
 </td>
@@ -10475,50 +5951,6 @@ DataStoreInfoBase_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.TargetCopySetting_STATUS_ARM">TargetCopySetting_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.SourceLifeCycle_STATUS_ARM">SourceLifeCycle_STATUS_ARM</a>)
-</p>
-<div>
-<p>Target copy settings</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>copyAfter</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.CopyOption_STATUS_ARM">
-CopyOption_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CopyAfter: It can be CustomCopyOption or ImmediateCopyOption.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataStore</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.DataStoreInfoBase_STATUS_ARM">
-DataStoreInfoBase_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DataStore: Info of target datastore</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.TriggerContext">TriggerContext
 </h3>
 <p>
@@ -10562,49 +5994,6 @@ ScheduleBasedTriggerContext
 </tr>
 </tbody>
 </table>
-<h3 id="dataprotection.azure.com/v1api20230101.TriggerContext_ARM">TriggerContext_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureBackupRule_ARM">AzureBackupRule_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>adhocBasedTriggerContext</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_ARM">
-AdhocBasedTriggerContext_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Adhoc: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scheduleBasedTriggerContext</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_ARM">
-ScheduleBasedTriggerContext_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Schedule: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dataprotection.azure.com/v1api20230101.TriggerContext_STATUS">TriggerContext_STATUS
 </h3>
 <p>
@@ -10639,49 +6028,6 @@ AdhocBasedTriggerContext_STATUS
 <em>
 <a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_STATUS">
 ScheduleBasedTriggerContext_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Schedule: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dataprotection.azure.com/v1api20230101.TriggerContext_STATUS_ARM">TriggerContext_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.AzureBackupRule_STATUS_ARM">AzureBackupRule_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>adhocBasedTriggerContext</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.AdhocBasedTriggerContext_STATUS_ARM">
-AdhocBasedTriggerContext_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Adhoc: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scheduleBasedTriggerContext</code><br/>
-<em>
-<a href="#dataprotection.azure.com/v1api20230101.ScheduleBasedTriggerContext_STATUS_ARM">
-ScheduleBasedTriggerContext_STATUS_ARM
 </a>
 </em>
 </td>

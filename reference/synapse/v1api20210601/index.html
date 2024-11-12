@@ -20,7 +20,7 @@
 <title>synapse.azure.com/v1api20210601 | Azure Service Operator</title>
 <meta name="description" content="synapse.azure.com/v1api20210601 Package v1api20210601 contains API Schema definitions for the synapse v1api20210601 API group
 Resource Types: APIVersion (string alias) Value Description &#34;2021-06-01&#34;
-AutoPauseProperties (Appears on:Workspaces_BigDataPool_Spec) Auto-pausing properties of a Big Data pool powered by Apache Spark
+AutoPauseProperties (Appears on:WorkspacesBigDataPool_Spec) Auto-pausing properties of a Big Data pool powered by Apache Spark
 Field Description delayInMinutes int DelayInMinutes: Number of minutes of idle time before the Big Data pool is automatically paused.
 enabled bool Enabled: Whether auto-pausing is enabled for the Big Data pool.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/synapse/v1api20210601/">
@@ -28,7 +28,7 @@ enabled bool Enabled: Whether auto-pausing is enabled for the Big Data pool.">
   <meta property="og:title" content="synapse.azure.com/v1api20210601">
   <meta property="og:description" content="synapse.azure.com/v1api20210601 Package v1api20210601 contains API Schema definitions for the synapse v1api20210601 API group
 Resource Types: APIVersion (string alias) Value Description &#34;2021-06-01&#34;
-AutoPauseProperties (Appears on:Workspaces_BigDataPool_Spec) Auto-pausing properties of a Big Data pool powered by Apache Spark
+AutoPauseProperties (Appears on:WorkspacesBigDataPool_Spec) Auto-pausing properties of a Big Data pool powered by Apache Spark
 Field Description delayInMinutes int DelayInMinutes: Number of minutes of idle time before the Big Data pool is automatically paused.
 enabled bool Enabled: Whether auto-pausing is enabled for the Big Data pool.">
   <meta property="og:locale" content="en_us">
@@ -38,15 +38,15 @@ enabled bool Enabled: Whether auto-pausing is enabled for the Big Data pool.">
   <meta itemprop="name" content="synapse.azure.com/v1api20210601">
   <meta itemprop="description" content="synapse.azure.com/v1api20210601 Package v1api20210601 contains API Schema definitions for the synapse v1api20210601 API group
 Resource Types: APIVersion (string alias) Value Description &#34;2021-06-01&#34;
-AutoPauseProperties (Appears on:Workspaces_BigDataPool_Spec) Auto-pausing properties of a Big Data pool powered by Apache Spark
+AutoPauseProperties (Appears on:WorkspacesBigDataPool_Spec) Auto-pausing properties of a Big Data pool powered by Apache Spark
 Field Description delayInMinutes int DelayInMinutes: Number of minutes of idle time before the Big Data pool is automatically paused.
 enabled bool Enabled: Whether auto-pausing is enabled for the Big Data pool.">
-  <meta itemprop="wordCount" content="5580">
+  <meta itemprop="wordCount" content="3365">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="synapse.azure.com/v1api20210601">
   <meta name="twitter:description" content="synapse.azure.com/v1api20210601 Package v1api20210601 contains API Schema definitions for the synapse v1api20210601 API group
 Resource Types: APIVersion (string alias) Value Description &#34;2021-06-01&#34;
-AutoPauseProperties (Appears on:Workspaces_BigDataPool_Spec) Auto-pausing properties of a Big Data pool powered by Apache Spark
+AutoPauseProperties (Appears on:WorkspacesBigDataPool_Spec) Auto-pausing properties of a Big Data pool powered by Apache Spark
 Field Description delayInMinutes int DelayInMinutes: Number of minutes of idle time before the Big Data pool is automatically paused.
 enabled bool Enabled: Whether auto-pausing is enabled for the Big Data pool.">
 
@@ -350,6 +350,8 @@ enabled bool Enabled: Whether auto-pausing is enabled for the Big Data pool.">
   <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20240901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">containerservice.azure.com/v1api20240901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
@@ -788,47 +790,7 @@ Resource Types:
 <h3 id="synapse.azure.com/v1api20210601.AutoPauseProperties">AutoPauseProperties
 </h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec">Workspaces_BigDataPool_Spec</a>)
-</p>
-<div>
-<p>Auto-pausing properties of a Big Data pool powered by Apache Spark</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>delayInMinutes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DelayInMinutes: Number of minutes of idle time before the Big Data pool is automatically paused.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: Whether auto-pausing is enabled for the Big Data pool.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.AutoPauseProperties_ARM">AutoPauseProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_ARM">BigDataPoolResourceProperties_ARM</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_Spec">WorkspacesBigDataPool_Spec</a>)
 </p>
 <div>
 <p>Auto-pausing properties of a Big Data pool powered by Apache Spark</p>
@@ -868,47 +830,7 @@ bool
 <h3 id="synapse.azure.com/v1api20210601.AutoPauseProperties_STATUS">AutoPauseProperties_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS">Workspaces_BigDataPool_STATUS</a>)
-</p>
-<div>
-<p>Auto-pausing properties of a Big Data pool powered by Apache Spark</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>delayInMinutes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DelayInMinutes: Number of minutes of idle time before the Big Data pool is automatically paused.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: Whether auto-pausing is enabled for the Big Data pool.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.AutoPauseProperties_STATUS_ARM">AutoPauseProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_STATUS_ARM">BigDataPoolResourceProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_STATUS">WorkspacesBigDataPool_STATUS</a>)
 </p>
 <div>
 <p>Auto-pausing properties of a Big Data pool powered by Apache Spark</p>
@@ -948,58 +870,7 @@ bool
 <h3 id="synapse.azure.com/v1api20210601.AutoScaleProperties">AutoScaleProperties
 </h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec">Workspaces_BigDataPool_Spec</a>)
-</p>
-<div>
-<p>Auto-scaling properties of a Big Data pool powered by Apache Spark</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: Whether automatic scaling is enabled for the Big Data pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxNodeCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxNodeCount: The maximum number of nodes the Big Data pool can support.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>minNodeCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MinNodeCount: The minimum number of nodes the Big Data pool can support.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.AutoScaleProperties_ARM">AutoScaleProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_ARM">BigDataPoolResourceProperties_ARM</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_Spec">WorkspacesBigDataPool_Spec</a>)
 </p>
 <div>
 <p>Auto-scaling properties of a Big Data pool powered by Apache Spark</p>
@@ -1050,7 +921,7 @@ int
 <h3 id="synapse.azure.com/v1api20210601.AutoScaleProperties_STATUS">AutoScaleProperties_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS">Workspaces_BigDataPool_STATUS</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_STATUS">WorkspacesBigDataPool_STATUS</a>)
 </p>
 <div>
 <p>Auto-scaling properties of a Big Data pool powered by Apache Spark</p>
@@ -1094,278 +965,6 @@ int
 </td>
 <td>
 <p>MinNodeCount: The minimum number of nodes the Big Data pool can support.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.AutoScaleProperties_STATUS_ARM">AutoScaleProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_STATUS_ARM">BigDataPoolResourceProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Auto-scaling properties of a Big Data pool powered by Apache Spark</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: Whether automatic scaling is enabled for the Big Data pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxNodeCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxNodeCount: The maximum number of nodes the Big Data pool can support.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>minNodeCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MinNodeCount: The minimum number of nodes the Big Data pool can support.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_ARM">BigDataPoolResourceProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec_ARM">Workspaces_BigDataPool_Spec_ARM</a>)
-</p>
-<div>
-<p>Properties of a Big Data pool powered by Apache Spark</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>autoPause</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.AutoPauseProperties_ARM">
-AutoPauseProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AutoPause: Auto-pausing properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoScale</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.AutoScaleProperties_ARM">
-AutoScaleProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AutoScale: Auto-scaling properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>cacheSize</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>CacheSize: The cache size</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>customLibraries</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.LibraryInfo_ARM">
-[]LibraryInfo_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CustomLibraries: List of custom libraries/packages associated with the spark pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultSparkLogFolder</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DefaultSparkLogFolder: The default folder where Spark logs will be written.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dynamicExecutorAllocation</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.DynamicExecutorAllocation_ARM">
-DynamicExecutorAllocation_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DynamicExecutorAllocation: Dynamic Executor Allocation</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isAutotuneEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsAutotuneEnabled: Whether autotune is required or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isComputeIsolationEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsComputeIsolationEnabled: Whether compute isolation is required or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>libraryRequirements</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.LibraryRequirements_ARM">
-LibraryRequirements_ARM
-</a>
-</em>
-</td>
-<td>
-<p>LibraryRequirements: Library version requirements</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>NodeCount: The number of nodes in the Big Data pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeSize</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSize_ARM">
-BigDataPoolResourceProperties_NodeSize_ARM
-</a>
-</em>
-</td>
-<td>
-<p>NodeSize: The level of compute power that each node in the Big Data pool has.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeSizeFamily</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSizeFamily_ARM">
-BigDataPoolResourceProperties_NodeSizeFamily_ARM
-</a>
-</em>
-</td>
-<td>
-<p>NodeSizeFamily: The kind of nodes that the Big Data pool provides.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProvisioningState: The state of the Big Data pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sessionLevelPackagesEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>SessionLevelPackagesEnabled: Whether session level packages enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sparkConfigProperties</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.SparkConfigProperties_ARM">
-SparkConfigProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SparkConfigProperties: Spark configuration file to specify additional properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sparkEventsFolder</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SparkEventsFolder: The Spark events folder</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sparkVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SparkVersion: The Apache Spark version.</p>
 </td>
 </tr>
 </tbody>
@@ -1373,7 +972,7 @@ string
 <h3 id="synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSize">BigDataPoolResourceProperties_NodeSize
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec">Workspaces_BigDataPool_Spec</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_Spec">WorkspacesBigDataPool_Spec</a>)
 </p>
 <div>
 </div>
@@ -1403,31 +1002,7 @@ string
 <h3 id="synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSizeFamily">BigDataPoolResourceProperties_NodeSizeFamily
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec">Workspaces_BigDataPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;HardwareAcceleratedFPGA&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;HardwareAcceleratedGPU&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;MemoryOptimized&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSizeFamily_ARM">BigDataPoolResourceProperties_NodeSizeFamily_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_ARM">BigDataPoolResourceProperties_ARM</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_Spec">WorkspacesBigDataPool_Spec</a>)
 </p>
 <div>
 </div>
@@ -1451,7 +1026,7 @@ string
 <h3 id="synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSizeFamily_STATUS">BigDataPoolResourceProperties_NodeSizeFamily_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS">Workspaces_BigDataPool_STATUS</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_STATUS">WorkspacesBigDataPool_STATUS</a>)
 </p>
 <div>
 </div>
@@ -1469,67 +1044,13 @@ string
 </tr><tr><td><p>&#34;MemoryOptimized&#34;</p></td>
 <td></td>
 </tr><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM">BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_STATUS_ARM">BigDataPoolResourceProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;HardwareAcceleratedFPGA&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;HardwareAcceleratedGPU&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;MemoryOptimized&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSize_ARM">BigDataPoolResourceProperties_NodeSize_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_ARM">BigDataPoolResourceProperties_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Large&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Medium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Small&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;XLarge&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;XXLarge&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;XXXLarge&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>
 <h3 id="synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSize_STATUS">BigDataPoolResourceProperties_NodeSize_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS">Workspaces_BigDataPool_STATUS</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_STATUS">WorkspacesBigDataPool_STATUS</a>)
 </p>
 <div>
 </div>
@@ -1555,279 +1076,6 @@ string
 </tr><tr><td><p>&#34;XXXLarge&#34;</p></td>
 <td></td>
 </tr></tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSize_STATUS_ARM">BigDataPoolResourceProperties_NodeSize_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_STATUS_ARM">BigDataPoolResourceProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Large&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Medium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Small&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;XLarge&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;XXLarge&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;XXXLarge&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_STATUS_ARM">BigDataPoolResourceProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS_ARM">Workspaces_BigDataPool_STATUS_ARM</a>)
-</p>
-<div>
-<p>Properties of a Big Data pool powered by Apache Spark</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>autoPause</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.AutoPauseProperties_STATUS_ARM">
-AutoPauseProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AutoPause: Auto-pausing properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoScale</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.AutoScaleProperties_STATUS_ARM">
-AutoScaleProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AutoScale: Auto-scaling properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>cacheSize</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>CacheSize: The cache size</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>creationDate</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreationDate: The time when the Big Data pool was created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>customLibraries</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.LibraryInfo_STATUS_ARM">
-[]LibraryInfo_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CustomLibraries: List of custom libraries/packages associated with the spark pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultSparkLogFolder</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DefaultSparkLogFolder: The default folder where Spark logs will be written.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dynamicExecutorAllocation</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.DynamicExecutorAllocation_STATUS_ARM">
-DynamicExecutorAllocation_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DynamicExecutorAllocation: Dynamic Executor Allocation</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isAutotuneEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsAutotuneEnabled: Whether autotune is required or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isComputeIsolationEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsComputeIsolationEnabled: Whether compute isolation is required or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastSucceededTimestamp</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastSucceededTimestamp: The time when the Big Data pool was updated successfully.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>libraryRequirements</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.LibraryRequirements_STATUS_ARM">
-LibraryRequirements_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>LibraryRequirements: Library version requirements</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>NodeCount: The number of nodes in the Big Data pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeSize</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSize_STATUS_ARM">
-BigDataPoolResourceProperties_NodeSize_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>NodeSize: The level of compute power that each node in the Big Data pool has.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeSizeFamily</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM">
-BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>NodeSizeFamily: The kind of nodes that the Big Data pool provides.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProvisioningState: The state of the Big Data pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sessionLevelPackagesEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>SessionLevelPackagesEnabled: Whether session level packages enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sparkConfigProperties</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.SparkConfigProperties_STATUS_ARM">
-SparkConfigProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SparkConfigProperties: Spark configuration file to specify additional properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sparkEventsFolder</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SparkEventsFolder: The Spark events folder</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sparkVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SparkVersion: The Apache Spark version.</p>
-</td>
-</tr>
-</tbody>
 </table>
 <h3 id="synapse.azure.com/v1api20210601.CspWorkspaceAdminProperties">CspWorkspaceAdminProperties
 </h3>
@@ -1858,68 +1106,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.CspWorkspaceAdminProperties_ARM">CspWorkspaceAdminProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_ARM">WorkspaceProperties_ARM</a>)
-</p>
-<div>
-<p>Initial workspace AAD admin properties for a CSP subscription</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>initialWorkspaceAdminObjectId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>InitialWorkspaceAdminObjectId: AAD object ID of initial workspace admin</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.CspWorkspaceAdminProperties_STATUS">CspWorkspaceAdminProperties_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspace_STATUS">Workspace_STATUS</a>)
-</p>
-<div>
-<p>Initial workspace AAD admin properties for a CSP subscription</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>initialWorkspaceAdminObjectId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>InitialWorkspaceAdminObjectId: AAD object ID of initial workspace admin</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.CspWorkspaceAdminProperties_STATUS_ARM">CspWorkspaceAdminProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">WorkspaceProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>Initial workspace AAD admin properties for a CSP subscription</p>
@@ -1989,50 +1179,6 @@ WorkspaceKeyDetails
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.CustomerManagedKeyDetails_ARM">CustomerManagedKeyDetails_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.EncryptionDetails_ARM">EncryptionDetails_ARM</a>)
-</p>
-<div>
-<p>Details of the customer managed key associated with the workspace</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>kekIdentity</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.KekIdentityProperties_ARM">
-KekIdentityProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>KekIdentity: Key encryption key</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>key</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.WorkspaceKeyDetails_ARM">
-WorkspaceKeyDetails_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Key: The key object of the workspace</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.CustomerManagedKeyDetails_STATUS">CustomerManagedKeyDetails_STATUS
 </h3>
 <p>
@@ -2068,61 +1214,6 @@ KekIdentityProperties_STATUS
 <em>
 <a href="#synapse.azure.com/v1api20210601.WorkspaceKeyDetails_STATUS">
 WorkspaceKeyDetails_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Key: The key object of the workspace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Status: The customer managed key status on the workspace</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.CustomerManagedKeyDetails_STATUS_ARM">CustomerManagedKeyDetails_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.EncryptionDetails_STATUS_ARM">EncryptionDetails_STATUS_ARM</a>)
-</p>
-<div>
-<p>Details of the customer managed key associated with the workspace</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>kekIdentity</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.KekIdentityProperties_STATUS_ARM">
-KekIdentityProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>KekIdentity: Key encryption key</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>key</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.WorkspaceKeyDetails_STATUS_ARM">
-WorkspaceKeyDetails_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2220,67 +1311,6 @@ genruntime.ResourceReference
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.DataLakeStorageAccountDetails_ARM">DataLakeStorageAccountDetails_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_ARM">WorkspaceProperties_ARM</a>)
-</p>
-<div>
-<p>Details of the data lake storage account associated with the workspace</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accountUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccountUrl: Account URL</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createManagedPrivateEndpoint</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>CreateManagedPrivateEndpoint: Create managed private endpoint to this storage account or not</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>filesystem</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Filesystem: Filesystem name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>resourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.DataLakeStorageAccountDetails_STATUS">DataLakeStorageAccountDetails_STATUS
 </h3>
 <p>
@@ -2343,123 +1373,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.DataLakeStorageAccountDetails_STATUS_ARM">DataLakeStorageAccountDetails_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">WorkspaceProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Details of the data lake storage account associated with the workspace</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accountUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccountUrl: Account URL</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createManagedPrivateEndpoint</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>CreateManagedPrivateEndpoint: Create managed private endpoint to this storage account or not</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>filesystem</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Filesystem: Filesystem name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>resourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ResourceId: ARM resource Id of this storage account</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.DynamicExecutorAllocation">DynamicExecutorAllocation
 </h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec">Workspaces_BigDataPool_Spec</a>)
-</p>
-<div>
-<p>Dynamic Executor Allocation Properties</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: Indicates whether Dynamic Executor Allocation is enabled or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxExecutors</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxExecutors: The maximum number of executors alloted</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>minExecutors</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MinExecutors: The minimum number of executors alloted</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.DynamicExecutorAllocation_ARM">DynamicExecutorAllocation_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_ARM">BigDataPoolResourceProperties_ARM</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_Spec">WorkspacesBigDataPool_Spec</a>)
 </p>
 <div>
 <p>Dynamic Executor Allocation Properties</p>
@@ -2510,58 +1427,7 @@ int
 <h3 id="synapse.azure.com/v1api20210601.DynamicExecutorAllocation_STATUS">DynamicExecutorAllocation_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS">Workspaces_BigDataPool_STATUS</a>)
-</p>
-<div>
-<p>Dynamic Executor Allocation Properties</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: Indicates whether Dynamic Executor Allocation is enabled or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxExecutors</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxExecutors: The maximum number of executors alloted</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>minExecutors</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MinExecutors: The minimum number of executors alloted</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.DynamicExecutorAllocation_STATUS_ARM">DynamicExecutorAllocation_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_STATUS_ARM">BigDataPoolResourceProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_STATUS">WorkspacesBigDataPool_STATUS</a>)
 </p>
 <div>
 <p>Dynamic Executor Allocation Properties</p>
@@ -2640,37 +1506,6 @@ CustomerManagedKeyDetails
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.EncryptionDetails_ARM">EncryptionDetails_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_ARM">WorkspaceProperties_ARM</a>)
-</p>
-<div>
-<p>Details of the encryption associated with the workspace</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>cmk</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.CustomerManagedKeyDetails_ARM">
-CustomerManagedKeyDetails_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Cmk: Customer Managed Key Details</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.EncryptionDetails_STATUS">EncryptionDetails_STATUS
 </h3>
 <p>
@@ -2693,48 +1528,6 @@ CustomerManagedKeyDetails_ARM
 <em>
 <a href="#synapse.azure.com/v1api20210601.CustomerManagedKeyDetails_STATUS">
 CustomerManagedKeyDetails_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Cmk: Customer Managed Key Details</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>doubleEncryptionEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DoubleEncryptionEnabled: Double Encryption enabled</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.EncryptionDetails_STATUS_ARM">EncryptionDetails_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">WorkspaceProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Details of the encryption associated with the workspace</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>cmk</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.CustomerManagedKeyDetails_STATUS_ARM">
-CustomerManagedKeyDetails_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2799,47 +1592,6 @@ genruntime.ResourceReference
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.KekIdentityProperties_ARM">KekIdentityProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.CustomerManagedKeyDetails_ARM">CustomerManagedKeyDetails_ARM</a>)
-</p>
-<div>
-<p>Key encryption key properties</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>useSystemAssignedIdentity</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-Kubernetes v1.JSON
-</a>
-</em>
-</td>
-<td>
-<p>UseSystemAssignedIdentity: Boolean specifying whether to use system assigned identity or not</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentity</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.KekIdentityProperties_STATUS">KekIdentityProperties_STATUS
 </h3>
 <p>
@@ -2882,114 +1634,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.KekIdentityProperties_STATUS_ARM">KekIdentityProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.CustomerManagedKeyDetails_STATUS_ARM">CustomerManagedKeyDetails_STATUS_ARM</a>)
-</p>
-<div>
-<p>Key encryption key properties</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>useSystemAssignedIdentity</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-Kubernetes v1.JSON
-</a>
-</em>
-</td>
-<td>
-<p>UseSystemAssignedIdentity: Boolean specifying whether to use system assigned identity or not</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentity</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>UserAssignedIdentity: User assigned identity resource Id</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.LibraryInfo">LibraryInfo
 </h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec">Workspaces_BigDataPool_Spec</a>)
-</p>
-<div>
-<p>Library/package information of a Big Data pool powered by Apache Spark</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>containerName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ContainerName: Storage blob container name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Name of the library.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>path</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Path: Storage blob path of library.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Type of the library.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.LibraryInfo_ARM">LibraryInfo_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_ARM">BigDataPoolResourceProperties_ARM</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_Spec">WorkspacesBigDataPool_Spec</a>)
 </p>
 <div>
 <p>Library/package information of a Big Data pool powered by Apache Spark</p>
@@ -3051,102 +1699,7 @@ string
 <h3 id="synapse.azure.com/v1api20210601.LibraryInfo_STATUS">LibraryInfo_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS">Workspaces_BigDataPool_STATUS</a>)
-</p>
-<div>
-<p>Library/package information of a Big Data pool powered by Apache Spark</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>containerName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ContainerName: Storage blob container name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>creatorId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatorId: Creator Id of the library/package.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Name of the library.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>path</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Path: Storage blob path of library.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningStatus</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProvisioningStatus: Provisioning status of the library/package.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Type of the library.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>uploadedTimestamp</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>UploadedTimestamp: The last update time of the library.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.LibraryInfo_STATUS_ARM">LibraryInfo_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_STATUS_ARM">BigDataPoolResourceProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_STATUS">WorkspacesBigDataPool_STATUS</a>)
 </p>
 <div>
 <p>Library/package information of a Big Data pool powered by Apache Spark</p>
@@ -3241,47 +1794,7 @@ string
 <h3 id="synapse.azure.com/v1api20210601.LibraryRequirements">LibraryRequirements
 </h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec">Workspaces_BigDataPool_Spec</a>)
-</p>
-<div>
-<p>Library requirements for a Big Data pool powered by Apache Spark</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>content</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Content: The library requirements.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>filename</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Filename: The filename of the library requirements file.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.LibraryRequirements_ARM">LibraryRequirements_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_ARM">BigDataPoolResourceProperties_ARM</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_Spec">WorkspacesBigDataPool_Spec</a>)
 </p>
 <div>
 <p>Library requirements for a Big Data pool powered by Apache Spark</p>
@@ -3321,58 +1834,7 @@ string
 <h3 id="synapse.azure.com/v1api20210601.LibraryRequirements_STATUS">LibraryRequirements_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS">Workspaces_BigDataPool_STATUS</a>)
-</p>
-<div>
-<p>Library requirements for a Big Data pool powered by Apache Spark</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>content</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Content: The library requirements.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>filename</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Filename: The filename of the library requirements file.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>time</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Time: The last update time of the library requirements file.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.LibraryRequirements_STATUS_ARM">LibraryRequirements_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_STATUS_ARM">BigDataPoolResourceProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_STATUS">WorkspacesBigDataPool_STATUS</a>)
 </p>
 <div>
 <p>Library requirements for a Big Data pool powered by Apache Spark</p>
@@ -3464,49 +1926,6 @@ ManagedIdentity_Type
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.ManagedIdentity_ARM">ManagedIdentity_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspace_Spec_ARM">Workspace_Spec_ARM</a>)
-</p>
-<div>
-<p>The workspace managed identity</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.ManagedIdentity_Type_ARM">
-ManagedIdentity_Type_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of managed identity for the workspace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.UserAssignedIdentityDetails_ARM">
-map[string]./api/synapse/v1api20210601.UserAssignedIdentityDetails_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.ManagedIdentity_STATUS">ManagedIdentity_STATUS
 </h3>
 <p>
@@ -3573,98 +1992,10 @@ map[string]./api/synapse/v1api20210601.UserAssignedManagedIdentity_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.ManagedIdentity_STATUS_ARM">ManagedIdentity_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspace_STATUS_ARM">Workspace_STATUS_ARM</a>)
-</p>
-<div>
-<p>The workspace managed identity</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The principal ID of the workspace managed identity</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The tenant ID of the workspace managed identity</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.ManagedIdentity_Type_STATUS_ARM">
-ManagedIdentity_Type_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of managed identity for the workspace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.UserAssignedManagedIdentity_STATUS_ARM">
-map[string]./api/synapse/v1api20210601.UserAssignedManagedIdentity_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentities: The user assigned managed identities.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.ManagedIdentity_Type">ManagedIdentity_Type
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.ManagedIdentity">ManagedIdentity</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned,UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.ManagedIdentity_Type_ARM">ManagedIdentity_Type_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.ManagedIdentity_ARM">ManagedIdentity_ARM</a>)
 </p>
 <div>
 </div>
@@ -3705,83 +2036,10 @@ map[string]./api/synapse/v1api20210601.UserAssignedManagedIdentity_STATUS_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.ManagedIdentity_Type_STATUS_ARM">ManagedIdentity_Type_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.ManagedIdentity_STATUS_ARM">ManagedIdentity_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned,UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.ManagedVirtualNetworkSettings">ManagedVirtualNetworkSettings
 </h3>
 <p>
 (<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspace_Spec">Workspace_Spec</a>)
-</p>
-<div>
-<p>Managed Virtual Network Settings</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>allowedAadTenantIdsForLinking</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>AllowedAadTenantIdsForLinking: Allowed Aad Tenant Ids For Linking</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>linkedAccessCheckOnTargetResource</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>LinkedAccessCheckOnTargetResource: Linked Access Check On Target Resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>preventDataExfiltration</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>PreventDataExfiltration: Prevent Data Exfiltration</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.ManagedVirtualNetworkSettings_ARM">ManagedVirtualNetworkSettings_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_ARM">WorkspaceProperties_ARM</a>)
 </p>
 <div>
 <p>Managed Virtual Network Settings</p>
@@ -3880,91 +2138,10 @@ bool
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.ManagedVirtualNetworkSettings_STATUS_ARM">ManagedVirtualNetworkSettings_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">WorkspaceProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Managed Virtual Network Settings</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>allowedAadTenantIdsForLinking</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>AllowedAadTenantIdsForLinking: Allowed Aad Tenant Ids For Linking</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>linkedAccessCheckOnTargetResource</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>LinkedAccessCheckOnTargetResource: Linked Access Check On Target Resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>preventDataExfiltration</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>PreventDataExfiltration: Prevent Data Exfiltration</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspace_STATUS">Workspace_STATUS</a>)
-</p>
-<div>
-<p>A private endpoint connection</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.PrivateEndpointConnection_STATUS_ARM">PrivateEndpointConnection_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">WorkspaceProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>A private endpoint connection</p>
@@ -4022,34 +2199,6 @@ genruntime.ResourceReference
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.PurviewConfiguration_ARM">PurviewConfiguration_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_ARM">WorkspaceProperties_ARM</a>)
-</p>
-<div>
-<p>Purview Configuration</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>purviewResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.PurviewConfiguration_STATUS">PurviewConfiguration_STATUS
 </h3>
 <p>
@@ -4079,39 +2228,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.PurviewConfiguration_STATUS_ARM">PurviewConfiguration_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">WorkspaceProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Purview Configuration</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>purviewResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PurviewResourceId: Purview Resource ID</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.SparkConfigProperties">SparkConfigProperties
 </h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec">Workspaces_BigDataPool_Spec</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_Spec">WorkspacesBigDataPool_Spec</a>)
 </p>
 <div>
 <p>SparkConfig Properties for a Big Data pool powered by Apache Spark</p>
@@ -4130,59 +2250,6 @@ string
 <em>
 <a href="#synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType">
 SparkConfigProperties_ConfigurationType
-</a>
-</em>
-</td>
-<td>
-<p>ConfigurationType: The type of the spark config properties file.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>content</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Content: The spark config properties.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>filename</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Filename: The filename of the spark config properties file.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.SparkConfigProperties_ARM">SparkConfigProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_ARM">BigDataPoolResourceProperties_ARM</a>)
-</p>
-<div>
-<p>SparkConfig Properties for a Big Data pool powered by Apache Spark</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configurationType</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType_ARM">
-SparkConfigProperties_ConfigurationType_ARM
 </a>
 </em>
 </td>
@@ -4234,26 +2301,6 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType_ARM">SparkConfigProperties_ConfigurationType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.SparkConfigProperties_ARM">SparkConfigProperties_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Artifact&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;File&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType_STATUS">SparkConfigProperties_ConfigurationType_STATUS
 (<code>string</code> alias)</h3>
 <p>
@@ -4274,30 +2321,10 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType_STATUS_ARM">SparkConfigProperties_ConfigurationType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.SparkConfigProperties_STATUS_ARM">SparkConfigProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Artifact&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;File&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.SparkConfigProperties_STATUS">SparkConfigProperties_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS">Workspaces_BigDataPool_STATUS</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_STATUS">WorkspacesBigDataPool_STATUS</a>)
 </p>
 <div>
 <p>SparkConfig Properties for a Big Data pool powered by Apache Spark</p>
@@ -4316,70 +2343,6 @@ string
 <em>
 <a href="#synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType_STATUS">
 SparkConfigProperties_ConfigurationType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ConfigurationType: The type of the spark config properties file.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>content</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Content: The spark config properties.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>filename</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Filename: The filename of the spark config properties file.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>time</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Time: The last update time of the spark config properties file.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.SparkConfigProperties_STATUS_ARM">SparkConfigProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_STATUS_ARM">BigDataPoolResourceProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>SparkConfig Properties for a Big Data pool powered by Apache Spark</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configurationType</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType_STATUS_ARM">
-SparkConfigProperties_ConfigurationType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4452,58 +2415,10 @@ genruntime.ResourceReference
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.UserAssignedIdentityDetails_ARM">UserAssignedIdentityDetails_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.ManagedIdentity_ARM">ManagedIdentity_ARM</a>)
-</p>
-<div>
-<p>Information about the user assigned identity for the resource</p>
-</div>
 <h3 id="synapse.azure.com/v1api20210601.UserAssignedManagedIdentity_STATUS">UserAssignedManagedIdentity_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.ManagedIdentity_STATUS">ManagedIdentity_STATUS</a>)
-</p>
-<div>
-<p>User Assigned Managed Identity</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClientId: The client ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The principal ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.UserAssignedManagedIdentity_STATUS_ARM">UserAssignedManagedIdentity_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.ManagedIdentity_STATUS_ARM">ManagedIdentity_STATUS_ARM</a>)
 </p>
 <div>
 <p>User Assigned Managed Identity</p>
@@ -4569,68 +2484,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.VirtualNetworkProfile_ARM">VirtualNetworkProfile_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_ARM">WorkspaceProperties_ARM</a>)
-</p>
-<div>
-<p>Virtual Network Profile</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>computeSubnetId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ComputeSubnetId: Subnet ID used for computes in workspace</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.VirtualNetworkProfile_STATUS">VirtualNetworkProfile_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspace_STATUS">Workspace_STATUS</a>)
-</p>
-<div>
-<p>Virtual Network Profile</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>computeSubnetId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ComputeSubnetId: Subnet ID used for computes in workspace</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.VirtualNetworkProfile_STATUS_ARM">VirtualNetworkProfile_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">WorkspaceProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>Virtual Network Profile</p>
@@ -4824,6 +2681,20 @@ ManagedVirtualNetworkSettings
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#synapse.azure.com/v1api20210601.WorkspaceOperatorSpec">
+WorkspaceOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -4992,46 +2863,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.WorkspaceKeyDetails_ARM">WorkspaceKeyDetails_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.CustomerManagedKeyDetails_ARM">CustomerManagedKeyDetails_ARM</a>)
-</p>
-<div>
-<p>Details of the customer managed key associated with the workspace</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyVaultUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyVaultUrl: Workspace Key sub-resource key vault url</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Workspace Key sub-resource name</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.WorkspaceKeyDetails_STATUS">WorkspaceKeyDetails_STATUS
 </h3>
 <p>
@@ -5072,13 +2903,13 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.WorkspaceKeyDetails_STATUS_ARM">WorkspaceKeyDetails_STATUS_ARM
+<h3 id="synapse.azure.com/v1api20210601.WorkspaceOperatorSpec">WorkspaceOperatorSpec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.CustomerManagedKeyDetails_STATUS_ARM">CustomerManagedKeyDetails_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspace_Spec">Workspace_Spec</a>)
 </p>
 <div>
-<p>Details of the customer managed key associated with the workspace</p>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
 </div>
 <table>
 <thead>
@@ -5090,215 +2921,28 @@ string
 <tbody>
 <tr>
 <td>
-<code>keyVaultUrl</code><br/>
+<code>configMapExpressions</code><br/>
 <em>
-string
-</em>
-</td>
-<td>
-<p>KeyVaultUrl: Workspace Key sub-resource key vault url</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Workspace Key sub-resource name</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.WorkspaceProperties_ARM">WorkspaceProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspace_Spec_ARM">Workspace_Spec_ARM</a>)
-</p>
-<div>
-<p>Workspace properties</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureADOnlyAuthentication</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>AzureADOnlyAuthentication: Enable or Disable AzureADOnlyAuthentication on All Workspace subresource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>cspWorkspaceAdminProperties</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.CspWorkspaceAdminProperties_ARM">
-CspWorkspaceAdminProperties_ARM
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
 </a>
 </em>
 </td>
 <td>
-<p>CspWorkspaceAdminProperties: Initial workspace AAD admin properties for a CSP subscription</p>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>defaultDataLakeStorage</code><br/>
+<code>secretExpressions</code><br/>
 <em>
-<a href="#synapse.azure.com/v1api20210601.DataLakeStorageAccountDetails_ARM">
-DataLakeStorageAccountDetails_ARM
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
 </a>
 </em>
 </td>
 <td>
-<p>DefaultDataLakeStorage: Workspace default data lake storage account details</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.EncryptionDetails_ARM">
-EncryptionDetails_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: The encryption details of the workspace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedResourceGroupName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ManagedResourceGroupName: Workspace managed resource group. The resource group name uniquely identifies the resource
-group within the user subscriptionId. The resource group name must be no longer than 90 characters long, and must be
-alphanumeric characters (Char.IsLetterOrDigit()) and &lsquo;-&rsquo;, &lsquo;_&rsquo;, &lsquo;(&rsquo;, &lsquo;)&rsquo; and&rsquo;.&lsquo;. Note that the name cannot end with &lsquo;.&rsquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedVirtualNetwork</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ManagedVirtualNetwork: Setting this to &lsquo;default&rsquo; will ensure that all compute for this workspace is in a virtual network
-managed on behalf of the user.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedVirtualNetworkSettings</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.ManagedVirtualNetworkSettings_ARM">
-ManagedVirtualNetworkSettings_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ManagedVirtualNetworkSettings: Managed Virtual Network Settings</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_PublicNetworkAccess_ARM">
-WorkspaceProperties_PublicNetworkAccess_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Enable or Disable public network access to workspace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>purviewConfiguration</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.PurviewConfiguration_ARM">
-PurviewConfiguration_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PurviewConfiguration: Purview Configuration</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sqlAdministratorLogin</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SqlAdministratorLogin: Login for workspace SQL active directory administrator</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sqlAdministratorLoginPassword</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SqlAdministratorLoginPassword: SQL administrator login password</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>trustedServiceBypassEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>TrustedServiceBypassEnabled: Is trustedServiceBypassEnabled for the workspace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualNetworkProfile</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.VirtualNetworkProfile_ARM">
-VirtualNetworkProfile_ARM
-</a>
-</em>
-</td>
-<td>
-<p>VirtualNetworkProfile: Virtual Network profile</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workspaceRepositoryConfiguration</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.WorkspaceRepositoryConfiguration_ARM">
-WorkspaceRepositoryConfiguration_ARM
-</a>
-</em>
-</td>
-<td>
-<p>WorkspaceRepositoryConfiguration: Git integration settings</p>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
 </td>
 </tr>
 </tbody>
@@ -5307,26 +2951,6 @@ WorkspaceRepositoryConfiguration_ARM
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspace_Spec">Workspace_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.WorkspaceProperties_PublicNetworkAccess_ARM">WorkspaceProperties_PublicNetworkAccess_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_ARM">WorkspaceProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -5362,289 +2986,6 @@ WorkspaceRepositoryConfiguration_ARM
 </tr><tr><td><p>&#34;Enabled&#34;</p></td>
 <td></td>
 </tr></tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.WorkspaceProperties_PublicNetworkAccess_STATUS_ARM">WorkspaceProperties_PublicNetworkAccess_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">WorkspaceProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">WorkspaceProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspace_STATUS_ARM">Workspace_STATUS_ARM</a>)
-</p>
-<div>
-<p>Workspace properties</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>adlaResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AdlaResourceId: The ADLA resource ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureADOnlyAuthentication</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>AzureADOnlyAuthentication: Enable or Disable AzureADOnlyAuthentication on All Workspace subresource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>connectivityEndpoints</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>ConnectivityEndpoints: Connectivity endpoints</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>cspWorkspaceAdminProperties</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.CspWorkspaceAdminProperties_STATUS_ARM">
-CspWorkspaceAdminProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CspWorkspaceAdminProperties: Initial workspace AAD admin properties for a CSP subscription</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultDataLakeStorage</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.DataLakeStorageAccountDetails_STATUS_ARM">
-DataLakeStorageAccountDetails_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DefaultDataLakeStorage: Workspace default data lake storage account details</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.EncryptionDetails_STATUS_ARM">
-EncryptionDetails_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: The encryption details of the workspace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>extraProperties</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-<p>ExtraProperties: Workspace level configs and feature flags</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedResourceGroupName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ManagedResourceGroupName: Workspace managed resource group. The resource group name uniquely identifies the resource
-group within the user subscriptionId. The resource group name must be no longer than 90 characters long, and must be
-alphanumeric characters (Char.IsLetterOrDigit()) and &lsquo;-&rsquo;, &lsquo;_&rsquo;, &lsquo;(&rsquo;, &lsquo;)&rsquo; and&rsquo;.&lsquo;. Note that the name cannot end with &lsquo;.&rsquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedVirtualNetwork</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ManagedVirtualNetwork: Setting this to &lsquo;default&rsquo; will ensure that all compute for this workspace is in a virtual network
-managed on behalf of the user.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedVirtualNetworkSettings</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.ManagedVirtualNetworkSettings_STATUS_ARM">
-ManagedVirtualNetworkSettings_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ManagedVirtualNetworkSettings: Managed Virtual Network Settings</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateEndpointConnections</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.PrivateEndpointConnection_STATUS_ARM">
-[]PrivateEndpointConnection_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PrivateEndpointConnections: Private endpoint connections to the workspace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProvisioningState: Resource provisioning state</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_PublicNetworkAccess_STATUS_ARM">
-WorkspaceProperties_PublicNetworkAccess_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Enable or Disable public network access to workspace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>purviewConfiguration</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.PurviewConfiguration_STATUS_ARM">
-PurviewConfiguration_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PurviewConfiguration: Purview Configuration</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>settings</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-<p>Settings: Workspace settings</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sqlAdministratorLogin</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SqlAdministratorLogin: Login for workspace SQL active directory administrator</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>trustedServiceBypassEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>TrustedServiceBypassEnabled: Is trustedServiceBypassEnabled for the workspace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualNetworkProfile</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.VirtualNetworkProfile_STATUS_ARM">
-VirtualNetworkProfile_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>VirtualNetworkProfile: Virtual Network profile</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workspaceRepositoryConfiguration</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.WorkspaceRepositoryConfiguration_STATUS_ARM">
-WorkspaceRepositoryConfiguration_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>WorkspaceRepositoryConfiguration: Git integration settings</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workspaceUID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>WorkspaceUID: The workspace unique identifier</p>
-</td>
-</tr>
-</tbody>
 </table>
 <h3 id="synapse.azure.com/v1api20210601.WorkspaceRepositoryConfiguration">WorkspaceRepositoryConfiguration
 </h3>
@@ -5763,244 +3104,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.WorkspaceRepositoryConfiguration_ARM">WorkspaceRepositoryConfiguration_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_ARM">WorkspaceProperties_ARM</a>)
-</p>
-<div>
-<p>Git integration settings</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accountName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccountName: Account name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collaborationBranch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CollaborationBranch: Collaboration branch</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hostName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>HostName: GitHub Enterprise host name. For example: <code>https://github.mydomain.com</code></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastCommitId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastCommitId: The last commit ID</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>projectName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProjectName: VSTS project name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repositoryName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RepositoryName: Repository name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rootFolder</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RootFolder: Root folder to use in the repository</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The VSTS tenant ID</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Type of workspace repositoryID configuration. Example WorkspaceVSTSConfiguration, WorkspaceGitHubConfiguration</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.WorkspaceRepositoryConfiguration_STATUS">WorkspaceRepositoryConfiguration_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.Workspace_STATUS">Workspace_STATUS</a>)
-</p>
-<div>
-<p>Git integration settings</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accountName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccountName: Account name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collaborationBranch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CollaborationBranch: Collaboration branch</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hostName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>HostName: GitHub Enterprise host name. For example: <code>https://github.mydomain.com</code></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastCommitId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastCommitId: The last commit ID</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>projectName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProjectName: VSTS project name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repositoryName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RepositoryName: Repository name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rootFolder</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RootFolder: Root folder to use in the repository</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The VSTS tenant ID</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Type of workspace repositoryID configuration. Example WorkspaceVSTSConfiguration, WorkspaceGitHubConfiguration</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.WorkspaceRepositoryConfiguration_STATUS_ARM">WorkspaceRepositoryConfiguration_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">WorkspaceProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>Git integration settings</p>
@@ -6459,103 +3566,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.Workspace_STATUS_ARM">Workspace_STATUS_ARM
-</h3>
-<div>
-<p>A workspace</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.ManagedIdentity_STATUS_ARM">
-ManagedIdentity_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: Identity of the workspace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">
-WorkspaceProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Workspace resource properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.Workspace_Spec">Workspace_Spec
 </h3>
 <p>
@@ -6697,6 +3707,20 @@ ManagedVirtualNetworkSettings
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#synapse.azure.com/v1api20210601.WorkspaceOperatorSpec">
+WorkspaceOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -6810,78 +3834,6 @@ WorkspaceRepositoryConfiguration
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.Workspace_Spec_ARM">Workspace_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.ManagedIdentity_ARM">
-ManagedIdentity_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: Identity of the workspace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.WorkspaceProperties_ARM">
-WorkspaceProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Workspace resource properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="synapse.azure.com/v1api20210601.WorkspacesBigDataPool">WorkspacesBigDataPool
 </h3>
 <div>
@@ -6915,8 +3867,8 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec">
-Workspaces_BigDataPool_Spec
+<a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_Spec">
+WorkspacesBigDataPool_Spec
 </a>
 </em>
 </td>
@@ -7095,6 +4047,20 @@ BigDataPoolResourceProperties_NodeSizeFamily
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPoolOperatorSpec">
+WorkspacesBigDataPoolOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -7183,8 +4149,8 @@ map[string]string
 <td>
 <code>status</code><br/>
 <em>
-<a href="#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS">
-Workspaces_BigDataPool_STATUS
+<a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_STATUS">
+WorkspacesBigDataPool_STATUS
 </a>
 </em>
 </td>
@@ -7193,7 +4159,51 @@ Workspaces_BigDataPool_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS">Workspaces_BigDataPool_STATUS
+<h3 id="synapse.azure.com/v1api20210601.WorkspacesBigDataPoolOperatorSpec">WorkspacesBigDataPoolOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool_Spec">WorkspacesBigDataPool_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="synapse.azure.com/v1api20210601.WorkspacesBigDataPool_STATUS">WorkspacesBigDataPool_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool">WorkspacesBigDataPool</a>)
@@ -7504,90 +4514,7 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS_ARM">Workspaces_BigDataPool_STATUS_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_STATUS_ARM">
-BigDataPoolResourceProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Big Data pool properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec">Workspaces_BigDataPool_Spec
+<h3 id="synapse.azure.com/v1api20210601.WorkspacesBigDataPool_Spec">WorkspacesBigDataPool_Spec
 </h3>
 <p>
 (<em>Appears on:</em><a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPool">WorkspacesBigDataPool</a>)
@@ -7773,6 +4700,20 @@ BigDataPoolResourceProperties_NodeSizeFamily
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#synapse.azure.com/v1api20210601.WorkspacesBigDataPoolOperatorSpec">
+WorkspacesBigDataPoolOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -7841,65 +4782,6 @@ string
 </td>
 <td>
 <p>SparkVersion: The Apache Spark version.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec_ARM">Workspaces_BigDataPool_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_ARM">
-BigDataPoolResourceProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Big Data pool properties</p>
 </td>
 </tr>
 <tr>

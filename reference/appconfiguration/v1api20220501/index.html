@@ -35,7 +35,7 @@ ConfigurationStore Generator information: - Generated from: /appconfiguration/re
   <meta itemprop="description" content="appconfiguration.azure.com/v1api20220501 Package v1api20220501 contains API Schema definitions for the appconfiguration v1api20220501 API group
 Resource Types: APIVersion (string alias) Value Description &#34;2022-05-01&#34;
 ConfigurationStore Generator information: - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/appconfiguration.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.AppConfiguration/​configurationStores/​{configStoreName}&lt;/​p&gt; Field Description metadata Kubernetes meta/v1.ObjectMeta Refer to the Kubernetes API documentation for the fields of the metadata field. spec ConfigurationStore_Spec azureName string AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be.">
-  <meta itemprop="wordCount" content="2793">
+  <meta itemprop="wordCount" content="1761">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="appconfiguration.azure.com/v1api20220501">
   <meta name="twitter:description" content="appconfiguration.azure.com/v1api20220501 Package v1api20220501 contains API Schema definitions for the appconfiguration v1api20220501 API group
@@ -342,6 +342,8 @@ ConfigurationStore Generator information: - Generated from: /appconfiguration/re
   <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20240901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">containerservice.azure.com/v1api20240901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
@@ -1215,6 +1217,32 @@ not be retrieved from Azure.</p>
 <tbody>
 <tr>
 <td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>secrets</code><br/>
 <em>
 <a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreOperatorSecrets">
@@ -1224,98 +1252,6 @@ ConfigurationStoreOperatorSecrets
 </td>
 <td>
 <p>Secrets: configures where to place Azure generated secrets.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ARM">ConfigurationStoreProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStore_Spec_ARM">ConfigurationStore_Spec_ARM</a>)
-</p>
-<div>
-<p>The properties of a configuration store.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createMode</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_CreateMode_ARM">
-ConfigurationStoreProperties_CreateMode_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CreateMode: Indicates whether the configuration store need to be recovered.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableLocalAuth</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisableLocalAuth: Disables all authentication methods other than AAD authentication.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePurgeProtection</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnablePurgeProtection: Property specifying whether protection against purge is enabled for this configuration store.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.EncryptionProperties_ARM">
-EncryptionProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: The encryption settings of the configuration store.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess_ARM">
-ConfigurationStoreProperties_PublicNetworkAccess_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Control permission for data plane traffic coming from public networks while private endpoint is
-enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>softDeleteRetentionInDays</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>SoftDeleteRetentionInDays: The amount of time in days that the configuration store will be retained when it is soft
-deleted.</p>
 </td>
 </tr>
 </tbody>
@@ -1340,50 +1276,10 @@ deleted.</p>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_CreateMode_ARM">ConfigurationStoreProperties_CreateMode_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ARM">ConfigurationStoreProperties_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Default&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Recover&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_CreateMode_STATUS">ConfigurationStoreProperties_CreateMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS">ConfigurationStore_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Default&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Recover&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_CreateMode_STATUS_ARM">ConfigurationStoreProperties_CreateMode_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_STATUS_ARM">ConfigurationStoreProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1428,58 +1324,10 @@ deleted.</p>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ProvisioningState_STATUS_ARM">ConfigurationStoreProperties_ProvisioningState_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_STATUS_ARM">ConfigurationStoreProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Creating&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Deleting&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Failed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Updating&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess">ConfigurationStoreProperties_PublicNetworkAccess
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStore_Spec">ConfigurationStore_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess_ARM">ConfigurationStoreProperties_PublicNetworkAccess_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ARM">ConfigurationStoreProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1515,166 +1363,6 @@ deleted.</p>
 </tr><tr><td><p>&#34;Enabled&#34;</p></td>
 <td></td>
 </tr></tbody>
-</table>
-<h3 id="appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM">ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_STATUS_ARM">ConfigurationStoreProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_STATUS_ARM">ConfigurationStoreProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS_ARM">ConfigurationStore_STATUS_ARM</a>)
-</p>
-<div>
-<p>The properties of a configuration store.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createMode</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_CreateMode_STATUS_ARM">
-ConfigurationStoreProperties_CreateMode_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CreateMode: Indicates whether the configuration store need to be recovered.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>creationDate</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreationDate: The creation date of configuration store.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableLocalAuth</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisableLocalAuth: Disables all authentication methods other than AAD authentication.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePurgeProtection</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnablePurgeProtection: Property specifying whether protection against purge is enabled for this configuration store.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.EncryptionProperties_STATUS_ARM">
-EncryptionProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: The encryption settings of the configuration store.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>endpoint</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Endpoint: The DNS endpoint where the configuration store API will be available.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateEndpointConnections</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.PrivateEndpointConnectionReference_STATUS_ARM">
-[]PrivateEndpointConnectionReference_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PrivateEndpointConnections: The list of private endpoint connections that are set up for this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ProvisioningState_STATUS_ARM">
-ConfigurationStoreProperties_ProvisioningState_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: The provisioning state of the configuration store.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM">
-ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Control permission for data plane traffic coming from public networks while private endpoint is
-enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>softDeleteRetentionInDays</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>SoftDeleteRetentionInDays: The amount of time in days that the configuration store will be retained when it is soft
-deleted.</p>
-</td>
-</tr>
-</tbody>
 </table>
 <h3 id="appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS">ConfigurationStore_STATUS
 </h3>
@@ -1925,130 +1613,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS_ARM">ConfigurationStore_STATUS_ARM
-</h3>
-<div>
-<p>The configuration store along with all resource properties. The Configuration Store will have all information to begin
-utilizing it.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.ResourceIdentity_STATUS_ARM">
-ResourceIdentity_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: The managed identity information, if configured.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_STATUS_ARM">
-ConfigurationStoreProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The properties of a configuration store.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.Sku_STATUS_ARM">
-Sku_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The sku of the configuration store.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.SystemData_STATUS_ARM">
-SystemData_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: Resource system metadata.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="appconfiguration.azure.com/v1api20220501.ConfigurationStore_Spec">ConfigurationStore_Spec
 </h3>
 <p>
@@ -2242,104 +1806,6 @@ map[string]string
 </tr>
 </tbody>
 </table>
-<h3 id="appconfiguration.azure.com/v1api20220501.ConfigurationStore_Spec_ARM">ConfigurationStore_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.ResourceIdentity_ARM">
-ResourceIdentity_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: The managed identity information, if configured.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ARM">
-ConfigurationStoreProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The properties of a configuration store.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.Sku_ARM">
-Sku_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The sku of the configuration store.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.SystemData_ARM">
-SystemData_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: Resource system metadata.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="appconfiguration.azure.com/v1api20220501.EncryptionProperties">EncryptionProperties
 </h3>
 <p>
@@ -2362,37 +1828,6 @@ map[string]string
 <em>
 <a href="#appconfiguration.azure.com/v1api20220501.KeyVaultProperties">
 KeyVaultProperties
-</a>
-</em>
-</td>
-<td>
-<p>KeyVaultProperties: Key vault properties.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="appconfiguration.azure.com/v1api20220501.EncryptionProperties_ARM">EncryptionProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ARM">ConfigurationStoreProperties_ARM</a>)
-</p>
-<div>
-<p>The encryption settings for a configuration store.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyVaultProperties</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.KeyVaultProperties_ARM">
-KeyVaultProperties_ARM
 </a>
 </em>
 </td>
@@ -2433,81 +1868,10 @@ KeyVaultProperties_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="appconfiguration.azure.com/v1api20220501.EncryptionProperties_STATUS_ARM">EncryptionProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_STATUS_ARM">ConfigurationStoreProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>The encryption settings for a configuration store.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyVaultProperties</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.KeyVaultProperties_STATUS_ARM">
-KeyVaultProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>KeyVaultProperties: Key vault properties.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="appconfiguration.azure.com/v1api20220501.KeyVaultProperties">KeyVaultProperties
 </h3>
 <p>
 (<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.EncryptionProperties">EncryptionProperties</a>)
-</p>
-<div>
-<p>Settings concerning key vault encryption for a configuration store.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>identityClientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>IdentityClientId: The client id of the identity which will be used to access key vault.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyIdentifier</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyIdentifier: The URI of the key vault key used to encrypt data.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="appconfiguration.azure.com/v1api20220501.KeyVaultProperties_ARM">KeyVaultProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.EncryptionProperties_ARM">EncryptionProperties_ARM</a>)
 </p>
 <div>
 <p>Settings concerning key vault encryption for a configuration store.</p>
@@ -2584,79 +1948,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="appconfiguration.azure.com/v1api20220501.KeyVaultProperties_STATUS_ARM">KeyVaultProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.EncryptionProperties_STATUS_ARM">EncryptionProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Settings concerning key vault encryption for a configuration store.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>identityClientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>IdentityClientId: The client id of the identity which will be used to access key vault.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyIdentifier</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyIdentifier: The URI of the key vault key used to encrypt data.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="appconfiguration.azure.com/v1api20220501.PrivateEndpointConnectionReference_STATUS">PrivateEndpointConnectionReference_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS">ConfigurationStore_STATUS</a>)
-</p>
-<div>
-<p>A reference to a related private endpoint connection.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: The resource ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="appconfiguration.azure.com/v1api20220501.PrivateEndpointConnectionReference_STATUS_ARM">PrivateEndpointConnectionReference_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_STATUS_ARM">ConfigurationStoreProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>A reference to a related private endpoint connection.</p>
@@ -2725,50 +2020,6 @@ identity and a set of user-assigned identities. The type &lsquo;None&rsquo; will
 <p>UserAssignedIdentities: The list of user-assigned identities associated with the resource. The user-assigned identity
 dictionary keys will be ARM resource ids in the form:
 &lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="appconfiguration.azure.com/v1api20220501.ResourceIdentity_ARM">ResourceIdentity_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStore_Spec_ARM">ConfigurationStore_Spec_ARM</a>)
-</p>
-<div>
-<p>An identity that can be associated with a resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.ResourceIdentity_Type_ARM">
-ResourceIdentity_Type_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of managed identity used. The type &lsquo;SystemAssigned, UserAssigned&rsquo; includes both an implicitly created
-identity and a set of user-assigned identities. The type &lsquo;None&rsquo; will remove any identities.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.UserAssignedIdentityDetails_ARM">
-map[string]./api/appconfiguration/v1api20220501.UserAssignedIdentityDetails_ARM
-</a>
-</em>
-</td>
-<td>
 </td>
 </tr>
 </tbody>
@@ -2843,76 +2094,6 @@ dictionary keys will be ARM resource ids in the form:
 </tr>
 </tbody>
 </table>
-<h3 id="appconfiguration.azure.com/v1api20220501.ResourceIdentity_STATUS_ARM">ResourceIdentity_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS_ARM">ConfigurationStore_STATUS_ARM</a>)
-</p>
-<div>
-<p>An identity that can be associated with a resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The principal id of the identity. This property will only be provided for a system-assigned identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The tenant id associated with the resource&rsquo;s identity. This property will only be provided for a
-system-assigned identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.ResourceIdentity_Type_STATUS_ARM">
-ResourceIdentity_Type_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of managed identity used. The type &lsquo;SystemAssigned, UserAssigned&rsquo; includes both an implicitly created
-identity and a set of user-assigned identities. The type &lsquo;None&rsquo; will remove any identities.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.UserIdentity_STATUS_ARM">
-map[string]./api/appconfiguration/v1api20220501.UserIdentity_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentities: The list of user-assigned identities associated with the resource. The user-assigned identity
-dictionary keys will be ARM resource ids in the form:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="appconfiguration.azure.com/v1api20220501.ResourceIdentity_Type">ResourceIdentity_Type
 (<code>string</code> alias)</h3>
 <p>
@@ -2937,58 +2118,10 @@ dictionary keys will be ARM resource ids in the form:
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="appconfiguration.azure.com/v1api20220501.ResourceIdentity_Type_ARM">ResourceIdentity_Type_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ResourceIdentity_ARM">ResourceIdentity_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="appconfiguration.azure.com/v1api20220501.ResourceIdentity_Type_STATUS">ResourceIdentity_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ResourceIdentity_STATUS">ResourceIdentity_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="appconfiguration.azure.com/v1api20220501.ResourceIdentity_Type_STATUS_ARM">ResourceIdentity_Type_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ResourceIdentity_STATUS_ARM">ResourceIdentity_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3038,68 +2171,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="appconfiguration.azure.com/v1api20220501.Sku_ARM">Sku_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStore_Spec_ARM">ConfigurationStore_Spec_ARM</a>)
-</p>
-<div>
-<p>Describes a configuration store SKU.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The SKU name of the configuration store.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="appconfiguration.azure.com/v1api20220501.Sku_STATUS">Sku_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS">ConfigurationStore_STATUS</a>)
-</p>
-<div>
-<p>Describes a configuration store SKU.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The SKU name of the configuration store.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="appconfiguration.azure.com/v1api20220501.Sku_STATUS_ARM">Sku_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS_ARM">ConfigurationStore_STATUS_ARM</a>)
 </p>
 <div>
 <p>Describes a configuration store SKU.</p>
@@ -3213,122 +2288,10 @@ SystemData_LastModifiedByType
 </tr>
 </tbody>
 </table>
-<h3 id="appconfiguration.azure.com/v1api20220501.SystemData_ARM">SystemData_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStore_Spec_ARM">ConfigurationStore_Spec_ARM</a>)
-</p>
-<div>
-<p>Metadata pertaining to creation and last modification of the resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedBy: The identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.SystemData_CreatedByType_ARM">
-SystemData_CreatedByType_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CreatedByType: The type of identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.SystemData_LastModifiedByType_ARM">
-SystemData_LastModifiedByType_ARM
-</a>
-</em>
-</td>
-<td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="appconfiguration.azure.com/v1api20220501.SystemData_CreatedByType">SystemData_CreatedByType
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.SystemData">SystemData</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="appconfiguration.azure.com/v1api20220501.SystemData_CreatedByType_ARM">SystemData_CreatedByType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.SystemData_ARM">SystemData_ARM</a>)
 </p>
 <div>
 </div>
@@ -3373,30 +2336,6 @@ SystemData_LastModifiedByType_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="appconfiguration.azure.com/v1api20220501.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="appconfiguration.azure.com/v1api20220501.SystemData_LastModifiedByType">SystemData_LastModifiedByType
 (<code>string</code> alias)</h3>
 <p>
@@ -3421,58 +2360,10 @@ SystemData_LastModifiedByType_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="appconfiguration.azure.com/v1api20220501.SystemData_LastModifiedByType_ARM">SystemData_LastModifiedByType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.SystemData_ARM">SystemData_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="appconfiguration.azure.com/v1api20220501.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="appconfiguration.azure.com/v1api20220501.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3581,94 +2472,6 @@ SystemData_LastModifiedByType_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="appconfiguration.azure.com/v1api20220501.SystemData_STATUS_ARM">SystemData_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS_ARM">ConfigurationStore_STATUS_ARM</a>)
-</p>
-<div>
-<p>Metadata pertaining to creation and last modification of the resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedBy: The identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.SystemData_CreatedByType_STATUS_ARM">
-SystemData_CreatedByType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CreatedByType: The type of identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#appconfiguration.azure.com/v1api20220501.SystemData_LastModifiedByType_STATUS_ARM">
-SystemData_LastModifiedByType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="appconfiguration.azure.com/v1api20220501.UserAssignedIdentityDetails">UserAssignedIdentityDetails
 </h3>
 <p>
@@ -3699,58 +2502,10 @@ genruntime.ResourceReference
 </tr>
 </tbody>
 </table>
-<h3 id="appconfiguration.azure.com/v1api20220501.UserAssignedIdentityDetails_ARM">UserAssignedIdentityDetails_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ResourceIdentity_ARM">ResourceIdentity_ARM</a>)
-</p>
-<div>
-<p>Information about the user assigned identity for the resource</p>
-</div>
 <h3 id="appconfiguration.azure.com/v1api20220501.UserIdentity_STATUS">UserIdentity_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ResourceIdentity_STATUS">ResourceIdentity_STATUS</a>)
-</p>
-<div>
-<p>A resource identity that is managed by the user of the service.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClientId: The client ID of the user-assigned identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The principal ID of the user-assigned identity.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="appconfiguration.azure.com/v1api20220501.UserIdentity_STATUS_ARM">UserIdentity_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#appconfiguration.azure.com/v1api20220501.ResourceIdentity_STATUS_ARM">ResourceIdentity_STATUS_ARM</a>)
 </p>
 <div>
 <p>A resource identity that is managed by the user of the service.</p>

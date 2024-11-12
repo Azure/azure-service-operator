@@ -41,7 +41,7 @@ Resource Types: APIVersion (string alias) Value Description &#34;2022-03-01&#34;
 AdditionalCapabilities (Appears on:VirtualMachineScaleSet_Spec, VirtualMachine_Spec) Enables or disables a capability on the virtual machine or virtual machine scale set.
 Field Description hibernationEnabled bool HibernationEnabled: The flag that enables or disables hibernation capability on the VM.
 ultraSSDEnabled bool UltraSSDEnabled: The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual machine or virtual machine scale set only if this property is enabled.">
-  <meta itemprop="wordCount" content="29876">
+  <meta itemprop="wordCount" content="30376">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="compute.azure.com/v1api20220301">
   <meta name="twitter:description" content="compute.azure.com/v1api20220301 Package v1api20220301 contains API Schema definitions for the compute v1api20220301 API group
@@ -350,6 +350,8 @@ ultraSSDEnabled bool UltraSSDEnabled: The flag that enables or disables a capabi
   <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20240901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">containerservice.azure.com/v1api20240901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
@@ -3896,6 +3898,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#compute.azure.com/v1api20220301.ImageOperatorSpec">
+ImageOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -4667,6 +4683,50 @@ data disks, it cannot be used with OS Disk.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="compute.azure.com/v1api20220301.ImageOperatorSpec">ImageOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.Image_Spec">Image_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="compute.azure.com/v1api20220301.ImageReference">ImageReference
 </h3>
 <p>
@@ -5237,6 +5297,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#compute.azure.com/v1api20220301.ImageOperatorSpec">
+ImageOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -5610,7 +5684,7 @@ SubResource_STATUS
 <h3 id="compute.azure.com/v1api20220301.KeyVaultSecretReference">KeyVaultSecretReference
 </h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.DiskEncryptionSettings">DiskEncryptionSettings</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetExtension">VirtualMachineScaleSetExtension</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSets_Extension_Spec">VirtualMachineScaleSets_Extension_Spec</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachines_Extension_Spec">VirtualMachines_Extension_Spec</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.DiskEncryptionSettings">DiskEncryptionSettings</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetExtension">VirtualMachineScaleSetExtension</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetsExtension_Spec">VirtualMachineScaleSetsExtension_Spec</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachinesExtension_Spec">VirtualMachinesExtension_Spec</a>)
 </p>
 <div>
 <p>Describes a reference to Key Vault Secret</p>
@@ -5652,7 +5726,7 @@ SubResource
 <h3 id="compute.azure.com/v1api20220301.KeyVaultSecretReference_STATUS">KeyVaultSecretReference_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.DiskEncryptionSettings_STATUS">DiskEncryptionSettings_STATUS</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachineExtension_STATUS">VirtualMachineExtension_STATUS</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetExtension_STATUS">VirtualMachineScaleSetExtension_STATUS</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSets_Extension_STATUS">VirtualMachineScaleSets_Extension_STATUS</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachines_Extension_STATUS">VirtualMachines_Extension_STATUS</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.DiskEncryptionSettings_STATUS">DiskEncryptionSettings_STATUS</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachineExtension_STATUS">VirtualMachineExtension_STATUS</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetExtension_STATUS">VirtualMachineScaleSetExtension_STATUS</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetsExtension_STATUS">VirtualMachineScaleSetsExtension_STATUS</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachinesExtension_STATUS">VirtualMachinesExtension_STATUS</a>)
 </p>
 <div>
 <p>Describes a reference to Key Vault Secret</p>
@@ -10754,6 +10828,20 @@ NetworkProfile
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#compute.azure.com/v1api20220301.VirtualMachineOperatorSpec">
+VirtualMachineOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>osProfile</code><br/>
 <em>
 <a href="#compute.azure.com/v1api20220301.OSProfile">
@@ -11062,7 +11150,7 @@ string
 <h3 id="compute.azure.com/v1api20220301.VirtualMachineExtensionInstanceView">VirtualMachineExtensionInstanceView
 </h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.VirtualMachines_Extension_Spec">VirtualMachines_Extension_Spec</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.VirtualMachinesExtension_Spec">VirtualMachinesExtension_Spec</a>)
 </p>
 <div>
 <p>The instance view of a virtual machine extension.</p>
@@ -11139,7 +11227,7 @@ string
 <h3 id="compute.azure.com/v1api20220301.VirtualMachineExtensionInstanceView_STATUS">VirtualMachineExtensionInstanceView_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.VirtualMachineExtension_STATUS">VirtualMachineExtension_STATUS</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachineInstanceView_STATUS">VirtualMachineInstanceView_STATUS</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachines_Extension_STATUS">VirtualMachines_Extension_STATUS</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.VirtualMachineExtension_STATUS">VirtualMachineExtension_STATUS</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachineInstanceView_STATUS">VirtualMachineInstanceView_STATUS</a>, <a href="#compute.azure.com/v1api20220301.VirtualMachinesExtension_STATUS">VirtualMachinesExtension_STATUS</a>)
 </p>
 <div>
 <p>The instance view of a virtual machine extension.</p>
@@ -12631,6 +12719,50 @@ SubResource_STATUS
 </tr>
 </tbody>
 </table>
+<h3 id="compute.azure.com/v1api20220301.VirtualMachineOperatorSpec">VirtualMachineOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.VirtualMachine_Spec">VirtualMachine_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="compute.azure.com/v1api20220301.VirtualMachinePatchStatus_STATUS">VirtualMachinePatchStatus_STATUS
 </h3>
 <p>
@@ -13276,6 +13408,20 @@ string
 </td>
 <td>
 <p>Location: Resource location</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetOperatorSpec">
+VirtualMachineScaleSetOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>
@@ -16215,6 +16361,50 @@ WindowsConfiguration_STATUS
 </tr>
 </tbody>
 </table>
+<h3 id="compute.azure.com/v1api20220301.VirtualMachineScaleSetOperatorSpec">VirtualMachineScaleSetOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="compute.azure.com/v1api20220301.VirtualMachineScaleSetPublicIPAddressConfiguration">VirtualMachineScaleSetPublicIPAddressConfiguration
 </h3>
 <p>
@@ -17669,6 +17859,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetOperatorSpec">
+VirtualMachineScaleSetOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>orchestrationMode</code><br/>
 <em>
 <a href="#compute.azure.com/v1api20220301.OrchestrationMode">
@@ -17896,8 +18100,8 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSets_Extension_Spec">
-VirtualMachineScaleSets_Extension_Spec
+<a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetsExtension_Spec">
+VirtualMachineScaleSetsExtension_Spec
 </a>
 </em>
 </td>
@@ -17952,6 +18156,20 @@ string
 <td>
 <p>ForceUpdateTag: If a value is provided and is different from the previous value, the extension handler will be forced to
 update even if the extension configuration has not changed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetsExtensionOperatorSpec">
+VirtualMachineScaleSetsExtensionOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>
@@ -18073,8 +18291,8 @@ string
 <td>
 <code>status</code><br/>
 <em>
-<a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSets_Extension_STATUS">
-VirtualMachineScaleSets_Extension_STATUS
+<a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetsExtension_STATUS">
+VirtualMachineScaleSetsExtension_STATUS
 </a>
 </em>
 </td>
@@ -18083,7 +18301,51 @@ VirtualMachineScaleSets_Extension_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220301.VirtualMachineScaleSets_Extension_STATUS">VirtualMachineScaleSets_Extension_STATUS
+<h3 id="compute.azure.com/v1api20220301.VirtualMachineScaleSetsExtensionOperatorSpec">VirtualMachineScaleSetsExtensionOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetsExtension_Spec">VirtualMachineScaleSetsExtension_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="compute.azure.com/v1api20220301.VirtualMachineScaleSetsExtension_STATUS">VirtualMachineScaleSetsExtension_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetsExtension">VirtualMachineScaleSetsExtension</a>)
@@ -18277,7 +18539,7 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220301.VirtualMachineScaleSets_Extension_Spec">VirtualMachineScaleSets_Extension_Spec
+<h3 id="compute.azure.com/v1api20220301.VirtualMachineScaleSetsExtension_Spec">VirtualMachineScaleSetsExtension_Spec
 </h3>
 <p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetsExtension">VirtualMachineScaleSetsExtension</a>)
@@ -18339,6 +18601,20 @@ string
 <td>
 <p>ForceUpdateTag: If a value is provided and is different from the previous value, the extension handler will be forced to
 update even if the extension configuration has not changed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#compute.azure.com/v1api20220301.VirtualMachineScaleSetsExtensionOperatorSpec">
+VirtualMachineScaleSetsExtensionOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>
@@ -19244,6 +19520,20 @@ NetworkProfile
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#compute.azure.com/v1api20220301.VirtualMachineOperatorSpec">
+VirtualMachineOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>osProfile</code><br/>
 <em>
 <a href="#compute.azure.com/v1api20220301.OSProfile">
@@ -19459,8 +19749,8 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#compute.azure.com/v1api20220301.VirtualMachines_Extension_Spec">
-VirtualMachines_Extension_Spec
+<a href="#compute.azure.com/v1api20220301.VirtualMachinesExtension_Spec">
+VirtualMachinesExtension_Spec
 </a>
 </em>
 </td>
@@ -19538,6 +19828,20 @@ string
 </td>
 <td>
 <p>Location: Resource location</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#compute.azure.com/v1api20220301.VirtualMachinesExtensionOperatorSpec">
+VirtualMachinesExtensionOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>
@@ -19659,8 +19963,8 @@ string
 <td>
 <code>status</code><br/>
 <em>
-<a href="#compute.azure.com/v1api20220301.VirtualMachines_Extension_STATUS">
-VirtualMachines_Extension_STATUS
+<a href="#compute.azure.com/v1api20220301.VirtualMachinesExtension_STATUS">
+VirtualMachinesExtension_STATUS
 </a>
 </em>
 </td>
@@ -19669,7 +19973,51 @@ VirtualMachines_Extension_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220301.VirtualMachines_Extension_STATUS">VirtualMachines_Extension_STATUS
+<h3 id="compute.azure.com/v1api20220301.VirtualMachinesExtensionOperatorSpec">VirtualMachinesExtensionOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.VirtualMachinesExtension_Spec">VirtualMachinesExtension_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="compute.azure.com/v1api20220301.VirtualMachinesExtension_STATUS">VirtualMachinesExtension_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.VirtualMachinesExtension">VirtualMachinesExtension</a>)
@@ -19886,7 +20234,7 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220301.VirtualMachines_Extension_Spec">VirtualMachines_Extension_Spec
+<h3 id="compute.azure.com/v1api20220301.VirtualMachinesExtension_Spec">VirtualMachinesExtension_Spec
 </h3>
 <p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1api20220301.VirtualMachinesExtension">VirtualMachinesExtension</a>)
@@ -19971,6 +20319,20 @@ string
 </td>
 <td>
 <p>Location: Resource location</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#compute.azure.com/v1api20220301.VirtualMachinesExtensionOperatorSpec">
+VirtualMachinesExtensionOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>

@@ -44,7 +44,7 @@ PrometheusRule (Appears on:PrometheusRuleGroup_Spec) An Azure Prometheus alertin
 Field Description actions []PrometheusRuleGroupAction Actions: Actions that are performed when the alert rule becomes active, and when an alert condition is resolved.
 alert string Alert: Alert rule name.
 annotations map[string]string Annotations: The annotations clause specifies a set of informational labels that can be used to store longer additional information such as alert descriptions or runbook links. The annotation values can be templated.">
-  <meta itemprop="wordCount" content="1945">
+  <meta itemprop="wordCount" content="1226">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="alertsmanagement.azure.com/v1api20230301">
   <meta name="twitter:description" content="alertsmanagement.azure.com/v1api20230301 Package v1api20230301 contains API Schema definitions for the alertsmanagement v1api20230301 API group
@@ -354,6 +354,8 @@ annotations map[string]string Annotations: The annotations clause specifies a se
   <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20240901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">containerservice.azure.com/v1api20240901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
@@ -1036,6 +1038,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroupOperatorSpec">
+PrometheusRuleGroupOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -1146,45 +1162,6 @@ map[string]string
 </tr>
 </tbody>
 </table>
-<h3 id="alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroupAction_ARM">PrometheusRuleGroupAction_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRule_ARM">PrometheusRule_ARM</a>)
-</p>
-<div>
-<p>An alert action. Only relevant for alerts.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>actionGroupId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>actionProperties</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>ActionProperties: The properties of an action group object.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroupAction_STATUS">PrometheusRuleGroupAction_STATUS
 </h3>
 <p>
@@ -1225,13 +1202,13 @@ map[string]string
 </tr>
 </tbody>
 </table>
-<h3 id="alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroupAction_STATUS_ARM">PrometheusRuleGroupAction_STATUS_ARM
+<h3 id="alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroupOperatorSpec">PrometheusRuleGroupOperatorSpec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRule_STATUS_ARM">PrometheusRule_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroup_Spec">PrometheusRuleGroup_Spec</a>)
 </p>
 <div>
-<p>An alert action. Only relevant for alerts.</p>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
 </div>
 <table>
 <thead>
@@ -1243,198 +1220,28 @@ map[string]string
 <tbody>
 <tr>
 <td>
-<code>actionGroupId</code><br/>
+<code>configMapExpressions</code><br/>
 <em>
-string
-</em>
-</td>
-<td>
-<p>ActionGroupId: The resource id of the action group to use.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>actionProperties</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>ActionProperties: The properties of an action group object.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroupProperties_ARM">PrometheusRuleGroupProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroup_Spec_ARM">PrometheusRuleGroup_Spec_ARM</a>)
-</p>
-<div>
-<p>An Azure Prometheus rule group.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clusterName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClusterName: Apply rule to data from a specific cluster.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Description: Rule group description.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: Enable/disable rule group.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>interval</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Interval: The interval in which to run the Prometheus rule group represented in ISO 8601 duration format. Should be
-between 1 and 15 minutes</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rules</code><br/>
-<em>
-<a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRule_ARM">
-[]PrometheusRule_ARM
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
 </a>
 </em>
 </td>
 <td>
-<p>Rules: Defines the rules in the Prometheus rule group.</p>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>scopes</code><br/>
+<code>secretExpressions</code><br/>
 <em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroupProperties_STATUS_ARM">PrometheusRuleGroupProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroup_STATUS_ARM">PrometheusRuleGroup_STATUS_ARM</a>)
-</p>
-<div>
-<p>An Azure Prometheus rule group.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clusterName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClusterName: Apply rule to data from a specific cluster.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Description: Rule group description.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: Enable/disable rule group.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>interval</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Interval: The interval in which to run the Prometheus rule group represented in ISO 8601 duration format. Should be
-between 1 and 15 minutes</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rules</code><br/>
-<em>
-<a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRule_STATUS_ARM">
-[]PrometheusRule_STATUS_ARM
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
 </a>
 </em>
 </td>
 <td>
-<p>Rules: Defines the rules in the Prometheus rule group.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scopes</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>Scopes: Target Azure Monitor workspaces resource ids. This api-version is currently limited to creating with one scope.
-This may change in future.</p>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
 </td>
 </tr>
 </tbody>
@@ -1608,102 +1415,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroup_STATUS_ARM">PrometheusRuleGroup_STATUS_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroupProperties_STATUS_ARM">
-PrometheusRuleGroupProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The Prometheus rule group properties of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#alertsmanagement.azure.com/v1api20230301.SystemData_STATUS_ARM">
-SystemData_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroup_Spec">PrometheusRuleGroup_Spec
 </h3>
 <p>
@@ -1789,6 +1500,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroupOperatorSpec">
+PrometheusRuleGroupOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -1842,109 +1567,10 @@ map[string]string
 </tr>
 </tbody>
 </table>
-<h3 id="alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroup_Spec_ARM">PrometheusRuleGroup_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroupProperties_ARM">
-PrometheusRuleGroupProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The Prometheus rule group properties of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="alertsmanagement.azure.com/v1api20230301.PrometheusRuleResolveConfiguration">PrometheusRuleResolveConfiguration
 </h3>
 <p>
 (<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRule">PrometheusRule</a>)
-</p>
-<div>
-<p>Specifies the Prometheus alert rule configuration.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>autoResolved</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>AutoResolved: Enable alert auto-resolution.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>timeToResolve</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TimeToResolve: Alert auto-resolution timeout.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="alertsmanagement.azure.com/v1api20230301.PrometheusRuleResolveConfiguration_ARM">PrometheusRuleResolveConfiguration_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRule_ARM">PrometheusRule_ARM</a>)
 </p>
 <div>
 <p>Specifies the Prometheus alert rule configuration.</p>
@@ -2017,181 +1643,6 @@ string
 </td>
 <td>
 <p>TimeToResolve: Alert auto-resolution timeout.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="alertsmanagement.azure.com/v1api20230301.PrometheusRuleResolveConfiguration_STATUS_ARM">PrometheusRuleResolveConfiguration_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRule_STATUS_ARM">PrometheusRule_STATUS_ARM</a>)
-</p>
-<div>
-<p>Specifies the Prometheus alert rule configuration.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>autoResolved</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>AutoResolved: Enable alert auto-resolution.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>timeToResolve</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TimeToResolve: Alert auto-resolution timeout.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="alertsmanagement.azure.com/v1api20230301.PrometheusRule_ARM">PrometheusRule_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroupProperties_ARM">PrometheusRuleGroupProperties_ARM</a>)
-</p>
-<div>
-<p>An Azure Prometheus alerting or recording rule.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>actions</code><br/>
-<em>
-<a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroupAction_ARM">
-[]PrometheusRuleGroupAction_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Actions: Actions that are performed when the alert rule becomes active, and when an alert condition is resolved.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>alert</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Alert: Alert rule name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>annotations</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Annotations: The annotations clause specifies a set of informational labels that can be used to store longer additional
-information such as alert descriptions or runbook links. The annotation values can be templated.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: Enable/disable rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>expression</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Expression: The PromQL expression to evaluate. <a href="https://prometheus.io/docs/prometheus/latest/querying/basics/">https://prometheus.io/docs/prometheus/latest/querying/basics/</a>. Evaluated
-periodically as given by &lsquo;interval&rsquo;, and the result recorded as a new set of time series with the metric name as given
-by &lsquo;record&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>for</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>For: The amount of time alert must be active before firing.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>labels</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Labels: Labels to add or overwrite before storing the result.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>record</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Record: Recorded metrics name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>resolveConfiguration</code><br/>
-<em>
-<a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRuleResolveConfiguration_ARM">
-PrometheusRuleResolveConfiguration_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ResolveConfiguration: Defines the configuration for resolving fired alerts. Only relevant for alerts.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>severity</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Severity: The severity of the alerts fired by the rule. Must be between 0 and 4.</p>
 </td>
 </tr>
 </tbody>
@@ -2331,141 +1782,6 @@ int
 </tr>
 </tbody>
 </table>
-<h3 id="alertsmanagement.azure.com/v1api20230301.PrometheusRule_STATUS_ARM">PrometheusRule_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroupProperties_STATUS_ARM">PrometheusRuleGroupProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>An Azure Prometheus alerting or recording rule.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>actions</code><br/>
-<em>
-<a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroupAction_STATUS_ARM">
-[]PrometheusRuleGroupAction_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Actions: Actions that are performed when the alert rule becomes active, and when an alert condition is resolved.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>alert</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Alert: Alert rule name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>annotations</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Annotations: The annotations clause specifies a set of informational labels that can be used to store longer additional
-information such as alert descriptions or runbook links. The annotation values can be templated.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: Enable/disable rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>expression</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Expression: The PromQL expression to evaluate. <a href="https://prometheus.io/docs/prometheus/latest/querying/basics/">https://prometheus.io/docs/prometheus/latest/querying/basics/</a>. Evaluated
-periodically as given by &lsquo;interval&rsquo;, and the result recorded as a new set of time series with the metric name as given
-by &lsquo;record&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>for</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>For: The amount of time alert must be active before firing.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>labels</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Labels: Labels to add or overwrite before storing the result.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>record</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Record: Recorded metrics name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>resolveConfiguration</code><br/>
-<em>
-<a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRuleResolveConfiguration_STATUS_ARM">
-PrometheusRuleResolveConfiguration_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ResolveConfiguration: Defines the configuration for resolving fired alerts. Only relevant for alerts.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>severity</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Severity: The severity of the alerts fired by the rule. Must be between 0 and 4.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="alertsmanagement.azure.com/v1api20230301.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
@@ -2490,58 +1806,10 @@ int
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="alertsmanagement.azure.com/v1api20230301.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="alertsmanagement.azure.com/v1api20230301.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="alertsmanagement.azure.com/v1api20230301.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2641,94 +1909,6 @@ string
 <em>
 <a href="#alertsmanagement.azure.com/v1api20230301.SystemData_LastModifiedByType_STATUS">
 SystemData_LastModifiedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="alertsmanagement.azure.com/v1api20230301.SystemData_STATUS_ARM">SystemData_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroup_STATUS_ARM">PrometheusRuleGroup_STATUS_ARM</a>)
-</p>
-<div>
-<p>Metadata pertaining to creation and last modification of the resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedBy: The identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#alertsmanagement.azure.com/v1api20230301.SystemData_CreatedByType_STATUS_ARM">
-SystemData_CreatedByType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CreatedByType: The type of identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#alertsmanagement.azure.com/v1api20230301.SystemData_LastModifiedByType_STATUS_ARM">
-SystemData_LastModifiedByType_STATUS_ARM
 </a>
 </em>
 </td>

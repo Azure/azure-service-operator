@@ -230,6 +230,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20240402preview/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20240901/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/authentication/credential-format/</loc>

@@ -23,7 +23,7 @@ Resource Types: APIVersion (string alias) Value Description &#34;2022-06-15&#34;
 Actions (Appears on:ScheduledQueryRule_Spec) Actions to invoke when the alert fires.
 Field Description actionGroupsReferences []genruntime.ResourceReference ActionGroupsReferences: Action Group resource Ids to invoke when the alert fires.
 customProperties map[string]string CustomProperties: The properties of an alert payload.
-Actions_ARM (Appears on:ScheduledQueryRuleProperties_ARM) Actions to invoke when the alert fires.">
+Actions_STATUS (Appears on:ScheduledQueryRule_STATUS) Actions to invoke when the alert fires.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/insights/v1api20220615/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="insights.azure.com/v1api20220615">
@@ -32,7 +32,7 @@ Resource Types: APIVersion (string alias) Value Description &#34;2022-06-15&#34;
 Actions (Appears on:ScheduledQueryRule_Spec) Actions to invoke when the alert fires.
 Field Description actionGroupsReferences []genruntime.ResourceReference ActionGroupsReferences: Action Group resource Ids to invoke when the alert fires.
 customProperties map[string]string CustomProperties: The properties of an alert payload.
-Actions_ARM (Appears on:ScheduledQueryRuleProperties_ARM) Actions to invoke when the alert fires.">
+Actions_STATUS (Appears on:ScheduledQueryRule_STATUS) Actions to invoke when the alert fires.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
@@ -43,8 +43,8 @@ Resource Types: APIVersion (string alias) Value Description &#34;2022-06-15&#34;
 Actions (Appears on:ScheduledQueryRule_Spec) Actions to invoke when the alert fires.
 Field Description actionGroupsReferences []genruntime.ResourceReference ActionGroupsReferences: Action Group resource Ids to invoke when the alert fires.
 customProperties map[string]string CustomProperties: The properties of an alert payload.
-Actions_ARM (Appears on:ScheduledQueryRuleProperties_ARM) Actions to invoke when the alert fires.">
-  <meta itemprop="wordCount" content="6634">
+Actions_STATUS (Appears on:ScheduledQueryRule_STATUS) Actions to invoke when the alert fires.">
+  <meta itemprop="wordCount" content="3985">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="insights.azure.com/v1api20220615">
   <meta name="twitter:description" content="insights.azure.com/v1api20220615 Package v1api20220615 contains API Schema definitions for the insights v1api20220615 API group
@@ -52,7 +52,7 @@ Resource Types: APIVersion (string alias) Value Description &#34;2022-06-15&#34;
 Actions (Appears on:ScheduledQueryRule_Spec) Actions to invoke when the alert fires.
 Field Description actionGroupsReferences []genruntime.ResourceReference ActionGroupsReferences: Action Group resource Ids to invoke when the alert fires.
 customProperties map[string]string CustomProperties: The properties of an alert payload.
-Actions_ARM (Appears on:ScheduledQueryRuleProperties_ARM) Actions to invoke when the alert fires.">
+Actions_STATUS (Appears on:ScheduledQueryRule_STATUS) Actions to invoke when the alert fires.">
 
 
 
@@ -354,6 +354,8 @@ Actions_ARM (Appears on:ScheduledQueryRuleProperties_ARM) Actions to invoke when
   <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20240901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">containerservice.azure.com/v1api20240901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
@@ -831,89 +833,10 @@ map[string]string
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.Actions_ARM">Actions_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_ARM">ScheduledQueryRuleProperties_ARM</a>)
-</p>
-<div>
-<p>Actions to invoke when the alert fires.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>actionGroups</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>customProperties</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>CustomProperties: The properties of an alert payload.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.Actions_STATUS">Actions_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS">ScheduledQueryRule_STATUS</a>)
-</p>
-<div>
-<p>Actions to invoke when the alert fires.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>actionGroups</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>ActionGroups: Action Group resource Ids to invoke when the alert fires.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>customProperties</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>CustomProperties: The properties of an alert payload.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.Actions_STATUS_ARM">Actions_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_STATUS_ARM">ScheduledQueryRuleProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>Actions to invoke when the alert fires.</p>
@@ -1080,177 +1003,10 @@ Condition_TimeAggregation
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.Condition_ARM">Condition_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleCriteria_ARM">ScheduledQueryRuleCriteria_ARM</a>)
-</p>
-<div>
-<p>A condition of the scheduled query rule.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dimensions</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.Dimension_ARM">
-[]Dimension_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Dimensions: List of Dimensions conditions</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>failingPeriods</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.Condition_FailingPeriods_ARM">
-Condition_FailingPeriods_ARM
-</a>
-</em>
-</td>
-<td>
-<p>FailingPeriods: The minimum number of violations required within the selected lookback time window required to raise an
-alert. Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>metricMeasureColumn</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MetricMeasureColumn: The column containing the metric measure number. Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>metricName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MetricName: The name of the metric to be sent. Relevant and required only for rules of the kind LogToMetric.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operator</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.Condition_Operator_ARM">
-Condition_Operator_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Operator: The criteria operator. Relevant and required only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>query</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Query: Log query alert</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>resourceIdColumn</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>threshold</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-<p>Threshold: the criteria threshold value that activates the alert. Relevant and required only for rules of the kind
-LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>timeAggregation</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.Condition_TimeAggregation_ARM">
-Condition_TimeAggregation_ARM
-</a>
-</em>
-</td>
-<td>
-<p>TimeAggregation: Aggregation type. Relevant and required only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.Condition_FailingPeriods">Condition_FailingPeriods
 </h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition">Condition</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>minFailingPeriodsToAlert</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
-numberOfEvaluationPeriods. Default value is 1</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>numberOfEvaluationPeriods</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>NumberOfEvaluationPeriods: The number of aggregated lookback points. The lookback time window is calculated based on the
-aggregation granularity (windowSize) and the selected number of aggregated points. Default value is 1</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.Condition_FailingPeriods_ARM">Condition_FailingPeriods_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_ARM">Condition_ARM</a>)
 </p>
 <div>
 </div>
@@ -1329,47 +1085,6 @@ aggregation granularity (windowSize) and the selected number of aggregated point
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.Condition_FailingPeriods_STATUS_ARM">Condition_FailingPeriods_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_STATUS_ARM">Condition_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>minFailingPeriodsToAlert</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
-numberOfEvaluationPeriods. Default value is 1</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>numberOfEvaluationPeriods</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>NumberOfEvaluationPeriods: The number of aggregated lookback points. The lookback time window is calculated based on the
-aggregation granularity (windowSize) and the selected number of aggregated points. Default value is 1</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.Condition_Operator">Condition_Operator
 (<code>string</code> alias)</h3>
 <p>
@@ -1396,62 +1111,10 @@ aggregation granularity (windowSize) and the selected number of aggregated point
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.Condition_Operator_ARM">Condition_Operator_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_ARM">Condition_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Equals&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;GreaterThan&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;GreaterThanOrEqual&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;LessThan&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;LessThanOrEqual&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.Condition_Operator_STATUS">Condition_Operator_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_STATUS">Condition_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Equals&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;GreaterThan&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;GreaterThanOrEqual&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;LessThan&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;LessThanOrEqual&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.Condition_Operator_STATUS_ARM">Condition_Operator_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_STATUS_ARM">Condition_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1602,134 +1265,6 @@ Condition_TimeAggregation_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.Condition_STATUS_ARM">Condition_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleCriteria_STATUS_ARM">ScheduledQueryRuleCriteria_STATUS_ARM</a>)
-</p>
-<div>
-<p>A condition of the scheduled query rule.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dimensions</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.Dimension_STATUS_ARM">
-[]Dimension_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Dimensions: List of Dimensions conditions</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>failingPeriods</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.Condition_FailingPeriods_STATUS_ARM">
-Condition_FailingPeriods_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>FailingPeriods: The minimum number of violations required within the selected lookback time window required to raise an
-alert. Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>metricMeasureColumn</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MetricMeasureColumn: The column containing the metric measure number. Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>metricName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MetricName: The name of the metric to be sent. Relevant and required only for rules of the kind LogToMetric.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operator</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.Condition_Operator_STATUS_ARM">
-Condition_Operator_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Operator: The criteria operator. Relevant and required only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>query</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Query: Log query alert</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>resourceIdColumn</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ResourceIdColumn: The column containing the resource id. The content of the column must be a uri formatted as resource
-id. Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>threshold</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-<p>Threshold: the criteria threshold value that activates the alert. Relevant and required only for rules of the kind
-LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>timeAggregation</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.Condition_TimeAggregation_STATUS_ARM">
-Condition_TimeAggregation_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>TimeAggregation: Aggregation type. Relevant and required only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.Condition_TimeAggregation">Condition_TimeAggregation
 (<code>string</code> alias)</h3>
 <p>
@@ -1756,62 +1291,10 @@ Condition_TimeAggregation_STATUS_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.Condition_TimeAggregation_ARM">Condition_TimeAggregation_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_ARM">Condition_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Average&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Count&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Maximum&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Minimum&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Total&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.Condition_TimeAggregation_STATUS">Condition_TimeAggregation_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_STATUS">Condition_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Average&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Count&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Maximum&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Minimum&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Total&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.Condition_TimeAggregation_STATUS_ARM">Condition_TimeAggregation_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_STATUS_ARM">Condition_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1887,59 +1370,6 @@ Dimension_Operator
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.Dimension_ARM">Dimension_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_ARM">Condition_ARM</a>)
-</p>
-<div>
-<p>Dimension splitting and filtering definition</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Name of the dimension</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operator</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.Dimension_Operator_ARM">
-Dimension_Operator_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Operator: Operator for dimension values</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>values</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>Values: List of dimension values</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.Dimension_Operator">Dimension_Operator
 (<code>string</code> alias)</h3>
 <p>
@@ -1960,50 +1390,10 @@ Dimension_Operator_ARM
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.Dimension_Operator_ARM">Dimension_Operator_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Dimension_ARM">Dimension_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Exclude&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Include&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.Dimension_Operator_STATUS">Dimension_Operator_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Dimension_STATUS">Dimension_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Exclude&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Include&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.Dimension_Operator_STATUS_ARM">Dimension_Operator_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Dimension_STATUS_ARM">Dimension_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2073,59 +1463,6 @@ Dimension_Operator_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.Dimension_STATUS_ARM">Dimension_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_STATUS_ARM">Condition_STATUS_ARM</a>)
-</p>
-<div>
-<p>Dimension splitting and filtering definition</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Name of the dimension</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operator</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.Dimension_Operator_STATUS_ARM">
-Dimension_Operator_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Operator: Operator for dimension values</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>values</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>Values: List of dimension values</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.HeaderField">HeaderField
 </h3>
 <p>
@@ -2166,90 +1503,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.HeaderField_ARM">HeaderField_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_Request_ARM">WebTestProperties_Request_ARM</a>)
-</p>
-<div>
-<p>A header to add to the WebTest.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>key</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Key: The name of the header.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Value: The value of the header.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.HeaderField_STATUS">HeaderField_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_Request_STATUS">WebTestProperties_Request_STATUS</a>)
-</p>
-<div>
-<p>A header to add to the WebTest.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>key</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Key: The name of the header.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Value: The value of the header.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.HeaderField_STATUS_ARM">HeaderField_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_Request_STATUS_ARM">WebTestProperties_Request_STATUS_ARM</a>)
 </p>
 <div>
 <p>A header to add to the WebTest.</p>
@@ -2473,6 +1730,20 @@ Relevant only for rules of the kind LogAlert.</p>
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleOperatorSpec">
+ScheduledQueryRuleOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>overrideQueryTimeRange</code><br/>
 <em>
 string
@@ -2622,37 +1893,6 @@ ScheduledQueryRule_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRuleCriteria_ARM">ScheduledQueryRuleCriteria_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_ARM">ScheduledQueryRuleProperties_ARM</a>)
-</p>
-<div>
-<p>The rule criteria that defines the conditions of the scheduled query rule.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>allOf</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.Condition_ARM">
-[]Condition_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AllOf: A list of conditions to evaluate against the specified scopes</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.ScheduledQueryRuleCriteria_STATUS">ScheduledQueryRuleCriteria_STATUS
 </h3>
 <p>
@@ -2684,13 +1924,13 @@ ScheduledQueryRule_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRuleCriteria_STATUS_ARM">ScheduledQueryRuleCriteria_STATUS_ARM
+<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRuleOperatorSpec">ScheduledQueryRuleOperatorSpec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_STATUS_ARM">ScheduledQueryRuleProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec">ScheduledQueryRule_Spec</a>)
 </p>
 <div>
-<p>The rule criteria that defines the conditions of the scheduled query rule.</p>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
 </div>
 <table>
 <thead>
@@ -2702,448 +1942,28 @@ ScheduledQueryRule_STATUS
 <tbody>
 <tr>
 <td>
-<code>allOf</code><br/>
+<code>configMapExpressions</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.Condition_STATUS_ARM">
-[]Condition_STATUS_ARM
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
 </a>
 </em>
 </td>
 <td>
-<p>AllOf: A list of conditions to evaluate against the specified scopes</p>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
 </td>
 </tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_ARM">ScheduledQueryRuleProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec_ARM">ScheduledQueryRule_Spec_ARM</a>)
-</p>
-<div>
-<p>scheduled query rule Definition</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>
-<code>actions</code><br/>
+<code>secretExpressions</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.Actions_ARM">
-Actions_ARM
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
 </a>
 </em>
 </td>
 <td>
-<p>Actions: Actions to invoke when the alert fires.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoMitigate</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>AutoMitigate: The flag that indicates whether the alert should be automatically resolved or not. The default is true.
-Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>checkWorkspaceAlertsStorageConfigured</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>CheckWorkspaceAlertsStorageConfigured: The flag which indicates whether this scheduled query rule should be stored in
-the customer&rsquo;s storage. The default is false. Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>criteria</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleCriteria_ARM">
-ScheduledQueryRuleCriteria_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Criteria: The rule criteria that defines the conditions of the scheduled query rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Description: The description of the scheduled query rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>displayName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DisplayName: The display name of the alert rule</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: The flag which indicates whether this scheduled query rule is enabled. Value should be true or false</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>evaluationFrequency</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EvaluationFrequency: How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant
-and required only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>muteActionsDuration</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MuteActionsDuration: Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired.
-Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>overrideQueryTimeRange</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>OverrideQueryTimeRange: If specified then overrides the query time range (default is
-WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scopes</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>severity</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_ARM">
-ScheduledQueryRuleProperties_Severity_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Severity: Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only
-for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>skipQueryValidation</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>SkipQueryValidation: The flag which indicates whether the provided query should be validated or not. The default is
-false. Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>targetResourceTypes</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>TargetResourceTypes: List of resource type of the target resource(s) on which the alert is created/updated. For example
-if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert
-will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of
-the kind LogAlert</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>windowSize</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>WindowSize: The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size).
-Relevant and required only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_STATUS_ARM">ScheduledQueryRuleProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS_ARM">ScheduledQueryRule_STATUS_ARM</a>)
-</p>
-<div>
-<p>scheduled query rule Definition</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>actions</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.Actions_STATUS_ARM">
-Actions_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Actions: Actions to invoke when the alert fires.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoMitigate</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>AutoMitigate: The flag that indicates whether the alert should be automatically resolved or not. The default is true.
-Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>checkWorkspaceAlertsStorageConfigured</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>CheckWorkspaceAlertsStorageConfigured: The flag which indicates whether this scheduled query rule should be stored in
-the customer&rsquo;s storage. The default is false. Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdWithApiVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedWithApiVersion: The api-version used when creating this alert rule</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>criteria</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleCriteria_STATUS_ARM">
-ScheduledQueryRuleCriteria_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Criteria: The rule criteria that defines the conditions of the scheduled query rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Description: The description of the scheduled query rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>displayName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DisplayName: The display name of the alert rule</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: The flag which indicates whether this scheduled query rule is enabled. Value should be true or false</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>evaluationFrequency</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EvaluationFrequency: How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant
-and required only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isLegacyLogAnalyticsRule</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsLegacyLogAnalyticsRule: True if alert rule is legacy Log Analytic rule</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isWorkspaceAlertsStorageConfigured</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsWorkspaceAlertsStorageConfigured: The flag which indicates whether this scheduled query rule has been configured to be
-stored in the customer&rsquo;s storage. The default is false.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>muteActionsDuration</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MuteActionsDuration: Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired.
-Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>overrideQueryTimeRange</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>OverrideQueryTimeRange: If specified then overrides the query time range (default is
-WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scopes</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>Scopes: The list of resource id&rsquo;s that this scheduled query rule is scoped to.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>severity</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_STATUS_ARM">
-ScheduledQueryRuleProperties_Severity_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Severity: Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only
-for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>skipQueryValidation</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>SkipQueryValidation: The flag which indicates whether the provided query should be validated or not. The default is
-false. Relevant only for rules of the kind LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>targetResourceTypes</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>TargetResourceTypes: List of resource type of the target resource(s) on which the alert is created/updated. For example
-if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert
-will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of
-the kind LogAlert</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>windowSize</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>WindowSize: The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size).
-Relevant and required only for rules of the kind LogAlert.</p>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
 </td>
 </tr>
 </tbody>
@@ -3152,32 +1972,6 @@ Relevant and required only for rules of the kind LogAlert.</p>
 (<code>int</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec">ScheduledQueryRule_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>0</p></td>
-<td></td>
-</tr><tr><td><p>1</p></td>
-<td></td>
-</tr><tr><td><p>2</p></td>
-<td></td>
-</tr><tr><td><p>3</p></td>
-<td></td>
-</tr><tr><td><p>4</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_ARM">ScheduledQueryRuleProperties_Severity_ARM
-(<code>int</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_ARM">ScheduledQueryRuleProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -3226,32 +2020,6 @@ Relevant and required only for rules of the kind LogAlert.</p>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_STATUS_ARM">ScheduledQueryRuleProperties_Severity_STATUS_ARM
-(<code>int</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_STATUS_ARM">ScheduledQueryRuleProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>0</p></td>
-<td></td>
-</tr><tr><td><p>1</p></td>
-<td></td>
-</tr><tr><td><p>2</p></td>
-<td></td>
-</tr><tr><td><p>3</p></td>
-<td></td>
-</tr><tr><td><p>4</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_STATUS">ScheduledQueryRule_Kind_STATUS
 (<code>string</code> alias)</h3>
 <p>
@@ -3272,50 +2040,10 @@ Relevant and required only for rules of the kind LogAlert.</p>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_STATUS_ARM">ScheduledQueryRule_Kind_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS_ARM">ScheduledQueryRule_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;LogAlert&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;LogToMetric&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_Spec">ScheduledQueryRule_Kind_Spec
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec">ScheduledQueryRule_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;LogAlert&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;LogToMetric&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_Spec_ARM">ScheduledQueryRule_Kind_Spec_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec_ARM">ScheduledQueryRule_Spec_ARM</a>)
 </p>
 <div>
 </div>
@@ -3674,129 +2402,6 @@ Relevant and required only for rules of the kind LogAlert.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS_ARM">ScheduledQueryRule_STATUS_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>etag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Etag: The etag field is <em>not</em> required. If it is provided in the response body, it must also be provided as a header per
-the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource.
-HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and
-If-Range (section 14.27) header fields.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>kind</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_STATUS_ARM">
-ScheduledQueryRule_Kind_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Kind: Indicates the type of scheduled query rule. The default is LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_STATUS_ARM">
-ScheduledQueryRuleProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The rule properties of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.SystemData_STATUS_ARM">
-SystemData_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: SystemData of ScheduledQueryRule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.ScheduledQueryRule_Spec">ScheduledQueryRule_Spec
 </h3>
 <p>
@@ -3957,6 +2562,20 @@ Relevant only for rules of the kind LogAlert.</p>
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleOperatorSpec">
+ScheduledQueryRuleOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>overrideQueryTimeRange</code><br/>
 <em>
 string
@@ -4060,78 +2679,6 @@ Relevant and required only for rules of the kind LogAlert.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRule_Spec_ARM">ScheduledQueryRule_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>kind</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_Spec_ARM">
-ScheduledQueryRule_Kind_Spec_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Kind: Indicates the type of scheduled query rule. The default is LogAlert.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_ARM">
-ScheduledQueryRuleProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The rule properties of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
@@ -4156,58 +2703,10 @@ map[string]string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4316,127 +2815,10 @@ SystemData_LastModifiedByType_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.SystemData_STATUS_ARM">SystemData_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS_ARM">ScheduledQueryRule_STATUS_ARM</a>)
-</p>
-<div>
-<p>Metadata pertaining to creation and last modification of the resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedBy: The identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.SystemData_CreatedByType_STATUS_ARM">
-SystemData_CreatedByType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CreatedByType: The type of identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.SystemData_LastModifiedByType_STATUS_ARM">
-SystemData_LastModifiedByType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.WebTestGeolocation">WebTestGeolocation
 </h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Webtest_Spec">Webtest_Spec</a>)
-</p>
-<div>
-<p>Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>Id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Location ID for the WebTest to run from.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.WebTestGeolocation_ARM">WebTestGeolocation_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_ARM">WebTestProperties_ARM</a>)
 </p>
 <div>
 <p>Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.</p>
@@ -4491,228 +2873,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.WebTestGeolocation_STATUS_ARM">WebTestGeolocation_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>Id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Location ID for the WebTest to run from.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.WebTestProperties_ARM">WebTestProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Webtest_Spec_ARM">Webtest_Spec_ARM</a>)
-</p>
-<div>
-<p>Metadata describing a web test for an Azure resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>Configuration</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.WebTestProperties_Configuration_ARM">
-WebTestProperties_Configuration_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Configuration: An XML configuration specification for a WebTest.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Description: User defined description for this WebTest.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: Is the test actively being monitored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Frequency</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Kind</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.WebTestProperties_Kind_ARM">
-WebTestProperties_Kind_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Kind: The kind of web test this is, valid choices are ping, multistep and standard.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Locations</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.WebTestGeolocation_ARM">
-[]WebTestGeolocation_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
-application.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: User defined name if this WebTest.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Request</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.WebTestProperties_Request_ARM">
-WebTestProperties_Request_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Request: The collection of request properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>RetryEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RetryEnabled: Allow for retries should this WebTest fail.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>SyntheticMonitorId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Timeout</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ValidationRules</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.WebTestProperties_ValidationRules_ARM">
-WebTestProperties_ValidationRules_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ValidationRules: The collection of validation rule properties</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.WebTestProperties_Configuration">WebTestProperties_Configuration
 </h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Webtest_Spec">Webtest_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>WebTest</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>WebTest: The XML specification of a WebTest to run against an application.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.WebTestProperties_Configuration_ARM">WebTestProperties_Configuration_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_ARM">WebTestProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -4765,34 +2929,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.WebTestProperties_Configuration_STATUS_ARM">WebTestProperties_Configuration_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>WebTest</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>WebTest: The XML specification of a WebTest to run against an application.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.WebTestProperties_Kind">WebTestProperties_Kind
 (<code>string</code> alias)</h3>
 <p>
@@ -4815,54 +2951,10 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.WebTestProperties_Kind_ARM">WebTestProperties_Kind_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_ARM">WebTestProperties_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;multistep&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ping&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.WebTestProperties_Kind_STATUS">WebTestProperties_Kind_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Webtest_STATUS">Webtest_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;multistep&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ping&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.WebTestProperties_Kind_STATUS_ARM">WebTestProperties_Kind_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4913,91 +3005,6 @@ bool
 <em>
 <a href="#insights.azure.com/v1api20220615.HeaderField">
 []HeaderField
-</a>
-</em>
-</td>
-<td>
-<p>Headers: List of headers and their values to add to the WebTest call.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>HttpVerb</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>HttpVerb: Http verb to use for this web test.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ParseDependentRequests</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ParseDependentRequests: Parse Dependent request for this WebTest.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>RequestBody</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RequestBody: Base64 encoded string body to send with this web test.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>RequestUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RequestUrl: Url location to test.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.WebTestProperties_Request_ARM">WebTestProperties_Request_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_ARM">WebTestProperties_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>FollowRedirects</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>FollowRedirects: Follow redirects for this web test.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Headers</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.HeaderField_ARM">
-[]HeaderField_ARM
 </a>
 </em>
 </td>
@@ -5136,265 +3143,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.WebTestProperties_Request_STATUS_ARM">WebTestProperties_Request_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>FollowRedirects</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>FollowRedirects: Follow redirects for this web test.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Headers</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.HeaderField_STATUS_ARM">
-[]HeaderField_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Headers: List of headers and their values to add to the WebTest call.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>HttpVerb</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>HttpVerb: Http verb to use for this web test.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ParseDependentRequests</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ParseDependentRequests: Parse Dependent request for this WebTest.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>RequestBody</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RequestBody: Base64 encoded string body to send with this web test.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>RequestUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RequestUrl: Url location to test.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Webtest_STATUS_ARM">Webtest_STATUS_ARM</a>)
-</p>
-<div>
-<p>Metadata describing a web test for an Azure resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>Configuration</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.WebTestProperties_Configuration_STATUS_ARM">
-WebTestProperties_Configuration_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Configuration: An XML configuration specification for a WebTest.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Description: User defined description for this WebTest.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: Is the test actively being monitored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Frequency</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Kind</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.WebTestProperties_Kind_STATUS_ARM">
-WebTestProperties_Kind_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Kind: The kind of web test this is, valid choices are ping, multistep and standard.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Locations</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.WebTestGeolocation_STATUS_ARM">
-[]WebTestGeolocation_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
-application.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: User defined name if this WebTest.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProvisioningState: Current state of this component, whether or not is has been provisioned within the resource group it
-is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
-Canceled, and Failed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Request</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.WebTestProperties_Request_STATUS_ARM">
-WebTestProperties_Request_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Request: The collection of request properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>RetryEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RetryEnabled: Allow for retries should this WebTest fail.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>SyntheticMonitorId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Timeout</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ValidationRules</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.WebTestProperties_ValidationRules_STATUS_ARM">
-WebTestProperties_ValidationRules_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ValidationRules: The collection of validation rule properties</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.WebTestProperties_ValidationRules">WebTestProperties_ValidationRules
 </h3>
 <p>
@@ -5416,81 +3164,6 @@ WebTestProperties_ValidationRules_STATUS_ARM
 <em>
 <a href="#insights.azure.com/v1api20220615.WebTestProperties_ValidationRules_ContentValidation">
 WebTestProperties_ValidationRules_ContentValidation
-</a>
-</em>
-</td>
-<td>
-<p>ContentValidation: The collection of content validation properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ExpectedHttpStatusCode</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>IgnoreHttpStatusCode</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IgnoreHttpStatusCode: When set, validation will ignore the status code.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>SSLCertRemainingLifetimeCheck</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
-must be positive and the SSLCheck must be set to true.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>SSLCheck</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>SSLCheck: Checks to see if the SSL cert is still valid.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.WebTestProperties_ValidationRules_ARM">WebTestProperties_ValidationRules_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_ARM">WebTestProperties_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ContentValidation</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.WebTestProperties_ValidationRules_ContentValidation_ARM">
-WebTestProperties_ValidationRules_ContentValidation_ARM
 </a>
 </em>
 </td>
@@ -5596,112 +3269,10 @@ will fail if there is a match</p>
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.WebTestProperties_ValidationRules_ContentValidation_ARM">WebTestProperties_ValidationRules_ContentValidation_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_ValidationRules_ARM">WebTestProperties_ValidationRules_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ContentMatch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>IgnoreCase</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>PassIfTextFound</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
-will fail if there is a match</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.WebTestProperties_ValidationRules_ContentValidation_STATUS">WebTestProperties_ValidationRules_ContentValidation_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_ValidationRules_STATUS">WebTestProperties_ValidationRules_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ContentMatch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>IgnoreCase</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>PassIfTextFound</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
-will fail if there is a match</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.WebTestProperties_ValidationRules_ContentValidation_STATUS_ARM">WebTestProperties_ValidationRules_ContentValidation_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_ValidationRules_STATUS_ARM">WebTestProperties_ValidationRules_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5770,81 +3341,6 @@ will fail if there is a match</p>
 <em>
 <a href="#insights.azure.com/v1api20220615.WebTestProperties_ValidationRules_ContentValidation_STATUS">
 WebTestProperties_ValidationRules_ContentValidation_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ContentValidation: The collection of content validation properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ExpectedHttpStatusCode</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>IgnoreHttpStatusCode</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IgnoreHttpStatusCode: When set, validation will ignore the status code.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>SSLCertRemainingLifetimeCheck</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
-must be positive and the SSLCheck must be set to true.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>SSLCheck</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>SSLCheck: Checks to see if the SSL cert is still valid.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.WebTestProperties_ValidationRules_STATUS_ARM">WebTestProperties_ValidationRules_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ContentValidation</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.WebTestProperties_ValidationRules_ContentValidation_STATUS_ARM">
-WebTestProperties_ValidationRules_ContentValidation_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6050,6 +3546,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#insights.azure.com/v1api20220615.WebtestOperatorSpec">
+WebtestOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -6146,6 +3656,50 @@ Webtest_STATUS
 </em>
 </td>
 <td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.WebtestOperatorSpec">WebtestOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Webtest_Spec">Webtest_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
 </td>
 </tr>
 </tbody>
@@ -6391,88 +3945,6 @@ WebTestProperties_ValidationRules_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20220615.Webtest_STATUS_ARM">Webtest_STATUS_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Azure resource Id</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Azure resource name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.WebTestProperties_STATUS_ARM">
-WebTestProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Metadata describing a web test for an Azure resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Azure resource type</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20220615.Webtest_Spec">Webtest_Spec
 </h3>
 <p>
@@ -6597,6 +4069,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#insights.azure.com/v1api20220615.WebtestOperatorSpec">
+WebtestOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -6678,65 +4164,6 @@ WebTestProperties_ValidationRules
 </td>
 <td>
 <p>ValidationRules: The collection of validation rule properties</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20220615.Webtest_Spec_ARM">Webtest_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20220615.WebTestProperties_ARM">
-WebTestProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Metadata describing a web test for an Azure resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
 </td>
 </tr>
 </tbody>

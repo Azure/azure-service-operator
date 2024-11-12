@@ -53,7 +53,7 @@ target string Target: The target of the particular error.
 ApiError_STATUS (Appears on:DiskEncryptionSet_STATUS) Api error.
 Field Description code string Code: The error code.
 details []ApiErrorBase_STATUS Details: The Api error details">
-  <meta itemprop="wordCount" content="1457">
+  <meta itemprop="wordCount" content="1557">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="compute.azure.com/v1api20220702">
   <meta name="twitter:description" content="compute.azure.com/v1api20220702 Package v1api20220702 contains API Schema definitions for the compute v1api20220702 API group
@@ -366,6 +366,8 @@ details []ApiErrorBase_STATUS Details: The Api error details">
   <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20240901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">containerservice.azure.com/v1api20240901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
@@ -1062,6 +1064,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#compute.azure.com/v1api20220702.DiskEncryptionSetOperatorSpec">
+DiskEncryptionSetOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -1111,6 +1127,50 @@ DiskEncryptionSet_STATUS
 </em>
 </td>
 <td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="compute.azure.com/v1api20220702.DiskEncryptionSetOperatorSpec">DiskEncryptionSetOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_Spec">DiskEncryptionSet_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
 </td>
 </tr>
 </tbody>
@@ -1463,6 +1523,20 @@ string
 </td>
 <td>
 <p>Location: Resource location</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#compute.azure.com/v1api20220702.DiskEncryptionSetOperatorSpec">
+DiskEncryptionSetOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>

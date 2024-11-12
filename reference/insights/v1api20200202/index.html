@@ -20,21 +20,23 @@
 <title>insights.azure.com/v1api20200202 | Azure Service Operator</title>
 <meta name="description" content="insights.azure.com/v1api20200202 Package v1api20200202 contains API Schema definitions for the insights v1api20200202 API group
 Resource Types: APIVersion (string alias) Value Description &#34;2020-02-02&#34;
-ApplicationInsightsComponentProperties_ARM (Appears on:Component_Spec_ARM) Properties that define an Application Insights component resource.
-Field Description Application_Type ApplicationInsightsComponentProperties_Application_Type_ARM Application_Type: Type of application being monitored.
-DisableIpMasking bool DisableIpMasking: Disable IP masking.
-DisableLocalAuth bool DisableLocalAuth: Disable Non-AAD based Auth.
-Flow_Type ApplicationInsightsComponentProperties_Flow_Type_ARM Flow_Type: Used by the Application Insights system to determine what kind of flow this component was created by. This is to be set to &lsquo;Bluefield&rsquo; when creating/updating a component via the REST API.">
+ApplicationInsightsComponentProperties_Application_Type (string alias) (Appears on:Component_Spec) Value Description &#34;other&#34;
+&#34;web&#34;
+ApplicationInsightsComponentProperties_Application_Type_STATUS (string alias) (Appears on:Component_STATUS) Value Description &#34;other&#34;
+&#34;web&#34;
+ApplicationInsightsComponentProperties_Flow_Type (string alias) (Appears on:Component_Spec) Value Description &#34;Bluefield&#34;
+ApplicationInsightsComponentProperties_Flow_Type_STATUS (string alias) (Appears on:Component_STATUS) Value Description &#34;Bluefield&#34;">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/insights/v1api20200202/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="insights.azure.com/v1api20200202">
   <meta property="og:description" content="insights.azure.com/v1api20200202 Package v1api20200202 contains API Schema definitions for the insights v1api20200202 API group
 Resource Types: APIVersion (string alias) Value Description &#34;2020-02-02&#34;
-ApplicationInsightsComponentProperties_ARM (Appears on:Component_Spec_ARM) Properties that define an Application Insights component resource.
-Field Description Application_Type ApplicationInsightsComponentProperties_Application_Type_ARM Application_Type: Type of application being monitored.
-DisableIpMasking bool DisableIpMasking: Disable IP masking.
-DisableLocalAuth bool DisableLocalAuth: Disable Non-AAD based Auth.
-Flow_Type ApplicationInsightsComponentProperties_Flow_Type_ARM Flow_Type: Used by the Application Insights system to determine what kind of flow this component was created by. This is to be set to ‘Bluefield’ when creating/updating a component via the REST API.">
+ApplicationInsightsComponentProperties_Application_Type (string alias) (Appears on:Component_Spec) Value Description &#34;other&#34;
+&#34;web&#34;
+ApplicationInsightsComponentProperties_Application_Type_STATUS (string alias) (Appears on:Component_STATUS) Value Description &#34;other&#34;
+&#34;web&#34;
+ApplicationInsightsComponentProperties_Flow_Type (string alias) (Appears on:Component_Spec) Value Description &#34;Bluefield&#34;
+ApplicationInsightsComponentProperties_Flow_Type_STATUS (string alias) (Appears on:Component_STATUS) Value Description &#34;Bluefield&#34;">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
@@ -42,21 +44,23 @@ Flow_Type ApplicationInsightsComponentProperties_Flow_Type_ARM Flow_Type: Used b
   <meta itemprop="name" content="insights.azure.com/v1api20200202">
   <meta itemprop="description" content="insights.azure.com/v1api20200202 Package v1api20200202 contains API Schema definitions for the insights v1api20200202 API group
 Resource Types: APIVersion (string alias) Value Description &#34;2020-02-02&#34;
-ApplicationInsightsComponentProperties_ARM (Appears on:Component_Spec_ARM) Properties that define an Application Insights component resource.
-Field Description Application_Type ApplicationInsightsComponentProperties_Application_Type_ARM Application_Type: Type of application being monitored.
-DisableIpMasking bool DisableIpMasking: Disable IP masking.
-DisableLocalAuth bool DisableLocalAuth: Disable Non-AAD based Auth.
-Flow_Type ApplicationInsightsComponentProperties_Flow_Type_ARM Flow_Type: Used by the Application Insights system to determine what kind of flow this component was created by. This is to be set to ‘Bluefield’ when creating/updating a component via the REST API.">
-  <meta itemprop="wordCount" content="2445">
+ApplicationInsightsComponentProperties_Application_Type (string alias) (Appears on:Component_Spec) Value Description &#34;other&#34;
+&#34;web&#34;
+ApplicationInsightsComponentProperties_Application_Type_STATUS (string alias) (Appears on:Component_STATUS) Value Description &#34;other&#34;
+&#34;web&#34;
+ApplicationInsightsComponentProperties_Flow_Type (string alias) (Appears on:Component_Spec) Value Description &#34;Bluefield&#34;
+ApplicationInsightsComponentProperties_Flow_Type_STATUS (string alias) (Appears on:Component_STATUS) Value Description &#34;Bluefield&#34;">
+  <meta itemprop="wordCount" content="1555">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="insights.azure.com/v1api20200202">
   <meta name="twitter:description" content="insights.azure.com/v1api20200202 Package v1api20200202 contains API Schema definitions for the insights v1api20200202 API group
 Resource Types: APIVersion (string alias) Value Description &#34;2020-02-02&#34;
-ApplicationInsightsComponentProperties_ARM (Appears on:Component_Spec_ARM) Properties that define an Application Insights component resource.
-Field Description Application_Type ApplicationInsightsComponentProperties_Application_Type_ARM Application_Type: Type of application being monitored.
-DisableIpMasking bool DisableIpMasking: Disable IP masking.
-DisableLocalAuth bool DisableLocalAuth: Disable Non-AAD based Auth.
-Flow_Type ApplicationInsightsComponentProperties_Flow_Type_ARM Flow_Type: Used by the Application Insights system to determine what kind of flow this component was created by. This is to be set to ‘Bluefield’ when creating/updating a component via the REST API.">
+ApplicationInsightsComponentProperties_Application_Type (string alias) (Appears on:Component_Spec) Value Description &#34;other&#34;
+&#34;web&#34;
+ApplicationInsightsComponentProperties_Application_Type_STATUS (string alias) (Appears on:Component_STATUS) Value Description &#34;other&#34;
+&#34;web&#34;
+ApplicationInsightsComponentProperties_Flow_Type (string alias) (Appears on:Component_Spec) Value Description &#34;Bluefield&#34;
+ApplicationInsightsComponentProperties_Flow_Type_STATUS (string alias) (Appears on:Component_STATUS) Value Description &#34;Bluefield&#34;">
 
 
 
@@ -358,6 +362,8 @@ Flow_Type ApplicationInsightsComponentProperties_Flow_Type_ARM Flow_Type: Used b
   <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20240901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">containerservice.azure.com/v1api20240901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
@@ -793,217 +799,10 @@ Resource Types:
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM">ApplicationInsightsComponentProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.Component_Spec_ARM">Component_Spec_ARM</a>)
-</p>
-<div>
-<p>Properties that define an Application Insights component resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>Application_Type</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Application_Type_ARM">
-ApplicationInsightsComponentProperties_Application_Type_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Application_Type: Type of application being monitored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>DisableIpMasking</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisableIpMasking: Disable IP masking.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>DisableLocalAuth</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Flow_Type</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Flow_Type_ARM">
-ApplicationInsightsComponentProperties_Flow_Type_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Flow_Type: Used by the Application Insights system to determine what kind of flow this component was created by. This is
-to be set to &lsquo;Bluefield&rsquo; when creating/updating a component via the REST API.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ForceCustomerStorageForProfiler</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>HockeyAppId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>HockeyAppId: The unique application ID created when a new application is added to HockeyApp, used for communications
-with HockeyApp.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ImmediatePurgeDataOn30Days</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ImmediatePurgeDataOn30Days: Purge data immediately after 30 days.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>IngestionMode</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_IngestionMode_ARM">
-ApplicationInsightsComponentProperties_IngestionMode_ARM
-</a>
-</em>
-</td>
-<td>
-<p>IngestionMode: Indicates the flow of the ingestion.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccessForIngestion</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.PublicNetworkAccessType_ARM">
-PublicNetworkAccessType_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccessForQuery</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.PublicNetworkAccessType_ARM">
-PublicNetworkAccessType_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Request_Source</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Request_Source_ARM">
-ApplicationInsightsComponentProperties_Request_Source_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Request_Source: Describes what tool created this Application Insights component. Customers using this API should set
-this to the default &lsquo;rest&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>RetentionInDays</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>RetentionInDays: Retention period in days.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>SamplingPercentage</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-<p>SamplingPercentage: Percentage of the data produced by the application being monitored that is being sampled for
-Application Insights telemetry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workspaceResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Application_Type">ApplicationInsightsComponentProperties_Application_Type
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.Component_Spec">Component_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;other&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;web&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Application_Type_ARM">ApplicationInsightsComponentProperties_Application_Type_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM">ApplicationInsightsComponentProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1040,48 +839,10 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM">ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM">ApplicationInsightsComponentProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;other&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;web&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Flow_Type">ApplicationInsightsComponentProperties_Flow_Type
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.Component_Spec">Component_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Bluefield&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Flow_Type_ARM">ApplicationInsightsComponentProperties_Flow_Type_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM">ApplicationInsightsComponentProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1114,50 +875,10 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM">ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM">ApplicationInsightsComponentProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Bluefield&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_IngestionMode">ApplicationInsightsComponentProperties_IngestionMode
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.Component_Spec">Component_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ApplicationInsights&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ApplicationInsightsWithDiagnosticSettings&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;LogAnalytics&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_IngestionMode_ARM">ApplicationInsightsComponentProperties_IngestionMode_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM">ApplicationInsightsComponentProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1198,50 +919,10 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM">ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM">ApplicationInsightsComponentProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ApplicationInsights&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ApplicationInsightsWithDiagnosticSettings&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;LogAnalytics&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Request_Source">ApplicationInsightsComponentProperties_Request_Source
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.Component_Spec">Component_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;rest&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Request_Source_ARM">ApplicationInsightsComponentProperties_Request_Source_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM">ApplicationInsightsComponentProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1273,340 +954,6 @@ string
 <tbody><tr><td><p>&#34;rest&#34;</p></td>
 <td></td>
 </tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM">ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM">ApplicationInsightsComponentProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;rest&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM">ApplicationInsightsComponentProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.Component_STATUS_ARM">Component_STATUS_ARM</a>)
-</p>
-<div>
-<p>Properties that define an Application Insights component resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>AppId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AppId: Application Insights Unique ID for your Application.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ApplicationId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ApplicationId: The unique ID of your application. This field mirrors the &lsquo;Name&rsquo; field and cannot be changed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Application_Type</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM">
-ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Application_Type: Type of application being monitored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ConnectionString</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ConnectionString: Application Insights component connection string.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>CreationDate</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreationDate: Creation Date for the Application Insights component, in ISO 8601 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>DisableIpMasking</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisableIpMasking: Disable IP masking.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>DisableLocalAuth</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Flow_Type</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM">
-ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Flow_Type: Used by the Application Insights system to determine what kind of flow this component was created by. This is
-to be set to &lsquo;Bluefield&rsquo; when creating/updating a component via the REST API.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ForceCustomerStorageForProfiler</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>HockeyAppId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>HockeyAppId: The unique application ID created when a new application is added to HockeyApp, used for communications
-with HockeyApp.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>HockeyAppToken</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>HockeyAppToken: Token used to authenticate communications with between Application Insights and HockeyApp.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ImmediatePurgeDataOn30Days</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ImmediatePurgeDataOn30Days: Purge data immediately after 30 days.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>IngestionMode</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM">
-ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>IngestionMode: Indicates the flow of the ingestion.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>InstrumentationKey</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>InstrumentationKey: Application Insights Instrumentation key. A read-only value that applications can use to identify
-the destination for all telemetry sent to Azure Application Insights. This value will be supplied upon construction of
-each new Application Insights component.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>LaMigrationDate</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LaMigrationDate: The date which the component got migrated to LA, in ISO 8601 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Application name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>PrivateLinkScopedResources</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.PrivateLinkScopedResource_STATUS_ARM">
-[]PrivateLinkScopedResource_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PrivateLinkScopedResources: List of linked private link scope resources.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProvisioningState: Current state of this component: whether or not is has been provisioned within the resource group it
-is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
-Canceled, and Failed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccessForIngestion</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.PublicNetworkAccessType_STATUS_ARM">
-PublicNetworkAccessType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccessForQuery</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.PublicNetworkAccessType_STATUS_ARM">
-PublicNetworkAccessType_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Request_Source</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM">
-ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Request_Source: Describes what tool created this Application Insights component. Customers using this API should set
-this to the default &lsquo;rest&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>RetentionInDays</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>RetentionInDays: Retention period in days.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>SamplingPercentage</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-<p>SamplingPercentage: Percentage of the data produced by the application being monitored that is being sampled for
-Application Insights telemetry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>TenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: Azure Tenant Id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>WorkspaceResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>WorkspaceResourceId: Resource Id of the log analytics workspace which the data will be ingested to. This property is
-required to create an application with this API version. Applications from older versions will not have this property.</p>
-</td>
-</tr>
-</tbody>
 </table>
 <h3 id="insights.azure.com/v1api20200202.Component">Component
 </h3>
@@ -1989,6 +1336,19 @@ be created.</p>
 <tbody>
 <tr>
 <td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>configMaps</code><br/>
 <em>
 <a href="#insights.azure.com/v1api20200202.ComponentOperatorConfigMaps">
@@ -1998,6 +1358,19 @@ ComponentOperatorConfigMaps
 </td>
 <td>
 <p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
 </td>
 </tr>
 </tbody>
@@ -2408,111 +1781,6 @@ required to create an application with this API version. Applications from older
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20200202.Component_STATUS_ARM">Component_STATUS_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>etag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Etag: Resource etag</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Azure resource Id</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>kind</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Kind: The kind of application that this component refers to, used to customize UI. This value is a freeform string,
-values should typically be one of the following: web, ios, other, store, java, phone.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Azure resource name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM">
-ApplicationInsightsComponentProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Properties that define an Application Insights component resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Azure resource type</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20200202.Component_Spec">Component_Spec
 </h3>
 <p>
@@ -2789,132 +2057,10 @@ is required to create an application with this API version. Applications from ol
 </tr>
 </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20200202.Component_Spec_ARM">Component_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>etag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Etag: Resource etag</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>kind</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Kind: The kind of application that this component refers to, used to customize UI. This value is a freeform string,
-values should typically be one of the following: web, ios, other, store, java, phone.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM">
-ApplicationInsightsComponentProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Properties that define an Application Insights component resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="insights.azure.com/v1api20200202.PrivateLinkScopedResource_STATUS">PrivateLinkScopedResource_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.Component_STATUS">Component_STATUS</a>)
-</p>
-<div>
-<p>The private link scope resource reference.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ResourceId: The full resource Id of the private link scope resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ScopeId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ScopeId: The private link scope unique Identifier.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20200202.PrivateLinkScopedResource_STATUS_ARM">PrivateLinkScopedResource_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM">ApplicationInsightsComponentProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>The private link scope resource reference.</p>
@@ -2972,52 +2118,10 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="insights.azure.com/v1api20200202.PublicNetworkAccessType_ARM">PublicNetworkAccessType_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM">ApplicationInsightsComponentProperties_ARM</a>)
-</p>
-<div>
-<p>The network access type for operating on the Application Insights Component. By default it is Enabled</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="insights.azure.com/v1api20200202.PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.Component_STATUS">Component_STATUS</a>)
-</p>
-<div>
-<p>The network access type for operating on the Application Insights Component. By default it is Enabled</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20200202.PublicNetworkAccessType_STATUS_ARM">PublicNetworkAccessType_STATUS_ARM
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM">ApplicationInsightsComponentProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>The network access type for operating on the Application Insights Component. By default it is Enabled</p>

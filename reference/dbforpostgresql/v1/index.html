@@ -41,7 +41,7 @@ Resource Types: LocalUserSpec (Appears on:UserSpec) Field Description serverAdmi
 serverAdminPassword genruntime.SecretReference ServerAdminPassword is a reference to a secret containing the servers administrator password
 password genruntime.SecretReference Password is the password to use for the user
 RoleOptionsSpec (Appears on:UserSpec) Field Description login bool WITH LOGIN or NOLOGIN">
-  <meta itemprop="wordCount" content="373">
+  <meta itemprop="wordCount" content="441">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="dbforpostgresql.azure.com/v1">
   <meta name="twitter:description" content="dbforpostgresql.azure.com/v1 Package v1 contains hand-crafted API Schema definitions for the dbforpostgresql v1 API group
@@ -350,6 +350,8 @@ RoleOptionsSpec (Appears on:UserSpec) Field Description login bool WITH LOGIN or
   <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20240901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">containerservice.azure.com/v1api20240901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
@@ -888,7 +890,7 @@ bool
 <h3 id="dbforpostgresql.azure.com/v1.User">User
 </h3>
 <div>
-<p>User is a postgresql user</p>
+<p>User is a postgresql user.</p>
 </div>
 <table>
 <thead>
@@ -960,10 +962,9 @@ reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
 </em>
 </td>
 <td>
-<p>The Azure Database for PostgreSQL server is created with the 3 default roles defined.
-azure_pg_admin
-azure_superuser
-your server admin user</p>
+<p>Roles is the set of roles granted to the user upon creation.
+The Azure Database for PostgreSQL server is created with 3 default roles defined: azure_pg_admin, azure_superuser,
+and your server admin user (this last is a role w/ login permission, commonly called a User).</p>
 </td>
 </tr>
 <tr>
@@ -976,7 +977,8 @@ RoleOptionsSpec
 </em>
 </td>
 <td>
-<p>The with options of the user role.</p>
+<p>RoleOptions defines additional attributes of the user role. You can read more about these attributes
+at <a href="https://www.postgresql.org/docs/current/role-attributes.html">https://www.postgresql.org/docs/current/role-attributes.html</a>.</p>
 </td>
 </tr>
 <tr>
@@ -989,7 +991,7 @@ LocalUserSpec
 </em>
 </td>
 <td>
-<p>LocalUser contains details for creating a standard (non-aad) postgresql User</p>
+<p>LocalUser contains details for creating a standard (non-aad) postgresql User.</p>
 </td>
 </tr>
 </table>
@@ -1059,10 +1061,9 @@ reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
 </em>
 </td>
 <td>
-<p>The Azure Database for PostgreSQL server is created with the 3 default roles defined.
-azure_pg_admin
-azure_superuser
-your server admin user</p>
+<p>Roles is the set of roles granted to the user upon creation.
+The Azure Database for PostgreSQL server is created with 3 default roles defined: azure_pg_admin, azure_superuser,
+and your server admin user (this last is a role w/ login permission, commonly called a User).</p>
 </td>
 </tr>
 <tr>
@@ -1075,7 +1076,8 @@ RoleOptionsSpec
 </em>
 </td>
 <td>
-<p>The with options of the user role.</p>
+<p>RoleOptions defines additional attributes of the user role. You can read more about these attributes
+at <a href="https://www.postgresql.org/docs/current/role-attributes.html">https://www.postgresql.org/docs/current/role-attributes.html</a>.</p>
 </td>
 </tr>
 <tr>
@@ -1088,7 +1090,7 @@ LocalUserSpec
 </em>
 </td>
 <td>
-<p>LocalUser contains details for creating a standard (non-aad) postgresql User</p>
+<p>LocalUser contains details for creating a standard (non-aad) postgresql User.</p>
 </td>
 </tr>
 </tbody>
