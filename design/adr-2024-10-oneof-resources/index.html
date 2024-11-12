@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/design/adr-2023-09-skipping-properties/index.xml">
+<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/design/adr-2024-10-oneof-resources/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,24 +18,27 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>2023-09 Complex Properties that Skip Versions | Azure Service Operator</title>
+<title>2024-10 OneOf Resouces | Azure Service Operator</title>
 <meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2023-09-skipping-properties/">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2024-10-oneof-resources/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="2023-09 Complex Properties that Skip Versions">
-  <meta property="og:description" content="Context We have a long standing issue (originally documented in #1776) where our conversions between versions will break if a complex (object valued) property is reintroduced with a different shape in a later version after being removed in an earlier one.
-TL;DR: The crux of the problem is that we can currently end up with two different versions (shapes) of the same property serialized in a property bag on the same intermediate version.">
+  <meta property="og:title" content="2024-10 OneOf Resouces">
+  <meta property="og:description" content="Context One of the core features of OpenAPI (aka Swagger) specifications is the ability to handle polymorphism by requiring a part of the structure to match one-of several possible schemas.
+Azure Service Operator (ASO) has good support for use of OneOf definitions, but during import of Kusto resources we’ve run into a problem where our approach for handling them is conflicting with other decisions we made elsewhere.
+Background: OneOf types While the OneOf structure is a really useful and expressive way to design APIs, there’s no direct equivilent in the Go type system, or in the way Kubernetes CRDs may be defined (the later likely being driven by the former).">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
-  <meta itemprop="name" content="2023-09 Complex Properties that Skip Versions">
-  <meta itemprop="description" content="Context We have a long standing issue (originally documented in #1776) where our conversions between versions will break if a complex (object valued) property is reintroduced with a different shape in a later version after being removed in an earlier one.
-TL;DR: The crux of the problem is that we can currently end up with two different versions (shapes) of the same property serialized in a property bag on the same intermediate version.">
-  <meta itemprop="wordCount" content="1941">
+  <meta itemprop="name" content="2024-10 OneOf Resouces">
+  <meta itemprop="description" content="Context One of the core features of OpenAPI (aka Swagger) specifications is the ability to handle polymorphism by requiring a part of the structure to match one-of several possible schemas.
+Azure Service Operator (ASO) has good support for use of OneOf definitions, but during import of Kusto resources we’ve run into a problem where our approach for handling them is conflicting with other decisions we made elsewhere.
+Background: OneOf types While the OneOf structure is a really useful and expressive way to design APIs, there’s no direct equivilent in the Go type system, or in the way Kubernetes CRDs may be defined (the later likely being driven by the former).">
+  <meta itemprop="wordCount" content="1109">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="2023-09 Complex Properties that Skip Versions">
-  <meta name="twitter:description" content="Context We have a long standing issue (originally documented in #1776) where our conversions between versions will break if a complex (object valued) property is reintroduced with a different shape in a later version after being removed in an earlier one.
-TL;DR: The crux of the problem is that we can currently end up with two different versions (shapes) of the same property serialized in a property bag on the same intermediate version.">
+  <meta name="twitter:title" content="2024-10 OneOf Resouces">
+  <meta name="twitter:description" content="Context One of the core features of OpenAPI (aka Swagger) specifications is the ability to handle polymorphism by requiring a part of the structure to match one-of several possible schemas.
+Azure Service Operator (ASO) has good support for use of OneOf definitions, but during import of Kusto resources we’ve run into a problem where our approach for handling them is conflicting with other decisions we made elsewhere.
+Background: OneOf types While the OneOf structure is a really useful and expressive way to design APIs, there’s no direct equivilent in the Go type system, or in the way Kubernetes CRDs may be defined (the later likely being driven by the former).">
 
 
 
@@ -673,8 +676,8 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
   <a href="/azure-service-operator/design/adr-2023-07-goal-seeking-keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults"><span class="">2023-07 Goal Seeking KeyVaults</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-07-packagereferences-li">
   <a href="/azure-service-operator/design/adr-2023-07-packagereferences/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-packagereferences"><span class="">2023-07 Package References</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
-  <a href="/azure-service-operator/design/adr-2023-09-skipping-properties/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-09-skipping-properties"><span class="td-sidebar-nav-active-item">2023-09 Complex Properties that Skip Versions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
+  <a href="/azure-service-operator/design/adr-2023-09-skipping-properties/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-09-skipping-properties"><span class="">2023-09 Complex Properties that Skip Versions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion-li">
   <a href="/azure-service-operator/design/adr-2024-02-upstream-deletion/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion"><span class="">2024-02 Upstream Deletion</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-04-roleassignment-uuid-generation-li">
@@ -683,8 +686,8 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
   <a href="/azure-service-operator/design/adr-2024-05-operatorspec-custom-properties/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties"><span class="">2024-05 OperatorSpec Custom Properties</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap-li">
   <a href="/azure-service-operator/design/adr-2024-07-dynamic-export-to-secret-or-configmap/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap"><span class="">2024-07: Dynamic Export to Secret or ConfigMap</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-10-oneof-resources-li">
-  <a href="/azure-service-operator/design/adr-2024-10-oneof-resources/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-10-oneof-resources"><span class="">2024-10 OneOf Resouces</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2024-10-oneof-resources-li">
+  <a href="/azure-service-operator/design/adr-2024-10-oneof-resources/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-10-oneof-resources"><span class="td-sidebar-nav-active-item">2024-10 OneOf Resouces</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
@@ -735,15 +738,41 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
   <ul>
     <li><a href="#context">Context</a>
       <ul>
-        <li><a href="#conversion-between-v3-and-v4">Conversion between v3 and v4</a></li>
-        <li><a href="#conversion-between-v4-and-v5">Conversion between v4 and v5</a></li>
+        <li><a href="#background-oneof-types">Background: OneOf types</a></li>
+        <li><a href="#background-resource-structure">Background: Resource Structure</a></li>
         <li><a href="#the-problem">The Problem</a></li>
-        <li><a href="#constraint-serialization-format">Constraint: Serialization format</a></li>
-        <li><a href="#rejected-solution-add-a-synthetic-property">Rejected Solution: Add a synthetic property</a></li>
-        <li><a href="#constraint-direction-of-conversion">Constraint: Direction of Conversion</a></li>
-        <li><a href="#constraint-multi-generational-skips">Constraint: Multi-generational skips</a></li>
-        <li><a href="#constraint-augmentation-of-conversions">Constraint: Augmentation of conversions</a></li>
-        <li><a href="#proposed-solution">Proposed Solution</a></li>
+      </ul>
+    </li>
+    <li><a href="#option-1-do-nothing">Option 1: Do Nothing</a>
+      <ul>
+        <li><a href="#pros">Pros</a></li>
+        <li><a href="#cons">Cons</a></li>
+      </ul>
+    </li>
+    <li><a href="#option-2-loosen-the-rules-on-name">Option 2: Loosen the rules on Name</a>
+      <ul>
+        <li><a href="#pros-1">Pros</a></li>
+        <li><a href="#cons-1">Cons</a></li>
+        <li><a href="#questions">Questions</a></li>
+      </ul>
+    </li>
+    <li><a href="#option-3-change-the-rules-for-all-oneof-types">Option 3: Change the rules for all OneOf Types</a>
+      <ul>
+        <li><a href="#pros-2">Pros</a></li>
+        <li><a href="#cons-2">Cons</a></li>
+      </ul>
+    </li>
+    <li><a href="#option-4-special-case-name-for-root-oneof-types">Option 4: Special case Name for root OneOf Types</a>
+      <ul>
+        <li><a href="#pros-3">Pros</a></li>
+        <li><a href="#cons-3">Cons</a></li>
+        <li><a href="#questions-1">Questions</a></li>
+      </ul>
+    </li>
+    <li><a href="#option-5-split-the-resources">Option 5: Split the resources</a>
+      <ul>
+        <li><a href="#pros-4">Pros</a></li>
+        <li><a href="#cons-4">Cons</a></li>
       </ul>
     </li>
     <li><a href="#decision">Decision</a></li>
@@ -767,339 +796,228 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/design/">Design</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    2023-09 Complex Properties that Skip Versions</li>
+    2024-10 OneOf Resouces</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>2023-09 Complex Properties that Skip Versions</h1>
+	<h1>2024-10 OneOf Resouces</h1>
   
 	<header class="article-meta">
 		
 </header>
 	<h2 id="context">Context</h2>
-<p>We have a long standing issue (originally documented in <a href="https://github.com/Azure/azure-service-operator/issues/1776">#1776</a>) where our conversions between versions will break if a complex (object valued) property is reintroduced with a different shape in a later version after being removed in an earlier one.</p>
-<p><strong>TL;DR:</strong> The crux of the problem is that we can currently end up with two different versions (shapes) of the same property serialized in a property bag on the same intermediate version.</p>
-<p>To clarify, consider the following examples, demonstrating the current behaviour, and then how that causes a problem. Following that, we&rsquo;ll discuss some constraints on possible solutions, and some approaches we might take.</p>
-<h3 id="conversion-between-v3-and-v4">Conversion between v3 and v4</h3>
-<p>Consider a CRM system containing details of people. In v3 of the system, we capture each person&rsquo;s residential address, but in v4 we have dropped that property:</p>
-<!-- yuml.me
+<p>One of the core features of OpenAPI (aka Swagger) specifications is the ability to handle polymorphism by requiring a part of the structure to match <em>one-of</em> several possible schemas.</p>
+<p>Azure Service Operator (ASO) has good support for use of OneOf definitions, but during import of Kusto resources we&rsquo;ve run into a problem where our approach for handling them is conflicting with other decisions we made elsewhere.</p>
+<h3 id="background-oneof-types">Background: OneOf types</h3>
+<p>While the OneOf structure is a really useful and expressive way to design APIs, there&rsquo;s no direct equivilent in the Go type system, or in the way Kubernetes CRDs may be defined (the later likely being driven by the former).</p>
+<p>We therefore handle these by creating an intermediate layer that represents the range of options, and then flatten things when constructing the payload for submission to ARM.</p>
+<p>To illustrate, imagine our API has support for a number of different roles that a person might take on. The Swagger definition might capture the <code>Role</code> as a one-of selecting from the four available roles (Student, Tutor, Teacher, and Marker), with an associated <code>RoleProperties</code> for shared properties that are present in all roles.</p>
+<pre class="mermaid">classDiagram
 
-[v3.Person|FullName string;FamilyName string; KnownAs string; ResidentialAddress v3.Address|Properties PropertyBag]
-[v3.Person]->[v3.Address|Label multilineString|Properties PropertyBag]
-[v4.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
+class Role {
+  &lt;&lt;oneof&gt;&gt;
+}
 
--->
+class RoleProperties {
+    StartDate date
+    FinishDate optional&lt;date&gt;
+}
 
-<figure>
-    <img src="./conversion-v3-v4-class.png"/> 
-</figure>
+Role *-- RoleProperties
 
-<p>When we convert from v3 to v4 (v3 -&gt; v4) the <code>ResidentialAddress</code> property gets serialized into the <code>PropertyBag</code> on the v4 Person. Note that the bag contains a v3 <code>Address</code> in a serialized form.</p>
-<p>To illustrate, consider this concrete example:</p>
-<!-- yuml.me
+class StudentProperties {
+    Class string
+    Grade string
+}
 
-[v3.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey; ResidentialAddress v3.Address|Properties PropertyBag]
-[v3.Person]->[v3.Address|Label:\n1313 S. Harbor Blvd\nAnaheim\nCA 92803\nUSA|Properties PropertyBag]
-[v4.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey|Properties PropertyBag]
-[v4.Person]-.-[ResidentialAddress {bg:cornsilk}|Label:\n'1313 S. Harbor Blvd',\n'Anaheim',\n'CA 92803',\n'USA']
 
--->
+class TutorProperties {
+    Class string
+    Timeslot string
+}
 
-<figure>
-    <img src="./conversion-v3-v4-instance.png"/> 
-</figure>
+class TeacherProperties {
+    Subject string
+    Tenure bool
+}
 
-<p>As YAML, the v3 version of Mickey would be:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">fullName</span>: <span style="color:#ae81ff">Michael Theodore Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">familyName</span>: <span style="color:#ae81ff">Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">knownAs</span>: <span style="color:#ae81ff">Mickey</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">residentialAddress</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">label</span>: |<span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        1313 S. Harbor Blvd
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Anaheim
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        CA 92803
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        USA</span>        
-</span></span></code></pre></div><p>There is no <code>ResidentialAddress</code> property on the v4 <code>Person</code> to store Mickey&rsquo;s residential address, so it gets safely stashed away in the <code>PropertyBag</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">fullName</span>: <span style="color:#ae81ff">Michael Theodore Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">familyName</span>: <span style="color:#ae81ff">Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">knownAs</span>: <span style="color:#ae81ff">Mickey</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">propertyBag</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">residentialAddress</span>: <span style="color:#e6db74">&#34;label:\n1313 S. Harbor Blvd\nAnaheim\nCA 92803\nUSA&#34;</span>
-</span></span></code></pre></div><p>In the other direction, from v4 to v3, conversion works fine, as we can take the <code>ResidentialAddress</code> value from the property bag, deserialize the v3 <code>Address</code>, and set things up as they were before.</p>
-<p>Conversion back and forward between versions v3 and v4 works fine.</p>
-<h3 id="conversion-between-v4-and-v5">Conversion between v4 and v5</h3>
-<p>In v5, the <code>ResidentialAddress</code> is reintroduced, but with a different shape. Instead of being the single field <code>Label</code>, it now has multiple fields:</p>
-<!-- yuml.me 
+class MarkerProperties {
+    Exam string
+    Strictness string
+}
 
-[v4.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
-[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|Properties PropertyBag]
-[v5.Person]--[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
+Role --&gt; StudentProperties : Student
+Role --&gt; TutorProperties : Tutor
+Role --&gt; TeacherProperties : Teacher
+Role --&gt; MarkerProperties : Marker</pre>
+<p>To represent this as a CRD, we create an object structure where the top level <code>Role</code> has four mutually exclusive properties, one for each option, with all the properties pushed down to the leaves.</p>
+<pre class="mermaid">classDiagram
 
--->
+class Role {
+  Student StudentProperties
+  Tutor TutorProperties
+  Teacher TeacherProperties
+  Marker MarkerProperties
+}
 
-<figure>
-    <img src="./conversion-v4-v5-class.png"/> 
-</figure>
+class StudentProperties {
+    Class string
+    Grade string
+    StartDate date
+    FinishDate optional&lt;date&gt;
+}
 
-<p>When we convert from v5 to v4, again the <code>ResidentialAddress</code> property gets serialized into the <code>PropertyBag</code> on the v4 Person.</p>
-<p>Again, it&rsquo;s useful to see a concrete example:</p>
-<!-- yuml.me
 
-[v4.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey|Properties PropertyBag]
-[v4.Person]-.-[ResidentialAddress {bg:cornsilk}|Street: '1313 S. Harbor Blvd'\nSuburb: ''\nCity: 'Anaheim, CA 92803'\nCountry: 'USA']
-[v5.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey; ResidentialAddress v3.Address|Properties PropertyBag]
-[v5.Person]->[v5.Address|Street: 1313 S. Harbor Blvd\nSuburb:\nCity: Anaheim, CA 92803\nCountry: USA|Properties PropertyBag]
+class TutorProperties {
+    Class string
+    Timeslot string
+    StartDate date
+    FinishDate optional&lt;date&gt;
+}
 
--->
+class TeacherProperties {
+    Subject string
+    Tenure bool
+    StartDate date
+    FinishDate optional&lt;date&gt;
+}
 
-<figure>
-    <img src="./conversion-v4-v5-instance.png"/> 
-</figure>
+class MarkerProperties {
+    Exam string
+    Strictness string
+    StartDate date
+    FinishDate optional&lt;date&gt;
+}
 
-<p>As before, there is no <code>ResidentialAddress</code> property on the v4 <code>Person</code> to store Mickey&rsquo;s residential address, so it gets safely stashed away in the <code>PropertyBag</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">fullName</span>: <span style="color:#ae81ff">Michael Theodore Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">familyName</span>: <span style="color:#ae81ff">Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">knownAs</span>: <span style="color:#ae81ff">Mickey</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">propertyBag</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">residentialAddress</span>: <span style="color:#e6db74">&#34;street:1313 S. Harbor Blvd;suburb:;city:Anaheim, CA 92803;country:USA&#34;</span>
-</span></span></code></pre></div><p>However, note that this time the bag contains a v5 <code>Address</code> in a serialized form, <strong>not</strong> a v3 <code>Address</code>.</p>
-<p>In the other direction, conversion from v4 to v5, works fine, as we can deserialize the v5 <code>Address</code> from the property bag.</p>
-<p>Conversion back and forward between versions v4 and v5 works fine.</p>
-<h3 id="the-problem">The Problem</h3>
-<p>Observe how we can end up with two different variants of v4 <code>Person</code>.</p>
-<p>In one case, we have a v4 <code>Person</code> where the property bag contains a v3 <code>Address</code>.
-In the other case, we have a v4 <code>Person</code> the property bag contains a v5 <code>Address</code>:</p>
-<!-- yuml.me 
+Role *-- StudentProperties : Student
+Role *-- TutorProperties : Tutor
+Role *-- TeacherProperties : Teacher
+Role *-- MarkerProperties : Marker</pre>
+<h3 id="background-resource-structure">Background: Resource Structure</h3>
+<p>When we generate the ARM types for submission to Azure Resource Manager, we require each resource to have a <code>Name</code> property.</p>
+<p>If that name is missing, we get the following error:</p>
+<pre tabindex="0"><code> error generating code: 
+ failed to execute stage 38: 
+ Create types for interaction with ARM: 
+ unable to create arm resource spec definition for resource &lt;id&gt;: 
+ resource spec doesn&#39;t have &#34;Name&#34; property&#34;
+</code></pre><h3 id="the-problem">The Problem</h3>
+<p>When importing resources from <code>Microsoft.Kusto</code> we have, for the first time, a resource using a <em>One-Of</em> as a part of it&rsquo;s definition right at the root. There are two flavours of the <code>Database</code> resource, one for a <em>read/write</em> database, and another for a <em>following</em> database.</p>
+<pre class="mermaid">classDiagram
 
-[v4.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey|Properties PropertyBag]
-[v4.Person]-.-[v3.ResidentialAddress {bg:cornsilk}|Label:\n'1313 S. Harbor Blvd',\n'Anaheim',\n'CA 92803',\n'USA']
-[v4.Person]-.-[v5.ResidentialAddress {bg:cornsilk}|Street: '1313 S. Harbor Blvd'\nSuburb: ''\nCity: 'Anaheim, CA 92803'\nCountry: 'USA']
+class ClustersDatabase_Spec {
+    &lt;&lt;oneof&gt;&gt;
+    Name string
+}
 
--->
+class ReadWriteDatabase
+class ReadOnlyFollowingDatabase
 
-<figure>
-    <img src="./conflict-v3-v5.png"/> 
-</figure>
+ClustersDatabase_Spec --&gt; ReadWriteDatabase : ReadWrite
+ClustersDatabase_Spec --&gt; ReadOnlyFollowingDatabase : ReadOnlyFollowing</pre>
+<p>When the OneOf is rendered according to our current rules, we end up with this structure:</p>
+<pre class="mermaid">classDiagram
 
-<p>While round trips between <em>adjacent</em> versions work fine, we run into problems when we attempt longer conversion chains. We end up stuck part-way through with a fatal problem.</p>
-<!-- yuml.me 
+class ClustersDatabase_Spec {
+    &lt;&lt;oneof&gt;&gt;
+    ReadWrite ReadWriteDatabase
+    ReadOnlyFollowing ReadOnlyFollowingDatabase
+}
 
-[v3.Person|FullName string;FamilyName string; KnownAs string; ResidentialAddress v3.Address|Properties PropertyBag]
-[v3.Person]->[v3.Address|Label multilineString|Properties PropertyBag]
+class ReadWriteDatabase {
+    Name string
+}
 
-[v4.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
+class ReadOnlyFollowingDatabase {
+    Name string
+}
 
-[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|Properties PropertyBag]
-[v5.Person]--[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
-
--->
-
-<figure>
-    <img src="./conversion-v3-v4-v5-class.png"/> 
-</figure>
-
-<p>Compare the two different kinds of v4 Person we end up with for Mickey.</p>
-<p>First when we start from v3:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">fullName</span>: <span style="color:#ae81ff">Michael Theodore Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">familyName</span>: <span style="color:#ae81ff">Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">knownAs</span>: <span style="color:#ae81ff">Mickey</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">propertyBag</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">residentialAddress</span>: <span style="color:#e6db74">&#34;label:\n1313 S. Harbor Blvd\nAnaheim\nCA 92803\nUSA&#34;</span>
-</span></span></code></pre></div><p>And now when we start from v5:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">fullName</span>: <span style="color:#ae81ff">Michael Theodore Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">familyName</span>: <span style="color:#ae81ff">Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">knownAs</span>: <span style="color:#ae81ff">Mickey</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">propertyBag</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">residentialAddress</span>: <span style="color:#e6db74">&#34;street:1313 S. Harbor Blvd;suburb:;city:Anaheim, CA 92803;country:USA&#34;</span>
-</span></span></code></pre></div><p>If we have a v4 <code>Person</code> that contains a v3 <code>Address</code> in the property bag, conversion to the v5 <code>Person</code> will fail when we try to deserialize a v5 <code>Address</code> from the v3 item.</p>
-<p>This will cause the operator to fail at runtime.</p>
-<p>Similarly f we end up with a v4 <code>Person</code> that contains a v5 <code>Address</code> in the property bag, we can&rsquo;t deserialize a v3 <code>Address</code> and again the operator will fail at runtime.</p>
-<h3 id="constraint-serialization-format">Constraint: Serialization format</h3>
-<p>For each resource type, there&rsquo;s a specific hub version that&rsquo;s used for serialization - this is the version that&rsquo;s persisted within a cluster. All other versions are created on-the-fly by conversion from the hub version. By convention in ASO, this hub version is based on the the latest stable version of the resource, or the latest preview version if no stable version is available.</p>
-<p>In most cases, the hub version will be the version affected by changes to solve the skipping-property problem, so we have to assume that there are extant resources of that version.</p>
-<p>We have three possible choices:</p>
-<p><strong>Preservation</strong> - we preserve the existing serialization format exactly. Existing ASO users with affected resources will be able to seamlessly update to the new release.</p>
-<p><strong>Compatibility</strong> - we make changes to the serialization format, but in a way that&rsquo;s backward compatible with existing resources, either by restricting our changes to new properties only, or by code-generation of custom marshaling code to read the old structure. If we make no mistakes, existing ASO users with affected resources will be able to seamlessly update to the new release.</p>
-<p><strong>Breaking</strong> - the serialization format is changed, and existing resources are broken. Either users are forced to recreate the affected resources, or we add a migration tool to <code>asoctl</code> to assist. We document this as a breaking change in our release notes.</p>
-<p><strong>Decision: Preservation</strong></p>
-<p>As discussed above, the problem is that we can end up with different object shapes embedded in the PropertyBag, depending on the direction of conversion (v3 -&gt; v4 -&gt; v5 vs v5 -&gt; v4 -&gt; v3). Standardising on a consistent object shape shouldn&rsquo;t require making any other changes.</p>
-<h3 id="rejected-solution-add-a-synthetic-property">Rejected Solution: Add a synthetic property</h3>
-<p>Modify the resource version immediately prior to the reintroduction of the property to restore the property one version earlier, using the same shape as the version where it was removed. Avoid the circular dependency problems by cloning the earlier object into the appropriate package.</p>
-<p>In our example here, we would add a new <code>ResidentialAddress</code> property to the v4 <code>Person</code> that contains an address in a new v4 <code>Address</code>, created by cloning the v3 <code>Address</code>.</p>
-<!-- yuml.me
-
-[v3.Person|FullName string;FamilyName string; KnownAs string; ResidentialAddress v3.Address|Properties PropertyBag]
-[v3.Person]->[v3.Address|Label multilineString|Properties PropertyBag]
-
-[v4.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress v4.Address|Properties PropertyBag]
-[v4.Person]->[v4.Address|Label multilineString|Properties PropertyBag]
-
-[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress v5.Address|Properties PropertyBag]
-[v5.Person]->[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
--->
-
-<figure>
-    <img src="./rejected-solution-synthetic-property.png"/> 
-</figure>
-
-<p>The shape of <code>Address</code> when reintroduced will always match the shape of <code>Address</code> when removed, so we can always serialize the same shape in-to or out-of the property bag, ensuring any <code>Address</code> has the a consistent shape.</p>
-<p>Pros:</p>
+ClustersDatabase_Spec *-- ReadWriteDatabase
+ClustersDatabase_Spec *-- ReadOnlyFollowingDatabase</pre>
+<p>This is correct according to our rules for OneOf, but it doesn&rsquo;t work for ARM Spec generation due to the lack of <code>Name</code>.</p>
+<h4 id="other-factors">Other factors</h4>
+<p>We also have an <code>AzureName</code> property for many our custom resources, to allow the name in Azure to differ from the name in the cluster, due to different naming rules in each environment.</p>
+<h2 id="option-1-do-nothing">Option 1: Do Nothing</h2>
+<p>Accept that the current decisions mean that we have to decline to support the <code>Microsoft.Kusto</code> resources, and any future resources that use this pattern.</p>
+<h3 id="pros">Pros</h3>
 <ul>
-<li>Works the way existing conversions do.</li>
-<li>We have an existing contract for augmenting conversions with custom code, allowing us to handcode the conversion between v4 and v5 to handle the mismatch in the shapes of <code>Address</code>.</li>
-<li>Addresses the central inconsistency problem, ensuring we always serialize the same shape into intermediate property bags</li>
+<li>Easy</li>
 </ul>
-<p>Cons:</p>
+<h3 id="cons">Cons</h3>
 <ul>
-<li>Changes the serialization format for existing v4 resources. This is a breaking change for existing resources.</li>
-<li>Changes the object model of released resources, a breaking change for code consumers of ASO <code>api</code> packages.</li>
-<li>When there are multi-generational skips, other questions arise: Do we introduce the new type into every intermediate version, only the last, or both first and last? Each approach has advantages and drawbacks.</li>
+<li>Distasteful to decline to support a resource due to a technical limitation, especially since we have a customer ask for this resource.</li>
+<li>No guarantee that Kusto will be the only affected resource.</li>
+<li>Risk that resources we already support will use this pattern in a new API version, rendering us unable to upgrade.</li>
 </ul>
-<p>Reason for rejection: This solution requires breaking changes and is therefore too disruptive to existing resources and code consumers.</p>
-<h3 id="constraint-direction-of-conversion">Constraint: Direction of Conversion</h3>
-<p>All of the conversion functionality we currently generate for ASO resources is hosted by the earlier version of the resource. For example, the conversion from v3 to v4 is hosted by the v3 package, and the conversion from v4 to v5 is hosted by the v4 package. We can see this by looking for the generated property assignment methods on the v3 and v4 types:</p>
-<!-- yuml.me
-
-[v3.Person|FullName string;FamilyName string; KnownAs string; ResidentialAddress v3.Address|AssignPropertiesTo_Person(person v4.Person);AssignPropertiesFrom_Person(person v4.Person)|Properties PropertyBag]
-[v3.Person]->[v3.Address|Label multilineString|AssignPropertiesTo_Address(address v5.Address);AssignPropertiesFrom_Address(address v5.Address)|Properties PropertyBag]
-
-[v4.Person|FullName string;FamilyName string; KnownAs string|AssignPropertiesTo_Person(person v5.Person);AssignPropertiesFrom_Person(person v5.Person)|Properties PropertyBag]
-
-[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|Properties PropertyBag]
-[v5.Person]--[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
-
--->
-
-<figure>
-    <img src="./conversion-direction.png"/> 
-</figure>
-
-<p>These conversions are enabled by having each package <strong>import</strong> the next version of the resource, forming a directed acyclic graph leading from the earliest version to the latest.</p>
-<p><strong>Observation</strong>: Not only <em>should</em> we implement our change in a way that&rsquo;s consistent with the direction of conversion already present, we <em>must</em> do so, as the Go compiler will not allow us to introduce a circular dependency between packages.</p>
-<h3 id="constraint-multi-generational-skips">Constraint: Multi-generational skips</h3>
-<p>The examples shown so far have the new property returning after just one version; we need to handle the case where the property returns after a hiatis of several versions.</p>
-<!-- yuml.me 
-
-[v3.Person|FullName string;FamilyName string; KnownAs string; ResidentialAddress v3.Address|Properties PropertyBag]
-[v3.Person]->[v3.Address|Label multilineString|Properties PropertyBag]
-
-[v4.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
-
-[v5.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
-
-[v6.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
-
-[v7.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
-
-[v8.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|Properties PropertyBag]
-[v8.Person]--[v8.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
-
--->
-
-<figure>
-    <img src="./conversion-multigenerational-class.png"/> 
-</figure>
-
-<h3 id="constraint-augmentation-of-conversions">Constraint: Augmentation of conversions</h3>
-<p>We&rsquo;re already generating support to allow augmentation of the generated conversions by hand-written code. This is used to handle cases where the generated conversions are insufficient, or where we need to handle special cases.</p>
-<p>It&rsquo;s highly desirable that we leverage this existing functionality for skipping properties, rather than building something new.</p>
-<h3 id="proposed-solution">Proposed Solution</h3>
-<p>Given that any existing resources will have property bags containing instances in the earlier shape, standardize on using that shape - and only that shape - when storing the instance in the property bag.</p>
-<p>Instead of writing the later shape into the property bag using code like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ResidentialAddress</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ResidentialAddress</span>)
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Remove</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>)
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>We will write the earlier shape into the property bag using code like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ResidentialAddress</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">address</span> <span style="color:#a6e22e">v4</span>.<span style="color:#a6e22e">Address</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">address</span>.<span style="color:#a6e22e">AssignProperties_From</span>(<span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ResidentialAddress</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>, <span style="color:#a6e22e">address</span>)
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Remove</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>)
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Reading the value from the property bag will also need to change. Instead of:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Contains</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">residentialAddress</span> <span style="color:#a6e22e">v5</span>.<span style="color:#a6e22e">Address</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Pull</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">residentialAddress</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrap</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;pulling &#39;ResidentialAddress&#39; from propertyBag&#34;</span>)
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">destination</span>.<span style="color:#a6e22e">ResidentialAddress</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">residentialAddress</span>
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">destination</span>.<span style="color:#a6e22e">ResidentialAddress</span> = <span style="color:#66d9ef">nil</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>We will read the earlier shape and convert it as required.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Contains</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">staging</span> <span style="color:#a6e22e">v4compat</span>.<span style="color:#a6e22e">Address</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Pull</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">staging</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrap</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;pulling &#39;ResidentialAddress&#39; from propertyBag&#34;</span>)
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">residentialAddress</span> <span style="color:#a6e22e">v5</span>.<span style="color:#a6e22e">Address</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">staging</span>.<span style="color:#a6e22e">AssignProperties_To_Address</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">residentialAddress</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrap</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;converting &#39;Address&#39; from v4compat to v5&#34;</span>)
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">destination</span>.<span style="color:#a6e22e">ResidentialAddress</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">residentialAddress</span>
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">destination</span>.<span style="color:#a6e22e">ResidentialAddress</span> = <span style="color:#66d9ef">nil</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>The updated object model will look like this:</p>
-<!-- yuml.me
-
-[v3.Person|FullName string;FamilyName string; KnownAs string; ResidentialAddress v3.Address|Properties PropertyBag]
-[v3.Person]->[v3.Address|Label multilineString|Properties PropertyBag]
-
-[v4.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
-[v4.Person]-.-[v4/compat.Address{bg:cornsilk}|Label multilineString|Properties PropertyBag]
-
-[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress v5.Address|Properties PropertyBag]
-[v5.Person]->[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
-
--->
-
-<figure>
-    <img src="./proposed-solution-class.png"/> 
-</figure>
-
-<p>Observe that we haven&rsquo;t introduced a <code>ResidentialAddress</code> property to the v4 <code>Person</code>, the instance still lives in the property bag.</p>
-<p>To avoid problems with circular dependencies (as noted above), we will clone the old (e.g. v3) shape and any related types forward. In the diagram above, we&rsquo;ve isolated these into a <code>compat</code> subpackage, but we could also clone them into the v4 package itself. Doing a clone will maintain the required invariant that the contents of the property bag will always match the shape of the earlier version of the property.</p>
-<p>Our existing conversion framework supports writing hand-crafted conversions between shapes, migrating data between the two shapes. By introducing a new type and leveraging the existing framework for the conversion, we gain support for writing these hand-crafted conversions between shapes.</p>
-<p>Pros:</p>
+<h2 id="option-2-loosen-the-rules-on-name">Option 2: Loosen the rules on Name</h2>
+<p>For the specific case where the top level <code>spec</code> is a one-of, permit the <code>Name</code> to be omitted from the top level as long as it&rsquo;s present on all of the leaf types (guaranteeing that a name will always be present).</p>
+<h3 id="pros-1">Pros</h3>
 <ul>
-<li>Addresses the central inconsistency problem, ensuring we always serialize the same shape into intermediate property bags</li>
-<li>Conversions are still driven by the earlier version, avoiding any issues with circular dependencies or needing to move conversion code elsewhere (e.g. to the later version).</li>
-<li>Isolates the compatibility type in a dedicated subpackage, where it won&rsquo;t inadvertently be picked up by documentation tools or other code consumers. (If this is not important, we can instead target the main v4 package.)</li>
-<li>Allows a hand driven conversion to be written to convert between v4 and v5 using the augmentation mechanism already in place for conversions between adjacent versions.</li>
-<li>Conversions between v3 and v4 remain unchanged</li>
-<li>Serialization format of v4 remains unchanged, ensuring compatibility with existing releases of ASO.</li>
+<li>Avoids making already complex one-of handling more complex.</li>
 </ul>
-<p>Cons:</p>
+<h3 id="cons-1">Cons</h3>
 <ul>
-<li>Requires modification of the conversion-graph, which to this point has been immutable once constructed (we can&rsquo;t delay construction until after we inject the compatibility package as we need it to identify skipping properties).</li>
-<li>When code generating for property conversions using a property bag, we&rsquo;ll need to detect and use the <code>compat</code> subpackage.</li>
+<li>May be confusing to users.</li>
+<li>Changes the existing rules, potentially breaking other code.</li>
+<li>Requires changes to the code generator to handle implementation of <code>AzureName()</code> and <code>SetAzureName()</code> methods on one-of resource types.</li>
+</ul>
+<h3 id="questions">Questions</h3>
+<ul>
+<li>How much of the existing operation of the code generator relies on the presence of <code>Name</code> at the top level on the ARM spec?</li>
+<li>Ditto for the controller?</li>
+</ul>
+<h2 id="option-3-change-the-rules-for-all-oneof-types">Option 3: Change the rules for all OneOf Types</h2>
+<p>At the moment, the only permitted properties at the root level of a one-of are the mutually exclusive properties that represent the available options. We could loosen this rule to permit other properties, those in common to all leaf types, to be present at the root level.</p>
+<h3 id="pros-2">Pros</h3>
+<ul>
+<li>Conceptually simpler</li>
+</ul>
+<h3 id="cons-2">Cons</h3>
+<ul>
+<li>Changing already complex one-of handling to make it more complex.</li>
+<li>Requires changing the way we serialize/deserialize one-of types in non-trivial ways.</li>
+<li>Potentially large blast-radius if our changes impact on one-of types we&rsquo;ve already generated and released.</li>
+</ul>
+<h2 id="option-4-special-case-name-for-root-oneof-types">Option 4: Special case Name for root OneOf Types</h2>
+<p>Preserve the existing rules for one-of types, but special case the root level of a resource spec to permit <code>Name</code> be specified alongside the one-of properties.</p>
+<h3 id="pros-3">Pros</h3>
+<ul>
+<li>Limits the scope of impact of the change.</li>
+</ul>
+<h3 id="cons-3">Cons</h3>
+<ul>
+<li>Need to change the generation of our JSON marshalling code to handle this special case.</li>
+<li>Special casing is always a bit of a code smell.</li>
+</ul>
+<h3 id="questions-1">Questions</h3>
+<ul>
+<li>Are there other properties that might be required at the root level of a resource spec in the future?</li>
+<li>Do we special case <code>Name</code> by itself, or do just apply different rules for root one-of objects?</li>
+</ul>
+<h2 id="option-5-split-the-resources">Option 5: Split the resources</h2>
+<p>Split the one-of resource into multiple variants, each representing one altnerative.</p>
+<p>For example, for <code>kusto</code> we&rsquo;d replace <code>Database</code> with <code>ReadWriteDatabase</code> and <code>ReadOnlyFollowingDatabase</code>, two resources that happened to use the same ARM URL but have different properties.</p>
+<h3 id="pros-4">Pros</h3>
+<ul>
+<li>Conceptually simple</li>
+</ul>
+<h3 id="cons-4">Cons</h3>
+<ul>
+<li>Choosing good names for the split resources may be difficult to code</li>
+<li>Increases the cognitive distance between ARM API and CRD structure, making it harder to understand</li>
+<li>Issues with ownership of child resources</li>
 </ul>
 <h2 id="decision">Decision</h2>
-<p>Recommended.</p>
+<p>Proposed: Option 2: Loosen the rules on Name</p>
 <h2 id="status">Status</h2>
-<p>TBC</p>
+<p>Discussion.</p>
 <h2 id="consequences">Consequences</h2>
 <p>TBC</p>
 <h2 id="experience-report">Experience Report</h2>
 <p>TBC</p>
 <h2 id="references">References</h2>
-<p>TBC
-``</p>
+<p>None</p>
 
   <div class="section-index">
     
@@ -1136,7 +1054,63 @@ In the other case, we have a v4 <code>Person</code> the property bag contains a 
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script type="module" async>
+  import mermaid from "https:\/\/cdn.jsdelivr.net\/npm\/mermaid@latest\/dist\/mermaid.esm.min.mjs";
+
+  (function ($) {
+    if ($('.mermaid').length == 0) {
+      mermaid.initialize({ startOnLoad: false });
+      return;
+    }
+
+    var params = {"enable":true};
+
+    
+    
+    var norm = function (defaultConfig, params) {
+      var result = {};
+      for (const key in defaultConfig) {
+        const keyLower = key.toLowerCase();
+        if (defaultConfig.hasOwnProperty(key) && params.hasOwnProperty(keyLower)) {
+          if (typeof defaultConfig[key] === "object") {
+            result[key] = norm(defaultConfig[key], params[keyLower]);
+          } else {
+            result[key] = params[keyLower];
+          }
+        }
+      }
+      return result;
+    };
+
+    var settings = norm(mermaid.mermaidAPI.defaultConfig, params);
+    settings.startOnLoad = true;
+    if ($('html[data-bs-theme="dark"]').length) {
+      settings.theme = 'dark';
+    }
+    mermaid.initialize(settings);
+
+    
+    const lightDarkModeThemeChangeHandler = function (mutationsList, observer) {
+      for (const mutation of mutationsList) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-bs-theme') {
+          
+          
+          
+          location.reload();
+        }
+      }
+    };
+
+    const observer = new MutationObserver(lightDarkModeThemeChangeHandler);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-bs-theme']
+    });
+    
+
+  })(jQuery);
+</script>
+<script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 
