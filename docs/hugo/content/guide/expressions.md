@@ -1,6 +1,6 @@
 ---
 title: CEL Expressions
-linktitle: expressions
+linktitle: Expressions
 weight: 1 # This is the default weight if you just want to be ordered alphabetically
 ---
 

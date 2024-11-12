@@ -45,13 +45,36 @@ consult its [documentation](../../reference/authorization/v1api20200801preview/#
 
 ## How to export ConfigMap data from ASO
 
-Some resources support saving data into a `ConfigMap`. The individual properties can be exported to a `ConfigMap` of your choosing by
-configuring the `.spec.operatorSpec.configMaps` field. The data will be written to the destination(s) you specify once the resource has 
-successfully been provisioned in Azure.
-The resource will not move to [Condition]( {{< relref "conditions" >}} ) `Ready=True` 
-until the data has been written.
+Data can be exported to a `ConfigMap` of your choosing by
+configuring the `.spec.operatorSpec.configMaps` field, or the `.spec.operatorSpec.configMapExpressions` field.
+The data will be written to the destination(s) you specify once the resource has successfully been provisioned in Azure.
 
-**Example (from [the UserAssignedIdentity sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1api20181130/v1api20181130_userassignedidentity.yaml)):**
+The resource will not move to [Condition]( {{< relref "conditions" >}} ) `Ready=True` until the data has been written.
+
+**Example `.spec.operatorSpec.configMapExpressions`:**
+```yaml
+apiVersion: managedidentity.azure.com/v1api20181130
+kind: UserAssignedIdentity
+metadata:
+  name: sampleuserassignedidentity
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  operatorSpec:
+    configMapExpressions:
+      - name: identity-settings
+        key: principalId
+        value: self.status.principalId
+      - name: identity-settings
+        key: principalId
+        value: self.status.clientId
+```
+
+More complex expressions can be exported as well, see [Expressions]( {{< relref "expressions" >}} ) for more details.
+
+**Example `.spec.operatorSpec.configMaps` (from [the UserAssignedIdentity sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1api20181130/v1api20181130_userassignedidentity.yaml)):**
 ```yaml
 apiVersion: managedidentity.azure.com/v1api20181130
 kind: UserAssignedIdentity
