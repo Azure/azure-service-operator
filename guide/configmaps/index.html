@@ -32,7 +32,7 @@ How to provide ConfigMap data to ASO Resources may have fields in their spec tha
   <meta itemprop="name" content="Sharing data through ConfigMaps">
   <meta itemprop="description" content="Resources supported by Azure Service Operator may support dynamic input in the form of reading a ConfigMap. They may also support storing certain output into a ConfigMap (such as ManagedIdentity principalId and clientId).
 How to provide ConfigMap data to ASO Resources may have fields in their spec that allow a reference to a Kubernetes ConfigMap. In general, these fields are usually optional, and you can choose to specify the raw value or source it from a ConfigMap for something more dynamic.">
-  <meta itemprop="wordCount" content="370">
+  <meta itemprop="wordCount" content="411">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Sharing data through ConfigMaps">
   <meta name="twitter:description" content="Resources supported by Azure Service Operator may support dynamic input in the form of reading a ConfigMap. They may also support storing certain output into a ConfigMap (such as ManagedIdentity principalId and clientId).
@@ -141,7 +141,9 @@ How to provide ConfigMap data to ASO Resources may have fields in their spec tha
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.11.0/" title="v2.11.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110"><span class="">v2.11.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.10.0/" title="v2.10.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100"><span class="">v2.10.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/" title="v2.9.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290"><span class="">v2.9.0</span></a>
@@ -168,7 +170,7 @@ How to provide ConfigMap data to ASO Resources may have fields in their spec tha
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidediagnosing-problems-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideexpressions-li">
-  <a href="/azure-service-operator/guide/expressions/" title="CEL Expressions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">expressions</span></a>
+  <a href="/azure-service-operator/guide/expressions/" title="CEL Expressions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">Expressions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
@@ -794,12 +796,30 @@ You can hardcode that <code>principalId</code> or you can refer to it dynamicall
 <p>Note that not every field for every resource supports importing data from <code>ConfigMap</code>. To check if a resource supports it,
 consult its <a href="../../reference/authorization/v1api20200801preview/#authorization.azure.com/v1api20200801preview.RoleAssignment">documentation</a>.</p>
 <h2 id="how-to-export-configmap-data-from-aso">How to export ConfigMap data from ASO</h2>
-<p>Some resources support saving data into a <code>ConfigMap</code>. The individual properties can be exported to a <code>ConfigMap</code> of your choosing by
-configuring the <code>.spec.operatorSpec.configMaps</code> field. The data will be written to the destination(s) you specify once the resource has
-successfully been provisioned in Azure.
-The resource will not move to <a href="/azure-service-operator/guide/conditions/">Condition</a> <code>Ready=True</code>
-until the data has been written.</p>
-<p><strong>Example (from <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1api20181130/v1api20181130_userassignedidentity.yaml">the UserAssignedIdentity sample</a>):</strong></p>
+<p>Data can be exported to a <code>ConfigMap</code> of your choosing by
+configuring the <code>.spec.operatorSpec.configMaps</code> field, or the <code>.spec.operatorSpec.configMapExpressions</code> field.
+The data will be written to the destination(s) you specify once the resource has successfully been provisioned in Azure.</p>
+<p>The resource will not move to <a href="/azure-service-operator/guide/conditions/">Condition</a> <code>Ready=True</code> until the data has been written.</p>
+<p><strong>Example <code>.spec.operatorSpec.configMapExpressions</code>:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">managedidentity.azure.com/v1api20181130</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">UserAssignedIdentity</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sampleuserassignedidentity</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westcentralus</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">owner</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-sample-rg</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">operatorSpec</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">configMapExpressions</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">identity-settings</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">principalId</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value</span>: <span style="color:#ae81ff">self.status.principalId</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">identity-settings</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">principalId</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value</span>: <span style="color:#ae81ff">self.status.clientId</span>
+</span></span></code></pre></div><p>More complex expressions can be exported as well, see <a href="/azure-service-operator/guide/expressions/">Expressions</a> for more details.</p>
+<p><strong>Example <code>.spec.operatorSpec.configMaps</code> (from <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1api20181130/v1api20181130_userassignedidentity.yaml">the UserAssignedIdentity sample</a>):</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">managedidentity.azure.com/v1api20181130</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">UserAssignedIdentity</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:

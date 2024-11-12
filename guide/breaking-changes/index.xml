@@ -8,6 +8,13 @@
     <language>en-us</language>
     <atom:link href="https://azure.github.io/azure-service-operator/guide/breaking-changes/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>v2.11.0 Breaking Changes</title>
+      <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.11.0/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.11.0/</guid>
+      <description>&lt;h2 id=&#34;breaking-changes&#34;&gt;Breaking changes&lt;/h2&gt;&#xA;&lt;h4 id=&#34;moved-all-the-arm-variants-of-the-crd-types-into-dedicated-subpackages&#34;&gt;Moved all the &amp;ldquo;ARM&amp;rdquo; variants of the CRD types into dedicated subpackages&lt;/h4&gt;&#xA;&lt;p&gt;This is only breaking for consumers of the Go package, not for users of the YAML, and only for those using the ARM types directly.&lt;/p&gt;&#xA;&lt;h2 id=&#34;upcoming-breaking-changes&#34;&gt;Upcoming Breaking changes&lt;/h2&gt;&#xA;&lt;h3 id=&#34;deprecated-managedclusterscontainerserviceazurecom-api-versions&#34;&gt;Deprecated managedclusters.containerservice.azure.com API versions&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;The v1api20210501 and v1api20231102preview versions will be removed in ASO release 2.12.&lt;/li&gt;&#xA;&lt;li&gt;The v1api20230201 version will be removed in ASO release 2.13.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;We recommend you move to use a different CRD version to avoid errors.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>v2.10.0 Breaking Changes</title>
       <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.10.0/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
