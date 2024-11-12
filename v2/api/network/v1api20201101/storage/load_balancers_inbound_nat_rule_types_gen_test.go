@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,6 +18,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_LoadBalancersInboundNatRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancersInboundNatRule to hub returns original",
+		prop.ForAll(RunResourceConversionTestForLoadBalancersInboundNatRule, LoadBalancersInboundNatRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForLoadBalancersInboundNatRule tests if a specific instance of LoadBalancersInboundNatRule round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForLoadBalancersInboundNatRule(subject LoadBalancersInboundNatRule) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v20240301s.LoadBalancersInboundNatRule
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual LoadBalancersInboundNatRule
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_LoadBalancersInboundNatRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancersInboundNatRule to LoadBalancersInboundNatRule via AssignProperties_To_LoadBalancersInboundNatRule & AssignProperties_From_LoadBalancersInboundNatRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersInboundNatRule, LoadBalancersInboundNatRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancersInboundNatRule tests if a specific instance of LoadBalancersInboundNatRule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancersInboundNatRule(subject LoadBalancersInboundNatRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20240301s.LoadBalancersInboundNatRule
+	err := copied.AssignProperties_To_LoadBalancersInboundNatRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancersInboundNatRule
+	err = actual.AssignProperties_From_LoadBalancersInboundNatRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_LoadBalancersInboundNatRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -80,6 +166,48 @@ func AddRelatedPropertyGeneratorsForLoadBalancersInboundNatRule(gens map[string]
 	gens["Status"] = LoadBalancersInboundNatRule_STATUSGenerator()
 }
 
+func Test_LoadBalancersInboundNatRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancersInboundNatRuleOperatorSpec to LoadBalancersInboundNatRuleOperatorSpec via AssignProperties_To_LoadBalancersInboundNatRuleOperatorSpec & AssignProperties_From_LoadBalancersInboundNatRuleOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersInboundNatRuleOperatorSpec, LoadBalancersInboundNatRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancersInboundNatRuleOperatorSpec tests if a specific instance of LoadBalancersInboundNatRuleOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancersInboundNatRuleOperatorSpec(subject LoadBalancersInboundNatRuleOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20240301s.LoadBalancersInboundNatRuleOperatorSpec
+	err := copied.AssignProperties_To_LoadBalancersInboundNatRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancersInboundNatRuleOperatorSpec
+	err = actual.AssignProperties_From_LoadBalancersInboundNatRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_LoadBalancersInboundNatRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -133,6 +261,48 @@ func LoadBalancersInboundNatRuleOperatorSpecGenerator() gopter.Gen {
 	loadBalancersInboundNatRuleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(LoadBalancersInboundNatRuleOperatorSpec{}), generators)
 
 	return loadBalancersInboundNatRuleOperatorSpecGenerator
+}
+
+func Test_LoadBalancersInboundNatRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancersInboundNatRule_STATUS to LoadBalancersInboundNatRule_STATUS via AssignProperties_To_LoadBalancersInboundNatRule_STATUS & AssignProperties_From_LoadBalancersInboundNatRule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersInboundNatRule_STATUS, LoadBalancersInboundNatRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancersInboundNatRule_STATUS tests if a specific instance of LoadBalancersInboundNatRule_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancersInboundNatRule_STATUS(subject LoadBalancersInboundNatRule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20240301s.LoadBalancersInboundNatRule_STATUS
+	err := copied.AssignProperties_To_LoadBalancersInboundNatRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancersInboundNatRule_STATUS
+	err = actual.AssignProperties_From_LoadBalancersInboundNatRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_LoadBalancersInboundNatRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -221,6 +391,48 @@ func AddRelatedPropertyGeneratorsForLoadBalancersInboundNatRule_STATUS(gens map[
 	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
+func Test_LoadBalancersInboundNatRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancersInboundNatRule_Spec to LoadBalancersInboundNatRule_Spec via AssignProperties_To_LoadBalancersInboundNatRule_Spec & AssignProperties_From_LoadBalancersInboundNatRule_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersInboundNatRule_Spec, LoadBalancersInboundNatRule_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancersInboundNatRule_Spec tests if a specific instance of LoadBalancersInboundNatRule_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancersInboundNatRule_Spec(subject LoadBalancersInboundNatRule_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20240301s.LoadBalancersInboundNatRule_Spec
+	err := copied.AssignProperties_To_LoadBalancersInboundNatRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancersInboundNatRule_Spec
+	err = actual.AssignProperties_From_LoadBalancersInboundNatRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_LoadBalancersInboundNatRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -304,6 +516,48 @@ func AddRelatedPropertyGeneratorsForLoadBalancersInboundNatRule_Spec(gens map[st
 	gens["OperatorSpec"] = gen.PtrOf(LoadBalancersInboundNatRuleOperatorSpecGenerator())
 }
 
+func Test_NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded to NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded via AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded & AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded, NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded tests if a specific instance of NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded(subject NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20240301s.NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded
+	err := copied.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded
+	err = actual.AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -383,7 +637,7 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResource
+	var other v20220701s.SubResource
 	err := copied.AssignProperties_To_SubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -479,7 +733,7 @@ func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResource_STATUS
+	var other v20220701s.SubResource_STATUS
 	err := copied.AssignProperties_To_SubResource_STATUS(&other)
 	if err != nil {
 		return err.Error()

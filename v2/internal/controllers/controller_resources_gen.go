@@ -172,6 +172,10 @@ import (
 	network_v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	network_v20240101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101"
 	network_v20240101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
+	network_v20240301 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
+	network_v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	network_v20240601 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601"
+	network_v20240601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
 	operationalinsights_customizations "github.com/Azure/azure-service-operator/v2/api/operationalinsights/customizations"
 	operationalinsights_v20210601 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601"
 	operationalinsights_v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
@@ -1047,27 +1051,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZonesPTRRecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZonesSRVRecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZonesTXTRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20180901s.PrivateDnsZone)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesAAAARecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesARecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesCNAMERecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesMXRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesPTRRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesSRVRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesTXTRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesVirtualNetworkLink)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.LoadBalancer)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.LoadBalancersInboundNatRule)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.NetworkInterface)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.NetworkSecurityGroup)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.NetworkSecurityGroupsSecurityRule)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.PublicIPAddress)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.RouteTable)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.RouteTablesRoute)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetwork)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworkGateway)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworksSubnet)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworksVirtualNetworkPeering)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfile)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesAzureEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesExternalEndpoint)})
@@ -1103,7 +1086,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.BastionHost)})
 	result = append(result, &registration.StorageType{
 		Obj: new(network_v20220701s.DnsForwardingRuleSetsForwardingRule),
 		Indexes: []registration.Index{
@@ -1124,13 +1106,35 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsResolver)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsResolversInboundEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsResolversOutboundEndpoint)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.NatGateway)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateEndpoint)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateEndpointsPrivateDnsZoneGroup)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateLinkService)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PublicIPPrefix)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240101s.ApplicationSecurityGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240101s.WebApplicationFirewallPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.BastionHost)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.LoadBalancer)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.LoadBalancersInboundNatRule)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.NatGateway)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.NetworkInterface)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.NetworkSecurityGroup)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.NetworkSecurityGroupsSecurityRule)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PrivateEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PrivateEndpointsPrivateDnsZoneGroup)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PrivateLinkService)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PublicIPAddress)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PublicIPPrefix)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.RouteTable)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.RouteTablesRoute)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetwork)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetworkGateway)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetworksSubnet)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetworksVirtualNetworkPeering)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZone)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesAAAARecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesARecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesCNAMERecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesMXRecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesPTRRecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesSRVRecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesTXTRecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesVirtualNetworkLink)})
 	result = append(result, &registration.StorageType{Obj: new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20210601s.Workspace)})
 	result = append(result, &registration.StorageType{
@@ -2064,6 +2068,68 @@ func getKnownTypes() []client.Object {
 		result,
 		new(network_v20240101s.ApplicationSecurityGroup),
 		new(network_v20240101s.WebApplicationFirewallPolicy))
+	result = append(
+		result,
+		new(network_v20240301.BastionHost),
+		new(network_v20240301.LoadBalancer),
+		new(network_v20240301.LoadBalancersInboundNatRule),
+		new(network_v20240301.NatGateway),
+		new(network_v20240301.NetworkInterface),
+		new(network_v20240301.NetworkSecurityGroup),
+		new(network_v20240301.NetworkSecurityGroupsSecurityRule),
+		new(network_v20240301.PrivateEndpoint),
+		new(network_v20240301.PrivateEndpointsPrivateDnsZoneGroup),
+		new(network_v20240301.PrivateLinkService),
+		new(network_v20240301.PublicIPAddress),
+		new(network_v20240301.PublicIPPrefix),
+		new(network_v20240301.RouteTable),
+		new(network_v20240301.RouteTablesRoute),
+		new(network_v20240301.VirtualNetwork),
+		new(network_v20240301.VirtualNetworkGateway),
+		new(network_v20240301.VirtualNetworksSubnet),
+		new(network_v20240301.VirtualNetworksVirtualNetworkPeering))
+	result = append(
+		result,
+		new(network_v20240301s.BastionHost),
+		new(network_v20240301s.LoadBalancer),
+		new(network_v20240301s.LoadBalancersInboundNatRule),
+		new(network_v20240301s.NatGateway),
+		new(network_v20240301s.NetworkInterface),
+		new(network_v20240301s.NetworkSecurityGroup),
+		new(network_v20240301s.NetworkSecurityGroupsSecurityRule),
+		new(network_v20240301s.PrivateEndpoint),
+		new(network_v20240301s.PrivateEndpointsPrivateDnsZoneGroup),
+		new(network_v20240301s.PrivateLinkService),
+		new(network_v20240301s.PublicIPAddress),
+		new(network_v20240301s.PublicIPPrefix),
+		new(network_v20240301s.RouteTable),
+		new(network_v20240301s.RouteTablesRoute),
+		new(network_v20240301s.VirtualNetwork),
+		new(network_v20240301s.VirtualNetworkGateway),
+		new(network_v20240301s.VirtualNetworksSubnet),
+		new(network_v20240301s.VirtualNetworksVirtualNetworkPeering))
+	result = append(
+		result,
+		new(network_v20240601.PrivateDnsZone),
+		new(network_v20240601.PrivateDnsZonesAAAARecord),
+		new(network_v20240601.PrivateDnsZonesARecord),
+		new(network_v20240601.PrivateDnsZonesCNAMERecord),
+		new(network_v20240601.PrivateDnsZonesMXRecord),
+		new(network_v20240601.PrivateDnsZonesPTRRecord),
+		new(network_v20240601.PrivateDnsZonesSRVRecord),
+		new(network_v20240601.PrivateDnsZonesTXTRecord),
+		new(network_v20240601.PrivateDnsZonesVirtualNetworkLink))
+	result = append(
+		result,
+		new(network_v20240601s.PrivateDnsZone),
+		new(network_v20240601s.PrivateDnsZonesAAAARecord),
+		new(network_v20240601s.PrivateDnsZonesARecord),
+		new(network_v20240601s.PrivateDnsZonesCNAMERecord),
+		new(network_v20240601s.PrivateDnsZonesMXRecord),
+		new(network_v20240601s.PrivateDnsZonesPTRRecord),
+		new(network_v20240601s.PrivateDnsZonesSRVRecord),
+		new(network_v20240601s.PrivateDnsZonesTXTRecord),
+		new(network_v20240601s.PrivateDnsZonesVirtualNetworkLink))
 	result = append(result, new(networkfrontdoor_v20220501.WebApplicationFirewallPolicy))
 	result = append(result, new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy))
 	result = append(result, new(operationalinsights_v20210601.Workspace))
@@ -2399,6 +2465,10 @@ func createScheme() *runtime.Scheme {
 	_ = network_v20220701s.AddToScheme(scheme)
 	_ = network_v20240101.AddToScheme(scheme)
 	_ = network_v20240101s.AddToScheme(scheme)
+	_ = network_v20240301.AddToScheme(scheme)
+	_ = network_v20240301s.AddToScheme(scheme)
+	_ = network_v20240601.AddToScheme(scheme)
+	_ = network_v20240601s.AddToScheme(scheme)
 	_ = networkfrontdoor_v20220501.AddToScheme(scheme)
 	_ = networkfrontdoor_v20220501s.AddToScheme(scheme)
 	_ = operationalinsights_v20210601.AddToScheme(scheme)

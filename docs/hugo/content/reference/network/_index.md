@@ -5,6 +5,40 @@ no_list: true
 ---
 To install the CRDs for these resources, your ASO configuration must include `network.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
+|--------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| BastionHost                          | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_bastionhost.yaml)                          |
+| LoadBalancer                         | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_loadbalancer.yaml)                         |
+| LoadBalancersInboundNatRule          | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_loadbalancersinboundnatrule.yaml)          |
+| NatGateway                           | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_natgateway.yaml)                           |
+| NetworkInterface                     | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_networkinterface.yaml)                     |
+| NetworkSecurityGroup                 | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_networksecuritygroup.yaml)                 |
+| NetworkSecurityGroupsSecurityRule    | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_networksecuritygroupssecurityrule.yaml)    |
+| PrivateDnsZone                       | 2024-06-01  | v1api20240601 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszone.yaml)                       |
+| PrivateDnsZonesAAAARecord            | 2024-06-01  | v1api20240601 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesaaaarecord.yaml)            |
+| PrivateDnsZonesARecord               | 2024-06-01  | v1api20240601 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesarecord.yaml)               |
+| PrivateDnsZonesCNAMERecord           | 2024-06-01  | v1api20240601 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonescnamerecord.yaml)           |
+| PrivateDnsZonesMXRecord              | 2024-06-01  | v1api20240601 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesmxrecord.yaml)              |
+| PrivateDnsZonesPTRRecord             | 2024-06-01  | v1api20240601 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesptrrecord.yaml)             |
+| PrivateDnsZonesSRVRecord             | 2024-06-01  | v1api20240601 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonessrvrecord.yaml)             |
+| PrivateDnsZonesTXTRecord             | 2024-06-01  | v1api20240601 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonestxtrecord.yaml)             |
+| PrivateDnsZonesVirtualNetworkLink    | 2024-06-01  | v1api20240601 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesvirtualnetworklink.yaml)    |
+| PrivateEndpoint                      | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_privateendpoint.yaml)                      |
+| PrivateEndpointsPrivateDnsZoneGroup  | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_privateendpointsprivatednszonegroup.yaml)  |
+| PrivateLinkService                   | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_privatelinkservice.yaml)                   |
+| PublicIPAddress                      | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_publicipaddress.yaml)                      |
+| PublicIPPrefix                       | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_publicipprefix.yaml)                       |
+| RouteTable                           | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_routetable.yaml)                           |
+| RouteTablesRoute                     | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_routetablesroute.yaml)                     |
+| VirtualNetwork                       | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_virtualnetwork.yaml)                       |
+| VirtualNetworkGateway                | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_virtualnetworkgateway.yaml)                |
+| VirtualNetworksSubnet                | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_virtualnetworkssubnet.yaml)                |
+| VirtualNetworksVirtualNetworkPeering | 2024-03-01  | v1api20240301 | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_virtualnetworksvirtualnetworkpeering.yaml) |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.

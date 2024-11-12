@@ -5,7 +5,8 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForIpTag(subject IpTag) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IpTag
+	var other v20220701s.IpTag
 	err := copied.AssignProperties_To_IpTag(&other)
 	if err != nil {
 		return err.Error()
@@ -138,7 +139,7 @@ func RunPropertyAssignmentTestForIpTag_STATUS(subject IpTag_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IpTag_STATUS
+	var other v20220701s.IpTag_STATUS
 	err := copied.AssignProperties_To_IpTag_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -241,7 +242,7 @@ func RunPropertyAssignmentTestForNatGatewaySpec_PublicIPPrefix_SubResourceEmbedd
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded
+	var other v20220701s.NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded
 	err := copied.AssignProperties_To_NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -338,7 +339,7 @@ func RunPropertyAssignmentTestForNatGateway_STATUS_PublicIPPrefix_SubResourceEmb
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded
+	var other v20220701s.NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded
 	err := copied.AssignProperties_To_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -442,7 +443,7 @@ func RunResourceConversionTestForPublicIPPrefix(subject PublicIPPrefix) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.PublicIPPrefix
+	var hub v20240301s.PublicIPPrefix
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -484,7 +485,7 @@ func RunPropertyAssignmentTestForPublicIPPrefix(subject PublicIPPrefix) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PublicIPPrefix
+	var other v20220701s.PublicIPPrefix
 	err := copied.AssignProperties_To_PublicIPPrefix(&other)
 	if err != nil {
 		return err.Error()
@@ -587,7 +588,7 @@ func RunPropertyAssignmentTestForPublicIPPrefixOperatorSpec(subject PublicIPPref
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PublicIPPrefixOperatorSpec
+	var other v20220701s.PublicIPPrefixOperatorSpec
 	err := copied.AssignProperties_To_PublicIPPrefixOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -684,7 +685,7 @@ func RunPropertyAssignmentTestForPublicIPPrefixSku(subject PublicIPPrefixSku) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PublicIPPrefixSku
+	var other v20220701s.PublicIPPrefixSku
 	err := copied.AssignProperties_To_PublicIPPrefixSku(&other)
 	if err != nil {
 		return err.Error()
@@ -787,7 +788,7 @@ func RunPropertyAssignmentTestForPublicIPPrefixSku_STATUS(subject PublicIPPrefix
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PublicIPPrefixSku_STATUS
+	var other v20220701s.PublicIPPrefixSku_STATUS
 	err := copied.AssignProperties_To_PublicIPPrefixSku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -891,7 +892,7 @@ func RunPropertyAssignmentTestForPublicIPPrefix_STATUS(subject PublicIPPrefix_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PublicIPPrefix_STATUS
+	var other v20220701s.PublicIPPrefix_STATUS
 	err := copied.AssignProperties_To_PublicIPPrefix_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1031,7 +1032,7 @@ func RunPropertyAssignmentTestForPublicIPPrefix_Spec(subject PublicIPPrefix_Spec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PublicIPPrefix_Spec
+	var other v20220701s.PublicIPPrefix_Spec
 	err := copied.AssignProperties_To_PublicIPPrefix_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1160,7 +1161,7 @@ func RunPropertyAssignmentTestForReferencedPublicIpAddress_STATUS(subject Refere
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ReferencedPublicIpAddress_STATUS
+	var other v20220701s.ReferencedPublicIpAddress_STATUS
 	err := copied.AssignProperties_To_ReferencedPublicIpAddress_STATUS(&other)
 	if err != nil {
 		return err.Error()

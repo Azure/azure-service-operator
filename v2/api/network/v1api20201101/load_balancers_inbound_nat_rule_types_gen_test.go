@@ -5,7 +5,8 @@ package v1api20201101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForLoadBalancersInboundNatRule(subject LoadBalance
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.LoadBalancersInboundNatRule
+	var hub v20240301s.LoadBalancersInboundNatRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForLoadBalancersInboundNatRule(subject LoadBalance
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LoadBalancersInboundNatRule
+	var other v20201101s.LoadBalancersInboundNatRule
 	err := copied.AssignProperties_To_LoadBalancersInboundNatRule(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForLoadBalancersInboundNatRuleOperatorSpec(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LoadBalancersInboundNatRuleOperatorSpec
+	var other v20201101s.LoadBalancersInboundNatRuleOperatorSpec
 	err := copied.AssignProperties_To_LoadBalancersInboundNatRuleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForLoadBalancersInboundNatRule_STATUS(subject Load
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LoadBalancersInboundNatRule_STATUS
+	var other v20201101s.LoadBalancersInboundNatRule_STATUS
 	err := copied.AssignProperties_To_LoadBalancersInboundNatRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -411,7 +412,7 @@ func RunPropertyAssignmentTestForLoadBalancersInboundNatRule_Spec(subject LoadBa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LoadBalancersInboundNatRule_Spec
+	var other v20201101s.LoadBalancersInboundNatRule_Spec
 	err := copied.AssignProperties_To_LoadBalancersInboundNatRule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -535,7 +536,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_LoadBala
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded
+	var other v20201101s.NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -639,7 +640,7 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResource
+	var other v20201101s.SubResource
 	err := copied.AssignProperties_To_SubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -735,7 +736,7 @@ func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResource_STATUS
+	var other v20201101s.SubResource_STATUS
 	err := copied.AssignProperties_To_SubResource_STATUS(&other)
 	if err != nil {
 		return err.Error()

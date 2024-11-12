@@ -211,3 +211,4 @@ WebApplicationFirewallPolicy: Resource
     ├── ResourceState: *string
     ├── Tags: map[string]string
     └── Type: *string
+augmentConversionForSubResource_STATUS: Interface

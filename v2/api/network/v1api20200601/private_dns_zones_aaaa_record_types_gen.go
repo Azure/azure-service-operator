@@ -53,22 +53,36 @@ var _ conversion.Convertible = &PrivateDnsZonesAAAARecord{}
 
 // ConvertFrom populates our PrivateDnsZonesAAAARecord from the provided hub PrivateDnsZonesAAAARecord
 func (record *PrivateDnsZonesAAAARecord) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.PrivateDnsZonesAAAARecord)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20200601/storage/PrivateDnsZonesAAAARecord but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.PrivateDnsZonesAAAARecord
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return record.AssignProperties_From_PrivateDnsZonesAAAARecord(source)
+	err = record.AssignProperties_From_PrivateDnsZonesAAAARecord(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to record")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub PrivateDnsZonesAAAARecord from our PrivateDnsZonesAAAARecord
 func (record *PrivateDnsZonesAAAARecord) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.PrivateDnsZonesAAAARecord)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20200601/storage/PrivateDnsZonesAAAARecord but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.PrivateDnsZonesAAAARecord
+	err := record.AssignProperties_To_PrivateDnsZonesAAAARecord(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from record")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return record.AssignProperties_To_PrivateDnsZonesAAAARecord(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20200601-privatednszonesaaaarecord,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=privatednszonesaaaarecords,verbs=create;update,versions=v1api20200601,name=default.v1api20200601.privatednszonesaaaarecords.network.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (record *PrivateDnsZonesAAAARecord) SecretDestinationExpressions() []*core.
 		return nil
 	}
 	return record.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &PrivateDnsZonesAAAARecord{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (record *PrivateDnsZonesAAAARecord) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*PrivateDnsZonesAAAARecord_STATUS); ok {
-		return record.Spec.Initialize_From_PrivateDnsZonesAAAARecord_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type PrivateDnsZonesAAAARecord_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &PrivateDnsZonesAAAARecord{}
@@ -1089,154 +1092,6 @@ func (record *PrivateDnsZonesAAAARecord_Spec) AssignProperties_To_PrivateDnsZone
 	return nil
 }
 
-// Initialize_From_PrivateDnsZonesAAAARecord_STATUS populates our PrivateDnsZonesAAAARecord_Spec from the provided source PrivateDnsZonesAAAARecord_STATUS
-func (record *PrivateDnsZonesAAAARecord_Spec) Initialize_From_PrivateDnsZonesAAAARecord_STATUS(source *PrivateDnsZonesAAAARecord_STATUS) error {
-
-	// ARecords
-	if source.ARecords != nil {
-		aRecordList := make([]ARecord, len(source.ARecords))
-		for aRecordIndex, aRecordItem := range source.ARecords {
-			// Shadow the loop variable to avoid aliasing
-			aRecordItem := aRecordItem
-			var aRecord ARecord
-			err := aRecord.Initialize_From_ARecord_STATUS(&aRecordItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ARecord_STATUS() to populate field ARecords")
-			}
-			aRecordList[aRecordIndex] = aRecord
-		}
-		record.ARecords = aRecordList
-	} else {
-		record.ARecords = nil
-	}
-
-	// AaaaRecords
-	if source.AaaaRecords != nil {
-		aaaaRecordList := make([]AaaaRecord, len(source.AaaaRecords))
-		for aaaaRecordIndex, aaaaRecordItem := range source.AaaaRecords {
-			// Shadow the loop variable to avoid aliasing
-			aaaaRecordItem := aaaaRecordItem
-			var aaaaRecord AaaaRecord
-			err := aaaaRecord.Initialize_From_AaaaRecord_STATUS(&aaaaRecordItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_AaaaRecord_STATUS() to populate field AaaaRecords")
-			}
-			aaaaRecordList[aaaaRecordIndex] = aaaaRecord
-		}
-		record.AaaaRecords = aaaaRecordList
-	} else {
-		record.AaaaRecords = nil
-	}
-
-	// CnameRecord
-	if source.CnameRecord != nil {
-		var cnameRecord CnameRecord
-		err := cnameRecord.Initialize_From_CnameRecord_STATUS(source.CnameRecord)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CnameRecord_STATUS() to populate field CnameRecord")
-		}
-		record.CnameRecord = &cnameRecord
-	} else {
-		record.CnameRecord = nil
-	}
-
-	// Etag
-	record.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Metadata
-	record.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
-
-	// MxRecords
-	if source.MxRecords != nil {
-		mxRecordList := make([]MxRecord, len(source.MxRecords))
-		for mxRecordIndex, mxRecordItem := range source.MxRecords {
-			// Shadow the loop variable to avoid aliasing
-			mxRecordItem := mxRecordItem
-			var mxRecord MxRecord
-			err := mxRecord.Initialize_From_MxRecord_STATUS(&mxRecordItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_MxRecord_STATUS() to populate field MxRecords")
-			}
-			mxRecordList[mxRecordIndex] = mxRecord
-		}
-		record.MxRecords = mxRecordList
-	} else {
-		record.MxRecords = nil
-	}
-
-	// PtrRecords
-	if source.PtrRecords != nil {
-		ptrRecordList := make([]PtrRecord, len(source.PtrRecords))
-		for ptrRecordIndex, ptrRecordItem := range source.PtrRecords {
-			// Shadow the loop variable to avoid aliasing
-			ptrRecordItem := ptrRecordItem
-			var ptrRecord PtrRecord
-			err := ptrRecord.Initialize_From_PtrRecord_STATUS(&ptrRecordItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_PtrRecord_STATUS() to populate field PtrRecords")
-			}
-			ptrRecordList[ptrRecordIndex] = ptrRecord
-		}
-		record.PtrRecords = ptrRecordList
-	} else {
-		record.PtrRecords = nil
-	}
-
-	// SoaRecord
-	if source.SoaRecord != nil {
-		var soaRecord SoaRecord
-		err := soaRecord.Initialize_From_SoaRecord_STATUS(source.SoaRecord)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SoaRecord_STATUS() to populate field SoaRecord")
-		}
-		record.SoaRecord = &soaRecord
-	} else {
-		record.SoaRecord = nil
-	}
-
-	// SrvRecords
-	if source.SrvRecords != nil {
-		srvRecordList := make([]SrvRecord, len(source.SrvRecords))
-		for srvRecordIndex, srvRecordItem := range source.SrvRecords {
-			// Shadow the loop variable to avoid aliasing
-			srvRecordItem := srvRecordItem
-			var srvRecord SrvRecord
-			err := srvRecord.Initialize_From_SrvRecord_STATUS(&srvRecordItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SrvRecord_STATUS() to populate field SrvRecords")
-			}
-			srvRecordList[srvRecordIndex] = srvRecord
-		}
-		record.SrvRecords = srvRecordList
-	} else {
-		record.SrvRecords = nil
-	}
-
-	// Ttl
-	record.Ttl = genruntime.ClonePointerToInt(source.Ttl)
-
-	// TxtRecords
-	if source.TxtRecords != nil {
-		txtRecordList := make([]TxtRecord, len(source.TxtRecords))
-		for txtRecordIndex, txtRecordItem := range source.TxtRecords {
-			// Shadow the loop variable to avoid aliasing
-			txtRecordItem := txtRecordItem
-			var txtRecord TxtRecord
-			err := txtRecord.Initialize_From_TxtRecord_STATUS(&txtRecordItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_TxtRecord_STATUS() to populate field TxtRecords")
-			}
-			txtRecordList[txtRecordIndex] = txtRecord
-		}
-		record.TxtRecords = txtRecordList
-	} else {
-		record.TxtRecords = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (record *PrivateDnsZonesAAAARecord_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1964,16 +1819,6 @@ func (record *AaaaRecord) AssignProperties_To_AaaaRecord(destination *storage.Aa
 	return nil
 }
 
-// Initialize_From_AaaaRecord_STATUS populates our AaaaRecord from the provided source AaaaRecord_STATUS
-func (record *AaaaRecord) Initialize_From_AaaaRecord_STATUS(source *AaaaRecord_STATUS) error {
-
-	// Ipv6Address
-	record.Ipv6Address = genruntime.ClonePointerToString(source.Ipv6Address)
-
-	// No error
-	return nil
-}
-
 // An AAAA record.
 type AaaaRecord_STATUS struct {
 	// Ipv6Address: The IPv6 address of this AAAA record.
@@ -2107,16 +1952,6 @@ func (record *ARecord) AssignProperties_To_ARecord(destination *storage.ARecord)
 	return nil
 }
 
-// Initialize_From_ARecord_STATUS populates our ARecord from the provided source ARecord_STATUS
-func (record *ARecord) Initialize_From_ARecord_STATUS(source *ARecord_STATUS) error {
-
-	// Ipv4Address
-	record.Ipv4Address = genruntime.ClonePointerToString(source.Ipv4Address)
-
-	// No error
-	return nil
-}
-
 // An A record.
 type ARecord_STATUS struct {
 	// Ipv4Address: The IPv4 address of this A record.
@@ -2245,16 +2080,6 @@ func (record *CnameRecord) AssignProperties_To_CnameRecord(destination *storage.
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CnameRecord_STATUS populates our CnameRecord from the provided source CnameRecord_STATUS
-func (record *CnameRecord) Initialize_From_CnameRecord_STATUS(source *CnameRecord_STATUS) error {
-
-	// Cname
-	record.Cname = genruntime.ClonePointerToString(source.Cname)
 
 	// No error
 	return nil
@@ -2409,19 +2234,6 @@ func (record *MxRecord) AssignProperties_To_MxRecord(destination *storage.MxReco
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_MxRecord_STATUS populates our MxRecord from the provided source MxRecord_STATUS
-func (record *MxRecord) Initialize_From_MxRecord_STATUS(source *MxRecord_STATUS) error {
-
-	// Exchange
-	record.Exchange = genruntime.ClonePointerToString(source.Exchange)
-
-	// Preference
-	record.Preference = genruntime.ClonePointerToInt(source.Preference)
 
 	// No error
 	return nil
@@ -2674,16 +2486,6 @@ func (record *PtrRecord) AssignProperties_To_PtrRecord(destination *storage.PtrR
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_PtrRecord_STATUS populates our PtrRecord from the provided source PtrRecord_STATUS
-func (record *PtrRecord) Initialize_From_PtrRecord_STATUS(source *PtrRecord_STATUS) error {
-
-	// Ptrdname
-	record.Ptrdname = genruntime.ClonePointerToString(source.Ptrdname)
 
 	// No error
 	return nil
@@ -2943,34 +2745,6 @@ func (record *SoaRecord) AssignProperties_To_SoaRecord(destination *storage.SoaR
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SoaRecord_STATUS populates our SoaRecord from the provided source SoaRecord_STATUS
-func (record *SoaRecord) Initialize_From_SoaRecord_STATUS(source *SoaRecord_STATUS) error {
-
-	// Email
-	record.Email = genruntime.ClonePointerToString(source.Email)
-
-	// ExpireTime
-	record.ExpireTime = genruntime.ClonePointerToInt(source.ExpireTime)
-
-	// Host
-	record.Host = genruntime.ClonePointerToString(source.Host)
-
-	// MinimumTtl
-	record.MinimumTtl = genruntime.ClonePointerToInt(source.MinimumTtl)
-
-	// RefreshTime
-	record.RefreshTime = genruntime.ClonePointerToInt(source.RefreshTime)
-
-	// RetryTime
-	record.RetryTime = genruntime.ClonePointerToInt(source.RetryTime)
-
-	// SerialNumber
-	record.SerialNumber = genruntime.ClonePointerToInt(source.SerialNumber)
 
 	// No error
 	return nil
@@ -3262,25 +3036,6 @@ func (record *SrvRecord) AssignProperties_To_SrvRecord(destination *storage.SrvR
 	return nil
 }
 
-// Initialize_From_SrvRecord_STATUS populates our SrvRecord from the provided source SrvRecord_STATUS
-func (record *SrvRecord) Initialize_From_SrvRecord_STATUS(source *SrvRecord_STATUS) error {
-
-	// Port
-	record.Port = genruntime.ClonePointerToInt(source.Port)
-
-	// Priority
-	record.Priority = genruntime.ClonePointerToInt(source.Priority)
-
-	// Target
-	record.Target = genruntime.ClonePointerToString(source.Target)
-
-	// Weight
-	record.Weight = genruntime.ClonePointerToInt(source.Weight)
-
-	// No error
-	return nil
-}
-
 // An SRV record.
 type SrvRecord_STATUS struct {
 	// Port: The port value for this SRV record.
@@ -3452,16 +3207,6 @@ func (record *TxtRecord) AssignProperties_To_TxtRecord(destination *storage.TxtR
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_TxtRecord_STATUS populates our TxtRecord from the provided source TxtRecord_STATUS
-func (record *TxtRecord) Initialize_From_TxtRecord_STATUS(source *TxtRecord_STATUS) error {
-
-	// Value
-	record.Value = genruntime.CloneSliceOfString(source.Value)
 
 	// No error
 	return nil

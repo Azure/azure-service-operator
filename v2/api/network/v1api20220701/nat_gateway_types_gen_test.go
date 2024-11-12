@@ -5,7 +5,8 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForNatGateway(subject NatGateway) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.NatGateway
+	var hub v20240301s.NatGateway
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForNatGateway(subject NatGateway) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NatGateway
+	var other v20220701s.NatGateway
 	err := copied.AssignProperties_To_NatGateway(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForNatGatewayOperatorSpec(subject NatGatewayOperat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NatGatewayOperatorSpec
+	var other v20220701s.NatGatewayOperatorSpec
 	err := copied.AssignProperties_To_NatGatewayOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForNatGatewaySku(subject NatGatewaySku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NatGatewaySku
+	var other v20220701s.NatGatewaySku
 	err := copied.AssignProperties_To_NatGatewaySku(&other)
 	if err != nil {
 		return err.Error()
@@ -380,7 +381,7 @@ func RunPropertyAssignmentTestForNatGatewaySku_STATUS(subject NatGatewaySku_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NatGatewaySku_STATUS
+	var other v20220701s.NatGatewaySku_STATUS
 	err := copied.AssignProperties_To_NatGatewaySku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -483,7 +484,7 @@ func RunPropertyAssignmentTestForNatGateway_STATUS(subject NatGateway_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NatGateway_STATUS
+	var other v20220701s.NatGateway_STATUS
 	err := copied.AssignProperties_To_NatGateway_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -617,7 +618,7 @@ func RunPropertyAssignmentTestForNatGateway_Spec(subject NatGateway_Spec) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NatGateway_Spec
+	var other v20220701s.NatGateway_Spec
 	err := copied.AssignProperties_To_NatGateway_Spec(&other)
 	if err != nil {
 		return err.Error()

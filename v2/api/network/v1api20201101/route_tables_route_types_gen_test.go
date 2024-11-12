@@ -5,7 +5,8 @@ package v1api20201101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForRouteTablesRoute(subject RouteTablesRoute) stri
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.RouteTablesRoute
+	var hub v20240301s.RouteTablesRoute
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForRouteTablesRoute(subject RouteTablesRoute) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RouteTablesRoute
+	var other v20201101s.RouteTablesRoute
 	err := copied.AssignProperties_To_RouteTablesRoute(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForRouteTablesRouteOperatorSpec(subject RouteTable
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RouteTablesRouteOperatorSpec
+	var other v20201101s.RouteTablesRouteOperatorSpec
 	err := copied.AssignProperties_To_RouteTablesRouteOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForRouteTablesRoute_STATUS(subject RouteTablesRout
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RouteTablesRoute_STATUS
+	var other v20201101s.RouteTablesRoute_STATUS
 	err := copied.AssignProperties_To_RouteTablesRoute_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -398,7 +399,7 @@ func RunPropertyAssignmentTestForRouteTablesRoute_Spec(subject RouteTablesRoute_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RouteTablesRoute_Spec
+	var other v20201101s.RouteTablesRoute_Spec
 	err := copied.AssignProperties_To_RouteTablesRoute_Spec(&other)
 	if err != nil {
 		return err.Error()

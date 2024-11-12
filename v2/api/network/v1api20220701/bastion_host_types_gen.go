@@ -53,22 +53,36 @@ var _ conversion.Convertible = &BastionHost{}
 
 // ConvertFrom populates our BastionHost from the provided hub BastionHost
 func (host *BastionHost) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.BastionHost)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20220701/storage/BastionHost but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.BastionHost
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return host.AssignProperties_From_BastionHost(source)
+	err = host.AssignProperties_From_BastionHost(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to host")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub BastionHost from our BastionHost
 func (host *BastionHost) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.BastionHost)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20220701/storage/BastionHost but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.BastionHost
+	err := host.AssignProperties_To_BastionHost(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from host")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return host.AssignProperties_To_BastionHost(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20220701-bastionhost,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=bastionhosts,verbs=create;update,versions=v1api20220701,name=default.v1api20220701.bastionhosts.network.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (host *BastionHost) SecretDestinationExpressions() []*core.DestinationExpre
 		return nil
 	}
 	return host.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &BastionHost{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (host *BastionHost) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*BastionHost_STATUS); ok {
-		return host.Spec.Initialize_From_BastionHost_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type BastionHost_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &BastionHost{}
@@ -930,100 +933,6 @@ func (host *BastionHost_Spec) AssignProperties_To_BastionHost_Spec(destination *
 	return nil
 }
 
-// Initialize_From_BastionHost_STATUS populates our BastionHost_Spec from the provided source BastionHost_STATUS
-func (host *BastionHost_Spec) Initialize_From_BastionHost_STATUS(source *BastionHost_STATUS) error {
-
-	// DisableCopyPaste
-	if source.DisableCopyPaste != nil {
-		disableCopyPaste := *source.DisableCopyPaste
-		host.DisableCopyPaste = &disableCopyPaste
-	} else {
-		host.DisableCopyPaste = nil
-	}
-
-	// DnsName
-	host.DnsName = genruntime.ClonePointerToString(source.DnsName)
-
-	// EnableFileCopy
-	if source.EnableFileCopy != nil {
-		enableFileCopy := *source.EnableFileCopy
-		host.EnableFileCopy = &enableFileCopy
-	} else {
-		host.EnableFileCopy = nil
-	}
-
-	// EnableIpConnect
-	if source.EnableIpConnect != nil {
-		enableIpConnect := *source.EnableIpConnect
-		host.EnableIpConnect = &enableIpConnect
-	} else {
-		host.EnableIpConnect = nil
-	}
-
-	// EnableShareableLink
-	if source.EnableShareableLink != nil {
-		enableShareableLink := *source.EnableShareableLink
-		host.EnableShareableLink = &enableShareableLink
-	} else {
-		host.EnableShareableLink = nil
-	}
-
-	// EnableTunneling
-	if source.EnableTunneling != nil {
-		enableTunneling := *source.EnableTunneling
-		host.EnableTunneling = &enableTunneling
-	} else {
-		host.EnableTunneling = nil
-	}
-
-	// IpConfigurations
-	if source.IpConfigurations != nil {
-		ipConfigurationList := make([]BastionHostIPConfiguration, len(source.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration BastionHostIPConfiguration
-			err := ipConfiguration.Initialize_From_BastionHostIPConfiguration_STATUS(&ipConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_BastionHostIPConfiguration_STATUS() to populate field IpConfigurations")
-			}
-			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
-		}
-		host.IpConfigurations = ipConfigurationList
-	} else {
-		host.IpConfigurations = nil
-	}
-
-	// Location
-	host.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ScaleUnits
-	if source.ScaleUnits != nil {
-		scaleUnit := *source.ScaleUnits
-		host.ScaleUnits = &scaleUnit
-	} else {
-		host.ScaleUnits = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		host.Sku = &sku
-	} else {
-		host.Sku = nil
-	}
-
-	// Tags
-	host.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (host *BastionHost_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1744,13 +1653,6 @@ func (configuration *BastionHostIPConfiguration) AssignProperties_To_BastionHost
 	return nil
 }
 
-// Initialize_From_BastionHostIPConfiguration_STATUS populates our BastionHostIPConfiguration from the provided source BastionHostIPConfiguration_STATUS
-func (configuration *BastionHostIPConfiguration) Initialize_From_BastionHostIPConfiguration_STATUS(source *BastionHostIPConfiguration_STATUS) error {
-
-	// No error
-	return nil
-}
-
 // IP configuration of an Bastion Host.
 type BastionHostIPConfiguration_STATUS struct {
 	// Id: Resource ID.
@@ -2015,21 +1917,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), sku_Name_Values)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
 	}
 
 	// No error

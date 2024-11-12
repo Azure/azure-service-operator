@@ -142,7 +142,7 @@ func Networking_TrafficManagerProfiles_ExternalEndpoint(tc *testcommon.KubePerTe
 }
 
 func Networking_TrafficManagerProfiles_AzureEndpoint(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, tmp *network.TrafficManagerProfile) {
-	publicIp := newPublicIp(tc, testcommon.AsOwner(rg))
+	publicIp := newPublicIP20201101(tc, testcommon.AsOwner(rg))
 	publicIp.Spec.DnsSettings = &network2020.PublicIPAddressDnsSettings{
 		DomainNameLabel: to.Ptr("mydemoapp"),
 	}

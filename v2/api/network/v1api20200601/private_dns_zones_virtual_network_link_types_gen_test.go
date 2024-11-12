@@ -5,7 +5,8 @@ package v1api20200601
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
+	v20240601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForPrivateDnsZonesVirtualNetworkLink(subject Priva
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.PrivateDnsZonesVirtualNetworkLink
+	var hub v20240601s.PrivateDnsZonesVirtualNetworkLink
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForPrivateDnsZonesVirtualNetworkLink(subject Priva
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateDnsZonesVirtualNetworkLink
+	var other v20200601s.PrivateDnsZonesVirtualNetworkLink
 	err := copied.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForPrivateDnsZonesVirtualNetworkLinkOperatorSpec(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateDnsZonesVirtualNetworkLinkOperatorSpec
+	var other v20200601s.PrivateDnsZonesVirtualNetworkLinkOperatorSpec
 	err := copied.AssignProperties_To_PrivateDnsZonesVirtualNetworkLinkOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForPrivateDnsZonesVirtualNetworkLink_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateDnsZonesVirtualNetworkLink_STATUS
+	var other v20200601s.PrivateDnsZonesVirtualNetworkLink_STATUS
 	err := copied.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -412,7 +413,7 @@ func RunPropertyAssignmentTestForPrivateDnsZonesVirtualNetworkLink_Spec(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateDnsZonesVirtualNetworkLink_Spec
+	var other v20200601s.PrivateDnsZonesVirtualNetworkLink_Spec
 	err := copied.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -536,7 +537,7 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResource
+	var other v20200601s.SubResource
 	err := copied.AssignProperties_To_SubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -632,7 +633,7 @@ func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResource_STATUS
+	var other v20200601s.SubResource_STATUS
 	err := copied.AssignProperties_To_SubResource_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -33,3 +33,7 @@ PrivateDnsZone: Resource
     ├── ProvisioningState: *string
     ├── Tags: map[string]string
     └── Type: *string
+augmentConversionForPrivateDnsZone: Interface
+augmentConversionForPrivateDnsZoneOperatorSpec: Interface
+augmentConversionForPrivateDnsZone_STATUS: Interface
+augmentConversionForPrivateDnsZone_Spec: Interface

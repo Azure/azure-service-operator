@@ -53,22 +53,36 @@ var _ conversion.Convertible = &LoadBalancersInboundNatRule{}
 
 // ConvertFrom populates our LoadBalancersInboundNatRule from the provided hub LoadBalancersInboundNatRule
 func (rule *LoadBalancersInboundNatRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.LoadBalancersInboundNatRule)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20201101/storage/LoadBalancersInboundNatRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.LoadBalancersInboundNatRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_LoadBalancersInboundNatRule(source)
+	err = rule.AssignProperties_From_LoadBalancersInboundNatRule(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub LoadBalancersInboundNatRule from our LoadBalancersInboundNatRule
 func (rule *LoadBalancersInboundNatRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.LoadBalancersInboundNatRule)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20201101/storage/LoadBalancersInboundNatRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.LoadBalancersInboundNatRule
+	err := rule.AssignProperties_To_LoadBalancersInboundNatRule(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_LoadBalancersInboundNatRule(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20201101-loadbalancersinboundnatrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=loadbalancersinboundnatrules,verbs=create;update,versions=v1api20201101,name=default.v1api20201101.loadbalancersinboundnatrules.network.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (rule *LoadBalancersInboundNatRule) SecretDestinationExpressions() []*core.
 		return nil
 	}
 	return rule.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &LoadBalancersInboundNatRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *LoadBalancersInboundNatRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*LoadBalancersInboundNatRule_STATUS); ok {
-		return rule.Spec.Initialize_From_LoadBalancersInboundNatRule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type LoadBalancersInboundNatRule_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &LoadBalancersInboundNatRule{}
@@ -775,58 +778,6 @@ func (rule *LoadBalancersInboundNatRule_Spec) AssignProperties_To_LoadBalancersI
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_LoadBalancersInboundNatRule_STATUS populates our LoadBalancersInboundNatRule_Spec from the provided source LoadBalancersInboundNatRule_STATUS
-func (rule *LoadBalancersInboundNatRule_Spec) Initialize_From_LoadBalancersInboundNatRule_STATUS(source *LoadBalancersInboundNatRule_STATUS) error {
-
-	// BackendPort
-	rule.BackendPort = genruntime.ClonePointerToInt(source.BackendPort)
-
-	// EnableFloatingIP
-	if source.EnableFloatingIP != nil {
-		enableFloatingIP := *source.EnableFloatingIP
-		rule.EnableFloatingIP = &enableFloatingIP
-	} else {
-		rule.EnableFloatingIP = nil
-	}
-
-	// EnableTcpReset
-	if source.EnableTcpReset != nil {
-		enableTcpReset := *source.EnableTcpReset
-		rule.EnableTcpReset = &enableTcpReset
-	} else {
-		rule.EnableTcpReset = nil
-	}
-
-	// FrontendIPConfiguration
-	if source.FrontendIPConfiguration != nil {
-		var frontendIPConfiguration SubResource
-		err := frontendIPConfiguration.Initialize_From_SubResource_STATUS(source.FrontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field FrontendIPConfiguration")
-		}
-		rule.FrontendIPConfiguration = &frontendIPConfiguration
-	} else {
-		rule.FrontendIPConfiguration = nil
-	}
-
-	// FrontendPort
-	rule.FrontendPort = genruntime.ClonePointerToInt(source.FrontendPort)
-
-	// IdleTimeoutInMinutes
-	rule.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
-
-	// Protocol
-	if source.Protocol != nil {
-		protocol := genruntime.ToEnum(string(*source.Protocol), transportProtocol_Values)
-		rule.Protocol = &protocol
-	} else {
-		rule.Protocol = nil
 	}
 
 	// No error
@@ -1509,21 +1460,6 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *storag
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SubResource_STATUS populates our SubResource from the provided source SubResource_STATUS
-func (resource *SubResource) Initialize_From_SubResource_STATUS(source *SubResource_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
 	}
 
 	// No error

@@ -4,7 +4,12 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	"fmt"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	v20240101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20240601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -13,14 +18,11 @@ import (
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=network.azure.com,resources=privatednszonesvirtualnetworklinks,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=network.azure.com,resources={privatednszonesvirtualnetworklinks/status,privatednszonesvirtualnetworklinks/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +48,28 @@ func (link *PrivateDnsZonesVirtualNetworkLink) GetConditions() conditions.Condit
 // SetConditions sets the conditions on the resource status
 func (link *PrivateDnsZonesVirtualNetworkLink) SetConditions(conditions conditions.Conditions) {
 	link.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &PrivateDnsZonesVirtualNetworkLink{}
+
+// ConvertFrom populates our PrivateDnsZonesVirtualNetworkLink from the provided hub PrivateDnsZonesVirtualNetworkLink
+func (link *PrivateDnsZonesVirtualNetworkLink) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20240601s.PrivateDnsZonesVirtualNetworkLink)
+	if !ok {
+		return fmt.Errorf("expected network/v1api20240601/storage/PrivateDnsZonesVirtualNetworkLink but received %T instead", hub)
+	}
+
+	return link.AssignProperties_From_PrivateDnsZonesVirtualNetworkLink(source)
+}
+
+// ConvertTo populates the provided hub PrivateDnsZonesVirtualNetworkLink from our PrivateDnsZonesVirtualNetworkLink
+func (link *PrivateDnsZonesVirtualNetworkLink) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20240601s.PrivateDnsZonesVirtualNetworkLink)
+	if !ok {
+		return fmt.Errorf("expected network/v1api20240601/storage/PrivateDnsZonesVirtualNetworkLink but received %T instead", hub)
+	}
+
+	return link.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink(destination)
 }
 
 var _ configmaps.Exporter = &PrivateDnsZonesVirtualNetworkLink{}
@@ -139,8 +163,75 @@ func (link *PrivateDnsZonesVirtualNetworkLink) SetStatus(status genruntime.Conve
 	return nil
 }
 
-// Hub marks that this PrivateDnsZonesVirtualNetworkLink is the hub type for conversion
-func (link *PrivateDnsZonesVirtualNetworkLink) Hub() {}
+// AssignProperties_From_PrivateDnsZonesVirtualNetworkLink populates our PrivateDnsZonesVirtualNetworkLink from the provided source PrivateDnsZonesVirtualNetworkLink
+func (link *PrivateDnsZonesVirtualNetworkLink) AssignProperties_From_PrivateDnsZonesVirtualNetworkLink(source *v20240601s.PrivateDnsZonesVirtualNetworkLink) error {
+
+	// ObjectMeta
+	link.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec PrivateDnsZonesVirtualNetworkLink_Spec
+	err := spec.AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_Spec() to populate field Spec")
+	}
+	link.Spec = spec
+
+	// Status
+	var status PrivateDnsZonesVirtualNetworkLink_STATUS
+	err = status.AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_STATUS() to populate field Status")
+	}
+	link.Status = status
+
+	// Invoke the augmentConversionForPrivateDnsZonesVirtualNetworkLink interface (if implemented) to customize the conversion
+	var linkAsAny any = link
+	if augmentedLink, ok := linkAsAny.(augmentConversionForPrivateDnsZonesVirtualNetworkLink); ok {
+		err := augmentedLink.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PrivateDnsZonesVirtualNetworkLink populates the provided destination PrivateDnsZonesVirtualNetworkLink from our PrivateDnsZonesVirtualNetworkLink
+func (link *PrivateDnsZonesVirtualNetworkLink) AssignProperties_To_PrivateDnsZonesVirtualNetworkLink(destination *v20240601s.PrivateDnsZonesVirtualNetworkLink) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *link.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v20240601s.PrivateDnsZonesVirtualNetworkLink_Spec
+	err := link.Spec.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v20240601s.PrivateDnsZonesVirtualNetworkLink_STATUS
+	err = link.Status.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForPrivateDnsZonesVirtualNetworkLink interface (if implemented) to customize the conversion
+	var linkAsAny any = link
+	if augmentedLink, ok := linkAsAny.(augmentConversionForPrivateDnsZonesVirtualNetworkLink); ok {
+		err := augmentedLink.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (link *PrivateDnsZonesVirtualNetworkLink) OriginalGVK() *schema.GroupVersionKind {
@@ -160,6 +251,11 @@ type PrivateDnsZonesVirtualNetworkLinkList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []PrivateDnsZonesVirtualNetworkLink `json:"items"`
+}
+
+type augmentConversionForPrivateDnsZonesVirtualNetworkLink interface {
+	AssignPropertiesFrom(src *v20240601s.PrivateDnsZonesVirtualNetworkLink) error
+	AssignPropertiesTo(dst *v20240601s.PrivateDnsZonesVirtualNetworkLink) error
 }
 
 // Storage version of v1api20200601.PrivateDnsZonesVirtualNetworkLink_Spec
@@ -187,20 +283,260 @@ var _ genruntime.ConvertibleSpec = &PrivateDnsZonesVirtualNetworkLink_Spec{}
 
 // ConvertSpecFrom populates our PrivateDnsZonesVirtualNetworkLink_Spec from the provided source
 func (link *PrivateDnsZonesVirtualNetworkLink_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == link {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v20240601s.PrivateDnsZonesVirtualNetworkLink_Spec)
+	if ok {
+		// Populate our instance from source
+		return link.AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_Spec(src)
 	}
 
-	return source.ConvertSpecTo(link)
+	// Convert to an intermediate form
+	src = &v20240601s.PrivateDnsZonesVirtualNetworkLink_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = link.AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our PrivateDnsZonesVirtualNetworkLink_Spec
 func (link *PrivateDnsZonesVirtualNetworkLink_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == link {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v20240601s.PrivateDnsZonesVirtualNetworkLink_Spec)
+	if ok {
+		// Populate destination from our instance
+		return link.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(link)
+	// Convert to an intermediate form
+	dst = &v20240601s.PrivateDnsZonesVirtualNetworkLink_Spec{}
+	err := link.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_Spec populates our PrivateDnsZonesVirtualNetworkLink_Spec from the provided source PrivateDnsZonesVirtualNetworkLink_Spec
+func (link *PrivateDnsZonesVirtualNetworkLink_Spec) AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_Spec(source *v20240601s.PrivateDnsZonesVirtualNetworkLink_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	link.AzureName = source.AzureName
+
+	// Etag
+	link.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// Location
+	link.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec PrivateDnsZonesVirtualNetworkLinkOperatorSpec
+		err := operatorSpec.AssignProperties_From_PrivateDnsZonesVirtualNetworkLinkOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PrivateDnsZonesVirtualNetworkLinkOperatorSpec() to populate field OperatorSpec")
+		}
+		link.OperatorSpec = &operatorSpec
+	} else {
+		link.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	link.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		link.Owner = &owner
+	} else {
+		link.Owner = nil
+	}
+
+	// RegistrationEnabled
+	if source.RegistrationEnabled != nil {
+		registrationEnabled := *source.RegistrationEnabled
+		link.RegistrationEnabled = &registrationEnabled
+	} else {
+		link.RegistrationEnabled = nil
+	}
+
+	// ResolutionPolicy
+	if source.ResolutionPolicy != nil {
+		propertyBag.Add("ResolutionPolicy", *source.ResolutionPolicy)
+	} else {
+		propertyBag.Remove("ResolutionPolicy")
+	}
+
+	// Tags
+	link.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// VirtualNetwork
+	if source.VirtualNetwork != nil {
+		var subResourceStash v20240301s.SubResource
+		err := subResourceStash.AssignProperties_From_SubResource(source.VirtualNetwork)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from VirtualNetwork")
+		}
+		var subResourceStashLocal v20220701s.SubResource
+		err = subResourceStashLocal.AssignProperties_From_SubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash")
+		}
+		var subResourceStashCopy v20201101s.SubResource
+		err = subResourceStashCopy.AssignProperties_From_SubResource(&subResourceStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash")
+		}
+		var virtualNetwork SubResource
+		err = virtualNetwork.AssignProperties_From_SubResource(&subResourceStashCopy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualNetwork from SubResourceStash")
+		}
+		link.VirtualNetwork = &virtualNetwork
+	} else {
+		link.VirtualNetwork = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		link.PropertyBag = propertyBag
+	} else {
+		link.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPrivateDnsZonesVirtualNetworkLink_Spec interface (if implemented) to customize the conversion
+	var linkAsAny any = link
+	if augmentedLink, ok := linkAsAny.(augmentConversionForPrivateDnsZonesVirtualNetworkLink_Spec); ok {
+		err := augmentedLink.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_Spec populates the provided destination PrivateDnsZonesVirtualNetworkLink_Spec from our PrivateDnsZonesVirtualNetworkLink_Spec
+func (link *PrivateDnsZonesVirtualNetworkLink_Spec) AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_Spec(destination *v20240601s.PrivateDnsZonesVirtualNetworkLink_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(link.PropertyBag)
+
+	// AzureName
+	destination.AzureName = link.AzureName
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(link.Etag)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(link.Location)
+
+	// OperatorSpec
+	if link.OperatorSpec != nil {
+		var operatorSpec v20240601s.PrivateDnsZonesVirtualNetworkLinkOperatorSpec
+		err := link.OperatorSpec.AssignProperties_To_PrivateDnsZonesVirtualNetworkLinkOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZonesVirtualNetworkLinkOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = link.OriginalVersion
+
+	// Owner
+	if link.Owner != nil {
+		owner := link.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// RegistrationEnabled
+	if link.RegistrationEnabled != nil {
+		registrationEnabled := *link.RegistrationEnabled
+		destination.RegistrationEnabled = &registrationEnabled
+	} else {
+		destination.RegistrationEnabled = nil
+	}
+
+	// ResolutionPolicy
+	if propertyBag.Contains("ResolutionPolicy") {
+		var resolutionPolicy string
+		err := propertyBag.Pull("ResolutionPolicy", &resolutionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ResolutionPolicy' from propertyBag")
+		}
+
+		destination.ResolutionPolicy = &resolutionPolicy
+	} else {
+		destination.ResolutionPolicy = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(link.Tags)
+
+	// VirtualNetwork
+	if link.VirtualNetwork != nil {
+		var subResourceStash v20201101s.SubResource
+		err := link.VirtualNetwork.AssignProperties_To_SubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from VirtualNetwork")
+		}
+		var subResourceStashLocal v20220701s.SubResource
+		err = subResourceStash.AssignProperties_To_SubResource(&subResourceStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash")
+		}
+		var subResourceStashCopy v20240301s.SubResource
+		err = subResourceStashLocal.AssignProperties_To_SubResource(&subResourceStashCopy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash")
+		}
+		var virtualNetwork v20240601s.SubResource
+		err = subResourceStashCopy.AssignProperties_To_SubResource(&virtualNetwork)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualNetwork from SubResourceStash")
+		}
+		destination.VirtualNetwork = &virtualNetwork
+	} else {
+		destination.VirtualNetwork = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPrivateDnsZonesVirtualNetworkLink_Spec interface (if implemented) to customize the conversion
+	var linkAsAny any = link
+	if augmentedLink, ok := linkAsAny.(augmentConversionForPrivateDnsZonesVirtualNetworkLink_Spec); ok {
+		err := augmentedLink.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20200601.PrivateDnsZonesVirtualNetworkLink_STATUS
@@ -223,20 +559,264 @@ var _ genruntime.ConvertibleStatus = &PrivateDnsZonesVirtualNetworkLink_STATUS{}
 
 // ConvertStatusFrom populates our PrivateDnsZonesVirtualNetworkLink_STATUS from the provided source
 func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == link {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v20240601s.PrivateDnsZonesVirtualNetworkLink_STATUS)
+	if ok {
+		// Populate our instance from source
+		return link.AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(link)
+	// Convert to an intermediate form
+	src = &v20240601s.PrivateDnsZonesVirtualNetworkLink_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = link.AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our PrivateDnsZonesVirtualNetworkLink_STATUS
 func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == link {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v20240601s.PrivateDnsZonesVirtualNetworkLink_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return link.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(link)
+	// Convert to an intermediate form
+	dst = &v20240601s.PrivateDnsZonesVirtualNetworkLink_STATUS{}
+	err := link.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_STATUS populates our PrivateDnsZonesVirtualNetworkLink_STATUS from the provided source PrivateDnsZonesVirtualNetworkLink_STATUS
+func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_STATUS(source *v20240601s.PrivateDnsZonesVirtualNetworkLink_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	link.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Etag
+	link.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// Id
+	link.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	link.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	link.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProvisioningState
+	link.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// RegistrationEnabled
+	if source.RegistrationEnabled != nil {
+		registrationEnabled := *source.RegistrationEnabled
+		link.RegistrationEnabled = &registrationEnabled
+	} else {
+		link.RegistrationEnabled = nil
+	}
+
+	// ResolutionPolicy
+	if source.ResolutionPolicy != nil {
+		propertyBag.Add("ResolutionPolicy", *source.ResolutionPolicy)
+	} else {
+		propertyBag.Remove("ResolutionPolicy")
+	}
+
+	// Tags
+	link.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	link.Type = genruntime.ClonePointerToString(source.Type)
+
+	// VirtualNetwork
+	if source.VirtualNetwork != nil {
+		var subResourceSTATUSStash v20240301s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.VirtualNetwork)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from VirtualNetwork")
+		}
+		var subResourceSTATUSStashLocal v20240101s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
+		var subResourceSTATUSStashCopy v20220701s.SubResource_STATUS
+		err = subResourceSTATUSStashCopy.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
+		var subResourceSTATUSStashTemp v20201101s.SubResource_STATUS
+		err = subResourceSTATUSStashTemp.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashCopy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
+		var virtualNetwork SubResource_STATUS
+		err = virtualNetwork.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashTemp)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualNetwork from SubResource_STATUSStash")
+		}
+		link.VirtualNetwork = &virtualNetwork
+	} else {
+		link.VirtualNetwork = nil
+	}
+
+	// VirtualNetworkLinkState
+	link.VirtualNetworkLinkState = genruntime.ClonePointerToString(source.VirtualNetworkLinkState)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		link.PropertyBag = propertyBag
+	} else {
+		link.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPrivateDnsZonesVirtualNetworkLink_STATUS interface (if implemented) to customize the conversion
+	var linkAsAny any = link
+	if augmentedLink, ok := linkAsAny.(augmentConversionForPrivateDnsZonesVirtualNetworkLink_STATUS); ok {
+		err := augmentedLink.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_STATUS populates the provided destination PrivateDnsZonesVirtualNetworkLink_STATUS from our PrivateDnsZonesVirtualNetworkLink_STATUS
+func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_STATUS(destination *v20240601s.PrivateDnsZonesVirtualNetworkLink_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(link.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(link.Conditions)
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(link.Etag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(link.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(link.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(link.Name)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(link.ProvisioningState)
+
+	// RegistrationEnabled
+	if link.RegistrationEnabled != nil {
+		registrationEnabled := *link.RegistrationEnabled
+		destination.RegistrationEnabled = &registrationEnabled
+	} else {
+		destination.RegistrationEnabled = nil
+	}
+
+	// ResolutionPolicy
+	if propertyBag.Contains("ResolutionPolicy") {
+		var resolutionPolicy string
+		err := propertyBag.Pull("ResolutionPolicy", &resolutionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ResolutionPolicy' from propertyBag")
+		}
+
+		destination.ResolutionPolicy = &resolutionPolicy
+	} else {
+		destination.ResolutionPolicy = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(link.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(link.Type)
+
+	// VirtualNetwork
+	if link.VirtualNetwork != nil {
+		var subResourceSTATUSStash v20201101s.SubResource_STATUS
+		err := link.VirtualNetwork.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from VirtualNetwork")
+		}
+		var subResourceSTATUSStashLocal v20220701s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
+		var subResourceSTATUSStashCopy v20240101s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashCopy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
+		var subResourceSTATUSStashTemp v20240301s.SubResource_STATUS
+		err = subResourceSTATUSStashCopy.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashTemp)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
+		var virtualNetwork v20240601s.SubResource_STATUS
+		err = subResourceSTATUSStashTemp.AssignProperties_To_SubResource_STATUS(&virtualNetwork)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualNetwork from SubResource_STATUSStash")
+		}
+		destination.VirtualNetwork = &virtualNetwork
+	} else {
+		destination.VirtualNetwork = nil
+	}
+
+	// VirtualNetworkLinkState
+	destination.VirtualNetworkLinkState = genruntime.ClonePointerToString(link.VirtualNetworkLinkState)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPrivateDnsZonesVirtualNetworkLink_STATUS interface (if implemented) to customize the conversion
+	var linkAsAny any = link
+	if augmentedLink, ok := linkAsAny.(augmentConversionForPrivateDnsZonesVirtualNetworkLink_STATUS); ok {
+		err := augmentedLink.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForPrivateDnsZonesVirtualNetworkLink_Spec interface {
+	AssignPropertiesFrom(src *v20240601s.PrivateDnsZonesVirtualNetworkLink_Spec) error
+	AssignPropertiesTo(dst *v20240601s.PrivateDnsZonesVirtualNetworkLink_Spec) error
+}
+
+type augmentConversionForPrivateDnsZonesVirtualNetworkLink_STATUS interface {
+	AssignPropertiesFrom(src *v20240601s.PrivateDnsZonesVirtualNetworkLink_STATUS) error
+	AssignPropertiesTo(dst *v20240601s.PrivateDnsZonesVirtualNetworkLink_STATUS) error
 }
 
 // Storage version of v1api20200601.PrivateDnsZonesVirtualNetworkLinkOperatorSpec
@@ -245,6 +825,128 @@ type PrivateDnsZonesVirtualNetworkLinkOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_PrivateDnsZonesVirtualNetworkLinkOperatorSpec populates our PrivateDnsZonesVirtualNetworkLinkOperatorSpec from the provided source PrivateDnsZonesVirtualNetworkLinkOperatorSpec
+func (operator *PrivateDnsZonesVirtualNetworkLinkOperatorSpec) AssignProperties_From_PrivateDnsZonesVirtualNetworkLinkOperatorSpec(source *v20240601s.PrivateDnsZonesVirtualNetworkLinkOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPrivateDnsZonesVirtualNetworkLinkOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForPrivateDnsZonesVirtualNetworkLinkOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PrivateDnsZonesVirtualNetworkLinkOperatorSpec populates the provided destination PrivateDnsZonesVirtualNetworkLinkOperatorSpec from our PrivateDnsZonesVirtualNetworkLinkOperatorSpec
+func (operator *PrivateDnsZonesVirtualNetworkLinkOperatorSpec) AssignProperties_To_PrivateDnsZonesVirtualNetworkLinkOperatorSpec(destination *v20240601s.PrivateDnsZonesVirtualNetworkLinkOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPrivateDnsZonesVirtualNetworkLinkOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForPrivateDnsZonesVirtualNetworkLinkOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20200601.SubResource
@@ -257,7 +959,7 @@ type SubResource struct {
 }
 
 // AssignProperties_From_SubResource populates our SubResource from the provided source SubResource
-func (resource *SubResource) AssignProperties_From_SubResource(source *storage.SubResource) error {
+func (resource *SubResource) AssignProperties_From_SubResource(source *v20201101s.SubResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -290,7 +992,7 @@ func (resource *SubResource) AssignProperties_From_SubResource(source *storage.S
 }
 
 // AssignProperties_To_SubResource populates the provided destination SubResource from our SubResource
-func (resource *SubResource) AssignProperties_To_SubResource(destination *storage.SubResource) error {
+func (resource *SubResource) AssignProperties_To_SubResource(destination *v20201101s.SubResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -330,7 +1032,7 @@ type SubResource_STATUS struct {
 }
 
 // AssignProperties_From_SubResource_STATUS populates our SubResource_STATUS from the provided source SubResource_STATUS
-func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(source *storage.SubResource_STATUS) error {
+func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(source *v20201101s.SubResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -358,7 +1060,7 @@ func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(sou
 }
 
 // AssignProperties_To_SubResource_STATUS populates the provided destination SubResource_STATUS from our SubResource_STATUS
-func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(destination *storage.SubResource_STATUS) error {
+func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(destination *v20201101s.SubResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -385,14 +1087,19 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 	return nil
 }
 
+type augmentConversionForPrivateDnsZonesVirtualNetworkLinkOperatorSpec interface {
+	AssignPropertiesFrom(src *v20240601s.PrivateDnsZonesVirtualNetworkLinkOperatorSpec) error
+	AssignPropertiesTo(dst *v20240601s.PrivateDnsZonesVirtualNetworkLinkOperatorSpec) error
+}
+
 type augmentConversionForSubResource interface {
-	AssignPropertiesFrom(src *storage.SubResource) error
-	AssignPropertiesTo(dst *storage.SubResource) error
+	AssignPropertiesFrom(src *v20201101s.SubResource) error
+	AssignPropertiesTo(dst *v20201101s.SubResource) error
 }
 
 type augmentConversionForSubResource_STATUS interface {
-	AssignPropertiesFrom(src *storage.SubResource_STATUS) error
-	AssignPropertiesTo(dst *storage.SubResource_STATUS) error
+	AssignPropertiesFrom(src *v20201101s.SubResource_STATUS) error
+	AssignPropertiesTo(dst *v20201101s.SubResource_STATUS) error
 }
 
 func init() {

@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_RouteTablesRoute_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RouteTablesRoute to hub returns original",
+		prop.ForAll(RunResourceConversionTestForRouteTablesRoute, RouteTablesRouteGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForRouteTablesRoute tests if a specific instance of RouteTablesRoute round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForRouteTablesRoute(subject RouteTablesRoute) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.RouteTablesRoute
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual RouteTablesRoute
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RouteTablesRoute_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RouteTablesRoute to RouteTablesRoute via AssignProperties_To_RouteTablesRoute & AssignProperties_From_RouteTablesRoute returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRouteTablesRoute, RouteTablesRouteGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRouteTablesRoute tests if a specific instance of RouteTablesRoute can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRouteTablesRoute(subject RouteTablesRoute) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RouteTablesRoute
+	err := copied.AssignProperties_To_RouteTablesRoute(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RouteTablesRoute
+	err = actual.AssignProperties_From_RouteTablesRoute(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_RouteTablesRoute_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -78,6 +164,48 @@ func AddRelatedPropertyGeneratorsForRouteTablesRoute(gens map[string]gopter.Gen)
 	gens["Status"] = RouteTablesRoute_STATUSGenerator()
 }
 
+func Test_RouteTablesRouteOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RouteTablesRouteOperatorSpec to RouteTablesRouteOperatorSpec via AssignProperties_To_RouteTablesRouteOperatorSpec & AssignProperties_From_RouteTablesRouteOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRouteTablesRouteOperatorSpec, RouteTablesRouteOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRouteTablesRouteOperatorSpec tests if a specific instance of RouteTablesRouteOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRouteTablesRouteOperatorSpec(subject RouteTablesRouteOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RouteTablesRouteOperatorSpec
+	err := copied.AssignProperties_To_RouteTablesRouteOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RouteTablesRouteOperatorSpec
+	err = actual.AssignProperties_From_RouteTablesRouteOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RouteTablesRouteOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -131,6 +259,48 @@ func RouteTablesRouteOperatorSpecGenerator() gopter.Gen {
 	routeTablesRouteOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RouteTablesRouteOperatorSpec{}), generators)
 
 	return routeTablesRouteOperatorSpecGenerator
+}
+
+func Test_RouteTablesRoute_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RouteTablesRoute_STATUS to RouteTablesRoute_STATUS via AssignProperties_To_RouteTablesRoute_STATUS & AssignProperties_From_RouteTablesRoute_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRouteTablesRoute_STATUS, RouteTablesRoute_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRouteTablesRoute_STATUS tests if a specific instance of RouteTablesRoute_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRouteTablesRoute_STATUS(subject RouteTablesRoute_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RouteTablesRoute_STATUS
+	err := copied.AssignProperties_To_RouteTablesRoute_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RouteTablesRoute_STATUS
+	err = actual.AssignProperties_From_RouteTablesRoute_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RouteTablesRoute_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -200,6 +370,48 @@ func AddIndependentPropertyGeneratorsForRouteTablesRoute_STATUS(gens map[string]
 	gens["NextHopType"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_RouteTablesRoute_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RouteTablesRoute_Spec to RouteTablesRoute_Spec via AssignProperties_To_RouteTablesRoute_Spec & AssignProperties_From_RouteTablesRoute_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRouteTablesRoute_Spec, RouteTablesRoute_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRouteTablesRoute_Spec tests if a specific instance of RouteTablesRoute_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRouteTablesRoute_Spec(subject RouteTablesRoute_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RouteTablesRoute_Spec
+	err := copied.AssignProperties_To_RouteTablesRoute_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RouteTablesRoute_Spec
+	err = actual.AssignProperties_From_RouteTablesRoute_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RouteTablesRoute_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

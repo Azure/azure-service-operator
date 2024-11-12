@@ -53,22 +53,36 @@ var _ conversion.Convertible = &NetworkSecurityGroup{}
 
 // ConvertFrom populates our NetworkSecurityGroup from the provided hub NetworkSecurityGroup
 func (group *NetworkSecurityGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NetworkSecurityGroup)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20201101/storage/NetworkSecurityGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NetworkSecurityGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignProperties_From_NetworkSecurityGroup(source)
+	err = group.AssignProperties_From_NetworkSecurityGroup(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NetworkSecurityGroup from our NetworkSecurityGroup
 func (group *NetworkSecurityGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NetworkSecurityGroup)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20201101/storage/NetworkSecurityGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NetworkSecurityGroup
+	err := group.AssignProperties_To_NetworkSecurityGroup(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignProperties_To_NetworkSecurityGroup(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20201101-networksecuritygroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networksecuritygroups,verbs=create;update,versions=v1api20201101,name=default.v1api20201101.networksecuritygroups.network.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (group *NetworkSecurityGroup) SecretDestinationExpressions() []*core.Destin
 		return nil
 	}
 	return group.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &NetworkSecurityGroup{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (group *NetworkSecurityGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
-		return group.Spec.Initialize_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(s)
-	}
-
-	return fmt.Errorf("expected Status of type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &NetworkSecurityGroup{}
@@ -592,19 +595,6 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_To_NetworkSecurityGroup
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded populates our NetworkSecurityGroup_Spec from the provided source NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
-func (group *NetworkSecurityGroup_Spec) Initialize_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(source *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error {
-
-	// Location
-	group.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Tags
-	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil

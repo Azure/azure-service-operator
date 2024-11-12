@@ -5,7 +5,8 @@ package v1api20200601
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
+	v20240601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForPrivateDnsZonesCNAMERecord(subject PrivateDnsZo
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.PrivateDnsZonesCNAMERecord
+	var hub v20240601s.PrivateDnsZonesCNAMERecord
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForPrivateDnsZonesCNAMERecord(subject PrivateDnsZo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateDnsZonesCNAMERecord
+	var other v20200601s.PrivateDnsZonesCNAMERecord
 	err := copied.AssignProperties_To_PrivateDnsZonesCNAMERecord(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForPrivateDnsZonesCNAMERecordOperatorSpec(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateDnsZonesCNAMERecordOperatorSpec
+	var other v20200601s.PrivateDnsZonesCNAMERecordOperatorSpec
 	err := copied.AssignProperties_To_PrivateDnsZonesCNAMERecordOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForPrivateDnsZonesCNAMERecord_STATUS(subject Priva
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateDnsZonesCNAMERecord_STATUS
+	var other v20200601s.PrivateDnsZonesCNAMERecord_STATUS
 	err := copied.AssignProperties_To_PrivateDnsZonesCNAMERecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -412,7 +413,7 @@ func RunPropertyAssignmentTestForPrivateDnsZonesCNAMERecord_Spec(subject Private
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateDnsZonesCNAMERecord_Spec
+	var other v20200601s.PrivateDnsZonesCNAMERecord_Spec
 	err := copied.AssignProperties_To_PrivateDnsZonesCNAMERecord_Spec(&other)
 	if err != nil {
 		return err.Error()

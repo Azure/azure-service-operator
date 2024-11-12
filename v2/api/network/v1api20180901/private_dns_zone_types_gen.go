@@ -53,22 +53,36 @@ var _ conversion.Convertible = &PrivateDnsZone{}
 
 // ConvertFrom populates our PrivateDnsZone from the provided hub PrivateDnsZone
 func (zone *PrivateDnsZone) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.PrivateDnsZone)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20180901/storage/PrivateDnsZone but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.PrivateDnsZone
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return zone.AssignProperties_From_PrivateDnsZone(source)
+	err = zone.AssignProperties_From_PrivateDnsZone(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to zone")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub PrivateDnsZone from our PrivateDnsZone
 func (zone *PrivateDnsZone) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.PrivateDnsZone)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20180901/storage/PrivateDnsZone but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.PrivateDnsZone
+	err := zone.AssignProperties_To_PrivateDnsZone(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from zone")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return zone.AssignProperties_To_PrivateDnsZone(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20180901-privatednszone,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=privatednszones,verbs=create;update,versions=v1api20180901,name=default.v1api20180901.privatednszones.network.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (zone *PrivateDnsZone) SecretDestinationExpressions() []*core.DestinationEx
 		return nil
 	}
 	return zone.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &PrivateDnsZone{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (zone *PrivateDnsZone) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*PrivateDnsZone_STATUS); ok {
-		return zone.Spec.Initialize_From_PrivateDnsZone_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type PrivateDnsZone_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &PrivateDnsZone{}
@@ -616,22 +619,6 @@ func (zone *PrivateDnsZone_Spec) AssignProperties_To_PrivateDnsZone_Spec(destina
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_PrivateDnsZone_STATUS populates our PrivateDnsZone_Spec from the provided source PrivateDnsZone_STATUS
-func (zone *PrivateDnsZone_Spec) Initialize_From_PrivateDnsZone_STATUS(source *PrivateDnsZone_STATUS) error {
-
-	// Etag
-	zone.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Location
-	zone.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Tags
-	zone.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
