@@ -43,3 +43,13 @@ linters-settings:
   unused:
     generated-is-used: true
 
+issues:
+  exclude-rules:
+    # Exclude some linters from being run on generated files
+    - path: "_gen.go"
+      linters:
+        - gci
+    # Exclude some linters from being run on generated test files
+    - path: "_gen_test.go"
+      linters:
+        - gci
