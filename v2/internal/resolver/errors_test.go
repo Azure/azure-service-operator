@@ -130,8 +130,8 @@ func TestOwnerNotFound_RemembersCause(t *testing.T) {
 
 	// Note that both of the below lines are fragile with respect to line number and will
 	// need to be changed if the lines causing the error above are changed.
-	g.Expect(StackTraceOf(err)).To(ContainSubstring("errors_test.go:121"))
-	g.Expect(StackTraceOf(errors.Cause(err))).To(ContainSubstring("errors_test.go:120"))
+	g.Expect(StackTraceOf(err)).To(ContainSubstring("errors_test.go:123"))
+	g.Expect(StackTraceOf(errors.Cause(err))).To(ContainSubstring("errors_test.go:122"))
 }
 
 func StackTraceOf(e error) string {
