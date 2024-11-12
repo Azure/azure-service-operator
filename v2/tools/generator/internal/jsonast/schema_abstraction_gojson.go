@@ -11,11 +11,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
-
 	"github.com/pkg/errors"
 	"github.com/xeipuuv/gojsonschema"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 

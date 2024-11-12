@@ -9,9 +9,8 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/pkg/errors"
-
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"

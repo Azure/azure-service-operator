@@ -10,7 +10,6 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/names"
 )
 

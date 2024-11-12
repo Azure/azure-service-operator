@@ -16,11 +16,12 @@ import (
 	"sync"
 	"time"
 
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
 	"github.com/go-logr/logr"
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"

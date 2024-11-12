@@ -8,12 +8,11 @@ package config_test
 import (
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
-
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
 // Shared test values -- note that these are used by type_transformer_test.go too

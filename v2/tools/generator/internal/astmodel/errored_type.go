@@ -9,9 +9,10 @@ import (
 	"fmt"
 	"strings"
 
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 type ErroredType struct {

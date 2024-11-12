@@ -8,9 +8,8 @@ package functions
 import (
 	"reflect"
 
-	"github.com/pkg/errors"
-
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"

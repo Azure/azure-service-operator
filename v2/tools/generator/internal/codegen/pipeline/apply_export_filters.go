@@ -8,10 +8,11 @@ package pipeline
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 const ApplyExportFiltersStageID = "filterTypes"

@@ -9,12 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
-
 	"github.com/pkg/errors"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 

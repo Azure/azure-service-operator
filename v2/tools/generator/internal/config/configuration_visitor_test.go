@@ -11,7 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )

@@ -8,9 +8,10 @@ package config
 import (
 	"strings"
 
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/typo"
 )

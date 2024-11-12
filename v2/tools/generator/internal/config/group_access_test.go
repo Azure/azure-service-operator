@@ -8,10 +8,10 @@ package config
 import (
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
 func Test_GroupAccess_Lookup_ReturnsConfiguredValue_WhenPresent(t *testing.T) {

@@ -12,10 +12,9 @@ import (
 	"strings"
 	"unicode"
 
+	"github.com/dave/dst"
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
-
-	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"

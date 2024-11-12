@@ -11,9 +11,10 @@ import (
 	"sync"
 	"unicode"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 // \W is all non-word characters (https://golang.org/pkg/regexp/syntax/)

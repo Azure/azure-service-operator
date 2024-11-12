@@ -9,12 +9,12 @@ import (
 	"context"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
-
-	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
+	"github.com/pkg/errors"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"

@@ -12,6 +12,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	"gopkg.in/yaml.v3"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
