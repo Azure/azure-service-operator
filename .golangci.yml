@@ -4,6 +4,7 @@ run:
 
 linters:
   enable:
+    - gci
     - gofmt
     - gosimple
     - paralleltest
@@ -23,6 +24,14 @@ linters:
 linters-settings:
   exhaustive:
     default-signifies-exhaustive: true
+  gci:
+    custom-order: true
+    sections:
+      - standard
+      - dot
+      - alias
+      - default
+      - prefix(github.com/Azure/azure-service-operator/)
   govet:
     check-shadowing: true
   gosimple:
