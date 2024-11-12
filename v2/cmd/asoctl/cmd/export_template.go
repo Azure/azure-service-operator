@@ -12,6 +12,8 @@ import (
 	"regexp"
 	"strings"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -19,7 +21,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/internal/template"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 )
 

@@ -15,13 +15,14 @@ import (
 	"sync"
 	"unicode"
 
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"

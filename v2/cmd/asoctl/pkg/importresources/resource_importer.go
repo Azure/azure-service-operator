@@ -9,13 +9,13 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 // ResourceImporter is the entry point for importing resources.
