@@ -10,5 +10,5 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: azure-service-operator
+      control-plane: controller-manager
   minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
