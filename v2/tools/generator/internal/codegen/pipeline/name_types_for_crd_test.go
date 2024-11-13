@@ -46,17 +46,10 @@ func Test_NewNameHint(t *testing.T) {
 		},
 		{
 			"Simple TypeName",
-			astmodel.MakeInternalTypeName(test.Pkg2020, "Person"+astmodel.ARMSuffix),
+			astmodel.MakeInternalTypeName(test.Pkg2020, "Person"+astmodel.StatusSuffix),
 			"Person",
-			"ARM",
-			"Person_ARM",
-		},
-		{
-			"Simple TypeName",
-			astmodel.MakeInternalTypeName(test.Pkg2020, "Person"+astmodel.StatusSuffix+astmodel.ARMSuffix),
-			"Person",
-			"STATUS_ARM",
-			"Person_STATUS_ARM",
+			"STATUS",
+			"Person_STATUS",
 		},
 	}
 

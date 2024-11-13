@@ -16,8 +16,6 @@ const (
 	SpecSuffix = "_Spec"
 	// StatusSuffix is the suffix used for all Status types
 	StatusSuffix = "_STATUS"
-	// ARMSuffix is the suffix used for all ARM types
-	ARMSuffix = "_ARM"
 	// ARMPackageName is the name used for ARM subpackages
 	ARMPackageName = "arm"
 )
