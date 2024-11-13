@@ -60,7 +60,7 @@ Perform a simple smoke test to make sure the new release is capable of starting 
 
 3. Enable workload identity on that cluster:
    ```
-   task: controller:create-mi-for-workload-identity
+   task controller:create-mi-for-workload-identity
    ```
 
 4. Install cert-manager
@@ -101,7 +101,7 @@ Perform a simple smoke test to make sure the new release is capable of starting 
 
     ``` bash
     kubectl apply -f v2/samples/resources/v1api/v1api20200601_resourcegroup.yaml
-    kubectl apply -f v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.yaml
+    kubectl apply -f v2/samples/network/v1api20240301/v1api20240301_virtualnetwork.yaml
     ```
 11. Make sure they deploy successfully - check in the portal as well.
 
