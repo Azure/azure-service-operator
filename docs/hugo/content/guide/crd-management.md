@@ -129,6 +129,31 @@ The recommended workflow for removing CRDs you are no longer using is:
 4. Delete the CRD using `kubectl delete`.
 5. Start the operator pod.
 
+## Number of versions supported in a CRD
+
+There is a limit to how large a CRD can be.
+
+Each time a new version is added to a CRD it gets bigger. Large CRDs, those with many properties or deeply nested 
+properties, will fit fewer versions before they run into the CRD size limit.
+
+In order to keep CRDs under the size limit, ASO will periodically remove older versions of CRDs that are approaching
+the size limit. When doing this we will adhere to the following rules:
+
+* Give at least 1 release advanced notice before a CRD version is removed. Look for the "upcoming breaking changes" 
+  section of the release notes.
+* Remove older versions first to make room for newer ones.
+* Remove preview versions before removing stable versions.
+* Always keep at least the latest 2 stable versions and the latest 1 preview version (if applicable, 
+  not all resources have preview versions). Some resources may retain more than this, but we'll never retain less than
+  this.
+
+For manually installed CRDs, [`asoctl clean crds`]( {{< relref "asoctl#clean-crds" >}} ) can be used to prepare
+CRDs for upgrade when a CRD version that was previously a storage version was removed.
+
+For ASO managed CRDs, ASO will automatically clean up the old storage versions when it's upgraded to the new version
+that removed those CRDs. **Note:** This is not yet implemented, it is being tracked by 
+[#4376](https://github.com/Azure/azure-service-operator/issues/4376).
+
 ## Best Practices
 
 * Do not use `crdPattern=*` on AKS free tier clusters. It installs so many CRDs that it can overload kube-apiserver and cause
