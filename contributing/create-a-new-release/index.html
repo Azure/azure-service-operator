@@ -863,7 +863,7 @@ service Swagger specifications. We must validate each breaking change so that we
 </span></span></code></pre></div></li>
 <li>
 <p>Enable workload identity on that cluster:</p>
-<pre tabindex="0"><code>task: controller:create-mi-for-workload-identity
+<pre tabindex="0"><code>task controller:create-mi-for-workload-identity
 </code></pre></li>
 <li>
 <p>Install cert-manager</p>
@@ -894,7 +894,7 @@ service Swagger specifications. We must validate each breaking change so that we
 <li>
 <p>Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren&rsquo;t any for RGs):</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f v2/samples/resources/v1api/v1api20200601_resourcegroup.yaml
-</span></span><span style="display:flex;"><span>kubectl apply -f v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.yaml
+</span></span><span style="display:flex;"><span>kubectl apply -f v2/samples/network/v1api20240301/v1api20240301_virtualnetwork.yaml
 </span></span></code></pre></div></li>
 <li>
 <p>Make sure they deploy successfully - check in the portal as well.</p>

@@ -35,7 +35,7 @@ ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs 
   <meta itemprop="description" content="How does CRD management work in Azure Service Operator? ASO performs CRD management differently than many traditional operators. You might notice if you install the Helm chart or the YAML that there are NO CRDs installed by default.
 This is for two reasons:
 ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs are included, so the CRDs cannot be included in the Helm chart. ASO supports so many CRDs that it can cause problems if they’re all installed onto a Kubernetes cluster with a low memory limit. See #2920 for details. For the above reasons, by default each version of the ASO operator pod embeds the CRDs inside the pod and installs them when the pod launches.">
-  <meta itemprop="wordCount" content="985">
+  <meta itemprop="wordCount" content="1212">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="CRD management in ASO">
   <meta name="twitter:description" content="How does CRD management work in Azure Service Operator? ASO performs CRD management differently than many traditional operators. You might notice if you install the Helm chart or the YAML that there are NO CRDs installed by default.
@@ -754,6 +754,7 @@ ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs 
       </ul>
     </li>
     <li><a href="#uninstalling-crds">Uninstalling CRDs</a></li>
+    <li><a href="#number-of-versions-supported-in-a-crd">Number of versions supported in a CRD</a></li>
     <li><a href="#best-practices">Best Practices</a></li>
   </ul>
 </nav>
@@ -891,6 +892,26 @@ If it does, the CRD may be re-installed by the operator pod after you&rsquo;ve r
 <li>Delete the CRD using <code>kubectl delete</code>.</li>
 <li>Start the operator pod.</li>
 </ol>
+<h2 id="number-of-versions-supported-in-a-crd">Number of versions supported in a CRD</h2>
+<p>There is a limit to how large a CRD can be.</p>
+<p>Each time a new version is added to a CRD it gets bigger. Large CRDs, those with many properties or deeply nested
+properties, will fit fewer versions before they run into the CRD size limit.</p>
+<p>In order to keep CRDs under the size limit, ASO will periodically remove older versions of CRDs that are approaching
+the size limit. When doing this we will adhere to the following rules:</p>
+<ul>
+<li>Give at least 1 release advanced notice before a CRD version is removed. Look for the &ldquo;upcoming breaking changes&rdquo;
+section of the release notes.</li>
+<li>Remove older versions first to make room for newer ones.</li>
+<li>Remove preview versions before removing stable versions.</li>
+<li>Always keep at least the latest 2 stable versions and the latest 1 preview version (if applicable,
+not all resources have preview versions). Some resources may retain more than this, but we&rsquo;ll never retain less than
+this.</li>
+</ul>
+<p>For manually installed CRDs, <a href="/azure-service-operator/tools/asoctl/#clean-crds"><code>asoctl clean crds</code></a> can be used to prepare
+CRDs for upgrade when a CRD version that was previously a storage version was removed.</p>
+<p>For ASO managed CRDs, ASO will automatically clean up the old storage versions when it&rsquo;s upgraded to the new version
+that removed those CRDs. <strong>Note:</strong> This is not yet implemented, it is being tracked by
+<a href="https://github.com/Azure/azure-service-operator/issues/4376">#4376</a>.</p>
 <h2 id="best-practices">Best Practices</h2>
 <ul>
 <li>Do not use <code>crdPattern=*</code> on AKS free tier clusters. It installs so many CRDs that it can overload kube-apiserver and cause
