@@ -1,0 +1,14 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  labels:
+    app.kubernetes.io/name: azure-service-operator
+    app.kubernetes.io/version: v2.11.0
+    control-plane: controller-manager
+  name: azureserviceoperator-pdb
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: azure-service-operator
+  minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
