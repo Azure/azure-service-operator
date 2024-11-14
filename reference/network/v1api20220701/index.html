@@ -35,7 +35,7 @@ ApplicationGateway Generator information: - Generated from: /network/resource-ma
   <meta itemprop="description" content="network.azure.com/v1api20220701 Package v1api20220701 contains API Schema definitions for the network v1api20220701 API group
 Resource Types: APIVersion (string alias) Value Description &#34;2022-07-01&#34;
 ApplicationGateway Generator information: - Generated from: /network/resource-manager/Microsoft.Network/stable/2022-07-01/applicationGateway.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​applicationGateways/​{applicationGatewayName}&lt;/​p&gt; Field Description metadata Kubernetes meta/v1.ObjectMeta Refer to the Kubernetes API documentation for the fields of the metadata field. spec ApplicationGateway_Spec authenticationCertificates []ApplicationGatewayAuthenticationCertificate AuthenticationCertificates: Authentication certificates of the application gateway resource. For default limits, see Application Gateway limits.">
-  <meta itemprop="wordCount" content="14919">
+  <meta itemprop="wordCount" content="14854">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="network.azure.com/v1api20220701">
   <meta name="twitter:description" content="network.azure.com/v1api20220701 Package v1api20220701 contains API Schema definitions for the network v1api20220701 API group
@@ -238,7 +238,9 @@ ApplicationGateway Generator information: - Generated from: /network/resource-ma
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencealertsmanagement-li">
   <a href="/azure-service-operator/reference/alertsmanagement/" title="AlertsManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencealertsmanagement"><span class="">AlertsManagement</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20230301-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20210401-li">
+  <a href="/azure-service-operator/reference/alertsmanagement/v1api20210401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20210401"><span class="">alertsmanagement.azure.com/v1api20210401</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20230301-li">
   <a href="/azure-service-operator/reference/alertsmanagement/v1api20230301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20230301"><span class="">alertsmanagement.azure.com/v1api20230301</span></a>
 </li>
   </ul>
@@ -515,6 +517,10 @@ ApplicationGateway Generator information: - Generated from: /network/resource-ma
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="td-sidebar-nav-active-item">network.azure.com/v1api20220701</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
   <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20240301-li">
+  <a href="/azure-service-operator/reference/network/v1api20240301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240301"><span class="">network.azure.com/v1api20240301</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20240601-li">
+  <a href="/azure-service-operator/reference/network/v1api20240601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240601"><span class="">network.azure.com/v1api20240601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -947,8 +953,8 @@ bool
 <td>
 <code>firewallPolicy</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -1641,8 +1647,8 @@ string
 <td>
 <code>authenticationCertificates</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-[]ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+[]SubResource
 </a>
 </em>
 </td>
@@ -1737,8 +1743,8 @@ int
 <td>
 <code>probe</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -1786,8 +1792,8 @@ RequestTimeout. Acceptable values are from 1 second to 86400 seconds.</p>
 <td>
 <code>trustedRootCertificates</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-[]ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+[]SubResource
 </a>
 </em>
 </td>
@@ -1911,8 +1917,8 @@ int
 <td>
 <code>probe</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -1949,8 +1955,8 @@ ConnectionTimeout. Acceptable values are from 1 second to 86400 seconds.</p>
 <td>
 <code>trustedRootCertificates</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-[]ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+[]SubResource
 </a>
 </em>
 </td>
@@ -2458,8 +2464,8 @@ IPAllocationMethod
 <td>
 <code>privateLinkConfiguration</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -2471,8 +2477,8 @@ ApplicationGatewaySubResource
 <td>
 <code>publicIPAddress</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -2484,8 +2490,8 @@ ApplicationGatewaySubResource
 <td>
 <code>subnet</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -2746,8 +2752,8 @@ string
 <td>
 <code>firewallPolicy</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -2759,8 +2765,8 @@ ApplicationGatewaySubResource
 <td>
 <code>frontendIPConfiguration</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -2772,8 +2778,8 @@ ApplicationGatewaySubResource
 <td>
 <code>frontendPort</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -2842,8 +2848,8 @@ bool
 <td>
 <code>sslCertificate</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -2855,8 +2861,8 @@ ApplicationGatewaySubResource
 <td>
 <code>sslProfile</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -2926,8 +2932,8 @@ string
 <td>
 <code>subnet</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -2986,8 +2992,8 @@ string
 <td>
 <code>frontendIPConfiguration</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -2999,8 +3005,8 @@ ApplicationGatewaySubResource
 <td>
 <code>frontendPort</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -3036,8 +3042,8 @@ ApplicationGatewayProtocol
 <td>
 <code>sslCertificate</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -3049,8 +3055,8 @@ ApplicationGatewaySubResource
 <td>
 <code>sslProfile</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -3789,8 +3795,8 @@ string
 <td>
 <code>pathRules</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-[]ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+[]SubResource
 </a>
 </em>
 </td>
@@ -3815,8 +3821,8 @@ RedirectTypeEnum
 <td>
 <code>requestRoutingRules</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-[]ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+[]SubResource
 </a>
 </em>
 </td>
@@ -3828,8 +3834,8 @@ RedirectTypeEnum
 <td>
 <code>targetListener</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -3852,8 +3858,8 @@ string
 <td>
 <code>urlPathMaps</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-[]ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+[]SubResource
 </a>
 </em>
 </td>
@@ -3912,8 +3918,8 @@ string
 <td>
 <code>backendAddressPool</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -3925,8 +3931,8 @@ ApplicationGatewaySubResource
 <td>
 <code>backendHttpSettings</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -3938,8 +3944,8 @@ ApplicationGatewaySubResource
 <td>
 <code>httpListener</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -3951,8 +3957,8 @@ ApplicationGatewaySubResource
 <td>
 <code>loadDistributionPolicy</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -3986,8 +3992,8 @@ int
 <td>
 <code>redirectConfiguration</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -3999,8 +4005,8 @@ ApplicationGatewaySubResource
 <td>
 <code>rewriteRuleSet</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -4025,8 +4031,8 @@ ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType
 <td>
 <code>urlPathMap</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -4362,8 +4368,8 @@ string
 <td>
 <code>backendAddressPool</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -4375,8 +4381,8 @@ ApplicationGatewaySubResource
 <td>
 <code>backendSettings</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -4388,8 +4394,8 @@ ApplicationGatewaySubResource
 <td>
 <code>listener</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -5063,8 +5069,8 @@ ApplicationGatewaySslPolicy
 <td>
 <code>trustedClientCertificates</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-[]ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+[]SubResource
 </a>
 </em>
 </td>
@@ -5081,66 +5087,6 @@ ApplicationGatewaySslPolicy
 </p>
 <div>
 <p>SSL profile of an application gateway.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1api20220701.ApplicationGatewaySubResource">ApplicationGatewaySubResource
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.ApplicationGatewayBackendHttpSettings">ApplicationGatewayBackendHttpSettings</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayBackendSettings">ApplicationGatewayBackendSettings</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayFrontendIPConfiguration">ApplicationGatewayFrontendIPConfiguration</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayHttpListener">ApplicationGatewayHttpListener</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded">ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayListener">ApplicationGatewayListener</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayRedirectConfiguration">ApplicationGatewayRedirectConfiguration</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayRoutingRule">ApplicationGatewayRoutingRule</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewaySslProfile">ApplicationGatewaySslProfile</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayUrlPathMap">ApplicationGatewayUrlPathMap</a>, <a href="#network.azure.com/v1api20220701.ApplicationGateway_Spec">ApplicationGateway_Spec</a>, <a href="#network.azure.com/v1api20220701.NatGateway_Spec">NatGateway_Spec</a>)
-</p>
-<div>
-<p>Reference to another subresource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>reference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Reference: Resource ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1api20220701.ApplicationGatewaySubResource_STATUS">ApplicationGatewaySubResource_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded">ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20220701.NatGateway_STATUS">NatGateway_STATUS</a>)
-</p>
-<div>
-<p>Reference to another subresource.</p>
 </div>
 <table>
 <thead>
@@ -5390,8 +5336,8 @@ modified path. Default value is false.</p>
 <td>
 <code>defaultBackendAddressPool</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -5403,8 +5349,8 @@ ApplicationGatewaySubResource
 <td>
 <code>defaultBackendHttpSettings</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -5416,8 +5362,8 @@ ApplicationGatewaySubResource
 <td>
 <code>defaultLoadDistributionPolicy</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -5429,8 +5375,8 @@ ApplicationGatewaySubResource
 <td>
 <code>defaultRedirectConfiguration</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -5442,8 +5388,8 @@ ApplicationGatewaySubResource
 <td>
 <code>defaultRewriteRuleSet</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -5964,8 +5910,8 @@ string
 <td>
 <code>firewallPolicy</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource_STATUS">
-ApplicationGatewaySubResource_STATUS
+<a href="#network.azure.com/v1api20220701.SubResource_STATUS">
+SubResource_STATUS
 </a>
 </em>
 </td>
@@ -6541,8 +6487,8 @@ bool
 <td>
 <code>firewallPolicy</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -7256,8 +7202,8 @@ IPAllocationMethod
 <td>
 <code>publicIPAddress</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.BastionHostSubResource">
-BastionHostSubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -7269,8 +7215,8 @@ BastionHostSubResource
 <td>
 <code>subnet</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.BastionHostSubResource">
-BastionHostSubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -7377,37 +7323,6 @@ string
 </tr><tr><td><p>&#34;Updating&#34;</p></td>
 <td></td>
 </tr></tbody>
-</table>
-<h3 id="network.azure.com/v1api20220701.BastionHostSubResource">BastionHostSubResource
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.BastionHostIPConfiguration">BastionHostIPConfiguration</a>)
-</p>
-<div>
-<p>Reference to another subresource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>reference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Reference: Resource ID.</p>
-</td>
-</tr>
-</tbody>
 </table>
 <h3 id="network.azure.com/v1api20220701.BastionHost_STATUS">BastionHost_STATUS
 </h3>
@@ -8537,8 +8452,8 @@ reference to a network.azure.com/DnsForwardingRuleset resource</p>
 <td>
 <code>virtualNetwork</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
-DnsresolverSubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -8722,8 +8637,8 @@ string
 <td>
 <code>virtualNetwork</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_STATUS">
-DnsresolverSubResource_STATUS
+<a href="#network.azure.com/v1api20220701.SubResource_STATUS">
+SubResource_STATUS
 </a>
 </em>
 </td>
@@ -8804,8 +8719,8 @@ reference to a network.azure.com/DnsForwardingRuleset resource</p>
 <td>
 <code>virtualNetwork</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
-DnsresolverSubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -8873,8 +8788,8 @@ doesn&rsquo;t have to be.</p>
 <td>
 <code>dnsResolverOutboundEndpoints</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
-[]DnsresolverSubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+[]SubResource
 </a>
 </em>
 </td>
@@ -9028,8 +8943,8 @@ DnsForwardingRuleset_STATUS
 <td>
 <code>dnsResolverOutboundEndpoints</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_STATUS">
-[]DnsresolverSubResource_STATUS
+<a href="#network.azure.com/v1api20220701.SubResource_STATUS">
+[]SubResource_STATUS
 </a>
 </em>
 </td>
@@ -9176,8 +9091,8 @@ doesn&rsquo;t have to be.</p>
 <td>
 <code>dnsResolverOutboundEndpoints</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
-[]DnsresolverSubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+[]SubResource
 </a>
 </em>
 </td>
@@ -9348,8 +9263,8 @@ map[string]string
 <td>
 <code>virtualNetwork</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
-DnsresolverSubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -9590,8 +9505,8 @@ string
 <td>
 <code>virtualNetwork</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_STATUS">
-DnsresolverSubResource_STATUS
+<a href="#network.azure.com/v1api20220701.SubResource_STATUS">
+SubResource_STATUS
 </a>
 </em>
 </td>
@@ -9683,8 +9598,8 @@ map[string]string
 <td>
 <code>virtualNetwork</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
-DnsresolverSubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -10212,8 +10127,8 @@ reference to a network.azure.com/DnsResolver resource</p>
 <td>
 <code>subnet</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
-DnsresolverSubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -10395,8 +10310,8 @@ string
 <td>
 <code>subnet</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_STATUS">
-DnsresolverSubResource_STATUS
+<a href="#network.azure.com/v1api20220701.SubResource_STATUS">
+SubResource_STATUS
 </a>
 </em>
 </td>
@@ -10512,8 +10427,8 @@ reference to a network.azure.com/DnsResolver resource</p>
 <td>
 <code>subnet</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
-DnsresolverSubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -10562,66 +10477,6 @@ map[string]string
 </tr><tr><td><p>&#34;Updating&#34;</p></td>
 <td></td>
 </tr></tbody>
-</table>
-<h3 id="network.azure.com/v1api20220701.DnsresolverSubResource">DnsresolverSubResource
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRuleSetsVirtualNetworkLink_Spec">DnsForwardingRuleSetsVirtualNetworkLink_Spec</a>, <a href="#network.azure.com/v1api20220701.DnsForwardingRuleset_Spec">DnsForwardingRuleset_Spec</a>, <a href="#network.azure.com/v1api20220701.DnsResolver_Spec">DnsResolver_Spec</a>, <a href="#network.azure.com/v1api20220701.DnsResolversOutboundEndpoint_Spec">DnsResolversOutboundEndpoint_Spec</a>, <a href="#network.azure.com/v1api20220701.IpConfiguration">IpConfiguration</a>)
-</p>
-<div>
-<p>Reference to another ARM resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>reference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Reference: Resource ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1api20220701.DnsresolverSubResource_STATUS">DnsresolverSubResource_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRuleSetsVirtualNetworkLink_STATUS">DnsForwardingRuleSetsVirtualNetworkLink_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsForwardingRuleset_STATUS">DnsForwardingRuleset_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsResolver_STATUS">DnsResolver_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsResolversOutboundEndpoint_STATUS">DnsResolversOutboundEndpoint_STATUS</a>, <a href="#network.azure.com/v1api20220701.IpConfiguration_STATUS">IpConfiguration_STATUS</a>)
-</p>
-<div>
-<p>Reference to another ARM resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource ID.</p>
-</td>
-</tr>
-</tbody>
 </table>
 <h3 id="network.azure.com/v1api20220701.ExtendedLocation">ExtendedLocation
 </h3>
@@ -10973,8 +10828,8 @@ IpConfiguration_PrivateIpAllocationMethod
 <td>
 <code>subnet</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
-DnsresolverSubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -11068,8 +10923,8 @@ IpConfiguration_PrivateIpAllocationMethod_STATUS
 <td>
 <code>subnet</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_STATUS">
-DnsresolverSubResource_STATUS
+<a href="#network.azure.com/v1api20220701.SubResource_STATUS">
+SubResource_STATUS
 </a>
 </em>
 </td>
@@ -11475,8 +11330,8 @@ reference to a resources.azure.com/ResourceGroup resource</p>
 <td>
 <code>publicIpAddresses</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-[]ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+[]SubResource
 </a>
 </em>
 </td>
@@ -11488,8 +11343,8 @@ reference to a resources.azure.com/ResourceGroup resource</p>
 <td>
 <code>publicIpPrefixes</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-[]ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+[]SubResource
 </a>
 </em>
 </td>
@@ -11823,8 +11678,8 @@ ApplicationGatewayProvisioningState_STATUS
 <td>
 <code>publicIpAddresses</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource_STATUS">
-[]ApplicationGatewaySubResource_STATUS
+<a href="#network.azure.com/v1api20220701.SubResource_STATUS">
+[]SubResource_STATUS
 </a>
 </em>
 </td>
@@ -11836,8 +11691,8 @@ ApplicationGatewayProvisioningState_STATUS
 <td>
 <code>publicIpPrefixes</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource_STATUS">
-[]ApplicationGatewaySubResource_STATUS
+<a href="#network.azure.com/v1api20220701.SubResource_STATUS">
+[]SubResource_STATUS
 </a>
 </em>
 </td>
@@ -11873,8 +11728,8 @@ NatGatewaySku_STATUS
 <td>
 <code>subnets</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource_STATUS">
-[]ApplicationGatewaySubResource_STATUS
+<a href="#network.azure.com/v1api20220701.SubResource_STATUS">
+[]SubResource_STATUS
 </a>
 </em>
 </td>
@@ -12028,8 +11883,8 @@ reference to a resources.azure.com/ResourceGroup resource</p>
 <td>
 <code>publicIpAddresses</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-[]ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+[]SubResource
 </a>
 </em>
 </td>
@@ -12041,8 +11896,8 @@ reference to a resources.azure.com/ResourceGroup resource</p>
 <td>
 <code>publicIpPrefixes</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.ApplicationGatewaySubResource">
-[]ApplicationGatewaySubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+[]SubResource
 </a>
 </em>
 </td>
@@ -14845,8 +14700,8 @@ doesn&rsquo;t have to be.</p>
 <td>
 <code>customIPPrefix</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.PublicIpPrefixSubResource">
-PublicIpPrefixSubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -15250,8 +15105,8 @@ PublicIPPrefixSku_Tier_STATUS
 <td>
 <code>customIPPrefix</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.PublicIpPrefixSubResource_STATUS">
-PublicIpPrefixSubResource_STATUS
+<a href="#network.azure.com/v1api20220701.SubResource_STATUS">
+SubResource_STATUS
 </a>
 </em>
 </td>
@@ -15322,8 +15177,8 @@ string
 <td>
 <code>loadBalancerFrontendIpConfiguration</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.PublicIpPrefixSubResource_STATUS">
-PublicIpPrefixSubResource_STATUS
+<a href="#network.azure.com/v1api20220701.SubResource_STATUS">
+SubResource_STATUS
 </a>
 </em>
 </td>
@@ -15507,8 +15362,8 @@ doesn&rsquo;t have to be.</p>
 <td>
 <code>customIPPrefix</code><br/>
 <em>
-<a href="#network.azure.com/v1api20220701.PublicIpPrefixSubResource">
-PublicIpPrefixSubResource
+<a href="#network.azure.com/v1api20220701.SubResource">
+SubResource
 </a>
 </em>
 </td>
@@ -15680,66 +15535,6 @@ map[string]string
 </tr><tr><td><p>&#34;Updating&#34;</p></td>
 <td></td>
 </tr></tbody>
-</table>
-<h3 id="network.azure.com/v1api20220701.PublicIpPrefixSubResource">PublicIpPrefixSubResource
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.PublicIPPrefix_Spec">PublicIPPrefix_Spec</a>)
-</p>
-<div>
-<p>Reference to another subresource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>reference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Reference: Resource ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1api20220701.PublicIpPrefixSubResource_STATUS">PublicIpPrefixSubResource_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.PublicIPPrefix_STATUS">PublicIPPrefix_STATUS</a>)
-</p>
-<div>
-<p>Reference to another subresource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource ID.</p>
-</td>
-</tr>
-</tbody>
 </table>
 <h3 id="network.azure.com/v1api20220701.RecordSet_STATUS">RecordSet_STATUS
 </h3>
@@ -16037,6 +15832,66 @@ Sku_Name_STATUS
 </td>
 <td>
 <p>Name: The name of this Bastion Host.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.SubResource">SubResource
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.ApplicationGatewayBackendHttpSettings">ApplicationGatewayBackendHttpSettings</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayBackendSettings">ApplicationGatewayBackendSettings</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayFrontendIPConfiguration">ApplicationGatewayFrontendIPConfiguration</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayHttpListener">ApplicationGatewayHttpListener</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded">ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayListener">ApplicationGatewayListener</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayRedirectConfiguration">ApplicationGatewayRedirectConfiguration</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayRoutingRule">ApplicationGatewayRoutingRule</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewaySslProfile">ApplicationGatewaySslProfile</a>, <a href="#network.azure.com/v1api20220701.ApplicationGatewayUrlPathMap">ApplicationGatewayUrlPathMap</a>, <a href="#network.azure.com/v1api20220701.ApplicationGateway_Spec">ApplicationGateway_Spec</a>, <a href="#network.azure.com/v1api20220701.BastionHostIPConfiguration">BastionHostIPConfiguration</a>, <a href="#network.azure.com/v1api20220701.DnsForwardingRuleSetsVirtualNetworkLink_Spec">DnsForwardingRuleSetsVirtualNetworkLink_Spec</a>, <a href="#network.azure.com/v1api20220701.DnsForwardingRuleset_Spec">DnsForwardingRuleset_Spec</a>, <a href="#network.azure.com/v1api20220701.DnsResolver_Spec">DnsResolver_Spec</a>, <a href="#network.azure.com/v1api20220701.DnsResolversOutboundEndpoint_Spec">DnsResolversOutboundEndpoint_Spec</a>, <a href="#network.azure.com/v1api20220701.IpConfiguration">IpConfiguration</a>, <a href="#network.azure.com/v1api20220701.NatGateway_Spec">NatGateway_Spec</a>, <a href="#network.azure.com/v1api20220701.PublicIPPrefix_Spec">PublicIPPrefix_Spec</a>)
+</p>
+<div>
+<p>Reference to another ARM resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>reference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Reference: Resource ID.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.SubResource_STATUS">SubResource_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded">ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20220701.DnsForwardingRuleSetsVirtualNetworkLink_STATUS">DnsForwardingRuleSetsVirtualNetworkLink_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsForwardingRuleset_STATUS">DnsForwardingRuleset_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsResolver_STATUS">DnsResolver_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsResolversOutboundEndpoint_STATUS">DnsResolversOutboundEndpoint_STATUS</a>, <a href="#network.azure.com/v1api20220701.IpConfiguration_STATUS">IpConfiguration_STATUS</a>, <a href="#network.azure.com/v1api20220701.NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#network.azure.com/v1api20220701.PublicIPPrefix_STATUS">PublicIPPrefix_STATUS</a>)
+</p>
+<div>
+<p>Reference to another ARM resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>

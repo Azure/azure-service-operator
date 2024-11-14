@@ -144,6 +144,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/v1api20210401/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/v1api20230301/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/</loc>
@@ -379,6 +381,10 @@
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20220701/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20240101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20240301/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20240601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network.frontdoor/v1api20220501/</loc>
   </url><url>
