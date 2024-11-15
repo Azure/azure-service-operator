@@ -192,7 +192,6 @@ type nameHint struct {
 var suffixesToFloat = []string{
 	astmodel.SpecSuffix,
 	astmodel.StatusSuffix,
-	astmodel.ARMSuffix,
 }
 
 func newNameHint(name astmodel.TypeName) nameHint {
