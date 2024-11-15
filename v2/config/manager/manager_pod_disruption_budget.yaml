@@ -8,5 +8,5 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: azure-service-operator-v1
+      control-plane: controller-manager
   minAvailable: 50%
