@@ -10,9 +10,8 @@ import (
 	"fmt"
 	"strings"
 
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
 	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"

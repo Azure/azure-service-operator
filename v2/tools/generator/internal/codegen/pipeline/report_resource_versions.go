@@ -16,12 +16,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/typo"

@@ -6,9 +6,8 @@
 package astmodel
 
 import (
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
 	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // RenamingVisitor is a visitor for performing simple TypeName renames

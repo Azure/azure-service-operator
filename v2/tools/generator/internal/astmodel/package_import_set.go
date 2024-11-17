@@ -8,9 +8,9 @@ package astmodel
 import (
 	"sort"
 
-	pkgset "github.com/Azure/azure-service-operator/v2/internal/set"
-
 	"github.com/dave/dst"
+
+	pkgset "github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 // PackageImportSet represents a set of distinct PackageImport references

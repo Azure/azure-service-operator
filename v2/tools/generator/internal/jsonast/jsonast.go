@@ -14,11 +14,10 @@ import (
 	"regexp"
 	"strings"
 
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
 	"github.com/devigned/tab"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"

@@ -8,9 +8,8 @@ package astmodel
 import (
 	"fmt"
 
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
 	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // TypeVisitor represents a visitor for a tree of types.

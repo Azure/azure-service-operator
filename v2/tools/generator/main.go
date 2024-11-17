@@ -6,9 +6,9 @@
 package main
 
 import (
+	goflag "flag"
 	"os"
 
-	goflag "flag"
 	flag "github.com/spf13/pflag"
 )
 

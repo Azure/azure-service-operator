@@ -8,9 +8,8 @@ package astmodel
 import (
 	"sort"
 
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
 	"golang.org/x/exp/maps"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // PropertySet wraps a set of property definitions, indexed by name, along with some convenience methods

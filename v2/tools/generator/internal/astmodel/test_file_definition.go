@@ -9,11 +9,10 @@ import (
 	"cmp"
 	"go/token"
 
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // TestFileDefinition defines the content of a test file we're generating
