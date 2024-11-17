@@ -29,7 +29,6 @@ linters-settings:
     sections:
       - standard
       - dot
-      - alias
       - default
       - prefix(github.com/Azure/azure-service-operator/)
   govet:
