@@ -11,8 +11,6 @@ import (
 	"os"
 	"sync"
 
-	internalconfig "github.com/Azure/azure-service-operator/v2/internal/config"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/go-logr/logr"
@@ -22,6 +20,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importresources"
+	internalconfig "github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
