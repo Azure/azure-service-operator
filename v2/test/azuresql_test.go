@@ -11,16 +11,15 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	_ "github.com/microsoft/go-mssqldb"
+	v1 "k8s.io/api/core/v1"
+
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	azuresqlv1 "github.com/Azure/azure-service-operator/v2/api/sql/v1"
 	sql "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
-	azuresqlutil "github.com/Azure/azure-service-operator/v2/internal/util/azuresql"
-	v1 "k8s.io/api/core/v1"
-
-	_ "github.com/microsoft/go-mssqldb"
-
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	azuresqlutil "github.com/Azure/azure-service-operator/v2/internal/util/azuresql"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

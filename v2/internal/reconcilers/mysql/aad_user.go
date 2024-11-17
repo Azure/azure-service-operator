@@ -11,15 +11,14 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
-	asomysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
-	mysqlutil "github.com/Azure/azure-service-operator/v2/internal/util/mysql"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
+	asomysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	mysqlutil "github.com/Azure/azure-service-operator/v2/internal/util/mysql"
 )
 
 const Scope = "https://ossrdbms-aad.database.windows.net/.default"

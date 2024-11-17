@@ -12,9 +12,8 @@ import (
 	. "github.com/onsi/gomega"
 
 	eventgrid "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
-	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
-
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
 )
 
 func Test_SecretsSpecified_AllSecretsSpecifiedAllSecretsReturned(t *testing.T) {

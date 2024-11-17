@@ -11,14 +11,13 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
-	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
-
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

@@ -9,11 +9,10 @@ import (
 	"fmt"
 	"io"
 
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 func AsTypedError[T error](err error) (T, bool) {

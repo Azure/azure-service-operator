@@ -13,13 +13,12 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
-	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
+	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"

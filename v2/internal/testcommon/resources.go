@@ -6,9 +6,9 @@ Licensed under the MIT license.
 package testcommon
 
 import (
-	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
+	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

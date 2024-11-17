@@ -8,9 +8,9 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )

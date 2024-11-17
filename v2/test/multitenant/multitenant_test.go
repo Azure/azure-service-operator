@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
-
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

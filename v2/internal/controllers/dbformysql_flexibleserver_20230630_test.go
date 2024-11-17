@@ -10,12 +10,11 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	"github.com/kr/pretty"
+
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-
-	"github.com/kr/pretty"
-
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

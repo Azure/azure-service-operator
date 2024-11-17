@@ -12,7 +12,6 @@ import (
 
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
 	subscription "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
-
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

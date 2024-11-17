@@ -9,9 +9,8 @@ import (
 	"flag"
 	"os"
 
-	ctrl "sigs.k8s.io/controller-runtime"
-
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
+	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/v2/cmd/controller/app"
 	"github.com/Azure/azure-service-operator/v2/cmd/controller/logging"

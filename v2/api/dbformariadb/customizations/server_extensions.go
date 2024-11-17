@@ -10,13 +10,12 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
-	mariadb "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
-	v1 "k8s.io/api/core/v1"
-
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
+	mariadb "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"

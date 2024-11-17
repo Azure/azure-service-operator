@@ -12,7 +12,6 @@ import (
 
 	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
 	compute2021 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701"
-
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

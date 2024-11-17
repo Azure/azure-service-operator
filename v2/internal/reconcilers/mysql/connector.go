@@ -8,12 +8,11 @@ package mysql
 import (
 	"context"
 
-	asomysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
-	dbformysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
+	"github.com/pkg/errors"
 	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	"github.com/pkg/errors"
-
+	asomysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
+	dbformysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )

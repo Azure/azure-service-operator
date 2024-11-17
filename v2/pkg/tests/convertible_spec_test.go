@@ -10,10 +10,9 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
-
 	"k8s.io/apimachinery/pkg/runtime"
 
+	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 

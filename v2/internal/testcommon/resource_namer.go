@@ -6,13 +6,12 @@ Licensed under the MIT license.
 package testcommon
 
 import (
+	crypto "crypto/rand"
 	"hash/fnv"
 	"math/big"
 	"math/rand"
 	"strings"
 	"time"
-
-	crypto "crypto/rand"
 
 	"github.com/google/uuid"
 )

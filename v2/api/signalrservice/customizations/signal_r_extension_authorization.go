@@ -10,14 +10,13 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
-	signalr "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/storage"
-	v1 "k8s.io/api/core/v1"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
+	signalr "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"

@@ -12,9 +12,8 @@ import (
 	. "github.com/onsi/gomega"
 
 	signalr "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/storage"
-	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
-
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
 )
 
 func Test_SecretsSpecified_AllSecretsSpecifiedAllSecretsReturned(t *testing.T) {

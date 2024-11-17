@@ -6,14 +6,13 @@ Licensed under the MIT license.
 package testcommon
 
 import (
-	v1 "github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr/v1"
-	v3 "github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr/v3"
-
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
+	v1 "github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr/v1"
+	v3 "github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr/v3"
 )
 
 // createTestRecorder returns an instance of testRecorder to allow recording and playback of HTTP requests.

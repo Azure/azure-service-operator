@@ -10,8 +10,6 @@ import (
 	"reflect"
 	"strings"
 
-	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
-
 	"github.com/go-logr/logr"
 	"github.com/google/cel-go/cel"
 	"github.com/google/cel-go/common/ast"
@@ -20,6 +18,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/samber/lo"
 
+	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 

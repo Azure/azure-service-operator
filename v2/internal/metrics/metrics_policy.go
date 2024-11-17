@@ -9,10 +9,9 @@ import (
 	"net/http"
 	"time"
 
-	ctrl "sigs.k8s.io/controller-runtime"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
+	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/v2/internal/logging"
 )

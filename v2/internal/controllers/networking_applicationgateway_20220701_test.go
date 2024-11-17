@@ -13,7 +13,6 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
 	network2024 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"

@@ -10,10 +10,10 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	containerserviceold "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501"
-	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
+	containerserviceold "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

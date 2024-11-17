@@ -11,13 +11,12 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
+	"github.com/google/cel-go/cel"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/google/cel-go/cel"
-
 	"github.com/Azure/azure-service-operator/v2/internal/set"
+	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 

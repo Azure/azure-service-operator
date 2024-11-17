@@ -7,7 +7,6 @@ package secrets
 
 import (
 	v1 "k8s.io/api/core/v1"
-
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"

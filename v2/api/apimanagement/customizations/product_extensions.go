@@ -6,14 +6,13 @@ package customizations
 import (
 	"context"
 
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
-	ctrl "sigs.k8s.io/controller-runtime"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"

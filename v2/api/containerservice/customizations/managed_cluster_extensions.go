@@ -12,14 +12,13 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
-	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
-	v1 "k8s.io/api/core/v1"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
+	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"

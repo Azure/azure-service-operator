@@ -10,9 +10,8 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
-	ctrl "sigs.k8s.io/controller-runtime"
-
 	"github.com/go-logr/logr"
+	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"

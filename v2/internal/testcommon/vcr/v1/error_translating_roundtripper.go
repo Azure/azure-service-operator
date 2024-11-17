@@ -13,7 +13,6 @@ import (
 	"testing"
 
 	cassettev1 "github.com/dnaeon/go-vcr/cassette"
-
 	"github.com/google/go-cmp/cmp"
 	"github.com/pkg/errors"
 

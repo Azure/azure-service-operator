@@ -12,9 +12,8 @@ import (
 	. "github.com/onsi/gomega"
 
 	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
-	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
-
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
 )
 
 func Test_SecretsSpecified_AllSecretsSpecifiedAllSecretsReturned(t *testing.T) {

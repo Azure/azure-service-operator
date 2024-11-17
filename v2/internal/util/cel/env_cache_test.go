@@ -11,11 +11,11 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
-	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
-
 	"github.com/go-logr/logr"
 	"github.com/google/cel-go/cel"
+
+	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
+	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 )
 
 func Test_EnvCache_SameResourceType_CacheHit(t *testing.T) {

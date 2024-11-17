@@ -11,9 +11,6 @@ import (
 	"strings"
 	"time"
 
-	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/storage"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
@@ -22,6 +19,8 @@ import (
 	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
+	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/storage"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"

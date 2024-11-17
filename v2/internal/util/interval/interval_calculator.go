@@ -11,9 +11,8 @@ import (
 	"sync"
 	"time"
 
-	ctrl "sigs.k8s.io/controller-runtime"
-
 	"github.com/pkg/errors"
+	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"

@@ -8,10 +8,9 @@ package genruntime
 import (
 	"context"
 
-	ctrl "sigs.k8s.io/controller-runtime"
-
 	"github.com/go-logr/logr"
 	"k8s.io/client-go/tools/record"
+	ctrl "sigs.k8s.io/controller-runtime"
 )
 
 // Reconciler performs create/delete actions against a particular kind of resource.

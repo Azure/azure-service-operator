@@ -11,14 +11,13 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
-	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
-	v1 "k8s.io/api/core/v1"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
+	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"

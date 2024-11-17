@@ -15,7 +15,6 @@ import (
 	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202"
 	insightswebtest20220615 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

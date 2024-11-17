@@ -9,7 +9,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	machinelearningservices "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401"
-
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )

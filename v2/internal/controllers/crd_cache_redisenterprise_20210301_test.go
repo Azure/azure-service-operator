@@ -10,10 +10,9 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301"
-
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )

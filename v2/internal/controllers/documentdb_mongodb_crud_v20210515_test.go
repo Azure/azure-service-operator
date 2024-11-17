@@ -10,10 +10,9 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515"
-
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )

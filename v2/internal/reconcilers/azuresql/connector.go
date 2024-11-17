@@ -8,12 +8,11 @@ package sql
 import (
 	"context"
 
-	asosql "github.com/Azure/azure-service-operator/v2/api/sql/v1"
-	sql "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	"github.com/pkg/errors"
 	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	"github.com/pkg/errors"
-
+	asosql "github.com/Azure/azure-service-operator/v2/api/sql/v1"
+	sql "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )

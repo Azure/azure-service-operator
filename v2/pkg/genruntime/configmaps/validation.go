@@ -6,12 +6,11 @@
 package configmaps
 
 import (
-	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
-
 	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
+	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )

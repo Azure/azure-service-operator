@@ -11,7 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	arm "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/arm"
-
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 

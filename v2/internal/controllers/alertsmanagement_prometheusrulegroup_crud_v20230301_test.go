@@ -13,7 +13,6 @@ import (
 
 	alertsmanagement "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301"
 	monitor "github.com/Azure/azure-service-operator/v2/api/monitor/v1api20230403"
-
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

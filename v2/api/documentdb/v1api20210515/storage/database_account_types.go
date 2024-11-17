@@ -4,7 +4,6 @@ package storage
 
 import (
 	v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
-
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 

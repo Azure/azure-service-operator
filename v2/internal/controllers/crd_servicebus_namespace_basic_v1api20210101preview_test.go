@@ -10,10 +10,9 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
-
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

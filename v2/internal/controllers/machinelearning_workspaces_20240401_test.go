@@ -6,12 +6,11 @@ package controllers_test
 import (
 	"testing"
 
+	"github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
 	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
 	machinelearningservices "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
-
-	"github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
