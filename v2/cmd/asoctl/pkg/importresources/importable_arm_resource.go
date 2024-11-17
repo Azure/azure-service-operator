@@ -27,6 +27,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
@@ -357,6 +358,16 @@ func (i *importableARMResource) importChildResources(
 	return subResources, nil
 }
 
+// skipCodes is a set of error codes that we can safely skip when importing resources.
+// These error codes represent cases where the request we've made doesn't make sense,
+// so there's no point in alerting the user to the details.
+var skipCodes = set.Make(
+	"RequestUrlInvalid",
+	"ValidationFailed",
+	"NoRegisteredProviderFound",
+	"ResourceTypeNotSupported",
+)
+
 func (*importableARMResource) classifyError(err error) (string, bool) {
 	var responseError *azcore.ResponseError
 	if errors.As(err, &responseError) {
@@ -371,10 +382,8 @@ func (*importableARMResource) classifyError(err error) (string, bool) {
 		}
 
 		if responseError.StatusCode == http.StatusBadRequest {
-			if strings.Contains(responseError.Error(), "RequestUrlInvalid") ||
-				strings.Contains(responseError.Error(), "ValidationFailed") ||
-				strings.Contains(responseError.Error(), "NoRegisteredProviderFound") {
-				// We constructed an invalid URL
+			if skipCodes.Contains(responseError.ErrorCode) {
+				// We made a request for something that doesn't exist, or is otherwise invalid
 				// (Seems that some extension resources aren't permitted on some resource types)
 				// An empty error is special cased as a silent skip, so we don't alarm casual users
 				return "", true
