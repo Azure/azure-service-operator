@@ -9,8 +9,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
+
+	"github.com/go-logr/logr"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"

@@ -8,13 +8,12 @@ package importresources
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
-
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 

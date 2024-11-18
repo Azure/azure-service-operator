@@ -8,6 +8,8 @@ package customizations
 import (
 	"context"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
@@ -15,7 +17,6 @@ import (
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

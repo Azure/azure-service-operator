@@ -6,10 +6,10 @@
 package recursivetypefixer
 
 import (
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 

@@ -13,13 +13,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/go-logr/logr"
-
 	"github.com/go-openapi/jsonpointer"
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 

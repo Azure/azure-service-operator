@@ -8,11 +8,10 @@ package pipeline
 import (
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
-
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )

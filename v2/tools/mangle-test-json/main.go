@@ -308,9 +308,7 @@ func printSlowTests(byPackage map[string][]TestRun) {
 
 	allTests := []TestRun{}
 	for _, v := range byPackage {
-		for _, t := range v[1:] { // skip "" package test
-			allTests = append(allTests, t)
-		}
+		allTests = append(allTests, v[1:]...)
 	}
 
 	sort.Slice(allTests, func(i, j int) bool {

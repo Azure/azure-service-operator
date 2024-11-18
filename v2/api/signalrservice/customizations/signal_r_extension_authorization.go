@@ -8,6 +8,8 @@ package customizations
 import (
 	"context"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -16,7 +18,6 @@ import (
 
 	signalr "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

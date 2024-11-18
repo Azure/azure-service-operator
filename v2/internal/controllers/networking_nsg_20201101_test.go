@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"

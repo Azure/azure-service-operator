@@ -7,8 +7,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
+
+	"github.com/go-logr/logr"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"

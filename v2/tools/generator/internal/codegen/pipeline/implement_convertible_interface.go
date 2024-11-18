@@ -8,11 +8,10 @@ package pipeline
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
-
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
 

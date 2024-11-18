@@ -11,7 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	devices "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702"
-
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

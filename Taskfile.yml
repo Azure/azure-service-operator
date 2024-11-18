@@ -17,6 +17,8 @@ vars:
   CONTROLLER_OUTPUT:
     sh: 'realpath v2/config'
 
+  MANGLE_ROOT: v2/tools/mangle-test-json
+
   TEST_RESOURCE_PREFIX: asotest
   TEST_LIVE_RESOURCE_PREFIX: asolivetest
   SCRIPTS_ROOT:
@@ -70,6 +72,7 @@ tasks:
       - controller:quick-checks
       - asoctl:quick-checks
       - crossplane:quick-checks
+      - mangle-test:quick-checks
     cmds:
       - task: format-code # Run after the deps to avoid racing with generated file creation
 
@@ -261,6 +264,7 @@ tasks:
       - task: doc:render-diagrams
 
   ############### Controller targets ###############
+
   controller:quick-checks:
     cmds:
       - task: controller:test
@@ -1105,7 +1109,20 @@ tasks:
     cmds:
       - task: doc:crd-api
 
+  ############### Utility targets ###############
+
+  mangle-test:quick-checks:
+    cmds:
+      - task: mangle-test:lint
+
+  mangle-test:lint:
+    desc: Run mangle-test fast lint checks.
+    dir: '{{.MANGLE_ROOT}}'
+    cmds:
+      - golangci-lint run --verbose --fast=false --timeout 5m ./...  
+
   ############### Crossplane targets ###############
+
   crossplane:quick-checks:
     cmds:
       - task: basic-checks

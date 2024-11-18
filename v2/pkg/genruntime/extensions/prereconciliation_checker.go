@@ -8,13 +8,15 @@ package extensions
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
+	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
 )
 
 // PreReconciliationChecker is implemented by resources that want to do extra checks before proceeding with

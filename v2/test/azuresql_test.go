@@ -9,8 +9,9 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/microsoft/go-mssqldb"
 	. "github.com/onsi/gomega"
+
+	_ "github.com/microsoft/go-mssqldb"
 	v1 "k8s.io/api/core/v1"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"

@@ -10,11 +10,12 @@ import (
 	"fmt"
 	"strings"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/ownerutil"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"

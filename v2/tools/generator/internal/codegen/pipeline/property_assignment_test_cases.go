@@ -6,12 +6,13 @@
 package pipeline
 
 import (
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/testcases"
 	"github.com/pkg/errors"
 	"golang.org/x/net/context"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/testcases"
 )
 
 // InjectPropertyAssignmentTestsID is the unique identifier for this stage

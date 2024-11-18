@@ -10,10 +10,9 @@ import (
 	"math/big"
 	"regexp"
 
-	"github.com/kylelemons/godebug/diff"
-
 	"github.com/google/go-cmp/cmp"
 	"github.com/kr/pretty"
+	"github.com/kylelemons/godebug/diff"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/readonly"

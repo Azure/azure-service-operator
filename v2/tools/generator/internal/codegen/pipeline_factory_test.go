@@ -11,14 +11,14 @@ import (
 	"strings"
 	"testing"
 
+	. "github.com/onsi/gomega"
+
 	"github.com/go-logr/logr"
 	"github.com/sebdah/goldie/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
-
-	. "github.com/onsi/gomega"
 )
 
 func TestGolden_NewARMCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {

@@ -11,6 +11,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	"github.com/pkg/errors"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
@@ -128,8 +129,8 @@ func TestOwnerNotFound_RemembersCause(t *testing.T) {
 
 	// Note that both of the below lines are fragile with respect to line number and will
 	// need to be changed if the lines causing the error above are changed.
-	g.Expect(StackTraceOf(err)).To(ContainSubstring("errors_test.go:121"))
-	g.Expect(StackTraceOf(errors.Cause(err))).To(ContainSubstring("errors_test.go:120"))
+	g.Expect(StackTraceOf(err)).To(ContainSubstring("errors_test.go:122"))
+	g.Expect(StackTraceOf(errors.Cause(err))).To(ContainSubstring("errors_test.go:121"))
 }
 
 func StackTraceOf(e error) string {

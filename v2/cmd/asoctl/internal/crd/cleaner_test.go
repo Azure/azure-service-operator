@@ -10,8 +10,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
+
+	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/fake"

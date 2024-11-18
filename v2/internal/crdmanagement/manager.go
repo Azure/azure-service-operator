@@ -11,6 +11,8 @@ import (
 	"reflect"
 	"strings"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"golang.org/x/exp/maps"
@@ -22,7 +24,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/yaml"
 
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 )

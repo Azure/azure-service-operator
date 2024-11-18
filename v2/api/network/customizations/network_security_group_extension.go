@@ -6,6 +6,8 @@ import (
 	"context"
 	"net/http"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -13,7 +15,6 @@ import (
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

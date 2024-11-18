@@ -15,7 +15,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/typo"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 

@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"

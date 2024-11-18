@@ -9,9 +9,10 @@ import (
 	"reflect"
 	"testing"
 
+	. "github.com/onsi/gomega"
+
 	"github.com/go-logr/logr"
 	"github.com/google/cel-go/cel"
-	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
 
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"

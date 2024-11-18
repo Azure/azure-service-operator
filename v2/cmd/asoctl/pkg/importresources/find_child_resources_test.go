@@ -9,12 +9,11 @@ import (
 	"strings"
 	"testing"
 
+	. "github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importresources"
 	. "github.com/onsi/gomega"
 
 	cdn "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501"
 	dbforpostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201"
-
-	. "github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importresources"
 )
 
 func Test_FindChildResources_GivenParentResource_ReturnsExpectedChildResources(t *testing.T) {

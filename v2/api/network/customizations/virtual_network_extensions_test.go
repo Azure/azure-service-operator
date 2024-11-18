@@ -11,9 +11,10 @@ import (
 	"reflect"
 	"testing"
 
+	. "github.com/onsi/gomega"
+
 	"github.com/leanovate/gopter"
 	"github.com/leanovate/gopter/arbitrary"
-	. "github.com/onsi/gomega"
 
 	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"

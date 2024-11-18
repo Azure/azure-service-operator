@@ -9,6 +9,8 @@ import (
 	"context"
 	"fmt"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -21,7 +23,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

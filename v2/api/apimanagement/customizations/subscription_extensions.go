@@ -8,6 +8,8 @@ package customizations
 import (
 	"context"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -16,7 +18,6 @@ import (
 
 	apimanagement "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

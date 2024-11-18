@@ -9,9 +9,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
-
 	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
 )
 
 /*

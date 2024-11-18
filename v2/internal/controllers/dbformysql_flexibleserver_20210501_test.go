@@ -8,8 +8,9 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
+
+	"github.com/kr/pretty"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
 	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"

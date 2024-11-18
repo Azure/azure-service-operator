@@ -9,8 +9,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
 	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
 
 	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702"
 	"github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"

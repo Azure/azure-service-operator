@@ -10,12 +10,12 @@ import (
 	"os"
 	"testing"
 
-	"github.com/google/uuid"
 	. "github.com/onsi/gomega"
+
+	"github.com/google/uuid"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	aro "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122"
-
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )

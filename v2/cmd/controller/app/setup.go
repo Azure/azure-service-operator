@@ -14,6 +14,8 @@ import (
 	"os"
 	"time"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/benbjohnson/clock"
@@ -40,7 +42,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"

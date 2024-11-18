@@ -13,6 +13,8 @@ import (
 	"strings"
 	"time"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
@@ -30,7 +32,6 @@ import (
 	postgresqlv1 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
 	azuresqlv1 "github.com/Azure/azure-service-operator/v2/api/sql/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	azuresqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/azuresql"

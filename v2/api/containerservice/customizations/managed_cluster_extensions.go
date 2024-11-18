@@ -10,6 +10,8 @@ import (
 	"fmt"
 	"strings"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -18,7 +20,6 @@ import (
 
 	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

@@ -8,8 +8,9 @@ package multitenant_test
 import (
 	"testing"
 
-	"github.com/onsi/gomega"
 	. "github.com/onsi/gomega"
+
+	"github.com/onsi/gomega"
 	"k8s.io/apimachinery/pkg/types"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"

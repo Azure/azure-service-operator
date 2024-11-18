@@ -10,9 +10,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/sebdah/goldie/v2"
-
 	. "github.com/onsi/gomega"
+
+	"github.com/sebdah/goldie/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"

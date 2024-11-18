@@ -9,8 +9,9 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/jackc/pgx/v5/stdlib" // the pgx lib
 	. "github.com/onsi/gomega"
+
+	_ "github.com/jackc/pgx/v5/stdlib" // the pgx lib
 	v1 "k8s.io/api/core/v1"
 
 	postgresqlv1 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"

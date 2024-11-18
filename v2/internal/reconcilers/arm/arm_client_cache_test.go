@@ -9,14 +9,15 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	. "github.com/onsi/gomega"
+	. "sigs.k8s.io/controller-runtime/pkg/client"
+
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
-	. "sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"

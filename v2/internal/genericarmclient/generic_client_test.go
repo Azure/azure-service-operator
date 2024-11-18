@@ -14,14 +14,13 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-	arm "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/arm"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/pkg/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	arm "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"

@@ -9,6 +9,8 @@ import (
 	"reflect"
 	"testing"
 
+	. "github.com/onsi/gomega"
+
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -18,8 +20,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-
-	. "github.com/onsi/gomega"
 )
 
 type ResourceWithReferences struct {

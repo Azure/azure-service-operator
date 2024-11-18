@@ -11,9 +11,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"

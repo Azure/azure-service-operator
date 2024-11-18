@@ -10,10 +10,9 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_Networking_PublicIP_20240301_CRUD(t *testing.T) {

@@ -9,6 +9,8 @@ import (
 	"context"
 	"database/sql"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/client-go/tools/record"
@@ -18,7 +20,6 @@ import (
 	asopostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
 	dbforpostgressql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"

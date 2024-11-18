@@ -9,8 +9,9 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql" // sql drive link
 	. "github.com/onsi/gomega"
+
+	_ "github.com/go-sql-driver/mysql" // sql drive link
 	v1 "k8s.io/api/core/v1"
 
 	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"

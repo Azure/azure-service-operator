@@ -9,8 +9,9 @@ import (
 	"go/token"
 	"testing"
 
-	"github.com/dave/dst"
 	. "github.com/onsi/gomega"
+
+	"github.com/dave/dst"
 )
 
 func asplode(l, r dst.Expr) dst.Expr {

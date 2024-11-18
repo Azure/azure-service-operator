@@ -8,9 +8,9 @@ package astmodel
 import (
 	"testing"
 
-	"github.com/pkg/errors"
-
 	. "github.com/onsi/gomega"
+
+	"github.com/pkg/errors"
 )
 
 /*

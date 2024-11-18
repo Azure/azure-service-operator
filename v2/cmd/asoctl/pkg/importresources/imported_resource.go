@@ -6,8 +6,9 @@
 package importresources
 
 import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 // ImportedResource is an interface that wraps a Kubernetes resource that has been imported.

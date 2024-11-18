@@ -11,6 +11,8 @@ import (
 	"reflect"
 	"time"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
@@ -24,7 +26,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"

@@ -8,6 +8,8 @@ package mysql
 import (
 	"context"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/go-logr/logr"
 	_ "github.com/go-sql-driver/mysql" // mysql driver
 	"github.com/pkg/errors"
@@ -17,7 +19,6 @@ import (
 	asomysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"

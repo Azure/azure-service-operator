@@ -10,13 +10,13 @@ import (
 	"testing"
 	"time"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/onsi/gomega"
 	"github.com/onsi/gomega/format"
 	"k8s.io/klog/v2/textlogger"
-
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

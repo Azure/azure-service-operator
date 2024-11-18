@@ -10,11 +10,11 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
+	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 const resourcesPropertyName = astmodel.PropertyName("Resources")

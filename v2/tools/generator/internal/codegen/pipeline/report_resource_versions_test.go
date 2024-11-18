@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	"github.com/sebdah/goldie/v2"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
