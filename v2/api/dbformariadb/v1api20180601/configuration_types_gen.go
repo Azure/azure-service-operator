@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -188,7 +188,7 @@ func (configuration *Configuration) SetStatus(status genruntime.ConvertibleStatu
 	var st Configuration_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	configuration.Status = st
@@ -308,7 +308,7 @@ func (configuration *Configuration) AssignProperties_From_Configuration(source *
 	var spec Configuration_Spec
 	err := spec.AssignProperties_From_Configuration_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Configuration_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Configuration_Spec() to populate field Spec")
 	}
 	configuration.Spec = spec
 
@@ -316,7 +316,7 @@ func (configuration *Configuration) AssignProperties_From_Configuration(source *
 	var status Configuration_STATUS
 	err = status.AssignProperties_From_Configuration_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Configuration_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Configuration_STATUS() to populate field Status")
 	}
 	configuration.Status = status
 
@@ -334,7 +334,7 @@ func (configuration *Configuration) AssignProperties_To_Configuration(destinatio
 	var spec storage.Configuration_Spec
 	err := configuration.Spec.AssignProperties_To_Configuration_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Configuration_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Configuration_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -342,7 +342,7 @@ func (configuration *Configuration) AssignProperties_To_Configuration(destinatio
 	var status storage.Configuration_STATUS
 	err = configuration.Status.AssignProperties_To_Configuration_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Configuration_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Configuration_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -482,13 +482,13 @@ func (configuration *Configuration_Spec) ConvertSpecFrom(source genruntime.Conve
 	src = &storage.Configuration_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = configuration.AssignProperties_From_Configuration_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -506,13 +506,13 @@ func (configuration *Configuration_Spec) ConvertSpecTo(destination genruntime.Co
 	dst = &storage.Configuration_Spec{}
 	err := configuration.AssignProperties_To_Configuration_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -529,7 +529,7 @@ func (configuration *Configuration_Spec) AssignProperties_From_Configuration_Spe
 		var operatorSpec ConfigurationOperatorSpec
 		err := operatorSpec.AssignProperties_From_ConfigurationOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ConfigurationOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ConfigurationOperatorSpec() to populate field OperatorSpec")
 		}
 		configuration.OperatorSpec = &operatorSpec
 	} else {
@@ -567,7 +567,7 @@ func (configuration *Configuration_Spec) AssignProperties_To_Configuration_Spec(
 		var operatorSpec storage.ConfigurationOperatorSpec
 		err := configuration.OperatorSpec.AssignProperties_To_ConfigurationOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ConfigurationOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ConfigurationOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -672,13 +672,13 @@ func (configuration *Configuration_STATUS) ConvertStatusFrom(source genruntime.C
 	src = &storage.Configuration_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = configuration.AssignProperties_From_Configuration_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -696,13 +696,13 @@ func (configuration *Configuration_STATUS) ConvertStatusTo(destination genruntim
 	dst = &storage.Configuration_STATUS{}
 	err := configuration.AssignProperties_To_Configuration_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

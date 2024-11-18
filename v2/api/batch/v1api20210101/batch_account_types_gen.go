@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (account *BatchAccount) SetStatus(status genruntime.ConvertibleStatus) erro
 	var st BatchAccount_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	account.Status = st
@@ -309,7 +309,7 @@ func (account *BatchAccount) AssignProperties_From_BatchAccount(source *storage.
 	var spec BatchAccount_Spec
 	err := spec.AssignProperties_From_BatchAccount_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_BatchAccount_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_BatchAccount_Spec() to populate field Spec")
 	}
 	account.Spec = spec
 
@@ -317,7 +317,7 @@ func (account *BatchAccount) AssignProperties_From_BatchAccount(source *storage.
 	var status BatchAccount_STATUS
 	err = status.AssignProperties_From_BatchAccount_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_BatchAccount_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_BatchAccount_STATUS() to populate field Status")
 	}
 	account.Status = status
 
@@ -335,7 +335,7 @@ func (account *BatchAccount) AssignProperties_To_BatchAccount(destination *stora
 	var spec storage.BatchAccount_Spec
 	err := account.Spec.AssignProperties_To_BatchAccount_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_BatchAccount_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_BatchAccount_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (account *BatchAccount) AssignProperties_To_BatchAccount(destination *stora
 	var status storage.BatchAccount_STATUS
 	err = account.Status.AssignProperties_To_BatchAccount_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_BatchAccount_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_BatchAccount_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -635,13 +635,13 @@ func (account *BatchAccount_Spec) ConvertSpecFrom(source genruntime.ConvertibleS
 	src = &storage.BatchAccount_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = account.AssignProperties_From_BatchAccount_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -659,13 +659,13 @@ func (account *BatchAccount_Spec) ConvertSpecTo(destination genruntime.Convertib
 	dst = &storage.BatchAccount_Spec{}
 	err := account.AssignProperties_To_BatchAccount_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -679,7 +679,7 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 		var autoStorage AutoStorageBaseProperties
 		err := autoStorage.AssignProperties_From_AutoStorageBaseProperties(source.AutoStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoStorageBaseProperties() to populate field AutoStorage")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoStorageBaseProperties() to populate field AutoStorage")
 		}
 		account.AutoStorage = &autoStorage
 	} else {
@@ -694,7 +694,7 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 		var encryption EncryptionProperties
 		err := encryption.AssignProperties_From_EncryptionProperties(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionProperties() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionProperties() to populate field Encryption")
 		}
 		account.Encryption = &encryption
 	} else {
@@ -706,7 +706,7 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 		var identity BatchAccountIdentity
 		err := identity.AssignProperties_From_BatchAccountIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BatchAccountIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_BatchAccountIdentity() to populate field Identity")
 		}
 		account.Identity = &identity
 	} else {
@@ -718,7 +718,7 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 		var keyVaultReference KeyVaultReference
 		err := keyVaultReference.AssignProperties_From_KeyVaultReference(source.KeyVaultReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultReference() to populate field KeyVaultReference")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultReference() to populate field KeyVaultReference")
 		}
 		account.KeyVaultReference = &keyVaultReference
 	} else {
@@ -733,7 +733,7 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 		var operatorSpec BatchAccountOperatorSpec
 		err := operatorSpec.AssignProperties_From_BatchAccountOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BatchAccountOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_BatchAccountOperatorSpec() to populate field OperatorSpec")
 		}
 		account.OperatorSpec = &operatorSpec
 	} else {
@@ -783,7 +783,7 @@ func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destinat
 		var autoStorage storage.AutoStorageBaseProperties
 		err := account.AutoStorage.AssignProperties_To_AutoStorageBaseProperties(&autoStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoStorageBaseProperties() to populate field AutoStorage")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoStorageBaseProperties() to populate field AutoStorage")
 		}
 		destination.AutoStorage = &autoStorage
 	} else {
@@ -798,7 +798,7 @@ func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destinat
 		var encryption storage.EncryptionProperties
 		err := account.Encryption.AssignProperties_To_EncryptionProperties(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperties() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionProperties() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -810,7 +810,7 @@ func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destinat
 		var identity storage.BatchAccountIdentity
 		err := account.Identity.AssignProperties_To_BatchAccountIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BatchAccountIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_BatchAccountIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -822,7 +822,7 @@ func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destinat
 		var keyVaultReference storage.KeyVaultReference
 		err := account.KeyVaultReference.AssignProperties_To_KeyVaultReference(&keyVaultReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultReference() to populate field KeyVaultReference")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultReference() to populate field KeyVaultReference")
 		}
 		destination.KeyVaultReference = &keyVaultReference
 	} else {
@@ -837,7 +837,7 @@ func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destinat
 		var operatorSpec storage.BatchAccountOperatorSpec
 		err := account.OperatorSpec.AssignProperties_To_BatchAccountOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BatchAccountOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_BatchAccountOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -893,7 +893,7 @@ func (account *BatchAccount_Spec) Initialize_From_BatchAccount_STATUS(source *Ba
 		var autoStorage AutoStorageBaseProperties
 		err := autoStorage.Initialize_From_AutoStorageProperties_STATUS(source.AutoStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoStorageProperties_STATUS() to populate field AutoStorage")
+			return eris.Wrap(err, "calling Initialize_From_AutoStorageProperties_STATUS() to populate field AutoStorage")
 		}
 		account.AutoStorage = &autoStorage
 	} else {
@@ -905,7 +905,7 @@ func (account *BatchAccount_Spec) Initialize_From_BatchAccount_STATUS(source *Ba
 		var encryption EncryptionProperties
 		err := encryption.Initialize_From_EncryptionProperties_STATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EncryptionProperties_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling Initialize_From_EncryptionProperties_STATUS() to populate field Encryption")
 		}
 		account.Encryption = &encryption
 	} else {
@@ -917,7 +917,7 @@ func (account *BatchAccount_Spec) Initialize_From_BatchAccount_STATUS(source *Ba
 		var identity BatchAccountIdentity
 		err := identity.Initialize_From_BatchAccountIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BatchAccountIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_BatchAccountIdentity_STATUS() to populate field Identity")
 		}
 		account.Identity = &identity
 	} else {
@@ -929,7 +929,7 @@ func (account *BatchAccount_Spec) Initialize_From_BatchAccount_STATUS(source *Ba
 		var keyVaultReference KeyVaultReference
 		err := keyVaultReference.Initialize_From_KeyVaultReference_STATUS(source.KeyVaultReference)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KeyVaultReference_STATUS() to populate field KeyVaultReference")
+			return eris.Wrap(err, "calling Initialize_From_KeyVaultReference_STATUS() to populate field KeyVaultReference")
 		}
 		account.KeyVaultReference = &keyVaultReference
 	} else {
@@ -1055,13 +1055,13 @@ func (account *BatchAccount_STATUS) ConvertStatusFrom(source genruntime.Converti
 	src = &storage.BatchAccount_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = account.AssignProperties_From_BatchAccount_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1079,13 +1079,13 @@ func (account *BatchAccount_STATUS) ConvertStatusTo(destination genruntime.Conve
 	dst = &storage.BatchAccount_STATUS{}
 	err := account.AssignProperties_To_BatchAccount_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1323,7 +1323,7 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 		var autoStorage AutoStorageProperties_STATUS
 		err := autoStorage.AssignProperties_From_AutoStorageProperties_STATUS(source.AutoStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoStorageProperties_STATUS() to populate field AutoStorage")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoStorageProperties_STATUS() to populate field AutoStorage")
 		}
 		account.AutoStorage = &autoStorage
 	} else {
@@ -1345,7 +1345,7 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 			var dedicatedCoreQuotaPerVMFamily VirtualMachineFamilyCoreQuota_STATUS
 			err := dedicatedCoreQuotaPerVMFamily.AssignProperties_From_VirtualMachineFamilyCoreQuota_STATUS(&dedicatedCoreQuotaPerVMFamilyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineFamilyCoreQuota_STATUS() to populate field DedicatedCoreQuotaPerVMFamily")
+				return eris.Wrap(err, "calling AssignProperties_From_VirtualMachineFamilyCoreQuota_STATUS() to populate field DedicatedCoreQuotaPerVMFamily")
 			}
 			dedicatedCoreQuotaPerVMFamilyList[dedicatedCoreQuotaPerVMFamilyIndex] = dedicatedCoreQuotaPerVMFamily
 		}
@@ -1367,7 +1367,7 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 		var encryption EncryptionProperties_STATUS
 		err := encryption.AssignProperties_From_EncryptionProperties_STATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionProperties_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionProperties_STATUS() to populate field Encryption")
 		}
 		account.Encryption = &encryption
 	} else {
@@ -1382,7 +1382,7 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 		var identity BatchAccountIdentity_STATUS
 		err := identity.AssignProperties_From_BatchAccountIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BatchAccountIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_BatchAccountIdentity_STATUS() to populate field Identity")
 		}
 		account.Identity = &identity
 	} else {
@@ -1394,7 +1394,7 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 		var keyVaultReference KeyVaultReference_STATUS
 		err := keyVaultReference.AssignProperties_From_KeyVaultReference_STATUS(source.KeyVaultReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultReference_STATUS() to populate field KeyVaultReference")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultReference_STATUS() to populate field KeyVaultReference")
 		}
 		account.KeyVaultReference = &keyVaultReference
 	} else {
@@ -1431,7 +1431,7 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1484,7 +1484,7 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 		var autoStorage storage.AutoStorageProperties_STATUS
 		err := account.AutoStorage.AssignProperties_To_AutoStorageProperties_STATUS(&autoStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoStorageProperties_STATUS() to populate field AutoStorage")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoStorageProperties_STATUS() to populate field AutoStorage")
 		}
 		destination.AutoStorage = &autoStorage
 	} else {
@@ -1506,7 +1506,7 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 			var dedicatedCoreQuotaPerVMFamily storage.VirtualMachineFamilyCoreQuota_STATUS
 			err := dedicatedCoreQuotaPerVMFamilyItem.AssignProperties_To_VirtualMachineFamilyCoreQuota_STATUS(&dedicatedCoreQuotaPerVMFamily)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineFamilyCoreQuota_STATUS() to populate field DedicatedCoreQuotaPerVMFamily")
+				return eris.Wrap(err, "calling AssignProperties_To_VirtualMachineFamilyCoreQuota_STATUS() to populate field DedicatedCoreQuotaPerVMFamily")
 			}
 			dedicatedCoreQuotaPerVMFamilyList[dedicatedCoreQuotaPerVMFamilyIndex] = dedicatedCoreQuotaPerVMFamily
 		}
@@ -1528,7 +1528,7 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 		var encryption storage.EncryptionProperties_STATUS
 		err := account.Encryption.AssignProperties_To_EncryptionProperties_STATUS(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperties_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionProperties_STATUS() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1543,7 +1543,7 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 		var identity storage.BatchAccountIdentity_STATUS
 		err := account.Identity.AssignProperties_To_BatchAccountIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BatchAccountIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_BatchAccountIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1555,7 +1555,7 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 		var keyVaultReference storage.KeyVaultReference_STATUS
 		err := account.KeyVaultReference.AssignProperties_To_KeyVaultReference_STATUS(&keyVaultReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultReference_STATUS() to populate field KeyVaultReference")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultReference_STATUS() to populate field KeyVaultReference")
 		}
 		destination.KeyVaultReference = &keyVaultReference
 	} else {
@@ -1591,7 +1591,7 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1897,7 +1897,7 @@ func (identity *BatchAccountIdentity) AssignProperties_From_BatchAccountIdentity
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -1932,7 +1932,7 @@ func (identity *BatchAccountIdentity) AssignProperties_To_BatchAccountIdentity(d
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -2076,7 +2076,7 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_From_BatchAccountI
 			var userAssignedIdentity BatchAccountIdentity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentity.AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -2117,7 +2117,7 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_To_BatchAccountIde
 			var userAssignedIdentity storage.BatchAccountIdentity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -2353,7 +2353,7 @@ func (properties *EncryptionProperties) AssignProperties_From_EncryptionProperti
 		var keyVaultProperty KeyVaultProperties
 		err := keyVaultProperty.AssignProperties_From_KeyVaultProperties(source.KeyVaultProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultProperties() to populate field KeyVaultProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultProperties() to populate field KeyVaultProperties")
 		}
 		properties.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2382,7 +2382,7 @@ func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties
 		var keyVaultProperty storage.KeyVaultProperties
 		err := properties.KeyVaultProperties.AssignProperties_To_KeyVaultProperties(&keyVaultProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultProperties() to populate field KeyVaultProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultProperties() to populate field KeyVaultProperties")
 		}
 		destination.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2416,7 +2416,7 @@ func (properties *EncryptionProperties) Initialize_From_EncryptionProperties_STA
 		var keyVaultProperty KeyVaultProperties
 		err := keyVaultProperty.Initialize_From_KeyVaultProperties_STATUS(source.KeyVaultProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
+			return eris.Wrap(err, "calling Initialize_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
 		}
 		properties.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2491,7 +2491,7 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_From_EncryptionP
 		var keyVaultProperty KeyVaultProperties_STATUS
 		err := keyVaultProperty.AssignProperties_From_KeyVaultProperties_STATUS(source.KeyVaultProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
 		}
 		properties.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2520,7 +2520,7 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_To_EncryptionPro
 		var keyVaultProperty storage.KeyVaultProperties_STATUS
 		err := properties.KeyVaultProperties.AssignProperties_To_KeyVaultProperties_STATUS(&keyVaultProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
 		}
 		destination.KeyVaultProperties = &keyVaultProperty
 	} else {

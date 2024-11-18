@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule) SetStatus(status genruntime.Con
 	var st DnsForwardingRuleSetsForwardingRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	rule.Status = st
@@ -321,7 +321,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule) AssignProperties_From_DnsForwar
 	var spec DnsForwardingRuleSetsForwardingRule_Spec
 	err := spec.AssignProperties_From_DnsForwardingRuleSetsForwardingRule_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsForwardingRule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsForwardingRule_Spec() to populate field Spec")
 	}
 	rule.Spec = spec
 
@@ -329,7 +329,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule) AssignProperties_From_DnsForwar
 	var status DnsForwardingRuleSetsForwardingRule_STATUS
 	err = status.AssignProperties_From_DnsForwardingRuleSetsForwardingRule_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsForwardingRule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsForwardingRule_STATUS() to populate field Status")
 	}
 	rule.Status = status
 
@@ -347,7 +347,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule) AssignProperties_To_DnsForwardi
 	var spec storage.DnsForwardingRuleSetsForwardingRule_Spec
 	err := rule.Spec.AssignProperties_To_DnsForwardingRuleSetsForwardingRule_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsForwardingRule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsForwardingRule_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -355,7 +355,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule) AssignProperties_To_DnsForwardi
 	var status storage.DnsForwardingRuleSetsForwardingRule_STATUS
 	err = rule.Status.AssignProperties_To_DnsForwardingRuleSetsForwardingRule_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsForwardingRule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsForwardingRule_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -542,13 +542,13 @@ func (rule *DnsForwardingRuleSetsForwardingRule_Spec) ConvertSpecFrom(source gen
 	src = &storage.DnsForwardingRuleSetsForwardingRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = rule.AssignProperties_From_DnsForwardingRuleSetsForwardingRule_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -566,13 +566,13 @@ func (rule *DnsForwardingRuleSetsForwardingRule_Spec) ConvertSpecTo(destination 
 	dst = &storage.DnsForwardingRuleSetsForwardingRule_Spec{}
 	err := rule.AssignProperties_To_DnsForwardingRuleSetsForwardingRule_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -604,7 +604,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule_Spec) AssignProperties_From_DnsF
 		var operatorSpec DnsForwardingRuleSetsForwardingRuleOperatorSpec
 		err := operatorSpec.AssignProperties_From_DnsForwardingRuleSetsForwardingRuleOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsForwardingRuleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsForwardingRuleOperatorSpec() to populate field OperatorSpec")
 		}
 		rule.OperatorSpec = &operatorSpec
 	} else {
@@ -628,7 +628,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule_Spec) AssignProperties_From_DnsF
 			var targetDnsServer TargetDnsServer
 			err := targetDnsServer.AssignProperties_From_TargetDnsServer(&targetDnsServerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_TargetDnsServer() to populate field TargetDnsServers")
+				return eris.Wrap(err, "calling AssignProperties_From_TargetDnsServer() to populate field TargetDnsServers")
 			}
 			targetDnsServerList[targetDnsServerIndex] = targetDnsServer
 		}
@@ -668,7 +668,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule_Spec) AssignProperties_To_DnsFor
 		var operatorSpec storage.DnsForwardingRuleSetsForwardingRuleOperatorSpec
 		err := rule.OperatorSpec.AssignProperties_To_DnsForwardingRuleSetsForwardingRuleOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsForwardingRuleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsForwardingRuleOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -695,7 +695,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule_Spec) AssignProperties_To_DnsFor
 			var targetDnsServer storage.TargetDnsServer
 			err := targetDnsServerItem.AssignProperties_To_TargetDnsServer(&targetDnsServer)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_TargetDnsServer() to populate field TargetDnsServers")
+				return eris.Wrap(err, "calling AssignProperties_To_TargetDnsServer() to populate field TargetDnsServers")
 			}
 			targetDnsServerList[targetDnsServerIndex] = targetDnsServer
 		}
@@ -741,7 +741,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule_Spec) Initialize_From_DnsForward
 			var targetDnsServer TargetDnsServer
 			err := targetDnsServer.Initialize_From_TargetDnsServer_STATUS(&targetDnsServerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_TargetDnsServer_STATUS() to populate field TargetDnsServers")
+				return eris.Wrap(err, "calling Initialize_From_TargetDnsServer_STATUS() to populate field TargetDnsServers")
 			}
 			targetDnsServerList[targetDnsServerIndex] = targetDnsServer
 		}
@@ -815,13 +815,13 @@ func (rule *DnsForwardingRuleSetsForwardingRule_STATUS) ConvertStatusFrom(source
 	src = &storage.DnsForwardingRuleSetsForwardingRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = rule.AssignProperties_From_DnsForwardingRuleSetsForwardingRule_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -839,13 +839,13 @@ func (rule *DnsForwardingRuleSetsForwardingRule_STATUS) ConvertStatusTo(destinat
 	dst = &storage.DnsForwardingRuleSetsForwardingRule_STATUS{}
 	err := rule.AssignProperties_To_DnsForwardingRuleSetsForwardingRule_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1005,7 +1005,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule_STATUS) AssignProperties_From_Dn
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		rule.SystemData = &systemDatum
 	} else {
@@ -1021,7 +1021,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule_STATUS) AssignProperties_From_Dn
 			var targetDnsServer TargetDnsServer_STATUS
 			err := targetDnsServer.AssignProperties_From_TargetDnsServer_STATUS(&targetDnsServerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_TargetDnsServer_STATUS() to populate field TargetDnsServers")
+				return eris.Wrap(err, "calling AssignProperties_From_TargetDnsServer_STATUS() to populate field TargetDnsServers")
 			}
 			targetDnsServerList[targetDnsServerIndex] = targetDnsServer
 		}
@@ -1081,7 +1081,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule_STATUS) AssignProperties_To_DnsF
 		var systemDatum storage.SystemData_STATUS
 		err := rule.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1097,7 +1097,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule_STATUS) AssignProperties_To_DnsF
 			var targetDnsServer storage.TargetDnsServer_STATUS
 			err := targetDnsServerItem.AssignProperties_To_TargetDnsServer_STATUS(&targetDnsServer)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_TargetDnsServer_STATUS() to populate field TargetDnsServers")
+				return eris.Wrap(err, "calling AssignProperties_To_TargetDnsServer_STATUS() to populate field TargetDnsServers")
 			}
 			targetDnsServerList[targetDnsServerIndex] = targetDnsServer
 		}
@@ -1462,7 +1462,7 @@ func (server *TargetDnsServer) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if server.IpAddressFromConfig != nil {
 		ipAddressValue, err := resolved.ResolvedConfigMaps.Lookup(*server.IpAddressFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property IpAddress")
+			return nil, eris.Wrap(err, "looking up configmap for property IpAddress")
 		}
 		ipAddress := ipAddressValue
 		result.IpAddress = &ipAddress

@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -152,7 +152,7 @@ func (rule *NamespacesAuthorizationRule) SetStatus(status genruntime.Convertible
 	var st NamespacesAuthorizationRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	rule.Status = st
@@ -169,7 +169,7 @@ func (rule *NamespacesAuthorizationRule) AssignProperties_From_NamespacesAuthori
 	var spec NamespacesAuthorizationRule_Spec
 	err := spec.AssignProperties_From_NamespacesAuthorizationRule_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NamespacesAuthorizationRule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_NamespacesAuthorizationRule_Spec() to populate field Spec")
 	}
 	rule.Spec = spec
 
@@ -177,7 +177,7 @@ func (rule *NamespacesAuthorizationRule) AssignProperties_From_NamespacesAuthori
 	var status NamespacesAuthorizationRule_STATUS
 	err = status.AssignProperties_From_NamespacesAuthorizationRule_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NamespacesAuthorizationRule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_NamespacesAuthorizationRule_STATUS() to populate field Status")
 	}
 	rule.Status = status
 
@@ -186,7 +186,7 @@ func (rule *NamespacesAuthorizationRule) AssignProperties_From_NamespacesAuthori
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesAuthorizationRule); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -204,7 +204,7 @@ func (rule *NamespacesAuthorizationRule) AssignProperties_To_NamespacesAuthoriza
 	var spec storage.NamespacesAuthorizationRule_Spec
 	err := rule.Spec.AssignProperties_To_NamespacesAuthorizationRule_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NamespacesAuthorizationRule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_NamespacesAuthorizationRule_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -212,7 +212,7 @@ func (rule *NamespacesAuthorizationRule) AssignProperties_To_NamespacesAuthoriza
 	var status storage.NamespacesAuthorizationRule_STATUS
 	err = rule.Status.AssignProperties_To_NamespacesAuthorizationRule_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NamespacesAuthorizationRule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_NamespacesAuthorizationRule_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -221,7 +221,7 @@ func (rule *NamespacesAuthorizationRule) AssignProperties_To_NamespacesAuthoriza
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesAuthorizationRule); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -285,13 +285,13 @@ func (rule *NamespacesAuthorizationRule_Spec) ConvertSpecFrom(source genruntime.
 	src = &storage.NamespacesAuthorizationRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = rule.AssignProperties_From_NamespacesAuthorizationRule_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -309,13 +309,13 @@ func (rule *NamespacesAuthorizationRule_Spec) ConvertSpecTo(destination genrunti
 	dst = &storage.NamespacesAuthorizationRule_Spec{}
 	err := rule.AssignProperties_To_NamespacesAuthorizationRule_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -334,7 +334,7 @@ func (rule *NamespacesAuthorizationRule_Spec) AssignProperties_From_NamespacesAu
 		var operatorSpec NamespacesAuthorizationRuleOperatorSpec
 		err := operatorSpec.AssignProperties_From_NamespacesAuthorizationRuleOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NamespacesAuthorizationRuleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_NamespacesAuthorizationRuleOperatorSpec() to populate field OperatorSpec")
 		}
 		rule.OperatorSpec = &operatorSpec
 	} else {
@@ -367,7 +367,7 @@ func (rule *NamespacesAuthorizationRule_Spec) AssignProperties_From_NamespacesAu
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesAuthorizationRule_Spec); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -388,7 +388,7 @@ func (rule *NamespacesAuthorizationRule_Spec) AssignProperties_To_NamespacesAuth
 		var operatorSpec storage.NamespacesAuthorizationRuleOperatorSpec
 		err := rule.OperatorSpec.AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -421,7 +421,7 @@ func (rule *NamespacesAuthorizationRule_Spec) AssignProperties_To_NamespacesAuth
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesAuthorizationRule_Spec); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -455,13 +455,13 @@ func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusFrom(source genrunt
 	src = &storage.NamespacesAuthorizationRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = rule.AssignProperties_From_NamespacesAuthorizationRule_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -479,13 +479,13 @@ func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusTo(destination genr
 	dst = &storage.NamespacesAuthorizationRule_STATUS{}
 	err := rule.AssignProperties_To_NamespacesAuthorizationRule_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -516,7 +516,7 @@ func (rule *NamespacesAuthorizationRule_STATUS) AssignProperties_From_Namespaces
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		rule.SystemData = &systemDatum
 	} else {
@@ -538,7 +538,7 @@ func (rule *NamespacesAuthorizationRule_STATUS) AssignProperties_From_Namespaces
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesAuthorizationRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -571,7 +571,7 @@ func (rule *NamespacesAuthorizationRule_STATUS) AssignProperties_To_NamespacesAu
 		var systemDatum storage.SystemData_STATUS
 		err := rule.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -593,7 +593,7 @@ func (rule *NamespacesAuthorizationRule_STATUS) AssignProperties_To_NamespacesAu
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesAuthorizationRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -666,7 +666,7 @@ func (operator *NamespacesAuthorizationRuleOperatorSpec) AssignProperties_From_N
 		var secret NamespacesAuthorizationRuleOperatorSecrets
 		err := secret.AssignProperties_From_NamespacesAuthorizationRuleOperatorSecrets(source.Secrets)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NamespacesAuthorizationRuleOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_From_NamespacesAuthorizationRuleOperatorSecrets() to populate field Secrets")
 		}
 		operator.Secrets = &secret
 	} else {
@@ -685,7 +685,7 @@ func (operator *NamespacesAuthorizationRuleOperatorSpec) AssignProperties_From_N
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForNamespacesAuthorizationRuleOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -739,7 +739,7 @@ func (operator *NamespacesAuthorizationRuleOperatorSpec) AssignProperties_To_Nam
 		var secret storage.NamespacesAuthorizationRuleOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets(&secret)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets() to populate field Secrets")
 		}
 		destination.Secrets = &secret
 	} else {
@@ -758,7 +758,7 @@ func (operator *NamespacesAuthorizationRuleOperatorSpec) AssignProperties_To_Nam
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForNamespacesAuthorizationRuleOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -829,7 +829,7 @@ func (secrets *NamespacesAuthorizationRuleOperatorSecrets) AssignProperties_From
 	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForNamespacesAuthorizationRuleOperatorSecrets); ok {
 		err := augmentedSecrets.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -886,7 +886,7 @@ func (secrets *NamespacesAuthorizationRuleOperatorSecrets) AssignProperties_To_N
 	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForNamespacesAuthorizationRuleOperatorSecrets); ok {
 		err := augmentedSecrets.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (route *Route) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Route_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	route.Status = st
@@ -309,7 +309,7 @@ func (route *Route) AssignProperties_From_Route(source *storage.Route) error {
 	var spec Route_Spec
 	err := spec.AssignProperties_From_Route_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Route_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Route_Spec() to populate field Spec")
 	}
 	route.Spec = spec
 
@@ -317,7 +317,7 @@ func (route *Route) AssignProperties_From_Route(source *storage.Route) error {
 	var status Route_STATUS
 	err = status.AssignProperties_From_Route_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Route_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Route_STATUS() to populate field Status")
 	}
 	route.Status = status
 
@@ -335,7 +335,7 @@ func (route *Route) AssignProperties_To_Route(destination *storage.Route) error 
 	var spec storage.Route_Spec
 	err := route.Spec.AssignProperties_To_Route_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Route_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Route_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (route *Route) AssignProperties_To_Route(destination *storage.Route) error 
 	var status storage.Route_STATUS
 	err = route.Status.AssignProperties_To_Route_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Route_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Route_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -683,13 +683,13 @@ func (route *Route_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 	src = &storage.Route_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = route.AssignProperties_From_Route_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -707,13 +707,13 @@ func (route *Route_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	dst = &storage.Route_Spec{}
 	err := route.AssignProperties_To_Route_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -730,7 +730,7 @@ func (route *Route_Spec) AssignProperties_From_Route_Spec(source *storage.Route_
 		var cacheConfiguration AfdRouteCacheConfiguration
 		err := cacheConfiguration.AssignProperties_From_AfdRouteCacheConfiguration(source.CacheConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AfdRouteCacheConfiguration() to populate field CacheConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_AfdRouteCacheConfiguration() to populate field CacheConfiguration")
 		}
 		route.CacheConfiguration = &cacheConfiguration
 	} else {
@@ -746,7 +746,7 @@ func (route *Route_Spec) AssignProperties_From_Route_Spec(source *storage.Route_
 			var customDomain ActivatedResourceReference
 			err := customDomain.AssignProperties_From_ActivatedResourceReference(&customDomainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference() to populate field CustomDomains")
+				return eris.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -796,7 +796,7 @@ func (route *Route_Spec) AssignProperties_From_Route_Spec(source *storage.Route_
 		var operatorSpec RouteOperatorSpec
 		err := operatorSpec.AssignProperties_From_RouteOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RouteOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_RouteOperatorSpec() to populate field OperatorSpec")
 		}
 		route.OperatorSpec = &operatorSpec
 	} else {
@@ -808,7 +808,7 @@ func (route *Route_Spec) AssignProperties_From_Route_Spec(source *storage.Route_
 		var originGroup ResourceReference
 		err := originGroup.AssignProperties_From_ResourceReference(source.OriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field OriginGroup")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field OriginGroup")
 		}
 		route.OriginGroup = &originGroup
 	} else {
@@ -838,7 +838,7 @@ func (route *Route_Spec) AssignProperties_From_Route_Spec(source *storage.Route_
 			var ruleSet ResourceReference
 			err := ruleSet.AssignProperties_From_ResourceReference(&ruleSetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field RuleSets")
+				return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field RuleSets")
 			}
 			ruleSetList[ruleSetIndex] = ruleSet
 		}
@@ -877,7 +877,7 @@ func (route *Route_Spec) AssignProperties_To_Route_Spec(destination *storage.Rou
 		var cacheConfiguration storage.AfdRouteCacheConfiguration
 		err := route.CacheConfiguration.AssignProperties_To_AfdRouteCacheConfiguration(&cacheConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AfdRouteCacheConfiguration() to populate field CacheConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_AfdRouteCacheConfiguration() to populate field CacheConfiguration")
 		}
 		destination.CacheConfiguration = &cacheConfiguration
 	} else {
@@ -893,7 +893,7 @@ func (route *Route_Spec) AssignProperties_To_Route_Spec(destination *storage.Rou
 			var customDomain storage.ActivatedResourceReference
 			err := customDomainItem.AssignProperties_To_ActivatedResourceReference(&customDomain)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference() to populate field CustomDomains")
+				return eris.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -939,7 +939,7 @@ func (route *Route_Spec) AssignProperties_To_Route_Spec(destination *storage.Rou
 		var operatorSpec storage.RouteOperatorSpec
 		err := route.OperatorSpec.AssignProperties_To_RouteOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RouteOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_RouteOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -951,7 +951,7 @@ func (route *Route_Spec) AssignProperties_To_Route_Spec(destination *storage.Rou
 		var originGroup storage.ResourceReference
 		err := route.OriginGroup.AssignProperties_To_ResourceReference(&originGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field OriginGroup")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field OriginGroup")
 		}
 		destination.OriginGroup = &originGroup
 	} else {
@@ -984,7 +984,7 @@ func (route *Route_Spec) AssignProperties_To_Route_Spec(destination *storage.Rou
 			var ruleSet storage.ResourceReference
 			err := ruleSetItem.AssignProperties_To_ResourceReference(&ruleSet)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field RuleSets")
+				return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field RuleSets")
 			}
 			ruleSetList[ruleSetIndex] = ruleSet
 		}
@@ -1025,7 +1025,7 @@ func (route *Route_Spec) Initialize_From_Route_STATUS(source *Route_STATUS) erro
 		var cacheConfiguration AfdRouteCacheConfiguration
 		err := cacheConfiguration.Initialize_From_AfdRouteCacheConfiguration_STATUS(source.CacheConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
+			return eris.Wrap(err, "calling Initialize_From_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
 		}
 		route.CacheConfiguration = &cacheConfiguration
 	} else {
@@ -1041,7 +1041,7 @@ func (route *Route_Spec) Initialize_From_Route_STATUS(source *Route_STATUS) erro
 			var customDomain ActivatedResourceReference
 			err := customDomain.Initialize_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(&customDomainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
+				return eris.Wrap(err, "calling Initialize_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -1087,7 +1087,7 @@ func (route *Route_Spec) Initialize_From_Route_STATUS(source *Route_STATUS) erro
 		var originGroup ResourceReference
 		err := originGroup.Initialize_From_ResourceReference_STATUS(source.OriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field OriginGroup")
+			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field OriginGroup")
 		}
 		route.OriginGroup = &originGroup
 	} else {
@@ -1109,7 +1109,7 @@ func (route *Route_Spec) Initialize_From_Route_STATUS(source *Route_STATUS) erro
 			var ruleSet ResourceReference
 			err := ruleSet.Initialize_From_ResourceReference_STATUS(&ruleSetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field RuleSets")
+				return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field RuleSets")
 			}
 			ruleSetList[ruleSetIndex] = ruleSet
 		}
@@ -1218,13 +1218,13 @@ func (route *Route_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	src = &storage.Route_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = route.AssignProperties_From_Route_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1242,13 +1242,13 @@ func (route *Route_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	dst = &storage.Route_STATUS{}
 	err := route.AssignProperties_To_Route_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1467,7 +1467,7 @@ func (route *Route_STATUS) AssignProperties_From_Route_STATUS(source *storage.Ro
 		var cacheConfiguration AfdRouteCacheConfiguration_STATUS
 		err := cacheConfiguration.AssignProperties_From_AfdRouteCacheConfiguration_STATUS(source.CacheConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
 		}
 		route.CacheConfiguration = &cacheConfiguration
 	} else {
@@ -1486,7 +1486,7 @@ func (route *Route_STATUS) AssignProperties_From_Route_STATUS(source *storage.Ro
 			var customDomain ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
 			err := customDomain.AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(&customDomainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
+				return eris.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -1554,7 +1554,7 @@ func (route *Route_STATUS) AssignProperties_From_Route_STATUS(source *storage.Ro
 		var originGroup ResourceReference_STATUS
 		err := originGroup.AssignProperties_From_ResourceReference_STATUS(source.OriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field OriginGroup")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field OriginGroup")
 		}
 		route.OriginGroup = &originGroup
 	} else {
@@ -1585,7 +1585,7 @@ func (route *Route_STATUS) AssignProperties_From_Route_STATUS(source *storage.Ro
 			var ruleSet ResourceReference_STATUS
 			err := ruleSet.AssignProperties_From_ResourceReference_STATUS(&ruleSetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field RuleSets")
+				return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field RuleSets")
 			}
 			ruleSetList[ruleSetIndex] = ruleSet
 		}
@@ -1612,7 +1612,7 @@ func (route *Route_STATUS) AssignProperties_From_Route_STATUS(source *storage.Ro
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		route.SystemData = &systemDatum
 	} else {
@@ -1636,7 +1636,7 @@ func (route *Route_STATUS) AssignProperties_To_Route_STATUS(destination *storage
 		var cacheConfiguration storage.AfdRouteCacheConfiguration_STATUS
 		err := route.CacheConfiguration.AssignProperties_To_AfdRouteCacheConfiguration_STATUS(&cacheConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
 		}
 		destination.CacheConfiguration = &cacheConfiguration
 	} else {
@@ -1655,7 +1655,7 @@ func (route *Route_STATUS) AssignProperties_To_Route_STATUS(destination *storage
 			var customDomain storage.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
 			err := customDomainItem.AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(&customDomain)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
+				return eris.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -1718,7 +1718,7 @@ func (route *Route_STATUS) AssignProperties_To_Route_STATUS(destination *storage
 		var originGroup storage.ResourceReference_STATUS
 		err := route.OriginGroup.AssignProperties_To_ResourceReference_STATUS(&originGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field OriginGroup")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field OriginGroup")
 		}
 		destination.OriginGroup = &originGroup
 	} else {
@@ -1748,7 +1748,7 @@ func (route *Route_STATUS) AssignProperties_To_Route_STATUS(destination *storage
 			var ruleSet storage.ResourceReference_STATUS
 			err := ruleSetItem.AssignProperties_To_ResourceReference_STATUS(&ruleSet)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field RuleSets")
+				return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field RuleSets")
 			}
 			ruleSetList[ruleSetIndex] = ruleSet
 		}
@@ -1775,7 +1775,7 @@ func (route *Route_STATUS) AssignProperties_To_Route_STATUS(destination *storage
 		var systemDatum storage.SystemData_STATUS
 		err := route.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -2096,7 +2096,7 @@ func (configuration *AfdRouteCacheConfiguration) AssignProperties_From_AfdRouteC
 		var compressionSetting CompressionSettings
 		err := compressionSetting.AssignProperties_From_CompressionSettings(source.CompressionSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CompressionSettings() to populate field CompressionSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_CompressionSettings() to populate field CompressionSettings")
 		}
 		configuration.CompressionSettings = &compressionSetting
 	} else {
@@ -2129,7 +2129,7 @@ func (configuration *AfdRouteCacheConfiguration) AssignProperties_To_AfdRouteCac
 		var compressionSetting storage.CompressionSettings
 		err := configuration.CompressionSettings.AssignProperties_To_CompressionSettings(&compressionSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CompressionSettings() to populate field CompressionSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_CompressionSettings() to populate field CompressionSettings")
 		}
 		destination.CompressionSettings = &compressionSetting
 	} else {
@@ -2166,7 +2166,7 @@ func (configuration *AfdRouteCacheConfiguration) Initialize_From_AfdRouteCacheCo
 		var compressionSetting CompressionSettings
 		err := compressionSetting.Initialize_From_CompressionSettings_STATUS(source.CompressionSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CompressionSettings_STATUS() to populate field CompressionSettings")
+			return eris.Wrap(err, "calling Initialize_From_CompressionSettings_STATUS() to populate field CompressionSettings")
 		}
 		configuration.CompressionSettings = &compressionSetting
 	} else {
@@ -2253,7 +2253,7 @@ func (configuration *AfdRouteCacheConfiguration_STATUS) AssignProperties_From_Af
 		var compressionSetting CompressionSettings_STATUS
 		err := compressionSetting.AssignProperties_From_CompressionSettings_STATUS(source.CompressionSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CompressionSettings_STATUS() to populate field CompressionSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_CompressionSettings_STATUS() to populate field CompressionSettings")
 		}
 		configuration.CompressionSettings = &compressionSetting
 	} else {
@@ -2286,7 +2286,7 @@ func (configuration *AfdRouteCacheConfiguration_STATUS) AssignProperties_To_AfdR
 		var compressionSetting storage.CompressionSettings_STATUS
 		err := configuration.CompressionSettings.AssignProperties_To_CompressionSettings_STATUS(&compressionSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CompressionSettings_STATUS() to populate field CompressionSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_CompressionSettings_STATUS() to populate field CompressionSettings")
 		}
 		destination.CompressionSettings = &compressionSetting
 	} else {

@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -212,7 +212,7 @@ func (extension *Extension) SetStatus(status genruntime.ConvertibleStatus) error
 	var st Extension_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	extension.Status = st
@@ -330,7 +330,7 @@ func (extension *Extension) AssignProperties_From_Extension(source *storage.Exte
 	var spec Extension_Spec
 	err := spec.AssignProperties_From_Extension_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Extension_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Extension_Spec() to populate field Spec")
 	}
 	extension.Spec = spec
 
@@ -338,7 +338,7 @@ func (extension *Extension) AssignProperties_From_Extension(source *storage.Exte
 	var status Extension_STATUS
 	err = status.AssignProperties_From_Extension_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Extension_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Extension_STATUS() to populate field Status")
 	}
 	extension.Status = status
 
@@ -356,7 +356,7 @@ func (extension *Extension) AssignProperties_To_Extension(destination *storage.E
 	var spec storage.Extension_Spec
 	err := extension.Spec.AssignProperties_To_Extension_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Extension_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Extension_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -364,7 +364,7 @@ func (extension *Extension) AssignProperties_To_Extension(destination *storage.E
 	var status storage.Extension_STATUS
 	err = extension.Status.AssignProperties_To_Extension_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Extension_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Extension_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -509,7 +509,7 @@ func (extension *Extension_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		var temp map[string]string
 		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*extension.ConfigurationProtectedSettings)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property temp")
+			return nil, eris.Wrap(err, "looking up secret for property temp")
 		}
 		temp = tempSecret
 		result.Properties.ConfigurationProtectedSettings = temp
@@ -701,13 +701,13 @@ func (extension *Extension_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 	src = &storage.Extension_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = extension.AssignProperties_From_Extension_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -725,13 +725,13 @@ func (extension *Extension_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	dst = &storage.Extension_Spec{}
 	err := extension.AssignProperties_To_Extension_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -745,7 +745,7 @@ func (extension *Extension_Spec) AssignProperties_From_Extension_Spec(source *st
 		var aksAssignedIdentity Extension_Properties_AksAssignedIdentity_Spec
 		err := aksAssignedIdentity.AssignProperties_From_Extension_Properties_AksAssignedIdentity_Spec(source.AksAssignedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Extension_Properties_AksAssignedIdentity_Spec() to populate field AksAssignedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_Extension_Properties_AksAssignedIdentity_Spec() to populate field AksAssignedIdentity")
 		}
 		extension.AksAssignedIdentity = &aksAssignedIdentity
 	} else {
@@ -782,7 +782,7 @@ func (extension *Extension_Spec) AssignProperties_From_Extension_Spec(source *st
 		var identity Identity
 		err := identity.AssignProperties_From_Identity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Identity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_Identity() to populate field Identity")
 		}
 		extension.Identity = &identity
 	} else {
@@ -794,7 +794,7 @@ func (extension *Extension_Spec) AssignProperties_From_Extension_Spec(source *st
 		var operatorSpec ExtensionOperatorSpec
 		err := operatorSpec.AssignProperties_From_ExtensionOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtensionOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtensionOperatorSpec() to populate field OperatorSpec")
 		}
 		extension.OperatorSpec = &operatorSpec
 	} else {
@@ -814,7 +814,7 @@ func (extension *Extension_Spec) AssignProperties_From_Extension_Spec(source *st
 		var plan Plan
 		err := plan.AssignProperties_From_Plan(source.Plan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Plan() to populate field Plan")
+			return eris.Wrap(err, "calling AssignProperties_From_Plan() to populate field Plan")
 		}
 		extension.Plan = &plan
 	} else {
@@ -829,7 +829,7 @@ func (extension *Extension_Spec) AssignProperties_From_Extension_Spec(source *st
 		var scope Scope
 		err := scope.AssignProperties_From_Scope(source.Scope)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Scope() to populate field Scope")
+			return eris.Wrap(err, "calling AssignProperties_From_Scope() to populate field Scope")
 		}
 		extension.Scope = &scope
 	} else {
@@ -841,7 +841,7 @@ func (extension *Extension_Spec) AssignProperties_From_Extension_Spec(source *st
 		var systemDatum SystemData
 		err := systemDatum.AssignProperties_From_SystemData(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData() to populate field SystemData")
 		}
 		extension.SystemData = &systemDatum
 	} else {
@@ -865,7 +865,7 @@ func (extension *Extension_Spec) AssignProperties_To_Extension_Spec(destination 
 		var aksAssignedIdentity storage.Extension_Properties_AksAssignedIdentity_Spec
 		err := extension.AksAssignedIdentity.AssignProperties_To_Extension_Properties_AksAssignedIdentity_Spec(&aksAssignedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Extension_Properties_AksAssignedIdentity_Spec() to populate field AksAssignedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_Extension_Properties_AksAssignedIdentity_Spec() to populate field AksAssignedIdentity")
 		}
 		destination.AksAssignedIdentity = &aksAssignedIdentity
 	} else {
@@ -902,7 +902,7 @@ func (extension *Extension_Spec) AssignProperties_To_Extension_Spec(destination 
 		var identity storage.Identity
 		err := extension.Identity.AssignProperties_To_Identity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -914,7 +914,7 @@ func (extension *Extension_Spec) AssignProperties_To_Extension_Spec(destination 
 		var operatorSpec storage.ExtensionOperatorSpec
 		err := extension.OperatorSpec.AssignProperties_To_ExtensionOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtensionOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtensionOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -937,7 +937,7 @@ func (extension *Extension_Spec) AssignProperties_To_Extension_Spec(destination 
 		var plan storage.Plan
 		err := extension.Plan.AssignProperties_To_Plan(&plan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Plan() to populate field Plan")
+			return eris.Wrap(err, "calling AssignProperties_To_Plan() to populate field Plan")
 		}
 		destination.Plan = &plan
 	} else {
@@ -952,7 +952,7 @@ func (extension *Extension_Spec) AssignProperties_To_Extension_Spec(destination 
 		var scope storage.Scope
 		err := extension.Scope.AssignProperties_To_Scope(&scope)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Scope() to populate field Scope")
+			return eris.Wrap(err, "calling AssignProperties_To_Scope() to populate field Scope")
 		}
 		destination.Scope = &scope
 	} else {
@@ -964,7 +964,7 @@ func (extension *Extension_Spec) AssignProperties_To_Extension_Spec(destination 
 		var systemDatum storage.SystemData
 		err := extension.SystemData.AssignProperties_To_SystemData(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -993,7 +993,7 @@ func (extension *Extension_Spec) Initialize_From_Extension_STATUS(source *Extens
 		var aksAssignedIdentity Extension_Properties_AksAssignedIdentity_Spec
 		err := aksAssignedIdentity.Initialize_From_Extension_Properties_AksAssignedIdentity_STATUS(source.AksAssignedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Extension_Properties_AksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
+			return eris.Wrap(err, "calling Initialize_From_Extension_Properties_AksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
 		}
 		extension.AksAssignedIdentity = &aksAssignedIdentity
 	} else {
@@ -1019,7 +1019,7 @@ func (extension *Extension_Spec) Initialize_From_Extension_STATUS(source *Extens
 		var identity Identity
 		err := identity.Initialize_From_Identity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Identity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_Identity_STATUS() to populate field Identity")
 		}
 		extension.Identity = &identity
 	} else {
@@ -1031,7 +1031,7 @@ func (extension *Extension_Spec) Initialize_From_Extension_STATUS(source *Extens
 		var plan Plan
 		err := plan.Initialize_From_Plan_STATUS(source.Plan)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Plan_STATUS() to populate field Plan")
+			return eris.Wrap(err, "calling Initialize_From_Plan_STATUS() to populate field Plan")
 		}
 		extension.Plan = &plan
 	} else {
@@ -1046,7 +1046,7 @@ func (extension *Extension_Spec) Initialize_From_Extension_STATUS(source *Extens
 		var scope Scope
 		err := scope.Initialize_From_Scope_STATUS(source.Scope)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Scope_STATUS() to populate field Scope")
+			return eris.Wrap(err, "calling Initialize_From_Scope_STATUS() to populate field Scope")
 		}
 		extension.Scope = &scope
 	} else {
@@ -1058,7 +1058,7 @@ func (extension *Extension_Spec) Initialize_From_Extension_STATUS(source *Extens
 		var systemDatum SystemData
 		err := systemDatum.Initialize_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling Initialize_From_SystemData_STATUS() to populate field SystemData")
 		}
 		extension.SystemData = &systemDatum
 	} else {
@@ -1169,13 +1169,13 @@ func (extension *Extension_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	src = &storage.Extension_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = extension.AssignProperties_From_Extension_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1193,13 +1193,13 @@ func (extension *Extension_STATUS) ConvertStatusTo(destination genruntime.Conver
 	dst = &storage.Extension_STATUS{}
 	err := extension.AssignProperties_To_Extension_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1446,7 +1446,7 @@ func (extension *Extension_STATUS) AssignProperties_From_Extension_STATUS(source
 		var aksAssignedIdentity Extension_Properties_AksAssignedIdentity_STATUS
 		err := aksAssignedIdentity.AssignProperties_From_Extension_Properties_AksAssignedIdentity_STATUS(source.AksAssignedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Extension_Properties_AksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_Extension_Properties_AksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
 		}
 		extension.AksAssignedIdentity = &aksAssignedIdentity
 	} else {
@@ -1481,7 +1481,7 @@ func (extension *Extension_STATUS) AssignProperties_From_Extension_STATUS(source
 		var errorInfo ErrorDetail_STATUS
 		err := errorInfo.AssignProperties_From_ErrorDetail_STATUS(source.ErrorInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ErrorDetail_STATUS() to populate field ErrorInfo")
+			return eris.Wrap(err, "calling AssignProperties_From_ErrorDetail_STATUS() to populate field ErrorInfo")
 		}
 		extension.ErrorInfo = &errorInfo
 	} else {
@@ -1499,7 +1499,7 @@ func (extension *Extension_STATUS) AssignProperties_From_Extension_STATUS(source
 		var identity Identity_STATUS
 		err := identity.AssignProperties_From_Identity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Identity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_Identity_STATUS() to populate field Identity")
 		}
 		extension.Identity = &identity
 	} else {
@@ -1525,7 +1525,7 @@ func (extension *Extension_STATUS) AssignProperties_From_Extension_STATUS(source
 		var plan Plan_STATUS
 		err := plan.AssignProperties_From_Plan_STATUS(source.Plan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Plan_STATUS() to populate field Plan")
+			return eris.Wrap(err, "calling AssignProperties_From_Plan_STATUS() to populate field Plan")
 		}
 		extension.Plan = &plan
 	} else {
@@ -1549,7 +1549,7 @@ func (extension *Extension_STATUS) AssignProperties_From_Extension_STATUS(source
 		var scope Scope_STATUS
 		err := scope.AssignProperties_From_Scope_STATUS(source.Scope)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Scope_STATUS() to populate field Scope")
+			return eris.Wrap(err, "calling AssignProperties_From_Scope_STATUS() to populate field Scope")
 		}
 		extension.Scope = &scope
 	} else {
@@ -1565,7 +1565,7 @@ func (extension *Extension_STATUS) AssignProperties_From_Extension_STATUS(source
 			var status ExtensionStatus_STATUS
 			err := status.AssignProperties_From_ExtensionStatus_STATUS(&statusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ExtensionStatus_STATUS() to populate field Statuses")
+				return eris.Wrap(err, "calling AssignProperties_From_ExtensionStatus_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -1579,7 +1579,7 @@ func (extension *Extension_STATUS) AssignProperties_From_Extension_STATUS(source
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		extension.SystemData = &systemDatum
 	} else {
@@ -1606,7 +1606,7 @@ func (extension *Extension_STATUS) AssignProperties_To_Extension_STATUS(destinat
 		var aksAssignedIdentity storage.Extension_Properties_AksAssignedIdentity_STATUS
 		err := extension.AksAssignedIdentity.AssignProperties_To_Extension_Properties_AksAssignedIdentity_STATUS(&aksAssignedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Extension_Properties_AksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_Extension_Properties_AksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
 		}
 		destination.AksAssignedIdentity = &aksAssignedIdentity
 	} else {
@@ -1641,7 +1641,7 @@ func (extension *Extension_STATUS) AssignProperties_To_Extension_STATUS(destinat
 		var errorInfo storage.ErrorDetail_STATUS
 		err := extension.ErrorInfo.AssignProperties_To_ErrorDetail_STATUS(&errorInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ErrorDetail_STATUS() to populate field ErrorInfo")
+			return eris.Wrap(err, "calling AssignProperties_To_ErrorDetail_STATUS() to populate field ErrorInfo")
 		}
 		destination.ErrorInfo = &errorInfo
 	} else {
@@ -1659,7 +1659,7 @@ func (extension *Extension_STATUS) AssignProperties_To_Extension_STATUS(destinat
 		var identity storage.Identity_STATUS
 		err := extension.Identity.AssignProperties_To_Identity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1685,7 +1685,7 @@ func (extension *Extension_STATUS) AssignProperties_To_Extension_STATUS(destinat
 		var plan storage.Plan_STATUS
 		err := extension.Plan.AssignProperties_To_Plan_STATUS(&plan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Plan_STATUS() to populate field Plan")
+			return eris.Wrap(err, "calling AssignProperties_To_Plan_STATUS() to populate field Plan")
 		}
 		destination.Plan = &plan
 	} else {
@@ -1708,7 +1708,7 @@ func (extension *Extension_STATUS) AssignProperties_To_Extension_STATUS(destinat
 		var scope storage.Scope_STATUS
 		err := extension.Scope.AssignProperties_To_Scope_STATUS(&scope)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Scope_STATUS() to populate field Scope")
+			return eris.Wrap(err, "calling AssignProperties_To_Scope_STATUS() to populate field Scope")
 		}
 		destination.Scope = &scope
 	} else {
@@ -1724,7 +1724,7 @@ func (extension *Extension_STATUS) AssignProperties_To_Extension_STATUS(destinat
 			var status storage.ExtensionStatus_STATUS
 			err := statusItem.AssignProperties_To_ExtensionStatus_STATUS(&status)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ExtensionStatus_STATUS() to populate field Statuses")
+				return eris.Wrap(err, "calling AssignProperties_To_ExtensionStatus_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -1738,7 +1738,7 @@ func (extension *Extension_STATUS) AssignProperties_To_Extension_STATUS(destinat
 		var systemDatum storage.SystemData_STATUS
 		err := extension.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1848,7 +1848,7 @@ func (detail *ErrorDetail_STATUS) AssignProperties_From_ErrorDetail_STATUS(sourc
 			var additionalInfo ErrorAdditionalInfo_STATUS
 			err := additionalInfo.AssignProperties_From_ErrorAdditionalInfo_STATUS(&additionalInfoItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
 			}
 			additionalInfoList[additionalInfoIndex] = additionalInfo
 		}
@@ -1869,7 +1869,7 @@ func (detail *ErrorDetail_STATUS) AssignProperties_From_ErrorDetail_STATUS(sourc
 			var detailLocal ErrorDetail_STATUS_Unrolled
 			err := detailLocal.AssignProperties_From_ErrorDetail_STATUS_Unrolled(&detailItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorDetail_STATUS_Unrolled() to populate field Details")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorDetail_STATUS_Unrolled() to populate field Details")
 			}
 			detailList[detailIndex] = detailLocal
 		}
@@ -1902,7 +1902,7 @@ func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destina
 			var additionalInfo storage.ErrorAdditionalInfo_STATUS
 			err := additionalInfoItem.AssignProperties_To_ErrorAdditionalInfo_STATUS(&additionalInfo)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
 			}
 			additionalInfoList[additionalInfoIndex] = additionalInfo
 		}
@@ -1923,7 +1923,7 @@ func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destina
 			var detailLocal storage.ErrorDetail_STATUS_Unrolled
 			err := detailItem.AssignProperties_To_ErrorDetail_STATUS_Unrolled(&detailLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorDetail_STATUS_Unrolled() to populate field Details")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorDetail_STATUS_Unrolled() to populate field Details")
 			}
 			detailList[detailIndex] = detailLocal
 		}
@@ -2191,7 +2191,7 @@ func (operator *ExtensionOperatorSpec) AssignProperties_From_ExtensionOperatorSp
 		var configMap ExtensionOperatorConfigMaps
 		err := configMap.AssignProperties_From_ExtensionOperatorConfigMaps(source.ConfigMaps)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtensionOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtensionOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		operator.ConfigMaps = &configMap
 	} else {
@@ -2248,7 +2248,7 @@ func (operator *ExtensionOperatorSpec) AssignProperties_To_ExtensionOperatorSpec
 		var configMap storage.ExtensionOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_ExtensionOperatorConfigMaps(&configMap)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtensionOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtensionOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		destination.ConfigMaps = &configMap
 	} else {
@@ -3034,7 +3034,7 @@ func (scope *Scope) AssignProperties_From_Scope(source *storage.Scope) error {
 		var cluster ScopeCluster
 		err := cluster.AssignProperties_From_ScopeCluster(source.Cluster)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScopeCluster() to populate field Cluster")
+			return eris.Wrap(err, "calling AssignProperties_From_ScopeCluster() to populate field Cluster")
 		}
 		scope.Cluster = &cluster
 	} else {
@@ -3046,7 +3046,7 @@ func (scope *Scope) AssignProperties_From_Scope(source *storage.Scope) error {
 		var namespace ScopeNamespace
 		err := namespace.AssignProperties_From_ScopeNamespace(source.Namespace)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScopeNamespace() to populate field Namespace")
+			return eris.Wrap(err, "calling AssignProperties_From_ScopeNamespace() to populate field Namespace")
 		}
 		scope.Namespace = &namespace
 	} else {
@@ -3067,7 +3067,7 @@ func (scope *Scope) AssignProperties_To_Scope(destination *storage.Scope) error 
 		var cluster storage.ScopeCluster
 		err := scope.Cluster.AssignProperties_To_ScopeCluster(&cluster)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScopeCluster() to populate field Cluster")
+			return eris.Wrap(err, "calling AssignProperties_To_ScopeCluster() to populate field Cluster")
 		}
 		destination.Cluster = &cluster
 	} else {
@@ -3079,7 +3079,7 @@ func (scope *Scope) AssignProperties_To_Scope(destination *storage.Scope) error 
 		var namespace storage.ScopeNamespace
 		err := scope.Namespace.AssignProperties_To_ScopeNamespace(&namespace)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScopeNamespace() to populate field Namespace")
+			return eris.Wrap(err, "calling AssignProperties_To_ScopeNamespace() to populate field Namespace")
 		}
 		destination.Namespace = &namespace
 	} else {
@@ -3105,7 +3105,7 @@ func (scope *Scope) Initialize_From_Scope_STATUS(source *Scope_STATUS) error {
 		var cluster ScopeCluster
 		err := cluster.Initialize_From_ScopeCluster_STATUS(source.Cluster)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScopeCluster_STATUS() to populate field Cluster")
+			return eris.Wrap(err, "calling Initialize_From_ScopeCluster_STATUS() to populate field Cluster")
 		}
 		scope.Cluster = &cluster
 	} else {
@@ -3117,7 +3117,7 @@ func (scope *Scope) Initialize_From_Scope_STATUS(source *Scope_STATUS) error {
 		var namespace ScopeNamespace
 		err := namespace.Initialize_From_ScopeNamespace_STATUS(source.Namespace)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScopeNamespace_STATUS() to populate field Namespace")
+			return eris.Wrap(err, "calling Initialize_From_ScopeNamespace_STATUS() to populate field Namespace")
 		}
 		scope.Namespace = &namespace
 	} else {
@@ -3185,7 +3185,7 @@ func (scope *Scope_STATUS) AssignProperties_From_Scope_STATUS(source *storage.Sc
 		var cluster ScopeCluster_STATUS
 		err := cluster.AssignProperties_From_ScopeCluster_STATUS(source.Cluster)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScopeCluster_STATUS() to populate field Cluster")
+			return eris.Wrap(err, "calling AssignProperties_From_ScopeCluster_STATUS() to populate field Cluster")
 		}
 		scope.Cluster = &cluster
 	} else {
@@ -3197,7 +3197,7 @@ func (scope *Scope_STATUS) AssignProperties_From_Scope_STATUS(source *storage.Sc
 		var namespace ScopeNamespace_STATUS
 		err := namespace.AssignProperties_From_ScopeNamespace_STATUS(source.Namespace)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScopeNamespace_STATUS() to populate field Namespace")
+			return eris.Wrap(err, "calling AssignProperties_From_ScopeNamespace_STATUS() to populate field Namespace")
 		}
 		scope.Namespace = &namespace
 	} else {
@@ -3218,7 +3218,7 @@ func (scope *Scope_STATUS) AssignProperties_To_Scope_STATUS(destination *storage
 		var cluster storage.ScopeCluster_STATUS
 		err := scope.Cluster.AssignProperties_To_ScopeCluster_STATUS(&cluster)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScopeCluster_STATUS() to populate field Cluster")
+			return eris.Wrap(err, "calling AssignProperties_To_ScopeCluster_STATUS() to populate field Cluster")
 		}
 		destination.Cluster = &cluster
 	} else {
@@ -3230,7 +3230,7 @@ func (scope *Scope_STATUS) AssignProperties_To_Scope_STATUS(destination *storage
 		var namespace storage.ScopeNamespace_STATUS
 		err := scope.Namespace.AssignProperties_To_ScopeNamespace_STATUS(&namespace)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScopeNamespace_STATUS() to populate field Namespace")
+			return eris.Wrap(err, "calling AssignProperties_To_ScopeNamespace_STATUS() to populate field Namespace")
 		}
 		destination.Namespace = &namespace
 	} else {
@@ -3820,7 +3820,7 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_From_ErrorDetail_S
 			var additionalInfo ErrorAdditionalInfo_STATUS
 			err := additionalInfo.AssignProperties_From_ErrorAdditionalInfo_STATUS(&additionalInfoItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
 			}
 			additionalInfoList[additionalInfoIndex] = additionalInfo
 		}
@@ -3856,7 +3856,7 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_To_ErrorDetail_STA
 			var additionalInfo storage.ErrorAdditionalInfo_STATUS
 			err := additionalInfoItem.AssignProperties_To_ErrorAdditionalInfo_STATUS(&additionalInfo)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
 			}
 			additionalInfoList[additionalInfoIndex] = additionalInfo
 		}

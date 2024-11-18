@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (queue *StorageAccountsQueueServicesQueue) SetStatus(status genruntime.Conv
 	var st StorageAccountsQueueServicesQueue_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	queue.Status = st
@@ -309,7 +309,7 @@ func (queue *StorageAccountsQueueServicesQueue) AssignProperties_From_StorageAcc
 	var spec StorageAccountsQueueServicesQueue_Spec
 	err := spec.AssignProperties_From_StorageAccountsQueueServicesQueue_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsQueueServicesQueue_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsQueueServicesQueue_Spec() to populate field Spec")
 	}
 	queue.Spec = spec
 
@@ -317,7 +317,7 @@ func (queue *StorageAccountsQueueServicesQueue) AssignProperties_From_StorageAcc
 	var status StorageAccountsQueueServicesQueue_STATUS
 	err = status.AssignProperties_From_StorageAccountsQueueServicesQueue_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsQueueServicesQueue_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsQueueServicesQueue_STATUS() to populate field Status")
 	}
 	queue.Status = status
 
@@ -335,7 +335,7 @@ func (queue *StorageAccountsQueueServicesQueue) AssignProperties_To_StorageAccou
 	var spec storage.StorageAccountsQueueServicesQueue_Spec
 	err := queue.Spec.AssignProperties_To_StorageAccountsQueueServicesQueue_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsQueueServicesQueue_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsQueueServicesQueue_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (queue *StorageAccountsQueueServicesQueue) AssignProperties_To_StorageAccou
 	var status storage.StorageAccountsQueueServicesQueue_STATUS
 	err = queue.Status.AssignProperties_To_StorageAccountsQueueServicesQueue_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsQueueServicesQueue_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsQueueServicesQueue_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -468,13 +468,13 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) ConvertSpecFrom(source genr
 	src = &storage.StorageAccountsQueueServicesQueue_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = queue.AssignProperties_From_StorageAccountsQueueServicesQueue_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -492,13 +492,13 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) ConvertSpecTo(destination g
 	dst = &storage.StorageAccountsQueueServicesQueue_Spec{}
 	err := queue.AssignProperties_To_StorageAccountsQueueServicesQueue_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -518,7 +518,7 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) AssignProperties_From_Stora
 		var operatorSpec StorageAccountsQueueServicesQueueOperatorSpec
 		err := operatorSpec.AssignProperties_From_StorageAccountsQueueServicesQueueOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsQueueServicesQueueOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsQueueServicesQueueOperatorSpec() to populate field OperatorSpec")
 		}
 		queue.OperatorSpec = &operatorSpec
 	} else {
@@ -553,7 +553,7 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) AssignProperties_To_Storage
 		var operatorSpec storage.StorageAccountsQueueServicesQueueOperatorSpec
 		err := queue.OperatorSpec.AssignProperties_To_StorageAccountsQueueServicesQueueOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsQueueServicesQueueOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsQueueServicesQueueOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -638,13 +638,13 @@ func (queue *StorageAccountsQueueServicesQueue_STATUS) ConvertStatusFrom(source 
 	src = &storage.StorageAccountsQueueServicesQueue_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = queue.AssignProperties_From_StorageAccountsQueueServicesQueue_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -662,13 +662,13 @@ func (queue *StorageAccountsQueueServicesQueue_STATUS) ConvertStatusTo(destinati
 	dst = &storage.StorageAccountsQueueServicesQueue_STATUS{}
 	err := queue.AssignProperties_To_StorageAccountsQueueServicesQueue_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

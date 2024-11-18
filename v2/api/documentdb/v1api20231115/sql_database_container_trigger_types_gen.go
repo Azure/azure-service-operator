@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (trigger *SqlDatabaseContainerTrigger) SetStatus(status genruntime.Converti
 	var st SqlDatabaseContainerTrigger_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	trigger.Status = st
@@ -309,7 +309,7 @@ func (trigger *SqlDatabaseContainerTrigger) AssignProperties_From_SqlDatabaseCon
 	var spec SqlDatabaseContainerTrigger_Spec
 	err := spec.AssignProperties_From_SqlDatabaseContainerTrigger_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerTrigger_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerTrigger_Spec() to populate field Spec")
 	}
 	trigger.Spec = spec
 
@@ -317,7 +317,7 @@ func (trigger *SqlDatabaseContainerTrigger) AssignProperties_From_SqlDatabaseCon
 	var status SqlDatabaseContainerTrigger_STATUS
 	err = status.AssignProperties_From_SqlDatabaseContainerTrigger_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerTrigger_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerTrigger_STATUS() to populate field Status")
 	}
 	trigger.Status = status
 
@@ -335,7 +335,7 @@ func (trigger *SqlDatabaseContainerTrigger) AssignProperties_To_SqlDatabaseConta
 	var spec storage.SqlDatabaseContainerTrigger_Spec
 	err := trigger.Spec.AssignProperties_To_SqlDatabaseContainerTrigger_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerTrigger_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerTrigger_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (trigger *SqlDatabaseContainerTrigger) AssignProperties_To_SqlDatabaseConta
 	var status storage.SqlDatabaseContainerTrigger_STATUS
 	err = trigger.Status.AssignProperties_To_SqlDatabaseContainerTrigger_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerTrigger_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerTrigger_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -530,13 +530,13 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertSpecFrom(source genrunti
 	src = &storage.SqlDatabaseContainerTrigger_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = trigger.AssignProperties_From_SqlDatabaseContainerTrigger_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -554,13 +554,13 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertSpecTo(destination genru
 	dst = &storage.SqlDatabaseContainerTrigger_Spec{}
 	err := trigger.AssignProperties_To_SqlDatabaseContainerTrigger_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -580,7 +580,7 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) AssignProperties_From_SqlDataba
 		var operatorSpec SqlDatabaseContainerTriggerOperatorSpec
 		err := operatorSpec.AssignProperties_From_SqlDatabaseContainerTriggerOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerTriggerOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerTriggerOperatorSpec() to populate field OperatorSpec")
 		}
 		trigger.OperatorSpec = &operatorSpec
 	} else {
@@ -592,7 +592,7 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) AssignProperties_From_SqlDataba
 		var option CreateUpdateOptions
 		err := option.AssignProperties_From_CreateUpdateOptions(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
+			return eris.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
 		}
 		trigger.Options = &option
 	} else {
@@ -612,7 +612,7 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) AssignProperties_From_SqlDataba
 		var resource SqlTriggerResource
 		err := resource.AssignProperties_From_SqlTriggerResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlTriggerResource() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_From_SqlTriggerResource() to populate field Resource")
 		}
 		trigger.Resource = &resource
 	} else {
@@ -642,7 +642,7 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) AssignProperties_To_SqlDatabase
 		var operatorSpec storage.SqlDatabaseContainerTriggerOperatorSpec
 		err := trigger.OperatorSpec.AssignProperties_To_SqlDatabaseContainerTriggerOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerTriggerOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerTriggerOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -654,7 +654,7 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) AssignProperties_To_SqlDatabase
 		var option storage.CreateUpdateOptions
 		err := trigger.Options.AssignProperties_To_CreateUpdateOptions(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
+			return eris.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -677,7 +677,7 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) AssignProperties_To_SqlDatabase
 		var resource storage.SqlTriggerResource
 		err := trigger.Resource.AssignProperties_To_SqlTriggerResource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlTriggerResource() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_To_SqlTriggerResource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -709,7 +709,7 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) Initialize_From_SqlDatabaseCont
 		var resource SqlTriggerResource
 		err := resource.Initialize_From_SqlTriggerGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SqlTriggerGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling Initialize_From_SqlTriggerGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		trigger.Resource = &resource
 	} else {
@@ -766,13 +766,13 @@ func (trigger *SqlDatabaseContainerTrigger_STATUS) ConvertStatusFrom(source genr
 	src = &storage.SqlDatabaseContainerTrigger_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = trigger.AssignProperties_From_SqlDatabaseContainerTrigger_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -790,13 +790,13 @@ func (trigger *SqlDatabaseContainerTrigger_STATUS) ConvertStatusTo(destination g
 	dst = &storage.SqlDatabaseContainerTrigger_STATUS{}
 	err := trigger.AssignProperties_To_SqlDatabaseContainerTrigger_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -888,7 +888,7 @@ func (trigger *SqlDatabaseContainerTrigger_STATUS) AssignProperties_From_SqlData
 		var resource SqlTriggerGetProperties_Resource_STATUS
 		err := resource.AssignProperties_From_SqlTriggerGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlTriggerGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_From_SqlTriggerGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		trigger.Resource = &resource
 	} else {
@@ -927,7 +927,7 @@ func (trigger *SqlDatabaseContainerTrigger_STATUS) AssignProperties_To_SqlDataba
 		var resource storage.SqlTriggerGetProperties_Resource_STATUS
 		err := trigger.Resource.AssignProperties_To_SqlTriggerGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlTriggerGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_To_SqlTriggerGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {

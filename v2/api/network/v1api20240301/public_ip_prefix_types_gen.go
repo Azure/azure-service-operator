@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (prefix *PublicIPPrefix) SetStatus(status genruntime.ConvertibleStatus) err
 	var st PublicIPPrefix_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	prefix.Status = st
@@ -309,7 +309,7 @@ func (prefix *PublicIPPrefix) AssignProperties_From_PublicIPPrefix(source *stora
 	var spec PublicIPPrefix_Spec
 	err := spec.AssignProperties_From_PublicIPPrefix_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PublicIPPrefix_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_PublicIPPrefix_Spec() to populate field Spec")
 	}
 	prefix.Spec = spec
 
@@ -317,7 +317,7 @@ func (prefix *PublicIPPrefix) AssignProperties_From_PublicIPPrefix(source *stora
 	var status PublicIPPrefix_STATUS
 	err = status.AssignProperties_From_PublicIPPrefix_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PublicIPPrefix_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_PublicIPPrefix_STATUS() to populate field Status")
 	}
 	prefix.Status = status
 
@@ -335,7 +335,7 @@ func (prefix *PublicIPPrefix) AssignProperties_To_PublicIPPrefix(destination *st
 	var spec storage.PublicIPPrefix_Spec
 	err := prefix.Spec.AssignProperties_To_PublicIPPrefix_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PublicIPPrefix_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_PublicIPPrefix_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (prefix *PublicIPPrefix) AssignProperties_To_PublicIPPrefix(destination *st
 	var status storage.PublicIPPrefix_STATUS
 	err = prefix.Status.AssignProperties_To_PublicIPPrefix_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PublicIPPrefix_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_PublicIPPrefix_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -654,13 +654,13 @@ func (prefix *PublicIPPrefix_Spec) ConvertSpecFrom(source genruntime.Convertible
 	src = &storage.PublicIPPrefix_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = prefix.AssignProperties_From_PublicIPPrefix_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -678,13 +678,13 @@ func (prefix *PublicIPPrefix_Spec) ConvertSpecTo(destination genruntime.Converti
 	dst = &storage.PublicIPPrefix_Spec{}
 	err := prefix.AssignProperties_To_PublicIPPrefix_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -701,7 +701,7 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_From_PublicIPPrefix_Spec(sou
 		var customIPPrefix SubResource
 		err := customIPPrefix.AssignProperties_From_SubResource(source.CustomIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field CustomIPPrefix")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field CustomIPPrefix")
 		}
 		prefix.CustomIPPrefix = &customIPPrefix
 	} else {
@@ -713,7 +713,7 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_From_PublicIPPrefix_Spec(sou
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		prefix.ExtendedLocation = &extendedLocation
 	} else {
@@ -729,7 +729,7 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_From_PublicIPPrefix_Spec(sou
 			var ipTag IpTag
 			err := ipTag.AssignProperties_From_IpTag(&ipTagItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpTag() to populate field IpTags")
+				return eris.Wrap(err, "calling AssignProperties_From_IpTag() to populate field IpTags")
 			}
 			ipTagList[ipTagIndex] = ipTag
 		}
@@ -746,7 +746,7 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_From_PublicIPPrefix_Spec(sou
 		var natGateway NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded
 		err := natGateway.AssignProperties_From_NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded(source.NatGateway)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded() to populate field NatGateway")
+			return eris.Wrap(err, "calling AssignProperties_From_NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded() to populate field NatGateway")
 		}
 		prefix.NatGateway = &natGateway
 	} else {
@@ -758,7 +758,7 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_From_PublicIPPrefix_Spec(sou
 		var operatorSpec PublicIPPrefixOperatorSpec
 		err := operatorSpec.AssignProperties_From_PublicIPPrefixOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PublicIPPrefixOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_PublicIPPrefixOperatorSpec() to populate field OperatorSpec")
 		}
 		prefix.OperatorSpec = &operatorSpec
 	} else {
@@ -790,7 +790,7 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_From_PublicIPPrefix_Spec(sou
 		var sku PublicIPPrefixSku
 		err := sku.AssignProperties_From_PublicIPPrefixSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PublicIPPrefixSku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_PublicIPPrefixSku() to populate field Sku")
 		}
 		prefix.Sku = &sku
 	} else {
@@ -820,7 +820,7 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_To_PublicIPPrefix_Spec(desti
 		var customIPPrefix storage.SubResource
 		err := prefix.CustomIPPrefix.AssignProperties_To_SubResource(&customIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field CustomIPPrefix")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field CustomIPPrefix")
 		}
 		destination.CustomIPPrefix = &customIPPrefix
 	} else {
@@ -832,7 +832,7 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_To_PublicIPPrefix_Spec(desti
 		var extendedLocation storage.ExtendedLocation
 		err := prefix.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -848,7 +848,7 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_To_PublicIPPrefix_Spec(desti
 			var ipTag storage.IpTag
 			err := ipTagItem.AssignProperties_To_IpTag(&ipTag)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpTag() to populate field IpTags")
+				return eris.Wrap(err, "calling AssignProperties_To_IpTag() to populate field IpTags")
 			}
 			ipTagList[ipTagIndex] = ipTag
 		}
@@ -865,7 +865,7 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_To_PublicIPPrefix_Spec(desti
 		var natGateway storage.NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded
 		err := prefix.NatGateway.AssignProperties_To_NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded(&natGateway)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded() to populate field NatGateway")
+			return eris.Wrap(err, "calling AssignProperties_To_NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded() to populate field NatGateway")
 		}
 		destination.NatGateway = &natGateway
 	} else {
@@ -877,7 +877,7 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_To_PublicIPPrefix_Spec(desti
 		var operatorSpec storage.PublicIPPrefixOperatorSpec
 		err := prefix.OperatorSpec.AssignProperties_To_PublicIPPrefixOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PublicIPPrefixOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_PublicIPPrefixOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -911,7 +911,7 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_To_PublicIPPrefix_Spec(desti
 		var sku storage.PublicIPPrefixSku
 		err := prefix.Sku.AssignProperties_To_PublicIPPrefixSku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PublicIPPrefixSku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_PublicIPPrefixSku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -943,7 +943,7 @@ func (prefix *PublicIPPrefix_Spec) Initialize_From_PublicIPPrefix_STATUS(source 
 		var customIPPrefix SubResource
 		err := customIPPrefix.Initialize_From_SubResource_STATUS(source.CustomIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field CustomIPPrefix")
+			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field CustomIPPrefix")
 		}
 		prefix.CustomIPPrefix = &customIPPrefix
 	} else {
@@ -955,7 +955,7 @@ func (prefix *PublicIPPrefix_Spec) Initialize_From_PublicIPPrefix_STATUS(source 
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		prefix.ExtendedLocation = &extendedLocation
 	} else {
@@ -971,7 +971,7 @@ func (prefix *PublicIPPrefix_Spec) Initialize_From_PublicIPPrefix_STATUS(source 
 			var ipTag IpTag
 			err := ipTag.Initialize_From_IpTag_STATUS(&ipTagItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IpTag_STATUS() to populate field IpTags")
+				return eris.Wrap(err, "calling Initialize_From_IpTag_STATUS() to populate field IpTags")
 			}
 			ipTagList[ipTagIndex] = ipTag
 		}
@@ -988,7 +988,7 @@ func (prefix *PublicIPPrefix_Spec) Initialize_From_PublicIPPrefix_STATUS(source 
 		var natGateway NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded
 		err := natGateway.Initialize_From_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded(source.NatGateway)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded() to populate field NatGateway")
+			return eris.Wrap(err, "calling Initialize_From_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded() to populate field NatGateway")
 		}
 		prefix.NatGateway = &natGateway
 	} else {
@@ -1011,7 +1011,7 @@ func (prefix *PublicIPPrefix_Spec) Initialize_From_PublicIPPrefix_STATUS(source 
 		var sku PublicIPPrefixSku
 		err := sku.Initialize_From_PublicIPPrefixSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PublicIPPrefixSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_PublicIPPrefixSku_STATUS() to populate field Sku")
 		}
 		prefix.Sku = &sku
 	} else {
@@ -1114,13 +1114,13 @@ func (prefix *PublicIPPrefix_STATUS) ConvertStatusFrom(source genruntime.Convert
 	src = &storage.PublicIPPrefix_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = prefix.AssignProperties_From_PublicIPPrefix_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1138,13 +1138,13 @@ func (prefix *PublicIPPrefix_STATUS) ConvertStatusTo(destination genruntime.Conv
 	dst = &storage.PublicIPPrefix_STATUS{}
 	err := prefix.AssignProperties_To_PublicIPPrefix_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1363,7 +1363,7 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_From_PublicIPPrefix_STATUS
 		var customIPPrefix SubResource_STATUS
 		err := customIPPrefix.AssignProperties_From_SubResource_STATUS(source.CustomIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field CustomIPPrefix")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field CustomIPPrefix")
 		}
 		prefix.CustomIPPrefix = &customIPPrefix
 	} else {
@@ -1378,7 +1378,7 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_From_PublicIPPrefix_STATUS
 		var extendedLocation ExtendedLocation_STATUS
 		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		prefix.ExtendedLocation = &extendedLocation
 	} else {
@@ -1400,7 +1400,7 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_From_PublicIPPrefix_STATUS
 			var ipTag IpTag_STATUS
 			err := ipTag.AssignProperties_From_IpTag_STATUS(&ipTagItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpTag_STATUS() to populate field IpTags")
+				return eris.Wrap(err, "calling AssignProperties_From_IpTag_STATUS() to populate field IpTags")
 			}
 			ipTagList[ipTagIndex] = ipTag
 		}
@@ -1414,7 +1414,7 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_From_PublicIPPrefix_STATUS
 		var loadBalancerFrontendIpConfiguration SubResource_STATUS
 		err := loadBalancerFrontendIpConfiguration.AssignProperties_From_SubResource_STATUS(source.LoadBalancerFrontendIpConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field LoadBalancerFrontendIpConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field LoadBalancerFrontendIpConfiguration")
 		}
 		prefix.LoadBalancerFrontendIpConfiguration = &loadBalancerFrontendIpConfiguration
 	} else {
@@ -1432,7 +1432,7 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_From_PublicIPPrefix_STATUS
 		var natGateway NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded
 		err := natGateway.AssignProperties_From_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded(source.NatGateway)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded() to populate field NatGateway")
+			return eris.Wrap(err, "calling AssignProperties_From_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded() to populate field NatGateway")
 		}
 		prefix.NatGateway = &natGateway
 	} else {
@@ -1469,7 +1469,7 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_From_PublicIPPrefix_STATUS
 			var publicIPAddress ReferencedPublicIpAddress_STATUS
 			err := publicIPAddress.AssignProperties_From_ReferencedPublicIpAddress_STATUS(&publicIPAddressItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ReferencedPublicIpAddress_STATUS() to populate field PublicIPAddresses")
+				return eris.Wrap(err, "calling AssignProperties_From_ReferencedPublicIpAddress_STATUS() to populate field PublicIPAddresses")
 			}
 			publicIPAddressList[publicIPAddressIndex] = publicIPAddress
 		}
@@ -1486,7 +1486,7 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_From_PublicIPPrefix_STATUS
 		var sku PublicIPPrefixSku_STATUS
 		err := sku.AssignProperties_From_PublicIPPrefixSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PublicIPPrefixSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_PublicIPPrefixSku_STATUS() to populate field Sku")
 		}
 		prefix.Sku = &sku
 	} else {
@@ -1519,7 +1519,7 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_To_PublicIPPrefix_STATUS(d
 		var customIPPrefix storage.SubResource_STATUS
 		err := prefix.CustomIPPrefix.AssignProperties_To_SubResource_STATUS(&customIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field CustomIPPrefix")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field CustomIPPrefix")
 		}
 		destination.CustomIPPrefix = &customIPPrefix
 	} else {
@@ -1534,7 +1534,7 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_To_PublicIPPrefix_STATUS(d
 		var extendedLocation storage.ExtendedLocation_STATUS
 		err := prefix.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1556,7 +1556,7 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_To_PublicIPPrefix_STATUS(d
 			var ipTag storage.IpTag_STATUS
 			err := ipTagItem.AssignProperties_To_IpTag_STATUS(&ipTag)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpTag_STATUS() to populate field IpTags")
+				return eris.Wrap(err, "calling AssignProperties_To_IpTag_STATUS() to populate field IpTags")
 			}
 			ipTagList[ipTagIndex] = ipTag
 		}
@@ -1570,7 +1570,7 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_To_PublicIPPrefix_STATUS(d
 		var loadBalancerFrontendIpConfiguration storage.SubResource_STATUS
 		err := prefix.LoadBalancerFrontendIpConfiguration.AssignProperties_To_SubResource_STATUS(&loadBalancerFrontendIpConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field LoadBalancerFrontendIpConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field LoadBalancerFrontendIpConfiguration")
 		}
 		destination.LoadBalancerFrontendIpConfiguration = &loadBalancerFrontendIpConfiguration
 	} else {
@@ -1588,7 +1588,7 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_To_PublicIPPrefix_STATUS(d
 		var natGateway storage.NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded
 		err := prefix.NatGateway.AssignProperties_To_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded(&natGateway)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded() to populate field NatGateway")
+			return eris.Wrap(err, "calling AssignProperties_To_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded() to populate field NatGateway")
 		}
 		destination.NatGateway = &natGateway
 	} else {
@@ -1623,7 +1623,7 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_To_PublicIPPrefix_STATUS(d
 			var publicIPAddress storage.ReferencedPublicIpAddress_STATUS
 			err := publicIPAddressItem.AssignProperties_To_ReferencedPublicIpAddress_STATUS(&publicIPAddress)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ReferencedPublicIpAddress_STATUS() to populate field PublicIPAddresses")
+				return eris.Wrap(err, "calling AssignProperties_To_ReferencedPublicIpAddress_STATUS() to populate field PublicIPAddresses")
 			}
 			publicIPAddressList[publicIPAddressIndex] = publicIPAddress
 		}
@@ -1640,7 +1640,7 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_To_PublicIPPrefix_STATUS(d
 		var sku storage.PublicIPPrefixSku_STATUS
 		err := prefix.Sku.AssignProperties_To_PublicIPPrefixSku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PublicIPPrefixSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_PublicIPPrefixSku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {

@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -132,7 +132,7 @@ func (alert *MetricAlert) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st MetricAlert_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	alert.Status = st
@@ -203,7 +203,7 @@ var _ genruntime.ConvertibleSpec = &MetricAlert_Spec{}
 // ConvertSpecFrom populates our MetricAlert_Spec from the provided source
 func (alert *MetricAlert_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == alert {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(alert)
@@ -212,7 +212,7 @@ func (alert *MetricAlert_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 // ConvertSpecTo populates the provided destination from our MetricAlert_Spec
 func (alert *MetricAlert_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == alert {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(alert)
@@ -247,7 +247,7 @@ var _ genruntime.ConvertibleStatus = &MetricAlert_STATUS{}
 // ConvertStatusFrom populates our MetricAlert_STATUS from the provided source
 func (alert *MetricAlert_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == alert {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(alert)
@@ -256,7 +256,7 @@ func (alert *MetricAlert_STATUS) ConvertStatusFrom(source genruntime.Convertible
 // ConvertStatusTo populates the provided destination from our MetricAlert_STATUS
 func (alert *MetricAlert_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == alert {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(alert)

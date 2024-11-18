@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint) SetStatus(status genruntime
 	var st TrafficManagerProfilesAzureEndpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	endpoint.Status = st
@@ -309,7 +309,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint) AssignProperties_From_Traff
 	var spec TrafficManagerProfilesAzureEndpoint_Spec
 	err := spec.AssignProperties_From_TrafficManagerProfilesAzureEndpoint_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_TrafficManagerProfilesAzureEndpoint_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_TrafficManagerProfilesAzureEndpoint_Spec() to populate field Spec")
 	}
 	endpoint.Spec = spec
 
@@ -317,7 +317,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint) AssignProperties_From_Traff
 	var status TrafficManagerProfilesAzureEndpoint_STATUS
 	err = status.AssignProperties_From_TrafficManagerProfilesAzureEndpoint_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_TrafficManagerProfilesAzureEndpoint_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_TrafficManagerProfilesAzureEndpoint_STATUS() to populate field Status")
 	}
 	endpoint.Status = status
 
@@ -335,7 +335,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint) AssignProperties_To_Traffic
 	var spec storage.TrafficManagerProfilesAzureEndpoint_Spec
 	err := endpoint.Spec.AssignProperties_To_TrafficManagerProfilesAzureEndpoint_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_TrafficManagerProfilesAzureEndpoint_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_TrafficManagerProfilesAzureEndpoint_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint) AssignProperties_To_Traffic
 	var status storage.TrafficManagerProfilesAzureEndpoint_STATUS
 	err = endpoint.Status.AssignProperties_To_TrafficManagerProfilesAzureEndpoint_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_TrafficManagerProfilesAzureEndpoint_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_TrafficManagerProfilesAzureEndpoint_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -733,13 +733,13 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) ConvertSpecFrom(source
 	src = &storage.TrafficManagerProfilesAzureEndpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = endpoint.AssignProperties_From_TrafficManagerProfilesAzureEndpoint_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -757,13 +757,13 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) ConvertSpecTo(destinat
 	dst = &storage.TrafficManagerProfilesAzureEndpoint_Spec{}
 	err := endpoint.AssignProperties_To_TrafficManagerProfilesAzureEndpoint_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -793,7 +793,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) AssignProperties_From_
 			var customHeader EndpointProperties_CustomHeaders
 			err := customHeader.AssignProperties_From_EndpointProperties_CustomHeaders(&customHeaderItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EndpointProperties_CustomHeaders() to populate field CustomHeaders")
+				return eris.Wrap(err, "calling AssignProperties_From_EndpointProperties_CustomHeaders() to populate field CustomHeaders")
 			}
 			customHeaderList[customHeaderIndex] = customHeader
 		}
@@ -840,7 +840,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) AssignProperties_From_
 		var operatorSpec TrafficManagerProfilesAzureEndpointOperatorSpec
 		err := operatorSpec.AssignProperties_From_TrafficManagerProfilesAzureEndpointOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TrafficManagerProfilesAzureEndpointOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_TrafficManagerProfilesAzureEndpointOperatorSpec() to populate field OperatorSpec")
 		}
 		endpoint.OperatorSpec = &operatorSpec
 	} else {
@@ -867,7 +867,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) AssignProperties_From_
 			var subnet EndpointProperties_Subnets
 			err := subnet.AssignProperties_From_EndpointProperties_Subnets(&subnetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EndpointProperties_Subnets() to populate field Subnets")
+				return eris.Wrap(err, "calling AssignProperties_From_EndpointProperties_Subnets() to populate field Subnets")
 			}
 			subnetList[subnetIndex] = subnet
 		}
@@ -922,7 +922,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) AssignProperties_To_Tr
 			var customHeader storage.EndpointProperties_CustomHeaders
 			err := customHeaderItem.AssignProperties_To_EndpointProperties_CustomHeaders(&customHeader)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_CustomHeaders() to populate field CustomHeaders")
+				return eris.Wrap(err, "calling AssignProperties_To_EndpointProperties_CustomHeaders() to populate field CustomHeaders")
 			}
 			customHeaderList[customHeaderIndex] = customHeader
 		}
@@ -967,7 +967,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) AssignProperties_To_Tr
 		var operatorSpec storage.TrafficManagerProfilesAzureEndpointOperatorSpec
 		err := endpoint.OperatorSpec.AssignProperties_To_TrafficManagerProfilesAzureEndpointOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TrafficManagerProfilesAzureEndpointOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_TrafficManagerProfilesAzureEndpointOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -997,7 +997,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) AssignProperties_To_Tr
 			var subnet storage.EndpointProperties_Subnets
 			err := subnetItem.AssignProperties_To_EndpointProperties_Subnets(&subnet)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_Subnets() to populate field Subnets")
+				return eris.Wrap(err, "calling AssignProperties_To_EndpointProperties_Subnets() to populate field Subnets")
 			}
 			subnetList[subnetIndex] = subnet
 		}
@@ -1054,7 +1054,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) Initialize_From_Traffi
 			var customHeader EndpointProperties_CustomHeaders
 			err := customHeader.Initialize_From_EndpointProperties_CustomHeaders_STATUS(&customHeaderItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_EndpointProperties_CustomHeaders_STATUS() to populate field CustomHeaders")
+				return eris.Wrap(err, "calling Initialize_From_EndpointProperties_CustomHeaders_STATUS() to populate field CustomHeaders")
 			}
 			customHeaderList[customHeaderIndex] = customHeader
 		}
@@ -1106,7 +1106,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) Initialize_From_Traffi
 			var subnet EndpointProperties_Subnets
 			err := subnet.Initialize_From_EndpointProperties_Subnets_STATUS(&subnetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_EndpointProperties_Subnets_STATUS() to populate field Subnets")
+				return eris.Wrap(err, "calling Initialize_From_EndpointProperties_Subnets_STATUS() to populate field Subnets")
 			}
 			subnetList[subnetIndex] = subnet
 		}
@@ -1230,13 +1230,13 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_STATUS) ConvertStatusFrom(so
 	src = &storage.TrafficManagerProfilesAzureEndpoint_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = endpoint.AssignProperties_From_TrafficManagerProfilesAzureEndpoint_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1254,13 +1254,13 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_STATUS) ConvertStatusTo(dest
 	dst = &storage.TrafficManagerProfilesAzureEndpoint_STATUS{}
 	err := endpoint.AssignProperties_To_TrafficManagerProfilesAzureEndpoint_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1467,7 +1467,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_STATUS) AssignProperties_Fro
 			var customHeader EndpointProperties_CustomHeaders_STATUS
 			err := customHeader.AssignProperties_From_EndpointProperties_CustomHeaders_STATUS(&customHeaderItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EndpointProperties_CustomHeaders_STATUS() to populate field CustomHeaders")
+				return eris.Wrap(err, "calling AssignProperties_From_EndpointProperties_CustomHeaders_STATUS() to populate field CustomHeaders")
 			}
 			customHeaderList[customHeaderIndex] = customHeader
 		}
@@ -1527,7 +1527,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_STATUS) AssignProperties_Fro
 			var subnet EndpointProperties_Subnets_STATUS
 			err := subnet.AssignProperties_From_EndpointProperties_Subnets_STATUS(&subnetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EndpointProperties_Subnets_STATUS() to populate field Subnets")
+				return eris.Wrap(err, "calling AssignProperties_From_EndpointProperties_Subnets_STATUS() to populate field Subnets")
 			}
 			subnetList[subnetIndex] = subnet
 		}
@@ -1577,7 +1577,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_STATUS) AssignProperties_To_
 			var customHeader storage.EndpointProperties_CustomHeaders_STATUS
 			err := customHeaderItem.AssignProperties_To_EndpointProperties_CustomHeaders_STATUS(&customHeader)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_CustomHeaders_STATUS() to populate field CustomHeaders")
+				return eris.Wrap(err, "calling AssignProperties_To_EndpointProperties_CustomHeaders_STATUS() to populate field CustomHeaders")
 			}
 			customHeaderList[customHeaderIndex] = customHeader
 		}
@@ -1635,7 +1635,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint_STATUS) AssignProperties_To_
 			var subnet storage.EndpointProperties_Subnets_STATUS
 			err := subnetItem.AssignProperties_To_EndpointProperties_Subnets_STATUS(&subnet)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_Subnets_STATUS() to populate field Subnets")
+				return eris.Wrap(err, "calling AssignProperties_To_EndpointProperties_Subnets_STATUS() to populate field Subnets")
 			}
 			subnetList[subnetIndex] = subnet
 		}

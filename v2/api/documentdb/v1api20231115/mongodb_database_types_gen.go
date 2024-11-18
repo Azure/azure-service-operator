@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (database *MongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) 
 	var st MongodbDatabase_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	database.Status = st
@@ -309,7 +309,7 @@ func (database *MongodbDatabase) AssignProperties_From_MongodbDatabase(source *s
 	var spec MongodbDatabase_Spec
 	err := spec.AssignProperties_From_MongodbDatabase_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_MongodbDatabase_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_MongodbDatabase_Spec() to populate field Spec")
 	}
 	database.Spec = spec
 
@@ -317,7 +317,7 @@ func (database *MongodbDatabase) AssignProperties_From_MongodbDatabase(source *s
 	var status MongodbDatabase_STATUS
 	err = status.AssignProperties_From_MongodbDatabase_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_MongodbDatabase_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_MongodbDatabase_STATUS() to populate field Status")
 	}
 	database.Status = status
 
@@ -335,7 +335,7 @@ func (database *MongodbDatabase) AssignProperties_To_MongodbDatabase(destination
 	var spec storage.MongodbDatabase_Spec
 	err := database.Spec.AssignProperties_To_MongodbDatabase_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_MongodbDatabase_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_MongodbDatabase_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (database *MongodbDatabase) AssignProperties_To_MongodbDatabase(destination
 	var status storage.MongodbDatabase_STATUS
 	err = database.Status.AssignProperties_To_MongodbDatabase_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_MongodbDatabase_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_MongodbDatabase_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -530,13 +530,13 @@ func (database *MongodbDatabase_Spec) ConvertSpecFrom(source genruntime.Converti
 	src = &storage.MongodbDatabase_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = database.AssignProperties_From_MongodbDatabase_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -554,13 +554,13 @@ func (database *MongodbDatabase_Spec) ConvertSpecTo(destination genruntime.Conve
 	dst = &storage.MongodbDatabase_Spec{}
 	err := database.AssignProperties_To_MongodbDatabase_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -580,7 +580,7 @@ func (database *MongodbDatabase_Spec) AssignProperties_From_MongodbDatabase_Spec
 		var operatorSpec MongodbDatabaseOperatorSpec
 		err := operatorSpec.AssignProperties_From_MongodbDatabaseOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_MongodbDatabaseOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_MongodbDatabaseOperatorSpec() to populate field OperatorSpec")
 		}
 		database.OperatorSpec = &operatorSpec
 	} else {
@@ -592,7 +592,7 @@ func (database *MongodbDatabase_Spec) AssignProperties_From_MongodbDatabase_Spec
 		var option CreateUpdateOptions
 		err := option.AssignProperties_From_CreateUpdateOptions(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
+			return eris.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
 		}
 		database.Options = &option
 	} else {
@@ -612,7 +612,7 @@ func (database *MongodbDatabase_Spec) AssignProperties_From_MongodbDatabase_Spec
 		var resource MongoDBDatabaseResource
 		err := resource.AssignProperties_From_MongoDBDatabaseResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_MongoDBDatabaseResource() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_From_MongoDBDatabaseResource() to populate field Resource")
 		}
 		database.Resource = &resource
 	} else {
@@ -642,7 +642,7 @@ func (database *MongodbDatabase_Spec) AssignProperties_To_MongodbDatabase_Spec(d
 		var operatorSpec storage.MongodbDatabaseOperatorSpec
 		err := database.OperatorSpec.AssignProperties_To_MongodbDatabaseOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_MongodbDatabaseOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_MongodbDatabaseOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -654,7 +654,7 @@ func (database *MongodbDatabase_Spec) AssignProperties_To_MongodbDatabase_Spec(d
 		var option storage.CreateUpdateOptions
 		err := database.Options.AssignProperties_To_CreateUpdateOptions(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
+			return eris.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -677,7 +677,7 @@ func (database *MongodbDatabase_Spec) AssignProperties_To_MongodbDatabase_Spec(d
 		var resource storage.MongoDBDatabaseResource
 		err := database.Resource.AssignProperties_To_MongoDBDatabaseResource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_MongoDBDatabaseResource() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_To_MongoDBDatabaseResource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -709,7 +709,7 @@ func (database *MongodbDatabase_Spec) Initialize_From_MongodbDatabase_STATUS(sou
 		var option CreateUpdateOptions
 		err := option.Initialize_From_OptionsResource_STATUS(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_OptionsResource_STATUS() to populate field Options")
+			return eris.Wrap(err, "calling Initialize_From_OptionsResource_STATUS() to populate field Options")
 		}
 		database.Options = &option
 	} else {
@@ -721,7 +721,7 @@ func (database *MongodbDatabase_Spec) Initialize_From_MongodbDatabase_STATUS(sou
 		var resource MongoDBDatabaseResource
 		err := resource.Initialize_From_MongoDBDatabaseGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_MongoDBDatabaseGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling Initialize_From_MongoDBDatabaseGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		database.Resource = &resource
 	} else {
@@ -779,13 +779,13 @@ func (database *MongodbDatabase_STATUS) ConvertStatusFrom(source genruntime.Conv
 	src = &storage.MongodbDatabase_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = database.AssignProperties_From_MongodbDatabase_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -803,13 +803,13 @@ func (database *MongodbDatabase_STATUS) ConvertStatusTo(destination genruntime.C
 	dst = &storage.MongodbDatabase_STATUS{}
 	err := database.AssignProperties_To_MongodbDatabase_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -915,7 +915,7 @@ func (database *MongodbDatabase_STATUS) AssignProperties_From_MongodbDatabase_ST
 		var option OptionsResource_STATUS
 		err := option.AssignProperties_From_OptionsResource_STATUS(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_OptionsResource_STATUS() to populate field Options")
+			return eris.Wrap(err, "calling AssignProperties_From_OptionsResource_STATUS() to populate field Options")
 		}
 		database.Options = &option
 	} else {
@@ -927,7 +927,7 @@ func (database *MongodbDatabase_STATUS) AssignProperties_From_MongodbDatabase_ST
 		var resource MongoDBDatabaseGetProperties_Resource_STATUS
 		err := resource.AssignProperties_From_MongoDBDatabaseGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_MongoDBDatabaseGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_From_MongoDBDatabaseGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		database.Resource = &resource
 	} else {
@@ -966,7 +966,7 @@ func (database *MongodbDatabase_STATUS) AssignProperties_To_MongodbDatabase_STAT
 		var option storage.OptionsResource_STATUS
 		err := database.Options.AssignProperties_To_OptionsResource_STATUS(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_OptionsResource_STATUS() to populate field Options")
+			return eris.Wrap(err, "calling AssignProperties_To_OptionsResource_STATUS() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -978,7 +978,7 @@ func (database *MongodbDatabase_STATUS) AssignProperties_To_MongodbDatabase_STAT
 		var resource storage.MongoDBDatabaseGetProperties_Resource_STATUS
 		err := database.Resource.AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -1081,7 +1081,7 @@ func (options *CreateUpdateOptions) AssignProperties_From_CreateUpdateOptions(so
 		var autoscaleSetting AutoscaleSettings
 		err := autoscaleSetting.AssignProperties_From_AutoscaleSettings(source.AutoscaleSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoscaleSettings() to populate field AutoscaleSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoscaleSettings() to populate field AutoscaleSettings")
 		}
 		options.AutoscaleSettings = &autoscaleSetting
 	} else {
@@ -1105,7 +1105,7 @@ func (options *CreateUpdateOptions) AssignProperties_To_CreateUpdateOptions(dest
 		var autoscaleSetting storage.AutoscaleSettings
 		err := options.AutoscaleSettings.AssignProperties_To_AutoscaleSettings(&autoscaleSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoscaleSettings() to populate field AutoscaleSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoscaleSettings() to populate field AutoscaleSettings")
 		}
 		destination.AutoscaleSettings = &autoscaleSetting
 	} else {
@@ -1134,7 +1134,7 @@ func (options *CreateUpdateOptions) Initialize_From_OptionsResource_STATUS(sourc
 		var autoscaleSetting AutoscaleSettings
 		err := autoscaleSetting.Initialize_From_AutoscaleSettings_STATUS(source.AutoscaleSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoscaleSettings_STATUS() to populate field AutoscaleSettings")
+			return eris.Wrap(err, "calling Initialize_From_AutoscaleSettings_STATUS() to populate field AutoscaleSettings")
 		}
 		options.AutoscaleSettings = &autoscaleSetting
 	} else {
@@ -1252,7 +1252,7 @@ func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignProperties_F
 		var restoreParameter RestoreParametersBase_STATUS
 		err := restoreParameter.AssignProperties_From_RestoreParametersBase_STATUS(source.RestoreParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RestoreParametersBase_STATUS() to populate field RestoreParameters")
+			return eris.Wrap(err, "calling AssignProperties_From_RestoreParametersBase_STATUS() to populate field RestoreParameters")
 		}
 		resource.RestoreParameters = &restoreParameter
 	} else {
@@ -1298,7 +1298,7 @@ func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignProperties_T
 		var restoreParameter storage.RestoreParametersBase_STATUS
 		err := resource.RestoreParameters.AssignProperties_To_RestoreParametersBase_STATUS(&restoreParameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RestoreParametersBase_STATUS() to populate field RestoreParameters")
+			return eris.Wrap(err, "calling AssignProperties_To_RestoreParametersBase_STATUS() to populate field RestoreParameters")
 		}
 		destination.RestoreParameters = &restoreParameter
 	} else {
@@ -1540,7 +1540,7 @@ func (resource *MongoDBDatabaseResource) AssignProperties_From_MongoDBDatabaseRe
 		var restoreParameter RestoreParametersBase
 		err := restoreParameter.AssignProperties_From_RestoreParametersBase(source.RestoreParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RestoreParametersBase() to populate field RestoreParameters")
+			return eris.Wrap(err, "calling AssignProperties_From_RestoreParametersBase() to populate field RestoreParameters")
 		}
 		resource.RestoreParameters = &restoreParameter
 	} else {
@@ -1572,7 +1572,7 @@ func (resource *MongoDBDatabaseResource) AssignProperties_To_MongoDBDatabaseReso
 		var restoreParameter storage.RestoreParametersBase
 		err := resource.RestoreParameters.AssignProperties_To_RestoreParametersBase(&restoreParameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RestoreParametersBase() to populate field RestoreParameters")
+			return eris.Wrap(err, "calling AssignProperties_To_RestoreParametersBase() to populate field RestoreParameters")
 		}
 		destination.RestoreParameters = &restoreParameter
 	} else {
@@ -1609,7 +1609,7 @@ func (resource *MongoDBDatabaseResource) Initialize_From_MongoDBDatabaseGetPrope
 		var restoreParameter RestoreParametersBase
 		err := restoreParameter.Initialize_From_RestoreParametersBase_STATUS(source.RestoreParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RestoreParametersBase_STATUS() to populate field RestoreParameters")
+			return eris.Wrap(err, "calling Initialize_From_RestoreParametersBase_STATUS() to populate field RestoreParameters")
 		}
 		resource.RestoreParameters = &restoreParameter
 	} else {
@@ -1673,7 +1673,7 @@ func (resource *OptionsResource_STATUS) AssignProperties_From_OptionsResource_ST
 		var autoscaleSetting AutoscaleSettings_STATUS
 		err := autoscaleSetting.AssignProperties_From_AutoscaleSettings_STATUS(source.AutoscaleSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoscaleSettings_STATUS() to populate field AutoscaleSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoscaleSettings_STATUS() to populate field AutoscaleSettings")
 		}
 		resource.AutoscaleSettings = &autoscaleSetting
 	} else {
@@ -1697,7 +1697,7 @@ func (resource *OptionsResource_STATUS) AssignProperties_To_OptionsResource_STAT
 		var autoscaleSetting storage.AutoscaleSettings_STATUS
 		err := resource.AutoscaleSettings.AssignProperties_To_AutoscaleSettings_STATUS(&autoscaleSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoscaleSettings_STATUS() to populate field AutoscaleSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoscaleSettings_STATUS() to populate field AutoscaleSettings")
 		}
 		destination.AutoscaleSettings = &autoscaleSetting
 	} else {

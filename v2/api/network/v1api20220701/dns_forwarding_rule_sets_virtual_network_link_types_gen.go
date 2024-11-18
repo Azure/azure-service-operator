@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) SetStatus(status genruntime
 	var st DnsForwardingRuleSetsVirtualNetworkLink_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	link.Status = st
@@ -309,7 +309,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) AssignProperties_From_DnsFo
 	var spec DnsForwardingRuleSetsVirtualNetworkLink_Spec
 	err := spec.AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_Spec() to populate field Spec")
 	}
 	link.Spec = spec
 
@@ -317,7 +317,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) AssignProperties_From_DnsFo
 	var status DnsForwardingRuleSetsVirtualNetworkLink_STATUS
 	err = status.AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_STATUS() to populate field Status")
 	}
 	link.Status = status
 
@@ -335,7 +335,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) AssignProperties_To_DnsForw
 	var spec storage.DnsForwardingRuleSetsVirtualNetworkLink_Spec
 	err := link.Spec.AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) AssignProperties_To_DnsForw
 	var status storage.DnsForwardingRuleSetsVirtualNetworkLink_STATUS
 	err = link.Status.AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -492,13 +492,13 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) ConvertSpecFrom(source
 	src = &storage.DnsForwardingRuleSetsVirtualNetworkLink_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = link.AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -516,13 +516,13 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) ConvertSpecTo(destinat
 	dst = &storage.DnsForwardingRuleSetsVirtualNetworkLink_Spec{}
 	err := link.AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -542,7 +542,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) AssignProperties_From_
 		var operatorSpec DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec
 		err := operatorSpec.AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec() to populate field OperatorSpec")
 		}
 		link.OperatorSpec = &operatorSpec
 	} else {
@@ -562,7 +562,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) AssignProperties_From_
 		var virtualNetwork SubResource
 		err := virtualNetwork.AssignProperties_From_SubResource(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualNetwork")
 		}
 		link.VirtualNetwork = &virtualNetwork
 	} else {
@@ -589,7 +589,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) AssignProperties_To_Dn
 		var operatorSpec storage.DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec
 		err := link.OperatorSpec.AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -612,7 +612,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) AssignProperties_To_Dn
 		var virtualNetwork storage.SubResource
 		err := link.VirtualNetwork.AssignProperties_To_SubResource(&virtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualNetwork")
 		}
 		destination.VirtualNetwork = &virtualNetwork
 	} else {
@@ -641,7 +641,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) Initialize_From_DnsFor
 		var virtualNetwork SubResource
 		err := virtualNetwork.Initialize_From_SubResource_STATUS(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		link.VirtualNetwork = &virtualNetwork
 	} else {
@@ -707,13 +707,13 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) ConvertStatusFrom(so
 	src = &storage.DnsForwardingRuleSetsVirtualNetworkLink_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = link.AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -731,13 +731,13 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) ConvertStatusTo(dest
 	dst = &storage.DnsForwardingRuleSetsVirtualNetworkLink_STATUS{}
 	err := link.AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -866,7 +866,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) AssignProperties_Fro
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		link.SystemData = &systemDatum
 	} else {
@@ -881,7 +881,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) AssignProperties_Fro
 		var virtualNetwork SubResource_STATUS
 		err := virtualNetwork.AssignProperties_From_SubResource_STATUS(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		link.VirtualNetwork = &virtualNetwork
 	} else {
@@ -925,7 +925,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) AssignProperties_To_
 		var systemDatum storage.SystemData_STATUS
 		err := link.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -940,7 +940,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) AssignProperties_To_
 		var virtualNetwork storage.SubResource_STATUS
 		err := link.VirtualNetwork.AssignProperties_To_SubResource_STATUS(&virtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		destination.VirtualNetwork = &virtualNetwork
 	} else {

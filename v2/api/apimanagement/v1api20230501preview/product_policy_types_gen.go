@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -58,12 +58,12 @@ func (policy *ProductPolicy) ConvertFrom(hub conversion.Hub) error {
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = policy.AssignProperties_From_ProductPolicy(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to policy")
+		return eris.Wrap(err, "converting from source to policy")
 	}
 
 	return nil
@@ -75,11 +75,11 @@ func (policy *ProductPolicy) ConvertTo(hub conversion.Hub) error {
 	var destination storage.ProductPolicy
 	err := policy.AssignProperties_To_ProductPolicy(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from policy")
+		return eris.Wrap(err, "converting to destination from policy")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -186,7 +186,7 @@ func (policy *ProductPolicy) SetStatus(status genruntime.ConvertibleStatus) erro
 	var st ProductPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	policy.Status = st
@@ -306,7 +306,7 @@ func (policy *ProductPolicy) AssignProperties_From_ProductPolicy(source *storage
 	var spec ProductPolicy_Spec
 	err := spec.AssignProperties_From_ProductPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ProductPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ProductPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
@@ -314,7 +314,7 @@ func (policy *ProductPolicy) AssignProperties_From_ProductPolicy(source *storage
 	var status ProductPolicy_STATUS
 	err = status.AssignProperties_From_ProductPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ProductPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ProductPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -332,7 +332,7 @@ func (policy *ProductPolicy) AssignProperties_To_ProductPolicy(destination *stor
 	var spec storage.ProductPolicy_Spec
 	err := policy.Spec.AssignProperties_To_ProductPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ProductPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ProductPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -340,7 +340,7 @@ func (policy *ProductPolicy) AssignProperties_To_ProductPolicy(destination *stor
 	var status storage.ProductPolicy_STATUS
 	err = policy.Status.AssignProperties_To_ProductPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ProductPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ProductPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -473,13 +473,13 @@ func (policy *ProductPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleS
 	src = &storage.ProductPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_ProductPolicy_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -497,13 +497,13 @@ func (policy *ProductPolicy_Spec) ConvertSpecTo(destination genruntime.Convertib
 	dst = &storage.ProductPolicy_Spec{}
 	err := policy.AssignProperties_To_ProductPolicy_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -526,7 +526,7 @@ func (policy *ProductPolicy_Spec) AssignProperties_From_ProductPolicy_Spec(sourc
 		var operatorSpec ProductPolicyOperatorSpec
 		err := operatorSpec.AssignProperties_From_ProductPolicyOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ProductPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ProductPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		policy.OperatorSpec = &operatorSpec
 	} else {
@@ -566,7 +566,7 @@ func (policy *ProductPolicy_Spec) AssignProperties_To_ProductPolicy_Spec(destina
 		var operatorSpec storage.ProductPolicyOperatorSpec
 		err := policy.OperatorSpec.AssignProperties_To_ProductPolicyOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ProductPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ProductPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -638,13 +638,13 @@ func (policy *ProductPolicy_STATUS) ConvertStatusFrom(source genruntime.Converti
 	src = &storage.ProductPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_ProductPolicy_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -662,13 +662,13 @@ func (policy *ProductPolicy_STATUS) ConvertStatusTo(destination genruntime.Conve
 	dst = &storage.ProductPolicy_STATUS{}
 	err := policy.AssignProperties_To_ProductPolicy_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

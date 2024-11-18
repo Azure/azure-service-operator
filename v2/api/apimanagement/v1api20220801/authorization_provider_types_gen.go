@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (provider *AuthorizationProvider) SetStatus(status genruntime.ConvertibleSt
 	var st AuthorizationProvider_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	provider.Status = st
@@ -309,7 +309,7 @@ func (provider *AuthorizationProvider) AssignProperties_From_AuthorizationProvid
 	var spec AuthorizationProvider_Spec
 	err := spec.AssignProperties_From_AuthorizationProvider_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_AuthorizationProvider_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_AuthorizationProvider_Spec() to populate field Spec")
 	}
 	provider.Spec = spec
 
@@ -317,7 +317,7 @@ func (provider *AuthorizationProvider) AssignProperties_From_AuthorizationProvid
 	var status AuthorizationProvider_STATUS
 	err = status.AssignProperties_From_AuthorizationProvider_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_AuthorizationProvider_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_AuthorizationProvider_STATUS() to populate field Status")
 	}
 	provider.Status = status
 
@@ -335,7 +335,7 @@ func (provider *AuthorizationProvider) AssignProperties_To_AuthorizationProvider
 	var spec storage.AuthorizationProvider_Spec
 	err := provider.Spec.AssignProperties_To_AuthorizationProvider_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProvider_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_AuthorizationProvider_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (provider *AuthorizationProvider) AssignProperties_To_AuthorizationProvider
 	var status storage.AuthorizationProvider_STATUS
 	err = provider.Status.AssignProperties_To_AuthorizationProvider_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProvider_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_AuthorizationProvider_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -510,13 +510,13 @@ func (provider *AuthorizationProvider_Spec) ConvertSpecFrom(source genruntime.Co
 	src = &storage.AuthorizationProvider_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = provider.AssignProperties_From_AuthorizationProvider_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -534,13 +534,13 @@ func (provider *AuthorizationProvider_Spec) ConvertSpecTo(destination genruntime
 	dst = &storage.AuthorizationProvider_Spec{}
 	err := provider.AssignProperties_To_AuthorizationProvider_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -568,7 +568,7 @@ func (provider *AuthorizationProvider_Spec) AssignProperties_From_AuthorizationP
 		var oauth2 AuthorizationProviderOAuth2Settings
 		err := oauth2.AssignProperties_From_AuthorizationProviderOAuth2Settings(source.Oauth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AuthorizationProviderOAuth2Settings() to populate field Oauth2")
+			return eris.Wrap(err, "calling AssignProperties_From_AuthorizationProviderOAuth2Settings() to populate field Oauth2")
 		}
 		provider.Oauth2 = &oauth2
 	} else {
@@ -580,7 +580,7 @@ func (provider *AuthorizationProvider_Spec) AssignProperties_From_AuthorizationP
 		var operatorSpec AuthorizationProviderOperatorSpec
 		err := operatorSpec.AssignProperties_From_AuthorizationProviderOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AuthorizationProviderOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_AuthorizationProviderOperatorSpec() to populate field OperatorSpec")
 		}
 		provider.OperatorSpec = &operatorSpec
 	} else {
@@ -623,7 +623,7 @@ func (provider *AuthorizationProvider_Spec) AssignProperties_To_AuthorizationPro
 		var oauth2 storage.AuthorizationProviderOAuth2Settings
 		err := provider.Oauth2.AssignProperties_To_AuthorizationProviderOAuth2Settings(&oauth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOAuth2Settings() to populate field Oauth2")
+			return eris.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOAuth2Settings() to populate field Oauth2")
 		}
 		destination.Oauth2 = &oauth2
 	} else {
@@ -635,7 +635,7 @@ func (provider *AuthorizationProvider_Spec) AssignProperties_To_AuthorizationPro
 		var operatorSpec storage.AuthorizationProviderOperatorSpec
 		err := provider.OperatorSpec.AssignProperties_To_AuthorizationProviderOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -683,7 +683,7 @@ func (provider *AuthorizationProvider_Spec) Initialize_From_AuthorizationProvide
 		var oauth2 AuthorizationProviderOAuth2Settings
 		err := oauth2.Initialize_From_AuthorizationProviderOAuth2Settings_STATUS(source.Oauth2)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AuthorizationProviderOAuth2Settings_STATUS() to populate field Oauth2")
+			return eris.Wrap(err, "calling Initialize_From_AuthorizationProviderOAuth2Settings_STATUS() to populate field Oauth2")
 		}
 		provider.Oauth2 = &oauth2
 	} else {
@@ -742,13 +742,13 @@ func (provider *AuthorizationProvider_STATUS) ConvertStatusFrom(source genruntim
 	src = &storage.AuthorizationProvider_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = provider.AssignProperties_From_AuthorizationProvider_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -766,13 +766,13 @@ func (provider *AuthorizationProvider_STATUS) ConvertStatusTo(destination genrun
 	dst = &storage.AuthorizationProvider_STATUS{}
 	err := provider.AssignProperties_To_AuthorizationProvider_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -871,7 +871,7 @@ func (provider *AuthorizationProvider_STATUS) AssignProperties_From_Authorizatio
 		var oauth2 AuthorizationProviderOAuth2Settings_STATUS
 		err := oauth2.AssignProperties_From_AuthorizationProviderOAuth2Settings_STATUS(source.Oauth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AuthorizationProviderOAuth2Settings_STATUS() to populate field Oauth2")
+			return eris.Wrap(err, "calling AssignProperties_From_AuthorizationProviderOAuth2Settings_STATUS() to populate field Oauth2")
 		}
 		provider.Oauth2 = &oauth2
 	} else {
@@ -910,7 +910,7 @@ func (provider *AuthorizationProvider_STATUS) AssignProperties_To_AuthorizationP
 		var oauth2 storage.AuthorizationProviderOAuth2Settings_STATUS
 		err := provider.Oauth2.AssignProperties_To_AuthorizationProviderOAuth2Settings_STATUS(&oauth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOAuth2Settings_STATUS() to populate field Oauth2")
+			return eris.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOAuth2Settings_STATUS() to populate field Oauth2")
 		}
 		destination.Oauth2 = &oauth2
 	} else {
@@ -1008,7 +1008,7 @@ func (settings *AuthorizationProviderOAuth2Settings) AssignProperties_From_Autho
 		var grantType AuthorizationProviderOAuth2GrantTypes
 		err := grantType.AssignProperties_From_AuthorizationProviderOAuth2GrantTypes(source.GrantTypes)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AuthorizationProviderOAuth2GrantTypes() to populate field GrantTypes")
+			return eris.Wrap(err, "calling AssignProperties_From_AuthorizationProviderOAuth2GrantTypes() to populate field GrantTypes")
 		}
 		settings.GrantTypes = &grantType
 	} else {
@@ -1032,7 +1032,7 @@ func (settings *AuthorizationProviderOAuth2Settings) AssignProperties_To_Authori
 		var grantType storage.AuthorizationProviderOAuth2GrantTypes
 		err := settings.GrantTypes.AssignProperties_To_AuthorizationProviderOAuth2GrantTypes(&grantType)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOAuth2GrantTypes() to populate field GrantTypes")
+			return eris.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOAuth2GrantTypes() to populate field GrantTypes")
 		}
 		destination.GrantTypes = &grantType
 	} else {
@@ -1061,7 +1061,7 @@ func (settings *AuthorizationProviderOAuth2Settings) Initialize_From_Authorizati
 		var grantType AuthorizationProviderOAuth2GrantTypes
 		err := grantType.Initialize_From_AuthorizationProviderOAuth2GrantTypes_STATUS(source.GrantTypes)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AuthorizationProviderOAuth2GrantTypes_STATUS() to populate field GrantTypes")
+			return eris.Wrap(err, "calling Initialize_From_AuthorizationProviderOAuth2GrantTypes_STATUS() to populate field GrantTypes")
 		}
 		settings.GrantTypes = &grantType
 	} else {
@@ -1127,7 +1127,7 @@ func (settings *AuthorizationProviderOAuth2Settings_STATUS) AssignProperties_Fro
 		var grantType AuthorizationProviderOAuth2GrantTypes_STATUS
 		err := grantType.AssignProperties_From_AuthorizationProviderOAuth2GrantTypes_STATUS(source.GrantTypes)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AuthorizationProviderOAuth2GrantTypes_STATUS() to populate field GrantTypes")
+			return eris.Wrap(err, "calling AssignProperties_From_AuthorizationProviderOAuth2GrantTypes_STATUS() to populate field GrantTypes")
 		}
 		settings.GrantTypes = &grantType
 	} else {
@@ -1151,7 +1151,7 @@ func (settings *AuthorizationProviderOAuth2Settings_STATUS) AssignProperties_To_
 		var grantType storage.AuthorizationProviderOAuth2GrantTypes_STATUS
 		err := settings.GrantTypes.AssignProperties_To_AuthorizationProviderOAuth2GrantTypes_STATUS(&grantType)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOAuth2GrantTypes_STATUS() to populate field GrantTypes")
+			return eris.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOAuth2GrantTypes_STATUS() to populate field GrantTypes")
 		}
 		destination.GrantTypes = &grantType
 	} else {
@@ -1299,7 +1299,7 @@ func (types *AuthorizationProviderOAuth2GrantTypes) ConvertToARM(resolved genrun
 		var temp map[string]string
 		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*types.AuthorizationCode)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property temp")
+			return nil, eris.Wrap(err, "looking up secret for property temp")
 		}
 		temp = tempSecret
 		result.AuthorizationCode = temp
@@ -1310,7 +1310,7 @@ func (types *AuthorizationProviderOAuth2GrantTypes) ConvertToARM(resolved genrun
 		var temp map[string]string
 		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*types.ClientCredentials)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property temp")
+			return nil, eris.Wrap(err, "looking up secret for property temp")
 		}
 		temp = tempSecret
 		result.ClientCredentials = temp

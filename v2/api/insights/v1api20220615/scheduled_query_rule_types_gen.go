@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (rule *ScheduledQueryRule) SetStatus(status genruntime.ConvertibleStatus) e
 	var st ScheduledQueryRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	rule.Status = st
@@ -309,7 +309,7 @@ func (rule *ScheduledQueryRule) AssignProperties_From_ScheduledQueryRule(source 
 	var spec ScheduledQueryRule_Spec
 	err := spec.AssignProperties_From_ScheduledQueryRule_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ScheduledQueryRule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ScheduledQueryRule_Spec() to populate field Spec")
 	}
 	rule.Spec = spec
 
@@ -317,7 +317,7 @@ func (rule *ScheduledQueryRule) AssignProperties_From_ScheduledQueryRule(source 
 	var status ScheduledQueryRule_STATUS
 	err = status.AssignProperties_From_ScheduledQueryRule_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ScheduledQueryRule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ScheduledQueryRule_STATUS() to populate field Status")
 	}
 	rule.Status = status
 
@@ -335,7 +335,7 @@ func (rule *ScheduledQueryRule) AssignProperties_To_ScheduledQueryRule(destinati
 	var spec storage.ScheduledQueryRule_Spec
 	err := rule.Spec.AssignProperties_To_ScheduledQueryRule_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ScheduledQueryRule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ScheduledQueryRule_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (rule *ScheduledQueryRule) AssignProperties_To_ScheduledQueryRule(destinati
 	var status storage.ScheduledQueryRule_STATUS
 	err = rule.Status.AssignProperties_To_ScheduledQueryRule_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ScheduledQueryRule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ScheduledQueryRule_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -787,13 +787,13 @@ func (rule *ScheduledQueryRule_Spec) ConvertSpecFrom(source genruntime.Convertib
 	src = &storage.ScheduledQueryRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = rule.AssignProperties_From_ScheduledQueryRule_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -811,13 +811,13 @@ func (rule *ScheduledQueryRule_Spec) ConvertSpecTo(destination genruntime.Conver
 	dst = &storage.ScheduledQueryRule_Spec{}
 	err := rule.AssignProperties_To_ScheduledQueryRule_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -831,7 +831,7 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_From_ScheduledQueryRule_Sp
 		var action Actions
 		err := action.AssignProperties_From_Actions(source.Actions)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Actions() to populate field Actions")
+			return eris.Wrap(err, "calling AssignProperties_From_Actions() to populate field Actions")
 		}
 		rule.Actions = &action
 	} else {
@@ -862,7 +862,7 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_From_ScheduledQueryRule_Sp
 		var criterion ScheduledQueryRuleCriteria
 		err := criterion.AssignProperties_From_ScheduledQueryRuleCriteria(source.Criteria)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScheduledQueryRuleCriteria() to populate field Criteria")
+			return eris.Wrap(err, "calling AssignProperties_From_ScheduledQueryRuleCriteria() to populate field Criteria")
 		}
 		rule.Criteria = &criterion
 	} else {
@@ -906,7 +906,7 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_From_ScheduledQueryRule_Sp
 		var operatorSpec ScheduledQueryRuleOperatorSpec
 		err := operatorSpec.AssignProperties_From_ScheduledQueryRuleOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScheduledQueryRuleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ScheduledQueryRuleOperatorSpec() to populate field OperatorSpec")
 		}
 		rule.OperatorSpec = &operatorSpec
 	} else {
@@ -976,7 +976,7 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_To_ScheduledQueryRule_Spec
 		var action storage.Actions
 		err := rule.Actions.AssignProperties_To_Actions(&action)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Actions() to populate field Actions")
+			return eris.Wrap(err, "calling AssignProperties_To_Actions() to populate field Actions")
 		}
 		destination.Actions = &action
 	} else {
@@ -1007,7 +1007,7 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_To_ScheduledQueryRule_Spec
 		var criterion storage.ScheduledQueryRuleCriteria
 		err := rule.Criteria.AssignProperties_To_ScheduledQueryRuleCriteria(&criterion)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScheduledQueryRuleCriteria() to populate field Criteria")
+			return eris.Wrap(err, "calling AssignProperties_To_ScheduledQueryRuleCriteria() to populate field Criteria")
 		}
 		destination.Criteria = &criterion
 	} else {
@@ -1050,7 +1050,7 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_To_ScheduledQueryRule_Spec
 		var operatorSpec storage.ScheduledQueryRuleOperatorSpec
 		err := rule.OperatorSpec.AssignProperties_To_ScheduledQueryRuleOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScheduledQueryRuleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ScheduledQueryRuleOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -1128,7 +1128,7 @@ func (rule *ScheduledQueryRule_Spec) Initialize_From_ScheduledQueryRule_STATUS(s
 		var action Actions
 		err := action.Initialize_From_Actions_STATUS(source.Actions)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Actions_STATUS() to populate field Actions")
+			return eris.Wrap(err, "calling Initialize_From_Actions_STATUS() to populate field Actions")
 		}
 		rule.Actions = &action
 	} else {
@@ -1156,7 +1156,7 @@ func (rule *ScheduledQueryRule_Spec) Initialize_From_ScheduledQueryRule_STATUS(s
 		var criterion ScheduledQueryRuleCriteria
 		err := criterion.Initialize_From_ScheduledQueryRuleCriteria_STATUS(source.Criteria)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScheduledQueryRuleCriteria_STATUS() to populate field Criteria")
+			return eris.Wrap(err, "calling Initialize_From_ScheduledQueryRuleCriteria_STATUS() to populate field Criteria")
 		}
 		rule.Criteria = &criterion
 	} else {
@@ -1347,13 +1347,13 @@ func (rule *ScheduledQueryRule_STATUS) ConvertStatusFrom(source genruntime.Conve
 	src = &storage.ScheduledQueryRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = rule.AssignProperties_From_ScheduledQueryRule_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1371,13 +1371,13 @@ func (rule *ScheduledQueryRule_STATUS) ConvertStatusTo(destination genruntime.Co
 	dst = &storage.ScheduledQueryRule_STATUS{}
 	err := rule.AssignProperties_To_ScheduledQueryRule_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1640,7 +1640,7 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_
 		var action Actions_STATUS
 		err := action.AssignProperties_From_Actions_STATUS(source.Actions)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Actions_STATUS() to populate field Actions")
+			return eris.Wrap(err, "calling AssignProperties_From_Actions_STATUS() to populate field Actions")
 		}
 		rule.Actions = &action
 	} else {
@@ -1674,7 +1674,7 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_
 		var criterion ScheduledQueryRuleCriteria_STATUS
 		err := criterion.AssignProperties_From_ScheduledQueryRuleCriteria_STATUS(source.Criteria)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScheduledQueryRuleCriteria_STATUS() to populate field Criteria")
+			return eris.Wrap(err, "calling AssignProperties_From_ScheduledQueryRuleCriteria_STATUS() to populate field Criteria")
 		}
 		rule.Criteria = &criterion
 	} else {
@@ -1765,7 +1765,7 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		rule.SystemData = &systemDatum
 	} else {
@@ -1798,7 +1798,7 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_To_ScheduledQueryRule_ST
 		var action storage.Actions_STATUS
 		err := rule.Actions.AssignProperties_To_Actions_STATUS(&action)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Actions_STATUS() to populate field Actions")
+			return eris.Wrap(err, "calling AssignProperties_To_Actions_STATUS() to populate field Actions")
 		}
 		destination.Actions = &action
 	} else {
@@ -1832,7 +1832,7 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_To_ScheduledQueryRule_ST
 		var criterion storage.ScheduledQueryRuleCriteria_STATUS
 		err := rule.Criteria.AssignProperties_To_ScheduledQueryRuleCriteria_STATUS(&criterion)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScheduledQueryRuleCriteria_STATUS() to populate field Criteria")
+			return eris.Wrap(err, "calling AssignProperties_To_ScheduledQueryRuleCriteria_STATUS() to populate field Criteria")
 		}
 		destination.Criteria = &criterion
 	} else {
@@ -1922,7 +1922,7 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_To_ScheduledQueryRule_ST
 		var systemDatum storage.SystemData_STATUS
 		err := rule.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -2246,7 +2246,7 @@ func (criteria *ScheduledQueryRuleCriteria) AssignProperties_From_ScheduledQuery
 			var allOf Condition
 			err := allOf.AssignProperties_From_Condition(&allOfItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Condition() to populate field AllOf")
+				return eris.Wrap(err, "calling AssignProperties_From_Condition() to populate field AllOf")
 			}
 			allOfList[allOfIndex] = allOf
 		}
@@ -2273,7 +2273,7 @@ func (criteria *ScheduledQueryRuleCriteria) AssignProperties_To_ScheduledQueryRu
 			var allOf storage.Condition
 			err := allOfItem.AssignProperties_To_Condition(&allOf)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Condition() to populate field AllOf")
+				return eris.Wrap(err, "calling AssignProperties_To_Condition() to populate field AllOf")
 			}
 			allOfList[allOfIndex] = allOf
 		}
@@ -2305,7 +2305,7 @@ func (criteria *ScheduledQueryRuleCriteria) Initialize_From_ScheduledQueryRuleCr
 			var allOf Condition
 			err := allOf.Initialize_From_Condition_STATUS(&allOfItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_Condition_STATUS() to populate field AllOf")
+				return eris.Wrap(err, "calling Initialize_From_Condition_STATUS() to populate field AllOf")
 			}
 			allOfList[allOfIndex] = allOf
 		}
@@ -2364,7 +2364,7 @@ func (criteria *ScheduledQueryRuleCriteria_STATUS) AssignProperties_From_Schedul
 			var allOf Condition_STATUS
 			err := allOf.AssignProperties_From_Condition_STATUS(&allOfItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Condition_STATUS() to populate field AllOf")
+				return eris.Wrap(err, "calling AssignProperties_From_Condition_STATUS() to populate field AllOf")
 			}
 			allOfList[allOfIndex] = allOf
 		}
@@ -2391,7 +2391,7 @@ func (criteria *ScheduledQueryRuleCriteria_STATUS) AssignProperties_To_Scheduled
 			var allOf storage.Condition_STATUS
 			err := allOfItem.AssignProperties_To_Condition_STATUS(&allOf)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Condition_STATUS() to populate field AllOf")
+				return eris.Wrap(err, "calling AssignProperties_To_Condition_STATUS() to populate field AllOf")
 			}
 			allOfList[allOfIndex] = allOf
 		}
@@ -2900,7 +2900,7 @@ func (condition *Condition) AssignProperties_From_Condition(source *storage.Cond
 			var dimension Dimension
 			err := dimension.AssignProperties_From_Dimension(&dimensionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Dimension() to populate field Dimensions")
+				return eris.Wrap(err, "calling AssignProperties_From_Dimension() to populate field Dimensions")
 			}
 			dimensionList[dimensionIndex] = dimension
 		}
@@ -2914,7 +2914,7 @@ func (condition *Condition) AssignProperties_From_Condition(source *storage.Cond
 		var failingPeriod Condition_FailingPeriods
 		err := failingPeriod.AssignProperties_From_Condition_FailingPeriods(source.FailingPeriods)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Condition_FailingPeriods() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_From_Condition_FailingPeriods() to populate field FailingPeriods")
 		}
 		condition.FailingPeriods = &failingPeriod
 	} else {
@@ -2982,7 +2982,7 @@ func (condition *Condition) AssignProperties_To_Condition(destination *storage.C
 			var dimension storage.Dimension
 			err := dimensionItem.AssignProperties_To_Dimension(&dimension)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Dimension() to populate field Dimensions")
+				return eris.Wrap(err, "calling AssignProperties_To_Dimension() to populate field Dimensions")
 			}
 			dimensionList[dimensionIndex] = dimension
 		}
@@ -2996,7 +2996,7 @@ func (condition *Condition) AssignProperties_To_Condition(destination *storage.C
 		var failingPeriod storage.Condition_FailingPeriods
 		err := condition.FailingPeriods.AssignProperties_To_Condition_FailingPeriods(&failingPeriod)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Condition_FailingPeriods() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_To_Condition_FailingPeriods() to populate field FailingPeriods")
 		}
 		destination.FailingPeriods = &failingPeriod
 	} else {
@@ -3067,7 +3067,7 @@ func (condition *Condition) Initialize_From_Condition_STATUS(source *Condition_S
 			var dimension Dimension
 			err := dimension.Initialize_From_Dimension_STATUS(&dimensionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_Dimension_STATUS() to populate field Dimensions")
+				return eris.Wrap(err, "calling Initialize_From_Dimension_STATUS() to populate field Dimensions")
 			}
 			dimensionList[dimensionIndex] = dimension
 		}
@@ -3081,7 +3081,7 @@ func (condition *Condition) Initialize_From_Condition_STATUS(source *Condition_S
 		var failingPeriod Condition_FailingPeriods
 		err := failingPeriod.Initialize_From_Condition_FailingPeriods_STATUS(source.FailingPeriods)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling Initialize_From_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
 		}
 		condition.FailingPeriods = &failingPeriod
 	} else {
@@ -3255,7 +3255,7 @@ func (condition *Condition_STATUS) AssignProperties_From_Condition_STATUS(source
 			var dimension Dimension_STATUS
 			err := dimension.AssignProperties_From_Dimension_STATUS(&dimensionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Dimension_STATUS() to populate field Dimensions")
+				return eris.Wrap(err, "calling AssignProperties_From_Dimension_STATUS() to populate field Dimensions")
 			}
 			dimensionList[dimensionIndex] = dimension
 		}
@@ -3269,7 +3269,7 @@ func (condition *Condition_STATUS) AssignProperties_From_Condition_STATUS(source
 		var failingPeriod Condition_FailingPeriods_STATUS
 		err := failingPeriod.AssignProperties_From_Condition_FailingPeriods_STATUS(source.FailingPeriods)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_From_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
 		}
 		condition.FailingPeriods = &failingPeriod
 	} else {
@@ -3332,7 +3332,7 @@ func (condition *Condition_STATUS) AssignProperties_To_Condition_STATUS(destinat
 			var dimension storage.Dimension_STATUS
 			err := dimensionItem.AssignProperties_To_Dimension_STATUS(&dimension)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Dimension_STATUS() to populate field Dimensions")
+				return eris.Wrap(err, "calling AssignProperties_To_Dimension_STATUS() to populate field Dimensions")
 			}
 			dimensionList[dimensionIndex] = dimension
 		}
@@ -3346,7 +3346,7 @@ func (condition *Condition_STATUS) AssignProperties_To_Condition_STATUS(destinat
 		var failingPeriod storage.Condition_FailingPeriods_STATUS
 		err := condition.FailingPeriods.AssignProperties_To_Condition_FailingPeriods_STATUS(&failingPeriod)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_To_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
 		}
 		destination.FailingPeriods = &failingPeriod
 	} else {

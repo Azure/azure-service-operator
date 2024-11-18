@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (zone *DnsZone) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st DnsZone_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	zone.Status = st
@@ -309,7 +309,7 @@ func (zone *DnsZone) AssignProperties_From_DnsZone(source *storage.DnsZone) erro
 	var spec DnsZone_Spec
 	err := spec.AssignProperties_From_DnsZone_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsZone_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_DnsZone_Spec() to populate field Spec")
 	}
 	zone.Spec = spec
 
@@ -317,7 +317,7 @@ func (zone *DnsZone) AssignProperties_From_DnsZone(source *storage.DnsZone) erro
 	var status DnsZone_STATUS
 	err = status.AssignProperties_From_DnsZone_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsZone_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_DnsZone_STATUS() to populate field Status")
 	}
 	zone.Status = status
 
@@ -335,7 +335,7 @@ func (zone *DnsZone) AssignProperties_To_DnsZone(destination *storage.DnsZone) e
 	var spec storage.DnsZone_Spec
 	err := zone.Spec.AssignProperties_To_DnsZone_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsZone_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_DnsZone_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (zone *DnsZone) AssignProperties_To_DnsZone(destination *storage.DnsZone) e
 	var status storage.DnsZone_STATUS
 	err = zone.Status.AssignProperties_To_DnsZone_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsZone_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_DnsZone_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -556,13 +556,13 @@ func (zone *DnsZone_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) err
 	src = &storage.DnsZone_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = zone.AssignProperties_From_DnsZone_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -580,13 +580,13 @@ func (zone *DnsZone_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) 
 	dst = &storage.DnsZone_Spec{}
 	err := zone.AssignProperties_To_DnsZone_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -606,7 +606,7 @@ func (zone *DnsZone_Spec) AssignProperties_From_DnsZone_Spec(source *storage.Dns
 		var operatorSpec DnsZoneOperatorSpec
 		err := operatorSpec.AssignProperties_From_DnsZoneOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DnsZoneOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_DnsZoneOperatorSpec() to populate field OperatorSpec")
 		}
 		zone.OperatorSpec = &operatorSpec
 	} else {
@@ -630,7 +630,7 @@ func (zone *DnsZone_Spec) AssignProperties_From_DnsZone_Spec(source *storage.Dns
 			var registrationVirtualNetwork SubResource
 			err := registrationVirtualNetwork.AssignProperties_From_SubResource(&registrationVirtualNetworkItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field RegistrationVirtualNetworks")
+				return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field RegistrationVirtualNetworks")
 			}
 			registrationVirtualNetworkList[registrationVirtualNetworkIndex] = registrationVirtualNetwork
 		}
@@ -648,7 +648,7 @@ func (zone *DnsZone_Spec) AssignProperties_From_DnsZone_Spec(source *storage.Dns
 			var resolutionVirtualNetwork SubResource
 			err := resolutionVirtualNetwork.AssignProperties_From_SubResource(&resolutionVirtualNetworkItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ResolutionVirtualNetworks")
+				return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ResolutionVirtualNetworks")
 			}
 			resolutionVirtualNetworkList[resolutionVirtualNetworkIndex] = resolutionVirtualNetwork
 		}
@@ -689,7 +689,7 @@ func (zone *DnsZone_Spec) AssignProperties_To_DnsZone_Spec(destination *storage.
 		var operatorSpec storage.DnsZoneOperatorSpec
 		err := zone.OperatorSpec.AssignProperties_To_DnsZoneOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DnsZoneOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_DnsZoneOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -716,7 +716,7 @@ func (zone *DnsZone_Spec) AssignProperties_To_DnsZone_Spec(destination *storage.
 			var registrationVirtualNetwork storage.SubResource
 			err := registrationVirtualNetworkItem.AssignProperties_To_SubResource(&registrationVirtualNetwork)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field RegistrationVirtualNetworks")
+				return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field RegistrationVirtualNetworks")
 			}
 			registrationVirtualNetworkList[registrationVirtualNetworkIndex] = registrationVirtualNetwork
 		}
@@ -734,7 +734,7 @@ func (zone *DnsZone_Spec) AssignProperties_To_DnsZone_Spec(destination *storage.
 			var resolutionVirtualNetwork storage.SubResource
 			err := resolutionVirtualNetworkItem.AssignProperties_To_SubResource(&resolutionVirtualNetwork)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ResolutionVirtualNetworks")
+				return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ResolutionVirtualNetworks")
 			}
 			resolutionVirtualNetworkList[resolutionVirtualNetworkIndex] = resolutionVirtualNetwork
 		}
@@ -780,7 +780,7 @@ func (zone *DnsZone_Spec) Initialize_From_DnsZone_STATUS(source *DnsZone_STATUS)
 			var registrationVirtualNetwork SubResource
 			err := registrationVirtualNetwork.Initialize_From_SubResource_STATUS(&registrationVirtualNetworkItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field RegistrationVirtualNetworks")
+				return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field RegistrationVirtualNetworks")
 			}
 			registrationVirtualNetworkList[registrationVirtualNetworkIndex] = registrationVirtualNetwork
 		}
@@ -798,7 +798,7 @@ func (zone *DnsZone_Spec) Initialize_From_DnsZone_STATUS(source *DnsZone_STATUS)
 			var resolutionVirtualNetwork SubResource
 			err := resolutionVirtualNetwork.Initialize_From_SubResource_STATUS(&resolutionVirtualNetworkItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field ResolutionVirtualNetworks")
+				return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field ResolutionVirtualNetworks")
 			}
 			resolutionVirtualNetworkList[resolutionVirtualNetworkIndex] = resolutionVirtualNetwork
 		}
@@ -894,13 +894,13 @@ func (zone *DnsZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatu
 	src = &storage.DnsZone_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = zone.AssignProperties_From_DnsZone_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -918,13 +918,13 @@ func (zone *DnsZone_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSt
 	dst = &storage.DnsZone_STATUS{}
 	err := zone.AssignProperties_To_DnsZone_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1099,7 +1099,7 @@ func (zone *DnsZone_STATUS) AssignProperties_From_DnsZone_STATUS(source *storage
 			var registrationVirtualNetwork SubResource_STATUS
 			err := registrationVirtualNetwork.AssignProperties_From_SubResource_STATUS(&registrationVirtualNetworkItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field RegistrationVirtualNetworks")
+				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field RegistrationVirtualNetworks")
 			}
 			registrationVirtualNetworkList[registrationVirtualNetworkIndex] = registrationVirtualNetwork
 		}
@@ -1117,7 +1117,7 @@ func (zone *DnsZone_STATUS) AssignProperties_From_DnsZone_STATUS(source *storage
 			var resolutionVirtualNetwork SubResource_STATUS
 			err := resolutionVirtualNetwork.AssignProperties_From_SubResource_STATUS(&resolutionVirtualNetworkItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field ResolutionVirtualNetworks")
+				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field ResolutionVirtualNetworks")
 			}
 			resolutionVirtualNetworkList[resolutionVirtualNetworkIndex] = resolutionVirtualNetwork
 		}
@@ -1186,7 +1186,7 @@ func (zone *DnsZone_STATUS) AssignProperties_To_DnsZone_STATUS(destination *stor
 			var registrationVirtualNetwork storage.SubResource_STATUS
 			err := registrationVirtualNetworkItem.AssignProperties_To_SubResource_STATUS(&registrationVirtualNetwork)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field RegistrationVirtualNetworks")
+				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field RegistrationVirtualNetworks")
 			}
 			registrationVirtualNetworkList[registrationVirtualNetworkIndex] = registrationVirtualNetwork
 		}
@@ -1204,7 +1204,7 @@ func (zone *DnsZone_STATUS) AssignProperties_To_DnsZone_STATUS(destination *stor
 			var resolutionVirtualNetwork storage.SubResource_STATUS
 			err := resolutionVirtualNetworkItem.AssignProperties_To_SubResource_STATUS(&resolutionVirtualNetwork)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field ResolutionVirtualNetworks")
+				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field ResolutionVirtualNetworks")
 			}
 			resolutionVirtualNetworkList[resolutionVirtualNetworkIndex] = resolutionVirtualNetwork
 		}

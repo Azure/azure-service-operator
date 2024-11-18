@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -182,7 +182,7 @@ func (administrator *ServersAdministrator) SetStatus(status genruntime.Convertib
 	var st ServersAdministrator_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	administrator.Status = st
@@ -314,7 +314,7 @@ func (administrator *ServersAdministrator) AssignProperties_From_ServersAdminist
 	var spec ServersAdministrator_Spec
 	err := spec.AssignProperties_From_ServersAdministrator_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersAdministrator_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersAdministrator_Spec() to populate field Spec")
 	}
 	administrator.Spec = spec
 
@@ -322,7 +322,7 @@ func (administrator *ServersAdministrator) AssignProperties_From_ServersAdminist
 	var status ServersAdministrator_STATUS
 	err = status.AssignProperties_From_ServersAdministrator_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersAdministrator_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersAdministrator_STATUS() to populate field Status")
 	}
 	administrator.Status = status
 
@@ -340,7 +340,7 @@ func (administrator *ServersAdministrator) AssignProperties_To_ServersAdministra
 	var spec storage.ServersAdministrator_Spec
 	err := administrator.Spec.AssignProperties_To_ServersAdministrator_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersAdministrator_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersAdministrator_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -348,7 +348,7 @@ func (administrator *ServersAdministrator) AssignProperties_To_ServersAdministra
 	var status storage.ServersAdministrator_STATUS
 	err = administrator.Status.AssignProperties_To_ServersAdministrator_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersAdministrator_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersAdministrator_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -447,7 +447,7 @@ func (administrator *ServersAdministrator_Spec) ConvertToARM(resolved genruntime
 	if administrator.SidFromConfig != nil {
 		sidValue, err := resolved.ResolvedConfigMaps.Lookup(*administrator.SidFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property Sid")
+			return nil, eris.Wrap(err, "looking up configmap for property Sid")
 		}
 		sid := sidValue
 		result.Properties.Sid = &sid
@@ -459,7 +459,7 @@ func (administrator *ServersAdministrator_Spec) ConvertToARM(resolved genruntime
 	if administrator.TenantIdFromConfig != nil {
 		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*administrator.TenantIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+			return nil, eris.Wrap(err, "looking up configmap for property TenantId")
 		}
 		tenantId := tenantIdValue
 		result.Properties.TenantId = &tenantId
@@ -547,13 +547,13 @@ func (administrator *ServersAdministrator_Spec) ConvertSpecFrom(source genruntim
 	src = &storage.ServersAdministrator_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = administrator.AssignProperties_From_ServersAdministrator_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -571,13 +571,13 @@ func (administrator *ServersAdministrator_Spec) ConvertSpecTo(destination genrun
 	dst = &storage.ServersAdministrator_Spec{}
 	err := administrator.AssignProperties_To_ServersAdministrator_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -603,7 +603,7 @@ func (administrator *ServersAdministrator_Spec) AssignProperties_From_ServersAdm
 		var operatorSpec ServersAdministratorOperatorSpec
 		err := operatorSpec.AssignProperties_From_ServersAdministratorOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServersAdministratorOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ServersAdministratorOperatorSpec() to populate field OperatorSpec")
 		}
 		administrator.OperatorSpec = &operatorSpec
 	} else {
@@ -675,7 +675,7 @@ func (administrator *ServersAdministrator_Spec) AssignProperties_To_ServersAdmin
 		var operatorSpec storage.ServersAdministratorOperatorSpec
 		err := administrator.OperatorSpec.AssignProperties_To_ServersAdministratorOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServersAdministratorOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ServersAdministratorOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -818,13 +818,13 @@ func (administrator *ServersAdministrator_STATUS) ConvertStatusFrom(source genru
 	src = &storage.ServersAdministrator_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = administrator.AssignProperties_From_ServersAdministrator_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -842,13 +842,13 @@ func (administrator *ServersAdministrator_STATUS) ConvertStatusTo(destination ge
 	dst = &storage.ServersAdministrator_STATUS{}
 	err := administrator.AssignProperties_To_ServersAdministrator_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (setting *AutoscaleSetting) SetStatus(status genruntime.ConvertibleStatus) 
 	var st Autoscalesetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	setting.Status = st
@@ -309,7 +309,7 @@ func (setting *AutoscaleSetting) AssignProperties_From_AutoscaleSetting(source *
 	var spec AutoscaleSetting_Spec
 	err := spec.AssignProperties_From_AutoscaleSetting_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_AutoscaleSetting_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_AutoscaleSetting_Spec() to populate field Spec")
 	}
 	setting.Spec = spec
 
@@ -317,7 +317,7 @@ func (setting *AutoscaleSetting) AssignProperties_From_AutoscaleSetting(source *
 	var status Autoscalesetting_STATUS
 	err = status.AssignProperties_From_Autoscalesetting_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Autoscalesetting_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Autoscalesetting_STATUS() to populate field Status")
 	}
 	setting.Status = status
 
@@ -335,7 +335,7 @@ func (setting *AutoscaleSetting) AssignProperties_To_AutoscaleSetting(destinatio
 	var spec storage.AutoscaleSetting_Spec
 	err := setting.Spec.AssignProperties_To_AutoscaleSetting_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_AutoscaleSetting_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_AutoscaleSetting_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (setting *AutoscaleSetting) AssignProperties_To_AutoscaleSetting(destinatio
 	var status storage.Autoscalesetting_STATUS
 	err = setting.Status.AssignProperties_To_Autoscalesetting_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Autoscalesetting_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Autoscalesetting_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -629,13 +629,13 @@ func (setting *AutoscaleSetting_Spec) ConvertSpecFrom(source genruntime.Converti
 	src = &storage.AutoscaleSetting_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = setting.AssignProperties_From_AutoscaleSetting_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -653,13 +653,13 @@ func (setting *AutoscaleSetting_Spec) ConvertSpecTo(destination genruntime.Conve
 	dst = &storage.AutoscaleSetting_Spec{}
 	err := setting.AssignProperties_To_AutoscaleSetting_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -694,7 +694,7 @@ func (setting *AutoscaleSetting_Spec) AssignProperties_From_AutoscaleSetting_Spe
 			var notification AutoscaleNotification
 			err := notification.AssignProperties_From_AutoscaleNotification(&notificationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_AutoscaleNotification() to populate field Notifications")
+				return eris.Wrap(err, "calling AssignProperties_From_AutoscaleNotification() to populate field Notifications")
 			}
 			notificationList[notificationIndex] = notification
 		}
@@ -708,7 +708,7 @@ func (setting *AutoscaleSetting_Spec) AssignProperties_From_AutoscaleSetting_Spe
 		var operatorSpec AutoscaleSettingOperatorSpec
 		err := operatorSpec.AssignProperties_From_AutoscaleSettingOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoscaleSettingOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoscaleSettingOperatorSpec() to populate field OperatorSpec")
 		}
 		setting.OperatorSpec = &operatorSpec
 	} else {
@@ -728,7 +728,7 @@ func (setting *AutoscaleSetting_Spec) AssignProperties_From_AutoscaleSetting_Spe
 		var predictiveAutoscalePolicy PredictiveAutoscalePolicy
 		err := predictiveAutoscalePolicy.AssignProperties_From_PredictiveAutoscalePolicy(source.PredictiveAutoscalePolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PredictiveAutoscalePolicy() to populate field PredictiveAutoscalePolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_PredictiveAutoscalePolicy() to populate field PredictiveAutoscalePolicy")
 		}
 		setting.PredictiveAutoscalePolicy = &predictiveAutoscalePolicy
 	} else {
@@ -744,7 +744,7 @@ func (setting *AutoscaleSetting_Spec) AssignProperties_From_AutoscaleSetting_Spe
 			var profile AutoscaleProfile
 			err := profile.AssignProperties_From_AutoscaleProfile(&profileItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_AutoscaleProfile() to populate field Profiles")
+				return eris.Wrap(err, "calling AssignProperties_From_AutoscaleProfile() to populate field Profiles")
 			}
 			profileList[profileIndex] = profile
 		}
@@ -802,7 +802,7 @@ func (setting *AutoscaleSetting_Spec) AssignProperties_To_AutoscaleSetting_Spec(
 			var notification storage.AutoscaleNotification
 			err := notificationItem.AssignProperties_To_AutoscaleNotification(&notification)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_AutoscaleNotification() to populate field Notifications")
+				return eris.Wrap(err, "calling AssignProperties_To_AutoscaleNotification() to populate field Notifications")
 			}
 			notificationList[notificationIndex] = notification
 		}
@@ -816,7 +816,7 @@ func (setting *AutoscaleSetting_Spec) AssignProperties_To_AutoscaleSetting_Spec(
 		var operatorSpec storage.AutoscaleSettingOperatorSpec
 		err := setting.OperatorSpec.AssignProperties_To_AutoscaleSettingOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoscaleSettingOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoscaleSettingOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -839,7 +839,7 @@ func (setting *AutoscaleSetting_Spec) AssignProperties_To_AutoscaleSetting_Spec(
 		var predictiveAutoscalePolicy storage.PredictiveAutoscalePolicy
 		err := setting.PredictiveAutoscalePolicy.AssignProperties_To_PredictiveAutoscalePolicy(&predictiveAutoscalePolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PredictiveAutoscalePolicy() to populate field PredictiveAutoscalePolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_PredictiveAutoscalePolicy() to populate field PredictiveAutoscalePolicy")
 		}
 		destination.PredictiveAutoscalePolicy = &predictiveAutoscalePolicy
 	} else {
@@ -855,7 +855,7 @@ func (setting *AutoscaleSetting_Spec) AssignProperties_To_AutoscaleSetting_Spec(
 			var profile storage.AutoscaleProfile
 			err := profileItem.AssignProperties_To_AutoscaleProfile(&profile)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_AutoscaleProfile() to populate field Profiles")
+				return eris.Wrap(err, "calling AssignProperties_To_AutoscaleProfile() to populate field Profiles")
 			}
 			profileList[profileIndex] = profile
 		}
@@ -915,7 +915,7 @@ func (setting *AutoscaleSetting_Spec) Initialize_From_Autoscalesetting_STATUS(so
 			var notification AutoscaleNotification
 			err := notification.Initialize_From_AutoscaleNotification_STATUS(&notificationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_AutoscaleNotification_STATUS() to populate field Notifications")
+				return eris.Wrap(err, "calling Initialize_From_AutoscaleNotification_STATUS() to populate field Notifications")
 			}
 			notificationList[notificationIndex] = notification
 		}
@@ -929,7 +929,7 @@ func (setting *AutoscaleSetting_Spec) Initialize_From_Autoscalesetting_STATUS(so
 		var predictiveAutoscalePolicy PredictiveAutoscalePolicy
 		err := predictiveAutoscalePolicy.Initialize_From_PredictiveAutoscalePolicy_STATUS(source.PredictiveAutoscalePolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PredictiveAutoscalePolicy_STATUS() to populate field PredictiveAutoscalePolicy")
+			return eris.Wrap(err, "calling Initialize_From_PredictiveAutoscalePolicy_STATUS() to populate field PredictiveAutoscalePolicy")
 		}
 		setting.PredictiveAutoscalePolicy = &predictiveAutoscalePolicy
 	} else {
@@ -945,7 +945,7 @@ func (setting *AutoscaleSetting_Spec) Initialize_From_Autoscalesetting_STATUS(so
 			var profile AutoscaleProfile
 			err := profile.Initialize_From_AutoscaleProfile_STATUS(&profileItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_AutoscaleProfile_STATUS() to populate field Profiles")
+				return eris.Wrap(err, "calling Initialize_From_AutoscaleProfile_STATUS() to populate field Profiles")
 			}
 			profileList[profileIndex] = profile
 		}
@@ -1033,13 +1033,13 @@ func (autoscalesetting *Autoscalesetting_STATUS) ConvertStatusFrom(source genrun
 	src = &storage.Autoscalesetting_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = autoscalesetting.AssignProperties_From_Autoscalesetting_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1057,13 +1057,13 @@ func (autoscalesetting *Autoscalesetting_STATUS) ConvertStatusTo(destination gen
 	dst = &storage.Autoscalesetting_STATUS{}
 	err := autoscalesetting.AssignProperties_To_Autoscalesetting_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1240,7 +1240,7 @@ func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_From_Autoscale
 			var notification AutoscaleNotification_STATUS
 			err := notification.AssignProperties_From_AutoscaleNotification_STATUS(&notificationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_AutoscaleNotification_STATUS() to populate field Notifications")
+				return eris.Wrap(err, "calling AssignProperties_From_AutoscaleNotification_STATUS() to populate field Notifications")
 			}
 			notificationList[notificationIndex] = notification
 		}
@@ -1254,7 +1254,7 @@ func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_From_Autoscale
 		var predictiveAutoscalePolicy PredictiveAutoscalePolicy_STATUS
 		err := predictiveAutoscalePolicy.AssignProperties_From_PredictiveAutoscalePolicy_STATUS(source.PredictiveAutoscalePolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PredictiveAutoscalePolicy_STATUS() to populate field PredictiveAutoscalePolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_PredictiveAutoscalePolicy_STATUS() to populate field PredictiveAutoscalePolicy")
 		}
 		autoscalesetting.PredictiveAutoscalePolicy = &predictiveAutoscalePolicy
 	} else {
@@ -1270,7 +1270,7 @@ func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_From_Autoscale
 			var profile AutoscaleProfile_STATUS
 			err := profile.AssignProperties_From_AutoscaleProfile_STATUS(&profileItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_AutoscaleProfile_STATUS() to populate field Profiles")
+				return eris.Wrap(err, "calling AssignProperties_From_AutoscaleProfile_STATUS() to populate field Profiles")
 			}
 			profileList[profileIndex] = profile
 		}
@@ -1287,7 +1287,7 @@ func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_From_Autoscale
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		autoscalesetting.SystemData = &systemDatum
 	} else {
@@ -1344,7 +1344,7 @@ func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_To_Autoscalese
 			var notification storage.AutoscaleNotification_STATUS
 			err := notificationItem.AssignProperties_To_AutoscaleNotification_STATUS(&notification)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_AutoscaleNotification_STATUS() to populate field Notifications")
+				return eris.Wrap(err, "calling AssignProperties_To_AutoscaleNotification_STATUS() to populate field Notifications")
 			}
 			notificationList[notificationIndex] = notification
 		}
@@ -1358,7 +1358,7 @@ func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_To_Autoscalese
 		var predictiveAutoscalePolicy storage.PredictiveAutoscalePolicy_STATUS
 		err := autoscalesetting.PredictiveAutoscalePolicy.AssignProperties_To_PredictiveAutoscalePolicy_STATUS(&predictiveAutoscalePolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PredictiveAutoscalePolicy_STATUS() to populate field PredictiveAutoscalePolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_PredictiveAutoscalePolicy_STATUS() to populate field PredictiveAutoscalePolicy")
 		}
 		destination.PredictiveAutoscalePolicy = &predictiveAutoscalePolicy
 	} else {
@@ -1374,7 +1374,7 @@ func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_To_Autoscalese
 			var profile storage.AutoscaleProfile_STATUS
 			err := profileItem.AssignProperties_To_AutoscaleProfile_STATUS(&profile)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_AutoscaleProfile_STATUS() to populate field Profiles")
+				return eris.Wrap(err, "calling AssignProperties_To_AutoscaleProfile_STATUS() to populate field Profiles")
 			}
 			profileList[profileIndex] = profile
 		}
@@ -1391,7 +1391,7 @@ func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_To_Autoscalese
 		var systemDatum storage.SystemData_STATUS
 		err := autoscalesetting.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1525,7 +1525,7 @@ func (notification *AutoscaleNotification) AssignProperties_From_AutoscaleNotifi
 		var email EmailNotification
 		err := email.AssignProperties_From_EmailNotification(source.Email)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EmailNotification() to populate field Email")
+			return eris.Wrap(err, "calling AssignProperties_From_EmailNotification() to populate field Email")
 		}
 		notification.Email = &email
 	} else {
@@ -1550,7 +1550,7 @@ func (notification *AutoscaleNotification) AssignProperties_From_AutoscaleNotifi
 			var webhook WebhookNotification
 			err := webhook.AssignProperties_From_WebhookNotification(&webhookItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_WebhookNotification() to populate field Webhooks")
+				return eris.Wrap(err, "calling AssignProperties_From_WebhookNotification() to populate field Webhooks")
 			}
 			webhookList[webhookIndex] = webhook
 		}
@@ -1573,7 +1573,7 @@ func (notification *AutoscaleNotification) AssignProperties_To_AutoscaleNotifica
 		var email storage.EmailNotification
 		err := notification.Email.AssignProperties_To_EmailNotification(&email)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EmailNotification() to populate field Email")
+			return eris.Wrap(err, "calling AssignProperties_To_EmailNotification() to populate field Email")
 		}
 		destination.Email = &email
 	} else {
@@ -1597,7 +1597,7 @@ func (notification *AutoscaleNotification) AssignProperties_To_AutoscaleNotifica
 			var webhook storage.WebhookNotification
 			err := webhookItem.AssignProperties_To_WebhookNotification(&webhook)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_WebhookNotification() to populate field Webhooks")
+				return eris.Wrap(err, "calling AssignProperties_To_WebhookNotification() to populate field Webhooks")
 			}
 			webhookList[webhookIndex] = webhook
 		}
@@ -1625,7 +1625,7 @@ func (notification *AutoscaleNotification) Initialize_From_AutoscaleNotification
 		var email EmailNotification
 		err := email.Initialize_From_EmailNotification_STATUS(source.Email)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EmailNotification_STATUS() to populate field Email")
+			return eris.Wrap(err, "calling Initialize_From_EmailNotification_STATUS() to populate field Email")
 		}
 		notification.Email = &email
 	} else {
@@ -1649,7 +1649,7 @@ func (notification *AutoscaleNotification) Initialize_From_AutoscaleNotification
 			var webhook WebhookNotification
 			err := webhook.Initialize_From_WebhookNotification_STATUS(&webhookItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_WebhookNotification_STATUS() to populate field Webhooks")
+				return eris.Wrap(err, "calling Initialize_From_WebhookNotification_STATUS() to populate field Webhooks")
 			}
 			webhookList[webhookIndex] = webhook
 		}
@@ -1729,7 +1729,7 @@ func (notification *AutoscaleNotification_STATUS) AssignProperties_From_Autoscal
 		var email EmailNotification_STATUS
 		err := email.AssignProperties_From_EmailNotification_STATUS(source.Email)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EmailNotification_STATUS() to populate field Email")
+			return eris.Wrap(err, "calling AssignProperties_From_EmailNotification_STATUS() to populate field Email")
 		}
 		notification.Email = &email
 	} else {
@@ -1754,7 +1754,7 @@ func (notification *AutoscaleNotification_STATUS) AssignProperties_From_Autoscal
 			var webhook WebhookNotification_STATUS
 			err := webhook.AssignProperties_From_WebhookNotification_STATUS(&webhookItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_WebhookNotification_STATUS() to populate field Webhooks")
+				return eris.Wrap(err, "calling AssignProperties_From_WebhookNotification_STATUS() to populate field Webhooks")
 			}
 			webhookList[webhookIndex] = webhook
 		}
@@ -1777,7 +1777,7 @@ func (notification *AutoscaleNotification_STATUS) AssignProperties_To_AutoscaleN
 		var email storage.EmailNotification_STATUS
 		err := notification.Email.AssignProperties_To_EmailNotification_STATUS(&email)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EmailNotification_STATUS() to populate field Email")
+			return eris.Wrap(err, "calling AssignProperties_To_EmailNotification_STATUS() to populate field Email")
 		}
 		destination.Email = &email
 	} else {
@@ -1801,7 +1801,7 @@ func (notification *AutoscaleNotification_STATUS) AssignProperties_To_AutoscaleN
 			var webhook storage.WebhookNotification_STATUS
 			err := webhookItem.AssignProperties_To_WebhookNotification_STATUS(&webhook)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_WebhookNotification_STATUS() to populate field Webhooks")
+				return eris.Wrap(err, "calling AssignProperties_To_WebhookNotification_STATUS() to populate field Webhooks")
 			}
 			webhookList[webhookIndex] = webhook
 		}
@@ -1972,7 +1972,7 @@ func (profile *AutoscaleProfile) AssignProperties_From_AutoscaleProfile(source *
 		var capacity ScaleCapacity
 		err := capacity.AssignProperties_From_ScaleCapacity(source.Capacity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScaleCapacity() to populate field Capacity")
+			return eris.Wrap(err, "calling AssignProperties_From_ScaleCapacity() to populate field Capacity")
 		}
 		profile.Capacity = &capacity
 	} else {
@@ -1984,7 +1984,7 @@ func (profile *AutoscaleProfile) AssignProperties_From_AutoscaleProfile(source *
 		var fixedDate TimeWindow
 		err := fixedDate.AssignProperties_From_TimeWindow(source.FixedDate)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TimeWindow() to populate field FixedDate")
+			return eris.Wrap(err, "calling AssignProperties_From_TimeWindow() to populate field FixedDate")
 		}
 		profile.FixedDate = &fixedDate
 	} else {
@@ -1999,7 +1999,7 @@ func (profile *AutoscaleProfile) AssignProperties_From_AutoscaleProfile(source *
 		var recurrence Recurrence
 		err := recurrence.AssignProperties_From_Recurrence(source.Recurrence)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Recurrence() to populate field Recurrence")
+			return eris.Wrap(err, "calling AssignProperties_From_Recurrence() to populate field Recurrence")
 		}
 		profile.Recurrence = &recurrence
 	} else {
@@ -2015,7 +2015,7 @@ func (profile *AutoscaleProfile) AssignProperties_From_AutoscaleProfile(source *
 			var rule ScaleRule
 			err := rule.AssignProperties_From_ScaleRule(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ScaleRule() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_From_ScaleRule() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -2038,7 +2038,7 @@ func (profile *AutoscaleProfile) AssignProperties_To_AutoscaleProfile(destinatio
 		var capacity storage.ScaleCapacity
 		err := profile.Capacity.AssignProperties_To_ScaleCapacity(&capacity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScaleCapacity() to populate field Capacity")
+			return eris.Wrap(err, "calling AssignProperties_To_ScaleCapacity() to populate field Capacity")
 		}
 		destination.Capacity = &capacity
 	} else {
@@ -2050,7 +2050,7 @@ func (profile *AutoscaleProfile) AssignProperties_To_AutoscaleProfile(destinatio
 		var fixedDate storage.TimeWindow
 		err := profile.FixedDate.AssignProperties_To_TimeWindow(&fixedDate)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TimeWindow() to populate field FixedDate")
+			return eris.Wrap(err, "calling AssignProperties_To_TimeWindow() to populate field FixedDate")
 		}
 		destination.FixedDate = &fixedDate
 	} else {
@@ -2065,7 +2065,7 @@ func (profile *AutoscaleProfile) AssignProperties_To_AutoscaleProfile(destinatio
 		var recurrence storage.Recurrence
 		err := profile.Recurrence.AssignProperties_To_Recurrence(&recurrence)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Recurrence() to populate field Recurrence")
+			return eris.Wrap(err, "calling AssignProperties_To_Recurrence() to populate field Recurrence")
 		}
 		destination.Recurrence = &recurrence
 	} else {
@@ -2081,7 +2081,7 @@ func (profile *AutoscaleProfile) AssignProperties_To_AutoscaleProfile(destinatio
 			var rule storage.ScaleRule
 			err := ruleItem.AssignProperties_To_ScaleRule(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ScaleRule() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_To_ScaleRule() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -2109,7 +2109,7 @@ func (profile *AutoscaleProfile) Initialize_From_AutoscaleProfile_STATUS(source 
 		var capacity ScaleCapacity
 		err := capacity.Initialize_From_ScaleCapacity_STATUS(source.Capacity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScaleCapacity_STATUS() to populate field Capacity")
+			return eris.Wrap(err, "calling Initialize_From_ScaleCapacity_STATUS() to populate field Capacity")
 		}
 		profile.Capacity = &capacity
 	} else {
@@ -2121,7 +2121,7 @@ func (profile *AutoscaleProfile) Initialize_From_AutoscaleProfile_STATUS(source 
 		var fixedDate TimeWindow
 		err := fixedDate.Initialize_From_TimeWindow_STATUS(source.FixedDate)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_TimeWindow_STATUS() to populate field FixedDate")
+			return eris.Wrap(err, "calling Initialize_From_TimeWindow_STATUS() to populate field FixedDate")
 		}
 		profile.FixedDate = &fixedDate
 	} else {
@@ -2136,7 +2136,7 @@ func (profile *AutoscaleProfile) Initialize_From_AutoscaleProfile_STATUS(source 
 		var recurrence Recurrence
 		err := recurrence.Initialize_From_Recurrence_STATUS(source.Recurrence)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Recurrence_STATUS() to populate field Recurrence")
+			return eris.Wrap(err, "calling Initialize_From_Recurrence_STATUS() to populate field Recurrence")
 		}
 		profile.Recurrence = &recurrence
 	} else {
@@ -2152,7 +2152,7 @@ func (profile *AutoscaleProfile) Initialize_From_AutoscaleProfile_STATUS(source 
 			var rule ScaleRule
 			err := rule.Initialize_From_ScaleRule_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ScaleRule_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling Initialize_From_ScaleRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -2262,7 +2262,7 @@ func (profile *AutoscaleProfile_STATUS) AssignProperties_From_AutoscaleProfile_S
 		var capacity ScaleCapacity_STATUS
 		err := capacity.AssignProperties_From_ScaleCapacity_STATUS(source.Capacity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScaleCapacity_STATUS() to populate field Capacity")
+			return eris.Wrap(err, "calling AssignProperties_From_ScaleCapacity_STATUS() to populate field Capacity")
 		}
 		profile.Capacity = &capacity
 	} else {
@@ -2274,7 +2274,7 @@ func (profile *AutoscaleProfile_STATUS) AssignProperties_From_AutoscaleProfile_S
 		var fixedDate TimeWindow_STATUS
 		err := fixedDate.AssignProperties_From_TimeWindow_STATUS(source.FixedDate)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TimeWindow_STATUS() to populate field FixedDate")
+			return eris.Wrap(err, "calling AssignProperties_From_TimeWindow_STATUS() to populate field FixedDate")
 		}
 		profile.FixedDate = &fixedDate
 	} else {
@@ -2289,7 +2289,7 @@ func (profile *AutoscaleProfile_STATUS) AssignProperties_From_AutoscaleProfile_S
 		var recurrence Recurrence_STATUS
 		err := recurrence.AssignProperties_From_Recurrence_STATUS(source.Recurrence)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Recurrence_STATUS() to populate field Recurrence")
+			return eris.Wrap(err, "calling AssignProperties_From_Recurrence_STATUS() to populate field Recurrence")
 		}
 		profile.Recurrence = &recurrence
 	} else {
@@ -2305,7 +2305,7 @@ func (profile *AutoscaleProfile_STATUS) AssignProperties_From_AutoscaleProfile_S
 			var rule ScaleRule_STATUS
 			err := rule.AssignProperties_From_ScaleRule_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ScaleRule_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_From_ScaleRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -2328,7 +2328,7 @@ func (profile *AutoscaleProfile_STATUS) AssignProperties_To_AutoscaleProfile_STA
 		var capacity storage.ScaleCapacity_STATUS
 		err := profile.Capacity.AssignProperties_To_ScaleCapacity_STATUS(&capacity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScaleCapacity_STATUS() to populate field Capacity")
+			return eris.Wrap(err, "calling AssignProperties_To_ScaleCapacity_STATUS() to populate field Capacity")
 		}
 		destination.Capacity = &capacity
 	} else {
@@ -2340,7 +2340,7 @@ func (profile *AutoscaleProfile_STATUS) AssignProperties_To_AutoscaleProfile_STA
 		var fixedDate storage.TimeWindow_STATUS
 		err := profile.FixedDate.AssignProperties_To_TimeWindow_STATUS(&fixedDate)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TimeWindow_STATUS() to populate field FixedDate")
+			return eris.Wrap(err, "calling AssignProperties_To_TimeWindow_STATUS() to populate field FixedDate")
 		}
 		destination.FixedDate = &fixedDate
 	} else {
@@ -2355,7 +2355,7 @@ func (profile *AutoscaleProfile_STATUS) AssignProperties_To_AutoscaleProfile_STA
 		var recurrence storage.Recurrence_STATUS
 		err := profile.Recurrence.AssignProperties_To_Recurrence_STATUS(&recurrence)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Recurrence_STATUS() to populate field Recurrence")
+			return eris.Wrap(err, "calling AssignProperties_To_Recurrence_STATUS() to populate field Recurrence")
 		}
 		destination.Recurrence = &recurrence
 	} else {
@@ -2371,7 +2371,7 @@ func (profile *AutoscaleProfile_STATUS) AssignProperties_To_AutoscaleProfile_STA
 			var rule storage.ScaleRule_STATUS
 			err := ruleItem.AssignProperties_To_ScaleRule_STATUS(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ScaleRule_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_To_ScaleRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -3285,7 +3285,7 @@ func (recurrence *Recurrence) AssignProperties_From_Recurrence(source *storage.R
 		var schedule RecurrentSchedule
 		err := schedule.AssignProperties_From_RecurrentSchedule(source.Schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RecurrentSchedule() to populate field Schedule")
+			return eris.Wrap(err, "calling AssignProperties_From_RecurrentSchedule() to populate field Schedule")
 		}
 		recurrence.Schedule = &schedule
 	} else {
@@ -3314,7 +3314,7 @@ func (recurrence *Recurrence) AssignProperties_To_Recurrence(destination *storag
 		var schedule storage.RecurrentSchedule
 		err := recurrence.Schedule.AssignProperties_To_RecurrentSchedule(&schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RecurrentSchedule() to populate field Schedule")
+			return eris.Wrap(err, "calling AssignProperties_To_RecurrentSchedule() to populate field Schedule")
 		}
 		destination.Schedule = &schedule
 	} else {
@@ -3348,7 +3348,7 @@ func (recurrence *Recurrence) Initialize_From_Recurrence_STATUS(source *Recurren
 		var schedule RecurrentSchedule
 		err := schedule.Initialize_From_RecurrentSchedule_STATUS(source.Schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RecurrentSchedule_STATUS() to populate field Schedule")
+			return eris.Wrap(err, "calling Initialize_From_RecurrentSchedule_STATUS() to populate field Schedule")
 		}
 		recurrence.Schedule = &schedule
 	} else {
@@ -3426,7 +3426,7 @@ func (recurrence *Recurrence_STATUS) AssignProperties_From_Recurrence_STATUS(sou
 		var schedule RecurrentSchedule_STATUS
 		err := schedule.AssignProperties_From_RecurrentSchedule_STATUS(source.Schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RecurrentSchedule_STATUS() to populate field Schedule")
+			return eris.Wrap(err, "calling AssignProperties_From_RecurrentSchedule_STATUS() to populate field Schedule")
 		}
 		recurrence.Schedule = &schedule
 	} else {
@@ -3455,7 +3455,7 @@ func (recurrence *Recurrence_STATUS) AssignProperties_To_Recurrence_STATUS(desti
 		var schedule storage.RecurrentSchedule_STATUS
 		err := recurrence.Schedule.AssignProperties_To_RecurrentSchedule_STATUS(&schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RecurrentSchedule_STATUS() to populate field Schedule")
+			return eris.Wrap(err, "calling AssignProperties_To_RecurrentSchedule_STATUS() to populate field Schedule")
 		}
 		destination.Schedule = &schedule
 	} else {
@@ -3792,7 +3792,7 @@ func (rule *ScaleRule) AssignProperties_From_ScaleRule(source *storage.ScaleRule
 		var metricTrigger MetricTrigger
 		err := metricTrigger.AssignProperties_From_MetricTrigger(source.MetricTrigger)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_MetricTrigger() to populate field MetricTrigger")
+			return eris.Wrap(err, "calling AssignProperties_From_MetricTrigger() to populate field MetricTrigger")
 		}
 		rule.MetricTrigger = &metricTrigger
 	} else {
@@ -3804,7 +3804,7 @@ func (rule *ScaleRule) AssignProperties_From_ScaleRule(source *storage.ScaleRule
 		var scaleAction ScaleAction
 		err := scaleAction.AssignProperties_From_ScaleAction(source.ScaleAction)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScaleAction() to populate field ScaleAction")
+			return eris.Wrap(err, "calling AssignProperties_From_ScaleAction() to populate field ScaleAction")
 		}
 		rule.ScaleAction = &scaleAction
 	} else {
@@ -3825,7 +3825,7 @@ func (rule *ScaleRule) AssignProperties_To_ScaleRule(destination *storage.ScaleR
 		var metricTrigger storage.MetricTrigger
 		err := rule.MetricTrigger.AssignProperties_To_MetricTrigger(&metricTrigger)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_MetricTrigger() to populate field MetricTrigger")
+			return eris.Wrap(err, "calling AssignProperties_To_MetricTrigger() to populate field MetricTrigger")
 		}
 		destination.MetricTrigger = &metricTrigger
 	} else {
@@ -3837,7 +3837,7 @@ func (rule *ScaleRule) AssignProperties_To_ScaleRule(destination *storage.ScaleR
 		var scaleAction storage.ScaleAction
 		err := rule.ScaleAction.AssignProperties_To_ScaleAction(&scaleAction)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScaleAction() to populate field ScaleAction")
+			return eris.Wrap(err, "calling AssignProperties_To_ScaleAction() to populate field ScaleAction")
 		}
 		destination.ScaleAction = &scaleAction
 	} else {
@@ -3863,7 +3863,7 @@ func (rule *ScaleRule) Initialize_From_ScaleRule_STATUS(source *ScaleRule_STATUS
 		var metricTrigger MetricTrigger
 		err := metricTrigger.Initialize_From_MetricTrigger_STATUS(source.MetricTrigger)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_MetricTrigger_STATUS() to populate field MetricTrigger")
+			return eris.Wrap(err, "calling Initialize_From_MetricTrigger_STATUS() to populate field MetricTrigger")
 		}
 		rule.MetricTrigger = &metricTrigger
 	} else {
@@ -3875,7 +3875,7 @@ func (rule *ScaleRule) Initialize_From_ScaleRule_STATUS(source *ScaleRule_STATUS
 		var scaleAction ScaleAction
 		err := scaleAction.Initialize_From_ScaleAction_STATUS(source.ScaleAction)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScaleAction_STATUS() to populate field ScaleAction")
+			return eris.Wrap(err, "calling Initialize_From_ScaleAction_STATUS() to populate field ScaleAction")
 		}
 		rule.ScaleAction = &scaleAction
 	} else {
@@ -3945,7 +3945,7 @@ func (rule *ScaleRule_STATUS) AssignProperties_From_ScaleRule_STATUS(source *sto
 		var metricTrigger MetricTrigger_STATUS
 		err := metricTrigger.AssignProperties_From_MetricTrigger_STATUS(source.MetricTrigger)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_MetricTrigger_STATUS() to populate field MetricTrigger")
+			return eris.Wrap(err, "calling AssignProperties_From_MetricTrigger_STATUS() to populate field MetricTrigger")
 		}
 		rule.MetricTrigger = &metricTrigger
 	} else {
@@ -3957,7 +3957,7 @@ func (rule *ScaleRule_STATUS) AssignProperties_From_ScaleRule_STATUS(source *sto
 		var scaleAction ScaleAction_STATUS
 		err := scaleAction.AssignProperties_From_ScaleAction_STATUS(source.ScaleAction)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScaleAction_STATUS() to populate field ScaleAction")
+			return eris.Wrap(err, "calling AssignProperties_From_ScaleAction_STATUS() to populate field ScaleAction")
 		}
 		rule.ScaleAction = &scaleAction
 	} else {
@@ -3978,7 +3978,7 @@ func (rule *ScaleRule_STATUS) AssignProperties_To_ScaleRule_STATUS(destination *
 		var metricTrigger storage.MetricTrigger_STATUS
 		err := rule.MetricTrigger.AssignProperties_To_MetricTrigger_STATUS(&metricTrigger)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_MetricTrigger_STATUS() to populate field MetricTrigger")
+			return eris.Wrap(err, "calling AssignProperties_To_MetricTrigger_STATUS() to populate field MetricTrigger")
 		}
 		destination.MetricTrigger = &metricTrigger
 	} else {
@@ -3990,7 +3990,7 @@ func (rule *ScaleRule_STATUS) AssignProperties_To_ScaleRule_STATUS(destination *
 		var scaleAction storage.ScaleAction_STATUS
 		err := rule.ScaleAction.AssignProperties_To_ScaleAction_STATUS(&scaleAction)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScaleAction_STATUS() to populate field ScaleAction")
+			return eris.Wrap(err, "calling AssignProperties_To_ScaleAction_STATUS() to populate field ScaleAction")
 		}
 		destination.ScaleAction = &scaleAction
 	} else {
@@ -4752,7 +4752,7 @@ func (trigger *MetricTrigger) AssignProperties_From_MetricTrigger(source *storag
 			var dimension ScaleRuleMetricDimension
 			err := dimension.AssignProperties_From_ScaleRuleMetricDimension(&dimensionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ScaleRuleMetricDimension() to populate field Dimensions")
+				return eris.Wrap(err, "calling AssignProperties_From_ScaleRuleMetricDimension() to populate field Dimensions")
 			}
 			dimensionList[dimensionIndex] = dimension
 		}
@@ -4845,7 +4845,7 @@ func (trigger *MetricTrigger) AssignProperties_To_MetricTrigger(destination *sto
 			var dimension storage.ScaleRuleMetricDimension
 			err := dimensionItem.AssignProperties_To_ScaleRuleMetricDimension(&dimension)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ScaleRuleMetricDimension() to populate field Dimensions")
+				return eris.Wrap(err, "calling AssignProperties_To_ScaleRuleMetricDimension() to populate field Dimensions")
 			}
 			dimensionList[dimensionIndex] = dimension
 		}
@@ -4940,7 +4940,7 @@ func (trigger *MetricTrigger) Initialize_From_MetricTrigger_STATUS(source *Metri
 			var dimension ScaleRuleMetricDimension
 			err := dimension.Initialize_From_ScaleRuleMetricDimension_STATUS(&dimensionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ScaleRuleMetricDimension_STATUS() to populate field Dimensions")
+				return eris.Wrap(err, "calling Initialize_From_ScaleRuleMetricDimension_STATUS() to populate field Dimensions")
 			}
 			dimensionList[dimensionIndex] = dimension
 		}
@@ -5171,7 +5171,7 @@ func (trigger *MetricTrigger_STATUS) AssignProperties_From_MetricTrigger_STATUS(
 			var dimension ScaleRuleMetricDimension_STATUS
 			err := dimension.AssignProperties_From_ScaleRuleMetricDimension_STATUS(&dimensionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ScaleRuleMetricDimension_STATUS() to populate field Dimensions")
+				return eris.Wrap(err, "calling AssignProperties_From_ScaleRuleMetricDimension_STATUS() to populate field Dimensions")
 			}
 			dimensionList[dimensionIndex] = dimension
 		}
@@ -5259,7 +5259,7 @@ func (trigger *MetricTrigger_STATUS) AssignProperties_To_MetricTrigger_STATUS(de
 			var dimension storage.ScaleRuleMetricDimension_STATUS
 			err := dimensionItem.AssignProperties_To_ScaleRuleMetricDimension_STATUS(&dimension)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ScaleRuleMetricDimension_STATUS() to populate field Dimensions")
+				return eris.Wrap(err, "calling AssignProperties_To_ScaleRuleMetricDimension_STATUS() to populate field Dimensions")
 			}
 			dimensionList[dimensionIndex] = dimension
 		}

@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (database *Database) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Database_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	database.Status = st
@@ -309,7 +309,7 @@ func (database *Database) AssignProperties_From_Database(source *storage.Databas
 	var spec Database_Spec
 	err := spec.AssignProperties_From_Database_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Database_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Database_Spec() to populate field Spec")
 	}
 	database.Spec = spec
 
@@ -317,7 +317,7 @@ func (database *Database) AssignProperties_From_Database(source *storage.Databas
 	var status Database_STATUS
 	err = status.AssignProperties_From_Database_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Database_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Database_STATUS() to populate field Status")
 	}
 	database.Status = status
 
@@ -335,7 +335,7 @@ func (database *Database) AssignProperties_To_Database(destination *storage.Data
 	var spec storage.Database_Spec
 	err := database.Spec.AssignProperties_To_Database_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Database_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Database_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (database *Database) AssignProperties_To_Database(destination *storage.Data
 	var status storage.Database_STATUS
 	err = database.Status.AssignProperties_To_Database_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Database_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Database_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -478,13 +478,13 @@ func (database *Database_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 	src = &storage.Database_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = database.AssignProperties_From_Database_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -502,13 +502,13 @@ func (database *Database_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 	dst = &storage.Database_Spec{}
 	err := database.AssignProperties_To_Database_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -531,7 +531,7 @@ func (database *Database_Spec) AssignProperties_From_Database_Spec(source *stora
 		var operatorSpec DatabaseOperatorSpec
 		err := operatorSpec.AssignProperties_From_DatabaseOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DatabaseOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_DatabaseOperatorSpec() to populate field OperatorSpec")
 		}
 		database.OperatorSpec = &operatorSpec
 	} else {
@@ -569,7 +569,7 @@ func (database *Database_Spec) AssignProperties_To_Database_Spec(destination *st
 		var operatorSpec storage.DatabaseOperatorSpec
 		err := database.OperatorSpec.AssignProperties_To_DatabaseOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DatabaseOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_DatabaseOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -654,13 +654,13 @@ func (database *Database_STATUS) ConvertStatusFrom(source genruntime.Convertible
 	src = &storage.Database_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = database.AssignProperties_From_Database_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -678,13 +678,13 @@ func (database *Database_STATUS) ConvertStatusTo(destination genruntime.Converti
 	dst = &storage.Database_STATUS{}
 	err := database.AssignProperties_To_Database_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

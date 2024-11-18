@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (fleet *Fleet) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Fleet_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	fleet.Status = st
@@ -315,7 +315,7 @@ func (fleet *Fleet) AssignProperties_From_Fleet(source *storage.Fleet) error {
 	var spec Fleet_Spec
 	err := spec.AssignProperties_From_Fleet_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Fleet_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Fleet_Spec() to populate field Spec")
 	}
 	fleet.Spec = spec
 
@@ -323,7 +323,7 @@ func (fleet *Fleet) AssignProperties_From_Fleet(source *storage.Fleet) error {
 	var status Fleet_STATUS
 	err = status.AssignProperties_From_Fleet_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Fleet_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Fleet_STATUS() to populate field Status")
 	}
 	fleet.Status = status
 
@@ -341,7 +341,7 @@ func (fleet *Fleet) AssignProperties_To_Fleet(destination *storage.Fleet) error 
 	var spec storage.Fleet_Spec
 	err := fleet.Spec.AssignProperties_To_Fleet_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Fleet_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Fleet_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -349,7 +349,7 @@ func (fleet *Fleet) AssignProperties_To_Fleet(destination *storage.Fleet) error 
 	var status storage.Fleet_STATUS
 	err = fleet.Status.AssignProperties_To_Fleet_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Fleet_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Fleet_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -520,13 +520,13 @@ func (fleet *Fleet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 	src = &storage.Fleet_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = fleet.AssignProperties_From_Fleet_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -544,13 +544,13 @@ func (fleet *Fleet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	dst = &storage.Fleet_Spec{}
 	err := fleet.AssignProperties_To_Fleet_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -567,7 +567,7 @@ func (fleet *Fleet_Spec) AssignProperties_From_Fleet_Spec(source *storage.Fleet_
 		var hubProfile FleetHubProfile
 		err := hubProfile.AssignProperties_From_FleetHubProfile(source.HubProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FleetHubProfile() to populate field HubProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_FleetHubProfile() to populate field HubProfile")
 		}
 		fleet.HubProfile = &hubProfile
 	} else {
@@ -582,7 +582,7 @@ func (fleet *Fleet_Spec) AssignProperties_From_Fleet_Spec(source *storage.Fleet_
 		var operatorSpec FleetOperatorSpec
 		err := operatorSpec.AssignProperties_From_FleetOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FleetOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_FleetOperatorSpec() to populate field OperatorSpec")
 		}
 		fleet.OperatorSpec = &operatorSpec
 	} else {
@@ -617,7 +617,7 @@ func (fleet *Fleet_Spec) AssignProperties_To_Fleet_Spec(destination *storage.Fle
 		var hubProfile storage.FleetHubProfile
 		err := fleet.HubProfile.AssignProperties_To_FleetHubProfile(&hubProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FleetHubProfile() to populate field HubProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_FleetHubProfile() to populate field HubProfile")
 		}
 		destination.HubProfile = &hubProfile
 	} else {
@@ -632,7 +632,7 @@ func (fleet *Fleet_Spec) AssignProperties_To_Fleet_Spec(destination *storage.Fle
 		var operatorSpec storage.FleetOperatorSpec
 		err := fleet.OperatorSpec.AssignProperties_To_FleetOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FleetOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_FleetOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -672,7 +672,7 @@ func (fleet *Fleet_Spec) Initialize_From_Fleet_STATUS(source *Fleet_STATUS) erro
 		var hubProfile FleetHubProfile
 		err := hubProfile.Initialize_From_FleetHubProfile_STATUS(source.HubProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_FleetHubProfile_STATUS() to populate field HubProfile")
+			return eris.Wrap(err, "calling Initialize_From_FleetHubProfile_STATUS() to populate field HubProfile")
 		}
 		fleet.HubProfile = &hubProfile
 	} else {
@@ -748,13 +748,13 @@ func (fleet *Fleet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	src = &storage.Fleet_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = fleet.AssignProperties_From_Fleet_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -772,13 +772,13 @@ func (fleet *Fleet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	dst = &storage.Fleet_STATUS{}
 	err := fleet.AssignProperties_To_Fleet_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -892,7 +892,7 @@ func (fleet *Fleet_STATUS) AssignProperties_From_Fleet_STATUS(source *storage.Fl
 		var hubProfile FleetHubProfile_STATUS
 		err := hubProfile.AssignProperties_From_FleetHubProfile_STATUS(source.HubProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FleetHubProfile_STATUS() to populate field HubProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_FleetHubProfile_STATUS() to populate field HubProfile")
 		}
 		fleet.HubProfile = &hubProfile
 	} else {
@@ -922,7 +922,7 @@ func (fleet *Fleet_STATUS) AssignProperties_From_Fleet_STATUS(source *storage.Fl
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		fleet.SystemData = &systemDatum
 	} else {
@@ -955,7 +955,7 @@ func (fleet *Fleet_STATUS) AssignProperties_To_Fleet_STATUS(destination *storage
 		var hubProfile storage.FleetHubProfile_STATUS
 		err := fleet.HubProfile.AssignProperties_To_FleetHubProfile_STATUS(&hubProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FleetHubProfile_STATUS() to populate field HubProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_FleetHubProfile_STATUS() to populate field HubProfile")
 		}
 		destination.HubProfile = &hubProfile
 	} else {
@@ -984,7 +984,7 @@ func (fleet *Fleet_STATUS) AssignProperties_To_Fleet_STATUS(destination *storage
 		var systemDatum storage.SystemData_STATUS
 		err := fleet.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1255,7 +1255,7 @@ func (operator *FleetOperatorSpec) AssignProperties_From_FleetOperatorSpec(sourc
 		var secret FleetOperatorSecrets
 		err := secret.AssignProperties_From_FleetOperatorSecrets(source.Secrets)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FleetOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_From_FleetOperatorSecrets() to populate field Secrets")
 		}
 		operator.Secrets = &secret
 	} else {
@@ -1312,7 +1312,7 @@ func (operator *FleetOperatorSpec) AssignProperties_To_FleetOperatorSpec(destina
 		var secret storage.FleetOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_FleetOperatorSecrets(&secret)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FleetOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_To_FleetOperatorSecrets() to populate field Secrets")
 		}
 		destination.Secrets = &secret
 	} else {

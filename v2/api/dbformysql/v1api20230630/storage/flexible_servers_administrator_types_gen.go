@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -131,7 +131,7 @@ func (administrator *FlexibleServersAdministrator) SetStatus(status genruntime.C
 	var st FlexibleServersAdministrator_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	administrator.Status = st
@@ -188,7 +188,7 @@ var _ genruntime.ConvertibleSpec = &FlexibleServersAdministrator_Spec{}
 // ConvertSpecFrom populates our FlexibleServersAdministrator_Spec from the provided source
 func (administrator *FlexibleServersAdministrator_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == administrator {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(administrator)
@@ -197,7 +197,7 @@ func (administrator *FlexibleServersAdministrator_Spec) ConvertSpecFrom(source g
 // ConvertSpecTo populates the provided destination from our FlexibleServersAdministrator_Spec
 func (administrator *FlexibleServersAdministrator_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == administrator {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(administrator)
@@ -223,7 +223,7 @@ var _ genruntime.ConvertibleStatus = &FlexibleServersAdministrator_STATUS{}
 // ConvertStatusFrom populates our FlexibleServersAdministrator_STATUS from the provided source
 func (administrator *FlexibleServersAdministrator_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == administrator {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(administrator)
@@ -232,7 +232,7 @@ func (administrator *FlexibleServersAdministrator_STATUS) ConvertStatusFrom(sour
 // ConvertStatusTo populates the provided destination from our FlexibleServersAdministrator_STATUS
 func (administrator *FlexibleServersAdministrator_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == administrator {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(administrator)

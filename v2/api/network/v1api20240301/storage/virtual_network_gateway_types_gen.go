@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -131,7 +131,7 @@ func (gateway *VirtualNetworkGateway) SetStatus(status genruntime.ConvertibleSta
 	var st VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	gateway.Status = st
@@ -213,7 +213,7 @@ var _ genruntime.ConvertibleSpec = &VirtualNetworkGateway_Spec{}
 // ConvertSpecFrom populates our VirtualNetworkGateway_Spec from the provided source
 func (gateway *VirtualNetworkGateway_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == gateway {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(gateway)
@@ -222,7 +222,7 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertSpecFrom(source genruntime.Con
 // ConvertSpecTo populates the provided destination from our VirtualNetworkGateway_Spec
 func (gateway *VirtualNetworkGateway_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == gateway {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(gateway)
@@ -274,7 +274,7 @@ var _ genruntime.ConvertibleStatus = &VirtualNetworkGateway_STATUS_VirtualNetwor
 // ConvertStatusFrom populates our VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded from the provided source
 func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == embedded {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(embedded)
@@ -283,7 +283,7 @@ func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEm
 // ConvertStatusTo populates the provided destination from our VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
 func (embedded *VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == embedded {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(embedded)

@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (disk *Disk) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Disk_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	disk.Status = st
@@ -309,7 +309,7 @@ func (disk *Disk) AssignProperties_From_Disk(source *storage.Disk) error {
 	var spec Disk_Spec
 	err := spec.AssignProperties_From_Disk_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Disk_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Disk_Spec() to populate field Spec")
 	}
 	disk.Spec = spec
 
@@ -317,7 +317,7 @@ func (disk *Disk) AssignProperties_From_Disk(source *storage.Disk) error {
 	var status Disk_STATUS
 	err = status.AssignProperties_From_Disk_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Disk_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Disk_STATUS() to populate field Status")
 	}
 	disk.Status = status
 
@@ -335,7 +335,7 @@ func (disk *Disk) AssignProperties_To_Disk(destination *storage.Disk) error {
 	var spec storage.Disk_Spec
 	err := disk.Spec.AssignProperties_To_Disk_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Disk_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Disk_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (disk *Disk) AssignProperties_To_Disk(destination *storage.Disk) error {
 	var status storage.Disk_STATUS
 	err = disk.Status.AssignProperties_To_Disk_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Disk_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Disk_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -1024,13 +1024,13 @@ func (disk *Disk_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error 
 	src = &storage.Disk_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = disk.AssignProperties_From_Disk_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -1048,13 +1048,13 @@ func (disk *Disk_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) err
 	dst = &storage.Disk_Spec{}
 	err := disk.AssignProperties_To_Disk_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -1087,7 +1087,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *storage.Disk_Spec
 		var creationDatum CreationData
 		err := creationDatum.AssignProperties_From_CreationData(source.CreationData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CreationData() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_From_CreationData() to populate field CreationData")
 		}
 		disk.CreationData = &creationDatum
 	} else {
@@ -1131,7 +1131,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *storage.Disk_Spec
 		var encryption Encryption
 		err := encryption.AssignProperties_From_Encryption(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Encryption() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_Encryption() to populate field Encryption")
 		}
 		disk.Encryption = &encryption
 	} else {
@@ -1143,7 +1143,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *storage.Disk_Spec
 		var encryptionSettingsCollection EncryptionSettingsCollection
 		err := encryptionSettingsCollection.AssignProperties_From_EncryptionSettingsCollection(source.EncryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
 		}
 		disk.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -1155,7 +1155,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *storage.Disk_Spec
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		disk.ExtendedLocation = &extendedLocation
 	} else {
@@ -1191,7 +1191,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *storage.Disk_Spec
 		var operatorSpec DiskOperatorSpec
 		err := operatorSpec.AssignProperties_From_DiskOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskOperatorSpec() to populate field OperatorSpec")
 		}
 		disk.OperatorSpec = &operatorSpec
 	} else {
@@ -1237,7 +1237,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *storage.Disk_Spec
 		var purchasePlan PurchasePlan
 		err := purchasePlan.AssignProperties_From_PurchasePlan(source.PurchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PurchasePlan() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_From_PurchasePlan() to populate field PurchasePlan")
 		}
 		disk.PurchasePlan = &purchasePlan
 	} else {
@@ -1249,7 +1249,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *storage.Disk_Spec
 		var securityProfile DiskSecurityProfile
 		err := securityProfile.AssignProperties_From_DiskSecurityProfile(source.SecurityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskSecurityProfile() to populate field SecurityProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskSecurityProfile() to populate field SecurityProfile")
 		}
 		disk.SecurityProfile = &securityProfile
 	} else {
@@ -1261,7 +1261,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *storage.Disk_Spec
 		var sku DiskSku
 		err := sku.AssignProperties_From_DiskSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskSku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskSku() to populate field Sku")
 		}
 		disk.Sku = &sku
 	} else {
@@ -1273,7 +1273,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *storage.Disk_Spec
 		var supportedCapability SupportedCapabilities
 		err := supportedCapability.AssignProperties_From_SupportedCapabilities(source.SupportedCapabilities)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SupportedCapabilities() to populate field SupportedCapabilities")
+			return eris.Wrap(err, "calling AssignProperties_From_SupportedCapabilities() to populate field SupportedCapabilities")
 		}
 		disk.SupportedCapabilities = &supportedCapability
 	} else {
@@ -1330,7 +1330,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *storage.Disk_S
 		var creationDatum storage.CreationData
 		err := disk.CreationData.AssignProperties_To_CreationData(&creationDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CreationData() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_To_CreationData() to populate field CreationData")
 		}
 		destination.CreationData = &creationDatum
 	} else {
@@ -1373,7 +1373,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *storage.Disk_S
 		var encryption storage.Encryption
 		err := disk.Encryption.AssignProperties_To_Encryption(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Encryption() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_Encryption() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1385,7 +1385,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *storage.Disk_S
 		var encryptionSettingsCollection storage.EncryptionSettingsCollection
 		err := disk.EncryptionSettingsCollection.AssignProperties_To_EncryptionSettingsCollection(&encryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
 		}
 		destination.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -1397,7 +1397,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *storage.Disk_S
 		var extendedLocation storage.ExtendedLocation
 		err := disk.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1431,7 +1431,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *storage.Disk_S
 		var operatorSpec storage.DiskOperatorSpec
 		err := disk.OperatorSpec.AssignProperties_To_DiskOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -1478,7 +1478,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *storage.Disk_S
 		var purchasePlan storage.PurchasePlan
 		err := disk.PurchasePlan.AssignProperties_To_PurchasePlan(&purchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PurchasePlan() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_To_PurchasePlan() to populate field PurchasePlan")
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
@@ -1490,7 +1490,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *storage.Disk_S
 		var securityProfile storage.DiskSecurityProfile
 		err := disk.SecurityProfile.AssignProperties_To_DiskSecurityProfile(&securityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskSecurityProfile() to populate field SecurityProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskSecurityProfile() to populate field SecurityProfile")
 		}
 		destination.SecurityProfile = &securityProfile
 	} else {
@@ -1502,7 +1502,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *storage.Disk_S
 		var sku storage.DiskSku
 		err := disk.Sku.AssignProperties_To_DiskSku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskSku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskSku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1514,7 +1514,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *storage.Disk_S
 		var supportedCapability storage.SupportedCapabilities
 		err := disk.SupportedCapabilities.AssignProperties_To_SupportedCapabilities(&supportedCapability)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SupportedCapabilities() to populate field SupportedCapabilities")
+			return eris.Wrap(err, "calling AssignProperties_To_SupportedCapabilities() to populate field SupportedCapabilities")
 		}
 		destination.SupportedCapabilities = &supportedCapability
 	} else {
@@ -1573,7 +1573,7 @@ func (disk *Disk_Spec) Initialize_From_Disk_STATUS(source *Disk_STATUS) error {
 		var creationDatum CreationData
 		err := creationDatum.Initialize_From_CreationData_STATUS(source.CreationData)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CreationData_STATUS() to populate field CreationData")
+			return eris.Wrap(err, "calling Initialize_From_CreationData_STATUS() to populate field CreationData")
 		}
 		disk.CreationData = &creationDatum
 	} else {
@@ -1616,7 +1616,7 @@ func (disk *Disk_Spec) Initialize_From_Disk_STATUS(source *Disk_STATUS) error {
 		var encryption Encryption
 		err := encryption.Initialize_From_Encryption_STATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Encryption_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling Initialize_From_Encryption_STATUS() to populate field Encryption")
 		}
 		disk.Encryption = &encryption
 	} else {
@@ -1628,7 +1628,7 @@ func (disk *Disk_Spec) Initialize_From_Disk_STATUS(source *Disk_STATUS) error {
 		var encryptionSettingsCollection EncryptionSettingsCollection
 		err := encryptionSettingsCollection.Initialize_From_EncryptionSettingsCollection_STATUS(source.EncryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
+			return eris.Wrap(err, "calling Initialize_From_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
 		}
 		disk.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -1640,7 +1640,7 @@ func (disk *Disk_Spec) Initialize_From_Disk_STATUS(source *Disk_STATUS) error {
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		disk.ExtendedLocation = &extendedLocation
 	} else {
@@ -1698,7 +1698,7 @@ func (disk *Disk_Spec) Initialize_From_Disk_STATUS(source *Disk_STATUS) error {
 		var purchasePlan PurchasePlan
 		err := purchasePlan.Initialize_From_PurchasePlan_STATUS(source.PurchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PurchasePlan_STATUS() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling Initialize_From_PurchasePlan_STATUS() to populate field PurchasePlan")
 		}
 		disk.PurchasePlan = &purchasePlan
 	} else {
@@ -1710,7 +1710,7 @@ func (disk *Disk_Spec) Initialize_From_Disk_STATUS(source *Disk_STATUS) error {
 		var securityProfile DiskSecurityProfile
 		err := securityProfile.Initialize_From_DiskSecurityProfile_STATUS(source.SecurityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DiskSecurityProfile_STATUS() to populate field SecurityProfile")
+			return eris.Wrap(err, "calling Initialize_From_DiskSecurityProfile_STATUS() to populate field SecurityProfile")
 		}
 		disk.SecurityProfile = &securityProfile
 	} else {
@@ -1722,7 +1722,7 @@ func (disk *Disk_Spec) Initialize_From_Disk_STATUS(source *Disk_STATUS) error {
 		var sku DiskSku
 		err := sku.Initialize_From_DiskSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DiskSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_DiskSku_STATUS() to populate field Sku")
 		}
 		disk.Sku = &sku
 	} else {
@@ -1734,7 +1734,7 @@ func (disk *Disk_Spec) Initialize_From_Disk_STATUS(source *Disk_STATUS) error {
 		var supportedCapability SupportedCapabilities
 		err := supportedCapability.Initialize_From_SupportedCapabilities_STATUS(source.SupportedCapabilities)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SupportedCapabilities_STATUS() to populate field SupportedCapabilities")
+			return eris.Wrap(err, "calling Initialize_From_SupportedCapabilities_STATUS() to populate field SupportedCapabilities")
 		}
 		disk.SupportedCapabilities = &supportedCapability
 	} else {
@@ -1934,13 +1934,13 @@ func (disk *Disk_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) 
 	src = &storage.Disk_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = disk.AssignProperties_From_Disk_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1958,13 +1958,13 @@ func (disk *Disk_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatu
 	dst = &storage.Disk_STATUS{}
 	err := disk.AssignProperties_To_Disk_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -2429,7 +2429,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *storage.Disk_
 		var creationDatum CreationData_STATUS
 		err := creationDatum.AssignProperties_From_CreationData_STATUS(source.CreationData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CreationData_STATUS() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_From_CreationData_STATUS() to populate field CreationData")
 		}
 		disk.CreationData = &creationDatum
 	} else {
@@ -2480,7 +2480,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *storage.Disk_
 		var encryption Encryption_STATUS
 		err := encryption.AssignProperties_From_Encryption_STATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Encryption_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_Encryption_STATUS() to populate field Encryption")
 		}
 		disk.Encryption = &encryption
 	} else {
@@ -2492,7 +2492,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *storage.Disk_
 		var encryptionSettingsCollection EncryptionSettingsCollection_STATUS
 		err := encryptionSettingsCollection.AssignProperties_From_EncryptionSettingsCollection_STATUS(source.EncryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
 		}
 		disk.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -2504,7 +2504,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *storage.Disk_
 		var extendedLocation ExtendedLocation_STATUS
 		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		disk.ExtendedLocation = &extendedLocation
 	} else {
@@ -2572,7 +2572,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *storage.Disk_
 		var propertyUpdatesInProgress PropertyUpdatesInProgress_STATUS
 		err := propertyUpdatesInProgress.AssignProperties_From_PropertyUpdatesInProgress_STATUS(source.PropertyUpdatesInProgress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PropertyUpdatesInProgress_STATUS() to populate field PropertyUpdatesInProgress")
+			return eris.Wrap(err, "calling AssignProperties_From_PropertyUpdatesInProgress_STATUS() to populate field PropertyUpdatesInProgress")
 		}
 		disk.PropertyUpdatesInProgress = &propertyUpdatesInProgress
 	} else {
@@ -2596,7 +2596,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *storage.Disk_
 		var purchasePlan PurchasePlan_STATUS
 		err := purchasePlan.AssignProperties_From_PurchasePlan_STATUS(source.PurchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PurchasePlan_STATUS() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_From_PurchasePlan_STATUS() to populate field PurchasePlan")
 		}
 		disk.PurchasePlan = &purchasePlan
 	} else {
@@ -2608,7 +2608,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *storage.Disk_
 		var securityProfile DiskSecurityProfile_STATUS
 		err := securityProfile.AssignProperties_From_DiskSecurityProfile_STATUS(source.SecurityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskSecurityProfile_STATUS() to populate field SecurityProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskSecurityProfile_STATUS() to populate field SecurityProfile")
 		}
 		disk.SecurityProfile = &securityProfile
 	} else {
@@ -2624,7 +2624,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *storage.Disk_
 			var shareInfo ShareInfoElement_STATUS
 			err := shareInfo.AssignProperties_From_ShareInfoElement_STATUS(&shareInfoItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ShareInfoElement_STATUS() to populate field ShareInfo")
+				return eris.Wrap(err, "calling AssignProperties_From_ShareInfoElement_STATUS() to populate field ShareInfo")
 			}
 			shareInfoList[shareInfoIndex] = shareInfo
 		}
@@ -2638,7 +2638,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *storage.Disk_
 		var sku DiskSku_STATUS
 		err := sku.AssignProperties_From_DiskSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskSku_STATUS() to populate field Sku")
 		}
 		disk.Sku = &sku
 	} else {
@@ -2650,7 +2650,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *storage.Disk_
 		var supportedCapability SupportedCapabilities_STATUS
 		err := supportedCapability.AssignProperties_From_SupportedCapabilities_STATUS(source.SupportedCapabilities)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SupportedCapabilities_STATUS() to populate field SupportedCapabilities")
+			return eris.Wrap(err, "calling AssignProperties_From_SupportedCapabilities_STATUS() to populate field SupportedCapabilities")
 		}
 		disk.SupportedCapabilities = &supportedCapability
 	} else {
@@ -2719,7 +2719,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *storage.Di
 		var creationDatum storage.CreationData_STATUS
 		err := disk.CreationData.AssignProperties_To_CreationData_STATUS(&creationDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CreationData_STATUS() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_To_CreationData_STATUS() to populate field CreationData")
 		}
 		destination.CreationData = &creationDatum
 	} else {
@@ -2768,7 +2768,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *storage.Di
 		var encryption storage.Encryption_STATUS
 		err := disk.Encryption.AssignProperties_To_Encryption_STATUS(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Encryption_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_Encryption_STATUS() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -2780,7 +2780,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *storage.Di
 		var encryptionSettingsCollection storage.EncryptionSettingsCollection_STATUS
 		err := disk.EncryptionSettingsCollection.AssignProperties_To_EncryptionSettingsCollection_STATUS(&encryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
 		}
 		destination.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -2792,7 +2792,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *storage.Di
 		var extendedLocation storage.ExtendedLocation_STATUS
 		err := disk.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -2857,7 +2857,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *storage.Di
 		var propertyUpdatesInProgress storage.PropertyUpdatesInProgress_STATUS
 		err := disk.PropertyUpdatesInProgress.AssignProperties_To_PropertyUpdatesInProgress_STATUS(&propertyUpdatesInProgress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PropertyUpdatesInProgress_STATUS() to populate field PropertyUpdatesInProgress")
+			return eris.Wrap(err, "calling AssignProperties_To_PropertyUpdatesInProgress_STATUS() to populate field PropertyUpdatesInProgress")
 		}
 		destination.PropertyUpdatesInProgress = &propertyUpdatesInProgress
 	} else {
@@ -2880,7 +2880,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *storage.Di
 		var purchasePlan storage.PurchasePlan_STATUS
 		err := disk.PurchasePlan.AssignProperties_To_PurchasePlan_STATUS(&purchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PurchasePlan_STATUS() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_To_PurchasePlan_STATUS() to populate field PurchasePlan")
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
@@ -2892,7 +2892,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *storage.Di
 		var securityProfile storage.DiskSecurityProfile_STATUS
 		err := disk.SecurityProfile.AssignProperties_To_DiskSecurityProfile_STATUS(&securityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskSecurityProfile_STATUS() to populate field SecurityProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskSecurityProfile_STATUS() to populate field SecurityProfile")
 		}
 		destination.SecurityProfile = &securityProfile
 	} else {
@@ -2908,7 +2908,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *storage.Di
 			var shareInfo storage.ShareInfoElement_STATUS
 			err := shareInfoItem.AssignProperties_To_ShareInfoElement_STATUS(&shareInfo)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ShareInfoElement_STATUS() to populate field ShareInfo")
+				return eris.Wrap(err, "calling AssignProperties_To_ShareInfoElement_STATUS() to populate field ShareInfo")
 			}
 			shareInfoList[shareInfoIndex] = shareInfo
 		}
@@ -2922,7 +2922,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *storage.Di
 		var sku storage.DiskSku_STATUS
 		err := disk.Sku.AssignProperties_To_DiskSku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskSku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -2934,7 +2934,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *storage.Di
 		var supportedCapability storage.SupportedCapabilities_STATUS
 		err := disk.SupportedCapabilities.AssignProperties_To_SupportedCapabilities_STATUS(&supportedCapability)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SupportedCapabilities_STATUS() to populate field SupportedCapabilities")
+			return eris.Wrap(err, "calling AssignProperties_To_SupportedCapabilities_STATUS() to populate field SupportedCapabilities")
 		}
 		destination.SupportedCapabilities = &supportedCapability
 	} else {
@@ -3247,7 +3247,7 @@ func (data *CreationData) AssignProperties_From_CreationData(source *storage.Cre
 		var galleryImageReference ImageDiskReference
 		err := galleryImageReference.AssignProperties_From_ImageDiskReference(source.GalleryImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ImageDiskReference() to populate field GalleryImageReference")
+			return eris.Wrap(err, "calling AssignProperties_From_ImageDiskReference() to populate field GalleryImageReference")
 		}
 		data.GalleryImageReference = &galleryImageReference
 	} else {
@@ -3259,7 +3259,7 @@ func (data *CreationData) AssignProperties_From_CreationData(source *storage.Cre
 		var imageReference ImageDiskReference
 		err := imageReference.AssignProperties_From_ImageDiskReference(source.ImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ImageDiskReference() to populate field ImageReference")
+			return eris.Wrap(err, "calling AssignProperties_From_ImageDiskReference() to populate field ImageReference")
 		}
 		data.ImageReference = &imageReference
 	} else {
@@ -3336,7 +3336,7 @@ func (data *CreationData) AssignProperties_To_CreationData(destination *storage.
 		var galleryImageReference storage.ImageDiskReference
 		err := data.GalleryImageReference.AssignProperties_To_ImageDiskReference(&galleryImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ImageDiskReference() to populate field GalleryImageReference")
+			return eris.Wrap(err, "calling AssignProperties_To_ImageDiskReference() to populate field GalleryImageReference")
 		}
 		destination.GalleryImageReference = &galleryImageReference
 	} else {
@@ -3348,7 +3348,7 @@ func (data *CreationData) AssignProperties_To_CreationData(destination *storage.
 		var imageReference storage.ImageDiskReference
 		err := data.ImageReference.AssignProperties_To_ImageDiskReference(&imageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ImageDiskReference() to populate field ImageReference")
+			return eris.Wrap(err, "calling AssignProperties_To_ImageDiskReference() to populate field ImageReference")
 		}
 		destination.ImageReference = &imageReference
 	} else {
@@ -3429,7 +3429,7 @@ func (data *CreationData) Initialize_From_CreationData_STATUS(source *CreationDa
 		var galleryImageReference ImageDiskReference
 		err := galleryImageReference.Initialize_From_ImageDiskReference_STATUS(source.GalleryImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ImageDiskReference_STATUS() to populate field GalleryImageReference")
+			return eris.Wrap(err, "calling Initialize_From_ImageDiskReference_STATUS() to populate field GalleryImageReference")
 		}
 		data.GalleryImageReference = &galleryImageReference
 	} else {
@@ -3441,7 +3441,7 @@ func (data *CreationData) Initialize_From_CreationData_STATUS(source *CreationDa
 		var imageReference ImageDiskReference
 		err := imageReference.Initialize_From_ImageDiskReference_STATUS(source.ImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ImageDiskReference_STATUS() to populate field ImageReference")
+			return eris.Wrap(err, "calling Initialize_From_ImageDiskReference_STATUS() to populate field ImageReference")
 		}
 		data.ImageReference = &imageReference
 	} else {
@@ -3670,7 +3670,7 @@ func (data *CreationData_STATUS) AssignProperties_From_CreationData_STATUS(sourc
 		var galleryImageReference ImageDiskReference_STATUS
 		err := galleryImageReference.AssignProperties_From_ImageDiskReference_STATUS(source.GalleryImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ImageDiskReference_STATUS() to populate field GalleryImageReference")
+			return eris.Wrap(err, "calling AssignProperties_From_ImageDiskReference_STATUS() to populate field GalleryImageReference")
 		}
 		data.GalleryImageReference = &galleryImageReference
 	} else {
@@ -3682,7 +3682,7 @@ func (data *CreationData_STATUS) AssignProperties_From_CreationData_STATUS(sourc
 		var imageReference ImageDiskReference_STATUS
 		err := imageReference.AssignProperties_From_ImageDiskReference_STATUS(source.ImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ImageDiskReference_STATUS() to populate field ImageReference")
+			return eris.Wrap(err, "calling AssignProperties_From_ImageDiskReference_STATUS() to populate field ImageReference")
 		}
 		data.ImageReference = &imageReference
 	} else {
@@ -3752,7 +3752,7 @@ func (data *CreationData_STATUS) AssignProperties_To_CreationData_STATUS(destina
 		var galleryImageReference storage.ImageDiskReference_STATUS
 		err := data.GalleryImageReference.AssignProperties_To_ImageDiskReference_STATUS(&galleryImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ImageDiskReference_STATUS() to populate field GalleryImageReference")
+			return eris.Wrap(err, "calling AssignProperties_To_ImageDiskReference_STATUS() to populate field GalleryImageReference")
 		}
 		destination.GalleryImageReference = &galleryImageReference
 	} else {
@@ -3764,7 +3764,7 @@ func (data *CreationData_STATUS) AssignProperties_To_CreationData_STATUS(destina
 		var imageReference storage.ImageDiskReference_STATUS
 		err := data.ImageReference.AssignProperties_To_ImageDiskReference_STATUS(&imageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ImageDiskReference_STATUS() to populate field ImageReference")
+			return eris.Wrap(err, "calling AssignProperties_To_ImageDiskReference_STATUS() to populate field ImageReference")
 		}
 		destination.ImageReference = &imageReference
 	} else {
@@ -4793,7 +4793,7 @@ func (collection *EncryptionSettingsCollection) AssignProperties_From_Encryption
 			var encryptionSetting EncryptionSettingsElement
 			err := encryptionSetting.AssignProperties_From_EncryptionSettingsElement(&encryptionSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EncryptionSettingsElement() to populate field EncryptionSettings")
+				return eris.Wrap(err, "calling AssignProperties_From_EncryptionSettingsElement() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -4831,7 +4831,7 @@ func (collection *EncryptionSettingsCollection) AssignProperties_To_EncryptionSe
 			var encryptionSetting storage.EncryptionSettingsElement
 			err := encryptionSettingItem.AssignProperties_To_EncryptionSettingsElement(&encryptionSetting)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EncryptionSettingsElement() to populate field EncryptionSettings")
+				return eris.Wrap(err, "calling AssignProperties_To_EncryptionSettingsElement() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -4874,7 +4874,7 @@ func (collection *EncryptionSettingsCollection) Initialize_From_EncryptionSettin
 			var encryptionSetting EncryptionSettingsElement
 			err := encryptionSetting.Initialize_From_EncryptionSettingsElement_STATUS(&encryptionSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_EncryptionSettingsElement_STATUS() to populate field EncryptionSettings")
+				return eris.Wrap(err, "calling Initialize_From_EncryptionSettingsElement_STATUS() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -4965,7 +4965,7 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignProperties_From_Enc
 			var encryptionSetting EncryptionSettingsElement_STATUS
 			err := encryptionSetting.AssignProperties_From_EncryptionSettingsElement_STATUS(&encryptionSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EncryptionSettingsElement_STATUS() to populate field EncryptionSettings")
+				return eris.Wrap(err, "calling AssignProperties_From_EncryptionSettingsElement_STATUS() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -5003,7 +5003,7 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignProperties_To_Encry
 			var encryptionSetting storage.EncryptionSettingsElement_STATUS
 			err := encryptionSettingItem.AssignProperties_To_EncryptionSettingsElement_STATUS(&encryptionSetting)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EncryptionSettingsElement_STATUS() to populate field EncryptionSettings")
+				return eris.Wrap(err, "calling AssignProperties_To_EncryptionSettingsElement_STATUS() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -6229,7 +6229,7 @@ func (element *EncryptionSettingsElement) AssignProperties_From_EncryptionSettin
 		var diskEncryptionKey KeyVaultAndSecretReference
 		err := diskEncryptionKey.AssignProperties_From_KeyVaultAndSecretReference(source.DiskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultAndSecretReference() to populate field DiskEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultAndSecretReference() to populate field DiskEncryptionKey")
 		}
 		element.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -6241,7 +6241,7 @@ func (element *EncryptionSettingsElement) AssignProperties_From_EncryptionSettin
 		var keyEncryptionKey KeyVaultAndKeyReference
 		err := keyEncryptionKey.AssignProperties_From_KeyVaultAndKeyReference(source.KeyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultAndKeyReference() to populate field KeyEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultAndKeyReference() to populate field KeyEncryptionKey")
 		}
 		element.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -6262,7 +6262,7 @@ func (element *EncryptionSettingsElement) AssignProperties_To_EncryptionSettings
 		var diskEncryptionKey storage.KeyVaultAndSecretReference
 		err := element.DiskEncryptionKey.AssignProperties_To_KeyVaultAndSecretReference(&diskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultAndSecretReference() to populate field DiskEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultAndSecretReference() to populate field DiskEncryptionKey")
 		}
 		destination.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -6274,7 +6274,7 @@ func (element *EncryptionSettingsElement) AssignProperties_To_EncryptionSettings
 		var keyEncryptionKey storage.KeyVaultAndKeyReference
 		err := element.KeyEncryptionKey.AssignProperties_To_KeyVaultAndKeyReference(&keyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultAndKeyReference() to populate field KeyEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultAndKeyReference() to populate field KeyEncryptionKey")
 		}
 		destination.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -6300,7 +6300,7 @@ func (element *EncryptionSettingsElement) Initialize_From_EncryptionSettingsElem
 		var diskEncryptionKey KeyVaultAndSecretReference
 		err := diskEncryptionKey.Initialize_From_KeyVaultAndSecretReference_STATUS(source.DiskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KeyVaultAndSecretReference_STATUS() to populate field DiskEncryptionKey")
+			return eris.Wrap(err, "calling Initialize_From_KeyVaultAndSecretReference_STATUS() to populate field DiskEncryptionKey")
 		}
 		element.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -6312,7 +6312,7 @@ func (element *EncryptionSettingsElement) Initialize_From_EncryptionSettingsElem
 		var keyEncryptionKey KeyVaultAndKeyReference
 		err := keyEncryptionKey.Initialize_From_KeyVaultAndKeyReference_STATUS(source.KeyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KeyVaultAndKeyReference_STATUS() to populate field KeyEncryptionKey")
+			return eris.Wrap(err, "calling Initialize_From_KeyVaultAndKeyReference_STATUS() to populate field KeyEncryptionKey")
 		}
 		element.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -6381,7 +6381,7 @@ func (element *EncryptionSettingsElement_STATUS) AssignProperties_From_Encryptio
 		var diskEncryptionKey KeyVaultAndSecretReference_STATUS
 		err := diskEncryptionKey.AssignProperties_From_KeyVaultAndSecretReference_STATUS(source.DiskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultAndSecretReference_STATUS() to populate field DiskEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultAndSecretReference_STATUS() to populate field DiskEncryptionKey")
 		}
 		element.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -6393,7 +6393,7 @@ func (element *EncryptionSettingsElement_STATUS) AssignProperties_From_Encryptio
 		var keyEncryptionKey KeyVaultAndKeyReference_STATUS
 		err := keyEncryptionKey.AssignProperties_From_KeyVaultAndKeyReference_STATUS(source.KeyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultAndKeyReference_STATUS() to populate field KeyEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultAndKeyReference_STATUS() to populate field KeyEncryptionKey")
 		}
 		element.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -6414,7 +6414,7 @@ func (element *EncryptionSettingsElement_STATUS) AssignProperties_To_EncryptionS
 		var diskEncryptionKey storage.KeyVaultAndSecretReference_STATUS
 		err := element.DiskEncryptionKey.AssignProperties_To_KeyVaultAndSecretReference_STATUS(&diskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultAndSecretReference_STATUS() to populate field DiskEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultAndSecretReference_STATUS() to populate field DiskEncryptionKey")
 		}
 		destination.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -6426,7 +6426,7 @@ func (element *EncryptionSettingsElement_STATUS) AssignProperties_To_EncryptionS
 		var keyEncryptionKey storage.KeyVaultAndKeyReference_STATUS
 		err := element.KeyEncryptionKey.AssignProperties_To_KeyVaultAndKeyReference_STATUS(&keyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultAndKeyReference_STATUS() to populate field KeyEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultAndKeyReference_STATUS() to populate field KeyEncryptionKey")
 		}
 		destination.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -6885,7 +6885,7 @@ func (reference *KeyVaultAndKeyReference) AssignProperties_From_KeyVaultAndKeyRe
 		var sourceVault SourceVault
 		err := sourceVault.AssignProperties_From_SourceVault(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SourceVault() to populate field SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_From_SourceVault() to populate field SourceVault")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -6909,7 +6909,7 @@ func (reference *KeyVaultAndKeyReference) AssignProperties_To_KeyVaultAndKeyRefe
 		var sourceVault storage.SourceVault
 		err := reference.SourceVault.AssignProperties_To_SourceVault(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVault")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -6938,7 +6938,7 @@ func (reference *KeyVaultAndKeyReference) Initialize_From_KeyVaultAndKeyReferenc
 		var sourceVault SourceVault
 		err := sourceVault.Initialize_From_SourceVault_STATUS(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SourceVault_STATUS() to populate field SourceVault")
+			return eris.Wrap(err, "calling Initialize_From_SourceVault_STATUS() to populate field SourceVault")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -7004,7 +7004,7 @@ func (reference *KeyVaultAndKeyReference_STATUS) AssignProperties_From_KeyVaultA
 		var sourceVault SourceVault_STATUS
 		err := sourceVault.AssignProperties_From_SourceVault_STATUS(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SourceVault_STATUS() to populate field SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_From_SourceVault_STATUS() to populate field SourceVault")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -7028,7 +7028,7 @@ func (reference *KeyVaultAndKeyReference_STATUS) AssignProperties_To_KeyVaultAnd
 		var sourceVault storage.SourceVault_STATUS
 		err := reference.SourceVault.AssignProperties_To_SourceVault_STATUS(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -7128,7 +7128,7 @@ func (reference *KeyVaultAndSecretReference) AssignProperties_From_KeyVaultAndSe
 		var sourceVault SourceVault
 		err := sourceVault.AssignProperties_From_SourceVault(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SourceVault() to populate field SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_From_SourceVault() to populate field SourceVault")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -7152,7 +7152,7 @@ func (reference *KeyVaultAndSecretReference) AssignProperties_To_KeyVaultAndSecr
 		var sourceVault storage.SourceVault
 		err := reference.SourceVault.AssignProperties_To_SourceVault(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVault")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -7181,7 +7181,7 @@ func (reference *KeyVaultAndSecretReference) Initialize_From_KeyVaultAndSecretRe
 		var sourceVault SourceVault
 		err := sourceVault.Initialize_From_SourceVault_STATUS(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SourceVault_STATUS() to populate field SourceVault")
+			return eris.Wrap(err, "calling Initialize_From_SourceVault_STATUS() to populate field SourceVault")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -7247,7 +7247,7 @@ func (reference *KeyVaultAndSecretReference_STATUS) AssignProperties_From_KeyVau
 		var sourceVault SourceVault_STATUS
 		err := sourceVault.AssignProperties_From_SourceVault_STATUS(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SourceVault_STATUS() to populate field SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_From_SourceVault_STATUS() to populate field SourceVault")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -7271,7 +7271,7 @@ func (reference *KeyVaultAndSecretReference_STATUS) AssignProperties_To_KeyVault
 		var sourceVault storage.SourceVault_STATUS
 		err := reference.SourceVault.AssignProperties_To_SourceVault_STATUS(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault")
 		}
 		destination.SourceVault = &sourceVault
 	} else {

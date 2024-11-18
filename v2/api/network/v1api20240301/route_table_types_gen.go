@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (table *RouteTable) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st RouteTable_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	table.Status = st
@@ -309,7 +309,7 @@ func (table *RouteTable) AssignProperties_From_RouteTable(source *storage.RouteT
 	var spec RouteTable_Spec
 	err := spec.AssignProperties_From_RouteTable_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RouteTable_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_RouteTable_Spec() to populate field Spec")
 	}
 	table.Spec = spec
 
@@ -317,7 +317,7 @@ func (table *RouteTable) AssignProperties_From_RouteTable(source *storage.RouteT
 	var status RouteTable_STATUS
 	err = status.AssignProperties_From_RouteTable_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RouteTable_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_RouteTable_STATUS() to populate field Status")
 	}
 	table.Status = status
 
@@ -335,7 +335,7 @@ func (table *RouteTable) AssignProperties_To_RouteTable(destination *storage.Rou
 	var spec storage.RouteTable_Spec
 	err := table.Spec.AssignProperties_To_RouteTable_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RouteTable_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_RouteTable_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (table *RouteTable) AssignProperties_To_RouteTable(destination *storage.Rou
 	var status storage.RouteTable_STATUS
 	err = table.Status.AssignProperties_To_RouteTable_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RouteTable_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_RouteTable_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -496,13 +496,13 @@ func (table *RouteTable_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec)
 	src = &storage.RouteTable_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = table.AssignProperties_From_RouteTable_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -520,13 +520,13 @@ func (table *RouteTable_Spec) ConvertSpecTo(destination genruntime.ConvertibleSp
 	dst = &storage.RouteTable_Spec{}
 	err := table.AssignProperties_To_RouteTable_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -554,7 +554,7 @@ func (table *RouteTable_Spec) AssignProperties_From_RouteTable_Spec(source *stor
 		var operatorSpec RouteTableOperatorSpec
 		err := operatorSpec.AssignProperties_From_RouteTableOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RouteTableOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_RouteTableOperatorSpec() to populate field OperatorSpec")
 		}
 		table.OperatorSpec = &operatorSpec
 	} else {
@@ -600,7 +600,7 @@ func (table *RouteTable_Spec) AssignProperties_To_RouteTable_Spec(destination *s
 		var operatorSpec storage.RouteTableOperatorSpec
 		err := table.OperatorSpec.AssignProperties_To_RouteTableOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RouteTableOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_RouteTableOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -708,13 +708,13 @@ func (table *RouteTable_STATUS) ConvertStatusFrom(source genruntime.ConvertibleS
 	src = &storage.RouteTable_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = table.AssignProperties_From_RouteTable_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -732,13 +732,13 @@ func (table *RouteTable_STATUS) ConvertStatusTo(destination genruntime.Convertib
 	dst = &storage.RouteTable_STATUS{}
 	err := table.AssignProperties_To_RouteTable_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

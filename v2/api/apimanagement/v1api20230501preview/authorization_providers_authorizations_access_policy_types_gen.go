@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -58,12 +58,12 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) ConvertFrom(hub 
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = policy.AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to policy")
+		return eris.Wrap(err, "converting from source to policy")
 	}
 
 	return nil
@@ -75,11 +75,11 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) ConvertTo(hub co
 	var destination storage.AuthorizationProvidersAuthorizationsAccessPolicy
 	err := policy.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from policy")
+		return eris.Wrap(err, "converting to destination from policy")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -194,7 +194,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) SetStatus(status
 	var st AuthorizationProvidersAuthorizationsAccessPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	policy.Status = st
@@ -326,7 +326,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) AssignProperties
 	var spec AuthorizationProvidersAuthorizationsAccessPolicy_Spec
 	err := spec.AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
@@ -334,7 +334,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) AssignProperties
 	var status AuthorizationProvidersAuthorizationsAccessPolicy_STATUS
 	err = status.AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -352,7 +352,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) AssignProperties
 	var spec storage.AuthorizationProvidersAuthorizationsAccessPolicy_Spec
 	err := policy.Spec.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -360,7 +360,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) AssignProperties
 	var status storage.AuthorizationProvidersAuthorizationsAccessPolicy_STATUS
 	err = policy.Status.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -451,7 +451,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) ConvertToAR
 	if policy.ObjectIdFromConfig != nil {
 		objectIdValue, err := resolved.ResolvedConfigMaps.Lookup(*policy.ObjectIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property ObjectId")
+			return nil, eris.Wrap(err, "looking up configmap for property ObjectId")
 		}
 		objectId := objectIdValue
 		result.Properties.ObjectId = &objectId
@@ -463,7 +463,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) ConvertToAR
 	if policy.TenantIdFromConfig != nil {
 		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*policy.TenantIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+			return nil, eris.Wrap(err, "looking up configmap for property TenantId")
 		}
 		tenantId := tenantIdValue
 		result.Properties.TenantId = &tenantId
@@ -542,13 +542,13 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) ConvertSpec
 	src = &storage.AuthorizationProvidersAuthorizationsAccessPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -566,13 +566,13 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) ConvertSpec
 	dst = &storage.AuthorizationProvidersAuthorizationsAccessPolicy_Spec{}
 	err := policy.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -603,7 +603,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) AssignPrope
 		var operatorSpec AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec
 		err := operatorSpec.AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		policy.OperatorSpec = &operatorSpec
 	} else {
@@ -660,7 +660,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) AssignPrope
 		var operatorSpec storage.AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec
 		err := policy.OperatorSpec.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -748,13 +748,13 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_STATUS) ConvertSt
 	src = &storage.AuthorizationProvidersAuthorizationsAccessPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -772,13 +772,13 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_STATUS) ConvertSt
 	dst = &storage.AuthorizationProvidersAuthorizationsAccessPolicy_STATUS{}
 	err := policy.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

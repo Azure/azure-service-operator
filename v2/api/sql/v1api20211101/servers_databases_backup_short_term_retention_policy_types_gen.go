@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -181,7 +181,7 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) SetStatus(status g
 	var st ServersDatabasesBackupShortTermRetentionPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	policy.Status = st
@@ -301,7 +301,7 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) AssignProperties_F
 	var spec ServersDatabasesBackupShortTermRetentionPolicy_Spec
 	err := spec.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
@@ -309,7 +309,7 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) AssignProperties_F
 	var status ServersDatabasesBackupShortTermRetentionPolicy_STATUS
 	err = status.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -327,7 +327,7 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) AssignProperties_T
 	var spec storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec
 	err := policy.Spec.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -335,7 +335,7 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) AssignProperties_T
 	var status storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS
 	err = policy.Status.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -468,13 +468,13 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) ConvertSpecFr
 	src = &storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -492,13 +492,13 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) ConvertSpecTo
 	dst = &storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec{}
 	err := policy.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -520,7 +520,7 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) AssignPropert
 		var operatorSpec ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec
 		err := operatorSpec.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		policy.OperatorSpec = &operatorSpec
 	} else {
@@ -560,7 +560,7 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) AssignPropert
 		var operatorSpec storage.ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec
 		err := policy.OperatorSpec.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -650,13 +650,13 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) ConvertStat
 	src = &storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -674,13 +674,13 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) ConvertStat
 	dst = &storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS{}
 	err := policy.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

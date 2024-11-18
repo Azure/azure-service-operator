@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (group *AfdOriginGroup) SetStatus(status genruntime.ConvertibleStatus) erro
 	var st AfdOriginGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	group.Status = st
@@ -309,7 +309,7 @@ func (group *AfdOriginGroup) AssignProperties_From_AfdOriginGroup(source *storag
 	var spec AfdOriginGroup_Spec
 	err := spec.AssignProperties_From_AfdOriginGroup_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_AfdOriginGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_AfdOriginGroup_Spec() to populate field Spec")
 	}
 	group.Spec = spec
 
@@ -317,7 +317,7 @@ func (group *AfdOriginGroup) AssignProperties_From_AfdOriginGroup(source *storag
 	var status AfdOriginGroup_STATUS
 	err = status.AssignProperties_From_AfdOriginGroup_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_AfdOriginGroup_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_AfdOriginGroup_STATUS() to populate field Status")
 	}
 	group.Status = status
 
@@ -335,7 +335,7 @@ func (group *AfdOriginGroup) AssignProperties_To_AfdOriginGroup(destination *sto
 	var spec storage.AfdOriginGroup_Spec
 	err := group.Spec.AssignProperties_To_AfdOriginGroup_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_AfdOriginGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_AfdOriginGroup_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (group *AfdOriginGroup) AssignProperties_To_AfdOriginGroup(destination *sto
 	var status storage.AfdOriginGroup_STATUS
 	err = group.Status.AssignProperties_To_AfdOriginGroup_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_AfdOriginGroup_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_AfdOriginGroup_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -539,13 +539,13 @@ func (group *AfdOriginGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleS
 	src = &storage.AfdOriginGroup_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_AfdOriginGroup_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -563,13 +563,13 @@ func (group *AfdOriginGroup_Spec) ConvertSpecTo(destination genruntime.Convertib
 	dst = &storage.AfdOriginGroup_Spec{}
 	err := group.AssignProperties_To_AfdOriginGroup_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -586,7 +586,7 @@ func (group *AfdOriginGroup_Spec) AssignProperties_From_AfdOriginGroup_Spec(sour
 		var healthProbeSetting HealthProbeParameters
 		err := healthProbeSetting.AssignProperties_From_HealthProbeParameters(source.HealthProbeSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HealthProbeParameters() to populate field HealthProbeSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_HealthProbeParameters() to populate field HealthProbeSettings")
 		}
 		group.HealthProbeSettings = &healthProbeSetting
 	} else {
@@ -598,7 +598,7 @@ func (group *AfdOriginGroup_Spec) AssignProperties_From_AfdOriginGroup_Spec(sour
 		var loadBalancingSetting LoadBalancingSettingsParameters
 		err := loadBalancingSetting.AssignProperties_From_LoadBalancingSettingsParameters(source.LoadBalancingSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_LoadBalancingSettingsParameters() to populate field LoadBalancingSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_LoadBalancingSettingsParameters() to populate field LoadBalancingSettings")
 		}
 		group.LoadBalancingSettings = &loadBalancingSetting
 	} else {
@@ -610,7 +610,7 @@ func (group *AfdOriginGroup_Spec) AssignProperties_From_AfdOriginGroup_Spec(sour
 		var operatorSpec AfdOriginGroupOperatorSpec
 		err := operatorSpec.AssignProperties_From_AfdOriginGroupOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AfdOriginGroupOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_AfdOriginGroupOperatorSpec() to populate field OperatorSpec")
 		}
 		group.OperatorSpec = &operatorSpec
 	} else {
@@ -659,7 +659,7 @@ func (group *AfdOriginGroup_Spec) AssignProperties_To_AfdOriginGroup_Spec(destin
 		var healthProbeSetting storage.HealthProbeParameters
 		err := group.HealthProbeSettings.AssignProperties_To_HealthProbeParameters(&healthProbeSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HealthProbeParameters() to populate field HealthProbeSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_HealthProbeParameters() to populate field HealthProbeSettings")
 		}
 		destination.HealthProbeSettings = &healthProbeSetting
 	} else {
@@ -671,7 +671,7 @@ func (group *AfdOriginGroup_Spec) AssignProperties_To_AfdOriginGroup_Spec(destin
 		var loadBalancingSetting storage.LoadBalancingSettingsParameters
 		err := group.LoadBalancingSettings.AssignProperties_To_LoadBalancingSettingsParameters(&loadBalancingSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_LoadBalancingSettingsParameters() to populate field LoadBalancingSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_LoadBalancingSettingsParameters() to populate field LoadBalancingSettings")
 		}
 		destination.LoadBalancingSettings = &loadBalancingSetting
 	} else {
@@ -683,7 +683,7 @@ func (group *AfdOriginGroup_Spec) AssignProperties_To_AfdOriginGroup_Spec(destin
 		var operatorSpec storage.AfdOriginGroupOperatorSpec
 		err := group.OperatorSpec.AssignProperties_To_AfdOriginGroupOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AfdOriginGroupOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_AfdOriginGroupOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -736,7 +736,7 @@ func (group *AfdOriginGroup_Spec) Initialize_From_AfdOriginGroup_STATUS(source *
 		var healthProbeSetting HealthProbeParameters
 		err := healthProbeSetting.Initialize_From_HealthProbeParameters_STATUS(source.HealthProbeSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
+			return eris.Wrap(err, "calling Initialize_From_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
 		}
 		group.HealthProbeSettings = &healthProbeSetting
 	} else {
@@ -748,7 +748,7 @@ func (group *AfdOriginGroup_Spec) Initialize_From_AfdOriginGroup_STATUS(source *
 		var loadBalancingSetting LoadBalancingSettingsParameters
 		err := loadBalancingSetting.Initialize_From_LoadBalancingSettingsParameters_STATUS(source.LoadBalancingSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_LoadBalancingSettingsParameters_STATUS() to populate field LoadBalancingSettings")
+			return eris.Wrap(err, "calling Initialize_From_LoadBalancingSettingsParameters_STATUS() to populate field LoadBalancingSettings")
 		}
 		group.LoadBalancingSettings = &loadBalancingSetting
 	} else {
@@ -835,13 +835,13 @@ func (group *AfdOriginGroup_STATUS) ConvertStatusFrom(source genruntime.Converti
 	src = &storage.AfdOriginGroup_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_AfdOriginGroup_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -859,13 +859,13 @@ func (group *AfdOriginGroup_STATUS) ConvertStatusTo(destination genruntime.Conve
 	dst = &storage.AfdOriginGroup_STATUS{}
 	err := group.AssignProperties_To_AfdOriginGroup_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1019,7 +1019,7 @@ func (group *AfdOriginGroup_STATUS) AssignProperties_From_AfdOriginGroup_STATUS(
 		var healthProbeSetting HealthProbeParameters_STATUS
 		err := healthProbeSetting.AssignProperties_From_HealthProbeParameters_STATUS(source.HealthProbeSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
 		}
 		group.HealthProbeSettings = &healthProbeSetting
 	} else {
@@ -1034,7 +1034,7 @@ func (group *AfdOriginGroup_STATUS) AssignProperties_From_AfdOriginGroup_STATUS(
 		var loadBalancingSetting LoadBalancingSettingsParameters_STATUS
 		err := loadBalancingSetting.AssignProperties_From_LoadBalancingSettingsParameters_STATUS(source.LoadBalancingSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_LoadBalancingSettingsParameters_STATUS() to populate field LoadBalancingSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_LoadBalancingSettingsParameters_STATUS() to populate field LoadBalancingSettings")
 		}
 		group.LoadBalancingSettings = &loadBalancingSetting
 	} else {
@@ -1070,7 +1070,7 @@ func (group *AfdOriginGroup_STATUS) AssignProperties_From_AfdOriginGroup_STATUS(
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		group.SystemData = &systemDatum
 	} else {
@@ -1108,7 +1108,7 @@ func (group *AfdOriginGroup_STATUS) AssignProperties_To_AfdOriginGroup_STATUS(de
 		var healthProbeSetting storage.HealthProbeParameters_STATUS
 		err := group.HealthProbeSettings.AssignProperties_To_HealthProbeParameters_STATUS(&healthProbeSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
 		}
 		destination.HealthProbeSettings = &healthProbeSetting
 	} else {
@@ -1123,7 +1123,7 @@ func (group *AfdOriginGroup_STATUS) AssignProperties_To_AfdOriginGroup_STATUS(de
 		var loadBalancingSetting storage.LoadBalancingSettingsParameters_STATUS
 		err := group.LoadBalancingSettings.AssignProperties_To_LoadBalancingSettingsParameters_STATUS(&loadBalancingSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_LoadBalancingSettingsParameters_STATUS() to populate field LoadBalancingSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_LoadBalancingSettingsParameters_STATUS() to populate field LoadBalancingSettings")
 		}
 		destination.LoadBalancingSettings = &loadBalancingSetting
 	} else {
@@ -1157,7 +1157,7 @@ func (group *AfdOriginGroup_STATUS) AssignProperties_To_AfdOriginGroup_STATUS(de
 		var systemDatum storage.SystemData_STATUS
 		err := group.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

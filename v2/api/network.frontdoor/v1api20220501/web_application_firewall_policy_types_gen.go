@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (policy *WebApplicationFirewallPolicy) SetStatus(status genruntime.Converti
 	var st WebApplicationFirewallPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	policy.Status = st
@@ -309,7 +309,7 @@ func (policy *WebApplicationFirewallPolicy) AssignProperties_From_WebApplication
 	var spec WebApplicationFirewallPolicy_Spec
 	err := spec.AssignProperties_From_WebApplicationFirewallPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_WebApplicationFirewallPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_WebApplicationFirewallPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
@@ -317,7 +317,7 @@ func (policy *WebApplicationFirewallPolicy) AssignProperties_From_WebApplication
 	var status WebApplicationFirewallPolicy_STATUS
 	err = status.AssignProperties_From_WebApplicationFirewallPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_WebApplicationFirewallPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_WebApplicationFirewallPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -335,7 +335,7 @@ func (policy *WebApplicationFirewallPolicy) AssignProperties_To_WebApplicationFi
 	var spec storage.WebApplicationFirewallPolicy_Spec
 	err := policy.Spec.AssignProperties_To_WebApplicationFirewallPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_WebApplicationFirewallPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_WebApplicationFirewallPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (policy *WebApplicationFirewallPolicy) AssignProperties_To_WebApplicationFi
 	var status storage.WebApplicationFirewallPolicy_STATUS
 	err = policy.Status.AssignProperties_To_WebApplicationFirewallPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_WebApplicationFirewallPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_WebApplicationFirewallPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -602,13 +602,13 @@ func (policy *WebApplicationFirewallPolicy_Spec) ConvertSpecFrom(source genrunti
 	src = &storage.WebApplicationFirewallPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_WebApplicationFirewallPolicy_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -626,13 +626,13 @@ func (policy *WebApplicationFirewallPolicy_Spec) ConvertSpecTo(destination genru
 	dst = &storage.WebApplicationFirewallPolicy_Spec{}
 	err := policy.AssignProperties_To_WebApplicationFirewallPolicy_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -649,7 +649,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_From_WebApplic
 		var customRule CustomRuleList
 		err := customRule.AssignProperties_From_CustomRuleList(source.CustomRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomRuleList() to populate field CustomRules")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomRuleList() to populate field CustomRules")
 		}
 		policy.CustomRules = &customRule
 	} else {
@@ -667,7 +667,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_From_WebApplic
 		var managedRule ManagedRuleSetList
 		err := managedRule.AssignProperties_From_ManagedRuleSetList(source.ManagedRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleSetList() to populate field ManagedRules")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleSetList() to populate field ManagedRules")
 		}
 		policy.ManagedRules = &managedRule
 	} else {
@@ -679,7 +679,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_From_WebApplic
 		var operatorSpec WebApplicationFirewallPolicyOperatorSpec
 		err := operatorSpec.AssignProperties_From_WebApplicationFirewallPolicyOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebApplicationFirewallPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_WebApplicationFirewallPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		policy.OperatorSpec = &operatorSpec
 	} else {
@@ -699,7 +699,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_From_WebApplic
 		var policySetting PolicySettings
 		err := policySetting.AssignProperties_From_PolicySettings(source.PolicySettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PolicySettings() to populate field PolicySettings")
+			return eris.Wrap(err, "calling AssignProperties_From_PolicySettings() to populate field PolicySettings")
 		}
 		policy.PolicySettings = &policySetting
 	} else {
@@ -711,7 +711,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_From_WebApplic
 		var sku Sku
 		err := sku.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
 		policy.Sku = &sku
 	} else {
@@ -738,7 +738,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_To_WebApplicat
 		var customRule storage.CustomRuleList
 		err := policy.CustomRules.AssignProperties_To_CustomRuleList(&customRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomRuleList() to populate field CustomRules")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomRuleList() to populate field CustomRules")
 		}
 		destination.CustomRules = &customRule
 	} else {
@@ -756,7 +756,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_To_WebApplicat
 		var managedRule storage.ManagedRuleSetList
 		err := policy.ManagedRules.AssignProperties_To_ManagedRuleSetList(&managedRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleSetList() to populate field ManagedRules")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleSetList() to populate field ManagedRules")
 		}
 		destination.ManagedRules = &managedRule
 	} else {
@@ -768,7 +768,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_To_WebApplicat
 		var operatorSpec storage.WebApplicationFirewallPolicyOperatorSpec
 		err := policy.OperatorSpec.AssignProperties_To_WebApplicationFirewallPolicyOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebApplicationFirewallPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_WebApplicationFirewallPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -791,7 +791,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_To_WebApplicat
 		var policySetting storage.PolicySettings
 		err := policy.PolicySettings.AssignProperties_To_PolicySettings(&policySetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PolicySettings() to populate field PolicySettings")
+			return eris.Wrap(err, "calling AssignProperties_To_PolicySettings() to populate field PolicySettings")
 		}
 		destination.PolicySettings = &policySetting
 	} else {
@@ -803,7 +803,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_To_WebApplicat
 		var sku storage.Sku
 		err := policy.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -832,7 +832,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) Initialize_From_WebApplicationF
 		var customRule CustomRuleList
 		err := customRule.Initialize_From_CustomRuleList_STATUS(source.CustomRules)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CustomRuleList_STATUS() to populate field CustomRules")
+			return eris.Wrap(err, "calling Initialize_From_CustomRuleList_STATUS() to populate field CustomRules")
 		}
 		policy.CustomRules = &customRule
 	} else {
@@ -850,7 +850,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) Initialize_From_WebApplicationF
 		var managedRule ManagedRuleSetList
 		err := managedRule.Initialize_From_ManagedRuleSetList_STATUS(source.ManagedRules)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedRuleSetList_STATUS() to populate field ManagedRules")
+			return eris.Wrap(err, "calling Initialize_From_ManagedRuleSetList_STATUS() to populate field ManagedRules")
 		}
 		policy.ManagedRules = &managedRule
 	} else {
@@ -862,7 +862,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) Initialize_From_WebApplicationF
 		var policySetting PolicySettings
 		err := policySetting.Initialize_From_PolicySettings_STATUS(source.PolicySettings)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PolicySettings_STATUS() to populate field PolicySettings")
+			return eris.Wrap(err, "calling Initialize_From_PolicySettings_STATUS() to populate field PolicySettings")
 		}
 		policy.PolicySettings = &policySetting
 	} else {
@@ -874,7 +874,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) Initialize_From_WebApplicationF
 		var sku Sku
 		err := sku.Initialize_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
 		}
 		policy.Sku = &sku
 	} else {
@@ -960,13 +960,13 @@ func (policy *WebApplicationFirewallPolicy_STATUS) ConvertStatusFrom(source genr
 	src = &storage.WebApplicationFirewallPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_WebApplicationFirewallPolicy_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -984,13 +984,13 @@ func (policy *WebApplicationFirewallPolicy_STATUS) ConvertStatusTo(destination g
 	dst = &storage.WebApplicationFirewallPolicy_STATUS{}
 	err := policy.AssignProperties_To_WebApplicationFirewallPolicy_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1177,7 +1177,7 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_From_WebAppl
 		var customRule CustomRuleList_STATUS
 		err := customRule.AssignProperties_From_CustomRuleList_STATUS(source.CustomRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomRuleList_STATUS() to populate field CustomRules")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomRuleList_STATUS() to populate field CustomRules")
 		}
 		policy.CustomRules = &customRule
 	} else {
@@ -1196,7 +1196,7 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_From_WebAppl
 			var frontendEndpointLink FrontendEndpointLink_STATUS
 			err := frontendEndpointLink.AssignProperties_From_FrontendEndpointLink_STATUS(&frontendEndpointLinkItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_FrontendEndpointLink_STATUS() to populate field FrontendEndpointLinks")
+				return eris.Wrap(err, "calling AssignProperties_From_FrontendEndpointLink_STATUS() to populate field FrontendEndpointLinks")
 			}
 			frontendEndpointLinkList[frontendEndpointLinkIndex] = frontendEndpointLink
 		}
@@ -1216,7 +1216,7 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_From_WebAppl
 		var managedRule ManagedRuleSetList_STATUS
 		err := managedRule.AssignProperties_From_ManagedRuleSetList_STATUS(source.ManagedRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleSetList_STATUS() to populate field ManagedRules")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleSetList_STATUS() to populate field ManagedRules")
 		}
 		policy.ManagedRules = &managedRule
 	} else {
@@ -1231,7 +1231,7 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_From_WebAppl
 		var policySetting PolicySettings_STATUS
 		err := policySetting.AssignProperties_From_PolicySettings_STATUS(source.PolicySettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PolicySettings_STATUS() to populate field PolicySettings")
+			return eris.Wrap(err, "calling AssignProperties_From_PolicySettings_STATUS() to populate field PolicySettings")
 		}
 		policy.PolicySettings = &policySetting
 	} else {
@@ -1259,7 +1259,7 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_From_WebAppl
 			var routingRuleLink RoutingRuleLink_STATUS
 			err := routingRuleLink.AssignProperties_From_RoutingRuleLink_STATUS(&routingRuleLinkItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingRuleLink_STATUS() to populate field RoutingRuleLinks")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingRuleLink_STATUS() to populate field RoutingRuleLinks")
 			}
 			routingRuleLinkList[routingRuleLinkIndex] = routingRuleLink
 		}
@@ -1277,7 +1277,7 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_From_WebAppl
 			var securityPolicyLink SecurityPolicyLink_STATUS
 			err := securityPolicyLink.AssignProperties_From_SecurityPolicyLink_STATUS(&securityPolicyLinkItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyLink_STATUS() to populate field SecurityPolicyLinks")
+				return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyLink_STATUS() to populate field SecurityPolicyLinks")
 			}
 			securityPolicyLinkList[securityPolicyLinkIndex] = securityPolicyLink
 		}
@@ -1291,7 +1291,7 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_From_WebAppl
 		var sku Sku_STATUS
 		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		policy.Sku = &sku
 	} else {
@@ -1321,7 +1321,7 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_To_WebApplic
 		var customRule storage.CustomRuleList_STATUS
 		err := policy.CustomRules.AssignProperties_To_CustomRuleList_STATUS(&customRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomRuleList_STATUS() to populate field CustomRules")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomRuleList_STATUS() to populate field CustomRules")
 		}
 		destination.CustomRules = &customRule
 	} else {
@@ -1340,7 +1340,7 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_To_WebApplic
 			var frontendEndpointLink storage.FrontendEndpointLink_STATUS
 			err := frontendEndpointLinkItem.AssignProperties_To_FrontendEndpointLink_STATUS(&frontendEndpointLink)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_FrontendEndpointLink_STATUS() to populate field FrontendEndpointLinks")
+				return eris.Wrap(err, "calling AssignProperties_To_FrontendEndpointLink_STATUS() to populate field FrontendEndpointLinks")
 			}
 			frontendEndpointLinkList[frontendEndpointLinkIndex] = frontendEndpointLink
 		}
@@ -1360,7 +1360,7 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_To_WebApplic
 		var managedRule storage.ManagedRuleSetList_STATUS
 		err := policy.ManagedRules.AssignProperties_To_ManagedRuleSetList_STATUS(&managedRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleSetList_STATUS() to populate field ManagedRules")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleSetList_STATUS() to populate field ManagedRules")
 		}
 		destination.ManagedRules = &managedRule
 	} else {
@@ -1375,7 +1375,7 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_To_WebApplic
 		var policySetting storage.PolicySettings_STATUS
 		err := policy.PolicySettings.AssignProperties_To_PolicySettings_STATUS(&policySetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PolicySettings_STATUS() to populate field PolicySettings")
+			return eris.Wrap(err, "calling AssignProperties_To_PolicySettings_STATUS() to populate field PolicySettings")
 		}
 		destination.PolicySettings = &policySetting
 	} else {
@@ -1402,7 +1402,7 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_To_WebApplic
 			var routingRuleLink storage.RoutingRuleLink_STATUS
 			err := routingRuleLinkItem.AssignProperties_To_RoutingRuleLink_STATUS(&routingRuleLink)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingRuleLink_STATUS() to populate field RoutingRuleLinks")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingRuleLink_STATUS() to populate field RoutingRuleLinks")
 			}
 			routingRuleLinkList[routingRuleLinkIndex] = routingRuleLink
 		}
@@ -1420,7 +1420,7 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_To_WebApplic
 			var securityPolicyLink storage.SecurityPolicyLink_STATUS
 			err := securityPolicyLinkItem.AssignProperties_To_SecurityPolicyLink_STATUS(&securityPolicyLink)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyLink_STATUS() to populate field SecurityPolicyLinks")
+				return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyLink_STATUS() to populate field SecurityPolicyLinks")
 			}
 			securityPolicyLinkList[securityPolicyLinkIndex] = securityPolicyLink
 		}
@@ -1434,7 +1434,7 @@ func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_To_WebApplic
 		var sku storage.Sku_STATUS
 		err := policy.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1522,7 +1522,7 @@ func (list *CustomRuleList) AssignProperties_From_CustomRuleList(source *storage
 			var rule CustomRule
 			err := rule.AssignProperties_From_CustomRule(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_CustomRule() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_From_CustomRule() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1549,7 +1549,7 @@ func (list *CustomRuleList) AssignProperties_To_CustomRuleList(destination *stor
 			var rule storage.CustomRule
 			err := ruleItem.AssignProperties_To_CustomRule(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_CustomRule() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_To_CustomRule() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1581,7 +1581,7 @@ func (list *CustomRuleList) Initialize_From_CustomRuleList_STATUS(source *Custom
 			var rule CustomRule
 			err := rule.Initialize_From_CustomRule_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_CustomRule_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling Initialize_From_CustomRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1640,7 +1640,7 @@ func (list *CustomRuleList_STATUS) AssignProperties_From_CustomRuleList_STATUS(s
 			var rule CustomRule_STATUS
 			err := rule.AssignProperties_From_CustomRule_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_CustomRule_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_From_CustomRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1667,7 +1667,7 @@ func (list *CustomRuleList_STATUS) AssignProperties_To_CustomRuleList_STATUS(des
 			var rule storage.CustomRule_STATUS
 			err := ruleItem.AssignProperties_To_CustomRule_STATUS(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_CustomRule_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_To_CustomRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1810,7 +1810,7 @@ func (list *ManagedRuleSetList) AssignProperties_From_ManagedRuleSetList(source 
 			var managedRuleSet ManagedRuleSet
 			err := managedRuleSet.AssignProperties_From_ManagedRuleSet(&managedRuleSetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleSet() to populate field ManagedRuleSets")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleSet() to populate field ManagedRuleSets")
 			}
 			managedRuleSetList[managedRuleSetIndex] = managedRuleSet
 		}
@@ -1837,7 +1837,7 @@ func (list *ManagedRuleSetList) AssignProperties_To_ManagedRuleSetList(destinati
 			var managedRuleSet storage.ManagedRuleSet
 			err := managedRuleSetItem.AssignProperties_To_ManagedRuleSet(&managedRuleSet)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleSet() to populate field ManagedRuleSets")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleSet() to populate field ManagedRuleSets")
 			}
 			managedRuleSetList[managedRuleSetIndex] = managedRuleSet
 		}
@@ -1869,7 +1869,7 @@ func (list *ManagedRuleSetList) Initialize_From_ManagedRuleSetList_STATUS(source
 			var managedRuleSet ManagedRuleSet
 			err := managedRuleSet.Initialize_From_ManagedRuleSet_STATUS(&managedRuleSetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedRuleSet_STATUS() to populate field ManagedRuleSets")
+				return eris.Wrap(err, "calling Initialize_From_ManagedRuleSet_STATUS() to populate field ManagedRuleSets")
 			}
 			managedRuleSetList[managedRuleSetIndex] = managedRuleSet
 		}
@@ -1928,7 +1928,7 @@ func (list *ManagedRuleSetList_STATUS) AssignProperties_From_ManagedRuleSetList_
 			var managedRuleSet ManagedRuleSet_STATUS
 			err := managedRuleSet.AssignProperties_From_ManagedRuleSet_STATUS(&managedRuleSetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleSet_STATUS() to populate field ManagedRuleSets")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleSet_STATUS() to populate field ManagedRuleSets")
 			}
 			managedRuleSetList[managedRuleSetIndex] = managedRuleSet
 		}
@@ -1955,7 +1955,7 @@ func (list *ManagedRuleSetList_STATUS) AssignProperties_To_ManagedRuleSetList_ST
 			var managedRuleSet storage.ManagedRuleSet_STATUS
 			err := managedRuleSetItem.AssignProperties_To_ManagedRuleSet_STATUS(&managedRuleSet)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleSet_STATUS() to populate field ManagedRuleSets")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleSet_STATUS() to populate field ManagedRuleSets")
 			}
 			managedRuleSetList[managedRuleSetIndex] = managedRuleSet
 		}
@@ -3056,7 +3056,7 @@ func (rule *CustomRule) AssignProperties_From_CustomRule(source *storage.CustomR
 			var matchCondition MatchCondition
 			err := matchCondition.AssignProperties_From_MatchCondition(&matchConditionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_MatchCondition() to populate field MatchConditions")
+				return eris.Wrap(err, "calling AssignProperties_From_MatchCondition() to populate field MatchConditions")
 			}
 			matchConditionList[matchConditionIndex] = matchCondition
 		}
@@ -3135,7 +3135,7 @@ func (rule *CustomRule) AssignProperties_To_CustomRule(destination *storage.Cust
 			var matchCondition storage.MatchCondition
 			err := matchConditionItem.AssignProperties_To_MatchCondition(&matchCondition)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_MatchCondition() to populate field MatchConditions")
+				return eris.Wrap(err, "calling AssignProperties_To_MatchCondition() to populate field MatchConditions")
 			}
 			matchConditionList[matchConditionIndex] = matchCondition
 		}
@@ -3218,7 +3218,7 @@ func (rule *CustomRule) Initialize_From_CustomRule_STATUS(source *CustomRule_STA
 			var matchCondition MatchCondition
 			err := matchCondition.Initialize_From_MatchCondition_STATUS(&matchConditionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_MatchCondition_STATUS() to populate field MatchConditions")
+				return eris.Wrap(err, "calling Initialize_From_MatchCondition_STATUS() to populate field MatchConditions")
 			}
 			matchConditionList[matchConditionIndex] = matchCondition
 		}
@@ -3399,7 +3399,7 @@ func (rule *CustomRule_STATUS) AssignProperties_From_CustomRule_STATUS(source *s
 			var matchCondition MatchCondition_STATUS
 			err := matchCondition.AssignProperties_From_MatchCondition_STATUS(&matchConditionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_MatchCondition_STATUS() to populate field MatchConditions")
+				return eris.Wrap(err, "calling AssignProperties_From_MatchCondition_STATUS() to populate field MatchConditions")
 			}
 			matchConditionList[matchConditionIndex] = matchCondition
 		}
@@ -3463,7 +3463,7 @@ func (rule *CustomRule_STATUS) AssignProperties_To_CustomRule_STATUS(destination
 			var matchCondition storage.MatchCondition_STATUS
 			err := matchConditionItem.AssignProperties_To_MatchCondition_STATUS(&matchCondition)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_MatchCondition_STATUS() to populate field MatchConditions")
+				return eris.Wrap(err, "calling AssignProperties_To_MatchCondition_STATUS() to populate field MatchConditions")
 			}
 			matchConditionList[matchConditionIndex] = matchCondition
 		}
@@ -3640,7 +3640,7 @@ func (ruleSet *ManagedRuleSet) AssignProperties_From_ManagedRuleSet(source *stor
 			var exclusion ManagedRuleExclusion
 			err := exclusion.AssignProperties_From_ManagedRuleExclusion(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -3658,7 +3658,7 @@ func (ruleSet *ManagedRuleSet) AssignProperties_From_ManagedRuleSet(source *stor
 			var ruleGroupOverride ManagedRuleGroupOverride
 			err := ruleGroupOverride.AssignProperties_From_ManagedRuleGroupOverride(&ruleGroupOverrideItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleGroupOverride() to populate field RuleGroupOverrides")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleGroupOverride() to populate field RuleGroupOverrides")
 			}
 			ruleGroupOverrideList[ruleGroupOverrideIndex] = ruleGroupOverride
 		}
@@ -3700,7 +3700,7 @@ func (ruleSet *ManagedRuleSet) AssignProperties_To_ManagedRuleSet(destination *s
 			var exclusion storage.ManagedRuleExclusion
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion(&exclusion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -3718,7 +3718,7 @@ func (ruleSet *ManagedRuleSet) AssignProperties_To_ManagedRuleSet(destination *s
 			var ruleGroupOverride storage.ManagedRuleGroupOverride
 			err := ruleGroupOverrideItem.AssignProperties_To_ManagedRuleGroupOverride(&ruleGroupOverride)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleGroupOverride() to populate field RuleGroupOverrides")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleGroupOverride() to populate field RuleGroupOverrides")
 			}
 			ruleGroupOverrideList[ruleGroupOverrideIndex] = ruleGroupOverride
 		}
@@ -3764,7 +3764,7 @@ func (ruleSet *ManagedRuleSet) Initialize_From_ManagedRuleSet_STATUS(source *Man
 			var exclusion ManagedRuleExclusion
 			err := exclusion.Initialize_From_ManagedRuleExclusion_STATUS(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling Initialize_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -3782,7 +3782,7 @@ func (ruleSet *ManagedRuleSet) Initialize_From_ManagedRuleSet_STATUS(source *Man
 			var ruleGroupOverride ManagedRuleGroupOverride
 			err := ruleGroupOverride.Initialize_From_ManagedRuleGroupOverride_STATUS(&ruleGroupOverrideItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedRuleGroupOverride_STATUS() to populate field RuleGroupOverrides")
+				return eris.Wrap(err, "calling Initialize_From_ManagedRuleGroupOverride_STATUS() to populate field RuleGroupOverrides")
 			}
 			ruleGroupOverrideList[ruleGroupOverrideIndex] = ruleGroupOverride
 		}
@@ -3897,7 +3897,7 @@ func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_From_ManagedRuleSet_STATU
 			var exclusion ManagedRuleExclusion_STATUS
 			err := exclusion.AssignProperties_From_ManagedRuleExclusion_STATUS(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -3915,7 +3915,7 @@ func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_From_ManagedRuleSet_STATU
 			var ruleGroupOverride ManagedRuleGroupOverride_STATUS
 			err := ruleGroupOverride.AssignProperties_From_ManagedRuleGroupOverride_STATUS(&ruleGroupOverrideItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleGroupOverride_STATUS() to populate field RuleGroupOverrides")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleGroupOverride_STATUS() to populate field RuleGroupOverrides")
 			}
 			ruleGroupOverrideList[ruleGroupOverrideIndex] = ruleGroupOverride
 		}
@@ -3957,7 +3957,7 @@ func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_To_ManagedRuleSet_STATUS(
 			var exclusion storage.ManagedRuleExclusion_STATUS
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion_STATUS(&exclusion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -3975,7 +3975,7 @@ func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_To_ManagedRuleSet_STATUS(
 			var ruleGroupOverride storage.ManagedRuleGroupOverride_STATUS
 			err := ruleGroupOverrideItem.AssignProperties_To_ManagedRuleGroupOverride_STATUS(&ruleGroupOverride)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleGroupOverride_STATUS() to populate field RuleGroupOverrides")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleGroupOverride_STATUS() to populate field RuleGroupOverrides")
 			}
 			ruleGroupOverrideList[ruleGroupOverrideIndex] = ruleGroupOverride
 		}
@@ -4610,7 +4610,7 @@ func (override *ManagedRuleGroupOverride) AssignProperties_From_ManagedRuleGroup
 			var exclusion ManagedRuleExclusion
 			err := exclusion.AssignProperties_From_ManagedRuleExclusion(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -4631,7 +4631,7 @@ func (override *ManagedRuleGroupOverride) AssignProperties_From_ManagedRuleGroup
 			var rule ManagedRuleOverride
 			err := rule.AssignProperties_From_ManagedRuleOverride(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleOverride() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleOverride() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -4658,7 +4658,7 @@ func (override *ManagedRuleGroupOverride) AssignProperties_To_ManagedRuleGroupOv
 			var exclusion storage.ManagedRuleExclusion
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion(&exclusion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -4679,7 +4679,7 @@ func (override *ManagedRuleGroupOverride) AssignProperties_To_ManagedRuleGroupOv
 			var rule storage.ManagedRuleOverride
 			err := ruleItem.AssignProperties_To_ManagedRuleOverride(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleOverride() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleOverride() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -4711,7 +4711,7 @@ func (override *ManagedRuleGroupOverride) Initialize_From_ManagedRuleGroupOverri
 			var exclusion ManagedRuleExclusion
 			err := exclusion.Initialize_From_ManagedRuleExclusion_STATUS(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling Initialize_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -4732,7 +4732,7 @@ func (override *ManagedRuleGroupOverride) Initialize_From_ManagedRuleGroupOverri
 			var rule ManagedRuleOverride
 			err := rule.Initialize_From_ManagedRuleOverride_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedRuleOverride_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling Initialize_From_ManagedRuleOverride_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -4813,7 +4813,7 @@ func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_From_ManagedRu
 			var exclusion ManagedRuleExclusion_STATUS
 			err := exclusion.AssignProperties_From_ManagedRuleExclusion_STATUS(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -4834,7 +4834,7 @@ func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_From_ManagedRu
 			var rule ManagedRuleOverride_STATUS
 			err := rule.AssignProperties_From_ManagedRuleOverride_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleOverride_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleOverride_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -4861,7 +4861,7 @@ func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_To_ManagedRule
 			var exclusion storage.ManagedRuleExclusion_STATUS
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion_STATUS(&exclusion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -4882,7 +4882,7 @@ func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_To_ManagedRule
 			var rule storage.ManagedRuleOverride_STATUS
 			err := ruleItem.AssignProperties_To_ManagedRuleOverride_STATUS(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleOverride_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleOverride_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -5634,7 +5634,7 @@ func (override *ManagedRuleOverride) AssignProperties_From_ManagedRuleOverride(s
 			var exclusion ManagedRuleExclusion
 			err := exclusion.AssignProperties_From_ManagedRuleExclusion(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -5680,7 +5680,7 @@ func (override *ManagedRuleOverride) AssignProperties_To_ManagedRuleOverride(des
 			var exclusion storage.ManagedRuleExclusion
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion(&exclusion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -5731,7 +5731,7 @@ func (override *ManagedRuleOverride) Initialize_From_ManagedRuleOverride_STATUS(
 			var exclusion ManagedRuleExclusion
 			err := exclusion.Initialize_From_ManagedRuleExclusion_STATUS(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling Initialize_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -5842,7 +5842,7 @@ func (override *ManagedRuleOverride_STATUS) AssignProperties_From_ManagedRuleOve
 			var exclusion ManagedRuleExclusion_STATUS
 			err := exclusion.AssignProperties_From_ManagedRuleExclusion_STATUS(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -5888,7 +5888,7 @@ func (override *ManagedRuleOverride_STATUS) AssignProperties_To_ManagedRuleOverr
 			var exclusion storage.ManagedRuleExclusion_STATUS
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion_STATUS(&exclusion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}

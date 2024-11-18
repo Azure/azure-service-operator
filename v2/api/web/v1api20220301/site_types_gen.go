@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (site *Site) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Site_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	site.Status = st
@@ -309,7 +309,7 @@ func (site *Site) AssignProperties_From_Site(source *storage.Site) error {
 	var spec Site_Spec
 	err := spec.AssignProperties_From_Site_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Site_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Site_Spec() to populate field Spec")
 	}
 	site.Spec = spec
 
@@ -317,7 +317,7 @@ func (site *Site) AssignProperties_From_Site(source *storage.Site) error {
 	var status Site_STATUS
 	err = status.AssignProperties_From_Site_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Site_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Site_STATUS() to populate field Status")
 	}
 	site.Status = status
 
@@ -335,7 +335,7 @@ func (site *Site) AssignProperties_To_Site(destination *storage.Site) error {
 	var spec storage.Site_Spec
 	err := site.Spec.AssignProperties_To_Site_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Site_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Site_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (site *Site) AssignProperties_To_Site(destination *storage.Site) error {
 	var status storage.Site_STATUS
 	err = site.Status.AssignProperties_To_Site_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Site_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Site_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -1054,13 +1054,13 @@ func (site *Site_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error 
 	src = &storage.Site_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = site.AssignProperties_From_Site_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -1078,13 +1078,13 @@ func (site *Site_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) err
 	dst = &storage.Site_Spec{}
 	err := site.AssignProperties_To_Site_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -1129,7 +1129,7 @@ func (site *Site_Spec) AssignProperties_From_Site_Spec(source *storage.Site_Spec
 		var cloningInfo CloningInfo
 		err := cloningInfo.AssignProperties_From_CloningInfo(source.CloningInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CloningInfo() to populate field CloningInfo")
+			return eris.Wrap(err, "calling AssignProperties_From_CloningInfo() to populate field CloningInfo")
 		}
 		site.CloningInfo = &cloningInfo
 	} else {
@@ -1158,7 +1158,7 @@ func (site *Site_Spec) AssignProperties_From_Site_Spec(source *storage.Site_Spec
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		site.ExtendedLocation = &extendedLocation
 	} else {
@@ -1174,7 +1174,7 @@ func (site *Site_Spec) AssignProperties_From_Site_Spec(source *storage.Site_Spec
 			var hostNameSslState HostNameSslState
 			err := hostNameSslState.AssignProperties_From_HostNameSslState(&hostNameSslStateItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_HostNameSslState() to populate field HostNameSslStates")
+				return eris.Wrap(err, "calling AssignProperties_From_HostNameSslState() to populate field HostNameSslStates")
 			}
 			hostNameSslStateList[hostNameSslStateIndex] = hostNameSslState
 		}
@@ -1196,7 +1196,7 @@ func (site *Site_Spec) AssignProperties_From_Site_Spec(source *storage.Site_Spec
 		var hostingEnvironmentProfile HostingEnvironmentProfile
 		err := hostingEnvironmentProfile.AssignProperties_From_HostingEnvironmentProfile(source.HostingEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
 		}
 		site.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
@@ -1224,7 +1224,7 @@ func (site *Site_Spec) AssignProperties_From_Site_Spec(source *storage.Site_Spec
 		var identity ManagedServiceIdentity
 		err := identity.AssignProperties_From_ManagedServiceIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity() to populate field Identity")
 		}
 		site.Identity = &identity
 	} else {
@@ -1253,7 +1253,7 @@ func (site *Site_Spec) AssignProperties_From_Site_Spec(source *storage.Site_Spec
 		var operatorSpec SiteOperatorSpec
 		err := operatorSpec.AssignProperties_From_SiteOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SiteOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_SiteOperatorSpec() to populate field OperatorSpec")
 		}
 		site.OperatorSpec = &operatorSpec
 	} else {
@@ -1309,7 +1309,7 @@ func (site *Site_Spec) AssignProperties_From_Site_Spec(source *storage.Site_Spec
 		var siteConfig SiteConfig
 		err := siteConfig.AssignProperties_From_SiteConfig(source.SiteConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SiteConfig() to populate field SiteConfig")
+			return eris.Wrap(err, "calling AssignProperties_From_SiteConfig() to populate field SiteConfig")
 		}
 		site.SiteConfig = &siteConfig
 	} else {
@@ -1403,7 +1403,7 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *storage.Site_S
 		var cloningInfo storage.CloningInfo
 		err := site.CloningInfo.AssignProperties_To_CloningInfo(&cloningInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CloningInfo() to populate field CloningInfo")
+			return eris.Wrap(err, "calling AssignProperties_To_CloningInfo() to populate field CloningInfo")
 		}
 		destination.CloningInfo = &cloningInfo
 	} else {
@@ -1432,7 +1432,7 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *storage.Site_S
 		var extendedLocation storage.ExtendedLocation
 		err := site.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1448,7 +1448,7 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *storage.Site_S
 			var hostNameSslState storage.HostNameSslState
 			err := hostNameSslStateItem.AssignProperties_To_HostNameSslState(&hostNameSslState)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_HostNameSslState() to populate field HostNameSslStates")
+				return eris.Wrap(err, "calling AssignProperties_To_HostNameSslState() to populate field HostNameSslStates")
 			}
 			hostNameSslStateList[hostNameSslStateIndex] = hostNameSslState
 		}
@@ -1470,7 +1470,7 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *storage.Site_S
 		var hostingEnvironmentProfile storage.HostingEnvironmentProfile
 		err := site.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile(&hostingEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
 		}
 		destination.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
@@ -1498,7 +1498,7 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *storage.Site_S
 		var identity storage.ManagedServiceIdentity
 		err := site.Identity.AssignProperties_To_ManagedServiceIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1527,7 +1527,7 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *storage.Site_S
 		var operatorSpec storage.SiteOperatorSpec
 		err := site.OperatorSpec.AssignProperties_To_SiteOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SiteOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_SiteOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -1585,7 +1585,7 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *storage.Site_S
 		var siteConfig storage.SiteConfig
 		err := site.SiteConfig.AssignProperties_To_SiteConfig(&siteConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SiteConfig() to populate field SiteConfig")
+			return eris.Wrap(err, "calling AssignProperties_To_SiteConfig() to populate field SiteConfig")
 		}
 		destination.SiteConfig = &siteConfig
 	} else {
@@ -1681,7 +1681,7 @@ func (site *Site_Spec) Initialize_From_Site_STATUS(source *Site_STATUS) error {
 		var cloningInfo CloningInfo
 		err := cloningInfo.Initialize_From_CloningInfo_STATUS(source.CloningInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CloningInfo_STATUS() to populate field CloningInfo")
+			return eris.Wrap(err, "calling Initialize_From_CloningInfo_STATUS() to populate field CloningInfo")
 		}
 		site.CloningInfo = &cloningInfo
 	} else {
@@ -1710,7 +1710,7 @@ func (site *Site_Spec) Initialize_From_Site_STATUS(source *Site_STATUS) error {
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		site.ExtendedLocation = &extendedLocation
 	} else {
@@ -1726,7 +1726,7 @@ func (site *Site_Spec) Initialize_From_Site_STATUS(source *Site_STATUS) error {
 			var hostNameSslState HostNameSslState
 			err := hostNameSslState.Initialize_From_HostNameSslState_STATUS(&hostNameSslStateItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_HostNameSslState_STATUS() to populate field HostNameSslStates")
+				return eris.Wrap(err, "calling Initialize_From_HostNameSslState_STATUS() to populate field HostNameSslStates")
 			}
 			hostNameSslStateList[hostNameSslStateIndex] = hostNameSslState
 		}
@@ -1748,7 +1748,7 @@ func (site *Site_Spec) Initialize_From_Site_STATUS(source *Site_STATUS) error {
 		var hostingEnvironmentProfile HostingEnvironmentProfile
 		err := hostingEnvironmentProfile.Initialize_From_HostingEnvironmentProfile_STATUS(source.HostingEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
+			return eris.Wrap(err, "calling Initialize_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
 		}
 		site.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
@@ -1776,7 +1776,7 @@ func (site *Site_Spec) Initialize_From_Site_STATUS(source *Site_STATUS) error {
 		var identity ManagedServiceIdentity
 		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
 		}
 		site.Identity = &identity
 	} else {
@@ -1840,7 +1840,7 @@ func (site *Site_Spec) Initialize_From_Site_STATUS(source *Site_STATUS) error {
 		var siteConfig SiteConfig
 		err := siteConfig.Initialize_From_SiteConfig_STATUS(source.SiteConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SiteConfig_STATUS() to populate field SiteConfig")
+			return eris.Wrap(err, "calling Initialize_From_SiteConfig_STATUS() to populate field SiteConfig")
 		}
 		site.SiteConfig = &siteConfig
 	} else {
@@ -2101,13 +2101,13 @@ func (site *Site_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) 
 	src = &storage.Site_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = site.AssignProperties_From_Site_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -2125,13 +2125,13 @@ func (site *Site_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatu
 	dst = &storage.Site_STATUS{}
 	err := site.AssignProperties_To_Site_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -2696,7 +2696,7 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *storage.Site_
 		var cloningInfo CloningInfo_STATUS
 		err := cloningInfo.AssignProperties_From_CloningInfo_STATUS(source.CloningInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CloningInfo_STATUS() to populate field CloningInfo")
+			return eris.Wrap(err, "calling AssignProperties_From_CloningInfo_STATUS() to populate field CloningInfo")
 		}
 		site.CloningInfo = &cloningInfo
 	} else {
@@ -2734,7 +2734,7 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *storage.Site_
 		var extendedLocation ExtendedLocation_STATUS
 		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		site.ExtendedLocation = &extendedLocation
 	} else {
@@ -2750,7 +2750,7 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *storage.Site_
 			var hostNameSslState HostNameSslState_STATUS
 			err := hostNameSslState.AssignProperties_From_HostNameSslState_STATUS(&hostNameSslStateItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_HostNameSslState_STATUS() to populate field HostNameSslStates")
+				return eris.Wrap(err, "calling AssignProperties_From_HostNameSslState_STATUS() to populate field HostNameSslStates")
 			}
 			hostNameSslStateList[hostNameSslStateIndex] = hostNameSslState
 		}
@@ -2775,7 +2775,7 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *storage.Site_
 		var hostingEnvironmentProfile HostingEnvironmentProfile_STATUS
 		err := hostingEnvironmentProfile.AssignProperties_From_HostingEnvironmentProfile_STATUS(source.HostingEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
 		}
 		site.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
@@ -2806,7 +2806,7 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *storage.Site_
 		var identity ManagedServiceIdentity_STATUS
 		err := identity.AssignProperties_From_ManagedServiceIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity_STATUS() to populate field Identity")
 		}
 		site.Identity = &identity
 	} else {
@@ -2898,7 +2898,7 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *storage.Site_
 		var siteConfig SiteConfig_STATUS
 		err := siteConfig.AssignProperties_From_SiteConfig_STATUS(source.SiteConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SiteConfig_STATUS() to populate field SiteConfig")
+			return eris.Wrap(err, "calling AssignProperties_From_SiteConfig_STATUS() to populate field SiteConfig")
 		}
 		site.SiteConfig = &siteConfig
 	} else {
@@ -2910,7 +2910,7 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *storage.Site_
 		var slotSwapStatus SlotSwapStatus_STATUS
 		err := slotSwapStatus.AssignProperties_From_SlotSwapStatus_STATUS(source.SlotSwapStatus)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SlotSwapStatus_STATUS() to populate field SlotSwapStatus")
+			return eris.Wrap(err, "calling AssignProperties_From_SlotSwapStatus_STATUS() to populate field SlotSwapStatus")
 		}
 		site.SlotSwapStatus = &slotSwapStatus
 	} else {
@@ -3028,7 +3028,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *storage.Si
 		var cloningInfo storage.CloningInfo_STATUS
 		err := site.CloningInfo.AssignProperties_To_CloningInfo_STATUS(&cloningInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CloningInfo_STATUS() to populate field CloningInfo")
+			return eris.Wrap(err, "calling AssignProperties_To_CloningInfo_STATUS() to populate field CloningInfo")
 		}
 		destination.CloningInfo = &cloningInfo
 	} else {
@@ -3066,7 +3066,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *storage.Si
 		var extendedLocation storage.ExtendedLocation_STATUS
 		err := site.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -3082,7 +3082,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *storage.Si
 			var hostNameSslState storage.HostNameSslState_STATUS
 			err := hostNameSslStateItem.AssignProperties_To_HostNameSslState_STATUS(&hostNameSslState)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_HostNameSslState_STATUS() to populate field HostNameSslStates")
+				return eris.Wrap(err, "calling AssignProperties_To_HostNameSslState_STATUS() to populate field HostNameSslStates")
 			}
 			hostNameSslStateList[hostNameSslStateIndex] = hostNameSslState
 		}
@@ -3107,7 +3107,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *storage.Si
 		var hostingEnvironmentProfile storage.HostingEnvironmentProfile_STATUS
 		err := site.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile_STATUS(&hostingEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
 		}
 		destination.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
@@ -3138,7 +3138,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *storage.Si
 		var identity storage.ManagedServiceIdentity_STATUS
 		err := site.Identity.AssignProperties_To_ManagedServiceIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -3229,7 +3229,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *storage.Si
 		var siteConfig storage.SiteConfig_STATUS
 		err := site.SiteConfig.AssignProperties_To_SiteConfig_STATUS(&siteConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SiteConfig_STATUS() to populate field SiteConfig")
+			return eris.Wrap(err, "calling AssignProperties_To_SiteConfig_STATUS() to populate field SiteConfig")
 		}
 		destination.SiteConfig = &siteConfig
 	} else {
@@ -3241,7 +3241,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *storage.Si
 		var slotSwapStatus storage.SlotSwapStatus_STATUS
 		err := site.SlotSwapStatus.AssignProperties_To_SlotSwapStatus_STATUS(&slotSwapStatus)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SlotSwapStatus_STATUS() to populate field SlotSwapStatus")
+			return eris.Wrap(err, "calling AssignProperties_To_SlotSwapStatus_STATUS() to populate field SlotSwapStatus")
 		}
 		destination.SlotSwapStatus = &slotSwapStatus
 	} else {
@@ -4543,7 +4543,7 @@ func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIden
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -4578,7 +4578,7 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -4720,7 +4720,7 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServ
 			var userAssignedIdentity UserAssignedIdentity_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -4761,7 +4761,7 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServic
 			var userAssignedIdentity storage.UserAssignedIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -6082,7 +6082,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 		var apiDefinition ApiDefinitionInfo
 		err := apiDefinition.AssignProperties_From_ApiDefinitionInfo(source.ApiDefinition)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiDefinitionInfo() to populate field ApiDefinition")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiDefinitionInfo() to populate field ApiDefinition")
 		}
 		config.ApiDefinition = &apiDefinition
 	} else {
@@ -6094,7 +6094,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 		var apiManagementConfig ApiManagementConfig
 		err := apiManagementConfig.AssignProperties_From_ApiManagementConfig(source.ApiManagementConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiManagementConfig() to populate field ApiManagementConfig")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiManagementConfig() to populate field ApiManagementConfig")
 		}
 		config.ApiManagementConfig = &apiManagementConfig
 	} else {
@@ -6113,7 +6113,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 			var appSetting NameValuePair
 			err := appSetting.AssignProperties_From_NameValuePair(&appSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NameValuePair() to populate field AppSettings")
+				return eris.Wrap(err, "calling AssignProperties_From_NameValuePair() to populate field AppSettings")
 			}
 			appSettingList[appSettingIndex] = appSetting
 		}
@@ -6135,7 +6135,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 		var autoHealRule AutoHealRules
 		err := autoHealRule.AssignProperties_From_AutoHealRules(source.AutoHealRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoHealRules() to populate field AutoHealRules")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoHealRules() to populate field AutoHealRules")
 		}
 		config.AutoHealRules = &autoHealRule
 	} else {
@@ -6154,7 +6154,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 			var azureStorageAccount AzureStorageInfoValue
 			err := azureStorageAccount.AssignProperties_From_AzureStorageInfoValue(&azureStorageAccountValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_AzureStorageInfoValue() to populate field AzureStorageAccounts")
+				return eris.Wrap(err, "calling AssignProperties_From_AzureStorageInfoValue() to populate field AzureStorageAccounts")
 			}
 			azureStorageAccountMap[azureStorageAccountKey] = azureStorageAccount
 		}
@@ -6172,7 +6172,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 			var connectionString ConnStringInfo
 			err := connectionString.AssignProperties_From_ConnStringInfo(&connectionStringItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ConnStringInfo() to populate field ConnectionStrings")
+				return eris.Wrap(err, "calling AssignProperties_From_ConnStringInfo() to populate field ConnectionStrings")
 			}
 			connectionStringList[connectionStringIndex] = connectionString
 		}
@@ -6186,7 +6186,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 		var cor CorsSettings
 		err := cor.AssignProperties_From_CorsSettings(source.Cors)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CorsSettings() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_From_CorsSettings() to populate field Cors")
 		}
 		config.Cors = &cor
 	} else {
@@ -6212,7 +6212,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 		var experiment Experiments
 		err := experiment.AssignProperties_From_Experiments(source.Experiments)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Experiments() to populate field Experiments")
+			return eris.Wrap(err, "calling AssignProperties_From_Experiments() to populate field Experiments")
 		}
 		config.Experiments = &experiment
 	} else {
@@ -6253,7 +6253,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 			var handlerMapping HandlerMapping
 			err := handlerMapping.AssignProperties_From_HandlerMapping(&handlerMappingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_HandlerMapping() to populate field HandlerMappings")
+				return eris.Wrap(err, "calling AssignProperties_From_HandlerMapping() to populate field HandlerMappings")
 			}
 			handlerMappingList[handlerMappingIndex] = handlerMapping
 		}
@@ -6290,7 +6290,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 			var ipSecurityRestriction IpSecurityRestriction
 			err := ipSecurityRestriction.AssignProperties_From_IpSecurityRestriction(&ipSecurityRestrictionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpSecurityRestriction() to populate field IpSecurityRestrictions")
+				return eris.Wrap(err, "calling AssignProperties_From_IpSecurityRestriction() to populate field IpSecurityRestrictions")
 			}
 			ipSecurityRestrictionList[ipSecurityRestrictionIndex] = ipSecurityRestriction
 		}
@@ -6316,7 +6316,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 		var limit SiteLimits
 		err := limit.AssignProperties_From_SiteLimits(source.Limits)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SiteLimits() to populate field Limits")
+			return eris.Wrap(err, "calling AssignProperties_From_SiteLimits() to populate field Limits")
 		}
 		config.Limits = &limit
 	} else {
@@ -6409,7 +6409,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 		var push PushSettings
 		err := push.AssignProperties_From_PushSettings(source.Push)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PushSettings() to populate field Push")
+			return eris.Wrap(err, "calling AssignProperties_From_PushSettings() to populate field Push")
 		}
 		config.Push = &push
 	} else {
@@ -6450,7 +6450,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 			var scmIpSecurityRestriction IpSecurityRestriction
 			err := scmIpSecurityRestriction.AssignProperties_From_IpSecurityRestriction(&scmIpSecurityRestrictionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpSecurityRestriction() to populate field ScmIpSecurityRestrictions")
+				return eris.Wrap(err, "calling AssignProperties_From_IpSecurityRestriction() to populate field ScmIpSecurityRestrictions")
 			}
 			scmIpSecurityRestrictionList[scmIpSecurityRestrictionIndex] = scmIpSecurityRestriction
 		}
@@ -6505,7 +6505,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 			var virtualApplication VirtualApplication
 			err := virtualApplication.AssignProperties_From_VirtualApplication(&virtualApplicationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualApplication() to populate field VirtualApplications")
+				return eris.Wrap(err, "calling AssignProperties_From_VirtualApplication() to populate field VirtualApplications")
 			}
 			virtualApplicationList[virtualApplicationIndex] = virtualApplication
 		}
@@ -6578,7 +6578,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 		var apiDefinition storage.ApiDefinitionInfo
 		err := config.ApiDefinition.AssignProperties_To_ApiDefinitionInfo(&apiDefinition)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiDefinitionInfo() to populate field ApiDefinition")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiDefinitionInfo() to populate field ApiDefinition")
 		}
 		destination.ApiDefinition = &apiDefinition
 	} else {
@@ -6590,7 +6590,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 		var apiManagementConfig storage.ApiManagementConfig
 		err := config.ApiManagementConfig.AssignProperties_To_ApiManagementConfig(&apiManagementConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiManagementConfig() to populate field ApiManagementConfig")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiManagementConfig() to populate field ApiManagementConfig")
 		}
 		destination.ApiManagementConfig = &apiManagementConfig
 	} else {
@@ -6609,7 +6609,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 			var appSetting storage.NameValuePair
 			err := appSettingItem.AssignProperties_To_NameValuePair(&appSetting)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NameValuePair() to populate field AppSettings")
+				return eris.Wrap(err, "calling AssignProperties_To_NameValuePair() to populate field AppSettings")
 			}
 			appSettingList[appSettingIndex] = appSetting
 		}
@@ -6631,7 +6631,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 		var autoHealRule storage.AutoHealRules
 		err := config.AutoHealRules.AssignProperties_To_AutoHealRules(&autoHealRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoHealRules() to populate field AutoHealRules")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoHealRules() to populate field AutoHealRules")
 		}
 		destination.AutoHealRules = &autoHealRule
 	} else {
@@ -6650,7 +6650,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 			var azureStorageAccount storage.AzureStorageInfoValue
 			err := azureStorageAccountValue.AssignProperties_To_AzureStorageInfoValue(&azureStorageAccount)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_AzureStorageInfoValue() to populate field AzureStorageAccounts")
+				return eris.Wrap(err, "calling AssignProperties_To_AzureStorageInfoValue() to populate field AzureStorageAccounts")
 			}
 			azureStorageAccountMap[azureStorageAccountKey] = azureStorageAccount
 		}
@@ -6668,7 +6668,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 			var connectionString storage.ConnStringInfo
 			err := connectionStringItem.AssignProperties_To_ConnStringInfo(&connectionString)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ConnStringInfo() to populate field ConnectionStrings")
+				return eris.Wrap(err, "calling AssignProperties_To_ConnStringInfo() to populate field ConnectionStrings")
 			}
 			connectionStringList[connectionStringIndex] = connectionString
 		}
@@ -6682,7 +6682,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 		var cor storage.CorsSettings
 		err := config.Cors.AssignProperties_To_CorsSettings(&cor)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CorsSettings() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_To_CorsSettings() to populate field Cors")
 		}
 		destination.Cors = &cor
 	} else {
@@ -6708,7 +6708,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 		var experiment storage.Experiments
 		err := config.Experiments.AssignProperties_To_Experiments(&experiment)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Experiments() to populate field Experiments")
+			return eris.Wrap(err, "calling AssignProperties_To_Experiments() to populate field Experiments")
 		}
 		destination.Experiments = &experiment
 	} else {
@@ -6748,7 +6748,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 			var handlerMapping storage.HandlerMapping
 			err := handlerMappingItem.AssignProperties_To_HandlerMapping(&handlerMapping)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_HandlerMapping() to populate field HandlerMappings")
+				return eris.Wrap(err, "calling AssignProperties_To_HandlerMapping() to populate field HandlerMappings")
 			}
 			handlerMappingList[handlerMappingIndex] = handlerMapping
 		}
@@ -6785,7 +6785,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 			var ipSecurityRestriction storage.IpSecurityRestriction
 			err := ipSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction(&ipSecurityRestriction)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction() to populate field IpSecurityRestrictions")
+				return eris.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction() to populate field IpSecurityRestrictions")
 			}
 			ipSecurityRestrictionList[ipSecurityRestrictionIndex] = ipSecurityRestriction
 		}
@@ -6811,7 +6811,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 		var limit storage.SiteLimits
 		err := config.Limits.AssignProperties_To_SiteLimits(&limit)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SiteLimits() to populate field Limits")
+			return eris.Wrap(err, "calling AssignProperties_To_SiteLimits() to populate field Limits")
 		}
 		destination.Limits = &limit
 	} else {
@@ -6901,7 +6901,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 		var push storage.PushSettings
 		err := config.Push.AssignProperties_To_PushSettings(&push)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PushSettings() to populate field Push")
+			return eris.Wrap(err, "calling AssignProperties_To_PushSettings() to populate field Push")
 		}
 		destination.Push = &push
 	} else {
@@ -6942,7 +6942,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 			var scmIpSecurityRestriction storage.IpSecurityRestriction
 			err := scmIpSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction(&scmIpSecurityRestriction)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction() to populate field ScmIpSecurityRestrictions")
+				return eris.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction() to populate field ScmIpSecurityRestrictions")
 			}
 			scmIpSecurityRestrictionList[scmIpSecurityRestrictionIndex] = scmIpSecurityRestriction
 		}
@@ -6995,7 +6995,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 			var virtualApplication storage.VirtualApplication
 			err := virtualApplicationItem.AssignProperties_To_VirtualApplication(&virtualApplication)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualApplication() to populate field VirtualApplications")
+				return eris.Wrap(err, "calling AssignProperties_To_VirtualApplication() to populate field VirtualApplications")
 			}
 			virtualApplicationList[virtualApplicationIndex] = virtualApplication
 		}
@@ -7073,7 +7073,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 		var apiDefinition ApiDefinitionInfo
 		err := apiDefinition.Initialize_From_ApiDefinitionInfo_STATUS(source.ApiDefinition)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ApiDefinitionInfo_STATUS() to populate field ApiDefinition")
+			return eris.Wrap(err, "calling Initialize_From_ApiDefinitionInfo_STATUS() to populate field ApiDefinition")
 		}
 		config.ApiDefinition = &apiDefinition
 	} else {
@@ -7085,7 +7085,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 		var apiManagementConfig ApiManagementConfig
 		err := apiManagementConfig.Initialize_From_ApiManagementConfig_STATUS(source.ApiManagementConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ApiManagementConfig_STATUS() to populate field ApiManagementConfig")
+			return eris.Wrap(err, "calling Initialize_From_ApiManagementConfig_STATUS() to populate field ApiManagementConfig")
 		}
 		config.ApiManagementConfig = &apiManagementConfig
 	} else {
@@ -7104,7 +7104,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 			var appSetting NameValuePair
 			err := appSetting.Initialize_From_NameValuePair_STATUS(&appSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_NameValuePair_STATUS() to populate field AppSettings")
+				return eris.Wrap(err, "calling Initialize_From_NameValuePair_STATUS() to populate field AppSettings")
 			}
 			appSettingList[appSettingIndex] = appSetting
 		}
@@ -7126,7 +7126,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 		var autoHealRule AutoHealRules
 		err := autoHealRule.Initialize_From_AutoHealRules_STATUS(source.AutoHealRules)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoHealRules_STATUS() to populate field AutoHealRules")
+			return eris.Wrap(err, "calling Initialize_From_AutoHealRules_STATUS() to populate field AutoHealRules")
 		}
 		config.AutoHealRules = &autoHealRule
 	} else {
@@ -7145,7 +7145,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 			var azureStorageAccount AzureStorageInfoValue
 			err := azureStorageAccount.Initialize_From_AzureStorageInfoValue_STATUS(&azureStorageAccountValue)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_AzureStorageInfoValue_STATUS() to populate field AzureStorageAccounts")
+				return eris.Wrap(err, "calling Initialize_From_AzureStorageInfoValue_STATUS() to populate field AzureStorageAccounts")
 			}
 			azureStorageAccountMap[azureStorageAccountKey] = azureStorageAccount
 		}
@@ -7163,7 +7163,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 			var connectionString ConnStringInfo
 			err := connectionString.Initialize_From_ConnStringInfo_STATUS(&connectionStringItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ConnStringInfo_STATUS() to populate field ConnectionStrings")
+				return eris.Wrap(err, "calling Initialize_From_ConnStringInfo_STATUS() to populate field ConnectionStrings")
 			}
 			connectionStringList[connectionStringIndex] = connectionString
 		}
@@ -7177,7 +7177,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 		var cor CorsSettings
 		err := cor.Initialize_From_CorsSettings_STATUS(source.Cors)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CorsSettings_STATUS() to populate field Cors")
+			return eris.Wrap(err, "calling Initialize_From_CorsSettings_STATUS() to populate field Cors")
 		}
 		config.Cors = &cor
 	} else {
@@ -7203,7 +7203,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 		var experiment Experiments
 		err := experiment.Initialize_From_Experiments_STATUS(source.Experiments)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Experiments_STATUS() to populate field Experiments")
+			return eris.Wrap(err, "calling Initialize_From_Experiments_STATUS() to populate field Experiments")
 		}
 		config.Experiments = &experiment
 	} else {
@@ -7243,7 +7243,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 			var handlerMapping HandlerMapping
 			err := handlerMapping.Initialize_From_HandlerMapping_STATUS(&handlerMappingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_HandlerMapping_STATUS() to populate field HandlerMappings")
+				return eris.Wrap(err, "calling Initialize_From_HandlerMapping_STATUS() to populate field HandlerMappings")
 			}
 			handlerMappingList[handlerMappingIndex] = handlerMapping
 		}
@@ -7280,7 +7280,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 			var ipSecurityRestriction IpSecurityRestriction
 			err := ipSecurityRestriction.Initialize_From_IpSecurityRestriction_STATUS(&ipSecurityRestrictionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IpSecurityRestriction_STATUS() to populate field IpSecurityRestrictions")
+				return eris.Wrap(err, "calling Initialize_From_IpSecurityRestriction_STATUS() to populate field IpSecurityRestrictions")
 			}
 			ipSecurityRestrictionList[ipSecurityRestrictionIndex] = ipSecurityRestriction
 		}
@@ -7306,7 +7306,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 		var limit SiteLimits
 		err := limit.Initialize_From_SiteLimits_STATUS(source.Limits)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SiteLimits_STATUS() to populate field Limits")
+			return eris.Wrap(err, "calling Initialize_From_SiteLimits_STATUS() to populate field Limits")
 		}
 		config.Limits = &limit
 	} else {
@@ -7396,7 +7396,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 		var push PushSettings
 		err := push.Initialize_From_PushSettings_STATUS(source.Push)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PushSettings_STATUS() to populate field Push")
+			return eris.Wrap(err, "calling Initialize_From_PushSettings_STATUS() to populate field Push")
 		}
 		config.Push = &push
 	} else {
@@ -7437,7 +7437,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 			var scmIpSecurityRestriction IpSecurityRestriction
 			err := scmIpSecurityRestriction.Initialize_From_IpSecurityRestriction_STATUS(&scmIpSecurityRestrictionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IpSecurityRestriction_STATUS() to populate field ScmIpSecurityRestrictions")
+				return eris.Wrap(err, "calling Initialize_From_IpSecurityRestriction_STATUS() to populate field ScmIpSecurityRestrictions")
 			}
 			scmIpSecurityRestrictionList[scmIpSecurityRestrictionIndex] = scmIpSecurityRestriction
 		}
@@ -7490,7 +7490,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 			var virtualApplication VirtualApplication
 			err := virtualApplication.Initialize_From_VirtualApplication_STATUS(&virtualApplicationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_VirtualApplication_STATUS() to populate field VirtualApplications")
+				return eris.Wrap(err, "calling Initialize_From_VirtualApplication_STATUS() to populate field VirtualApplications")
 			}
 			virtualApplicationList[virtualApplicationIndex] = virtualApplication
 		}
@@ -8278,7 +8278,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 		var apiDefinition ApiDefinitionInfo_STATUS
 		err := apiDefinition.AssignProperties_From_ApiDefinitionInfo_STATUS(source.ApiDefinition)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiDefinitionInfo_STATUS() to populate field ApiDefinition")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiDefinitionInfo_STATUS() to populate field ApiDefinition")
 		}
 		config.ApiDefinition = &apiDefinition
 	} else {
@@ -8290,7 +8290,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 		var apiManagementConfig ApiManagementConfig_STATUS
 		err := apiManagementConfig.AssignProperties_From_ApiManagementConfig_STATUS(source.ApiManagementConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiManagementConfig_STATUS() to populate field ApiManagementConfig")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiManagementConfig_STATUS() to populate field ApiManagementConfig")
 		}
 		config.ApiManagementConfig = &apiManagementConfig
 	} else {
@@ -8309,7 +8309,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 			var appSetting NameValuePair_STATUS
 			err := appSetting.AssignProperties_From_NameValuePair_STATUS(&appSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NameValuePair_STATUS() to populate field AppSettings")
+				return eris.Wrap(err, "calling AssignProperties_From_NameValuePair_STATUS() to populate field AppSettings")
 			}
 			appSettingList[appSettingIndex] = appSetting
 		}
@@ -8331,7 +8331,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 		var autoHealRule AutoHealRules_STATUS
 		err := autoHealRule.AssignProperties_From_AutoHealRules_STATUS(source.AutoHealRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoHealRules_STATUS() to populate field AutoHealRules")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoHealRules_STATUS() to populate field AutoHealRules")
 		}
 		config.AutoHealRules = &autoHealRule
 	} else {
@@ -8350,7 +8350,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 			var azureStorageAccount AzureStorageInfoValue_STATUS
 			err := azureStorageAccount.AssignProperties_From_AzureStorageInfoValue_STATUS(&azureStorageAccountValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_AzureStorageInfoValue_STATUS() to populate field AzureStorageAccounts")
+				return eris.Wrap(err, "calling AssignProperties_From_AzureStorageInfoValue_STATUS() to populate field AzureStorageAccounts")
 			}
 			azureStorageAccountMap[azureStorageAccountKey] = azureStorageAccount
 		}
@@ -8368,7 +8368,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 			var connectionString ConnStringInfo_STATUS
 			err := connectionString.AssignProperties_From_ConnStringInfo_STATUS(&connectionStringItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ConnStringInfo_STATUS() to populate field ConnectionStrings")
+				return eris.Wrap(err, "calling AssignProperties_From_ConnStringInfo_STATUS() to populate field ConnectionStrings")
 			}
 			connectionStringList[connectionStringIndex] = connectionString
 		}
@@ -8382,7 +8382,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 		var cor CorsSettings_STATUS
 		err := cor.AssignProperties_From_CorsSettings_STATUS(source.Cors)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CorsSettings_STATUS() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_From_CorsSettings_STATUS() to populate field Cors")
 		}
 		config.Cors = &cor
 	} else {
@@ -8408,7 +8408,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 		var experiment Experiments_STATUS
 		err := experiment.AssignProperties_From_Experiments_STATUS(source.Experiments)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Experiments_STATUS() to populate field Experiments")
+			return eris.Wrap(err, "calling AssignProperties_From_Experiments_STATUS() to populate field Experiments")
 		}
 		config.Experiments = &experiment
 	} else {
@@ -8444,7 +8444,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 			var handlerMapping HandlerMapping_STATUS
 			err := handlerMapping.AssignProperties_From_HandlerMapping_STATUS(&handlerMappingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_HandlerMapping_STATUS() to populate field HandlerMappings")
+				return eris.Wrap(err, "calling AssignProperties_From_HandlerMapping_STATUS() to populate field HandlerMappings")
 			}
 			handlerMappingList[handlerMappingIndex] = handlerMapping
 		}
@@ -8481,7 +8481,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 			var ipSecurityRestriction IpSecurityRestriction_STATUS
 			err := ipSecurityRestriction.AssignProperties_From_IpSecurityRestriction_STATUS(&ipSecurityRestrictionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpSecurityRestriction_STATUS() to populate field IpSecurityRestrictions")
+				return eris.Wrap(err, "calling AssignProperties_From_IpSecurityRestriction_STATUS() to populate field IpSecurityRestrictions")
 			}
 			ipSecurityRestrictionList[ipSecurityRestrictionIndex] = ipSecurityRestriction
 		}
@@ -8507,7 +8507,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 		var limit SiteLimits_STATUS
 		err := limit.AssignProperties_From_SiteLimits_STATUS(source.Limits)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SiteLimits_STATUS() to populate field Limits")
+			return eris.Wrap(err, "calling AssignProperties_From_SiteLimits_STATUS() to populate field Limits")
 		}
 		config.Limits = &limit
 	} else {
@@ -8542,7 +8542,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 		var machineKey SiteMachineKey_STATUS
 		err := machineKey.AssignProperties_From_SiteMachineKey_STATUS(source.MachineKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SiteMachineKey_STATUS() to populate field MachineKey")
+			return eris.Wrap(err, "calling AssignProperties_From_SiteMachineKey_STATUS() to populate field MachineKey")
 		}
 		config.MachineKey = &machineKey
 	} else {
@@ -8602,7 +8602,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 		var push PushSettings_STATUS
 		err := push.AssignProperties_From_PushSettings_STATUS(source.Push)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PushSettings_STATUS() to populate field Push")
+			return eris.Wrap(err, "calling AssignProperties_From_PushSettings_STATUS() to populate field Push")
 		}
 		config.Push = &push
 	} else {
@@ -8643,7 +8643,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 			var scmIpSecurityRestriction IpSecurityRestriction_STATUS
 			err := scmIpSecurityRestriction.AssignProperties_From_IpSecurityRestriction_STATUS(&scmIpSecurityRestrictionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpSecurityRestriction_STATUS() to populate field ScmIpSecurityRestrictions")
+				return eris.Wrap(err, "calling AssignProperties_From_IpSecurityRestriction_STATUS() to populate field ScmIpSecurityRestrictions")
 			}
 			scmIpSecurityRestrictionList[scmIpSecurityRestrictionIndex] = scmIpSecurityRestriction
 		}
@@ -8698,7 +8698,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 			var virtualApplication VirtualApplication_STATUS
 			err := virtualApplication.AssignProperties_From_VirtualApplication_STATUS(&virtualApplicationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualApplication_STATUS() to populate field VirtualApplications")
+				return eris.Wrap(err, "calling AssignProperties_From_VirtualApplication_STATUS() to populate field VirtualApplications")
 			}
 			virtualApplicationList[virtualApplicationIndex] = virtualApplication
 		}
@@ -8771,7 +8771,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 		var apiDefinition storage.ApiDefinitionInfo_STATUS
 		err := config.ApiDefinition.AssignProperties_To_ApiDefinitionInfo_STATUS(&apiDefinition)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiDefinitionInfo_STATUS() to populate field ApiDefinition")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiDefinitionInfo_STATUS() to populate field ApiDefinition")
 		}
 		destination.ApiDefinition = &apiDefinition
 	} else {
@@ -8783,7 +8783,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 		var apiManagementConfig storage.ApiManagementConfig_STATUS
 		err := config.ApiManagementConfig.AssignProperties_To_ApiManagementConfig_STATUS(&apiManagementConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiManagementConfig_STATUS() to populate field ApiManagementConfig")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiManagementConfig_STATUS() to populate field ApiManagementConfig")
 		}
 		destination.ApiManagementConfig = &apiManagementConfig
 	} else {
@@ -8802,7 +8802,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 			var appSetting storage.NameValuePair_STATUS
 			err := appSettingItem.AssignProperties_To_NameValuePair_STATUS(&appSetting)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NameValuePair_STATUS() to populate field AppSettings")
+				return eris.Wrap(err, "calling AssignProperties_To_NameValuePair_STATUS() to populate field AppSettings")
 			}
 			appSettingList[appSettingIndex] = appSetting
 		}
@@ -8824,7 +8824,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 		var autoHealRule storage.AutoHealRules_STATUS
 		err := config.AutoHealRules.AssignProperties_To_AutoHealRules_STATUS(&autoHealRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoHealRules_STATUS() to populate field AutoHealRules")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoHealRules_STATUS() to populate field AutoHealRules")
 		}
 		destination.AutoHealRules = &autoHealRule
 	} else {
@@ -8843,7 +8843,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 			var azureStorageAccount storage.AzureStorageInfoValue_STATUS
 			err := azureStorageAccountValue.AssignProperties_To_AzureStorageInfoValue_STATUS(&azureStorageAccount)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_AzureStorageInfoValue_STATUS() to populate field AzureStorageAccounts")
+				return eris.Wrap(err, "calling AssignProperties_To_AzureStorageInfoValue_STATUS() to populate field AzureStorageAccounts")
 			}
 			azureStorageAccountMap[azureStorageAccountKey] = azureStorageAccount
 		}
@@ -8861,7 +8861,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 			var connectionString storage.ConnStringInfo_STATUS
 			err := connectionStringItem.AssignProperties_To_ConnStringInfo_STATUS(&connectionString)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ConnStringInfo_STATUS() to populate field ConnectionStrings")
+				return eris.Wrap(err, "calling AssignProperties_To_ConnStringInfo_STATUS() to populate field ConnectionStrings")
 			}
 			connectionStringList[connectionStringIndex] = connectionString
 		}
@@ -8875,7 +8875,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 		var cor storage.CorsSettings_STATUS
 		err := config.Cors.AssignProperties_To_CorsSettings_STATUS(&cor)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CorsSettings_STATUS() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_To_CorsSettings_STATUS() to populate field Cors")
 		}
 		destination.Cors = &cor
 	} else {
@@ -8901,7 +8901,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 		var experiment storage.Experiments_STATUS
 		err := config.Experiments.AssignProperties_To_Experiments_STATUS(&experiment)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Experiments_STATUS() to populate field Experiments")
+			return eris.Wrap(err, "calling AssignProperties_To_Experiments_STATUS() to populate field Experiments")
 		}
 		destination.Experiments = &experiment
 	} else {
@@ -8936,7 +8936,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 			var handlerMapping storage.HandlerMapping_STATUS
 			err := handlerMappingItem.AssignProperties_To_HandlerMapping_STATUS(&handlerMapping)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_HandlerMapping_STATUS() to populate field HandlerMappings")
+				return eris.Wrap(err, "calling AssignProperties_To_HandlerMapping_STATUS() to populate field HandlerMappings")
 			}
 			handlerMappingList[handlerMappingIndex] = handlerMapping
 		}
@@ -8973,7 +8973,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 			var ipSecurityRestriction storage.IpSecurityRestriction_STATUS
 			err := ipSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction_STATUS(&ipSecurityRestriction)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction_STATUS() to populate field IpSecurityRestrictions")
+				return eris.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction_STATUS() to populate field IpSecurityRestrictions")
 			}
 			ipSecurityRestrictionList[ipSecurityRestrictionIndex] = ipSecurityRestriction
 		}
@@ -8999,7 +8999,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 		var limit storage.SiteLimits_STATUS
 		err := config.Limits.AssignProperties_To_SiteLimits_STATUS(&limit)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SiteLimits_STATUS() to populate field Limits")
+			return eris.Wrap(err, "calling AssignProperties_To_SiteLimits_STATUS() to populate field Limits")
 		}
 		destination.Limits = &limit
 	} else {
@@ -9033,7 +9033,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 		var machineKey storage.SiteMachineKey_STATUS
 		err := config.MachineKey.AssignProperties_To_SiteMachineKey_STATUS(&machineKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SiteMachineKey_STATUS() to populate field MachineKey")
+			return eris.Wrap(err, "calling AssignProperties_To_SiteMachineKey_STATUS() to populate field MachineKey")
 		}
 		destination.MachineKey = &machineKey
 	} else {
@@ -9091,7 +9091,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 		var push storage.PushSettings_STATUS
 		err := config.Push.AssignProperties_To_PushSettings_STATUS(&push)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PushSettings_STATUS() to populate field Push")
+			return eris.Wrap(err, "calling AssignProperties_To_PushSettings_STATUS() to populate field Push")
 		}
 		destination.Push = &push
 	} else {
@@ -9132,7 +9132,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 			var scmIpSecurityRestriction storage.IpSecurityRestriction_STATUS
 			err := scmIpSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction_STATUS(&scmIpSecurityRestriction)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction_STATUS() to populate field ScmIpSecurityRestrictions")
+				return eris.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction_STATUS() to populate field ScmIpSecurityRestrictions")
 			}
 			scmIpSecurityRestrictionList[scmIpSecurityRestrictionIndex] = scmIpSecurityRestriction
 		}
@@ -9185,7 +9185,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 			var virtualApplication storage.VirtualApplication_STATUS
 			err := virtualApplicationItem.AssignProperties_To_VirtualApplication_STATUS(&virtualApplication)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualApplication_STATUS() to populate field VirtualApplications")
+				return eris.Wrap(err, "calling AssignProperties_To_VirtualApplication_STATUS() to populate field VirtualApplications")
 			}
 			virtualApplicationList[virtualApplicationIndex] = virtualApplication
 		}
@@ -9816,7 +9816,7 @@ func (rules *AutoHealRules) AssignProperties_From_AutoHealRules(source *storage.
 		var action AutoHealActions
 		err := action.AssignProperties_From_AutoHealActions(source.Actions)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoHealActions() to populate field Actions")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoHealActions() to populate field Actions")
 		}
 		rules.Actions = &action
 	} else {
@@ -9828,7 +9828,7 @@ func (rules *AutoHealRules) AssignProperties_From_AutoHealRules(source *storage.
 		var trigger AutoHealTriggers
 		err := trigger.AssignProperties_From_AutoHealTriggers(source.Triggers)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoHealTriggers() to populate field Triggers")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoHealTriggers() to populate field Triggers")
 		}
 		rules.Triggers = &trigger
 	} else {
@@ -9849,7 +9849,7 @@ func (rules *AutoHealRules) AssignProperties_To_AutoHealRules(destination *stora
 		var action storage.AutoHealActions
 		err := rules.Actions.AssignProperties_To_AutoHealActions(&action)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoHealActions() to populate field Actions")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoHealActions() to populate field Actions")
 		}
 		destination.Actions = &action
 	} else {
@@ -9861,7 +9861,7 @@ func (rules *AutoHealRules) AssignProperties_To_AutoHealRules(destination *stora
 		var trigger storage.AutoHealTriggers
 		err := rules.Triggers.AssignProperties_To_AutoHealTriggers(&trigger)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoHealTriggers() to populate field Triggers")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoHealTriggers() to populate field Triggers")
 		}
 		destination.Triggers = &trigger
 	} else {
@@ -9887,7 +9887,7 @@ func (rules *AutoHealRules) Initialize_From_AutoHealRules_STATUS(source *AutoHea
 		var action AutoHealActions
 		err := action.Initialize_From_AutoHealActions_STATUS(source.Actions)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoHealActions_STATUS() to populate field Actions")
+			return eris.Wrap(err, "calling Initialize_From_AutoHealActions_STATUS() to populate field Actions")
 		}
 		rules.Actions = &action
 	} else {
@@ -9899,7 +9899,7 @@ func (rules *AutoHealRules) Initialize_From_AutoHealRules_STATUS(source *AutoHea
 		var trigger AutoHealTriggers
 		err := trigger.Initialize_From_AutoHealTriggers_STATUS(source.Triggers)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoHealTriggers_STATUS() to populate field Triggers")
+			return eris.Wrap(err, "calling Initialize_From_AutoHealTriggers_STATUS() to populate field Triggers")
 		}
 		rules.Triggers = &trigger
 	} else {
@@ -9967,7 +9967,7 @@ func (rules *AutoHealRules_STATUS) AssignProperties_From_AutoHealRules_STATUS(so
 		var action AutoHealActions_STATUS
 		err := action.AssignProperties_From_AutoHealActions_STATUS(source.Actions)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoHealActions_STATUS() to populate field Actions")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoHealActions_STATUS() to populate field Actions")
 		}
 		rules.Actions = &action
 	} else {
@@ -9979,7 +9979,7 @@ func (rules *AutoHealRules_STATUS) AssignProperties_From_AutoHealRules_STATUS(so
 		var trigger AutoHealTriggers_STATUS
 		err := trigger.AssignProperties_From_AutoHealTriggers_STATUS(source.Triggers)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoHealTriggers_STATUS() to populate field Triggers")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoHealTriggers_STATUS() to populate field Triggers")
 		}
 		rules.Triggers = &trigger
 	} else {
@@ -10000,7 +10000,7 @@ func (rules *AutoHealRules_STATUS) AssignProperties_To_AutoHealRules_STATUS(dest
 		var action storage.AutoHealActions_STATUS
 		err := rules.Actions.AssignProperties_To_AutoHealActions_STATUS(&action)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoHealActions_STATUS() to populate field Actions")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoHealActions_STATUS() to populate field Actions")
 		}
 		destination.Actions = &action
 	} else {
@@ -10012,7 +10012,7 @@ func (rules *AutoHealRules_STATUS) AssignProperties_To_AutoHealRules_STATUS(dest
 		var trigger storage.AutoHealTriggers_STATUS
 		err := rules.Triggers.AssignProperties_To_AutoHealTriggers_STATUS(&trigger)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoHealTriggers_STATUS() to populate field Triggers")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoHealTriggers_STATUS() to populate field Triggers")
 		}
 		destination.Triggers = &trigger
 	} else {
@@ -10061,7 +10061,7 @@ func (value *AzureStorageInfoValue) ConvertToARM(resolved genruntime.ConvertToAR
 	if value.AccessKey != nil {
 		accessKeySecret, err := resolved.ResolvedSecrets.Lookup(*value.AccessKey)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property AccessKey")
+			return nil, eris.Wrap(err, "looking up secret for property AccessKey")
 		}
 		accessKey := accessKeySecret
 		result.AccessKey = &accessKey
@@ -10910,7 +10910,7 @@ func (experiments *Experiments) AssignProperties_From_Experiments(source *storag
 			var rampUpRule RampUpRule
 			err := rampUpRule.AssignProperties_From_RampUpRule(&rampUpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RampUpRule() to populate field RampUpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_RampUpRule() to populate field RampUpRules")
 			}
 			rampUpRuleList[rampUpRuleIndex] = rampUpRule
 		}
@@ -10937,7 +10937,7 @@ func (experiments *Experiments) AssignProperties_To_Experiments(destination *sto
 			var rampUpRule storage.RampUpRule
 			err := rampUpRuleItem.AssignProperties_To_RampUpRule(&rampUpRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RampUpRule() to populate field RampUpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_RampUpRule() to populate field RampUpRules")
 			}
 			rampUpRuleList[rampUpRuleIndex] = rampUpRule
 		}
@@ -10969,7 +10969,7 @@ func (experiments *Experiments) Initialize_From_Experiments_STATUS(source *Exper
 			var rampUpRule RampUpRule
 			err := rampUpRule.Initialize_From_RampUpRule_STATUS(&rampUpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_RampUpRule_STATUS() to populate field RampUpRules")
+				return eris.Wrap(err, "calling Initialize_From_RampUpRule_STATUS() to populate field RampUpRules")
 			}
 			rampUpRuleList[rampUpRuleIndex] = rampUpRule
 		}
@@ -11028,7 +11028,7 @@ func (experiments *Experiments_STATUS) AssignProperties_From_Experiments_STATUS(
 			var rampUpRule RampUpRule_STATUS
 			err := rampUpRule.AssignProperties_From_RampUpRule_STATUS(&rampUpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RampUpRule_STATUS() to populate field RampUpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_RampUpRule_STATUS() to populate field RampUpRules")
 			}
 			rampUpRuleList[rampUpRuleIndex] = rampUpRule
 		}
@@ -11055,7 +11055,7 @@ func (experiments *Experiments_STATUS) AssignProperties_To_Experiments_STATUS(de
 			var rampUpRule storage.RampUpRule_STATUS
 			err := rampUpRuleItem.AssignProperties_To_RampUpRule_STATUS(&rampUpRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RampUpRule_STATUS() to populate field RampUpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_RampUpRule_STATUS() to populate field RampUpRules")
 			}
 			rampUpRuleList[rampUpRuleIndex] = rampUpRule
 		}
@@ -13480,7 +13480,7 @@ func (application *VirtualApplication) AssignProperties_From_VirtualApplication(
 			var virtualDirectory VirtualDirectory
 			err := virtualDirectory.AssignProperties_From_VirtualDirectory(&virtualDirectoryItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualDirectory() to populate field VirtualDirectories")
+				return eris.Wrap(err, "calling AssignProperties_From_VirtualDirectory() to populate field VirtualDirectories")
 			}
 			virtualDirectoryList[virtualDirectoryIndex] = virtualDirectory
 		}
@@ -13521,7 +13521,7 @@ func (application *VirtualApplication) AssignProperties_To_VirtualApplication(de
 			var virtualDirectory storage.VirtualDirectory
 			err := virtualDirectoryItem.AssignProperties_To_VirtualDirectory(&virtualDirectory)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualDirectory() to populate field VirtualDirectories")
+				return eris.Wrap(err, "calling AssignProperties_To_VirtualDirectory() to populate field VirtualDirectories")
 			}
 			virtualDirectoryList[virtualDirectoryIndex] = virtualDirectory
 		}
@@ -13567,7 +13567,7 @@ func (application *VirtualApplication) Initialize_From_VirtualApplication_STATUS
 			var virtualDirectory VirtualDirectory
 			err := virtualDirectory.Initialize_From_VirtualDirectory_STATUS(&virtualDirectoryItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_VirtualDirectory_STATUS() to populate field VirtualDirectories")
+				return eris.Wrap(err, "calling Initialize_From_VirtualDirectory_STATUS() to populate field VirtualDirectories")
 			}
 			virtualDirectoryList[virtualDirectoryIndex] = virtualDirectory
 		}
@@ -13667,7 +13667,7 @@ func (application *VirtualApplication_STATUS) AssignProperties_From_VirtualAppli
 			var virtualDirectory VirtualDirectory_STATUS
 			err := virtualDirectory.AssignProperties_From_VirtualDirectory_STATUS(&virtualDirectoryItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualDirectory_STATUS() to populate field VirtualDirectories")
+				return eris.Wrap(err, "calling AssignProperties_From_VirtualDirectory_STATUS() to populate field VirtualDirectories")
 			}
 			virtualDirectoryList[virtualDirectoryIndex] = virtualDirectory
 		}
@@ -13708,7 +13708,7 @@ func (application *VirtualApplication_STATUS) AssignProperties_To_VirtualApplica
 			var virtualDirectory storage.VirtualDirectory_STATUS
 			err := virtualDirectoryItem.AssignProperties_To_VirtualDirectory_STATUS(&virtualDirectory)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualDirectory_STATUS() to populate field VirtualDirectories")
+				return eris.Wrap(err, "calling AssignProperties_To_VirtualDirectory_STATUS() to populate field VirtualDirectories")
 			}
 			virtualDirectoryList[virtualDirectoryIndex] = virtualDirectory
 		}
@@ -13837,7 +13837,7 @@ func (actions *AutoHealActions) AssignProperties_From_AutoHealActions(source *st
 		var customAction AutoHealCustomAction
 		err := customAction.AssignProperties_From_AutoHealCustomAction(source.CustomAction)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoHealCustomAction() to populate field CustomAction")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoHealCustomAction() to populate field CustomAction")
 		}
 		actions.CustomAction = &customAction
 	} else {
@@ -13869,7 +13869,7 @@ func (actions *AutoHealActions) AssignProperties_To_AutoHealActions(destination 
 		var customAction storage.AutoHealCustomAction
 		err := actions.CustomAction.AssignProperties_To_AutoHealCustomAction(&customAction)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoHealCustomAction() to populate field CustomAction")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoHealCustomAction() to populate field CustomAction")
 		}
 		destination.CustomAction = &customAction
 	} else {
@@ -13906,7 +13906,7 @@ func (actions *AutoHealActions) Initialize_From_AutoHealActions_STATUS(source *A
 		var customAction AutoHealCustomAction
 		err := customAction.Initialize_From_AutoHealCustomAction_STATUS(source.CustomAction)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoHealCustomAction_STATUS() to populate field CustomAction")
+			return eris.Wrap(err, "calling Initialize_From_AutoHealCustomAction_STATUS() to populate field CustomAction")
 		}
 		actions.CustomAction = &customAction
 	} else {
@@ -13993,7 +13993,7 @@ func (actions *AutoHealActions_STATUS) AssignProperties_From_AutoHealActions_STA
 		var customAction AutoHealCustomAction_STATUS
 		err := customAction.AssignProperties_From_AutoHealCustomAction_STATUS(source.CustomAction)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoHealCustomAction_STATUS() to populate field CustomAction")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoHealCustomAction_STATUS() to populate field CustomAction")
 		}
 		actions.CustomAction = &customAction
 	} else {
@@ -14025,7 +14025,7 @@ func (actions *AutoHealActions_STATUS) AssignProperties_To_AutoHealActions_STATU
 		var customAction storage.AutoHealCustomAction_STATUS
 		err := actions.CustomAction.AssignProperties_To_AutoHealCustomAction_STATUS(&customAction)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoHealCustomAction_STATUS() to populate field CustomAction")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoHealCustomAction_STATUS() to populate field CustomAction")
 		}
 		destination.CustomAction = &customAction
 	} else {
@@ -14216,7 +14216,7 @@ func (triggers *AutoHealTriggers) AssignProperties_From_AutoHealTriggers(source 
 		var request RequestsBasedTrigger
 		err := request.AssignProperties_From_RequestsBasedTrigger(source.Requests)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RequestsBasedTrigger() to populate field Requests")
+			return eris.Wrap(err, "calling AssignProperties_From_RequestsBasedTrigger() to populate field Requests")
 		}
 		triggers.Requests = &request
 	} else {
@@ -14228,7 +14228,7 @@ func (triggers *AutoHealTriggers) AssignProperties_From_AutoHealTriggers(source 
 		var slowRequest SlowRequestsBasedTrigger
 		err := slowRequest.AssignProperties_From_SlowRequestsBasedTrigger(source.SlowRequests)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SlowRequestsBasedTrigger() to populate field SlowRequests")
+			return eris.Wrap(err, "calling AssignProperties_From_SlowRequestsBasedTrigger() to populate field SlowRequests")
 		}
 		triggers.SlowRequests = &slowRequest
 	} else {
@@ -14244,7 +14244,7 @@ func (triggers *AutoHealTriggers) AssignProperties_From_AutoHealTriggers(source 
 			var slowRequestsWithPath SlowRequestsBasedTrigger
 			err := slowRequestsWithPath.AssignProperties_From_SlowRequestsBasedTrigger(&slowRequestsWithPathItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SlowRequestsBasedTrigger() to populate field SlowRequestsWithPath")
+				return eris.Wrap(err, "calling AssignProperties_From_SlowRequestsBasedTrigger() to populate field SlowRequestsWithPath")
 			}
 			slowRequestsWithPathList[slowRequestsWithPathIndex] = slowRequestsWithPath
 		}
@@ -14262,7 +14262,7 @@ func (triggers *AutoHealTriggers) AssignProperties_From_AutoHealTriggers(source 
 			var statusCode StatusCodesBasedTrigger
 			err := statusCode.AssignProperties_From_StatusCodesBasedTrigger(&statusCodeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_StatusCodesBasedTrigger() to populate field StatusCodes")
+				return eris.Wrap(err, "calling AssignProperties_From_StatusCodesBasedTrigger() to populate field StatusCodes")
 			}
 			statusCodeList[statusCodeIndex] = statusCode
 		}
@@ -14280,7 +14280,7 @@ func (triggers *AutoHealTriggers) AssignProperties_From_AutoHealTriggers(source 
 			var statusCodesRange StatusCodesRangeBasedTrigger
 			err := statusCodesRange.AssignProperties_From_StatusCodesRangeBasedTrigger(&statusCodesRangeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_StatusCodesRangeBasedTrigger() to populate field StatusCodesRange")
+				return eris.Wrap(err, "calling AssignProperties_From_StatusCodesRangeBasedTrigger() to populate field StatusCodesRange")
 			}
 			statusCodesRangeList[statusCodesRangeIndex] = statusCodesRange
 		}
@@ -14306,7 +14306,7 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 		var request storage.RequestsBasedTrigger
 		err := triggers.Requests.AssignProperties_To_RequestsBasedTrigger(&request)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RequestsBasedTrigger() to populate field Requests")
+			return eris.Wrap(err, "calling AssignProperties_To_RequestsBasedTrigger() to populate field Requests")
 		}
 		destination.Requests = &request
 	} else {
@@ -14318,7 +14318,7 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 		var slowRequest storage.SlowRequestsBasedTrigger
 		err := triggers.SlowRequests.AssignProperties_To_SlowRequestsBasedTrigger(&slowRequest)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SlowRequestsBasedTrigger() to populate field SlowRequests")
+			return eris.Wrap(err, "calling AssignProperties_To_SlowRequestsBasedTrigger() to populate field SlowRequests")
 		}
 		destination.SlowRequests = &slowRequest
 	} else {
@@ -14334,7 +14334,7 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 			var slowRequestsWithPath storage.SlowRequestsBasedTrigger
 			err := slowRequestsWithPathItem.AssignProperties_To_SlowRequestsBasedTrigger(&slowRequestsWithPath)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SlowRequestsBasedTrigger() to populate field SlowRequestsWithPath")
+				return eris.Wrap(err, "calling AssignProperties_To_SlowRequestsBasedTrigger() to populate field SlowRequestsWithPath")
 			}
 			slowRequestsWithPathList[slowRequestsWithPathIndex] = slowRequestsWithPath
 		}
@@ -14352,7 +14352,7 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 			var statusCode storage.StatusCodesBasedTrigger
 			err := statusCodeItem.AssignProperties_To_StatusCodesBasedTrigger(&statusCode)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_StatusCodesBasedTrigger() to populate field StatusCodes")
+				return eris.Wrap(err, "calling AssignProperties_To_StatusCodesBasedTrigger() to populate field StatusCodes")
 			}
 			statusCodeList[statusCodeIndex] = statusCode
 		}
@@ -14370,7 +14370,7 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 			var statusCodesRange storage.StatusCodesRangeBasedTrigger
 			err := statusCodesRangeItem.AssignProperties_To_StatusCodesRangeBasedTrigger(&statusCodesRange)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_StatusCodesRangeBasedTrigger() to populate field StatusCodesRange")
+				return eris.Wrap(err, "calling AssignProperties_To_StatusCodesRangeBasedTrigger() to populate field StatusCodesRange")
 			}
 			statusCodesRangeList[statusCodesRangeIndex] = statusCodesRange
 		}
@@ -14401,7 +14401,7 @@ func (triggers *AutoHealTriggers) Initialize_From_AutoHealTriggers_STATUS(source
 		var request RequestsBasedTrigger
 		err := request.Initialize_From_RequestsBasedTrigger_STATUS(source.Requests)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RequestsBasedTrigger_STATUS() to populate field Requests")
+			return eris.Wrap(err, "calling Initialize_From_RequestsBasedTrigger_STATUS() to populate field Requests")
 		}
 		triggers.Requests = &request
 	} else {
@@ -14413,7 +14413,7 @@ func (triggers *AutoHealTriggers) Initialize_From_AutoHealTriggers_STATUS(source
 		var slowRequest SlowRequestsBasedTrigger
 		err := slowRequest.Initialize_From_SlowRequestsBasedTrigger_STATUS(source.SlowRequests)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequests")
+			return eris.Wrap(err, "calling Initialize_From_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequests")
 		}
 		triggers.SlowRequests = &slowRequest
 	} else {
@@ -14429,7 +14429,7 @@ func (triggers *AutoHealTriggers) Initialize_From_AutoHealTriggers_STATUS(source
 			var slowRequestsWithPath SlowRequestsBasedTrigger
 			err := slowRequestsWithPath.Initialize_From_SlowRequestsBasedTrigger_STATUS(&slowRequestsWithPathItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequestsWithPath")
+				return eris.Wrap(err, "calling Initialize_From_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequestsWithPath")
 			}
 			slowRequestsWithPathList[slowRequestsWithPathIndex] = slowRequestsWithPath
 		}
@@ -14447,7 +14447,7 @@ func (triggers *AutoHealTriggers) Initialize_From_AutoHealTriggers_STATUS(source
 			var statusCode StatusCodesBasedTrigger
 			err := statusCode.Initialize_From_StatusCodesBasedTrigger_STATUS(&statusCodeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_StatusCodesBasedTrigger_STATUS() to populate field StatusCodes")
+				return eris.Wrap(err, "calling Initialize_From_StatusCodesBasedTrigger_STATUS() to populate field StatusCodes")
 			}
 			statusCodeList[statusCodeIndex] = statusCode
 		}
@@ -14465,7 +14465,7 @@ func (triggers *AutoHealTriggers) Initialize_From_AutoHealTriggers_STATUS(source
 			var statusCodesRange StatusCodesRangeBasedTrigger
 			err := statusCodesRange.Initialize_From_StatusCodesRangeBasedTrigger_STATUS(&statusCodesRangeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_StatusCodesRangeBasedTrigger_STATUS() to populate field StatusCodesRange")
+				return eris.Wrap(err, "calling Initialize_From_StatusCodesRangeBasedTrigger_STATUS() to populate field StatusCodesRange")
 			}
 			statusCodesRangeList[statusCodesRangeIndex] = statusCodesRange
 		}
@@ -14586,7 +14586,7 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_From_AutoHealTriggers_
 		var request RequestsBasedTrigger_STATUS
 		err := request.AssignProperties_From_RequestsBasedTrigger_STATUS(source.Requests)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RequestsBasedTrigger_STATUS() to populate field Requests")
+			return eris.Wrap(err, "calling AssignProperties_From_RequestsBasedTrigger_STATUS() to populate field Requests")
 		}
 		triggers.Requests = &request
 	} else {
@@ -14598,7 +14598,7 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_From_AutoHealTriggers_
 		var slowRequest SlowRequestsBasedTrigger_STATUS
 		err := slowRequest.AssignProperties_From_SlowRequestsBasedTrigger_STATUS(source.SlowRequests)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequests")
+			return eris.Wrap(err, "calling AssignProperties_From_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequests")
 		}
 		triggers.SlowRequests = &slowRequest
 	} else {
@@ -14614,7 +14614,7 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_From_AutoHealTriggers_
 			var slowRequestsWithPath SlowRequestsBasedTrigger_STATUS
 			err := slowRequestsWithPath.AssignProperties_From_SlowRequestsBasedTrigger_STATUS(&slowRequestsWithPathItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequestsWithPath")
+				return eris.Wrap(err, "calling AssignProperties_From_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequestsWithPath")
 			}
 			slowRequestsWithPathList[slowRequestsWithPathIndex] = slowRequestsWithPath
 		}
@@ -14632,7 +14632,7 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_From_AutoHealTriggers_
 			var statusCode StatusCodesBasedTrigger_STATUS
 			err := statusCode.AssignProperties_From_StatusCodesBasedTrigger_STATUS(&statusCodeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_StatusCodesBasedTrigger_STATUS() to populate field StatusCodes")
+				return eris.Wrap(err, "calling AssignProperties_From_StatusCodesBasedTrigger_STATUS() to populate field StatusCodes")
 			}
 			statusCodeList[statusCodeIndex] = statusCode
 		}
@@ -14650,7 +14650,7 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_From_AutoHealTriggers_
 			var statusCodesRange StatusCodesRangeBasedTrigger_STATUS
 			err := statusCodesRange.AssignProperties_From_StatusCodesRangeBasedTrigger_STATUS(&statusCodesRangeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_StatusCodesRangeBasedTrigger_STATUS() to populate field StatusCodesRange")
+				return eris.Wrap(err, "calling AssignProperties_From_StatusCodesRangeBasedTrigger_STATUS() to populate field StatusCodesRange")
 			}
 			statusCodesRangeList[statusCodesRangeIndex] = statusCodesRange
 		}
@@ -14676,7 +14676,7 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_ST
 		var request storage.RequestsBasedTrigger_STATUS
 		err := triggers.Requests.AssignProperties_To_RequestsBasedTrigger_STATUS(&request)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RequestsBasedTrigger_STATUS() to populate field Requests")
+			return eris.Wrap(err, "calling AssignProperties_To_RequestsBasedTrigger_STATUS() to populate field Requests")
 		}
 		destination.Requests = &request
 	} else {
@@ -14688,7 +14688,7 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_ST
 		var slowRequest storage.SlowRequestsBasedTrigger_STATUS
 		err := triggers.SlowRequests.AssignProperties_To_SlowRequestsBasedTrigger_STATUS(&slowRequest)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequests")
+			return eris.Wrap(err, "calling AssignProperties_To_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequests")
 		}
 		destination.SlowRequests = &slowRequest
 	} else {
@@ -14704,7 +14704,7 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_ST
 			var slowRequestsWithPath storage.SlowRequestsBasedTrigger_STATUS
 			err := slowRequestsWithPathItem.AssignProperties_To_SlowRequestsBasedTrigger_STATUS(&slowRequestsWithPath)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequestsWithPath")
+				return eris.Wrap(err, "calling AssignProperties_To_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequestsWithPath")
 			}
 			slowRequestsWithPathList[slowRequestsWithPathIndex] = slowRequestsWithPath
 		}
@@ -14722,7 +14722,7 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_ST
 			var statusCode storage.StatusCodesBasedTrigger_STATUS
 			err := statusCodeItem.AssignProperties_To_StatusCodesBasedTrigger_STATUS(&statusCode)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_StatusCodesBasedTrigger_STATUS() to populate field StatusCodes")
+				return eris.Wrap(err, "calling AssignProperties_To_StatusCodesBasedTrigger_STATUS() to populate field StatusCodes")
 			}
 			statusCodeList[statusCodeIndex] = statusCode
 		}
@@ -14740,7 +14740,7 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_ST
 			var statusCodesRange storage.StatusCodesRangeBasedTrigger_STATUS
 			err := statusCodesRangeItem.AssignProperties_To_StatusCodesRangeBasedTrigger_STATUS(&statusCodesRange)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_StatusCodesRangeBasedTrigger_STATUS() to populate field StatusCodesRange")
+				return eris.Wrap(err, "calling AssignProperties_To_StatusCodesRangeBasedTrigger_STATUS() to populate field StatusCodesRange")
 			}
 			statusCodesRangeList[statusCodesRangeIndex] = statusCodesRange
 		}

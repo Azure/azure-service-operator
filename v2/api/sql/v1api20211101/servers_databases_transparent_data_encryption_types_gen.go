@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -181,7 +181,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption) SetStatus(status ge
 	var st ServersDatabasesTransparentDataEncryption_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	encryption.Status = st
@@ -301,7 +301,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption) AssignProperties_Fr
 	var spec ServersDatabasesTransparentDataEncryption_Spec
 	err := spec.AssignProperties_From_ServersDatabasesTransparentDataEncryption_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesTransparentDataEncryption_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesTransparentDataEncryption_Spec() to populate field Spec")
 	}
 	encryption.Spec = spec
 
@@ -309,7 +309,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption) AssignProperties_Fr
 	var status ServersDatabasesTransparentDataEncryption_STATUS
 	err = status.AssignProperties_From_ServersDatabasesTransparentDataEncryption_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesTransparentDataEncryption_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesTransparentDataEncryption_STATUS() to populate field Status")
 	}
 	encryption.Status = status
 
@@ -327,7 +327,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption) AssignProperties_To
 	var spec storage.ServersDatabasesTransparentDataEncryption_Spec
 	err := encryption.Spec.AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -335,7 +335,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption) AssignProperties_To
 	var status storage.ServersDatabasesTransparentDataEncryption_STATUS
 	err = encryption.Status.AssignProperties_To_ServersDatabasesTransparentDataEncryption_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesTransparentDataEncryption_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesTransparentDataEncryption_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -452,13 +452,13 @@ func (encryption *ServersDatabasesTransparentDataEncryption_Spec) ConvertSpecFro
 	src = &storage.ServersDatabasesTransparentDataEncryption_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = encryption.AssignProperties_From_ServersDatabasesTransparentDataEncryption_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -476,13 +476,13 @@ func (encryption *ServersDatabasesTransparentDataEncryption_Spec) ConvertSpecTo(
 	dst = &storage.ServersDatabasesTransparentDataEncryption_Spec{}
 	err := encryption.AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -496,7 +496,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption_Spec) AssignProperti
 		var operatorSpec ServersDatabasesTransparentDataEncryptionOperatorSpec
 		err := operatorSpec.AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec() to populate field OperatorSpec")
 		}
 		encryption.OperatorSpec = &operatorSpec
 	} else {
@@ -534,7 +534,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption_Spec) AssignProperti
 		var operatorSpec storage.ServersDatabasesTransparentDataEncryptionOperatorSpec
 		err := encryption.OperatorSpec.AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -622,13 +622,13 @@ func (encryption *ServersDatabasesTransparentDataEncryption_STATUS) ConvertStatu
 	src = &storage.ServersDatabasesTransparentDataEncryption_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = encryption.AssignProperties_From_ServersDatabasesTransparentDataEncryption_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -646,13 +646,13 @@ func (encryption *ServersDatabasesTransparentDataEncryption_STATUS) ConvertStatu
 	dst = &storage.ServersDatabasesTransparentDataEncryption_STATUS{}
 	err := encryption.AssignProperties_To_ServersDatabasesTransparentDataEncryption_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -152,7 +152,7 @@ func (database *SqlDatabase) SetStatus(status genruntime.ConvertibleStatus) erro
 	var st SqlDatabase_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	database.Status = st
@@ -169,7 +169,7 @@ func (database *SqlDatabase) AssignProperties_From_SqlDatabase(source *storage.S
 	var spec SqlDatabase_Spec
 	err := spec.AssignProperties_From_SqlDatabase_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SqlDatabase_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_SqlDatabase_Spec() to populate field Spec")
 	}
 	database.Spec = spec
 
@@ -177,7 +177,7 @@ func (database *SqlDatabase) AssignProperties_From_SqlDatabase(source *storage.S
 	var status SqlDatabase_STATUS
 	err = status.AssignProperties_From_SqlDatabase_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SqlDatabase_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_SqlDatabase_STATUS() to populate field Status")
 	}
 	database.Status = status
 
@@ -186,7 +186,7 @@ func (database *SqlDatabase) AssignProperties_From_SqlDatabase(source *storage.S
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForSqlDatabase); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -204,7 +204,7 @@ func (database *SqlDatabase) AssignProperties_To_SqlDatabase(destination *storag
 	var spec storage.SqlDatabase_Spec
 	err := database.Spec.AssignProperties_To_SqlDatabase_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SqlDatabase_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_SqlDatabase_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -212,7 +212,7 @@ func (database *SqlDatabase) AssignProperties_To_SqlDatabase(destination *storag
 	var status storage.SqlDatabase_STATUS
 	err = database.Status.AssignProperties_To_SqlDatabase_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SqlDatabase_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_SqlDatabase_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -221,7 +221,7 @@ func (database *SqlDatabase) AssignProperties_To_SqlDatabase(destination *storag
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForSqlDatabase); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -288,13 +288,13 @@ func (database *SqlDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleS
 	src = &storage.SqlDatabase_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = database.AssignProperties_From_SqlDatabase_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -312,13 +312,13 @@ func (database *SqlDatabase_Spec) ConvertSpecTo(destination genruntime.Convertib
 	dst = &storage.SqlDatabase_Spec{}
 	err := database.AssignProperties_To_SqlDatabase_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -340,7 +340,7 @@ func (database *SqlDatabase_Spec) AssignProperties_From_SqlDatabase_Spec(source 
 		var operatorSpec SqlDatabaseOperatorSpec
 		err := operatorSpec.AssignProperties_From_SqlDatabaseOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlDatabaseOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_SqlDatabaseOperatorSpec() to populate field OperatorSpec")
 		}
 		database.OperatorSpec = &operatorSpec
 	} else {
@@ -352,7 +352,7 @@ func (database *SqlDatabase_Spec) AssignProperties_From_SqlDatabase_Spec(source 
 		var option CreateUpdateOptions
 		err := option.AssignProperties_From_CreateUpdateOptions(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
+			return eris.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
 		}
 		database.Options = &option
 	} else {
@@ -375,7 +375,7 @@ func (database *SqlDatabase_Spec) AssignProperties_From_SqlDatabase_Spec(source 
 		var resource SqlDatabaseResource
 		err := resource.AssignProperties_From_SqlDatabaseResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlDatabaseResource() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_From_SqlDatabaseResource() to populate field Resource")
 		}
 		database.Resource = &resource
 	} else {
@@ -397,7 +397,7 @@ func (database *SqlDatabase_Spec) AssignProperties_From_SqlDatabase_Spec(source 
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForSqlDatabase_Spec); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -421,7 +421,7 @@ func (database *SqlDatabase_Spec) AssignProperties_To_SqlDatabase_Spec(destinati
 		var operatorSpec storage.SqlDatabaseOperatorSpec
 		err := database.OperatorSpec.AssignProperties_To_SqlDatabaseOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlDatabaseOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_SqlDatabaseOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -433,7 +433,7 @@ func (database *SqlDatabase_Spec) AssignProperties_To_SqlDatabase_Spec(destinati
 		var option storage.CreateUpdateOptions
 		err := database.Options.AssignProperties_To_CreateUpdateOptions(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
+			return eris.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -456,7 +456,7 @@ func (database *SqlDatabase_Spec) AssignProperties_To_SqlDatabase_Spec(destinati
 		var resource storage.SqlDatabaseResource
 		err := database.Resource.AssignProperties_To_SqlDatabaseResource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlDatabaseResource() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_To_SqlDatabaseResource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -478,7 +478,7 @@ func (database *SqlDatabase_Spec) AssignProperties_To_SqlDatabase_Spec(destinati
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForSqlDatabase_Spec); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -513,13 +513,13 @@ func (database *SqlDatabase_STATUS) ConvertStatusFrom(source genruntime.Converti
 	src = &storage.SqlDatabase_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = database.AssignProperties_From_SqlDatabase_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -537,13 +537,13 @@ func (database *SqlDatabase_STATUS) ConvertStatusTo(destination genruntime.Conve
 	dst = &storage.SqlDatabase_STATUS{}
 	err := database.AssignProperties_To_SqlDatabase_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -571,7 +571,7 @@ func (database *SqlDatabase_STATUS) AssignProperties_From_SqlDatabase_STATUS(sou
 		var option OptionsResource_STATUS
 		err := option.AssignProperties_From_OptionsResource_STATUS(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_OptionsResource_STATUS() to populate field Options")
+			return eris.Wrap(err, "calling AssignProperties_From_OptionsResource_STATUS() to populate field Options")
 		}
 		database.Options = &option
 	} else {
@@ -583,7 +583,7 @@ func (database *SqlDatabase_STATUS) AssignProperties_From_SqlDatabase_STATUS(sou
 		var resource SqlDatabaseGetProperties_Resource_STATUS
 		err := resource.AssignProperties_From_SqlDatabaseGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlDatabaseGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_From_SqlDatabaseGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		database.Resource = &resource
 	} else {
@@ -608,7 +608,7 @@ func (database *SqlDatabase_STATUS) AssignProperties_From_SqlDatabase_STATUS(sou
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForSqlDatabase_STATUS); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -638,7 +638,7 @@ func (database *SqlDatabase_STATUS) AssignProperties_To_SqlDatabase_STATUS(desti
 		var option storage.OptionsResource_STATUS
 		err := database.Options.AssignProperties_To_OptionsResource_STATUS(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_OptionsResource_STATUS() to populate field Options")
+			return eris.Wrap(err, "calling AssignProperties_To_OptionsResource_STATUS() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -650,7 +650,7 @@ func (database *SqlDatabase_STATUS) AssignProperties_To_SqlDatabase_STATUS(desti
 		var resource storage.SqlDatabaseGetProperties_Resource_STATUS
 		err := database.Resource.AssignProperties_To_SqlDatabaseGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlDatabaseGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_To_SqlDatabaseGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -675,7 +675,7 @@ func (database *SqlDatabase_STATUS) AssignProperties_To_SqlDatabase_STATUS(desti
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForSqlDatabase_STATUS); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -758,7 +758,7 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignProperties_From_
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlDatabaseGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -779,7 +779,7 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignProperties_To_Sq
 		var createMode string
 		err := propertyBag.Pull("CreateMode", &createMode)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'CreateMode' from propertyBag")
+			return eris.Wrap(err, "pulling 'CreateMode' from propertyBag")
 		}
 
 		destination.CreateMode = &createMode
@@ -798,7 +798,7 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignProperties_To_Sq
 		var restoreParameter storage.RestoreParametersBase_STATUS
 		err := propertyBag.Pull("RestoreParameters", &restoreParameter)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'RestoreParameters' from propertyBag")
+			return eris.Wrap(err, "pulling 'RestoreParameters' from propertyBag")
 		}
 
 		destination.RestoreParameters = &restoreParameter
@@ -832,7 +832,7 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignProperties_To_Sq
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlDatabaseGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -901,7 +901,7 @@ func (operator *SqlDatabaseOperatorSpec) AssignProperties_From_SqlDatabaseOperat
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSqlDatabaseOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -962,7 +962,7 @@ func (operator *SqlDatabaseOperatorSpec) AssignProperties_To_SqlDatabaseOperator
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSqlDatabaseOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1011,7 +1011,7 @@ func (resource *SqlDatabaseResource) AssignProperties_From_SqlDatabaseResource(s
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlDatabaseResource); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1029,7 +1029,7 @@ func (resource *SqlDatabaseResource) AssignProperties_To_SqlDatabaseResource(des
 		var createMode string
 		err := propertyBag.Pull("CreateMode", &createMode)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'CreateMode' from propertyBag")
+			return eris.Wrap(err, "pulling 'CreateMode' from propertyBag")
 		}
 
 		destination.CreateMode = &createMode
@@ -1045,7 +1045,7 @@ func (resource *SqlDatabaseResource) AssignProperties_To_SqlDatabaseResource(des
 		var restoreParameter storage.RestoreParametersBase
 		err := propertyBag.Pull("RestoreParameters", &restoreParameter)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'RestoreParameters' from propertyBag")
+			return eris.Wrap(err, "pulling 'RestoreParameters' from propertyBag")
 		}
 
 		destination.RestoreParameters = &restoreParameter
@@ -1065,7 +1065,7 @@ func (resource *SqlDatabaseResource) AssignProperties_To_SqlDatabaseResource(des
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlDatabaseResource); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

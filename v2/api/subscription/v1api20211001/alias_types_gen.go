@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -188,7 +188,7 @@ func (alias *Alias) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Alias_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	alias.Status = st
@@ -300,7 +300,7 @@ func (alias *Alias) AssignProperties_From_Alias(source *storage.Alias) error {
 	var spec Alias_Spec
 	err := spec.AssignProperties_From_Alias_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Alias_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Alias_Spec() to populate field Spec")
 	}
 	alias.Spec = spec
 
@@ -308,7 +308,7 @@ func (alias *Alias) AssignProperties_From_Alias(source *storage.Alias) error {
 	var status Alias_STATUS
 	err = status.AssignProperties_From_Alias_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Alias_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Alias_STATUS() to populate field Status")
 	}
 	alias.Status = status
 
@@ -326,7 +326,7 @@ func (alias *Alias) AssignProperties_To_Alias(destination *storage.Alias) error 
 	var spec storage.Alias_Spec
 	err := alias.Spec.AssignProperties_To_Alias_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Alias_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Alias_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -334,7 +334,7 @@ func (alias *Alias) AssignProperties_To_Alias(destination *storage.Alias) error 
 	var status storage.Alias_STATUS
 	err = alias.Status.AssignProperties_To_Alias_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Alias_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Alias_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -444,13 +444,13 @@ func (alias *Alias_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 	src = &storage.Alias_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = alias.AssignProperties_From_Alias_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -468,13 +468,13 @@ func (alias *Alias_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	dst = &storage.Alias_Spec{}
 	err := alias.AssignProperties_To_Alias_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -491,7 +491,7 @@ func (alias *Alias_Spec) AssignProperties_From_Alias_Spec(source *storage.Alias_
 		var operatorSpec AliasOperatorSpec
 		err := operatorSpec.AssignProperties_From_AliasOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AliasOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_AliasOperatorSpec() to populate field OperatorSpec")
 		}
 		alias.OperatorSpec = &operatorSpec
 	} else {
@@ -503,7 +503,7 @@ func (alias *Alias_Spec) AssignProperties_From_Alias_Spec(source *storage.Alias_
 		var property PutAliasRequestProperties
 		err := property.AssignProperties_From_PutAliasRequestProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PutAliasRequestProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_PutAliasRequestProperties() to populate field Properties")
 		}
 		alias.Properties = &property
 	} else {
@@ -527,7 +527,7 @@ func (alias *Alias_Spec) AssignProperties_To_Alias_Spec(destination *storage.Ali
 		var operatorSpec storage.AliasOperatorSpec
 		err := alias.OperatorSpec.AssignProperties_To_AliasOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AliasOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_AliasOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -542,7 +542,7 @@ func (alias *Alias_Spec) AssignProperties_To_Alias_Spec(destination *storage.Ali
 		var property storage.PutAliasRequestProperties
 		err := alias.Properties.AssignProperties_To_PutAliasRequestProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PutAliasRequestProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_PutAliasRequestProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -568,7 +568,7 @@ func (alias *Alias_Spec) Initialize_From_Alias_STATUS(source *Alias_STATUS) erro
 		var property PutAliasRequestProperties
 		err := property.Initialize_From_SubscriptionAliasResponseProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling Initialize_From_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
 		}
 		alias.Properties = &property
 	} else {
@@ -621,13 +621,13 @@ func (alias *Alias_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	src = &storage.Alias_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = alias.AssignProperties_From_Alias_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -645,13 +645,13 @@ func (alias *Alias_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	dst = &storage.Alias_STATUS{}
 	err := alias.AssignProperties_To_Alias_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -734,7 +734,7 @@ func (alias *Alias_STATUS) AssignProperties_From_Alias_STATUS(source *storage.Al
 		var property SubscriptionAliasResponseProperties_STATUS
 		err := property.AssignProperties_From_SubscriptionAliasResponseProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
 		}
 		alias.Properties = &property
 	} else {
@@ -746,7 +746,7 @@ func (alias *Alias_STATUS) AssignProperties_From_Alias_STATUS(source *storage.Al
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		alias.SystemData = &systemDatum
 	} else {
@@ -779,7 +779,7 @@ func (alias *Alias_STATUS) AssignProperties_To_Alias_STATUS(destination *storage
 		var property storage.SubscriptionAliasResponseProperties_STATUS
 		err := alias.Properties.AssignProperties_To_SubscriptionAliasResponseProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -791,7 +791,7 @@ func (alias *Alias_STATUS) AssignProperties_To_Alias_STATUS(destination *storage
 		var systemDatum storage.SystemData_STATUS
 		err := alias.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1060,7 +1060,7 @@ func (properties *PutAliasRequestProperties) AssignProperties_From_PutAliasReque
 		var additionalProperty PutAliasRequestAdditionalProperties
 		err := additionalProperty.AssignProperties_From_PutAliasRequestAdditionalProperties(source.AdditionalProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PutAliasRequestAdditionalProperties() to populate field AdditionalProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_PutAliasRequestAdditionalProperties() to populate field AdditionalProperties")
 		}
 		properties.AdditionalProperties = &additionalProperty
 	} else {
@@ -1102,7 +1102,7 @@ func (properties *PutAliasRequestProperties) AssignProperties_To_PutAliasRequest
 		var additionalProperty storage.PutAliasRequestAdditionalProperties
 		err := properties.AdditionalProperties.AssignProperties_To_PutAliasRequestAdditionalProperties(&additionalProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PutAliasRequestAdditionalProperties() to populate field AdditionalProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_PutAliasRequestAdditionalProperties() to populate field AdditionalProperties")
 		}
 		destination.AdditionalProperties = &additionalProperty
 	} else {

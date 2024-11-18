@@ -12,7 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -154,7 +154,7 @@ func (vault *BackupVault) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st BackupVaultResource_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	vault.Status = st
@@ -215,7 +215,7 @@ var _ genruntime.ConvertibleSpec = &BackupVault_Spec{}
 // ConvertSpecFrom populates our BackupVault_Spec from the provided source
 func (vault *BackupVault_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == vault {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(vault)
@@ -224,7 +224,7 @@ func (vault *BackupVault_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 // ConvertSpecTo populates the provided destination from our BackupVault_Spec
 func (vault *BackupVault_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == vault {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(vault)
@@ -251,7 +251,7 @@ var _ genruntime.ConvertibleStatus = &BackupVaultResource_STATUS{}
 // ConvertStatusFrom populates our BackupVaultResource_STATUS from the provided source
 func (resource *BackupVaultResource_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == resource {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(resource)
@@ -260,7 +260,7 @@ func (resource *BackupVaultResource_STATUS) ConvertStatusFrom(source genruntime.
 // ConvertStatusTo populates the provided destination from our BackupVaultResource_STATUS
 func (resource *BackupVaultResource_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == resource {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(resource)

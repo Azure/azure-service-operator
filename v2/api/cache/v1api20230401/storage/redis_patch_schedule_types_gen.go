@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -152,7 +152,7 @@ func (schedule *RedisPatchSchedule) SetStatus(status genruntime.ConvertibleStatu
 	var st RedisPatchSchedule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	schedule.Status = st
@@ -169,7 +169,7 @@ func (schedule *RedisPatchSchedule) AssignProperties_From_RedisPatchSchedule(sou
 	var spec RedisPatchSchedule_Spec
 	err := spec.AssignProperties_From_RedisPatchSchedule_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RedisPatchSchedule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_RedisPatchSchedule_Spec() to populate field Spec")
 	}
 	schedule.Spec = spec
 
@@ -177,7 +177,7 @@ func (schedule *RedisPatchSchedule) AssignProperties_From_RedisPatchSchedule(sou
 	var status RedisPatchSchedule_STATUS
 	err = status.AssignProperties_From_RedisPatchSchedule_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RedisPatchSchedule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_RedisPatchSchedule_STATUS() to populate field Status")
 	}
 	schedule.Status = status
 
@@ -186,7 +186,7 @@ func (schedule *RedisPatchSchedule) AssignProperties_From_RedisPatchSchedule(sou
 	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedisPatchSchedule); ok {
 		err := augmentedSchedule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -204,7 +204,7 @@ func (schedule *RedisPatchSchedule) AssignProperties_To_RedisPatchSchedule(desti
 	var spec storage.RedisPatchSchedule_Spec
 	err := schedule.Spec.AssignProperties_To_RedisPatchSchedule_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RedisPatchSchedule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_RedisPatchSchedule_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -212,7 +212,7 @@ func (schedule *RedisPatchSchedule) AssignProperties_To_RedisPatchSchedule(desti
 	var status storage.RedisPatchSchedule_STATUS
 	err = schedule.Status.AssignProperties_To_RedisPatchSchedule_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RedisPatchSchedule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_RedisPatchSchedule_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -221,7 +221,7 @@ func (schedule *RedisPatchSchedule) AssignProperties_To_RedisPatchSchedule(desti
 	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedisPatchSchedule); ok {
 		err := augmentedSchedule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -282,13 +282,13 @@ func (schedule *RedisPatchSchedule_Spec) ConvertSpecFrom(source genruntime.Conve
 	src = &storage.RedisPatchSchedule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = schedule.AssignProperties_From_RedisPatchSchedule_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -306,13 +306,13 @@ func (schedule *RedisPatchSchedule_Spec) ConvertSpecTo(destination genruntime.Co
 	dst = &storage.RedisPatchSchedule_Spec{}
 	err := schedule.AssignProperties_To_RedisPatchSchedule_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -328,7 +328,7 @@ func (schedule *RedisPatchSchedule_Spec) AssignProperties_From_RedisPatchSchedul
 		var operatorSpec RedisPatchScheduleOperatorSpec
 		err := operatorSpec.AssignProperties_From_RedisPatchScheduleOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RedisPatchScheduleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_RedisPatchScheduleOperatorSpec() to populate field OperatorSpec")
 		}
 		schedule.OperatorSpec = &operatorSpec
 	} else {
@@ -355,7 +355,7 @@ func (schedule *RedisPatchSchedule_Spec) AssignProperties_From_RedisPatchSchedul
 			var scheduleEntry ScheduleEntry
 			err := scheduleEntry.AssignProperties_From_ScheduleEntry(&scheduleEntryItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ScheduleEntry() to populate field ScheduleEntries")
+				return eris.Wrap(err, "calling AssignProperties_From_ScheduleEntry() to populate field ScheduleEntries")
 			}
 			scheduleEntryList[scheduleEntryIndex] = scheduleEntry
 		}
@@ -376,7 +376,7 @@ func (schedule *RedisPatchSchedule_Spec) AssignProperties_From_RedisPatchSchedul
 	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedisPatchSchedule_Spec); ok {
 		err := augmentedSchedule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -394,7 +394,7 @@ func (schedule *RedisPatchSchedule_Spec) AssignProperties_To_RedisPatchSchedule_
 		var operatorSpec storage.RedisPatchScheduleOperatorSpec
 		err := schedule.OperatorSpec.AssignProperties_To_RedisPatchScheduleOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RedisPatchScheduleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_RedisPatchScheduleOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -421,7 +421,7 @@ func (schedule *RedisPatchSchedule_Spec) AssignProperties_To_RedisPatchSchedule_
 			var scheduleEntry storage.ScheduleEntry
 			err := scheduleEntryItem.AssignProperties_To_ScheduleEntry(&scheduleEntry)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ScheduleEntry() to populate field ScheduleEntries")
+				return eris.Wrap(err, "calling AssignProperties_To_ScheduleEntry() to populate field ScheduleEntries")
 			}
 			scheduleEntryList[scheduleEntryIndex] = scheduleEntry
 		}
@@ -442,7 +442,7 @@ func (schedule *RedisPatchSchedule_Spec) AssignProperties_To_RedisPatchSchedule_
 	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedisPatchSchedule_Spec); ok {
 		err := augmentedSchedule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -475,13 +475,13 @@ func (schedule *RedisPatchSchedule_STATUS) ConvertStatusFrom(source genruntime.C
 	src = &storage.RedisPatchSchedule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = schedule.AssignProperties_From_RedisPatchSchedule_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -499,13 +499,13 @@ func (schedule *RedisPatchSchedule_STATUS) ConvertStatusTo(destination genruntim
 	dst = &storage.RedisPatchSchedule_STATUS{}
 	err := schedule.AssignProperties_To_RedisPatchSchedule_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -537,7 +537,7 @@ func (schedule *RedisPatchSchedule_STATUS) AssignProperties_From_RedisPatchSched
 			var scheduleEntry ScheduleEntry_STATUS
 			err := scheduleEntry.AssignProperties_From_ScheduleEntry_STATUS(&scheduleEntryItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ScheduleEntry_STATUS() to populate field ScheduleEntries")
+				return eris.Wrap(err, "calling AssignProperties_From_ScheduleEntry_STATUS() to populate field ScheduleEntries")
 			}
 			scheduleEntryList[scheduleEntryIndex] = scheduleEntry
 		}
@@ -561,7 +561,7 @@ func (schedule *RedisPatchSchedule_STATUS) AssignProperties_From_RedisPatchSched
 	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedisPatchSchedule_STATUS); ok {
 		err := augmentedSchedule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -595,7 +595,7 @@ func (schedule *RedisPatchSchedule_STATUS) AssignProperties_To_RedisPatchSchedul
 			var scheduleEntry storage.ScheduleEntry_STATUS
 			err := scheduleEntryItem.AssignProperties_To_ScheduleEntry_STATUS(&scheduleEntry)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ScheduleEntry_STATUS() to populate field ScheduleEntries")
+				return eris.Wrap(err, "calling AssignProperties_To_ScheduleEntry_STATUS() to populate field ScheduleEntries")
 			}
 			scheduleEntryList[scheduleEntryIndex] = scheduleEntry
 		}
@@ -619,7 +619,7 @@ func (schedule *RedisPatchSchedule_STATUS) AssignProperties_To_RedisPatchSchedul
 	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedisPatchSchedule_STATUS); ok {
 		err := augmentedSchedule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -698,7 +698,7 @@ func (operator *RedisPatchScheduleOperatorSpec) AssignProperties_From_RedisPatch
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRedisPatchScheduleOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -759,7 +759,7 @@ func (operator *RedisPatchScheduleOperatorSpec) AssignProperties_To_RedisPatchSc
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRedisPatchScheduleOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -802,7 +802,7 @@ func (entry *ScheduleEntry) AssignProperties_From_ScheduleEntry(source *storage.
 	if augmentedEntry, ok := entryAsAny.(augmentConversionForScheduleEntry); ok {
 		err := augmentedEntry.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -836,7 +836,7 @@ func (entry *ScheduleEntry) AssignProperties_To_ScheduleEntry(destination *stora
 	if augmentedEntry, ok := entryAsAny.(augmentConversionForScheduleEntry); ok {
 		err := augmentedEntry.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -879,7 +879,7 @@ func (entry *ScheduleEntry_STATUS) AssignProperties_From_ScheduleEntry_STATUS(so
 	if augmentedEntry, ok := entryAsAny.(augmentConversionForScheduleEntry_STATUS); ok {
 		err := augmentedEntry.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -913,7 +913,7 @@ func (entry *ScheduleEntry_STATUS) AssignProperties_To_ScheduleEntry_STATUS(dest
 	if augmentedEntry, ok := entryAsAny.(augmentConversionForScheduleEntry_STATUS); ok {
 		err := augmentedEntry.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -131,7 +131,7 @@ func (trigger *SqlDatabaseContainerTrigger) SetStatus(status genruntime.Converti
 	var st SqlDatabaseContainerTrigger_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	trigger.Status = st
@@ -186,7 +186,7 @@ var _ genruntime.ConvertibleSpec = &SqlDatabaseContainerTrigger_Spec{}
 // ConvertSpecFrom populates our SqlDatabaseContainerTrigger_Spec from the provided source
 func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == trigger {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(trigger)
@@ -195,7 +195,7 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertSpecFrom(source genrunti
 // ConvertSpecTo populates the provided destination from our SqlDatabaseContainerTrigger_Spec
 func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == trigger {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(trigger)
@@ -218,7 +218,7 @@ var _ genruntime.ConvertibleStatus = &SqlDatabaseContainerTrigger_STATUS{}
 // ConvertStatusFrom populates our SqlDatabaseContainerTrigger_STATUS from the provided source
 func (trigger *SqlDatabaseContainerTrigger_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == trigger {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(trigger)
@@ -227,7 +227,7 @@ func (trigger *SqlDatabaseContainerTrigger_STATUS) ConvertStatusFrom(source genr
 // ConvertStatusTo populates the provided destination from our SqlDatabaseContainerTrigger_STATUS
 func (trigger *SqlDatabaseContainerTrigger_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == trigger {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(trigger)

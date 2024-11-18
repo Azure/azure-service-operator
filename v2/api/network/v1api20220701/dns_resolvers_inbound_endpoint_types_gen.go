@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (endpoint *DnsResolversInboundEndpoint) SetStatus(status genruntime.Convert
 	var st DnsResolversInboundEndpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	endpoint.Status = st
@@ -309,7 +309,7 @@ func (endpoint *DnsResolversInboundEndpoint) AssignProperties_From_DnsResolversI
 	var spec DnsResolversInboundEndpoint_Spec
 	err := spec.AssignProperties_From_DnsResolversInboundEndpoint_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsResolversInboundEndpoint_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_DnsResolversInboundEndpoint_Spec() to populate field Spec")
 	}
 	endpoint.Spec = spec
 
@@ -317,7 +317,7 @@ func (endpoint *DnsResolversInboundEndpoint) AssignProperties_From_DnsResolversI
 	var status DnsResolversInboundEndpoint_STATUS
 	err = status.AssignProperties_From_DnsResolversInboundEndpoint_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsResolversInboundEndpoint_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_DnsResolversInboundEndpoint_STATUS() to populate field Status")
 	}
 	endpoint.Status = status
 
@@ -335,7 +335,7 @@ func (endpoint *DnsResolversInboundEndpoint) AssignProperties_To_DnsResolversInb
 	var spec storage.DnsResolversInboundEndpoint_Spec
 	err := endpoint.Spec.AssignProperties_To_DnsResolversInboundEndpoint_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsResolversInboundEndpoint_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_DnsResolversInboundEndpoint_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (endpoint *DnsResolversInboundEndpoint) AssignProperties_To_DnsResolversInb
 	var status storage.DnsResolversInboundEndpoint_STATUS
 	err = endpoint.Status.AssignProperties_To_DnsResolversInboundEndpoint_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsResolversInboundEndpoint_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_DnsResolversInboundEndpoint_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -505,13 +505,13 @@ func (endpoint *DnsResolversInboundEndpoint_Spec) ConvertSpecFrom(source genrunt
 	src = &storage.DnsResolversInboundEndpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = endpoint.AssignProperties_From_DnsResolversInboundEndpoint_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -529,13 +529,13 @@ func (endpoint *DnsResolversInboundEndpoint_Spec) ConvertSpecTo(destination genr
 	dst = &storage.DnsResolversInboundEndpoint_Spec{}
 	err := endpoint.AssignProperties_To_DnsResolversInboundEndpoint_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -556,7 +556,7 @@ func (endpoint *DnsResolversInboundEndpoint_Spec) AssignProperties_From_DnsResol
 			var ipConfiguration IpConfiguration
 			err := ipConfiguration.AssignProperties_From_IpConfiguration(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpConfiguration() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_From_IpConfiguration() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -573,7 +573,7 @@ func (endpoint *DnsResolversInboundEndpoint_Spec) AssignProperties_From_DnsResol
 		var operatorSpec DnsResolversInboundEndpointOperatorSpec
 		err := operatorSpec.AssignProperties_From_DnsResolversInboundEndpointOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DnsResolversInboundEndpointOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_DnsResolversInboundEndpointOperatorSpec() to populate field OperatorSpec")
 		}
 		endpoint.OperatorSpec = &operatorSpec
 	} else {
@@ -612,7 +612,7 @@ func (endpoint *DnsResolversInboundEndpoint_Spec) AssignProperties_To_DnsResolve
 			var ipConfiguration storage.IpConfiguration
 			err := ipConfigurationItem.AssignProperties_To_IpConfiguration(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpConfiguration() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_To_IpConfiguration() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -629,7 +629,7 @@ func (endpoint *DnsResolversInboundEndpoint_Spec) AssignProperties_To_DnsResolve
 		var operatorSpec storage.DnsResolversInboundEndpointOperatorSpec
 		err := endpoint.OperatorSpec.AssignProperties_To_DnsResolversInboundEndpointOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DnsResolversInboundEndpointOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_DnsResolversInboundEndpointOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -673,7 +673,7 @@ func (endpoint *DnsResolversInboundEndpoint_Spec) Initialize_From_DnsResolversIn
 			var ipConfiguration IpConfiguration
 			err := ipConfiguration.Initialize_From_IpConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IpConfiguration_STATUS() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling Initialize_From_IpConfiguration_STATUS() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -753,13 +753,13 @@ func (endpoint *DnsResolversInboundEndpoint_STATUS) ConvertStatusFrom(source gen
 	src = &storage.DnsResolversInboundEndpoint_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = endpoint.AssignProperties_From_DnsResolversInboundEndpoint_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -777,13 +777,13 @@ func (endpoint *DnsResolversInboundEndpoint_STATUS) ConvertStatusTo(destination 
 	dst = &storage.DnsResolversInboundEndpoint_STATUS{}
 	err := endpoint.AssignProperties_To_DnsResolversInboundEndpoint_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -912,7 +912,7 @@ func (endpoint *DnsResolversInboundEndpoint_STATUS) AssignProperties_From_DnsRes
 			var ipConfiguration IpConfiguration_STATUS
 			err := ipConfiguration.AssignProperties_From_IpConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpConfiguration_STATUS() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_From_IpConfiguration_STATUS() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -944,7 +944,7 @@ func (endpoint *DnsResolversInboundEndpoint_STATUS) AssignProperties_From_DnsRes
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		endpoint.SystemData = &systemDatum
 	} else {
@@ -984,7 +984,7 @@ func (endpoint *DnsResolversInboundEndpoint_STATUS) AssignProperties_To_DnsResol
 			var ipConfiguration storage.IpConfiguration_STATUS
 			err := ipConfigurationItem.AssignProperties_To_IpConfiguration_STATUS(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpConfiguration_STATUS() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_To_IpConfiguration_STATUS() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1015,7 +1015,7 @@ func (endpoint *DnsResolversInboundEndpoint_STATUS) AssignProperties_To_DnsResol
 		var systemDatum storage.SystemData_STATUS
 		err := endpoint.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1252,7 +1252,7 @@ func (configuration *IpConfiguration) AssignProperties_From_IpConfiguration(sour
 		var subnet SubResource
 		err := subnet.AssignProperties_From_SubResource(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
 		}
 		configuration.Subnet = &subnet
 	} else {
@@ -1284,7 +1284,7 @@ func (configuration *IpConfiguration) AssignProperties_To_IpConfiguration(destin
 		var subnet storage.SubResource
 		err := configuration.Subnet.AssignProperties_To_SubResource(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -1321,7 +1321,7 @@ func (configuration *IpConfiguration) Initialize_From_IpConfiguration_STATUS(sou
 		var subnet SubResource
 		err := subnet.Initialize_From_SubResource_STATUS(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field Subnet")
+			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field Subnet")
 		}
 		configuration.Subnet = &subnet
 	} else {
@@ -1407,7 +1407,7 @@ func (configuration *IpConfiguration_STATUS) AssignProperties_From_IpConfigurati
 		var subnet SubResource_STATUS
 		err := subnet.AssignProperties_From_SubResource_STATUS(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field Subnet")
 		}
 		configuration.Subnet = &subnet
 	} else {
@@ -1439,7 +1439,7 @@ func (configuration *IpConfiguration_STATUS) AssignProperties_To_IpConfiguration
 		var subnet storage.SubResource_STATUS
 		err := configuration.Subnet.AssignProperties_To_SubResource_STATUS(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
