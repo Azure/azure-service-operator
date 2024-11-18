@@ -37,17 +37,9 @@ type ImportableResource interface {
 	// log allows information about progress to be reported
 	Import(
 		ctx context.Context,
-		log logr.Logger,
-	) (ImportedResource, error)
-
-	// FindChildren returns any child resources that need to be imported.
-	// ctx allows for cancellation of the import.
-	// Returns any additional resources that also need to be imported, as well as any errors that occur.
-	// Partial success is allowed, but the caller should be notified of any errors.
-	FindChildren(
-		ctx context.Context,
 		reporter importreporter.Interface,
-	) ([]ImportableResource, error)
+		log logr.Logger,
+	) (ImportResourceResult, error)
 }
 
 // importableResource is a core of common data and support methods for implementing ImportableResource

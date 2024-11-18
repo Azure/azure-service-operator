@@ -308,23 +308,12 @@ func (ri *ResourceImporter) importResource(
 	// (we must only do this when we return, to ensure we don't appear complete too early)
 	defer progress.Completed(1)
 
-	result := ImportResourceResult{}
-
 	// Import the resource itself
-	if imported, err := rsrc.Import(ctx, ri.log); err != nil {
-		return result, errors.Wrapf(err, "importing %s", name)
+	if imported, err := rsrc.Import(ctx, progress, ri.log); err != nil {
+		return ImportResourceResult{}, errors.Wrapf(err, "importing %s", name)
 	} else {
-		result.resource = imported
+		return imported, nil
 	}
-
-	// Look for any children that need to be imported
-	if pending, err := rsrc.FindChildren(ctx, progress); err != nil {
-		return result, errors.Wrapf(err, "finding children of %s", name)
-	} else {
-		result.pending = pending
-	}
-
-	return result, nil
 }
 
 // desiredWorkers returns the number of workers to use for importing resources.

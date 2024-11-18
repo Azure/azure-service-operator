@@ -26,7 +26,4 @@ type ImportedResource interface {
 
 	// Resource returns the actual resource that has been imported.
 	Resource() genruntime.MetaObject
-
-	// Error returns any error that occurred during the import.
-	Error() error
 }
