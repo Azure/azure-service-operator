@@ -334,7 +334,7 @@ func (fn *PropertyAssignmentFunction) handleAugmentationInterface(
 	returnIfNotNil := astbuilder.ReturnIfNotNil(
 		dst.NewIdent("err"),
 		astbuilder.WrappedError(
-			generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference),
+			generationContext.MustGetImportedPackageName(astmodel.ErisReference),
 			fmt.Sprintf("calling augmented %s() for conversion", conversionFuncName)))
 
 	ifStmt := astbuilder.IfType(

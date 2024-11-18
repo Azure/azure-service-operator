@@ -48,7 +48,7 @@ func (fn ResourceStatusSetterFunction) Name() string {
 
 // RequiredPackageReferences returns the set of package references required by this function
 func (fn ResourceStatusSetterFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
-	return astmodel.NewPackageReferenceSet(astmodel.GitHubErrorsReference, astmodel.GenRuntimeReference)
+	return astmodel.NewPackageReferenceSet(astmodel.ErisReference, astmodel.GenRuntimeReference)
 }
 
 // References returns the set of other types required by this function
@@ -70,7 +70,7 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 
 	statusLocal := "st"
 	statusParameter := "status"
-	errorsPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	errorsPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.ErisReference)
 
 	// <receiver>.Status = st
 	assignFromStatus := astbuilder.SimpleAssignment(
