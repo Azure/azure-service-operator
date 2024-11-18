@@ -6,7 +6,7 @@ package storage
 import (
 	storage "github.com/Azure/azure-service-operator/testing/person/v20211231/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -30,7 +30,7 @@ func (person *Person) AssignProperties_From_Person(source *storage.Person) error
 	var spec Person_Spec
 	err := spec.AssignProperties_From_Person_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Person_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Person_Spec() to populate field Spec")
 	}
 	person.Spec = spec
 
@@ -38,7 +38,7 @@ func (person *Person) AssignProperties_From_Person(source *storage.Person) error
 	var status Person_STATUS
 	err = status.AssignProperties_From_Person_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Person_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Person_STATUS() to populate field Status")
 	}
 	person.Status = status
 
@@ -47,7 +47,7 @@ func (person *Person) AssignProperties_From_Person(source *storage.Person) error
 	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson); ok {
 		err := augmentedPerson.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -65,7 +65,7 @@ func (person *Person) AssignProperties_To_Person(destination *storage.Person) er
 	var spec storage.Person_Spec
 	err := person.Spec.AssignProperties_To_Person_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Person_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Person_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -73,7 +73,7 @@ func (person *Person) AssignProperties_To_Person(destination *storage.Person) er
 	var status storage.Person_STATUS
 	err = person.Status.AssignProperties_To_Person_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Person_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Person_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -82,7 +82,7 @@ func (person *Person) AssignProperties_To_Person(destination *storage.Person) er
 	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson); ok {
 		err := augmentedPerson.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -123,13 +123,13 @@ func (person *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 	src = &storage.Person_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = person.AssignProperties_From_Person_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -147,13 +147,13 @@ func (person *Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 	dst = &storage.Person_Spec{}
 	err := person.AssignProperties_To_Person_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -179,7 +179,7 @@ func (person *Person_Spec) AssignProperties_From_Person_Spec(source *storage.Per
 	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_Spec); ok {
 		err := augmentedPerson.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -207,7 +207,7 @@ func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *storage.
 	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_Spec); ok {
 		err := augmentedPerson.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -241,7 +241,7 @@ func (person *Person_STATUS) AssignProperties_From_Person_STATUS(source *storage
 	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_STATUS); ok {
 		err := augmentedPerson.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -269,7 +269,7 @@ func (person *Person_STATUS) AssignProperties_To_Person_STATUS(destination *stor
 	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_STATUS); ok {
 		err := augmentedPerson.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

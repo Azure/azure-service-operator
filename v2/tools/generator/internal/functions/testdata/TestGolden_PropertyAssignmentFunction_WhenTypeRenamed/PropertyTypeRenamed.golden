@@ -5,7 +5,7 @@ package v20200101
 
 import (
 	v20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 type Event struct {
@@ -19,7 +19,7 @@ func (event *Event) AssignProperties_From_Event(source *v20211231.Event) error {
 	var where Location
 	err := where.AssignProperties_From_Venue(&source.Where)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Venue() to populate field Where")
+		return eris.Wrap(err, "calling AssignProperties_From_Venue() to populate field Where")
 	}
 	event.Where = where
 
@@ -34,7 +34,7 @@ func (event *Event) AssignProperties_To_Event(destination *v20211231.Event) erro
 	var where v20211231.Venue
 	err := event.Where.AssignProperties_To_Venue(&where)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Venue() to populate field Where")
+		return eris.Wrap(err, "calling AssignProperties_To_Venue() to populate field Where")
 	}
 	destination.Where = where
 

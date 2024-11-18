@@ -6,7 +6,7 @@ package v20200101
 import (
 	v20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 type Person struct {
@@ -30,7 +30,7 @@ func (person *Person) AssignProperties_From_Person(source *v20211231.Person) err
 		var familyName string
 		err := propertyBag.Pull("FamilyName", &familyName)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'FamilyName' from propertyBag")
+			return eris.Wrap(err, "pulling 'FamilyName' from propertyBag")
 		}
 
 		person.FamilyName = familyName
@@ -46,7 +46,7 @@ func (person *Person) AssignProperties_From_Person(source *v20211231.Person) err
 		var knownAs string
 		err := propertyBag.Pull("KnownAs", &knownAs)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'KnownAs' from propertyBag")
+			return eris.Wrap(err, "pulling 'KnownAs' from propertyBag")
 		}
 
 		person.KnownAs = knownAs

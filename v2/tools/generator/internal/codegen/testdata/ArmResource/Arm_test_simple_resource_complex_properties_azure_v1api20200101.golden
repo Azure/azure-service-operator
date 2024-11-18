@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -265,7 +265,7 @@ func (resource *FakeResource) AssignProperties_From_FakeResource(source *storage
 	var spec FakeResource_Spec
 	err := spec.AssignProperties_From_FakeResource_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FakeResource_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_FakeResource_Spec() to populate field Spec")
 	}
 	resource.Spec = spec
 
@@ -283,7 +283,7 @@ func (resource *FakeResource) AssignProperties_To_FakeResource(destination *stor
 	var spec storage.FakeResource_Spec
 	err := resource.Spec.AssignProperties_To_FakeResource_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FakeResource_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_FakeResource_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -476,13 +476,13 @@ func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.Convertible
 	src = &storage.FakeResource_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = resource.AssignProperties_From_FakeResource_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -500,13 +500,13 @@ func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.Converti
 	dst = &storage.FakeResource_Spec{}
 	err := resource.AssignProperties_To_FakeResource_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -540,7 +540,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 		var foo Foo
 		err := foo.AssignProperties_From_Foo(source.Foo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field Foo")
+			return eris.Wrap(err, "calling AssignProperties_From_Foo() to populate field Foo")
 		}
 		resource.Foo = &foo
 	} else {
@@ -552,7 +552,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 		var operatorSpec FakeResourceOperatorSpec
 		err := operatorSpec.AssignProperties_From_FakeResourceOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FakeResourceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_FakeResourceOperatorSpec() to populate field OperatorSpec")
 		}
 		resource.OperatorSpec = &operatorSpec
 	} else {
@@ -564,7 +564,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 		var optionalFoo Foo
 		err := optionalFoo.AssignProperties_From_Foo(source.OptionalFoo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field OptionalFoo")
+			return eris.Wrap(err, "calling AssignProperties_From_Foo() to populate field OptionalFoo")
 		}
 		resource.OptionalFoo = &optionalFoo
 	} else {
@@ -616,7 +616,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 		var foo storage.Foo
 		err := resource.Foo.AssignProperties_To_Foo(&foo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field Foo")
+			return eris.Wrap(err, "calling AssignProperties_To_Foo() to populate field Foo")
 		}
 		destination.Foo = &foo
 	} else {
@@ -628,7 +628,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 		var operatorSpec storage.FakeResourceOperatorSpec
 		err := resource.OperatorSpec.AssignProperties_To_FakeResourceOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FakeResourceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_FakeResourceOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -640,7 +640,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 		var optionalFoo storage.Foo
 		err := resource.OptionalFoo.AssignProperties_To_Foo(&optionalFoo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field OptionalFoo")
+			return eris.Wrap(err, "calling AssignProperties_To_Foo() to populate field OptionalFoo")
 		}
 		destination.OptionalFoo = &optionalFoo
 	} else {

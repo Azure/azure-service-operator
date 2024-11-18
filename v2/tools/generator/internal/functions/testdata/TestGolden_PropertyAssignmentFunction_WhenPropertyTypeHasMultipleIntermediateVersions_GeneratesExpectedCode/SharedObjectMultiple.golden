@@ -8,7 +8,7 @@ import (
 	v20210306 "github.com/Azure/azure-service-operator/testing/person/v20210306"
 	v20210312 "github.com/Azure/azure-service-operator/testing/person/v20210312"
 	v20220630 "github.com/Azure/azure-service-operator/testing/person/v20220630"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 type Person struct {
@@ -22,22 +22,22 @@ func (person *Person) AssignProperties_From_Person(source *v20220630.Person) err
 	var locationStash v20210312.Location
 	err := locationStash.AssignProperties_From_Location(&source.Residence)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Location() to populate field LocationStash from Residence")
+		return eris.Wrap(err, "calling AssignProperties_From_Location() to populate field LocationStash from Residence")
 	}
 	var locationStashLocal v20210306.Location
 	err = locationStashLocal.AssignProperties_From_Location(&locationStash)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Location() to populate field LocationStash")
+		return eris.Wrap(err, "calling AssignProperties_From_Location() to populate field LocationStash")
 	}
 	var locationStashCopy v20210301.Location
 	err = locationStashCopy.AssignProperties_From_Location(&locationStashLocal)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Location() to populate field LocationStash")
+		return eris.Wrap(err, "calling AssignProperties_From_Location() to populate field LocationStash")
 	}
 	var residence Location
 	err = residence.AssignProperties_From_Location(&locationStashCopy)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Location() to populate field Residence from LocationStash")
+		return eris.Wrap(err, "calling AssignProperties_From_Location() to populate field Residence from LocationStash")
 	}
 	person.Residence = residence
 
@@ -52,22 +52,22 @@ func (person *Person) AssignProperties_To_Person(destination *v20220630.Person) 
 	var locationStash v20210301.Location
 	err := person.Residence.AssignProperties_To_Location(&locationStash)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Location() to populate field LocationStash from Residence")
+		return eris.Wrap(err, "calling AssignProperties_To_Location() to populate field LocationStash from Residence")
 	}
 	var locationStashLocal v20210306.Location
 	err = locationStash.AssignProperties_To_Location(&locationStashLocal)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Location() to populate field LocationStash")
+		return eris.Wrap(err, "calling AssignProperties_To_Location() to populate field LocationStash")
 	}
 	var locationStashCopy v20210312.Location
 	err = locationStashLocal.AssignProperties_To_Location(&locationStashCopy)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Location() to populate field LocationStash")
+		return eris.Wrap(err, "calling AssignProperties_To_Location() to populate field LocationStash")
 	}
 	var residence v20220630.Location
 	err = locationStashCopy.AssignProperties_To_Location(&residence)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Location() to populate field Residence from LocationStash")
+		return eris.Wrap(err, "calling AssignProperties_To_Location() to populate field Residence from LocationStash")
 	}
 	destination.Residence = residence
 

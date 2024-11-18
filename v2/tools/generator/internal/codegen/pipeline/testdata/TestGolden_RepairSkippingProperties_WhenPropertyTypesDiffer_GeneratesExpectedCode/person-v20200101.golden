@@ -6,7 +6,7 @@ package v20200101
 import (
 	storage "github.com/Azure/azure-service-operator/testing/person/v20200101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 type Person_Spec struct {
@@ -32,7 +32,7 @@ func (person *Person_Spec) AssignProperties_From_Person_Spec(source *storage.Per
 		var residence Residence
 		err := residence.AssignProperties_From_Residence(source.Residence)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Residence() to populate field Residence")
+			return eris.Wrap(err, "calling AssignProperties_From_Residence() to populate field Residence")
 		}
 		person.Residence = residence
 	} else {
@@ -60,7 +60,7 @@ func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *storage.
 	var residence storage.Residence
 	err := person.Residence.AssignProperties_To_Residence(&residence)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Residence() to populate field Residence")
+		return eris.Wrap(err, "calling AssignProperties_To_Residence() to populate field Residence")
 	}
 	destination.Residence = &residence
 

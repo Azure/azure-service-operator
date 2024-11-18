@@ -5,7 +5,7 @@
  
 +import (
 +	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-+	"github.com/pkg/errors"
++	"github.com/rotisserie/eris"
 +)
 +
  type Person_STATUS struct {
@@ -16,7 +16,7 @@
 +// ConvertStatusFrom populates our Person_STATUS from the provided source
 +func (person *Person_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 +	if source == person {
-+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
++		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 +	}
 +
 +	return source.ConvertStatusTo(person)
@@ -25,7 +25,7 @@
 +// ConvertStatusTo populates the provided destination from our Person_STATUS
 +func (person *Person_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 +	if destination == person {
-+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
++		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 +	}
 +
 +	return destination.ConvertStatusFrom(person)
