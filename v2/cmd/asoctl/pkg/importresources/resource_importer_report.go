@@ -12,6 +12,7 @@ import (
 	"github.com/go-logr/logr"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // resourceImportReport is used to generate a report of the resources that were imported (or not).
@@ -47,10 +48,12 @@ func newResourceImportReport() *resourceImportReport {
 }
 
 // AddSuccessfulImport adds a successful import to the report
-func (r *resourceImportReport) AddSuccessfulImport(imported ImportedResource) {
+func (r *resourceImportReport) AddSuccessfulImport(
+	gk schema.GroupKind,
+) {
 	key := resourceImportReportKey{
-		group:  imported.GroupKind().Group,
-		kind:   imported.GroupKind().Kind,
+		group:  gk.Group,
+		kind:   gk.Kind,
 		status: Imported,
 	}
 
@@ -58,10 +61,13 @@ func (r *resourceImportReport) AddSuccessfulImport(imported ImportedResource) {
 }
 
 // AddSkippedImport adds a skipped import to the report
-func (r *resourceImportReport) AddSkippedImport(imported ImportedResource, reason string) {
+func (r *resourceImportReport) AddSkippedImport(
+	gk schema.GroupKind,
+	reason string,
+) {
 	key := resourceImportReportKey{
-		group:  imported.GroupKind().Group,
-		kind:   imported.GroupKind().Kind,
+		group:  gk.Group,
+		kind:   gk.Kind,
 		status: Skipped,
 		reason: reason,
 	}
@@ -70,10 +76,13 @@ func (r *resourceImportReport) AddSkippedImport(imported ImportedResource, reaso
 }
 
 // AddFailedImport adds a failed import to the report
-func (r *resourceImportReport) AddFailedImport(imported ImportedResource, reason string) {
+func (r *resourceImportReport) AddFailedImport(
+	gk schema.GroupKind,
+	reason string,
+) {
 	key := resourceImportReportKey{
-		group:  imported.GroupKind().Group,
-		kind:   imported.GroupKind().Kind,
+		group:  gk.Group,
+		kind:   gk.Kind,
 		status: Failed,
 		reason: reason,
 	}
