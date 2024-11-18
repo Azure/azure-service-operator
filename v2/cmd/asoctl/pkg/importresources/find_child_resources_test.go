@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package importresources_test
+package importresources
 
 import (
 	"strings"

@@ -89,12 +89,16 @@ func (ri *ResourceImporter) Import(
 	failures := make(chan ImportError)           // errors from importers that failed
 	completions := make(chan struct{})           // channel to signal completion
 
+	factory := &importFactory{
+		scheme: ri.scheme,
+	}
+
 	// Dedupe candidates so we import each distinct resource only once
 	go ri.queueUniqueImporters(candidates, pending, ri.reporter)
 
 	// Create workers to run the import
 	for i := 0; i < workersRequired; i++ {
-		go ri.importWorker(ctx, pending, successes, failures, ri.reporter, completions)
+		go ri.importWorker(ctx, pending, completed, ri.reporter, factory)
 	}
 
 	// Collate the results
@@ -207,7 +211,7 @@ func (ri *ResourceImporter) importWorker(
 	completed chan<- ImportResourceResult,
 	failed chan<- ImportError,
 	progress importreporter.Interface,
-	done chan<- struct{},
+	factory *importFactory,
 ) {
 	for rsrc := range pending {
 		if ctx.Err() != nil {
@@ -218,12 +222,8 @@ func (ri *ResourceImporter) importWorker(
 
 		// We have a resource to import
 		ri.log.V(1).Info("Importing", "resource", rsrc.ID())
-
-		if imported, err := ri.importResource(ctx, rsrc, progress); err != nil {
-			failed <- MakeImportError(err, rsrc.GroupKind(), rsrc.Name())
-		} else {
-			completed <- imported
-		}
+		result := ri.importResource(ctx, rsrc, factory, progress)
+		completed <- result
 	}
 
 	done <- struct{}{}
@@ -299,7 +299,7 @@ func (ri *ResourceImporter) importResource(
 	name := fmt.Sprintf("%s %s", gk, rsrc.Name())
 
 	// Create our importreporter indicator
-	progress := parent.Create(name)
+	progress := reporter.Create(name)
 
 	// Our main resource is pending
 	progress.AddPending(1)
@@ -309,11 +309,22 @@ func (ri *ResourceImporter) importResource(
 	defer progress.Completed(1)
 
 	// Import the resource itself
-	if imported, err := rsrc.Import(ctx, progress, ri.log); err != nil {
-		return ImportResourceResult{}, eris.Wrapf(err, "importing %s", name)
-	} else {
-		return imported, nil
+	imported, err := rsrc.Import(ctx, ri.log, factory)
+	result := ImportResourceResult{
+		resource: imported,
+		err:      err,
 	}
+
+	// If the main resource was imported ok, look for any children
+	if result.err == nil {
+		result.pending, result.err = rsrc.FindChildren(ctx, progress, factory)
+	}
+
+	// Indicate the main resource is complete
+	// (we must only do this after checking for children, to ensure we don't appear complete too early)
+	progress.Completed(1)
+
+	return result
 }
 
 // desiredWorkers returns the number of workers to use for importing resources.

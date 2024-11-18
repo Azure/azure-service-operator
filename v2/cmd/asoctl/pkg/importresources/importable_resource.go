@@ -42,64 +42,9 @@ type ImportableResource interface {
 	) (ImportResourceResult, error)
 }
 
-// importableResource is a core of common data and support methods for implementing ImportableResource
-type importableResource struct {
-	scheme *runtime.Scheme
+/*
+type importResult struct {
+	resource ImportedResource
+	children []ImportableResource
 }
-
-// createBlankObjectFromGVK is a helper function to create a blank object of from a given GVK.
-func (i *importableResource) createBlankObjectFromGVK(gvk schema.GroupVersionKind) (runtime.Object, error) {
-	obj, err := i.scheme.New(gvk)
-	if err != nil {
-		return nil, eris.Wrap(err, "unable to create blank resource")
-	}
-
-	obj.GetObjectKind().SetGroupVersionKind(gvk)
-	return obj, nil
-}
-
-// selectVersionFromGK is a helper function to select the latest version of a given GroupKind.
-// The latest stable version will be selected if it exists, otherwise the latest preview version will be selected.
-func (i *importableResource) selectVersionFromGK(gk schema.GroupKind) (schema.GroupVersionKind, error) {
-	knownVersions := i.scheme.VersionsForGroupKind(gk)
-	if len(knownVersions) == 0 {
-		return schema.GroupVersionKind{},
-			eris.Errorf(
-				"no known versions for Group %s, Kind %s",
-				gk.Group,
-				gk.Kind)
-	}
-
-	// Scan for the GVK that implements genruntime.ImportableResource
-	// We expect there to be exactly one
-	var result *schema.GroupVersionKind
-	for _, gv := range knownVersions {
-		gvk := gk.WithVersion(gv.Version)
-		obj, err := i.createBlankObjectFromGVK(gvk)
-		if err != nil {
-			return schema.GroupVersionKind{}, eris.Wrapf(err, "unable to create blank resource for GVK %s", gvk)
-		}
-
-		if _, ok := obj.(genruntime.ImportableResource); ok {
-			if result != nil {
-				return schema.GroupVersionKind{},
-					eris.Errorf(
-						"multiple known versions for Group %s, Kind %s implement genruntime.ImportableResource",
-						gk.Group,
-						gk.Kind)
-			}
-
-			result = &gvk
-		}
-	}
-
-	if result == nil {
-		return schema.GroupVersionKind{},
-			eris.Errorf(
-				"no known versions for Group %s, Kind %s implement genruntime.ImportableResource",
-				gk.Group,
-				gk.Kind)
-	}
-
-	return *result, nil
-}
+*/
