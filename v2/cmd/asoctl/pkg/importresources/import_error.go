@@ -28,7 +28,7 @@ func MakeImportError(err error, gk schema.GroupKind, name string) ImportError {
 }
 
 func (ie *ImportError) Error() string {
-	return fmt.Sprintf("failed to import %s %s: %v", ie.gk, ie.name, ie.err)
+	return fmt.Sprintf("failed to import %s %s: %s", ie.gk, ie.name, ie.err.Error())
 }
 
 func (ie *ImportError) Unwrap() error {
