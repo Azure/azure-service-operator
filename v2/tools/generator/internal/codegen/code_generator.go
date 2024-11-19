@@ -199,6 +199,7 @@ func createAllPipelineStages(
 		pipeline.StripUnreferencedTypeDefinitions(),
 
 		pipeline.RenameProperties(configuration.ObjectModelConfiguration),
+		pipeline.OverrideDescriptions(configuration), // After flatten and rename to make easier to use
 		pipeline.AddStatusConditions(idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.AddOperatorSpec(configuration, idFactory).UsedFor(pipeline.ARMTarget),

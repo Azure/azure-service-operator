@@ -50,6 +50,7 @@ type ObjectModelConfiguration struct {
 
 	// Property access fields here (alphabetical, please)
 	ARMReference                   propertyAccess[bool]
+	Description                    propertyAccess[string]
 	ImportConfigMapMode            propertyAccess[ImportConfigMapMode]
 	IsSecret                       propertyAccess[bool]
 	PropertyNameInNextVersion      propertyAccess[string]
@@ -110,6 +111,8 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	// Initialize property access fields here (alphabetical, please)
 	result.ARMReference = makePropertyAccess[bool](
 		result, func(c *PropertyConfiguration) *configurable[bool] { return &c.ARMReference })
+	result.Description = makePropertyAccess[string](
+		result, func(c *PropertyConfiguration) *configurable[string] { return &c.Description })
 	result.ImportConfigMapMode = makePropertyAccess[ImportConfigMapMode](
 		result, func(c *PropertyConfiguration) *configurable[ImportConfigMapMode] { return &c.ImportConfigMapMode })
 	result.IsSecret = makePropertyAccess[bool](
