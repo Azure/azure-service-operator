@@ -8,7 +8,7 @@ package storage
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -69,7 +69,7 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 
 	// Expect to have only the hub reference left
 	if len(toProcess) != 1 {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"expected to have linked all references in with name %q, but have %d left",
 			b.name,
 			len(toProcess))

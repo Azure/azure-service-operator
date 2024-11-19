@@ -9,7 +9,7 @@ import (
 	"context"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -65,7 +65,7 @@ func StripDocumentation(configuration *config.Configuration, log logr.Logger) *S
 
 			err := configuration.ObjectModelConfiguration.StripDocumentation.VerifyConsumed()
 			if err != nil {
-				return nil, errors.Wrap(
+				return nil, eris.Wrap(
 					err,
 					"Found unused $stripDocumentation configurations; these can only be specified on top-level resources.")
 			}

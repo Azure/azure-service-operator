@@ -9,7 +9,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -34,7 +34,7 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) *Stage {
 
 					owners, err := lookupOwners(definitions, typeDef)
 					if err != nil {
-						return nil, errors.Wrapf(err, "failed to look up owners for %s", typeDef.Name())
+						return nil, eris.Wrapf(err, "failed to look up owners for %s", typeDef.Name())
 					}
 
 					// The right-most owner is this type, so remove it
@@ -48,7 +48,7 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) *Stage {
 
 					specDef, err := definitions.ResolveResourceSpecDefinition(resource)
 					if err != nil {
-						return nil, errors.Wrapf(err, "getting resource spec definition")
+						return nil, eris.Wrapf(err, "getting resource spec definition")
 					}
 
 					for _, owner := range owners {
@@ -75,7 +75,7 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) *Stage {
 							return result, nil
 						})
 						if err != nil {
-							return nil, errors.Wrapf(err, "adding ownership properties to spec")
+							return nil, eris.Wrapf(err, "adding ownership properties to spec")
 						}
 						specDef = updatedDef
 					}
@@ -98,7 +98,7 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) *Stage {
 func lookupOwners(defs astmodel.TypeDefinitionSet, resourceDef astmodel.TypeDefinition) ([]astmodel.TypeName, error) {
 	resourceType, ok := resourceDef.Type().(*astmodel.ResourceType)
 	if !ok {
-		return nil, errors.Errorf("type %s is not a resource", resourceDef.Name())
+		return nil, eris.Errorf("type %s is not a resource", resourceDef.Name())
 	}
 
 	if resourceType.Owner().IsEmpty() {
@@ -115,7 +115,7 @@ func lookupOwners(defs astmodel.TypeDefinitionSet, resourceDef astmodel.TypeDefi
 	owner := resourceType.Owner()
 	ownerDef, ok := defs[owner]
 	if !ok {
-		return nil, errors.Errorf("couldn't find definition for owner %s", owner)
+		return nil, eris.Errorf("couldn't find definition for owner %s", owner)
 	}
 
 	result, err := lookupOwners(defs, ownerDef)

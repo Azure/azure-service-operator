@@ -7,7 +7,7 @@ package functions
 
 import (
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -50,7 +50,7 @@ func createBodyReturningValue(
 
 		receiverExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating receiver expression for %s", receiverType)
+			return nil, eris.Wrapf(err, "creating receiver expression for %s", receiverType)
 		}
 
 		fn := &astbuilder.FuncDetails{
@@ -64,7 +64,7 @@ func createBodyReturningValue(
 		fn.AddComments(comment)
 		returnTypeExpr, err := returnType.AsTypeExpr(codeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating type expression for %s", returnType)
+			return nil, eris.Wrapf(err, "creating type expression for %s", returnType)
 		}
 
 		fn.AddReturn(returnTypeExpr)

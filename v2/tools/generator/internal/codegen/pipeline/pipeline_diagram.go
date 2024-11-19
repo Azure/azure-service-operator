@@ -12,7 +12,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -37,7 +37,7 @@ func (diagram *PipelineDiagram) WriteDiagram(stages []*Stage) error {
 	dotsrc := diagram.createDiagram(stages)
 	filename := filepath.Join(diagram.debugDir, "pipeline.dot")
 	err := os.WriteFile(filename, dotsrc, 0o600)
-	return errors.Wrapf(err, "failed to write diagram to %s", filename)
+	return eris.Wrapf(err, "failed to write diagram to %s", filename)
 }
 
 // createDiagram creates a dot file for the pipeline

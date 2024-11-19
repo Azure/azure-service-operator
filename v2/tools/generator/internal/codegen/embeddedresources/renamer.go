@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -62,7 +62,7 @@ func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(
 	associated := associatedNames.Single()
 	embeddedName, ok := originalNames[associated]
 	if !ok {
-		return nil, errors.Errorf("could not find original name for %q", associated)
+		return nil, eris.Errorf("could not find original name for %q", associated)
 	}
 
 	embeddedName.context = ""
@@ -88,7 +88,7 @@ func (r renamer) simplifyEmbeddedNameRemoveContext(
 	for associated := range associatedNames {
 		embeddedName, ok := originalNames[associated]
 		if !ok {
-			return nil, errors.Errorf("could not find original name for %q", associated)
+			return nil, eris.Errorf("could not find original name for %q", associated)
 		}
 		associatedCountPerContext[embeddedName.context] = associatedCountPerContext[embeddedName.context] + 1
 	}
@@ -102,7 +102,7 @@ func (r renamer) simplifyEmbeddedNameRemoveContext(
 	for associated := range associatedNames {
 		embeddedName, ok := originalNames[associated]
 		if !ok {
-			return nil, errors.Errorf("could not find original name for %q", associated)
+			return nil, eris.Errorf("could not find original name for %q", associated)
 		}
 		embeddedName.context = ""
 		renames[associated] = embeddedName.ToSimplifiedTypeName()
@@ -128,7 +128,7 @@ func (r renamer) simplifyEmbeddedName(
 	for associated := range associatedNames {
 		embeddedName, ok := originalNames[associated]
 		if !ok {
-			return nil, errors.Errorf("could not find original name for %q", associated)
+			return nil, eris.Errorf("could not find original name for %q", associated)
 		}
 
 		possibleRename := embeddedName.ToSimplifiedTypeName()
@@ -186,7 +186,7 @@ func simplifyTypeNames(
 		if flag.IsOn(def.Type()) {
 			en, ok := originalNames[def.Name()]
 			if !ok {
-				return nil, errors.Errorf("failed to find original name for renamed type %s", def.Name())
+				return nil, eris.Errorf("failed to find original name for renamed type %s", def.Name())
 			}
 
 			if updatedNames[en.original] == nil {

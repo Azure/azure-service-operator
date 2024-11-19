@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -30,7 +30,7 @@ func CollapseCrossGroupReferences(idFactory astmodel.IdentifierFactory) *Stage {
 				walker := newTypeWalker(idFactory, state.Definitions(), name)
 				updatedTypes, err := walker.Walk(def)
 				if err != nil {
-					return nil, errors.Wrapf(err, "failed walking definitions")
+					return nil, eris.Wrapf(err, "failed walking definitions")
 				}
 
 				for _, newDef := range updatedTypes {

@@ -9,7 +9,7 @@ import (
 	"go/token"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -29,7 +29,7 @@ func GetConditionsFunction(
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+		return nil, eris.Wrapf(err, "creating type expression for %s", receiver)
 	}
 
 	status := astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")
@@ -46,7 +46,7 @@ func GetConditionsFunction(
 	fn.AddComments("returns the conditions of the resource")
 	conditionsTypeExpr, err := astmodel.ConditionsType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", astmodel.ConditionsType)
+		return nil, eris.Wrapf(err, "creating type expression for %s", astmodel.ConditionsType)
 	}
 
 	fn.AddReturn(conditionsTypeExpr)
@@ -70,7 +70,7 @@ func SetConditionsFunction(
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+		return nil, eris.Wrapf(err, "creating type expression for %s", receiver)
 	}
 
 	status := astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")
@@ -86,7 +86,7 @@ func SetConditionsFunction(
 
 	conditionsTypeExpr, err := astmodel.ConditionsType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to render type expression for %s", astmodel.ConditionsType)
+		return nil, eris.Wrapf(err, "unable to render type expression for %s", astmodel.ConditionsType)
 	}
 
 	fn.AddParameter(

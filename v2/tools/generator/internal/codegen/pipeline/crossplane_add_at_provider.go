@@ -9,7 +9,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -26,7 +26,7 @@ func AddCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) *Stage {
 					atProviderTypes, err := nestStatusIntoAtProvider(
 						idFactory, definitions, typeDef)
 					if err != nil {
-						return nil, errors.Wrapf(err, "creating AtProvider definitions")
+						return nil, eris.Wrapf(err, "creating AtProvider definitions")
 					}
 
 					// Allow duplicates here because some resources share the same _Status type
@@ -55,7 +55,7 @@ func nestStatusIntoAtProvider(
 ) ([]astmodel.TypeDefinition, error) {
 	resource, ok := astmodel.AsResourceType(typeDef.Type())
 	if !ok {
-		return nil, errors.Errorf("provided typeDef was not a resourceType, instead %T", typeDef.Type())
+		return nil, eris.Errorf("provided typeDef was not a resourceType, instead %T", typeDef.Type())
 	}
 	resourceName := typeDef.Name()
 
@@ -66,7 +66,7 @@ func nestStatusIntoAtProvider(
 
 	statusName, ok := astmodel.AsInternalTypeName(resource.StatusType())
 	if !ok {
-		return nil, errors.Errorf("resource %q status was not of type TypeName, instead: %T", resourceName, resource.StatusType())
+		return nil, eris.Errorf("resource %q status was not of type TypeName, instead: %T", resourceName, resource.StatusType())
 	}
 
 	// In the case where a status type is reused across multiple resource definitions, we need to make sure

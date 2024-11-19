@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -145,7 +145,7 @@ func (fn *PivotConversionFunction) AsFunc(
 	receiverType := astmodel.NewOptionalType(receiver)
 	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	funcDetails := &astbuilder.FuncDetails{
@@ -157,7 +157,7 @@ func (fn *PivotConversionFunction) AsFunc(
 	parameterName := fn.direction.SelectString("source", "destination")
 	parameterTypeExpr, err := fn.parameterType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating parameter type expression")
+		return nil, eris.Wrap(err, "creating parameter type expression")
 	}
 
 	funcDetails.AddParameter(parameterName, parameterTypeExpr)

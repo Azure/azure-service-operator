@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -48,7 +48,7 @@ func FlattenResources() *Stage {
 
 				result, err := v.VisitDefinition(def, nil)
 				if err != nil {
-					return nil, errors.Wrapf(err, "error processing type %s", def.Name())
+					return nil, eris.Wrapf(err, "error processing type %s", def.Name())
 				}
 
 				results.Add(result)
@@ -60,7 +60,7 @@ func FlattenResources() *Stage {
 
 func flattenResource(defs astmodel.TypeDefinitionSet, t astmodel.Type, depth int) (astmodel.Type, error) {
 	if depth > 10 {
-		return nil, errors.Errorf("too many levels of nesting while flattening resource")
+		return nil, eris.Errorf("too many levels of nesting while flattening resource")
 	}
 
 	if resource, ok := t.(*astmodel.ResourceType); ok {

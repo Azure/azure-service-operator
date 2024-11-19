@@ -8,7 +8,7 @@ package config
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 
@@ -40,7 +40,7 @@ func (tr *TransformResult) produceTargetType(
 	original astmodel.Type,
 ) (astmodel.Type, error) {
 	if err := tr.validate(); err != nil {
-		return nil, errors.Wrapf(err, "invalid transformation in %s", descriptor)
+		return nil, eris.Wrapf(err, "invalid transformation in %s", descriptor)
 	}
 
 	if tr == nil {
@@ -78,7 +78,7 @@ func (tr *TransformResult) produceTargetType(
 	}
 
 	if resultType == nil {
-		return nil, errors.Errorf("no target type found in %s", descriptor)
+		return nil, eris.Errorf("no target type found in %s", descriptor)
 	}
 
 	if tr.Optional {
@@ -91,11 +91,11 @@ func (tr *TransformResult) produceTargetType(
 func (tr *TransformResult) produceTargetNamedType(original astmodel.Type) (astmodel.Type, error) {
 	// Transform to name, ensure we have no other transformation
 	if tr.Map != nil {
-		return nil, errors.Errorf("cannot specify both Name transformation and Map transformation")
+		return nil, eris.Errorf("cannot specify both Name transformation and Map transformation")
 	}
 
 	if tr.Enum != nil {
-		return nil, errors.Errorf("cannot specify both Name transformation and Enum transformation")
+		return nil, eris.Errorf("cannot specify both Name transformation and Enum transformation")
 	}
 
 	// If we have *only* a name *and* that name represents a primitive type, we should use that
@@ -113,7 +113,7 @@ func (tr *TransformResult) produceTargetNamedType(original astmodel.Type) (astmo
 
 	tn, ok := astmodel.AsInternalTypeName(original)
 	if !ok {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"cannot apply type transformation; expected InternalTypeName, but have %s",
 			astmodel.DebugDescription(original))
 	}
@@ -133,11 +133,11 @@ func (tr *TransformResult) produceTargetMapType(
 ) (astmodel.Type, error) {
 	// Transform to map, ensure we have no other transformation
 	if tr.Name.IsRestrictive() {
-		return nil, errors.Errorf("cannot specify both Name transformation and Map transformation")
+		return nil, eris.Errorf("cannot specify both Name transformation and Map transformation")
 	}
 
 	if tr.Enum != nil {
-		return nil, errors.Errorf("cannot specify both Map transformation and Enum transformation")
+		return nil, eris.Errorf("cannot specify both Map transformation and Enum transformation")
 	}
 
 	keyType, err := tr.Map.Key.produceTargetType(descriptor+"/map/key", original)
@@ -158,15 +158,15 @@ func (tr *TransformResult) produceTargetEnumType(
 ) (astmodel.Type, error) {
 	// Transform to enum, ensure we have no other transformation
 	if tr.Name.IsRestrictive() {
-		return nil, errors.Errorf("cannot specify both Name transformation and Enum transformation")
+		return nil, eris.Errorf("cannot specify both Name transformation and Enum transformation")
 	}
 
 	if tr.Map != nil {
-		return nil, errors.Errorf("cannot specify both Map transformation and Enum transformation")
+		return nil, eris.Errorf("cannot specify both Map transformation and Enum transformation")
 	}
 
 	if tr.Enum.Base == "" {
-		return nil, errors.Errorf("enum transformation requires a base type")
+		return nil, eris.Errorf("enum transformation requires a base type")
 	}
 
 	baseType, err := tr.asPrimitiveType(tr.Enum.Base)
@@ -237,7 +237,7 @@ func (tr *TransformResult) asPrimitiveType(name string) (*astmodel.PrimitiveType
 	case "any":
 		return astmodel.AnyType, nil
 	default:
-		return nil, errors.Errorf("unknown primitive type transformation target: %s", name)
+		return nil, eris.Errorf("unknown primitive type transformation target: %s", name)
 	}
 }
 
@@ -246,7 +246,7 @@ func (tr *TransformResult) validate() error {
 		tr.Map == nil &&
 		tr.Enum == nil &&
 		tr.Optional == false {
-		return errors.Errorf("no result transformation specified")
+		return eris.Errorf("no result transformation specified")
 	}
 
 	return nil

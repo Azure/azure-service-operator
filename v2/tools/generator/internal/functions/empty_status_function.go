@@ -7,7 +7,7 @@ package functions
 
 import (
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -37,7 +37,7 @@ func createNewEmptyStatusFunction(
 		receiverType := astmodel.NewOptionalType(receiver)
 		receiverTypeExpr, err := receiverType.AsTypeExpr(genContext)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating receiver expression for %s", receiverType)
+			return nil, eris.Wrapf(err, "creating receiver expression for %s", receiverType)
 		}
 
 		// When Storage variants are created from resources, any existing functions are copied across - which means
@@ -58,7 +58,7 @@ func createNewEmptyStatusFunction(
 
 		convertibleStatusInterfaceExpr, err := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(genContext)
 		if err != nil {
-			return nil, errors.Wrap(err, "unable to create ConvertibleStatusInterfaceType expression")
+			return nil, eris.Wrap(err, "unable to create ConvertibleStatusInterfaceType expression")
 		}
 
 		fn.AddReturn(convertibleStatusInterfaceExpr)

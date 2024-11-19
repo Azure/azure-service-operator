@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -175,7 +175,7 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 			builder.receiverDefinition.Name().InternalPackageReference(),
 		)
 
-		return nil, errors.Wrapf(err, "creating '%s(%s)'", fnName, parameterType)
+		return nil, eris.Wrapf(err, "creating '%s(%s)'", fnName, parameterType)
 	}
 
 	result := &PropertyAssignmentFunction{
@@ -247,7 +247,7 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversions(
 		conv, err := builder.createConversion(sourceEndpoint, destinationEndpoint, conversionContext)
 		if err != nil {
 			// An error was returned, we abort creating conversions for this object
-			return errors.Wrapf(
+			return eris.Wrapf(
 				err,
 				"creating conversion to %s by %s",
 				destinationEndpoint,
@@ -311,7 +311,7 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversion(
 		destinationEndpoint.Endpoint(),
 		conversionContext)
 	if err != nil {
-		return nil, errors.Wrapf(
+		return nil, eris.Wrapf(
 			err,
 			"trying to %s and %s",
 			sourceEndpoint, destinationEndpoint)
@@ -330,7 +330,7 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversion(
 
 		stmts, err := conversion(reader, writer, knownLocals, generationContext)
 		if err != nil {
-			return nil, errors.Wrapf(
+			return nil, eris.Wrapf(
 				err,
 				"converting %s to %s",
 				sourceEndpoint, destinationEndpoint)
@@ -379,7 +379,7 @@ func (*PropertyAssignmentFunctionBuilder) selectIdenticallyNamedProperties(
 
 			err := assign(sourceEndpoint, destinationEndpoint)
 			if err != nil {
-				return errors.Wrapf(err, "assigning %s", destinationName)
+				return eris.Wrapf(err, "assigning %s", destinationName)
 			}
 		}
 	}
@@ -436,7 +436,7 @@ func (builder *PropertyAssignmentFunctionBuilder) selectPropertiesWithIdenticalP
 
 			if sourceEndpoint != nil {
 				// We've found multiple candidates - we can't handle this
-				return errors.Errorf(
+				return eris.Errorf(
 					"multiple source properties with path %s are compatible with destination %s, no way to select",
 					path,
 					destinationName)
@@ -449,7 +449,7 @@ func (builder *PropertyAssignmentFunctionBuilder) selectPropertiesWithIdenticalP
 		if sourceEndpoint != nil {
 			err := assign(sourceEndpoint, destinationEndpoint)
 			if err != nil {
-				return errors.Wrapf(err, "assigning %s", destinationName)
+				return eris.Wrapf(err, "assigning %s", destinationName)
 			}
 		}
 	}
@@ -502,7 +502,7 @@ func (builder *PropertyAssignmentFunctionBuilder) selectRenamedProperties(
 		if destinationEndpoint, ok := destinationProperties[destinationName]; ok {
 			err := assign(sourceEndpoint, destinationEndpoint)
 			if err != nil {
-				return errors.Wrapf(err, "assigning %s", destinationName)
+				return eris.Wrapf(err, "assigning %s", destinationName)
 			}
 		}
 	}
@@ -541,7 +541,7 @@ func (builder *PropertyAssignmentFunctionBuilder) readPropertiesFromPropertyBag(
 		sourceEndpoint := conversions.NewReadableConversionEndpointReadingPropertyBagMember(destinationName, typeToRead)
 		err := assign(sourceEndpoint, destinationEndpoint)
 		if err != nil {
-			return errors.Wrapf(err, "assigning %s from property bag", destinationName)
+			return eris.Wrapf(err, "assigning %s from property bag", destinationName)
 		}
 
 		builder.readsFromPropertyBag = true
@@ -581,7 +581,7 @@ func (builder *PropertyAssignmentFunctionBuilder) writePropertiesToPropertyBag(
 		destinationEndpoint := conversions.NewWritableConversionEndpointWritingPropertyBagMember(sourceName, typeToWrite)
 		err := assign(sourceEndpoint, destinationEndpoint)
 		if err != nil {
-			return errors.Wrapf(err, "assigning %s to property bag", sourceName)
+			return eris.Wrapf(err, "assigning %s to property bag", sourceName)
 		}
 
 		builder.writesToPropertyBag = true
@@ -610,7 +610,7 @@ func (builder *PropertyAssignmentFunctionBuilder) createSuffixMatchingAssignment
 			if sourceEndpoint, ok := sourceProperties[sourceName]; ok {
 				err := assign(sourceEndpoint, destinationEndpoint)
 				if err != nil {
-					return errors.Wrapf(err, "assigning %s", destinationName)
+					return eris.Wrapf(err, "assigning %s", destinationName)
 				}
 			}
 		}

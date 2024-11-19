@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -95,7 +95,7 @@ func (report *PackagesMatrixReport) WriteTableTo(table *reporting.SparseTable, p
 	if _, err := os.Stat(outputFolder); os.IsNotExist(err) {
 		err = os.MkdirAll(outputFolder, 0o700)
 		if err != nil {
-			return errors.Wrapf(err, "Unable to create directory %q", outputFolder)
+			return eris.Wrapf(err, "Unable to create directory %q", outputFolder)
 		}
 	}
 

@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
@@ -60,7 +60,7 @@ func CreateStorageTypes() *Stage {
 			for name, def := range typesToConvert {
 				storageDef, err := typeConverter.ConvertDefinition(def)
 				if err != nil {
-					return nil, errors.Wrapf(err, "creating storage variant of %q", name)
+					return nil, eris.Wrapf(err, "creating storage variant of %q", name)
 				}
 
 				storageDefs.Add(storageDef)

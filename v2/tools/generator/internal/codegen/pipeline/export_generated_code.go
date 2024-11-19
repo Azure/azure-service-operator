@@ -14,7 +14,7 @@ import (
 	"time"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/slices"
 	"golang.org/x/sync/errgroup"
 
@@ -37,12 +37,12 @@ func ExportPackages(
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			packages, err := CreatePackagesForDefinitions(definitions)
 			if err != nil {
-				return nil, errors.Wrapf(err, "failed to assign generated definitions to packages")
+				return nil, eris.Wrapf(err, "failed to assign generated definitions to packages")
 			}
 
 			err = writeFiles(packages, outputPath, emitDocFiles, log)
 			if err != nil {
-				return nil, errors.Wrapf(err, "unable to write files into %q", outputPath)
+				return nil, eris.Wrapf(err, "unable to write files into %q", outputPath)
 			}
 
 			return definitions, nil
@@ -117,13 +117,13 @@ func writeFiles(
 			if _, err := os.Stat(outputDir); os.IsNotExist(err) {
 				err = os.MkdirAll(outputDir, 0o700)
 				if err != nil {
-					return errors.Wrapf(err, "unable to create directory %q", outputDir)
+					return eris.Wrapf(err, "unable to create directory %q", outputDir)
 				}
 			}
 
 			count, err := pkg.EmitDefinitions(outputDir, packages, emitDocFiles)
 			if err != nil {
-				return errors.Wrapf(err, "error writing definitions into %q", outputDir)
+				return eris.Wrapf(err, "error writing definitions into %q", outputDir)
 			}
 
 			globalProgress.LogProgress("", pkg.DefinitionCount(), count, log)

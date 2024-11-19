@@ -12,7 +12,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/maps"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
@@ -599,7 +599,7 @@ func (resource *ResourceType) AsDeclarations(
 	for _, property := range resource.EmbeddedProperties() {
 		f, err := property.AsField(codeGenerationContext)
 		if err != nil {
-			errs = append(errs, errors.Wrapf(err, "creating embedded field for %s", property.PropertyName()))
+			errs = append(errs, eris.Wrapf(err, "creating embedded field for %s", property.PropertyName()))
 			continue
 		}
 
@@ -611,7 +611,7 @@ func (resource *ResourceType) AsDeclarations(
 	for _, property := range resource.Properties().AsSlice() {
 		f, err := property.AsField(codeGenerationContext)
 		if err != nil {
-			errs = append(errs, errors.Wrapf(err, "creating field for %s", property.PropertyName()))
+			errs = append(errs, eris.Wrapf(err, "creating field for %s", property.PropertyName()))
 			continue
 		}
 
@@ -621,7 +621,7 @@ func (resource *ResourceType) AsDeclarations(
 	}
 
 	if len(errs) > 0 {
-		return nil, errors.Wrapf(kerrors.NewAggregate(errs), "failed to generate fields for %s", declContext.Name)
+		return nil, eris.Wrapf(kerrors.NewAggregate(errs), "failed to generate fields for %s", declContext.Name)
 	}
 
 	if len(fields) > 0 {
@@ -685,17 +685,17 @@ func (resource *ResourceType) AsDeclarations(
 	resourceListDeclaration, err := resource.resourceListTypeDecls(
 		codeGenerationContext, declContext.Name, declContext.Description)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating resource list type for %s", declContext.Name)
+		return nil, eris.Wrapf(err, "creating resource list type for %s", declContext.Name)
 	}
 
 	interfaceDeclarations, err := resource.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)
 	if err != nil {
-		return nil, errors.Wrapf(err, "generating interface declarations for %s", declContext.Name)
+		return nil, eris.Wrapf(err, "generating interface declarations for %s", declContext.Name)
 	}
 
 	methodDeclarations, err := resource.generateMethodDecls(codeGenerationContext, declContext.Name)
 	if err != nil {
-		return nil, errors.Wrapf(err, "generating method declarations for %s", declContext.Name)
+		return nil, eris.Wrapf(err, "generating method declarations for %s", declContext.Name)
 	}
 
 	return astbuilder.Declarations(
@@ -749,7 +749,7 @@ func (resource *ResourceType) resourceListTypeDecls(
 
 	itemTypeExpr, err := items.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", items)
+		return nil, eris.Wrapf(err, "creating type expression for %s", items)
 	}
 
 	fields := []*dst.Field{
@@ -864,13 +864,13 @@ func generateMethodDeclForFunction(
 	defer func() {
 		if r := recover(); r != nil {
 			if e, ok := r.(error); ok {
-				err = errors.Wrapf(
+				err = eris.Wrapf(
 					e,
 					"generating method declaration for %s.%s",
 					typeName.Name(),
 					f.Name())
 			} else {
-				err = errors.Errorf(
+				err = eris.Errorf(
 					"generating method declaration for %s.%s: %s",
 					typeName.Name(),
 					f.Name(),

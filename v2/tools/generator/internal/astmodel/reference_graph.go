@@ -8,7 +8,7 @@ package astmodel
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 // ReferenceGraph is a graph of references between types
@@ -23,13 +23,13 @@ func CollectARMSpecAndStatusDefinitions(definitions TypeDefinitionSet) TypeNameS
 	findARMType := func(t Type) (InternalTypeName, error) {
 		name, ok := AsInternalTypeName(t)
 		if !ok {
-			return InternalTypeName{}, errors.Errorf("type was not of type InternalTypeName, instead %T", t)
+			return InternalTypeName{}, eris.Errorf("type was not of type InternalTypeName, instead %T", t)
 		}
 
 		armName := CreateARMTypeName(name)
 
 		if _, ok = definitions[armName]; !ok {
-			return InternalTypeName{}, errors.Errorf("couldn't find ARM type %q", armName)
+			return InternalTypeName{}, eris.Errorf("couldn't find ARM type %q", armName)
 		}
 
 		return armName, nil

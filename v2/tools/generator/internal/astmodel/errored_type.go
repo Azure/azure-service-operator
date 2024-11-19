@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
@@ -133,14 +133,14 @@ func (e *ErroredType) checkForWarningsAndErrors() error {
 
 	if len(e.errors) > 0 {
 		for _, err := range e.errors {
-			errs = append(errs, errors.New(err))
+			errs = append(errs, eris.New(err))
 		}
 	}
 
 	// Treating warnings as errors isn't quite right, but good enough for now
 	if len(e.warnings) > 0 {
 		for _, wrn := range e.warnings {
-			errs = append(errs, errors.New(wrn))
+			errs = append(errs, eris.New(wrn))
 		}
 	}
 
@@ -173,7 +173,7 @@ func (e *ErroredType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (
 
 	result, err := e.inner.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating inner type expression for errored type")
+		return nil, eris.Wrap(err, "creating inner type expression for errored type")
 	}
 
 	return result, nil

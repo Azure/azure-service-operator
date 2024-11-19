@@ -5,9 +5,7 @@
 
 package astmodel
 
-import (
-	"github.com/pkg/errors"
-)
+import "github.com/rotisserie/eris"
 
 type PropertyNameAndType struct {
 	PropertyName PropertyName
@@ -25,21 +23,21 @@ func resolveOneOfMemberToObjectType(
 	if !ok {
 		return InternalTypeName{},
 			nil,
-			errors.Errorf("expected oneOf member to be a TypeName, instead was %s", DebugDescription(t))
+			eris.Errorf("expected oneOf member to be a TypeName, instead was %s", DebugDescription(t))
 	}
 
 	propType, err := definitions.FullyResolve(tn)
 	if err != nil {
 		return InternalTypeName{},
 			nil,
-			errors.Wrapf(err, "unable to resolve oneOf member type %s", tn)
+			eris.Wrapf(err, "unable to resolve oneOf member type %s", tn)
 	}
 
 	propObjType, ok := AsObjectType(propType)
 	if !ok {
 		return InternalTypeName{},
 			nil,
-			errors.Errorf("OneOf %s referenced non-object type %s", t, DebugDescription(propType))
+			eris.Errorf("OneOf %s referenced non-object type %s", t, DebugDescription(propType))
 	}
 
 	return tn, propObjType, nil
@@ -104,7 +102,7 @@ func DetermineDiscriminantAndValues(
 	firstProp := oneOf.Properties().First()
 	_, firstMember, err := resolveOneOfMemberToObjectType(firstProp.PropertyType(), definitions)
 	if err != nil {
-		return "", nil, errors.Wrap(err, "unable to resolve first member of OneOf")
+		return "", nil, eris.Wrap(err, "unable to resolve first member of OneOf")
 	}
 
 	// try to find a discriminator property out of the properties on the first member
@@ -122,5 +120,5 @@ func DetermineDiscriminantAndValues(
 		}
 	}
 
-	return "", nil, errors.Errorf("unable to determine a discriminator property for oneOf type")
+	return "", nil, eris.Errorf("unable to determine a discriminator property for oneOf type")
 }

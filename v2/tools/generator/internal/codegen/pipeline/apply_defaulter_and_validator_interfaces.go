@@ -11,7 +11,7 @@ import (
 	"go/token"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -34,7 +34,7 @@ func ApplyDefaulterAndValidatorInterfaces(configuration *config.Configuration, i
 			for _, resourceDef := range astmodel.FindResourceDefinitions(defs) {
 				defaults, err := getDefaults(configuration, resourceDef, idFactory, state.Definitions())
 				if err != nil {
-					return nil, errors.Wrap(err, "failed to get defaults")
+					return nil, eris.Wrap(err, "failed to get defaults")
 				}
 
 				resource, err := interfaces.AddDefaulterInterface(resourceDef, idFactory, defaults)
@@ -44,7 +44,7 @@ func ApplyDefaulterAndValidatorInterfaces(configuration *config.Configuration, i
 
 				validations, err := getValidations(resource, idFactory, state.Definitions())
 				if err != nil {
-					return nil, errors.Wrapf(err, "error getting validation functions")
+					return nil, eris.Wrapf(err, "error getting validation functions")
 				}
 				resource, err = interfaces.AddValidatorInterface(resource, idFactory, defs, validations)
 				if err != nil {
@@ -76,7 +76,7 @@ func getDefaults(
 
 	resolved, err := defs.ResolveResourceSpecAndStatus(resourceDef)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to resolve resource %s", resourceDef.Name())
+		return nil, eris.Wrapf(err, "unable to resolve resource %s", resourceDef.Name())
 	}
 
 	defaultAzureName := true
@@ -99,7 +99,7 @@ func getValidations(
 ) (map[functions.ValidationKind][]*functions.ResourceFunction, error) {
 	resource, ok := resourceDef.Type().(*astmodel.ResourceType)
 	if !ok {
-		return nil, errors.Errorf("resource %s did not have type of kind *astmodel.ResourceType, instead %T", resourceDef.Name(), resourceDef.Type())
+		return nil, eris.Errorf("resource %s did not have type of kind *astmodel.ResourceType, instead %T", resourceDef.Name(), resourceDef.Type())
 	}
 
 	validations := map[functions.ValidationKind][]*functions.ResourceFunction{
@@ -175,7 +175,7 @@ func validateSecretDestinations(
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating receiver expression")
+		return nil, eris.Wrapf(err, "creating receiver expression")
 	}
 
 	body, err := validateOperatorSpecSliceBody(
@@ -188,7 +188,7 @@ func validateSecretDestinations(
 		astmodel.GenRuntimeSecretsReference,
 		"ValidateDestinations")
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating body of method %s", methodName)
+		return nil, eris.Wrapf(err, "creating body of method %s", methodName)
 	}
 
 	fn := &astbuilder.FuncDetails{
@@ -223,7 +223,7 @@ func validateConfigMapDestinations(
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating receiver expression")
+		return nil, eris.Wrapf(err, "creating receiver expression")
 	}
 
 	body, err := validateOperatorSpecSliceBody(
@@ -236,7 +236,7 @@ func validateConfigMapDestinations(
 		astmodel.GenRuntimeConfigMapsReference,
 		"ValidateDestinations")
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating body of method %s", methodName)
+		return nil, eris.Wrapf(err, "creating body of method %s", methodName)
 	}
 
 	fn := &astbuilder.FuncDetails{
@@ -286,15 +286,15 @@ func validateOperatorSpecSliceBody(
 	// have ever been called, but one can be nil.
 	operatorSpecPropertyObj, err := getOperatorSpecSubType(codeGenerationContext, resource, property)
 	if err != nil {
-		return nil, errors.Wrapf(err, "getting operator spec sub type for %s", property)
+		return nil, eris.Wrapf(err, "getting operator spec sub type for %s", property)
 	}
 	expressionsOperatorSpecPropertySlice, err := getOperatorSpecExpressionType(codeGenerationContext, resource, expressionsProperty)
 	if err != nil {
-		return nil, errors.Wrapf(err, "getting operator spec sub type for %s", expressionsProperty)
+		return nil, eris.Wrapf(err, "getting operator spec sub type for %s", expressionsProperty)
 	}
 
 	if operatorSpecPropertyObj == nil && expressionsOperatorSpecPropertySlice == nil {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"can't generate method for validating OperatorSpec %s and %s if both fields don't exist",
 			property,
 			expressionsProperty)
@@ -317,11 +317,11 @@ func validateOperatorSpecSliceBody(
 		// var toValidate []<validateType>
 		validateTypeExpr, err := validateType.AsTypeExpr(codeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating type expression for %s", validateType)
+			return nil, eris.Wrapf(err, "creating type expression for %s", validateType)
 		}
 		validateVarSliceExpr, err := astmodel.NewArrayType(validateType).AsTypeExpr(codeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating type expression for %s", astmodel.NewArrayType(validateType))
+			return nil, eris.Wrapf(err, "creating type expression for %s", astmodel.NewArrayType(validateType))
 		}
 		body = append(body, astbuilder.LocalVariableDeclaration(toValidateVar, validateVarSliceExpr, ""))
 
@@ -380,7 +380,7 @@ func getOperatorSpecType(defs astmodel.ReadonlyTypeDefinitions, resource *astmod
 
 	typedSpec, ok := astmodel.AsObjectType(spec.Type())
 	if !ok {
-		return nil, errors.Errorf("resource spec was not of expected type *astmodel.ObjectType, instead %T", spec.Type())
+		return nil, eris.Errorf("resource spec was not of expected type *astmodel.ObjectType, instead %T", spec.Type())
 	}
 
 	operatorSpecProp, ok := typedSpec.Property(astmodel.OperatorSpecProperty)
@@ -390,7 +390,7 @@ func getOperatorSpecType(defs astmodel.ReadonlyTypeDefinitions, resource *astmod
 	}
 	operatorSpecTypeName, ok := astmodel.AsInternalTypeName(operatorSpecProp.PropertyType())
 	if !ok {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"expected %s to be an astmodel.TypeName, but it was %T",
 			astmodel.OperatorSpecProperty,
 			operatorSpecProp.PropertyType())
@@ -402,7 +402,7 @@ func getOperatorSpecType(defs astmodel.ReadonlyTypeDefinitions, resource *astmod
 	}
 	operatorSpecType, ok := astmodel.AsObjectType(operatorSpecDef.Type())
 	if !ok {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"expected %s to be an astmodel.ObjectType but it was %T",
 			operatorSpecTypeName,
 			operatorSpecDef.Type())
@@ -449,7 +449,7 @@ func getOperatorSpecSubType(defs astmodel.ReadonlyTypeDefinitions, resource *ast
 
 	typeName, ok := astmodel.AsInternalTypeName(prop.PropertyType())
 	if !ok {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"expected %s to be an astmodel.InternalTypeName, but it was %T",
 			name,
 			prop.PropertyType())

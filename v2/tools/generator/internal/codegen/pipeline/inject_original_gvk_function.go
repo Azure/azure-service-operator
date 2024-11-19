@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
@@ -39,7 +39,7 @@ func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) *Stage {
 
 				defWithFn, err := injector.Inject(def, fn)
 				if err != nil {
-					return nil, errors.Wrapf(err, "injecting OriginalGVK() into %s", name)
+					return nil, eris.Wrapf(err, "injecting OriginalGVK() into %s", name)
 				}
 
 				result[defWithFn.Name()] = defWithFn

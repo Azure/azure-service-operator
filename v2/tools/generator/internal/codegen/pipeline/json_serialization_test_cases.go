@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -95,7 +95,7 @@ func (s *objectSerializationTestCaseFactory) NeedsTest(def astmodel.TypeDefiniti
 func (s *objectSerializationTestCaseFactory) AddTestTo(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 	container, ok := astmodel.AsPropertyContainer(def.Type())
 	if !ok {
-		return astmodel.TypeDefinition{}, errors.Errorf("expected %s to be a property container", def.Name())
+		return astmodel.TypeDefinition{}, eris.Errorf("expected %s to be a property container", def.Name())
 	}
 
 	isOneOf := astmodel.OneOfFlag.IsOn(def.Type()) // this is ugly but can’t do much better right now

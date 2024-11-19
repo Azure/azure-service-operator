@@ -16,7 +16,7 @@ import (
 
 	"github.com/devigned/tab"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -129,7 +129,7 @@ func (scanner *SchemaScanner) RunHandlersForSchemas(ctx context.Context, schemas
 		t, err := scanner.RunHandlerForSchema(ctx, schema)
 		if err != nil {
 			var unknownSchema *UnknownSchemaError
-			if errors.As(err, &unknownSchema) {
+			if eris.As(err, &unknownSchema) {
 				if unknownSchema.Schema.description() != nil {
 					// some Swagger types (e.g. ServiceFabric Cluster) use allOf with a description-only schema
 					scanner.log.V(2).Info(
@@ -140,7 +140,7 @@ func (scanner *SchemaScanner) RunHandlersForSchemas(ctx context.Context, schemas
 				}
 			}
 
-			errs = append(errs, errors.Wrapf(err, "unable to handle schema %s", schema.Id()))
+			errs = append(errs, eris.Wrapf(err, "unable to handle schema %s", schema.Id()))
 		}
 
 		if t != nil {
@@ -159,14 +159,14 @@ func (scanner *SchemaScanner) RunHandlersForSchemas(ctx context.Context, schemas
 func (scanner *SchemaScanner) GenerateAllDefinitions(ctx context.Context, schema Schema) (astmodel.TypeDefinitionSet, error) {
 	title := schema.title()
 	if title == nil {
-		return nil, errors.New("given schema has no title")
+		return nil, eris.New("given schema has no title")
 	}
 
 	rootName := *title
 	rootURL := schema.url()
 	rootGroup, err := groupOf(rootURL)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to extract group for schema")
+		return nil, eris.Wrapf(err, "unable to extract group for schema")
 	}
 
 	rootVersion := versionOf(rootURL)
@@ -450,7 +450,7 @@ func generatePropertyDefinition(ctx context.Context, scanner *SchemaScanner, raw
 
 	schemaType, err := getSubSchemaType(prop)
 	var use *UnknownSchemaError
-	if errors.As(err, &use) {
+	if eris.As(err, &use) {
 		// if we don't know the type, we still need to provide the property, we will just provide open interface
 		property := astmodel.NewPropertyDefinition(propertyName, rawPropName, astmodel.AnyType)
 		return property, nil
@@ -461,7 +461,7 @@ func generatePropertyDefinition(ctx context.Context, scanner *SchemaScanner, raw
 	}
 
 	propType, err := scanner.RunHandler(ctx, schemaType, prop)
-	if errors.As(err, &use) {
+	if eris.As(err, &use) {
 		// if we don't know the type, we still need to provide the property, we will just provide open interface
 		property := astmodel.NewPropertyDefinition(propertyName, rawPropName, astmodel.AnyType)
 		return property, nil
@@ -583,7 +583,7 @@ func getProperties(
 				// the additional properties. As mentioned above, this isn't 100% following the spec, but
 				// it seems to do the right thing
 				var use *UnknownSchemaError
-				if errors.As(err, &use) && len(properties) > 0 {
+				if eris.As(err, &use) && len(properties) > 0 {
 					return properties, nil
 				}
 
@@ -744,7 +744,7 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, _ 
 	// These will each be either a TypeName or an Object
 	types, err := scanner.RunHandlersForSchemas(ctx, schema.oneOf())
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to generate oneOf types for %s", schema.Id())
+		return nil, eris.Wrapf(err, "unable to generate oneOf types for %s", schema.Id())
 	}
 
 	result = result.WithTypes(types)
@@ -754,7 +754,7 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, _ 
 	// Otherwise, add as an option
 	allOfTypes, err := scanner.RunHandlersForSchemas(ctx, schema.allOf())
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to generate allOf types for %s", schema.Id())
+		return nil, eris.Wrapf(err, "unable to generate allOf types for %s", schema.Id())
 	}
 
 	// Our AllOf contains either properties to add to our OneOf, or references to parent types
@@ -773,12 +773,12 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, _ 
 	if len(schema.properties()) > 0 {
 		t, err := scanner.RunHandler(ctx, Object, schema)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to generate object for properties of %s", schema.Id())
+			return nil, eris.Wrapf(err, "unable to generate object for properties of %s", schema.Id())
 		}
 
 		obj, ok := t.(*astmodel.ObjectType)
 		if !ok {
-			return nil, errors.Errorf(
+			return nil, eris.Errorf(
 				"expected object type for properties of %s, got %T", schema.Id(), t)
 		}
 
@@ -823,7 +823,7 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, lo
 
 	items := schema.items()
 	if len(items) > 1 {
-		return nil, errors.Errorf("item contains more children than expected: %s", schema.items())
+		return nil, eris.Errorf("item contains more children than expected: %s", schema.items())
 	}
 
 	if len(items) == 0 {
@@ -919,7 +919,7 @@ func GetPrimitiveType(name SchemaType) (*astmodel.PrimitiveType, error) {
 	case OneOf:
 	case Ref:
 	case Unknown:
-		return astmodel.AnyType, errors.Errorf("%s is not a simple type and no ast.NewIdent can be created", name)
+		return astmodel.AnyType, eris.Errorf("%s is not a simple type and no ast.NewIdent can be created", name)
 	}
 
 	panic(fmt.Sprintf("unhandled case in getPrimitiveType: %s", name)) // this is also checked by linter

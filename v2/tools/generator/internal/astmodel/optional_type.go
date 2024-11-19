@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -130,7 +130,7 @@ func (optional *OptionalType) AsTypeExpr(codeGenerationContext *CodeGenerationCo
 	// Special case interface{} as it shouldn't be a pointer
 	elementExpr, err := optional.element.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating element for optional type")
+		return nil, eris.Wrapf(err, "creating element for optional type")
 	}
 
 	if optional.element == AnyType {
