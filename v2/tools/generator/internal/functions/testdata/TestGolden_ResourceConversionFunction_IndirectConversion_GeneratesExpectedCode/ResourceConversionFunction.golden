@@ -6,7 +6,7 @@
 -import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 +import (
 +	v20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
-+	"github.com/pkg/errors"
++	"github.com/rotisserie/eris"
 +	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 +	"sigs.k8s.io/controller-runtime/pkg/conversion"
 +)
@@ -27,12 +27,12 @@
 +
 +	err := source.ConvertFrom(hub)
 +	if err != nil {
-+		return errors.Wrap(err, "converting from hub to source")
++		return eris.Wrap(err, "converting from hub to source")
 +	}
 +
 +	err = person.AssignProperties_From_Person(&source)
 +	if err != nil {
-+		return errors.Wrap(err, "converting from source to person")
++		return eris.Wrap(err, "converting from source to person")
 +	}
 +
 +	return nil
@@ -44,11 +44,11 @@
 +	var destination v20211231.Person
 +	err := person.AssignProperties_To_Person(&destination)
 +	if err != nil {
-+		return errors.Wrap(err, "converting to destination from person")
++		return eris.Wrap(err, "converting to destination from person")
 +	}
 +	err = destination.ConvertTo(hub)
 +	if err != nil {
-+		return errors.Wrap(err, "converting from destination to hub")
++		return eris.Wrap(err, "converting from destination to hub")
 +	}
 +
 +	return nil

@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -58,12 +58,12 @@ func (endpoint *PrivateEndpoint) ConvertFrom(hub conversion.Hub) error {
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = endpoint.AssignProperties_From_PrivateEndpoint(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to endpoint")
+		return eris.Wrap(err, "converting from source to endpoint")
 	}
 
 	return nil
@@ -75,11 +75,11 @@ func (endpoint *PrivateEndpoint) ConvertTo(hub conversion.Hub) error {
 	var destination storage.PrivateEndpoint
 	err := endpoint.AssignProperties_To_PrivateEndpoint(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from endpoint")
+		return eris.Wrap(err, "converting to destination from endpoint")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -192,7 +192,7 @@ func (endpoint *PrivateEndpoint) SetStatus(status genruntime.ConvertibleStatus) 
 	var st PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	endpoint.Status = st
@@ -318,7 +318,7 @@ func (endpoint *PrivateEndpoint) AssignProperties_From_PrivateEndpoint(source *s
 	var spec PrivateEndpoint_Spec
 	err := spec.AssignProperties_From_PrivateEndpoint_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_Spec() to populate field Spec")
 	}
 	endpoint.Spec = spec
 
@@ -326,7 +326,7 @@ func (endpoint *PrivateEndpoint) AssignProperties_From_PrivateEndpoint(source *s
 	var status PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
 	err = status.AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Status")
 	}
 	endpoint.Status = status
 
@@ -344,7 +344,7 @@ func (endpoint *PrivateEndpoint) AssignProperties_To_PrivateEndpoint(destination
 	var spec storage.PrivateEndpoint_Spec
 	err := endpoint.Spec.AssignProperties_To_PrivateEndpoint_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -352,7 +352,7 @@ func (endpoint *PrivateEndpoint) AssignProperties_To_PrivateEndpoint(destination
 	var status storage.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
 	err = endpoint.Status.AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Status")
 	}
 	destination.Status = status
 
@@ -653,13 +653,13 @@ func (endpoint *PrivateEndpoint_Spec) ConvertSpecFrom(source genruntime.Converti
 	src = &storage.PrivateEndpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = endpoint.AssignProperties_From_PrivateEndpoint_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -677,13 +677,13 @@ func (endpoint *PrivateEndpoint_Spec) ConvertSpecTo(destination genruntime.Conve
 	dst = &storage.PrivateEndpoint_Spec{}
 	err := endpoint.AssignProperties_To_PrivateEndpoint_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -701,7 +701,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 			var applicationSecurityGroup ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 			err := applicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(&applicationSecurityGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
@@ -721,7 +721,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		endpoint.ExtendedLocation = &extendedLocation
 	} else {
@@ -737,7 +737,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 			var ipConfiguration PrivateEndpointIPConfiguration
 			err := ipConfiguration.AssignProperties_From_PrivateEndpointIPConfiguration(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointIPConfiguration() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointIPConfiguration() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -758,7 +758,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 			var manualPrivateLinkServiceConnection PrivateLinkServiceConnection
 			err := manualPrivateLinkServiceConnection.AssignProperties_From_PrivateLinkServiceConnection(&manualPrivateLinkServiceConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnection() to populate field ManualPrivateLinkServiceConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnection() to populate field ManualPrivateLinkServiceConnections")
 			}
 			manualPrivateLinkServiceConnectionList[manualPrivateLinkServiceConnectionIndex] = manualPrivateLinkServiceConnection
 		}
@@ -772,7 +772,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 		var operatorSpec PrivateEndpointOperatorSpec
 		err := operatorSpec.AssignProperties_From_PrivateEndpointOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointOperatorSpec() to populate field OperatorSpec")
 		}
 		endpoint.OperatorSpec = &operatorSpec
 	} else {
@@ -796,7 +796,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 			var privateLinkServiceConnection PrivateLinkServiceConnection
 			err := privateLinkServiceConnection.AssignProperties_From_PrivateLinkServiceConnection(&privateLinkServiceConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnection() to populate field PrivateLinkServiceConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnection() to populate field PrivateLinkServiceConnections")
 			}
 			privateLinkServiceConnectionList[privateLinkServiceConnectionIndex] = privateLinkServiceConnection
 		}
@@ -810,7 +810,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 		var subnet Subnet_PrivateEndpoint_SubResourceEmbedded
 		err := subnet.AssignProperties_From_Subnet_PrivateEndpoint_SubResourceEmbedded(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Subnet_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_From_Subnet_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
 		}
 		endpoint.Subnet = &subnet
 	} else {
@@ -838,7 +838,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 			var applicationSecurityGroup storage.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
@@ -858,7 +858,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 		var extendedLocation storage.ExtendedLocation
 		err := endpoint.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -874,7 +874,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 			var ipConfiguration storage.PrivateEndpointIPConfiguration
 			err := ipConfigurationItem.AssignProperties_To_PrivateEndpointIPConfiguration(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointIPConfiguration() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointIPConfiguration() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -895,7 +895,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 			var manualPrivateLinkServiceConnection storage.PrivateLinkServiceConnection
 			err := manualPrivateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection(&manualPrivateLinkServiceConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection() to populate field ManualPrivateLinkServiceConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection() to populate field ManualPrivateLinkServiceConnections")
 			}
 			manualPrivateLinkServiceConnectionList[manualPrivateLinkServiceConnectionIndex] = manualPrivateLinkServiceConnection
 		}
@@ -909,7 +909,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 		var operatorSpec storage.PrivateEndpointOperatorSpec
 		err := endpoint.OperatorSpec.AssignProperties_To_PrivateEndpointOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -936,7 +936,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 			var privateLinkServiceConnection storage.PrivateLinkServiceConnection
 			err := privateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection(&privateLinkServiceConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection() to populate field PrivateLinkServiceConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection() to populate field PrivateLinkServiceConnections")
 			}
 			privateLinkServiceConnectionList[privateLinkServiceConnectionIndex] = privateLinkServiceConnection
 		}
@@ -950,7 +950,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 		var subnet storage.Subnet_PrivateEndpoint_SubResourceEmbedded
 		err := endpoint.Subnet.AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -1049,13 +1049,13 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Conv
 	src = &storage.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = embedded.AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1073,13 +1073,13 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Conv
 	dst = &storage.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
 	err := embedded.AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1278,7 +1278,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			var applicationSecurityGroup ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
 			err := applicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(&applicationSecurityGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
@@ -1299,7 +1299,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			var customDnsConfig CustomDnsConfigPropertiesFormat_STATUS
 			err := customDnsConfig.AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS(&customDnsConfigItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS() to populate field CustomDnsConfigs")
+				return eris.Wrap(err, "calling AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS() to populate field CustomDnsConfigs")
 			}
 			customDnsConfigList[customDnsConfigIndex] = customDnsConfig
 		}
@@ -1319,7 +1319,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 		var extendedLocation ExtendedLocation_STATUS
 		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		embedded.ExtendedLocation = &extendedLocation
 	} else {
@@ -1338,7 +1338,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			var ipConfiguration PrivateEndpointIPConfiguration_STATUS
 			err := ipConfiguration.AssignProperties_From_PrivateEndpointIPConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointIPConfiguration_STATUS() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointIPConfiguration_STATUS() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1359,7 +1359,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			var manualPrivateLinkServiceConnection PrivateLinkServiceConnection_STATUS
 			err := manualPrivateLinkServiceConnection.AssignProperties_From_PrivateLinkServiceConnection_STATUS(&manualPrivateLinkServiceConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnection_STATUS() to populate field ManualPrivateLinkServiceConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnection_STATUS() to populate field ManualPrivateLinkServiceConnections")
 			}
 			manualPrivateLinkServiceConnectionList[manualPrivateLinkServiceConnectionIndex] = manualPrivateLinkServiceConnection
 		}
@@ -1380,7 +1380,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			var networkInterface NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
 			err := networkInterface.AssignProperties_From_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(&networkInterfaceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field NetworkInterfaces")
+				return eris.Wrap(err, "calling AssignProperties_From_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -1398,7 +1398,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			var privateLinkServiceConnection PrivateLinkServiceConnection_STATUS
 			err := privateLinkServiceConnection.AssignProperties_From_PrivateLinkServiceConnection_STATUS(&privateLinkServiceConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnection_STATUS() to populate field PrivateLinkServiceConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnection_STATUS() to populate field PrivateLinkServiceConnections")
 			}
 			privateLinkServiceConnectionList[privateLinkServiceConnectionIndex] = privateLinkServiceConnection
 		}
@@ -1421,7 +1421,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 		var subnet Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
 		err := subnet.AssignProperties_From_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_From_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
 		}
 		embedded.Subnet = &subnet
 	} else {
@@ -1452,7 +1452,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			var applicationSecurityGroup storage.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
 			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
@@ -1473,7 +1473,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			var customDnsConfig storage.CustomDnsConfigPropertiesFormat_STATUS
 			err := customDnsConfigItem.AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS(&customDnsConfig)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS() to populate field CustomDnsConfigs")
+				return eris.Wrap(err, "calling AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS() to populate field CustomDnsConfigs")
 			}
 			customDnsConfigList[customDnsConfigIndex] = customDnsConfig
 		}
@@ -1493,7 +1493,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 		var extendedLocation storage.ExtendedLocation_STATUS
 		err := embedded.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1512,7 +1512,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			var ipConfiguration storage.PrivateEndpointIPConfiguration_STATUS
 			err := ipConfigurationItem.AssignProperties_To_PrivateEndpointIPConfiguration_STATUS(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointIPConfiguration_STATUS() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointIPConfiguration_STATUS() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1533,7 +1533,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			var manualPrivateLinkServiceConnection storage.PrivateLinkServiceConnection_STATUS
 			err := manualPrivateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection_STATUS(&manualPrivateLinkServiceConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection_STATUS() to populate field ManualPrivateLinkServiceConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection_STATUS() to populate field ManualPrivateLinkServiceConnections")
 			}
 			manualPrivateLinkServiceConnectionList[manualPrivateLinkServiceConnectionIndex] = manualPrivateLinkServiceConnection
 		}
@@ -1554,7 +1554,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			var networkInterface storage.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
 			err := networkInterfaceItem.AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(&networkInterface)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field NetworkInterfaces")
+				return eris.Wrap(err, "calling AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -1572,7 +1572,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 			var privateLinkServiceConnection storage.PrivateLinkServiceConnection_STATUS
 			err := privateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection_STATUS(&privateLinkServiceConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection_STATUS() to populate field PrivateLinkServiceConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection_STATUS() to populate field PrivateLinkServiceConnections")
 			}
 			privateLinkServiceConnectionList[privateLinkServiceConnectionIndex] = privateLinkServiceConnection
 		}
@@ -1594,7 +1594,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 		var subnet storage.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
 		err := embedded.Subnet.AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -2418,7 +2418,7 @@ func (operator *PrivateEndpointOperatorSpec) AssignProperties_From_PrivateEndpoi
 		var configMap PrivateEndpointOperatorConfigMaps
 		err := configMap.AssignProperties_From_PrivateEndpointOperatorConfigMaps(source.ConfigMaps)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		operator.ConfigMaps = &configMap
 	} else {
@@ -2475,7 +2475,7 @@ func (operator *PrivateEndpointOperatorSpec) AssignProperties_To_PrivateEndpoint
 		var configMap storage.PrivateEndpointOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_PrivateEndpointOperatorConfigMaps(&configMap)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		destination.ConfigMaps = &configMap
 	} else {
@@ -2648,7 +2648,7 @@ func (connection *PrivateLinkServiceConnection) AssignProperties_From_PrivateLin
 		var privateLinkServiceConnectionState PrivateLinkServiceConnectionState
 		err := privateLinkServiceConnectionState.AssignProperties_From_PrivateLinkServiceConnectionState(source.PrivateLinkServiceConnectionState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnectionState() to populate field PrivateLinkServiceConnectionState")
+			return eris.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnectionState() to populate field PrivateLinkServiceConnectionState")
 		}
 		connection.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	} else {
@@ -2686,7 +2686,7 @@ func (connection *PrivateLinkServiceConnection) AssignProperties_To_PrivateLinkS
 		var privateLinkServiceConnectionState storage.PrivateLinkServiceConnectionState
 		err := connection.PrivateLinkServiceConnectionState.AssignProperties_To_PrivateLinkServiceConnectionState(&privateLinkServiceConnectionState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState() to populate field PrivateLinkServiceConnectionState")
+			return eris.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState() to populate field PrivateLinkServiceConnectionState")
 		}
 		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	} else {
@@ -2860,7 +2860,7 @@ func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_From_Pri
 		var privateLinkServiceConnectionState PrivateLinkServiceConnectionState_STATUS
 		err := privateLinkServiceConnectionState.AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source.PrivateLinkServiceConnectionState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
+			return eris.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
 		}
 		connection.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	} else {
@@ -2911,7 +2911,7 @@ func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_To_Priva
 		var privateLinkServiceConnectionState storage.PrivateLinkServiceConnectionState_STATUS
 		err := connection.PrivateLinkServiceConnectionState.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&privateLinkServiceConnectionState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
+			return eris.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
 		}
 		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	} else {

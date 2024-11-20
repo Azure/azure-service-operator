@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -181,7 +181,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy) SetStatus(status genruntime.C
 	var st ServersDatabasesSecurityAlertPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	policy.Status = st
@@ -301,7 +301,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy) AssignProperties_From_Servers
 	var spec ServersDatabasesSecurityAlertPolicy_Spec
 	err := spec.AssignProperties_From_ServersDatabasesSecurityAlertPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesSecurityAlertPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesSecurityAlertPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
@@ -309,7 +309,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy) AssignProperties_From_Servers
 	var status ServersDatabasesSecurityAlertPolicy_STATUS
 	err = status.AssignProperties_From_ServersDatabasesSecurityAlertPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesSecurityAlertPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesSecurityAlertPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -327,7 +327,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy) AssignProperties_To_ServersDa
 	var spec storage.ServersDatabasesSecurityAlertPolicy_Spec
 	err := policy.Spec.AssignProperties_To_ServersDatabasesSecurityAlertPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesSecurityAlertPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesSecurityAlertPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -335,7 +335,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy) AssignProperties_To_ServersDa
 	var status storage.ServersDatabasesSecurityAlertPolicy_STATUS
 	err = policy.Status.AssignProperties_To_ServersDatabasesSecurityAlertPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesSecurityAlertPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesSecurityAlertPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -444,7 +444,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy_Spec) ConvertToARM(resolved ge
 	if policy.StorageAccountAccessKey != nil {
 		storageAccountAccessKeySecret, err := resolved.ResolvedSecrets.Lookup(*policy.StorageAccountAccessKey)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property StorageAccountAccessKey")
+			return nil, eris.Wrap(err, "looking up secret for property StorageAccountAccessKey")
 		}
 		storageAccountAccessKey := storageAccountAccessKeySecret
 		result.Properties.StorageAccountAccessKey = &storageAccountAccessKey
@@ -550,13 +550,13 @@ func (policy *ServersDatabasesSecurityAlertPolicy_Spec) ConvertSpecFrom(source g
 	src = &storage.ServersDatabasesSecurityAlertPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_ServersDatabasesSecurityAlertPolicy_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -574,13 +574,13 @@ func (policy *ServersDatabasesSecurityAlertPolicy_Spec) ConvertSpecTo(destinatio
 	dst = &storage.ServersDatabasesSecurityAlertPolicy_Spec{}
 	err := policy.AssignProperties_To_ServersDatabasesSecurityAlertPolicy_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -608,7 +608,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy_Spec) AssignProperties_From_Se
 		var operatorSpec ServersDatabasesSecurityAlertPolicyOperatorSpec
 		err := operatorSpec.AssignProperties_From_ServersDatabasesSecurityAlertPolicyOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesSecurityAlertPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesSecurityAlertPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		policy.OperatorSpec = &operatorSpec
 	} else {
@@ -674,7 +674,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy_Spec) AssignProperties_To_Serv
 		var operatorSpec storage.ServersDatabasesSecurityAlertPolicyOperatorSpec
 		err := policy.OperatorSpec.AssignProperties_To_ServersDatabasesSecurityAlertPolicyOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesSecurityAlertPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesSecurityAlertPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -820,13 +820,13 @@ func (policy *ServersDatabasesSecurityAlertPolicy_STATUS) ConvertStatusFrom(sour
 	src = &storage.ServersDatabasesSecurityAlertPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_ServersDatabasesSecurityAlertPolicy_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -844,13 +844,13 @@ func (policy *ServersDatabasesSecurityAlertPolicy_STATUS) ConvertStatusTo(destin
 	dst = &storage.ServersDatabasesSecurityAlertPolicy_STATUS{}
 	err := policy.AssignProperties_To_ServersDatabasesSecurityAlertPolicy_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1017,7 +1017,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy_STATUS) AssignProperties_From_
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		policy.SystemData = &systemDatum
 	} else {
@@ -1081,7 +1081,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy_STATUS) AssignProperties_To_Se
 		var systemDatum storage.SystemData_STATUS
 		err := policy.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

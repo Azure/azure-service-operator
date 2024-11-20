@@ -7,7 +7,7 @@
 +	compat "github.com/Azure/azure-service-operator/testing/person/v20211231/storage/compat"
  	storage "github.com/Azure/azure-service-operator/testing/person/v20220630/storage"
  	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
- 	"github.com/pkg/errors"
+ 	"github.com/rotisserie/eris"
  )
  
  // Storage version of v20211231.Person_Spec
@@ -34,7 +34,7 @@
 +		var residence compat.Residence
 +		err := residence.AssignProperties_From_Residence(source.Residence)
 +		if err != nil {
-+			return errors.Wrap(err, "calling AssignProperties_From_Residence() to populate field Residence")
++			return eris.Wrap(err, "calling AssignProperties_From_Residence() to populate field Residence")
 +		}
 +		propertyBag.Add("Residence", residence)
  	} else {
@@ -53,7 +53,7 @@
  	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_Spec); ok {
  		err := augmentedPerson.AssignPropertiesFrom(source)
  		if err != nil {
- 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+ 			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
  		}
  	}
  
@@ -79,13 +79,13 @@
 +		var residenceFromBag compat.Residence
 +		err := propertyBag.Pull("Residence", &residenceFromBag)
  		if err != nil {
- 			return errors.Wrap(err, "pulling 'Residence' from propertyBag")
+ 			return eris.Wrap(err, "pulling 'Residence' from propertyBag")
  		}
  
 +		var residence storage.Residence
 +		err = residenceFromBag.AssignProperties_To_Residence(&residence)
 +		if err != nil {
-+			return errors.Wrap(err, "calling AssignProperties_To_Residence() to populate field Residence")
++			return eris.Wrap(err, "calling AssignProperties_To_Residence() to populate field Residence")
 +		}
  		destination.Residence = &residence
  	} else {
@@ -104,7 +104,7 @@
  	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_Spec); ok {
  		err := augmentedPerson.AssignPropertiesTo(destination)
  		if err != nil {
- 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+ 			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
  		}
  	}
  

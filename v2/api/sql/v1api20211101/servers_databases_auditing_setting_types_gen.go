@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -181,7 +181,7 @@ func (setting *ServersDatabasesAuditingSetting) SetStatus(status genruntime.Conv
 	var st ServersDatabasesAuditingSetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	setting.Status = st
@@ -301,7 +301,7 @@ func (setting *ServersDatabasesAuditingSetting) AssignProperties_From_ServersDat
 	var spec ServersDatabasesAuditingSetting_Spec
 	err := spec.AssignProperties_From_ServersDatabasesAuditingSetting_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesAuditingSetting_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesAuditingSetting_Spec() to populate field Spec")
 	}
 	setting.Spec = spec
 
@@ -309,7 +309,7 @@ func (setting *ServersDatabasesAuditingSetting) AssignProperties_From_ServersDat
 	var status ServersDatabasesAuditingSetting_STATUS
 	err = status.AssignProperties_From_ServersDatabasesAuditingSetting_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesAuditingSetting_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesAuditingSetting_STATUS() to populate field Status")
 	}
 	setting.Status = status
 
@@ -327,7 +327,7 @@ func (setting *ServersDatabasesAuditingSetting) AssignProperties_To_ServersDatab
 	var spec storage.ServersDatabasesAuditingSetting_Spec
 	err := setting.Spec.AssignProperties_To_ServersDatabasesAuditingSetting_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesAuditingSetting_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesAuditingSetting_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -335,7 +335,7 @@ func (setting *ServersDatabasesAuditingSetting) AssignProperties_To_ServersDatab
 	var status storage.ServersDatabasesAuditingSetting_STATUS
 	err = setting.Status.AssignProperties_To_ServersDatabasesAuditingSetting_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesAuditingSetting_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesAuditingSetting_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -539,7 +539,7 @@ func (setting *ServersDatabasesAuditingSetting_Spec) ConvertToARM(resolved genru
 	if setting.StorageAccountAccessKey != nil {
 		storageAccountAccessKeySecret, err := resolved.ResolvedSecrets.Lookup(*setting.StorageAccountAccessKey)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property StorageAccountAccessKey")
+			return nil, eris.Wrap(err, "looking up secret for property StorageAccountAccessKey")
 		}
 		storageAccountAccessKey := storageAccountAccessKeySecret
 		result.Properties.StorageAccountAccessKey = &storageAccountAccessKey
@@ -677,13 +677,13 @@ func (setting *ServersDatabasesAuditingSetting_Spec) ConvertSpecFrom(source genr
 	src = &storage.ServersDatabasesAuditingSetting_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = setting.AssignProperties_From_ServersDatabasesAuditingSetting_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -701,13 +701,13 @@ func (setting *ServersDatabasesAuditingSetting_Spec) ConvertSpecTo(destination g
 	dst = &storage.ServersDatabasesAuditingSetting_Spec{}
 	err := setting.AssignProperties_To_ServersDatabasesAuditingSetting_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -748,7 +748,7 @@ func (setting *ServersDatabasesAuditingSetting_Spec) AssignProperties_From_Serve
 		var operatorSpec ServersDatabasesAuditingSettingOperatorSpec
 		err := operatorSpec.AssignProperties_From_ServersDatabasesAuditingSettingOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesAuditingSettingOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesAuditingSettingOperatorSpec() to populate field OperatorSpec")
 		}
 		setting.OperatorSpec = &operatorSpec
 	} else {
@@ -838,7 +838,7 @@ func (setting *ServersDatabasesAuditingSetting_Spec) AssignProperties_To_Servers
 		var operatorSpec storage.ServersDatabasesAuditingSettingOperatorSpec
 		err := setting.OperatorSpec.AssignProperties_To_ServersDatabasesAuditingSettingOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesAuditingSettingOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesAuditingSettingOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -1090,13 +1090,13 @@ func (setting *ServersDatabasesAuditingSetting_STATUS) ConvertStatusFrom(source 
 	src = &storage.ServersDatabasesAuditingSetting_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = setting.AssignProperties_From_ServersDatabasesAuditingSetting_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1114,13 +1114,13 @@ func (setting *ServersDatabasesAuditingSetting_STATUS) ConvertStatusTo(destinati
 	dst = &storage.ServersDatabasesAuditingSetting_STATUS{}
 	err := setting.AssignProperties_To_ServersDatabasesAuditingSetting_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

@@ -5,7 +5,7 @@ package v20200101
 
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -55,7 +55,7 @@ func (person *Person_Spec) Initialize_From_Person_STATUS(source *Person_STATUS) 
 			var address Address_Spec
 			err := address.Initialize_From_Address_STATUS(&addressItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_Address_STATUS() to populate field Addresses")
+				return eris.Wrap(err, "calling Initialize_From_Address_STATUS() to populate field Addresses")
 			}
 			addressList[addressIndex] = address
 		}
@@ -82,7 +82,7 @@ func (person *Person_Spec) Initialize_From_Person_STATUS(source *Person_STATUS) 
 			var location Address_Spec
 			err := location.Initialize_From_Location_STATUS(&locationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_Location_STATUS() to populate field Locations")
+				return eris.Wrap(err, "calling Initialize_From_Location_STATUS() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}

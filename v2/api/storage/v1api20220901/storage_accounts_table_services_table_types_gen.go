@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -58,12 +58,12 @@ func (table *StorageAccountsTableServicesTable) ConvertFrom(hub conversion.Hub) 
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = table.AssignProperties_From_StorageAccountsTableServicesTable(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to table")
+		return eris.Wrap(err, "converting from source to table")
 	}
 
 	return nil
@@ -75,11 +75,11 @@ func (table *StorageAccountsTableServicesTable) ConvertTo(hub conversion.Hub) er
 	var destination storage.StorageAccountsTableServicesTable
 	err := table.AssignProperties_To_StorageAccountsTableServicesTable(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from table")
+		return eris.Wrap(err, "converting to destination from table")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -192,7 +192,7 @@ func (table *StorageAccountsTableServicesTable) SetStatus(status genruntime.Conv
 	var st StorageAccountsTableServicesTable_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	table.Status = st
@@ -312,7 +312,7 @@ func (table *StorageAccountsTableServicesTable) AssignProperties_From_StorageAcc
 	var spec StorageAccountsTableServicesTable_Spec
 	err := spec.AssignProperties_From_StorageAccountsTableServicesTable_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsTableServicesTable_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsTableServicesTable_Spec() to populate field Spec")
 	}
 	table.Spec = spec
 
@@ -320,7 +320,7 @@ func (table *StorageAccountsTableServicesTable) AssignProperties_From_StorageAcc
 	var status StorageAccountsTableServicesTable_STATUS
 	err = status.AssignProperties_From_StorageAccountsTableServicesTable_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsTableServicesTable_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsTableServicesTable_STATUS() to populate field Status")
 	}
 	table.Status = status
 
@@ -338,7 +338,7 @@ func (table *StorageAccountsTableServicesTable) AssignProperties_To_StorageAccou
 	var spec storage.StorageAccountsTableServicesTable_Spec
 	err := table.Spec.AssignProperties_To_StorageAccountsTableServicesTable_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsTableServicesTable_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsTableServicesTable_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -346,7 +346,7 @@ func (table *StorageAccountsTableServicesTable) AssignProperties_To_StorageAccou
 	var status storage.StorageAccountsTableServicesTable_STATUS
 	err = table.Status.AssignProperties_To_StorageAccountsTableServicesTable_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsTableServicesTable_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsTableServicesTable_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -475,13 +475,13 @@ func (table *StorageAccountsTableServicesTable_Spec) ConvertSpecFrom(source genr
 	src = &storage.StorageAccountsTableServicesTable_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = table.AssignProperties_From_StorageAccountsTableServicesTable_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -499,13 +499,13 @@ func (table *StorageAccountsTableServicesTable_Spec) ConvertSpecTo(destination g
 	dst = &storage.StorageAccountsTableServicesTable_Spec{}
 	err := table.AssignProperties_To_StorageAccountsTableServicesTable_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -522,7 +522,7 @@ func (table *StorageAccountsTableServicesTable_Spec) AssignProperties_From_Stora
 		var operatorSpec StorageAccountsTableServicesTableOperatorSpec
 		err := operatorSpec.AssignProperties_From_StorageAccountsTableServicesTableOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsTableServicesTableOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsTableServicesTableOperatorSpec() to populate field OperatorSpec")
 		}
 		table.OperatorSpec = &operatorSpec
 	} else {
@@ -546,7 +546,7 @@ func (table *StorageAccountsTableServicesTable_Spec) AssignProperties_From_Stora
 			var signedIdentifier TableSignedIdentifier
 			err := signedIdentifier.AssignProperties_From_TableSignedIdentifier(&signedIdentifierItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_TableSignedIdentifier() to populate field SignedIdentifiers")
+				return eris.Wrap(err, "calling AssignProperties_From_TableSignedIdentifier() to populate field SignedIdentifiers")
 			}
 			signedIdentifierList[signedIdentifierIndex] = signedIdentifier
 		}
@@ -572,7 +572,7 @@ func (table *StorageAccountsTableServicesTable_Spec) AssignProperties_To_Storage
 		var operatorSpec storage.StorageAccountsTableServicesTableOperatorSpec
 		err := table.OperatorSpec.AssignProperties_To_StorageAccountsTableServicesTableOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsTableServicesTableOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsTableServicesTableOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -599,7 +599,7 @@ func (table *StorageAccountsTableServicesTable_Spec) AssignProperties_To_Storage
 			var signedIdentifier storage.TableSignedIdentifier
 			err := signedIdentifierItem.AssignProperties_To_TableSignedIdentifier(&signedIdentifier)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_TableSignedIdentifier() to populate field SignedIdentifiers")
+				return eris.Wrap(err, "calling AssignProperties_To_TableSignedIdentifier() to populate field SignedIdentifiers")
 			}
 			signedIdentifierList[signedIdentifierIndex] = signedIdentifier
 		}
@@ -664,13 +664,13 @@ func (table *StorageAccountsTableServicesTable_STATUS) ConvertStatusFrom(source 
 	src = &storage.StorageAccountsTableServicesTable_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = table.AssignProperties_From_StorageAccountsTableServicesTable_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -688,13 +688,13 @@ func (table *StorageAccountsTableServicesTable_STATUS) ConvertStatusTo(destinati
 	dst = &storage.StorageAccountsTableServicesTable_STATUS{}
 	err := table.AssignProperties_To_StorageAccountsTableServicesTable_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -781,7 +781,7 @@ func (table *StorageAccountsTableServicesTable_STATUS) AssignProperties_From_Sto
 			var signedIdentifier TableSignedIdentifier_STATUS
 			err := signedIdentifier.AssignProperties_From_TableSignedIdentifier_STATUS(&signedIdentifierItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_TableSignedIdentifier_STATUS() to populate field SignedIdentifiers")
+				return eris.Wrap(err, "calling AssignProperties_From_TableSignedIdentifier_STATUS() to populate field SignedIdentifiers")
 			}
 			signedIdentifierList[signedIdentifierIndex] = signedIdentifier
 		}
@@ -823,7 +823,7 @@ func (table *StorageAccountsTableServicesTable_STATUS) AssignProperties_To_Stora
 			var signedIdentifier storage.TableSignedIdentifier_STATUS
 			err := signedIdentifierItem.AssignProperties_To_TableSignedIdentifier_STATUS(&signedIdentifier)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_TableSignedIdentifier_STATUS() to populate field SignedIdentifiers")
+				return eris.Wrap(err, "calling AssignProperties_To_TableSignedIdentifier_STATUS() to populate field SignedIdentifiers")
 			}
 			signedIdentifierList[signedIdentifierIndex] = signedIdentifier
 		}
@@ -1031,7 +1031,7 @@ func (identifier *TableSignedIdentifier) AssignProperties_From_TableSignedIdenti
 		var accessPolicy TableAccessPolicy
 		err := accessPolicy.AssignProperties_From_TableAccessPolicy(source.AccessPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TableAccessPolicy() to populate field AccessPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_TableAccessPolicy() to populate field AccessPolicy")
 		}
 		identifier.AccessPolicy = &accessPolicy
 	} else {
@@ -1060,7 +1060,7 @@ func (identifier *TableSignedIdentifier) AssignProperties_To_TableSignedIdentifi
 		var accessPolicy storage.TableAccessPolicy
 		err := identifier.AccessPolicy.AssignProperties_To_TableAccessPolicy(&accessPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TableAccessPolicy() to populate field AccessPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_TableAccessPolicy() to populate field AccessPolicy")
 		}
 		destination.AccessPolicy = &accessPolicy
 	} else {
@@ -1138,7 +1138,7 @@ func (identifier *TableSignedIdentifier_STATUS) AssignProperties_From_TableSigne
 		var accessPolicy TableAccessPolicy_STATUS
 		err := accessPolicy.AssignProperties_From_TableAccessPolicy_STATUS(source.AccessPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TableAccessPolicy_STATUS() to populate field AccessPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_TableAccessPolicy_STATUS() to populate field AccessPolicy")
 		}
 		identifier.AccessPolicy = &accessPolicy
 	} else {
@@ -1162,7 +1162,7 @@ func (identifier *TableSignedIdentifier_STATUS) AssignProperties_To_TableSignedI
 		var accessPolicy storage.TableAccessPolicy_STATUS
 		err := identifier.AccessPolicy.AssignProperties_To_TableAccessPolicy_STATUS(&accessPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TableAccessPolicy_STATUS() to populate field AccessPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_TableAccessPolicy_STATUS() to populate field AccessPolicy")
 		}
 		destination.AccessPolicy = &accessPolicy
 	} else {

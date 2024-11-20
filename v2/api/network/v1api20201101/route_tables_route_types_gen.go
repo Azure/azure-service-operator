@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -58,12 +58,12 @@ func (route *RouteTablesRoute) ConvertFrom(hub conversion.Hub) error {
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = route.AssignProperties_From_RouteTablesRoute(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to route")
+		return eris.Wrap(err, "converting from source to route")
 	}
 
 	return nil
@@ -75,11 +75,11 @@ func (route *RouteTablesRoute) ConvertTo(hub conversion.Hub) error {
 	var destination storage.RouteTablesRoute
 	err := route.AssignProperties_To_RouteTablesRoute(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from route")
+		return eris.Wrap(err, "converting to destination from route")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -192,7 +192,7 @@ func (route *RouteTablesRoute) SetStatus(status genruntime.ConvertibleStatus) er
 	var st RouteTablesRoute_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	route.Status = st
@@ -312,7 +312,7 @@ func (route *RouteTablesRoute) AssignProperties_From_RouteTablesRoute(source *st
 	var spec RouteTablesRoute_Spec
 	err := spec.AssignProperties_From_RouteTablesRoute_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RouteTablesRoute_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_RouteTablesRoute_Spec() to populate field Spec")
 	}
 	route.Spec = spec
 
@@ -320,7 +320,7 @@ func (route *RouteTablesRoute) AssignProperties_From_RouteTablesRoute(source *st
 	var status RouteTablesRoute_STATUS
 	err = status.AssignProperties_From_RouteTablesRoute_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RouteTablesRoute_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_RouteTablesRoute_STATUS() to populate field Status")
 	}
 	route.Status = status
 
@@ -338,7 +338,7 @@ func (route *RouteTablesRoute) AssignProperties_To_RouteTablesRoute(destination 
 	var spec storage.RouteTablesRoute_Spec
 	err := route.Spec.AssignProperties_To_RouteTablesRoute_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RouteTablesRoute_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_RouteTablesRoute_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -346,7 +346,7 @@ func (route *RouteTablesRoute) AssignProperties_To_RouteTablesRoute(destination 
 	var status storage.RouteTablesRoute_STATUS
 	err = route.Status.AssignProperties_To_RouteTablesRoute_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RouteTablesRoute_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_RouteTablesRoute_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -505,13 +505,13 @@ func (route *RouteTablesRoute_Spec) ConvertSpecFrom(source genruntime.Convertibl
 	src = &storage.RouteTablesRoute_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = route.AssignProperties_From_RouteTablesRoute_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -529,13 +529,13 @@ func (route *RouteTablesRoute_Spec) ConvertSpecTo(destination genruntime.Convert
 	dst = &storage.RouteTablesRoute_Spec{}
 	err := route.AssignProperties_To_RouteTablesRoute_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -567,7 +567,7 @@ func (route *RouteTablesRoute_Spec) AssignProperties_From_RouteTablesRoute_Spec(
 		var operatorSpec RouteTablesRouteOperatorSpec
 		err := operatorSpec.AssignProperties_From_RouteTablesRouteOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RouteTablesRouteOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_RouteTablesRouteOperatorSpec() to populate field OperatorSpec")
 		}
 		route.OperatorSpec = &operatorSpec
 	} else {
@@ -613,7 +613,7 @@ func (route *RouteTablesRoute_Spec) AssignProperties_To_RouteTablesRoute_Spec(de
 		var operatorSpec storage.RouteTablesRouteOperatorSpec
 		err := route.OperatorSpec.AssignProperties_To_RouteTablesRouteOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RouteTablesRouteOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_RouteTablesRouteOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -697,13 +697,13 @@ func (route *RouteTablesRoute_STATUS) ConvertStatusFrom(source genruntime.Conver
 	src = &storage.RouteTablesRoute_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = route.AssignProperties_From_RouteTablesRoute_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -721,13 +721,13 @@ func (route *RouteTablesRoute_STATUS) ConvertStatusTo(destination genruntime.Con
 	dst = &storage.RouteTablesRoute_STATUS{}
 	err := route.AssignProperties_To_RouteTablesRoute_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

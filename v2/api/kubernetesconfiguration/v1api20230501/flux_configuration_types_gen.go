@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -188,7 +188,7 @@ func (configuration *FluxConfiguration) SetStatus(status genruntime.ConvertibleS
 	var st FluxConfiguration_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	configuration.Status = st
@@ -312,7 +312,7 @@ func (configuration *FluxConfiguration) AssignProperties_From_FluxConfiguration(
 	var spec FluxConfiguration_Spec
 	err := spec.AssignProperties_From_FluxConfiguration_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FluxConfiguration_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_FluxConfiguration_Spec() to populate field Spec")
 	}
 	configuration.Spec = spec
 
@@ -320,7 +320,7 @@ func (configuration *FluxConfiguration) AssignProperties_From_FluxConfiguration(
 	var status FluxConfiguration_STATUS
 	err = status.AssignProperties_From_FluxConfiguration_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FluxConfiguration_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_FluxConfiguration_STATUS() to populate field Status")
 	}
 	configuration.Status = status
 
@@ -338,7 +338,7 @@ func (configuration *FluxConfiguration) AssignProperties_To_FluxConfiguration(de
 	var spec storage.FluxConfiguration_Spec
 	err := configuration.Spec.AssignProperties_To_FluxConfiguration_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FluxConfiguration_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_FluxConfiguration_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -346,7 +346,7 @@ func (configuration *FluxConfiguration) AssignProperties_To_FluxConfiguration(de
 	var status storage.FluxConfiguration_STATUS
 	err = configuration.Status.AssignProperties_To_FluxConfiguration_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FluxConfiguration_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_FluxConfiguration_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -469,7 +469,7 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 		var temp map[string]string
 		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*configuration.ConfigurationProtectedSettings)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property temp")
+			return nil, eris.Wrap(err, "looking up secret for property temp")
 		}
 		temp = tempSecret
 		result.Properties.ConfigurationProtectedSettings = temp
@@ -679,13 +679,13 @@ func (configuration *FluxConfiguration_Spec) ConvertSpecFrom(source genruntime.C
 	src = &storage.FluxConfiguration_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = configuration.AssignProperties_From_FluxConfiguration_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -703,13 +703,13 @@ func (configuration *FluxConfiguration_Spec) ConvertSpecTo(destination genruntim
 	dst = &storage.FluxConfiguration_Spec{}
 	err := configuration.AssignProperties_To_FluxConfiguration_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -723,7 +723,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_From_FluxConfigura
 		var azureBlob AzureBlobDefinition
 		err := azureBlob.AssignProperties_From_AzureBlobDefinition(source.AzureBlob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AzureBlobDefinition() to populate field AzureBlob")
+			return eris.Wrap(err, "calling AssignProperties_From_AzureBlobDefinition() to populate field AzureBlob")
 		}
 		configuration.AzureBlob = &azureBlob
 	} else {
@@ -738,7 +738,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_From_FluxConfigura
 		var bucket BucketDefinition
 		err := bucket.AssignProperties_From_BucketDefinition(source.Bucket)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BucketDefinition() to populate field Bucket")
+			return eris.Wrap(err, "calling AssignProperties_From_BucketDefinition() to populate field Bucket")
 		}
 		configuration.Bucket = &bucket
 	} else {
@@ -758,7 +758,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_From_FluxConfigura
 		var gitRepository GitRepositoryDefinition
 		err := gitRepository.AssignProperties_From_GitRepositoryDefinition(source.GitRepository)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_GitRepositoryDefinition() to populate field GitRepository")
+			return eris.Wrap(err, "calling AssignProperties_From_GitRepositoryDefinition() to populate field GitRepository")
 		}
 		configuration.GitRepository = &gitRepository
 	} else {
@@ -774,7 +774,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_From_FluxConfigura
 			var kustomization KustomizationDefinition
 			err := kustomization.AssignProperties_From_KustomizationDefinition(&kustomizationValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_KustomizationDefinition() to populate field Kustomizations")
+				return eris.Wrap(err, "calling AssignProperties_From_KustomizationDefinition() to populate field Kustomizations")
 			}
 			kustomizationMap[kustomizationKey] = kustomization
 		}
@@ -791,7 +791,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_From_FluxConfigura
 		var operatorSpec FluxConfigurationOperatorSpec
 		err := operatorSpec.AssignProperties_From_FluxConfigurationOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FluxConfigurationOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_FluxConfigurationOperatorSpec() to populate field OperatorSpec")
 		}
 		configuration.OperatorSpec = &operatorSpec
 	} else {
@@ -857,7 +857,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_To_FluxConfigurati
 		var azureBlob storage.AzureBlobDefinition
 		err := configuration.AzureBlob.AssignProperties_To_AzureBlobDefinition(&azureBlob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AzureBlobDefinition() to populate field AzureBlob")
+			return eris.Wrap(err, "calling AssignProperties_To_AzureBlobDefinition() to populate field AzureBlob")
 		}
 		destination.AzureBlob = &azureBlob
 	} else {
@@ -872,7 +872,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_To_FluxConfigurati
 		var bucket storage.BucketDefinition
 		err := configuration.Bucket.AssignProperties_To_BucketDefinition(&bucket)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BucketDefinition() to populate field Bucket")
+			return eris.Wrap(err, "calling AssignProperties_To_BucketDefinition() to populate field Bucket")
 		}
 		destination.Bucket = &bucket
 	} else {
@@ -892,7 +892,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_To_FluxConfigurati
 		var gitRepository storage.GitRepositoryDefinition
 		err := configuration.GitRepository.AssignProperties_To_GitRepositoryDefinition(&gitRepository)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_GitRepositoryDefinition() to populate field GitRepository")
+			return eris.Wrap(err, "calling AssignProperties_To_GitRepositoryDefinition() to populate field GitRepository")
 		}
 		destination.GitRepository = &gitRepository
 	} else {
@@ -908,7 +908,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_To_FluxConfigurati
 			var kustomization storage.KustomizationDefinition
 			err := kustomizationValue.AssignProperties_To_KustomizationDefinition(&kustomization)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_KustomizationDefinition() to populate field Kustomizations")
+				return eris.Wrap(err, "calling AssignProperties_To_KustomizationDefinition() to populate field Kustomizations")
 			}
 			kustomizationMap[kustomizationKey] = kustomization
 		}
@@ -925,7 +925,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_To_FluxConfigurati
 		var operatorSpec storage.FluxConfigurationOperatorSpec
 		err := configuration.OperatorSpec.AssignProperties_To_FluxConfigurationOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FluxConfigurationOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_FluxConfigurationOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -997,7 +997,7 @@ func (configuration *FluxConfiguration_Spec) Initialize_From_FluxConfiguration_S
 		var azureBlob AzureBlobDefinition
 		err := azureBlob.Initialize_From_AzureBlobDefinition_STATUS(source.AzureBlob)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AzureBlobDefinition_STATUS() to populate field AzureBlob")
+			return eris.Wrap(err, "calling Initialize_From_AzureBlobDefinition_STATUS() to populate field AzureBlob")
 		}
 		configuration.AzureBlob = &azureBlob
 	} else {
@@ -1009,7 +1009,7 @@ func (configuration *FluxConfiguration_Spec) Initialize_From_FluxConfiguration_S
 		var bucket BucketDefinition
 		err := bucket.Initialize_From_BucketDefinition_STATUS(source.Bucket)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BucketDefinition_STATUS() to populate field Bucket")
+			return eris.Wrap(err, "calling Initialize_From_BucketDefinition_STATUS() to populate field Bucket")
 		}
 		configuration.Bucket = &bucket
 	} else {
@@ -1021,7 +1021,7 @@ func (configuration *FluxConfiguration_Spec) Initialize_From_FluxConfiguration_S
 		var gitRepository GitRepositoryDefinition
 		err := gitRepository.Initialize_From_GitRepositoryDefinition_STATUS(source.GitRepository)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_GitRepositoryDefinition_STATUS() to populate field GitRepository")
+			return eris.Wrap(err, "calling Initialize_From_GitRepositoryDefinition_STATUS() to populate field GitRepository")
 		}
 		configuration.GitRepository = &gitRepository
 	} else {
@@ -1037,7 +1037,7 @@ func (configuration *FluxConfiguration_Spec) Initialize_From_FluxConfiguration_S
 			var kustomization KustomizationDefinition
 			err := kustomization.Initialize_From_KustomizationDefinition_STATUS(&kustomizationValue)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_KustomizationDefinition_STATUS() to populate field Kustomizations")
+				return eris.Wrap(err, "calling Initialize_From_KustomizationDefinition_STATUS() to populate field Kustomizations")
 			}
 			kustomizationMap[kustomizationKey] = kustomization
 		}
@@ -1189,13 +1189,13 @@ func (configuration *FluxConfiguration_STATUS) ConvertStatusFrom(source genrunti
 	src = &storage.FluxConfiguration_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = configuration.AssignProperties_From_FluxConfiguration_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1213,13 +1213,13 @@ func (configuration *FluxConfiguration_STATUS) ConvertStatusTo(destination genru
 	dst = &storage.FluxConfiguration_STATUS{}
 	err := configuration.AssignProperties_To_FluxConfiguration_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1478,7 +1478,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_From_FluxConfigu
 		var azureBlob AzureBlobDefinition_STATUS
 		err := azureBlob.AssignProperties_From_AzureBlobDefinition_STATUS(source.AzureBlob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AzureBlobDefinition_STATUS() to populate field AzureBlob")
+			return eris.Wrap(err, "calling AssignProperties_From_AzureBlobDefinition_STATUS() to populate field AzureBlob")
 		}
 		configuration.AzureBlob = &azureBlob
 	} else {
@@ -1490,7 +1490,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_From_FluxConfigu
 		var bucket BucketDefinition_STATUS
 		err := bucket.AssignProperties_From_BucketDefinition_STATUS(source.Bucket)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BucketDefinition_STATUS() to populate field Bucket")
+			return eris.Wrap(err, "calling AssignProperties_From_BucketDefinition_STATUS() to populate field Bucket")
 		}
 		configuration.Bucket = &bucket
 	} else {
@@ -1520,7 +1520,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_From_FluxConfigu
 		var gitRepository GitRepositoryDefinition_STATUS
 		err := gitRepository.AssignProperties_From_GitRepositoryDefinition_STATUS(source.GitRepository)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_GitRepositoryDefinition_STATUS() to populate field GitRepository")
+			return eris.Wrap(err, "calling AssignProperties_From_GitRepositoryDefinition_STATUS() to populate field GitRepository")
 		}
 		configuration.GitRepository = &gitRepository
 	} else {
@@ -1539,7 +1539,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_From_FluxConfigu
 			var kustomization KustomizationDefinition_STATUS
 			err := kustomization.AssignProperties_From_KustomizationDefinition_STATUS(&kustomizationValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_KustomizationDefinition_STATUS() to populate field Kustomizations")
+				return eris.Wrap(err, "calling AssignProperties_From_KustomizationDefinition_STATUS() to populate field Kustomizations")
 			}
 			kustomizationMap[kustomizationKey] = kustomization
 		}
@@ -1605,7 +1605,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_From_FluxConfigu
 			var status ObjectStatusDefinition_STATUS
 			err := status.AssignProperties_From_ObjectStatusDefinition_STATUS(&statusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ObjectStatusDefinition_STATUS() to populate field Statuses")
+				return eris.Wrap(err, "calling AssignProperties_From_ObjectStatusDefinition_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -1647,7 +1647,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_To_FluxConfigura
 		var azureBlob storage.AzureBlobDefinition_STATUS
 		err := configuration.AzureBlob.AssignProperties_To_AzureBlobDefinition_STATUS(&azureBlob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AzureBlobDefinition_STATUS() to populate field AzureBlob")
+			return eris.Wrap(err, "calling AssignProperties_To_AzureBlobDefinition_STATUS() to populate field AzureBlob")
 		}
 		destination.AzureBlob = &azureBlob
 	} else {
@@ -1659,7 +1659,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_To_FluxConfigura
 		var bucket storage.BucketDefinition_STATUS
 		err := configuration.Bucket.AssignProperties_To_BucketDefinition_STATUS(&bucket)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BucketDefinition_STATUS() to populate field Bucket")
+			return eris.Wrap(err, "calling AssignProperties_To_BucketDefinition_STATUS() to populate field Bucket")
 		}
 		destination.Bucket = &bucket
 	} else {
@@ -1688,7 +1688,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_To_FluxConfigura
 		var gitRepository storage.GitRepositoryDefinition_STATUS
 		err := configuration.GitRepository.AssignProperties_To_GitRepositoryDefinition_STATUS(&gitRepository)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_GitRepositoryDefinition_STATUS() to populate field GitRepository")
+			return eris.Wrap(err, "calling AssignProperties_To_GitRepositoryDefinition_STATUS() to populate field GitRepository")
 		}
 		destination.GitRepository = &gitRepository
 	} else {
@@ -1707,7 +1707,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_To_FluxConfigura
 			var kustomization storage.KustomizationDefinition_STATUS
 			err := kustomizationValue.AssignProperties_To_KustomizationDefinition_STATUS(&kustomization)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_KustomizationDefinition_STATUS() to populate field Kustomizations")
+				return eris.Wrap(err, "calling AssignProperties_To_KustomizationDefinition_STATUS() to populate field Kustomizations")
 			}
 			kustomizationMap[kustomizationKey] = kustomization
 		}
@@ -1770,7 +1770,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_To_FluxConfigura
 			var status storage.ObjectStatusDefinition_STATUS
 			err := statusItem.AssignProperties_To_ObjectStatusDefinition_STATUS(&status)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ObjectStatusDefinition_STATUS() to populate field Statuses")
+				return eris.Wrap(err, "calling AssignProperties_To_ObjectStatusDefinition_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -1853,7 +1853,7 @@ func (definition *AzureBlobDefinition) ConvertToARM(resolved genruntime.ConvertT
 	if definition.AccountKey != nil {
 		accountKeySecret, err := resolved.ResolvedSecrets.Lookup(*definition.AccountKey)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property AccountKey")
+			return nil, eris.Wrap(err, "looking up secret for property AccountKey")
 		}
 		accountKey := accountKeySecret
 		result.AccountKey = &accountKey
@@ -1885,7 +1885,7 @@ func (definition *AzureBlobDefinition) ConvertToARM(resolved genruntime.ConvertT
 	if definition.SasToken != nil {
 		sasTokenSecret, err := resolved.ResolvedSecrets.Lookup(*definition.SasToken)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property SasToken")
+			return nil, eris.Wrap(err, "looking up secret for property SasToken")
 		}
 		sasToken := sasTokenSecret
 		result.SasToken = &sasToken
@@ -2015,7 +2015,7 @@ func (definition *AzureBlobDefinition) AssignProperties_From_AzureBlobDefinition
 		var managedIdentity ManagedIdentityDefinition
 		err := managedIdentity.AssignProperties_From_ManagedIdentityDefinition(source.ManagedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentityDefinition() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentityDefinition() to populate field ManagedIdentity")
 		}
 		definition.ManagedIdentity = &managedIdentity
 	} else {
@@ -2035,7 +2035,7 @@ func (definition *AzureBlobDefinition) AssignProperties_From_AzureBlobDefinition
 		var servicePrincipal ServicePrincipalDefinition
 		err := servicePrincipal.AssignProperties_From_ServicePrincipalDefinition(source.ServicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServicePrincipalDefinition() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_From_ServicePrincipalDefinition() to populate field ServicePrincipal")
 		}
 		definition.ServicePrincipal = &servicePrincipal
 	} else {
@@ -2079,7 +2079,7 @@ func (definition *AzureBlobDefinition) AssignProperties_To_AzureBlobDefinition(d
 		var managedIdentity storage.ManagedIdentityDefinition
 		err := definition.ManagedIdentity.AssignProperties_To_ManagedIdentityDefinition(&managedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentityDefinition() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentityDefinition() to populate field ManagedIdentity")
 		}
 		destination.ManagedIdentity = &managedIdentity
 	} else {
@@ -2099,7 +2099,7 @@ func (definition *AzureBlobDefinition) AssignProperties_To_AzureBlobDefinition(d
 		var servicePrincipal storage.ServicePrincipalDefinition
 		err := definition.ServicePrincipal.AssignProperties_To_ServicePrincipalDefinition(&servicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServicePrincipalDefinition() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_To_ServicePrincipalDefinition() to populate field ServicePrincipal")
 		}
 		destination.ServicePrincipal = &servicePrincipal
 	} else {
@@ -2140,7 +2140,7 @@ func (definition *AzureBlobDefinition) Initialize_From_AzureBlobDefinition_STATU
 		var managedIdentity ManagedIdentityDefinition
 		err := managedIdentity.Initialize_From_ManagedIdentityDefinition_STATUS(source.ManagedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentityDefinition_STATUS() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentityDefinition_STATUS() to populate field ManagedIdentity")
 		}
 		definition.ManagedIdentity = &managedIdentity
 	} else {
@@ -2152,7 +2152,7 @@ func (definition *AzureBlobDefinition) Initialize_From_AzureBlobDefinition_STATU
 		var servicePrincipal ServicePrincipalDefinition
 		err := servicePrincipal.Initialize_From_ServicePrincipalDefinition_STATUS(source.ServicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ServicePrincipalDefinition_STATUS() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling Initialize_From_ServicePrincipalDefinition_STATUS() to populate field ServicePrincipal")
 		}
 		definition.ServicePrincipal = &servicePrincipal
 	} else {
@@ -2281,7 +2281,7 @@ func (definition *AzureBlobDefinition_STATUS) AssignProperties_From_AzureBlobDef
 		var managedIdentity ManagedIdentityDefinition_STATUS
 		err := managedIdentity.AssignProperties_From_ManagedIdentityDefinition_STATUS(source.ManagedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentityDefinition_STATUS() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentityDefinition_STATUS() to populate field ManagedIdentity")
 		}
 		definition.ManagedIdentity = &managedIdentity
 	} else {
@@ -2293,7 +2293,7 @@ func (definition *AzureBlobDefinition_STATUS) AssignProperties_From_AzureBlobDef
 		var servicePrincipal ServicePrincipalDefinition_STATUS
 		err := servicePrincipal.AssignProperties_From_ServicePrincipalDefinition_STATUS(source.ServicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServicePrincipalDefinition_STATUS() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_From_ServicePrincipalDefinition_STATUS() to populate field ServicePrincipal")
 		}
 		definition.ServicePrincipal = &servicePrincipal
 	} else {
@@ -2329,7 +2329,7 @@ func (definition *AzureBlobDefinition_STATUS) AssignProperties_To_AzureBlobDefin
 		var managedIdentity storage.ManagedIdentityDefinition_STATUS
 		err := definition.ManagedIdentity.AssignProperties_To_ManagedIdentityDefinition_STATUS(&managedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentityDefinition_STATUS() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentityDefinition_STATUS() to populate field ManagedIdentity")
 		}
 		destination.ManagedIdentity = &managedIdentity
 	} else {
@@ -2341,7 +2341,7 @@ func (definition *AzureBlobDefinition_STATUS) AssignProperties_To_AzureBlobDefin
 		var servicePrincipal storage.ServicePrincipalDefinition_STATUS
 		err := definition.ServicePrincipal.AssignProperties_To_ServicePrincipalDefinition_STATUS(&servicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServicePrincipalDefinition_STATUS() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_To_ServicePrincipalDefinition_STATUS() to populate field ServicePrincipal")
 		}
 		destination.ServicePrincipal = &servicePrincipal
 	} else {
@@ -2406,7 +2406,7 @@ func (definition *BucketDefinition) ConvertToARM(resolved genruntime.ConvertToAR
 	if definition.AccessKey != nil {
 		accessKeySecret, err := resolved.ResolvedSecrets.Lookup(*definition.AccessKey)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property AccessKey")
+			return nil, eris.Wrap(err, "looking up secret for property AccessKey")
 		}
 		accessKey := accessKeySecret
 		result.AccessKey = &accessKey
@@ -2930,7 +2930,7 @@ func (definition *GitRepositoryDefinition) ConvertToARM(resolved genruntime.Conv
 	if definition.HttpsCACert != nil {
 		httpsCACertSecret, err := resolved.ResolvedSecrets.Lookup(*definition.HttpsCACert)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property HttpsCACert")
+			return nil, eris.Wrap(err, "looking up secret for property HttpsCACert")
 		}
 		httpsCACert := httpsCACertSecret
 		result.HttpsCACert = &httpsCACert
@@ -3071,7 +3071,7 @@ func (definition *GitRepositoryDefinition) AssignProperties_From_GitRepositoryDe
 		var repositoryRef RepositoryRefDefinition
 		err := repositoryRef.AssignProperties_From_RepositoryRefDefinition(source.RepositoryRef)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RepositoryRefDefinition() to populate field RepositoryRef")
+			return eris.Wrap(err, "calling AssignProperties_From_RepositoryRefDefinition() to populate field RepositoryRef")
 		}
 		definition.RepositoryRef = &repositoryRef
 	} else {
@@ -3118,7 +3118,7 @@ func (definition *GitRepositoryDefinition) AssignProperties_To_GitRepositoryDefi
 		var repositoryRef storage.RepositoryRefDefinition
 		err := definition.RepositoryRef.AssignProperties_To_RepositoryRefDefinition(&repositoryRef)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RepositoryRefDefinition() to populate field RepositoryRef")
+			return eris.Wrap(err, "calling AssignProperties_To_RepositoryRefDefinition() to populate field RepositoryRef")
 		}
 		destination.RepositoryRef = &repositoryRef
 	} else {
@@ -3162,7 +3162,7 @@ func (definition *GitRepositoryDefinition) Initialize_From_GitRepositoryDefiniti
 		var repositoryRef RepositoryRefDefinition
 		err := repositoryRef.Initialize_From_RepositoryRefDefinition_STATUS(source.RepositoryRef)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RepositoryRefDefinition_STATUS() to populate field RepositoryRef")
+			return eris.Wrap(err, "calling Initialize_From_RepositoryRefDefinition_STATUS() to populate field RepositoryRef")
 		}
 		definition.RepositoryRef = &repositoryRef
 	} else {
@@ -3290,7 +3290,7 @@ func (definition *GitRepositoryDefinition_STATUS) AssignProperties_From_GitRepos
 		var repositoryRef RepositoryRefDefinition_STATUS
 		err := repositoryRef.AssignProperties_From_RepositoryRefDefinition_STATUS(source.RepositoryRef)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RepositoryRefDefinition_STATUS() to populate field RepositoryRef")
+			return eris.Wrap(err, "calling AssignProperties_From_RepositoryRefDefinition_STATUS() to populate field RepositoryRef")
 		}
 		definition.RepositoryRef = &repositoryRef
 	} else {
@@ -3329,7 +3329,7 @@ func (definition *GitRepositoryDefinition_STATUS) AssignProperties_To_GitReposit
 		var repositoryRef storage.RepositoryRefDefinition_STATUS
 		err := definition.RepositoryRef.AssignProperties_To_RepositoryRefDefinition_STATUS(&repositoryRef)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RepositoryRefDefinition_STATUS() to populate field RepositoryRef")
+			return eris.Wrap(err, "calling AssignProperties_To_RepositoryRefDefinition_STATUS() to populate field RepositoryRef")
 		}
 		destination.RepositoryRef = &repositoryRef
 	} else {
@@ -3556,7 +3556,7 @@ func (definition *KustomizationDefinition) AssignProperties_From_KustomizationDe
 		var postBuild PostBuildDefinition
 		err := postBuild.AssignProperties_From_PostBuildDefinition(source.PostBuild)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PostBuildDefinition() to populate field PostBuild")
+			return eris.Wrap(err, "calling AssignProperties_From_PostBuildDefinition() to populate field PostBuild")
 		}
 		definition.PostBuild = &postBuild
 	} else {
@@ -3616,7 +3616,7 @@ func (definition *KustomizationDefinition) AssignProperties_To_KustomizationDefi
 		var postBuild storage.PostBuildDefinition
 		err := definition.PostBuild.AssignProperties_To_PostBuildDefinition(&postBuild)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PostBuildDefinition() to populate field PostBuild")
+			return eris.Wrap(err, "calling AssignProperties_To_PostBuildDefinition() to populate field PostBuild")
 		}
 		destination.PostBuild = &postBuild
 	} else {
@@ -3681,7 +3681,7 @@ func (definition *KustomizationDefinition) Initialize_From_KustomizationDefiniti
 		var postBuild PostBuildDefinition
 		err := postBuild.Initialize_From_PostBuildDefinition_STATUS(source.PostBuild)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PostBuildDefinition_STATUS() to populate field PostBuild")
+			return eris.Wrap(err, "calling Initialize_From_PostBuildDefinition_STATUS() to populate field PostBuild")
 		}
 		definition.PostBuild = &postBuild
 	} else {
@@ -3860,7 +3860,7 @@ func (definition *KustomizationDefinition_STATUS) AssignProperties_From_Kustomiz
 		var postBuild PostBuildDefinition_STATUS
 		err := postBuild.AssignProperties_From_PostBuildDefinition_STATUS(source.PostBuild)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PostBuildDefinition_STATUS() to populate field PostBuild")
+			return eris.Wrap(err, "calling AssignProperties_From_PostBuildDefinition_STATUS() to populate field PostBuild")
 		}
 		definition.PostBuild = &postBuild
 	} else {
@@ -3923,7 +3923,7 @@ func (definition *KustomizationDefinition_STATUS) AssignProperties_To_Kustomizat
 		var postBuild storage.PostBuildDefinition_STATUS
 		err := definition.PostBuild.AssignProperties_To_PostBuildDefinition_STATUS(&postBuild)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PostBuildDefinition_STATUS() to populate field PostBuild")
+			return eris.Wrap(err, "calling AssignProperties_To_PostBuildDefinition_STATUS() to populate field PostBuild")
 		}
 		destination.PostBuild = &postBuild
 	} else {
@@ -4075,7 +4075,7 @@ func (definition *ObjectStatusDefinition_STATUS) AssignProperties_From_ObjectSta
 		var appliedBy ObjectReferenceDefinition_STATUS
 		err := appliedBy.AssignProperties_From_ObjectReferenceDefinition_STATUS(source.AppliedBy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ObjectReferenceDefinition_STATUS() to populate field AppliedBy")
+			return eris.Wrap(err, "calling AssignProperties_From_ObjectReferenceDefinition_STATUS() to populate field AppliedBy")
 		}
 		definition.AppliedBy = &appliedBy
 	} else {
@@ -4096,7 +4096,7 @@ func (definition *ObjectStatusDefinition_STATUS) AssignProperties_From_ObjectSta
 		var helmReleaseProperty HelmReleasePropertiesDefinition_STATUS
 		err := helmReleaseProperty.AssignProperties_From_HelmReleasePropertiesDefinition_STATUS(source.HelmReleaseProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HelmReleasePropertiesDefinition_STATUS() to populate field HelmReleaseProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_HelmReleasePropertiesDefinition_STATUS() to populate field HelmReleaseProperties")
 		}
 		definition.HelmReleaseProperties = &helmReleaseProperty
 	} else {
@@ -4121,7 +4121,7 @@ func (definition *ObjectStatusDefinition_STATUS) AssignProperties_From_ObjectSta
 			var statusCondition ObjectStatusConditionDefinition_STATUS
 			err := statusCondition.AssignProperties_From_ObjectStatusConditionDefinition_STATUS(&statusConditionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ObjectStatusConditionDefinition_STATUS() to populate field StatusConditions")
+				return eris.Wrap(err, "calling AssignProperties_From_ObjectStatusConditionDefinition_STATUS() to populate field StatusConditions")
 			}
 			statusConditionList[statusConditionIndex] = statusCondition
 		}
@@ -4144,7 +4144,7 @@ func (definition *ObjectStatusDefinition_STATUS) AssignProperties_To_ObjectStatu
 		var appliedBy storage.ObjectReferenceDefinition_STATUS
 		err := definition.AppliedBy.AssignProperties_To_ObjectReferenceDefinition_STATUS(&appliedBy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ObjectReferenceDefinition_STATUS() to populate field AppliedBy")
+			return eris.Wrap(err, "calling AssignProperties_To_ObjectReferenceDefinition_STATUS() to populate field AppliedBy")
 		}
 		destination.AppliedBy = &appliedBy
 	} else {
@@ -4164,7 +4164,7 @@ func (definition *ObjectStatusDefinition_STATUS) AssignProperties_To_ObjectStatu
 		var helmReleaseProperty storage.HelmReleasePropertiesDefinition_STATUS
 		err := definition.HelmReleaseProperties.AssignProperties_To_HelmReleasePropertiesDefinition_STATUS(&helmReleaseProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HelmReleasePropertiesDefinition_STATUS() to populate field HelmReleaseProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_HelmReleasePropertiesDefinition_STATUS() to populate field HelmReleaseProperties")
 		}
 		destination.HelmReleaseProperties = &helmReleaseProperty
 	} else {
@@ -4189,7 +4189,7 @@ func (definition *ObjectStatusDefinition_STATUS) AssignProperties_To_ObjectStatu
 			var statusCondition storage.ObjectStatusConditionDefinition_STATUS
 			err := statusConditionItem.AssignProperties_To_ObjectStatusConditionDefinition_STATUS(&statusCondition)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ObjectStatusConditionDefinition_STATUS() to populate field StatusConditions")
+				return eris.Wrap(err, "calling AssignProperties_To_ObjectStatusConditionDefinition_STATUS() to populate field StatusConditions")
 			}
 			statusConditionList[statusConditionIndex] = statusCondition
 		}
@@ -4353,7 +4353,7 @@ func (definition *HelmReleasePropertiesDefinition_STATUS) AssignProperties_From_
 		var helmChartRef ObjectReferenceDefinition_STATUS
 		err := helmChartRef.AssignProperties_From_ObjectReferenceDefinition_STATUS(source.HelmChartRef)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ObjectReferenceDefinition_STATUS() to populate field HelmChartRef")
+			return eris.Wrap(err, "calling AssignProperties_From_ObjectReferenceDefinition_STATUS() to populate field HelmChartRef")
 		}
 		definition.HelmChartRef = &helmChartRef
 	} else {
@@ -4386,7 +4386,7 @@ func (definition *HelmReleasePropertiesDefinition_STATUS) AssignProperties_To_He
 		var helmChartRef storage.ObjectReferenceDefinition_STATUS
 		err := definition.HelmChartRef.AssignProperties_To_ObjectReferenceDefinition_STATUS(&helmChartRef)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ObjectReferenceDefinition_STATUS() to populate field HelmChartRef")
+			return eris.Wrap(err, "calling AssignProperties_To_ObjectReferenceDefinition_STATUS() to populate field HelmChartRef")
 		}
 		destination.HelmChartRef = &helmChartRef
 	} else {
@@ -4835,7 +4835,7 @@ func (definition *PostBuildDefinition) AssignProperties_From_PostBuildDefinition
 			var substituteFrom SubstituteFromDefinition
 			err := substituteFrom.AssignProperties_From_SubstituteFromDefinition(&substituteFromItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubstituteFromDefinition() to populate field SubstituteFrom")
+				return eris.Wrap(err, "calling AssignProperties_From_SubstituteFromDefinition() to populate field SubstituteFrom")
 			}
 			substituteFromList[substituteFromIndex] = substituteFrom
 		}
@@ -4865,7 +4865,7 @@ func (definition *PostBuildDefinition) AssignProperties_To_PostBuildDefinition(d
 			var substituteFrom storage.SubstituteFromDefinition
 			err := substituteFromItem.AssignProperties_To_SubstituteFromDefinition(&substituteFrom)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubstituteFromDefinition() to populate field SubstituteFrom")
+				return eris.Wrap(err, "calling AssignProperties_To_SubstituteFromDefinition() to populate field SubstituteFrom")
 			}
 			substituteFromList[substituteFromIndex] = substituteFrom
 		}
@@ -4900,7 +4900,7 @@ func (definition *PostBuildDefinition) Initialize_From_PostBuildDefinition_STATU
 			var substituteFrom SubstituteFromDefinition
 			err := substituteFrom.Initialize_From_SubstituteFromDefinition_STATUS(&substituteFromItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SubstituteFromDefinition_STATUS() to populate field SubstituteFrom")
+				return eris.Wrap(err, "calling Initialize_From_SubstituteFromDefinition_STATUS() to populate field SubstituteFrom")
 			}
 			substituteFromList[substituteFromIndex] = substituteFrom
 		}
@@ -4973,7 +4973,7 @@ func (definition *PostBuildDefinition_STATUS) AssignProperties_From_PostBuildDef
 			var substituteFrom SubstituteFromDefinition_STATUS
 			err := substituteFrom.AssignProperties_From_SubstituteFromDefinition_STATUS(&substituteFromItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubstituteFromDefinition_STATUS() to populate field SubstituteFrom")
+				return eris.Wrap(err, "calling AssignProperties_From_SubstituteFromDefinition_STATUS() to populate field SubstituteFrom")
 			}
 			substituteFromList[substituteFromIndex] = substituteFrom
 		}
@@ -5003,7 +5003,7 @@ func (definition *PostBuildDefinition_STATUS) AssignProperties_To_PostBuildDefin
 			var substituteFrom storage.SubstituteFromDefinition_STATUS
 			err := substituteFromItem.AssignProperties_To_SubstituteFromDefinition_STATUS(&substituteFrom)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubstituteFromDefinition_STATUS() to populate field SubstituteFrom")
+				return eris.Wrap(err, "calling AssignProperties_To_SubstituteFromDefinition_STATUS() to populate field SubstituteFrom")
 			}
 			substituteFromList[substituteFromIndex] = substituteFrom
 		}
@@ -5326,7 +5326,7 @@ func (definition *ServicePrincipalDefinition) ConvertToARM(resolved genruntime.C
 	if definition.ClientCertificate != nil {
 		clientCertificateSecret, err := resolved.ResolvedSecrets.Lookup(*definition.ClientCertificate)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ClientCertificate")
+			return nil, eris.Wrap(err, "looking up secret for property ClientCertificate")
 		}
 		clientCertificate := clientCertificateSecret
 		result.ClientCertificate = &clientCertificate
@@ -5336,7 +5336,7 @@ func (definition *ServicePrincipalDefinition) ConvertToARM(resolved genruntime.C
 	if definition.ClientCertificatePassword != nil {
 		clientCertificatePasswordSecret, err := resolved.ResolvedSecrets.Lookup(*definition.ClientCertificatePassword)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ClientCertificatePassword")
+			return nil, eris.Wrap(err, "looking up secret for property ClientCertificatePassword")
 		}
 		clientCertificatePassword := clientCertificatePasswordSecret
 		result.ClientCertificatePassword = &clientCertificatePassword
@@ -5356,7 +5356,7 @@ func (definition *ServicePrincipalDefinition) ConvertToARM(resolved genruntime.C
 	if definition.ClientIdFromConfig != nil {
 		clientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*definition.ClientIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property ClientId")
+			return nil, eris.Wrap(err, "looking up configmap for property ClientId")
 		}
 		clientId := clientIdValue
 		result.ClientId = &clientId
@@ -5366,7 +5366,7 @@ func (definition *ServicePrincipalDefinition) ConvertToARM(resolved genruntime.C
 	if definition.ClientSecret != nil {
 		clientSecretSecret, err := resolved.ResolvedSecrets.Lookup(*definition.ClientSecret)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ClientSecret")
+			return nil, eris.Wrap(err, "looking up secret for property ClientSecret")
 		}
 		clientSecret := clientSecretSecret
 		result.ClientSecret = &clientSecret
@@ -5380,7 +5380,7 @@ func (definition *ServicePrincipalDefinition) ConvertToARM(resolved genruntime.C
 	if definition.TenantIdFromConfig != nil {
 		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*definition.TenantIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+			return nil, eris.Wrap(err, "looking up configmap for property TenantId")
 		}
 		tenantId := tenantIdValue
 		result.TenantId = &tenantId

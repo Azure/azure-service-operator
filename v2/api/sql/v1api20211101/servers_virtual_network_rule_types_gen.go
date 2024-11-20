@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (rule *ServersVirtualNetworkRule) SetStatus(status genruntime.ConvertibleSt
 	var st ServersVirtualNetworkRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	rule.Status = st
@@ -309,7 +309,7 @@ func (rule *ServersVirtualNetworkRule) AssignProperties_From_ServersVirtualNetwo
 	var spec ServersVirtualNetworkRule_Spec
 	err := spec.AssignProperties_From_ServersVirtualNetworkRule_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersVirtualNetworkRule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersVirtualNetworkRule_Spec() to populate field Spec")
 	}
 	rule.Spec = spec
 
@@ -317,7 +317,7 @@ func (rule *ServersVirtualNetworkRule) AssignProperties_From_ServersVirtualNetwo
 	var status ServersVirtualNetworkRule_STATUS
 	err = status.AssignProperties_From_ServersVirtualNetworkRule_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersVirtualNetworkRule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersVirtualNetworkRule_STATUS() to populate field Status")
 	}
 	rule.Status = status
 
@@ -335,7 +335,7 @@ func (rule *ServersVirtualNetworkRule) AssignProperties_To_ServersVirtualNetwork
 	var spec storage.ServersVirtualNetworkRule_Spec
 	err := rule.Spec.AssignProperties_To_ServersVirtualNetworkRule_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersVirtualNetworkRule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersVirtualNetworkRule_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (rule *ServersVirtualNetworkRule) AssignProperties_To_ServersVirtualNetwork
 	var status storage.ServersVirtualNetworkRule_STATUS
 	err = rule.Status.AssignProperties_To_ServersVirtualNetworkRule_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersVirtualNetworkRule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersVirtualNetworkRule_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -476,13 +476,13 @@ func (rule *ServersVirtualNetworkRule_Spec) ConvertSpecFrom(source genruntime.Co
 	src = &storage.ServersVirtualNetworkRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = rule.AssignProperties_From_ServersVirtualNetworkRule_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -500,13 +500,13 @@ func (rule *ServersVirtualNetworkRule_Spec) ConvertSpecTo(destination genruntime
 	dst = &storage.ServersVirtualNetworkRule_Spec{}
 	err := rule.AssignProperties_To_ServersVirtualNetworkRule_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -531,7 +531,7 @@ func (rule *ServersVirtualNetworkRule_Spec) AssignProperties_From_ServersVirtual
 		var operatorSpec ServersVirtualNetworkRuleOperatorSpec
 		err := operatorSpec.AssignProperties_From_ServersVirtualNetworkRuleOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServersVirtualNetworkRuleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ServersVirtualNetworkRuleOperatorSpec() to populate field OperatorSpec")
 		}
 		rule.OperatorSpec = &operatorSpec
 	} else {
@@ -579,7 +579,7 @@ func (rule *ServersVirtualNetworkRule_Spec) AssignProperties_To_ServersVirtualNe
 		var operatorSpec storage.ServersVirtualNetworkRuleOperatorSpec
 		err := rule.OperatorSpec.AssignProperties_To_ServersVirtualNetworkRuleOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServersVirtualNetworkRuleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ServersVirtualNetworkRuleOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -686,13 +686,13 @@ func (rule *ServersVirtualNetworkRule_STATUS) ConvertStatusFrom(source genruntim
 	src = &storage.ServersVirtualNetworkRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = rule.AssignProperties_From_ServersVirtualNetworkRule_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -710,13 +710,13 @@ func (rule *ServersVirtualNetworkRule_STATUS) ConvertStatusTo(destination genrun
 	dst = &storage.ServersVirtualNetworkRule_STATUS{}
 	err := rule.AssignProperties_To_ServersVirtualNetworkRule_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

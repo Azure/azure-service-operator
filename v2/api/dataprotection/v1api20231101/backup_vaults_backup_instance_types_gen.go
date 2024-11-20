@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (instance *BackupVaultsBackupInstance) SetStatus(status genruntime.Converti
 	var st BackupVaultsBackupInstance_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	instance.Status = st
@@ -309,7 +309,7 @@ func (instance *BackupVaultsBackupInstance) AssignProperties_From_BackupVaultsBa
 	var spec BackupVaultsBackupInstance_Spec
 	err := spec.AssignProperties_From_BackupVaultsBackupInstance_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupInstance_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupInstance_Spec() to populate field Spec")
 	}
 	instance.Spec = spec
 
@@ -317,7 +317,7 @@ func (instance *BackupVaultsBackupInstance) AssignProperties_From_BackupVaultsBa
 	var status BackupVaultsBackupInstance_STATUS
 	err = status.AssignProperties_From_BackupVaultsBackupInstance_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupInstance_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupInstance_STATUS() to populate field Status")
 	}
 	instance.Status = status
 
@@ -335,7 +335,7 @@ func (instance *BackupVaultsBackupInstance) AssignProperties_To_BackupVaultsBack
 	var spec storage.BackupVaultsBackupInstance_Spec
 	err := instance.Spec.AssignProperties_To_BackupVaultsBackupInstance_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupInstance_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupInstance_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (instance *BackupVaultsBackupInstance) AssignProperties_To_BackupVaultsBack
 	var status storage.BackupVaultsBackupInstance_STATUS
 	err = instance.Status.AssignProperties_To_BackupVaultsBackupInstance_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupInstance_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupInstance_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -484,13 +484,13 @@ func (instance *BackupVaultsBackupInstance_Spec) ConvertSpecFrom(source genrunti
 	src = &storage.BackupVaultsBackupInstance_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = instance.AssignProperties_From_BackupVaultsBackupInstance_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -508,13 +508,13 @@ func (instance *BackupVaultsBackupInstance_Spec) ConvertSpecTo(destination genru
 	dst = &storage.BackupVaultsBackupInstance_Spec{}
 	err := instance.AssignProperties_To_BackupVaultsBackupInstance_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -531,7 +531,7 @@ func (instance *BackupVaultsBackupInstance_Spec) AssignProperties_From_BackupVau
 		var operatorSpec BackupVaultsBackupInstanceOperatorSpec
 		err := operatorSpec.AssignProperties_From_BackupVaultsBackupInstanceOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupInstanceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupInstanceOperatorSpec() to populate field OperatorSpec")
 		}
 		instance.OperatorSpec = &operatorSpec
 	} else {
@@ -551,7 +551,7 @@ func (instance *BackupVaultsBackupInstance_Spec) AssignProperties_From_BackupVau
 		var property BackupInstance
 		err := property.AssignProperties_From_BackupInstance(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackupInstance() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_BackupInstance() to populate field Properties")
 		}
 		instance.Properties = &property
 	} else {
@@ -578,7 +578,7 @@ func (instance *BackupVaultsBackupInstance_Spec) AssignProperties_To_BackupVault
 		var operatorSpec storage.BackupVaultsBackupInstanceOperatorSpec
 		err := instance.OperatorSpec.AssignProperties_To_BackupVaultsBackupInstanceOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupInstanceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupInstanceOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -601,7 +601,7 @@ func (instance *BackupVaultsBackupInstance_Spec) AssignProperties_To_BackupVault
 		var property storage.BackupInstance
 		err := instance.Properties.AssignProperties_To_BackupInstance(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackupInstance() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_BackupInstance() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -630,7 +630,7 @@ func (instance *BackupVaultsBackupInstance_Spec) Initialize_From_BackupVaultsBac
 		var property BackupInstance
 		err := property.Initialize_From_BackupInstance_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BackupInstance_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling Initialize_From_BackupInstance_STATUS() to populate field Properties")
 		}
 		instance.Properties = &property
 	} else {
@@ -691,13 +691,13 @@ func (instance *BackupVaultsBackupInstance_STATUS) ConvertStatusFrom(source genr
 	src = &storage.BackupVaultsBackupInstance_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = instance.AssignProperties_From_BackupVaultsBackupInstance_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -715,13 +715,13 @@ func (instance *BackupVaultsBackupInstance_STATUS) ConvertStatusTo(destination g
 	dst = &storage.BackupVaultsBackupInstance_STATUS{}
 	err := instance.AssignProperties_To_BackupVaultsBackupInstance_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -812,7 +812,7 @@ func (instance *BackupVaultsBackupInstance_STATUS) AssignProperties_From_BackupV
 		var property BackupInstance_STATUS
 		err := property.AssignProperties_From_BackupInstance_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackupInstance_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_BackupInstance_STATUS() to populate field Properties")
 		}
 		instance.Properties = &property
 	} else {
@@ -824,7 +824,7 @@ func (instance *BackupVaultsBackupInstance_STATUS) AssignProperties_From_BackupV
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		instance.SystemData = &systemDatum
 	} else {
@@ -860,7 +860,7 @@ func (instance *BackupVaultsBackupInstance_STATUS) AssignProperties_To_BackupVau
 		var property storage.BackupInstance_STATUS
 		err := instance.Properties.AssignProperties_To_BackupInstance_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackupInstance_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_BackupInstance_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -872,7 +872,7 @@ func (instance *BackupVaultsBackupInstance_STATUS) AssignProperties_To_BackupVau
 		var systemDatum storage.SystemData_STATUS
 		err := instance.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1107,7 +1107,7 @@ func (instance *BackupInstance) AssignProperties_From_BackupInstance(source *sto
 		var dataSourceInfo Datasource
 		err := dataSourceInfo.AssignProperties_From_Datasource(source.DataSourceInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Datasource() to populate field DataSourceInfo")
+			return eris.Wrap(err, "calling AssignProperties_From_Datasource() to populate field DataSourceInfo")
 		}
 		instance.DataSourceInfo = &dataSourceInfo
 	} else {
@@ -1119,7 +1119,7 @@ func (instance *BackupInstance) AssignProperties_From_BackupInstance(source *sto
 		var dataSourceSetInfo DatasourceSet
 		err := dataSourceSetInfo.AssignProperties_From_DatasourceSet(source.DataSourceSetInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DatasourceSet() to populate field DataSourceSetInfo")
+			return eris.Wrap(err, "calling AssignProperties_From_DatasourceSet() to populate field DataSourceSetInfo")
 		}
 		instance.DataSourceSetInfo = &dataSourceSetInfo
 	} else {
@@ -1131,7 +1131,7 @@ func (instance *BackupInstance) AssignProperties_From_BackupInstance(source *sto
 		var datasourceAuthCredential AuthCredentials
 		err := datasourceAuthCredential.AssignProperties_From_AuthCredentials(source.DatasourceAuthCredentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AuthCredentials() to populate field DatasourceAuthCredentials")
+			return eris.Wrap(err, "calling AssignProperties_From_AuthCredentials() to populate field DatasourceAuthCredentials")
 		}
 		instance.DatasourceAuthCredentials = &datasourceAuthCredential
 	} else {
@@ -1146,7 +1146,7 @@ func (instance *BackupInstance) AssignProperties_From_BackupInstance(source *sto
 		var identityDetail IdentityDetails
 		err := identityDetail.AssignProperties_From_IdentityDetails(source.IdentityDetails)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IdentityDetails() to populate field IdentityDetails")
+			return eris.Wrap(err, "calling AssignProperties_From_IdentityDetails() to populate field IdentityDetails")
 		}
 		instance.IdentityDetails = &identityDetail
 	} else {
@@ -1161,7 +1161,7 @@ func (instance *BackupInstance) AssignProperties_From_BackupInstance(source *sto
 		var policyInfo PolicyInfo
 		err := policyInfo.AssignProperties_From_PolicyInfo(source.PolicyInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PolicyInfo() to populate field PolicyInfo")
+			return eris.Wrap(err, "calling AssignProperties_From_PolicyInfo() to populate field PolicyInfo")
 		}
 		instance.PolicyInfo = &policyInfo
 	} else {
@@ -1191,7 +1191,7 @@ func (instance *BackupInstance) AssignProperties_To_BackupInstance(destination *
 		var dataSourceInfo storage.Datasource
 		err := instance.DataSourceInfo.AssignProperties_To_Datasource(&dataSourceInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Datasource() to populate field DataSourceInfo")
+			return eris.Wrap(err, "calling AssignProperties_To_Datasource() to populate field DataSourceInfo")
 		}
 		destination.DataSourceInfo = &dataSourceInfo
 	} else {
@@ -1203,7 +1203,7 @@ func (instance *BackupInstance) AssignProperties_To_BackupInstance(destination *
 		var dataSourceSetInfo storage.DatasourceSet
 		err := instance.DataSourceSetInfo.AssignProperties_To_DatasourceSet(&dataSourceSetInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DatasourceSet() to populate field DataSourceSetInfo")
+			return eris.Wrap(err, "calling AssignProperties_To_DatasourceSet() to populate field DataSourceSetInfo")
 		}
 		destination.DataSourceSetInfo = &dataSourceSetInfo
 	} else {
@@ -1215,7 +1215,7 @@ func (instance *BackupInstance) AssignProperties_To_BackupInstance(destination *
 		var datasourceAuthCredential storage.AuthCredentials
 		err := instance.DatasourceAuthCredentials.AssignProperties_To_AuthCredentials(&datasourceAuthCredential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AuthCredentials() to populate field DatasourceAuthCredentials")
+			return eris.Wrap(err, "calling AssignProperties_To_AuthCredentials() to populate field DatasourceAuthCredentials")
 		}
 		destination.DatasourceAuthCredentials = &datasourceAuthCredential
 	} else {
@@ -1230,7 +1230,7 @@ func (instance *BackupInstance) AssignProperties_To_BackupInstance(destination *
 		var identityDetail storage.IdentityDetails
 		err := instance.IdentityDetails.AssignProperties_To_IdentityDetails(&identityDetail)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IdentityDetails() to populate field IdentityDetails")
+			return eris.Wrap(err, "calling AssignProperties_To_IdentityDetails() to populate field IdentityDetails")
 		}
 		destination.IdentityDetails = &identityDetail
 	} else {
@@ -1245,7 +1245,7 @@ func (instance *BackupInstance) AssignProperties_To_BackupInstance(destination *
 		var policyInfo storage.PolicyInfo
 		err := instance.PolicyInfo.AssignProperties_To_PolicyInfo(&policyInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PolicyInfo() to populate field PolicyInfo")
+			return eris.Wrap(err, "calling AssignProperties_To_PolicyInfo() to populate field PolicyInfo")
 		}
 		destination.PolicyInfo = &policyInfo
 	} else {
@@ -1279,7 +1279,7 @@ func (instance *BackupInstance) Initialize_From_BackupInstance_STATUS(source *Ba
 		var dataSourceInfo Datasource
 		err := dataSourceInfo.Initialize_From_Datasource_STATUS(source.DataSourceInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Datasource_STATUS() to populate field DataSourceInfo")
+			return eris.Wrap(err, "calling Initialize_From_Datasource_STATUS() to populate field DataSourceInfo")
 		}
 		instance.DataSourceInfo = &dataSourceInfo
 	} else {
@@ -1291,7 +1291,7 @@ func (instance *BackupInstance) Initialize_From_BackupInstance_STATUS(source *Ba
 		var dataSourceSetInfo DatasourceSet
 		err := dataSourceSetInfo.Initialize_From_DatasourceSet_STATUS(source.DataSourceSetInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DatasourceSet_STATUS() to populate field DataSourceSetInfo")
+			return eris.Wrap(err, "calling Initialize_From_DatasourceSet_STATUS() to populate field DataSourceSetInfo")
 		}
 		instance.DataSourceSetInfo = &dataSourceSetInfo
 	} else {
@@ -1303,7 +1303,7 @@ func (instance *BackupInstance) Initialize_From_BackupInstance_STATUS(source *Ba
 		var datasourceAuthCredential AuthCredentials
 		err := datasourceAuthCredential.Initialize_From_AuthCredentials_STATUS(source.DatasourceAuthCredentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AuthCredentials_STATUS() to populate field DatasourceAuthCredentials")
+			return eris.Wrap(err, "calling Initialize_From_AuthCredentials_STATUS() to populate field DatasourceAuthCredentials")
 		}
 		instance.DatasourceAuthCredentials = &datasourceAuthCredential
 	} else {
@@ -1318,7 +1318,7 @@ func (instance *BackupInstance) Initialize_From_BackupInstance_STATUS(source *Ba
 		var identityDetail IdentityDetails
 		err := identityDetail.Initialize_From_IdentityDetails_STATUS(source.IdentityDetails)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_IdentityDetails_STATUS() to populate field IdentityDetails")
+			return eris.Wrap(err, "calling Initialize_From_IdentityDetails_STATUS() to populate field IdentityDetails")
 		}
 		instance.IdentityDetails = &identityDetail
 	} else {
@@ -1333,7 +1333,7 @@ func (instance *BackupInstance) Initialize_From_BackupInstance_STATUS(source *Ba
 		var policyInfo PolicyInfo
 		err := policyInfo.Initialize_From_PolicyInfo_STATUS(source.PolicyInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PolicyInfo_STATUS() to populate field PolicyInfo")
+			return eris.Wrap(err, "calling Initialize_From_PolicyInfo_STATUS() to populate field PolicyInfo")
 		}
 		instance.PolicyInfo = &policyInfo
 	} else {
@@ -1537,7 +1537,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_From_BackupInstance_STAT
 		var dataSourceInfo Datasource_STATUS
 		err := dataSourceInfo.AssignProperties_From_Datasource_STATUS(source.DataSourceInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Datasource_STATUS() to populate field DataSourceInfo")
+			return eris.Wrap(err, "calling AssignProperties_From_Datasource_STATUS() to populate field DataSourceInfo")
 		}
 		instance.DataSourceInfo = &dataSourceInfo
 	} else {
@@ -1549,7 +1549,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_From_BackupInstance_STAT
 		var dataSourceSetInfo DatasourceSet_STATUS
 		err := dataSourceSetInfo.AssignProperties_From_DatasourceSet_STATUS(source.DataSourceSetInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DatasourceSet_STATUS() to populate field DataSourceSetInfo")
+			return eris.Wrap(err, "calling AssignProperties_From_DatasourceSet_STATUS() to populate field DataSourceSetInfo")
 		}
 		instance.DataSourceSetInfo = &dataSourceSetInfo
 	} else {
@@ -1561,7 +1561,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_From_BackupInstance_STAT
 		var datasourceAuthCredential AuthCredentials_STATUS
 		err := datasourceAuthCredential.AssignProperties_From_AuthCredentials_STATUS(source.DatasourceAuthCredentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AuthCredentials_STATUS() to populate field DatasourceAuthCredentials")
+			return eris.Wrap(err, "calling AssignProperties_From_AuthCredentials_STATUS() to populate field DatasourceAuthCredentials")
 		}
 		instance.DatasourceAuthCredentials = &datasourceAuthCredential
 	} else {
@@ -1576,7 +1576,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_From_BackupInstance_STAT
 		var identityDetail IdentityDetails_STATUS
 		err := identityDetail.AssignProperties_From_IdentityDetails_STATUS(source.IdentityDetails)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IdentityDetails_STATUS() to populate field IdentityDetails")
+			return eris.Wrap(err, "calling AssignProperties_From_IdentityDetails_STATUS() to populate field IdentityDetails")
 		}
 		instance.IdentityDetails = &identityDetail
 	} else {
@@ -1591,7 +1591,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_From_BackupInstance_STAT
 		var policyInfo PolicyInfo_STATUS
 		err := policyInfo.AssignProperties_From_PolicyInfo_STATUS(source.PolicyInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PolicyInfo_STATUS() to populate field PolicyInfo")
+			return eris.Wrap(err, "calling AssignProperties_From_PolicyInfo_STATUS() to populate field PolicyInfo")
 		}
 		instance.PolicyInfo = &policyInfo
 	} else {
@@ -1603,7 +1603,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_From_BackupInstance_STAT
 		var protectionErrorDetail UserFacingError_STATUS
 		err := protectionErrorDetail.AssignProperties_From_UserFacingError_STATUS(source.ProtectionErrorDetails)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_UserFacingError_STATUS() to populate field ProtectionErrorDetails")
+			return eris.Wrap(err, "calling AssignProperties_From_UserFacingError_STATUS() to populate field ProtectionErrorDetails")
 		}
 		instance.ProtectionErrorDetails = &protectionErrorDetail
 	} else {
@@ -1615,7 +1615,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_From_BackupInstance_STAT
 		var protectionStatus ProtectionStatusDetails_STATUS
 		err := protectionStatus.AssignProperties_From_ProtectionStatusDetails_STATUS(source.ProtectionStatus)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ProtectionStatusDetails_STATUS() to populate field ProtectionStatus")
+			return eris.Wrap(err, "calling AssignProperties_From_ProtectionStatusDetails_STATUS() to populate field ProtectionStatus")
 		}
 		instance.ProtectionStatus = &protectionStatus
 	} else {
@@ -1656,7 +1656,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 		var dataSourceInfo storage.Datasource_STATUS
 		err := instance.DataSourceInfo.AssignProperties_To_Datasource_STATUS(&dataSourceInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Datasource_STATUS() to populate field DataSourceInfo")
+			return eris.Wrap(err, "calling AssignProperties_To_Datasource_STATUS() to populate field DataSourceInfo")
 		}
 		destination.DataSourceInfo = &dataSourceInfo
 	} else {
@@ -1668,7 +1668,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 		var dataSourceSetInfo storage.DatasourceSet_STATUS
 		err := instance.DataSourceSetInfo.AssignProperties_To_DatasourceSet_STATUS(&dataSourceSetInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DatasourceSet_STATUS() to populate field DataSourceSetInfo")
+			return eris.Wrap(err, "calling AssignProperties_To_DatasourceSet_STATUS() to populate field DataSourceSetInfo")
 		}
 		destination.DataSourceSetInfo = &dataSourceSetInfo
 	} else {
@@ -1680,7 +1680,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 		var datasourceAuthCredential storage.AuthCredentials_STATUS
 		err := instance.DatasourceAuthCredentials.AssignProperties_To_AuthCredentials_STATUS(&datasourceAuthCredential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AuthCredentials_STATUS() to populate field DatasourceAuthCredentials")
+			return eris.Wrap(err, "calling AssignProperties_To_AuthCredentials_STATUS() to populate field DatasourceAuthCredentials")
 		}
 		destination.DatasourceAuthCredentials = &datasourceAuthCredential
 	} else {
@@ -1695,7 +1695,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 		var identityDetail storage.IdentityDetails_STATUS
 		err := instance.IdentityDetails.AssignProperties_To_IdentityDetails_STATUS(&identityDetail)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IdentityDetails_STATUS() to populate field IdentityDetails")
+			return eris.Wrap(err, "calling AssignProperties_To_IdentityDetails_STATUS() to populate field IdentityDetails")
 		}
 		destination.IdentityDetails = &identityDetail
 	} else {
@@ -1710,7 +1710,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 		var policyInfo storage.PolicyInfo_STATUS
 		err := instance.PolicyInfo.AssignProperties_To_PolicyInfo_STATUS(&policyInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PolicyInfo_STATUS() to populate field PolicyInfo")
+			return eris.Wrap(err, "calling AssignProperties_To_PolicyInfo_STATUS() to populate field PolicyInfo")
 		}
 		destination.PolicyInfo = &policyInfo
 	} else {
@@ -1722,7 +1722,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 		var protectionErrorDetail storage.UserFacingError_STATUS
 		err := instance.ProtectionErrorDetails.AssignProperties_To_UserFacingError_STATUS(&protectionErrorDetail)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_UserFacingError_STATUS() to populate field ProtectionErrorDetails")
+			return eris.Wrap(err, "calling AssignProperties_To_UserFacingError_STATUS() to populate field ProtectionErrorDetails")
 		}
 		destination.ProtectionErrorDetails = &protectionErrorDetail
 	} else {
@@ -1734,7 +1734,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 		var protectionStatus storage.ProtectionStatusDetails_STATUS
 		err := instance.ProtectionStatus.AssignProperties_To_ProtectionStatusDetails_STATUS(&protectionStatus)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ProtectionStatusDetails_STATUS() to populate field ProtectionStatus")
+			return eris.Wrap(err, "calling AssignProperties_To_ProtectionStatusDetails_STATUS() to populate field ProtectionStatus")
 		}
 		destination.ProtectionStatus = &protectionStatus
 	} else {
@@ -1928,7 +1928,7 @@ func (credentials *AuthCredentials) AssignProperties_From_AuthCredentials(source
 		var secretStoreBasedAuthCredential SecretStoreBasedAuthCredentials
 		err := secretStoreBasedAuthCredential.AssignProperties_From_SecretStoreBasedAuthCredentials(source.SecretStoreBasedAuthCredentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecretStoreBasedAuthCredentials() to populate field SecretStoreBasedAuthCredentials")
+			return eris.Wrap(err, "calling AssignProperties_From_SecretStoreBasedAuthCredentials() to populate field SecretStoreBasedAuthCredentials")
 		}
 		credentials.SecretStoreBasedAuthCredentials = &secretStoreBasedAuthCredential
 	} else {
@@ -1949,7 +1949,7 @@ func (credentials *AuthCredentials) AssignProperties_To_AuthCredentials(destinat
 		var secretStoreBasedAuthCredential storage.SecretStoreBasedAuthCredentials
 		err := credentials.SecretStoreBasedAuthCredentials.AssignProperties_To_SecretStoreBasedAuthCredentials(&secretStoreBasedAuthCredential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecretStoreBasedAuthCredentials() to populate field SecretStoreBasedAuthCredentials")
+			return eris.Wrap(err, "calling AssignProperties_To_SecretStoreBasedAuthCredentials() to populate field SecretStoreBasedAuthCredentials")
 		}
 		destination.SecretStoreBasedAuthCredentials = &secretStoreBasedAuthCredential
 	} else {
@@ -1975,7 +1975,7 @@ func (credentials *AuthCredentials) Initialize_From_AuthCredentials_STATUS(sourc
 		var secretStoreBasedAuthCredential SecretStoreBasedAuthCredentials
 		err := secretStoreBasedAuthCredential.Initialize_From_SecretStoreBasedAuthCredentials_STATUS(source.SecretStoreBasedAuthCredentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SecretStoreBasedAuthCredentials_STATUS() to populate field SecretStoreBasedAuthCredentials")
+			return eris.Wrap(err, "calling Initialize_From_SecretStoreBasedAuthCredentials_STATUS() to populate field SecretStoreBasedAuthCredentials")
 		}
 		credentials.SecretStoreBasedAuthCredentials = &secretStoreBasedAuthCredential
 	} else {
@@ -2028,7 +2028,7 @@ func (credentials *AuthCredentials_STATUS) AssignProperties_From_AuthCredentials
 		var secretStoreBasedAuthCredential SecretStoreBasedAuthCredentials_STATUS
 		err := secretStoreBasedAuthCredential.AssignProperties_From_SecretStoreBasedAuthCredentials_STATUS(source.SecretStoreBasedAuthCredentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecretStoreBasedAuthCredentials_STATUS() to populate field SecretStoreBasedAuthCredentials")
+			return eris.Wrap(err, "calling AssignProperties_From_SecretStoreBasedAuthCredentials_STATUS() to populate field SecretStoreBasedAuthCredentials")
 		}
 		credentials.SecretStoreBasedAuthCredentials = &secretStoreBasedAuthCredential
 	} else {
@@ -2049,7 +2049,7 @@ func (credentials *AuthCredentials_STATUS) AssignProperties_To_AuthCredentials_S
 		var secretStoreBasedAuthCredential storage.SecretStoreBasedAuthCredentials_STATUS
 		err := credentials.SecretStoreBasedAuthCredentials.AssignProperties_To_SecretStoreBasedAuthCredentials_STATUS(&secretStoreBasedAuthCredential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecretStoreBasedAuthCredentials_STATUS() to populate field SecretStoreBasedAuthCredentials")
+			return eris.Wrap(err, "calling AssignProperties_To_SecretStoreBasedAuthCredentials_STATUS() to populate field SecretStoreBasedAuthCredentials")
 		}
 		destination.SecretStoreBasedAuthCredentials = &secretStoreBasedAuthCredential
 	} else {
@@ -2308,7 +2308,7 @@ func (datasource *Datasource) AssignProperties_From_Datasource(source *storage.D
 		var resourceProperty BaseResourceProperties
 		err := resourceProperty.AssignProperties_From_BaseResourceProperties(source.ResourceProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BaseResourceProperties() to populate field ResourceProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_BaseResourceProperties() to populate field ResourceProperties")
 		}
 		datasource.ResourceProperties = &resourceProperty
 	} else {
@@ -2355,7 +2355,7 @@ func (datasource *Datasource) AssignProperties_To_Datasource(destination *storag
 		var resourceProperty storage.BaseResourceProperties
 		err := datasource.ResourceProperties.AssignProperties_To_BaseResourceProperties(&resourceProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BaseResourceProperties() to populate field ResourceProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_BaseResourceProperties() to populate field ResourceProperties")
 		}
 		destination.ResourceProperties = &resourceProperty
 	} else {
@@ -2407,7 +2407,7 @@ func (datasource *Datasource) Initialize_From_Datasource_STATUS(source *Datasour
 		var resourceProperty BaseResourceProperties
 		err := resourceProperty.Initialize_From_BaseResourceProperties_STATUS(source.ResourceProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BaseResourceProperties_STATUS() to populate field ResourceProperties")
+			return eris.Wrap(err, "calling Initialize_From_BaseResourceProperties_STATUS() to populate field ResourceProperties")
 		}
 		datasource.ResourceProperties = &resourceProperty
 	} else {
@@ -2546,7 +2546,7 @@ func (datasource *Datasource_STATUS) AssignProperties_From_Datasource_STATUS(sou
 		var resourceProperty BaseResourceProperties_STATUS
 		err := resourceProperty.AssignProperties_From_BaseResourceProperties_STATUS(source.ResourceProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BaseResourceProperties_STATUS() to populate field ResourceProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_BaseResourceProperties_STATUS() to populate field ResourceProperties")
 		}
 		datasource.ResourceProperties = &resourceProperty
 	} else {
@@ -2588,7 +2588,7 @@ func (datasource *Datasource_STATUS) AssignProperties_To_Datasource_STATUS(desti
 		var resourceProperty storage.BaseResourceProperties_STATUS
 		err := datasource.ResourceProperties.AssignProperties_To_BaseResourceProperties_STATUS(&resourceProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BaseResourceProperties_STATUS() to populate field ResourceProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_BaseResourceProperties_STATUS() to populate field ResourceProperties")
 		}
 		destination.ResourceProperties = &resourceProperty
 	} else {
@@ -2793,7 +2793,7 @@ func (datasourceSet *DatasourceSet) AssignProperties_From_DatasourceSet(source *
 		var resourceProperty BaseResourceProperties
 		err := resourceProperty.AssignProperties_From_BaseResourceProperties(source.ResourceProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BaseResourceProperties() to populate field ResourceProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_BaseResourceProperties() to populate field ResourceProperties")
 		}
 		datasourceSet.ResourceProperties = &resourceProperty
 	} else {
@@ -2840,7 +2840,7 @@ func (datasourceSet *DatasourceSet) AssignProperties_To_DatasourceSet(destinatio
 		var resourceProperty storage.BaseResourceProperties
 		err := datasourceSet.ResourceProperties.AssignProperties_To_BaseResourceProperties(&resourceProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BaseResourceProperties() to populate field ResourceProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_BaseResourceProperties() to populate field ResourceProperties")
 		}
 		destination.ResourceProperties = &resourceProperty
 	} else {
@@ -2892,7 +2892,7 @@ func (datasourceSet *DatasourceSet) Initialize_From_DatasourceSet_STATUS(source 
 		var resourceProperty BaseResourceProperties
 		err := resourceProperty.Initialize_From_BaseResourceProperties_STATUS(source.ResourceProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BaseResourceProperties_STATUS() to populate field ResourceProperties")
+			return eris.Wrap(err, "calling Initialize_From_BaseResourceProperties_STATUS() to populate field ResourceProperties")
 		}
 		datasourceSet.ResourceProperties = &resourceProperty
 	} else {
@@ -3031,7 +3031,7 @@ func (datasourceSet *DatasourceSet_STATUS) AssignProperties_From_DatasourceSet_S
 		var resourceProperty BaseResourceProperties_STATUS
 		err := resourceProperty.AssignProperties_From_BaseResourceProperties_STATUS(source.ResourceProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BaseResourceProperties_STATUS() to populate field ResourceProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_BaseResourceProperties_STATUS() to populate field ResourceProperties")
 		}
 		datasourceSet.ResourceProperties = &resourceProperty
 	} else {
@@ -3073,7 +3073,7 @@ func (datasourceSet *DatasourceSet_STATUS) AssignProperties_To_DatasourceSet_STA
 		var resourceProperty storage.BaseResourceProperties_STATUS
 		err := datasourceSet.ResourceProperties.AssignProperties_To_BaseResourceProperties_STATUS(&resourceProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BaseResourceProperties_STATUS() to populate field ResourceProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_BaseResourceProperties_STATUS() to populate field ResourceProperties")
 		}
 		destination.ResourceProperties = &resourceProperty
 	} else {
@@ -3379,7 +3379,7 @@ func (info *PolicyInfo) AssignProperties_From_PolicyInfo(source *storage.PolicyI
 		var policyParameter PolicyParameters
 		err := policyParameter.AssignProperties_From_PolicyParameters(source.PolicyParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PolicyParameters() to populate field PolicyParameters")
+			return eris.Wrap(err, "calling AssignProperties_From_PolicyParameters() to populate field PolicyParameters")
 		}
 		info.PolicyParameters = &policyParameter
 	} else {
@@ -3408,7 +3408,7 @@ func (info *PolicyInfo) AssignProperties_To_PolicyInfo(destination *storage.Poli
 		var policyParameter storage.PolicyParameters
 		err := info.PolicyParameters.AssignProperties_To_PolicyParameters(&policyParameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PolicyParameters() to populate field PolicyParameters")
+			return eris.Wrap(err, "calling AssignProperties_To_PolicyParameters() to populate field PolicyParameters")
 		}
 		destination.PolicyParameters = &policyParameter
 	} else {
@@ -3442,7 +3442,7 @@ func (info *PolicyInfo) Initialize_From_PolicyInfo_STATUS(source *PolicyInfo_STA
 		var policyParameter PolicyParameters
 		err := policyParameter.Initialize_From_PolicyParameters_STATUS(source.PolicyParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PolicyParameters_STATUS() to populate field PolicyParameters")
+			return eris.Wrap(err, "calling Initialize_From_PolicyParameters_STATUS() to populate field PolicyParameters")
 		}
 		info.PolicyParameters = &policyParameter
 	} else {
@@ -3522,7 +3522,7 @@ func (info *PolicyInfo_STATUS) AssignProperties_From_PolicyInfo_STATUS(source *s
 		var policyParameter PolicyParameters_STATUS
 		err := policyParameter.AssignProperties_From_PolicyParameters_STATUS(source.PolicyParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PolicyParameters_STATUS() to populate field PolicyParameters")
+			return eris.Wrap(err, "calling AssignProperties_From_PolicyParameters_STATUS() to populate field PolicyParameters")
 		}
 		info.PolicyParameters = &policyParameter
 	} else {
@@ -3549,7 +3549,7 @@ func (info *PolicyInfo_STATUS) AssignProperties_To_PolicyInfo_STATUS(destination
 		var policyParameter storage.PolicyParameters_STATUS
 		err := info.PolicyParameters.AssignProperties_To_PolicyParameters_STATUS(&policyParameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PolicyParameters_STATUS() to populate field PolicyParameters")
+			return eris.Wrap(err, "calling AssignProperties_To_PolicyParameters_STATUS() to populate field PolicyParameters")
 		}
 		destination.PolicyParameters = &policyParameter
 	} else {
@@ -3624,7 +3624,7 @@ func (details *ProtectionStatusDetails_STATUS) AssignProperties_From_ProtectionS
 		var errorDetail UserFacingError_STATUS
 		err := errorDetail.AssignProperties_From_UserFacingError_STATUS(source.ErrorDetails)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_UserFacingError_STATUS() to populate field ErrorDetails")
+			return eris.Wrap(err, "calling AssignProperties_From_UserFacingError_STATUS() to populate field ErrorDetails")
 		}
 		details.ErrorDetails = &errorDetail
 	} else {
@@ -3654,7 +3654,7 @@ func (details *ProtectionStatusDetails_STATUS) AssignProperties_To_ProtectionSta
 		var errorDetail storage.UserFacingError_STATUS
 		err := details.ErrorDetails.AssignProperties_To_UserFacingError_STATUS(&errorDetail)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_UserFacingError_STATUS() to populate field ErrorDetails")
+			return eris.Wrap(err, "calling AssignProperties_To_UserFacingError_STATUS() to populate field ErrorDetails")
 		}
 		destination.ErrorDetails = &errorDetail
 	} else {
@@ -3805,7 +3805,7 @@ func (error *UserFacingError_STATUS) AssignProperties_From_UserFacingError_STATU
 			var detail UserFacingError_STATUS_Unrolled
 			err := detail.AssignProperties_From_UserFacingError_STATUS_Unrolled(&detailItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserFacingError_STATUS_Unrolled() to populate field Details")
+				return eris.Wrap(err, "calling AssignProperties_From_UserFacingError_STATUS_Unrolled() to populate field Details")
 			}
 			detailList[detailIndex] = detail
 		}
@@ -3819,7 +3819,7 @@ func (error *UserFacingError_STATUS) AssignProperties_From_UserFacingError_STATU
 		var innerError InnerError_STATUS
 		err := innerError.AssignProperties_From_InnerError_STATUS(source.InnerError)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_InnerError_STATUS() to populate field InnerError")
+			return eris.Wrap(err, "calling AssignProperties_From_InnerError_STATUS() to populate field InnerError")
 		}
 		error.InnerError = &innerError
 	} else {
@@ -3875,7 +3875,7 @@ func (error *UserFacingError_STATUS) AssignProperties_To_UserFacingError_STATUS(
 			var detail storage.UserFacingError_STATUS_Unrolled
 			err := detailItem.AssignProperties_To_UserFacingError_STATUS_Unrolled(&detail)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserFacingError_STATUS_Unrolled() to populate field Details")
+				return eris.Wrap(err, "calling AssignProperties_To_UserFacingError_STATUS_Unrolled() to populate field Details")
 			}
 			detailList[detailIndex] = detail
 		}
@@ -3889,7 +3889,7 @@ func (error *UserFacingError_STATUS) AssignProperties_To_UserFacingError_STATUS(
 		var innerError storage.InnerError_STATUS
 		err := error.InnerError.AssignProperties_To_InnerError_STATUS(&innerError)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_InnerError_STATUS() to populate field InnerError")
+			return eris.Wrap(err, "calling AssignProperties_To_InnerError_STATUS() to populate field InnerError")
 		}
 		destination.InnerError = &innerError
 	} else {
@@ -3996,7 +3996,7 @@ func (properties *BaseResourceProperties) AssignProperties_From_BaseResourceProp
 		var defaultResourceProperty DefaultResourceProperties
 		err := defaultResourceProperty.AssignProperties_From_DefaultResourceProperties(source.DefaultResourceProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DefaultResourceProperties() to populate field DefaultResourceProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_DefaultResourceProperties() to populate field DefaultResourceProperties")
 		}
 		properties.DefaultResourceProperties = &defaultResourceProperty
 	} else {
@@ -4017,7 +4017,7 @@ func (properties *BaseResourceProperties) AssignProperties_To_BaseResourceProper
 		var defaultResourceProperty storage.DefaultResourceProperties
 		err := properties.DefaultResourceProperties.AssignProperties_To_DefaultResourceProperties(&defaultResourceProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DefaultResourceProperties() to populate field DefaultResourceProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_DefaultResourceProperties() to populate field DefaultResourceProperties")
 		}
 		destination.DefaultResourceProperties = &defaultResourceProperty
 	} else {
@@ -4043,7 +4043,7 @@ func (properties *BaseResourceProperties) Initialize_From_BaseResourceProperties
 		var defaultResourceProperty DefaultResourceProperties
 		err := defaultResourceProperty.Initialize_From_DefaultResourceProperties_STATUS(source.DefaultResourceProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DefaultResourceProperties_STATUS() to populate field DefaultResourceProperties")
+			return eris.Wrap(err, "calling Initialize_From_DefaultResourceProperties_STATUS() to populate field DefaultResourceProperties")
 		}
 		properties.DefaultResourceProperties = &defaultResourceProperty
 	} else {
@@ -4096,7 +4096,7 @@ func (properties *BaseResourceProperties_STATUS) AssignProperties_From_BaseResou
 		var defaultResourceProperty DefaultResourceProperties_STATUS
 		err := defaultResourceProperty.AssignProperties_From_DefaultResourceProperties_STATUS(source.DefaultResourceProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DefaultResourceProperties_STATUS() to populate field DefaultResourceProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_DefaultResourceProperties_STATUS() to populate field DefaultResourceProperties")
 		}
 		properties.DefaultResourceProperties = &defaultResourceProperty
 	} else {
@@ -4117,7 +4117,7 @@ func (properties *BaseResourceProperties_STATUS) AssignProperties_To_BaseResourc
 		var defaultResourceProperty storage.DefaultResourceProperties_STATUS
 		err := properties.DefaultResourceProperties.AssignProperties_To_DefaultResourceProperties_STATUS(&defaultResourceProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DefaultResourceProperties_STATUS() to populate field DefaultResourceProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_DefaultResourceProperties_STATUS() to populate field DefaultResourceProperties")
 		}
 		destination.DefaultResourceProperties = &defaultResourceProperty
 	} else {
@@ -4204,7 +4204,7 @@ func (error *InnerError_STATUS) AssignProperties_From_InnerError_STATUS(source *
 		var embeddedInnerError InnerError_STATUS_Unrolled
 		err := embeddedInnerError.AssignProperties_From_InnerError_STATUS_Unrolled(source.EmbeddedInnerError)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_InnerError_STATUS_Unrolled() to populate field EmbeddedInnerError")
+			return eris.Wrap(err, "calling AssignProperties_From_InnerError_STATUS_Unrolled() to populate field EmbeddedInnerError")
 		}
 		error.EmbeddedInnerError = &embeddedInnerError
 	} else {
@@ -4231,7 +4231,7 @@ func (error *InnerError_STATUS) AssignProperties_To_InnerError_STATUS(destinatio
 		var embeddedInnerError storage.InnerError_STATUS_Unrolled
 		err := error.EmbeddedInnerError.AssignProperties_To_InnerError_STATUS_Unrolled(&embeddedInnerError)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_InnerError_STATUS_Unrolled() to populate field EmbeddedInnerError")
+			return eris.Wrap(err, "calling AssignProperties_To_InnerError_STATUS_Unrolled() to populate field EmbeddedInnerError")
 		}
 		destination.EmbeddedInnerError = &embeddedInnerError
 	} else {
@@ -4335,7 +4335,7 @@ func (parameters *PolicyParameters) AssignProperties_From_PolicyParameters(sourc
 			var backupDatasourceParametersListLocal BackupDatasourceParameters
 			err := backupDatasourceParametersListLocal.AssignProperties_From_BackupDatasourceParameters(&backupDatasourceParametersListItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BackupDatasourceParameters() to populate field BackupDatasourceParametersList")
+				return eris.Wrap(err, "calling AssignProperties_From_BackupDatasourceParameters() to populate field BackupDatasourceParametersList")
 			}
 			backupDatasourceParametersList[backupDatasourceParametersListIndex] = backupDatasourceParametersListLocal
 		}
@@ -4353,7 +4353,7 @@ func (parameters *PolicyParameters) AssignProperties_From_PolicyParameters(sourc
 			var dataStoreParametersListLocal DataStoreParameters
 			err := dataStoreParametersListLocal.AssignProperties_From_DataStoreParameters(&dataStoreParametersListItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_DataStoreParameters() to populate field DataStoreParametersList")
+				return eris.Wrap(err, "calling AssignProperties_From_DataStoreParameters() to populate field DataStoreParametersList")
 			}
 			dataStoreParametersList[dataStoreParametersListIndex] = dataStoreParametersListLocal
 		}
@@ -4380,7 +4380,7 @@ func (parameters *PolicyParameters) AssignProperties_To_PolicyParameters(destina
 			var backupDatasourceParametersListLocal storage.BackupDatasourceParameters
 			err := backupDatasourceParametersListItem.AssignProperties_To_BackupDatasourceParameters(&backupDatasourceParametersListLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BackupDatasourceParameters() to populate field BackupDatasourceParametersList")
+				return eris.Wrap(err, "calling AssignProperties_To_BackupDatasourceParameters() to populate field BackupDatasourceParametersList")
 			}
 			backupDatasourceParametersList[backupDatasourceParametersListIndex] = backupDatasourceParametersListLocal
 		}
@@ -4398,7 +4398,7 @@ func (parameters *PolicyParameters) AssignProperties_To_PolicyParameters(destina
 			var dataStoreParametersListLocal storage.DataStoreParameters
 			err := dataStoreParametersListItem.AssignProperties_To_DataStoreParameters(&dataStoreParametersListLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_DataStoreParameters() to populate field DataStoreParametersList")
+				return eris.Wrap(err, "calling AssignProperties_To_DataStoreParameters() to populate field DataStoreParametersList")
 			}
 			dataStoreParametersList[dataStoreParametersListIndex] = dataStoreParametersListLocal
 		}
@@ -4430,7 +4430,7 @@ func (parameters *PolicyParameters) Initialize_From_PolicyParameters_STATUS(sour
 			var backupDatasourceParametersListLocal BackupDatasourceParameters
 			err := backupDatasourceParametersListLocal.Initialize_From_BackupDatasourceParameters_STATUS(&backupDatasourceParametersListItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_BackupDatasourceParameters_STATUS() to populate field BackupDatasourceParametersList")
+				return eris.Wrap(err, "calling Initialize_From_BackupDatasourceParameters_STATUS() to populate field BackupDatasourceParametersList")
 			}
 			backupDatasourceParametersList[backupDatasourceParametersListIndex] = backupDatasourceParametersListLocal
 		}
@@ -4448,7 +4448,7 @@ func (parameters *PolicyParameters) Initialize_From_PolicyParameters_STATUS(sour
 			var dataStoreParametersListLocal DataStoreParameters
 			err := dataStoreParametersListLocal.Initialize_From_DataStoreParameters_STATUS(&dataStoreParametersListItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_DataStoreParameters_STATUS() to populate field DataStoreParametersList")
+				return eris.Wrap(err, "calling Initialize_From_DataStoreParameters_STATUS() to populate field DataStoreParametersList")
 			}
 			dataStoreParametersList[dataStoreParametersListIndex] = dataStoreParametersListLocal
 		}
@@ -4520,7 +4520,7 @@ func (parameters *PolicyParameters_STATUS) AssignProperties_From_PolicyParameter
 			var backupDatasourceParametersListLocal BackupDatasourceParameters_STATUS
 			err := backupDatasourceParametersListLocal.AssignProperties_From_BackupDatasourceParameters_STATUS(&backupDatasourceParametersListItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BackupDatasourceParameters_STATUS() to populate field BackupDatasourceParametersList")
+				return eris.Wrap(err, "calling AssignProperties_From_BackupDatasourceParameters_STATUS() to populate field BackupDatasourceParametersList")
 			}
 			backupDatasourceParametersList[backupDatasourceParametersListIndex] = backupDatasourceParametersListLocal
 		}
@@ -4538,7 +4538,7 @@ func (parameters *PolicyParameters_STATUS) AssignProperties_From_PolicyParameter
 			var dataStoreParametersListLocal DataStoreParameters_STATUS
 			err := dataStoreParametersListLocal.AssignProperties_From_DataStoreParameters_STATUS(&dataStoreParametersListItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_DataStoreParameters_STATUS() to populate field DataStoreParametersList")
+				return eris.Wrap(err, "calling AssignProperties_From_DataStoreParameters_STATUS() to populate field DataStoreParametersList")
 			}
 			dataStoreParametersList[dataStoreParametersListIndex] = dataStoreParametersListLocal
 		}
@@ -4565,7 +4565,7 @@ func (parameters *PolicyParameters_STATUS) AssignProperties_To_PolicyParameters_
 			var backupDatasourceParametersListLocal storage.BackupDatasourceParameters_STATUS
 			err := backupDatasourceParametersListItem.AssignProperties_To_BackupDatasourceParameters_STATUS(&backupDatasourceParametersListLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BackupDatasourceParameters_STATUS() to populate field BackupDatasourceParametersList")
+				return eris.Wrap(err, "calling AssignProperties_To_BackupDatasourceParameters_STATUS() to populate field BackupDatasourceParametersList")
 			}
 			backupDatasourceParametersList[backupDatasourceParametersListIndex] = backupDatasourceParametersListLocal
 		}
@@ -4583,7 +4583,7 @@ func (parameters *PolicyParameters_STATUS) AssignProperties_To_PolicyParameters_
 			var dataStoreParametersListLocal storage.DataStoreParameters_STATUS
 			err := dataStoreParametersListItem.AssignProperties_To_DataStoreParameters_STATUS(&dataStoreParametersListLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_DataStoreParameters_STATUS() to populate field DataStoreParametersList")
+				return eris.Wrap(err, "calling AssignProperties_To_DataStoreParameters_STATUS() to populate field DataStoreParametersList")
 			}
 			dataStoreParametersList[dataStoreParametersListIndex] = dataStoreParametersListLocal
 		}
@@ -4714,7 +4714,7 @@ func (credentials *SecretStoreBasedAuthCredentials) AssignProperties_From_Secret
 		var secretStoreResource SecretStoreResource
 		err := secretStoreResource.AssignProperties_From_SecretStoreResource(source.SecretStoreResource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecretStoreResource() to populate field SecretStoreResource")
+			return eris.Wrap(err, "calling AssignProperties_From_SecretStoreResource() to populate field SecretStoreResource")
 		}
 		credentials.SecretStoreResource = &secretStoreResource
 	} else {
@@ -4743,7 +4743,7 @@ func (credentials *SecretStoreBasedAuthCredentials) AssignProperties_To_SecretSt
 		var secretStoreResource storage.SecretStoreResource
 		err := credentials.SecretStoreResource.AssignProperties_To_SecretStoreResource(&secretStoreResource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecretStoreResource() to populate field SecretStoreResource")
+			return eris.Wrap(err, "calling AssignProperties_To_SecretStoreResource() to populate field SecretStoreResource")
 		}
 		destination.SecretStoreResource = &secretStoreResource
 	} else {
@@ -4777,7 +4777,7 @@ func (credentials *SecretStoreBasedAuthCredentials) Initialize_From_SecretStoreB
 		var secretStoreResource SecretStoreResource
 		err := secretStoreResource.Initialize_From_SecretStoreResource_STATUS(source.SecretStoreResource)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SecretStoreResource_STATUS() to populate field SecretStoreResource")
+			return eris.Wrap(err, "calling Initialize_From_SecretStoreResource_STATUS() to populate field SecretStoreResource")
 		}
 		credentials.SecretStoreResource = &secretStoreResource
 	} else {
@@ -4849,7 +4849,7 @@ func (credentials *SecretStoreBasedAuthCredentials_STATUS) AssignProperties_From
 		var secretStoreResource SecretStoreResource_STATUS
 		err := secretStoreResource.AssignProperties_From_SecretStoreResource_STATUS(source.SecretStoreResource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecretStoreResource_STATUS() to populate field SecretStoreResource")
+			return eris.Wrap(err, "calling AssignProperties_From_SecretStoreResource_STATUS() to populate field SecretStoreResource")
 		}
 		credentials.SecretStoreResource = &secretStoreResource
 	} else {
@@ -4878,7 +4878,7 @@ func (credentials *SecretStoreBasedAuthCredentials_STATUS) AssignProperties_To_S
 		var secretStoreResource storage.SecretStoreResource_STATUS
 		err := credentials.SecretStoreResource.AssignProperties_To_SecretStoreResource_STATUS(&secretStoreResource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecretStoreResource_STATUS() to populate field SecretStoreResource")
+			return eris.Wrap(err, "calling AssignProperties_To_SecretStoreResource_STATUS() to populate field SecretStoreResource")
 		}
 		destination.SecretStoreResource = &secretStoreResource
 	} else {
@@ -5003,7 +5003,7 @@ func (unrolled *UserFacingError_STATUS_Unrolled) AssignProperties_From_UserFacin
 		var innerError InnerError_STATUS
 		err := innerError.AssignProperties_From_InnerError_STATUS(source.InnerError)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_InnerError_STATUS() to populate field InnerError")
+			return eris.Wrap(err, "calling AssignProperties_From_InnerError_STATUS() to populate field InnerError")
 		}
 		unrolled.InnerError = &innerError
 	} else {
@@ -5055,7 +5055,7 @@ func (unrolled *UserFacingError_STATUS_Unrolled) AssignProperties_To_UserFacingE
 		var innerError storage.InnerError_STATUS
 		err := unrolled.InnerError.AssignProperties_To_InnerError_STATUS(&innerError)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_InnerError_STATUS() to populate field InnerError")
+			return eris.Wrap(err, "calling AssignProperties_To_InnerError_STATUS() to populate field InnerError")
 		}
 		destination.InnerError = &innerError
 	} else {
@@ -5186,7 +5186,7 @@ func (parameters *BackupDatasourceParameters) AssignProperties_From_BackupDataso
 		var blob BlobBackupDatasourceParameters
 		err := blob.AssignProperties_From_BlobBackupDatasourceParameters(source.Blob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BlobBackupDatasourceParameters() to populate field Blob")
+			return eris.Wrap(err, "calling AssignProperties_From_BlobBackupDatasourceParameters() to populate field Blob")
 		}
 		parameters.Blob = &blob
 	} else {
@@ -5198,7 +5198,7 @@ func (parameters *BackupDatasourceParameters) AssignProperties_From_BackupDataso
 		var kubernetesCluster KubernetesClusterBackupDatasourceParameters
 		err := kubernetesCluster.AssignProperties_From_KubernetesClusterBackupDatasourceParameters(source.KubernetesCluster)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KubernetesClusterBackupDatasourceParameters() to populate field KubernetesCluster")
+			return eris.Wrap(err, "calling AssignProperties_From_KubernetesClusterBackupDatasourceParameters() to populate field KubernetesCluster")
 		}
 		parameters.KubernetesCluster = &kubernetesCluster
 	} else {
@@ -5219,7 +5219,7 @@ func (parameters *BackupDatasourceParameters) AssignProperties_To_BackupDatasour
 		var blob storage.BlobBackupDatasourceParameters
 		err := parameters.Blob.AssignProperties_To_BlobBackupDatasourceParameters(&blob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BlobBackupDatasourceParameters() to populate field Blob")
+			return eris.Wrap(err, "calling AssignProperties_To_BlobBackupDatasourceParameters() to populate field Blob")
 		}
 		destination.Blob = &blob
 	} else {
@@ -5231,7 +5231,7 @@ func (parameters *BackupDatasourceParameters) AssignProperties_To_BackupDatasour
 		var kubernetesCluster storage.KubernetesClusterBackupDatasourceParameters
 		err := parameters.KubernetesCluster.AssignProperties_To_KubernetesClusterBackupDatasourceParameters(&kubernetesCluster)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KubernetesClusterBackupDatasourceParameters() to populate field KubernetesCluster")
+			return eris.Wrap(err, "calling AssignProperties_To_KubernetesClusterBackupDatasourceParameters() to populate field KubernetesCluster")
 		}
 		destination.KubernetesCluster = &kubernetesCluster
 	} else {
@@ -5257,7 +5257,7 @@ func (parameters *BackupDatasourceParameters) Initialize_From_BackupDatasourcePa
 		var blob BlobBackupDatasourceParameters
 		err := blob.Initialize_From_BlobBackupDatasourceParameters_STATUS(source.Blob)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BlobBackupDatasourceParameters_STATUS() to populate field Blob")
+			return eris.Wrap(err, "calling Initialize_From_BlobBackupDatasourceParameters_STATUS() to populate field Blob")
 		}
 		parameters.Blob = &blob
 	} else {
@@ -5269,7 +5269,7 @@ func (parameters *BackupDatasourceParameters) Initialize_From_BackupDatasourcePa
 		var kubernetesCluster KubernetesClusterBackupDatasourceParameters
 		err := kubernetesCluster.Initialize_From_KubernetesClusterBackupDatasourceParameters_STATUS(source.KubernetesCluster)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KubernetesClusterBackupDatasourceParameters_STATUS() to populate field KubernetesCluster")
+			return eris.Wrap(err, "calling Initialize_From_KubernetesClusterBackupDatasourceParameters_STATUS() to populate field KubernetesCluster")
 		}
 		parameters.KubernetesCluster = &kubernetesCluster
 	} else {
@@ -5336,7 +5336,7 @@ func (parameters *BackupDatasourceParameters_STATUS) AssignProperties_From_Backu
 		var blob BlobBackupDatasourceParameters_STATUS
 		err := blob.AssignProperties_From_BlobBackupDatasourceParameters_STATUS(source.Blob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BlobBackupDatasourceParameters_STATUS() to populate field Blob")
+			return eris.Wrap(err, "calling AssignProperties_From_BlobBackupDatasourceParameters_STATUS() to populate field Blob")
 		}
 		parameters.Blob = &blob
 	} else {
@@ -5348,7 +5348,7 @@ func (parameters *BackupDatasourceParameters_STATUS) AssignProperties_From_Backu
 		var kubernetesCluster KubernetesClusterBackupDatasourceParameters_STATUS
 		err := kubernetesCluster.AssignProperties_From_KubernetesClusterBackupDatasourceParameters_STATUS(source.KubernetesCluster)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KubernetesClusterBackupDatasourceParameters_STATUS() to populate field KubernetesCluster")
+			return eris.Wrap(err, "calling AssignProperties_From_KubernetesClusterBackupDatasourceParameters_STATUS() to populate field KubernetesCluster")
 		}
 		parameters.KubernetesCluster = &kubernetesCluster
 	} else {
@@ -5369,7 +5369,7 @@ func (parameters *BackupDatasourceParameters_STATUS) AssignProperties_To_BackupD
 		var blob storage.BlobBackupDatasourceParameters_STATUS
 		err := parameters.Blob.AssignProperties_To_BlobBackupDatasourceParameters_STATUS(&blob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BlobBackupDatasourceParameters_STATUS() to populate field Blob")
+			return eris.Wrap(err, "calling AssignProperties_To_BlobBackupDatasourceParameters_STATUS() to populate field Blob")
 		}
 		destination.Blob = &blob
 	} else {
@@ -5381,7 +5381,7 @@ func (parameters *BackupDatasourceParameters_STATUS) AssignProperties_To_BackupD
 		var kubernetesCluster storage.KubernetesClusterBackupDatasourceParameters_STATUS
 		err := parameters.KubernetesCluster.AssignProperties_To_KubernetesClusterBackupDatasourceParameters_STATUS(&kubernetesCluster)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KubernetesClusterBackupDatasourceParameters_STATUS() to populate field KubernetesCluster")
+			return eris.Wrap(err, "calling AssignProperties_To_KubernetesClusterBackupDatasourceParameters_STATUS() to populate field KubernetesCluster")
 		}
 		destination.KubernetesCluster = &kubernetesCluster
 	} else {
@@ -5460,7 +5460,7 @@ func (parameters *DataStoreParameters) AssignProperties_From_DataStoreParameters
 		var azureOperationalStoreParameter AzureOperationalStoreParameters
 		err := azureOperationalStoreParameter.AssignProperties_From_AzureOperationalStoreParameters(source.AzureOperationalStoreParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AzureOperationalStoreParameters() to populate field AzureOperationalStoreParameters")
+			return eris.Wrap(err, "calling AssignProperties_From_AzureOperationalStoreParameters() to populate field AzureOperationalStoreParameters")
 		}
 		parameters.AzureOperationalStoreParameters = &azureOperationalStoreParameter
 	} else {
@@ -5481,7 +5481,7 @@ func (parameters *DataStoreParameters) AssignProperties_To_DataStoreParameters(d
 		var azureOperationalStoreParameter storage.AzureOperationalStoreParameters
 		err := parameters.AzureOperationalStoreParameters.AssignProperties_To_AzureOperationalStoreParameters(&azureOperationalStoreParameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AzureOperationalStoreParameters() to populate field AzureOperationalStoreParameters")
+			return eris.Wrap(err, "calling AssignProperties_To_AzureOperationalStoreParameters() to populate field AzureOperationalStoreParameters")
 		}
 		destination.AzureOperationalStoreParameters = &azureOperationalStoreParameter
 	} else {
@@ -5507,7 +5507,7 @@ func (parameters *DataStoreParameters) Initialize_From_DataStoreParameters_STATU
 		var azureOperationalStoreParameter AzureOperationalStoreParameters
 		err := azureOperationalStoreParameter.Initialize_From_AzureOperationalStoreParameters_STATUS(source.AzureOperationalStoreParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AzureOperationalStoreParameters_STATUS() to populate field AzureOperationalStoreParameters")
+			return eris.Wrap(err, "calling Initialize_From_AzureOperationalStoreParameters_STATUS() to populate field AzureOperationalStoreParameters")
 		}
 		parameters.AzureOperationalStoreParameters = &azureOperationalStoreParameter
 	} else {
@@ -5560,7 +5560,7 @@ func (parameters *DataStoreParameters_STATUS) AssignProperties_From_DataStorePar
 		var azureOperationalStoreParameter AzureOperationalStoreParameters_STATUS
 		err := azureOperationalStoreParameter.AssignProperties_From_AzureOperationalStoreParameters_STATUS(source.AzureOperationalStoreParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AzureOperationalStoreParameters_STATUS() to populate field AzureOperationalStoreParameters")
+			return eris.Wrap(err, "calling AssignProperties_From_AzureOperationalStoreParameters_STATUS() to populate field AzureOperationalStoreParameters")
 		}
 		parameters.AzureOperationalStoreParameters = &azureOperationalStoreParameter
 	} else {
@@ -5581,7 +5581,7 @@ func (parameters *DataStoreParameters_STATUS) AssignProperties_To_DataStoreParam
 		var azureOperationalStoreParameter storage.AzureOperationalStoreParameters_STATUS
 		err := parameters.AzureOperationalStoreParameters.AssignProperties_To_AzureOperationalStoreParameters_STATUS(&azureOperationalStoreParameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AzureOperationalStoreParameters_STATUS() to populate field AzureOperationalStoreParameters")
+			return eris.Wrap(err, "calling AssignProperties_To_AzureOperationalStoreParameters_STATUS() to populate field AzureOperationalStoreParameters")
 		}
 		destination.AzureOperationalStoreParameters = &azureOperationalStoreParameter
 	} else {
@@ -6841,7 +6841,7 @@ func (parameters *KubernetesClusterBackupDatasourceParameters) AssignProperties_
 			var backupHookReference NamespacedNameResource
 			err := backupHookReference.AssignProperties_From_NamespacedNameResource(&backupHookReferenceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NamespacedNameResource() to populate field BackupHookReferences")
+				return eris.Wrap(err, "calling AssignProperties_From_NamespacedNameResource() to populate field BackupHookReferences")
 			}
 			backupHookReferenceList[backupHookReferenceIndex] = backupHookReference
 		}
@@ -6908,7 +6908,7 @@ func (parameters *KubernetesClusterBackupDatasourceParameters) AssignProperties_
 			var backupHookReference storage.NamespacedNameResource
 			err := backupHookReferenceItem.AssignProperties_To_NamespacedNameResource(&backupHookReference)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NamespacedNameResource() to populate field BackupHookReferences")
+				return eris.Wrap(err, "calling AssignProperties_To_NamespacedNameResource() to populate field BackupHookReferences")
 			}
 			backupHookReferenceList[backupHookReferenceIndex] = backupHookReference
 		}
@@ -6979,7 +6979,7 @@ func (parameters *KubernetesClusterBackupDatasourceParameters) Initialize_From_K
 			var backupHookReference NamespacedNameResource
 			err := backupHookReference.Initialize_From_NamespacedNameResource_STATUS(&backupHookReferenceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_NamespacedNameResource_STATUS() to populate field BackupHookReferences")
+				return eris.Wrap(err, "calling Initialize_From_NamespacedNameResource_STATUS() to populate field BackupHookReferences")
 			}
 			backupHookReferenceList[backupHookReferenceIndex] = backupHookReference
 		}
@@ -7152,7 +7152,7 @@ func (parameters *KubernetesClusterBackupDatasourceParameters_STATUS) AssignProp
 			var backupHookReference NamespacedNameResource_STATUS
 			err := backupHookReference.AssignProperties_From_NamespacedNameResource_STATUS(&backupHookReferenceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NamespacedNameResource_STATUS() to populate field BackupHookReferences")
+				return eris.Wrap(err, "calling AssignProperties_From_NamespacedNameResource_STATUS() to populate field BackupHookReferences")
 			}
 			backupHookReferenceList[backupHookReferenceIndex] = backupHookReference
 		}
@@ -7219,7 +7219,7 @@ func (parameters *KubernetesClusterBackupDatasourceParameters_STATUS) AssignProp
 			var backupHookReference storage.NamespacedNameResource_STATUS
 			err := backupHookReferenceItem.AssignProperties_To_NamespacedNameResource_STATUS(&backupHookReference)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NamespacedNameResource_STATUS() to populate field BackupHookReferences")
+				return eris.Wrap(err, "calling AssignProperties_To_NamespacedNameResource_STATUS() to populate field BackupHookReferences")
 			}
 			backupHookReferenceList[backupHookReferenceIndex] = backupHookReference
 		}

@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -190,7 +190,7 @@ func (service *SearchService) SetStatus(status genruntime.ConvertibleStatus) err
 	var st SearchService_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	service.Status = st
@@ -318,7 +318,7 @@ func (service *SearchService) AssignProperties_From_SearchService(source *storag
 	var spec SearchService_Spec
 	err := spec.AssignProperties_From_SearchService_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SearchService_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_SearchService_Spec() to populate field Spec")
 	}
 	service.Spec = spec
 
@@ -326,7 +326,7 @@ func (service *SearchService) AssignProperties_From_SearchService(source *storag
 	var status SearchService_STATUS
 	err = status.AssignProperties_From_SearchService_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SearchService_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_SearchService_STATUS() to populate field Status")
 	}
 	service.Status = status
 
@@ -344,7 +344,7 @@ func (service *SearchService) AssignProperties_To_SearchService(destination *sto
 	var spec storage.SearchService_Spec
 	err := service.Spec.AssignProperties_To_SearchService_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SearchService_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_SearchService_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -352,7 +352,7 @@ func (service *SearchService) AssignProperties_To_SearchService(destination *sto
 	var status storage.SearchService_STATUS
 	err = service.Status.AssignProperties_To_SearchService_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SearchService_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_SearchService_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -728,13 +728,13 @@ func (service *SearchService_Spec) ConvertSpecFrom(source genruntime.Convertible
 	src = &storage.SearchService_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = service.AssignProperties_From_SearchService_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -752,13 +752,13 @@ func (service *SearchService_Spec) ConvertSpecTo(destination genruntime.Converti
 	dst = &storage.SearchService_Spec{}
 	err := service.AssignProperties_To_SearchService_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -772,7 +772,7 @@ func (service *SearchService_Spec) AssignProperties_From_SearchService_Spec(sour
 		var authOption DataPlaneAuthOptions
 		err := authOption.AssignProperties_From_DataPlaneAuthOptions(source.AuthOptions)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataPlaneAuthOptions() to populate field AuthOptions")
+			return eris.Wrap(err, "calling AssignProperties_From_DataPlaneAuthOptions() to populate field AuthOptions")
 		}
 		service.AuthOptions = &authOption
 	} else {
@@ -795,7 +795,7 @@ func (service *SearchService_Spec) AssignProperties_From_SearchService_Spec(sour
 		var encryptionWithCmk EncryptionWithCmk
 		err := encryptionWithCmk.AssignProperties_From_EncryptionWithCmk(source.EncryptionWithCmk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionWithCmk() to populate field EncryptionWithCmk")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionWithCmk() to populate field EncryptionWithCmk")
 		}
 		service.EncryptionWithCmk = &encryptionWithCmk
 	} else {
@@ -816,7 +816,7 @@ func (service *SearchService_Spec) AssignProperties_From_SearchService_Spec(sour
 		var identity Identity
 		err := identity.AssignProperties_From_Identity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Identity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_Identity() to populate field Identity")
 		}
 		service.Identity = &identity
 	} else {
@@ -831,7 +831,7 @@ func (service *SearchService_Spec) AssignProperties_From_SearchService_Spec(sour
 		var networkRuleSet NetworkRuleSet
 		err := networkRuleSet.AssignProperties_From_NetworkRuleSet(source.NetworkRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSet() to populate field NetworkRuleSet")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkRuleSet() to populate field NetworkRuleSet")
 		}
 		service.NetworkRuleSet = &networkRuleSet
 	} else {
@@ -843,7 +843,7 @@ func (service *SearchService_Spec) AssignProperties_From_SearchService_Spec(sour
 		var operatorSpec SearchServiceOperatorSpec
 		err := operatorSpec.AssignProperties_From_SearchServiceOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SearchServiceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_SearchServiceOperatorSpec() to populate field OperatorSpec")
 		}
 		service.OperatorSpec = &operatorSpec
 	} else {
@@ -888,7 +888,7 @@ func (service *SearchService_Spec) AssignProperties_From_SearchService_Spec(sour
 		var sku Sku
 		err := sku.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
 		service.Sku = &sku
 	} else {
@@ -912,7 +912,7 @@ func (service *SearchService_Spec) AssignProperties_To_SearchService_Spec(destin
 		var authOption storage.DataPlaneAuthOptions
 		err := service.AuthOptions.AssignProperties_To_DataPlaneAuthOptions(&authOption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataPlaneAuthOptions() to populate field AuthOptions")
+			return eris.Wrap(err, "calling AssignProperties_To_DataPlaneAuthOptions() to populate field AuthOptions")
 		}
 		destination.AuthOptions = &authOption
 	} else {
@@ -935,7 +935,7 @@ func (service *SearchService_Spec) AssignProperties_To_SearchService_Spec(destin
 		var encryptionWithCmk storage.EncryptionWithCmk
 		err := service.EncryptionWithCmk.AssignProperties_To_EncryptionWithCmk(&encryptionWithCmk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionWithCmk() to populate field EncryptionWithCmk")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionWithCmk() to populate field EncryptionWithCmk")
 		}
 		destination.EncryptionWithCmk = &encryptionWithCmk
 	} else {
@@ -955,7 +955,7 @@ func (service *SearchService_Spec) AssignProperties_To_SearchService_Spec(destin
 		var identity storage.Identity
 		err := service.Identity.AssignProperties_To_Identity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -970,7 +970,7 @@ func (service *SearchService_Spec) AssignProperties_To_SearchService_Spec(destin
 		var networkRuleSet storage.NetworkRuleSet
 		err := service.NetworkRuleSet.AssignProperties_To_NetworkRuleSet(&networkRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSet() to populate field NetworkRuleSet")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkRuleSet() to populate field NetworkRuleSet")
 		}
 		destination.NetworkRuleSet = &networkRuleSet
 	} else {
@@ -982,7 +982,7 @@ func (service *SearchService_Spec) AssignProperties_To_SearchService_Spec(destin
 		var operatorSpec storage.SearchServiceOperatorSpec
 		err := service.OperatorSpec.AssignProperties_To_SearchServiceOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SearchServiceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_SearchServiceOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -1029,7 +1029,7 @@ func (service *SearchService_Spec) AssignProperties_To_SearchService_Spec(destin
 		var sku storage.Sku
 		err := service.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1058,7 +1058,7 @@ func (service *SearchService_Spec) Initialize_From_SearchService_STATUS(source *
 		var authOption DataPlaneAuthOptions
 		err := authOption.Initialize_From_DataPlaneAuthOptions_STATUS(source.AuthOptions)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataPlaneAuthOptions_STATUS() to populate field AuthOptions")
+			return eris.Wrap(err, "calling Initialize_From_DataPlaneAuthOptions_STATUS() to populate field AuthOptions")
 		}
 		service.AuthOptions = &authOption
 	} else {
@@ -1078,7 +1078,7 @@ func (service *SearchService_Spec) Initialize_From_SearchService_STATUS(source *
 		var encryptionWithCmk EncryptionWithCmk
 		err := encryptionWithCmk.Initialize_From_EncryptionWithCmk_STATUS(source.EncryptionWithCmk)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EncryptionWithCmk_STATUS() to populate field EncryptionWithCmk")
+			return eris.Wrap(err, "calling Initialize_From_EncryptionWithCmk_STATUS() to populate field EncryptionWithCmk")
 		}
 		service.EncryptionWithCmk = &encryptionWithCmk
 	} else {
@@ -1098,7 +1098,7 @@ func (service *SearchService_Spec) Initialize_From_SearchService_STATUS(source *
 		var identity Identity
 		err := identity.Initialize_From_Identity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Identity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_Identity_STATUS() to populate field Identity")
 		}
 		service.Identity = &identity
 	} else {
@@ -1113,7 +1113,7 @@ func (service *SearchService_Spec) Initialize_From_SearchService_STATUS(source *
 		var networkRuleSet NetworkRuleSet
 		err := networkRuleSet.Initialize_From_NetworkRuleSet_STATUS(source.NetworkRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
+			return eris.Wrap(err, "calling Initialize_From_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
 		}
 		service.NetworkRuleSet = &networkRuleSet
 	} else {
@@ -1149,7 +1149,7 @@ func (service *SearchService_Spec) Initialize_From_SearchService_STATUS(source *
 		var sku Sku
 		err := sku.Initialize_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
 		}
 		service.Sku = &sku
 	} else {
@@ -1275,13 +1275,13 @@ func (service *SearchService_STATUS) ConvertStatusFrom(source genruntime.Convert
 	src = &storage.SearchService_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = service.AssignProperties_From_SearchService_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1299,13 +1299,13 @@ func (service *SearchService_STATUS) ConvertStatusTo(destination genruntime.Conv
 	dst = &storage.SearchService_STATUS{}
 	err := service.AssignProperties_To_SearchService_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1541,7 +1541,7 @@ func (service *SearchService_STATUS) AssignProperties_From_SearchService_STATUS(
 		var authOption DataPlaneAuthOptions_STATUS
 		err := authOption.AssignProperties_From_DataPlaneAuthOptions_STATUS(source.AuthOptions)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataPlaneAuthOptions_STATUS() to populate field AuthOptions")
+			return eris.Wrap(err, "calling AssignProperties_From_DataPlaneAuthOptions_STATUS() to populate field AuthOptions")
 		}
 		service.AuthOptions = &authOption
 	} else {
@@ -1564,7 +1564,7 @@ func (service *SearchService_STATUS) AssignProperties_From_SearchService_STATUS(
 		var encryptionWithCmk EncryptionWithCmk_STATUS
 		err := encryptionWithCmk.AssignProperties_From_EncryptionWithCmk_STATUS(source.EncryptionWithCmk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionWithCmk_STATUS() to populate field EncryptionWithCmk")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionWithCmk_STATUS() to populate field EncryptionWithCmk")
 		}
 		service.EncryptionWithCmk = &encryptionWithCmk
 	} else {
@@ -1588,7 +1588,7 @@ func (service *SearchService_STATUS) AssignProperties_From_SearchService_STATUS(
 		var identity Identity_STATUS
 		err := identity.AssignProperties_From_Identity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Identity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_Identity_STATUS() to populate field Identity")
 		}
 		service.Identity = &identity
 	} else {
@@ -1606,7 +1606,7 @@ func (service *SearchService_STATUS) AssignProperties_From_SearchService_STATUS(
 		var networkRuleSet NetworkRuleSet_STATUS
 		err := networkRuleSet.AssignProperties_From_NetworkRuleSet_STATUS(source.NetworkRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
 		}
 		service.NetworkRuleSet = &networkRuleSet
 	} else {
@@ -1625,7 +1625,7 @@ func (service *SearchService_STATUS) AssignProperties_From_SearchService_STATUS(
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1664,7 +1664,7 @@ func (service *SearchService_STATUS) AssignProperties_From_SearchService_STATUS(
 			var sharedPrivateLinkResource SharedPrivateLinkResource_STATUS
 			err := sharedPrivateLinkResource.AssignProperties_From_SharedPrivateLinkResource_STATUS(&sharedPrivateLinkResourceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SharedPrivateLinkResource_STATUS() to populate field SharedPrivateLinkResources")
+				return eris.Wrap(err, "calling AssignProperties_From_SharedPrivateLinkResource_STATUS() to populate field SharedPrivateLinkResources")
 			}
 			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
 		}
@@ -1678,7 +1678,7 @@ func (service *SearchService_STATUS) AssignProperties_From_SearchService_STATUS(
 		var sku Sku_STATUS
 		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		service.Sku = &sku
 	} else {
@@ -1717,7 +1717,7 @@ func (service *SearchService_STATUS) AssignProperties_To_SearchService_STATUS(de
 		var authOption storage.DataPlaneAuthOptions_STATUS
 		err := service.AuthOptions.AssignProperties_To_DataPlaneAuthOptions_STATUS(&authOption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataPlaneAuthOptions_STATUS() to populate field AuthOptions")
+			return eris.Wrap(err, "calling AssignProperties_To_DataPlaneAuthOptions_STATUS() to populate field AuthOptions")
 		}
 		destination.AuthOptions = &authOption
 	} else {
@@ -1740,7 +1740,7 @@ func (service *SearchService_STATUS) AssignProperties_To_SearchService_STATUS(de
 		var encryptionWithCmk storage.EncryptionWithCmk_STATUS
 		err := service.EncryptionWithCmk.AssignProperties_To_EncryptionWithCmk_STATUS(&encryptionWithCmk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionWithCmk_STATUS() to populate field EncryptionWithCmk")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionWithCmk_STATUS() to populate field EncryptionWithCmk")
 		}
 		destination.EncryptionWithCmk = &encryptionWithCmk
 	} else {
@@ -1763,7 +1763,7 @@ func (service *SearchService_STATUS) AssignProperties_To_SearchService_STATUS(de
 		var identity storage.Identity_STATUS
 		err := service.Identity.AssignProperties_To_Identity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1781,7 +1781,7 @@ func (service *SearchService_STATUS) AssignProperties_To_SearchService_STATUS(de
 		var networkRuleSet storage.NetworkRuleSet_STATUS
 		err := service.NetworkRuleSet.AssignProperties_To_NetworkRuleSet_STATUS(&networkRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
 		}
 		destination.NetworkRuleSet = &networkRuleSet
 	} else {
@@ -1800,7 +1800,7 @@ func (service *SearchService_STATUS) AssignProperties_To_SearchService_STATUS(de
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1837,7 +1837,7 @@ func (service *SearchService_STATUS) AssignProperties_To_SearchService_STATUS(de
 			var sharedPrivateLinkResource storage.SharedPrivateLinkResource_STATUS
 			err := sharedPrivateLinkResourceItem.AssignProperties_To_SharedPrivateLinkResource_STATUS(&sharedPrivateLinkResource)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SharedPrivateLinkResource_STATUS() to populate field SharedPrivateLinkResources")
+				return eris.Wrap(err, "calling AssignProperties_To_SharedPrivateLinkResource_STATUS() to populate field SharedPrivateLinkResources")
 			}
 			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
 		}
@@ -1851,7 +1851,7 @@ func (service *SearchService_STATUS) AssignProperties_To_SearchService_STATUS(de
 		var sku storage.Sku_STATUS
 		err := service.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1950,7 +1950,7 @@ func (options *DataPlaneAuthOptions) AssignProperties_From_DataPlaneAuthOptions(
 		var aadOrApiKey DataPlaneAadOrApiKeyAuthOption
 		err := aadOrApiKey.AssignProperties_From_DataPlaneAadOrApiKeyAuthOption(source.AadOrApiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataPlaneAadOrApiKeyAuthOption() to populate field AadOrApiKey")
+			return eris.Wrap(err, "calling AssignProperties_From_DataPlaneAadOrApiKeyAuthOption() to populate field AadOrApiKey")
 		}
 		options.AadOrApiKey = &aadOrApiKey
 	} else {
@@ -1971,7 +1971,7 @@ func (options *DataPlaneAuthOptions) AssignProperties_To_DataPlaneAuthOptions(de
 		var aadOrApiKey storage.DataPlaneAadOrApiKeyAuthOption
 		err := options.AadOrApiKey.AssignProperties_To_DataPlaneAadOrApiKeyAuthOption(&aadOrApiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataPlaneAadOrApiKeyAuthOption() to populate field AadOrApiKey")
+			return eris.Wrap(err, "calling AssignProperties_To_DataPlaneAadOrApiKeyAuthOption() to populate field AadOrApiKey")
 		}
 		destination.AadOrApiKey = &aadOrApiKey
 	} else {
@@ -1997,7 +1997,7 @@ func (options *DataPlaneAuthOptions) Initialize_From_DataPlaneAuthOptions_STATUS
 		var aadOrApiKey DataPlaneAadOrApiKeyAuthOption
 		err := aadOrApiKey.Initialize_From_DataPlaneAadOrApiKeyAuthOption_STATUS(source.AadOrApiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataPlaneAadOrApiKeyAuthOption_STATUS() to populate field AadOrApiKey")
+			return eris.Wrap(err, "calling Initialize_From_DataPlaneAadOrApiKeyAuthOption_STATUS() to populate field AadOrApiKey")
 		}
 		options.AadOrApiKey = &aadOrApiKey
 	} else {
@@ -2064,7 +2064,7 @@ func (options *DataPlaneAuthOptions_STATUS) AssignProperties_From_DataPlaneAuthO
 		var aadOrApiKey DataPlaneAadOrApiKeyAuthOption_STATUS
 		err := aadOrApiKey.AssignProperties_From_DataPlaneAadOrApiKeyAuthOption_STATUS(source.AadOrApiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataPlaneAadOrApiKeyAuthOption_STATUS() to populate field AadOrApiKey")
+			return eris.Wrap(err, "calling AssignProperties_From_DataPlaneAadOrApiKeyAuthOption_STATUS() to populate field AadOrApiKey")
 		}
 		options.AadOrApiKey = &aadOrApiKey
 	} else {
@@ -2098,7 +2098,7 @@ func (options *DataPlaneAuthOptions_STATUS) AssignProperties_To_DataPlaneAuthOpt
 		var aadOrApiKey storage.DataPlaneAadOrApiKeyAuthOption_STATUS
 		err := options.AadOrApiKey.AssignProperties_To_DataPlaneAadOrApiKeyAuthOption_STATUS(&aadOrApiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataPlaneAadOrApiKeyAuthOption_STATUS() to populate field AadOrApiKey")
+			return eris.Wrap(err, "calling AssignProperties_To_DataPlaneAadOrApiKeyAuthOption_STATUS() to populate field AadOrApiKey")
 		}
 		destination.AadOrApiKey = &aadOrApiKey
 	} else {
@@ -2611,7 +2611,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *stor
 			var ipRule IpRule
 			err := ipRule.AssignProperties_From_IpRule(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpRule() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_IpRule() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2638,7 +2638,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *s
 			var ipRule storage.IpRule
 			err := ipRuleItem.AssignProperties_To_IpRule(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpRule() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_IpRule() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2670,7 +2670,7 @@ func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *Net
 			var ipRule IpRule
 			err := ipRule.Initialize_From_IpRule_STATUS(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IpRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling Initialize_From_IpRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2732,7 +2732,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATU
 			var ipRule IpRule_STATUS
 			err := ipRule.AssignProperties_From_IpRule_STATUS(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_IpRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2759,7 +2759,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 			var ipRule storage.IpRule_STATUS
 			err := ipRuleItem.AssignProperties_To_IpRule_STATUS(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_IpRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2895,7 +2895,7 @@ func (operator *SearchServiceOperatorSpec) AssignProperties_From_SearchServiceOp
 		var secret SearchServiceOperatorSecrets
 		err := secret.AssignProperties_From_SearchServiceOperatorSecrets(source.Secrets)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SearchServiceOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_From_SearchServiceOperatorSecrets() to populate field Secrets")
 		}
 		operator.Secrets = &secret
 	} else {
@@ -2952,7 +2952,7 @@ func (operator *SearchServiceOperatorSpec) AssignProperties_To_SearchServiceOper
 		var secret storage.SearchServiceOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_SearchServiceOperatorSecrets(&secret)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SearchServiceOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_To_SearchServiceOperatorSecrets() to populate field Secrets")
 		}
 		destination.Secrets = &secret
 	} else {

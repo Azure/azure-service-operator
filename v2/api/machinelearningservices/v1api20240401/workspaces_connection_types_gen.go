@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (connection *WorkspacesConnection) SetStatus(status genruntime.ConvertibleS
 	var st WorkspacesConnection_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	connection.Status = st
@@ -321,7 +321,7 @@ func (connection *WorkspacesConnection) AssignProperties_From_WorkspacesConnecti
 	var spec WorkspacesConnection_Spec
 	err := spec.AssignProperties_From_WorkspacesConnection_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_WorkspacesConnection_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_WorkspacesConnection_Spec() to populate field Spec")
 	}
 	connection.Spec = spec
 
@@ -329,7 +329,7 @@ func (connection *WorkspacesConnection) AssignProperties_From_WorkspacesConnecti
 	var status WorkspacesConnection_STATUS
 	err = status.AssignProperties_From_WorkspacesConnection_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_WorkspacesConnection_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_WorkspacesConnection_STATUS() to populate field Status")
 	}
 	connection.Status = status
 
@@ -347,7 +347,7 @@ func (connection *WorkspacesConnection) AssignProperties_To_WorkspacesConnection
 	var spec storage.WorkspacesConnection_Spec
 	err := connection.Spec.AssignProperties_To_WorkspacesConnection_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_WorkspacesConnection_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_WorkspacesConnection_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -355,7 +355,7 @@ func (connection *WorkspacesConnection) AssignProperties_To_WorkspacesConnection
 	var status storage.WorkspacesConnection_STATUS
 	err = connection.Status.AssignProperties_To_WorkspacesConnection_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_WorkspacesConnection_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_WorkspacesConnection_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -478,13 +478,13 @@ func (connection *WorkspacesConnection_Spec) ConvertSpecFrom(source genruntime.C
 	src = &storage.WorkspacesConnection_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = connection.AssignProperties_From_WorkspacesConnection_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -502,13 +502,13 @@ func (connection *WorkspacesConnection_Spec) ConvertSpecTo(destination genruntim
 	dst = &storage.WorkspacesConnection_Spec{}
 	err := connection.AssignProperties_To_WorkspacesConnection_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -525,7 +525,7 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_From_WorkspacesCon
 		var operatorSpec WorkspacesConnectionOperatorSpec
 		err := operatorSpec.AssignProperties_From_WorkspacesConnectionOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspacesConnectionOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspacesConnectionOperatorSpec() to populate field OperatorSpec")
 		}
 		connection.OperatorSpec = &operatorSpec
 	} else {
@@ -545,7 +545,7 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_From_WorkspacesCon
 		var property WorkspaceConnectionPropertiesV2
 		err := property.AssignProperties_From_WorkspaceConnectionPropertiesV2(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPropertiesV2() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPropertiesV2() to populate field Properties")
 		}
 		connection.Properties = &property
 	} else {
@@ -569,7 +569,7 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_To_WorkspacesConne
 		var operatorSpec storage.WorkspacesConnectionOperatorSpec
 		err := connection.OperatorSpec.AssignProperties_To_WorkspacesConnectionOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspacesConnectionOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspacesConnectionOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -592,7 +592,7 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_To_WorkspacesConne
 		var property storage.WorkspaceConnectionPropertiesV2
 		err := connection.Properties.AssignProperties_To_WorkspaceConnectionPropertiesV2(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPropertiesV2() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPropertiesV2() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -618,7 +618,7 @@ func (connection *WorkspacesConnection_Spec) Initialize_From_WorkspacesConnectio
 		var property WorkspaceConnectionPropertiesV2
 		err := property.Initialize_From_WorkspaceConnectionPropertiesV2_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionPropertiesV2_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionPropertiesV2_STATUS() to populate field Properties")
 		}
 		connection.Properties = &property
 	} else {
@@ -672,13 +672,13 @@ func (connection *WorkspacesConnection_STATUS) ConvertStatusFrom(source genrunti
 	src = &storage.WorkspacesConnection_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = connection.AssignProperties_From_WorkspacesConnection_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -696,13 +696,13 @@ func (connection *WorkspacesConnection_STATUS) ConvertStatusTo(destination genru
 	dst = &storage.WorkspacesConnection_STATUS{}
 	err := connection.AssignProperties_To_WorkspacesConnection_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -785,7 +785,7 @@ func (connection *WorkspacesConnection_STATUS) AssignProperties_From_WorkspacesC
 		var property WorkspaceConnectionPropertiesV2_STATUS
 		err := property.AssignProperties_From_WorkspaceConnectionPropertiesV2_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPropertiesV2_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPropertiesV2_STATUS() to populate field Properties")
 		}
 		connection.Properties = &property
 	} else {
@@ -797,7 +797,7 @@ func (connection *WorkspacesConnection_STATUS) AssignProperties_From_WorkspacesC
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		connection.SystemData = &systemDatum
 	} else {
@@ -830,7 +830,7 @@ func (connection *WorkspacesConnection_STATUS) AssignProperties_To_WorkspacesCon
 		var property storage.WorkspaceConnectionPropertiesV2_STATUS
 		err := connection.Properties.AssignProperties_To_WorkspaceConnectionPropertiesV2_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPropertiesV2_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPropertiesV2_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -842,7 +842,7 @@ func (connection *WorkspacesConnection_STATUS) AssignProperties_To_WorkspacesCon
 		var systemDatum storage.SystemData_STATUS
 		err := connection.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1188,7 +1188,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var aad AADAuthTypeWorkspaceConnectionProperties
 		err := aad.AssignProperties_From_AADAuthTypeWorkspaceConnectionProperties(source.AAD)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AADAuthTypeWorkspaceConnectionProperties() to populate field AAD")
+			return eris.Wrap(err, "calling AssignProperties_From_AADAuthTypeWorkspaceConnectionProperties() to populate field AAD")
 		}
 		v2.AAD = &aad
 	} else {
@@ -1200,7 +1200,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var accessKey AccessKeyAuthTypeWorkspaceConnectionProperties
 		err := accessKey.AssignProperties_From_AccessKeyAuthTypeWorkspaceConnectionProperties(source.AccessKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AccessKeyAuthTypeWorkspaceConnectionProperties() to populate field AccessKey")
+			return eris.Wrap(err, "calling AssignProperties_From_AccessKeyAuthTypeWorkspaceConnectionProperties() to populate field AccessKey")
 		}
 		v2.AccessKey = &accessKey
 	} else {
@@ -1212,7 +1212,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var accountKey AccountKeyAuthTypeWorkspaceConnectionProperties
 		err := accountKey.AssignProperties_From_AccountKeyAuthTypeWorkspaceConnectionProperties(source.AccountKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AccountKeyAuthTypeWorkspaceConnectionProperties() to populate field AccountKey")
+			return eris.Wrap(err, "calling AssignProperties_From_AccountKeyAuthTypeWorkspaceConnectionProperties() to populate field AccountKey")
 		}
 		v2.AccountKey = &accountKey
 	} else {
@@ -1224,7 +1224,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var apiKey ApiKeyAuthWorkspaceConnectionProperties
 		err := apiKey.AssignProperties_From_ApiKeyAuthWorkspaceConnectionProperties(source.ApiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiKeyAuthWorkspaceConnectionProperties() to populate field ApiKey")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiKeyAuthWorkspaceConnectionProperties() to populate field ApiKey")
 		}
 		v2.ApiKey = &apiKey
 	} else {
@@ -1236,7 +1236,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var customKey CustomKeysWorkspaceConnectionProperties
 		err := customKey.AssignProperties_From_CustomKeysWorkspaceConnectionProperties(source.CustomKeys)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomKeysWorkspaceConnectionProperties() to populate field CustomKeys")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomKeysWorkspaceConnectionProperties() to populate field CustomKeys")
 		}
 		v2.CustomKeys = &customKey
 	} else {
@@ -1248,7 +1248,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var managedIdentity ManagedIdentityAuthTypeWorkspaceConnectionProperties
 		err := managedIdentity.AssignProperties_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties(source.ManagedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties() to populate field ManagedIdentity")
 		}
 		v2.ManagedIdentity = &managedIdentity
 	} else {
@@ -1260,7 +1260,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var none NoneAuthTypeWorkspaceConnectionProperties
 		err := none.AssignProperties_From_NoneAuthTypeWorkspaceConnectionProperties(source.None)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NoneAuthTypeWorkspaceConnectionProperties() to populate field None")
+			return eris.Wrap(err, "calling AssignProperties_From_NoneAuthTypeWorkspaceConnectionProperties() to populate field None")
 		}
 		v2.None = &none
 	} else {
@@ -1272,7 +1272,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var oAuth2 OAuth2AuthTypeWorkspaceConnectionProperties
 		err := oAuth2.AssignProperties_From_OAuth2AuthTypeWorkspaceConnectionProperties(source.OAuth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_OAuth2AuthTypeWorkspaceConnectionProperties() to populate field OAuth2")
+			return eris.Wrap(err, "calling AssignProperties_From_OAuth2AuthTypeWorkspaceConnectionProperties() to populate field OAuth2")
 		}
 		v2.OAuth2 = &oAuth2
 	} else {
@@ -1284,7 +1284,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var pat PATAuthTypeWorkspaceConnectionProperties
 		err := pat.AssignProperties_From_PATAuthTypeWorkspaceConnectionProperties(source.PAT)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PATAuthTypeWorkspaceConnectionProperties() to populate field PAT")
+			return eris.Wrap(err, "calling AssignProperties_From_PATAuthTypeWorkspaceConnectionProperties() to populate field PAT")
 		}
 		v2.PAT = &pat
 	} else {
@@ -1296,7 +1296,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var sas SASAuthTypeWorkspaceConnectionProperties
 		err := sas.AssignProperties_From_SASAuthTypeWorkspaceConnectionProperties(source.SAS)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SASAuthTypeWorkspaceConnectionProperties() to populate field SAS")
+			return eris.Wrap(err, "calling AssignProperties_From_SASAuthTypeWorkspaceConnectionProperties() to populate field SAS")
 		}
 		v2.SAS = &sas
 	} else {
@@ -1308,7 +1308,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var servicePrincipal ServicePrincipalAuthTypeWorkspaceConnectionProperties
 		err := servicePrincipal.AssignProperties_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties(source.ServicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties() to populate field ServicePrincipal")
 		}
 		v2.ServicePrincipal = &servicePrincipal
 	} else {
@@ -1320,7 +1320,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var usernamePassword UsernamePasswordAuthTypeWorkspaceConnectionProperties
 		err := usernamePassword.AssignProperties_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties(source.UsernamePassword)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties() to populate field UsernamePassword")
+			return eris.Wrap(err, "calling AssignProperties_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties() to populate field UsernamePassword")
 		}
 		v2.UsernamePassword = &usernamePassword
 	} else {
@@ -1341,7 +1341,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var aad storage.AADAuthTypeWorkspaceConnectionProperties
 		err := v2.AAD.AssignProperties_To_AADAuthTypeWorkspaceConnectionProperties(&aad)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AADAuthTypeWorkspaceConnectionProperties() to populate field AAD")
+			return eris.Wrap(err, "calling AssignProperties_To_AADAuthTypeWorkspaceConnectionProperties() to populate field AAD")
 		}
 		destination.AAD = &aad
 	} else {
@@ -1353,7 +1353,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var accessKey storage.AccessKeyAuthTypeWorkspaceConnectionProperties
 		err := v2.AccessKey.AssignProperties_To_AccessKeyAuthTypeWorkspaceConnectionProperties(&accessKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AccessKeyAuthTypeWorkspaceConnectionProperties() to populate field AccessKey")
+			return eris.Wrap(err, "calling AssignProperties_To_AccessKeyAuthTypeWorkspaceConnectionProperties() to populate field AccessKey")
 		}
 		destination.AccessKey = &accessKey
 	} else {
@@ -1365,7 +1365,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var accountKey storage.AccountKeyAuthTypeWorkspaceConnectionProperties
 		err := v2.AccountKey.AssignProperties_To_AccountKeyAuthTypeWorkspaceConnectionProperties(&accountKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AccountKeyAuthTypeWorkspaceConnectionProperties() to populate field AccountKey")
+			return eris.Wrap(err, "calling AssignProperties_To_AccountKeyAuthTypeWorkspaceConnectionProperties() to populate field AccountKey")
 		}
 		destination.AccountKey = &accountKey
 	} else {
@@ -1377,7 +1377,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var apiKey storage.ApiKeyAuthWorkspaceConnectionProperties
 		err := v2.ApiKey.AssignProperties_To_ApiKeyAuthWorkspaceConnectionProperties(&apiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiKeyAuthWorkspaceConnectionProperties() to populate field ApiKey")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiKeyAuthWorkspaceConnectionProperties() to populate field ApiKey")
 		}
 		destination.ApiKey = &apiKey
 	} else {
@@ -1389,7 +1389,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var customKey storage.CustomKeysWorkspaceConnectionProperties
 		err := v2.CustomKeys.AssignProperties_To_CustomKeysWorkspaceConnectionProperties(&customKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomKeysWorkspaceConnectionProperties() to populate field CustomKeys")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomKeysWorkspaceConnectionProperties() to populate field CustomKeys")
 		}
 		destination.CustomKeys = &customKey
 	} else {
@@ -1401,7 +1401,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var managedIdentity storage.ManagedIdentityAuthTypeWorkspaceConnectionProperties
 		err := v2.ManagedIdentity.AssignProperties_To_ManagedIdentityAuthTypeWorkspaceConnectionProperties(&managedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentityAuthTypeWorkspaceConnectionProperties() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentityAuthTypeWorkspaceConnectionProperties() to populate field ManagedIdentity")
 		}
 		destination.ManagedIdentity = &managedIdentity
 	} else {
@@ -1413,7 +1413,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var none storage.NoneAuthTypeWorkspaceConnectionProperties
 		err := v2.None.AssignProperties_To_NoneAuthTypeWorkspaceConnectionProperties(&none)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NoneAuthTypeWorkspaceConnectionProperties() to populate field None")
+			return eris.Wrap(err, "calling AssignProperties_To_NoneAuthTypeWorkspaceConnectionProperties() to populate field None")
 		}
 		destination.None = &none
 	} else {
@@ -1425,7 +1425,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var oAuth2 storage.OAuth2AuthTypeWorkspaceConnectionProperties
 		err := v2.OAuth2.AssignProperties_To_OAuth2AuthTypeWorkspaceConnectionProperties(&oAuth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_OAuth2AuthTypeWorkspaceConnectionProperties() to populate field OAuth2")
+			return eris.Wrap(err, "calling AssignProperties_To_OAuth2AuthTypeWorkspaceConnectionProperties() to populate field OAuth2")
 		}
 		destination.OAuth2 = &oAuth2
 	} else {
@@ -1437,7 +1437,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var pat storage.PATAuthTypeWorkspaceConnectionProperties
 		err := v2.PAT.AssignProperties_To_PATAuthTypeWorkspaceConnectionProperties(&pat)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PATAuthTypeWorkspaceConnectionProperties() to populate field PAT")
+			return eris.Wrap(err, "calling AssignProperties_To_PATAuthTypeWorkspaceConnectionProperties() to populate field PAT")
 		}
 		destination.PAT = &pat
 	} else {
@@ -1449,7 +1449,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var sas storage.SASAuthTypeWorkspaceConnectionProperties
 		err := v2.SAS.AssignProperties_To_SASAuthTypeWorkspaceConnectionProperties(&sas)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SASAuthTypeWorkspaceConnectionProperties() to populate field SAS")
+			return eris.Wrap(err, "calling AssignProperties_To_SASAuthTypeWorkspaceConnectionProperties() to populate field SAS")
 		}
 		destination.SAS = &sas
 	} else {
@@ -1461,7 +1461,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var servicePrincipal storage.ServicePrincipalAuthTypeWorkspaceConnectionProperties
 		err := v2.ServicePrincipal.AssignProperties_To_ServicePrincipalAuthTypeWorkspaceConnectionProperties(&servicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServicePrincipalAuthTypeWorkspaceConnectionProperties() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_To_ServicePrincipalAuthTypeWorkspaceConnectionProperties() to populate field ServicePrincipal")
 		}
 		destination.ServicePrincipal = &servicePrincipal
 	} else {
@@ -1473,7 +1473,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var usernamePassword storage.UsernamePasswordAuthTypeWorkspaceConnectionProperties
 		err := v2.UsernamePassword.AssignProperties_To_UsernamePasswordAuthTypeWorkspaceConnectionProperties(&usernamePassword)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_UsernamePasswordAuthTypeWorkspaceConnectionProperties() to populate field UsernamePassword")
+			return eris.Wrap(err, "calling AssignProperties_To_UsernamePasswordAuthTypeWorkspaceConnectionProperties() to populate field UsernamePassword")
 		}
 		destination.UsernamePassword = &usernamePassword
 	} else {
@@ -1499,7 +1499,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var aad AADAuthTypeWorkspaceConnectionProperties
 		err := aad.Initialize_From_AADAuthTypeWorkspaceConnectionProperties_STATUS(source.AAD)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AADAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AAD")
+			return eris.Wrap(err, "calling Initialize_From_AADAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AAD")
 		}
 		v2.AAD = &aad
 	} else {
@@ -1511,7 +1511,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var accessKey AccessKeyAuthTypeWorkspaceConnectionProperties
 		err := accessKey.Initialize_From_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS(source.AccessKey)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccessKey")
+			return eris.Wrap(err, "calling Initialize_From_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccessKey")
 		}
 		v2.AccessKey = &accessKey
 	} else {
@@ -1523,7 +1523,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var accountKey AccountKeyAuthTypeWorkspaceConnectionProperties
 		err := accountKey.Initialize_From_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS(source.AccountKey)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccountKey")
+			return eris.Wrap(err, "calling Initialize_From_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccountKey")
 		}
 		v2.AccountKey = &accountKey
 	} else {
@@ -1535,7 +1535,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var apiKey ApiKeyAuthWorkspaceConnectionProperties
 		err := apiKey.Initialize_From_ApiKeyAuthWorkspaceConnectionProperties_STATUS(source.ApiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ApiKeyAuthWorkspaceConnectionProperties_STATUS() to populate field ApiKey")
+			return eris.Wrap(err, "calling Initialize_From_ApiKeyAuthWorkspaceConnectionProperties_STATUS() to populate field ApiKey")
 		}
 		v2.ApiKey = &apiKey
 	} else {
@@ -1547,7 +1547,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var customKey CustomKeysWorkspaceConnectionProperties
 		err := customKey.Initialize_From_CustomKeysWorkspaceConnectionProperties_STATUS(source.CustomKeys)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CustomKeysWorkspaceConnectionProperties_STATUS() to populate field CustomKeys")
+			return eris.Wrap(err, "calling Initialize_From_CustomKeysWorkspaceConnectionProperties_STATUS() to populate field CustomKeys")
 		}
 		v2.CustomKeys = &customKey
 	} else {
@@ -1559,7 +1559,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var managedIdentity ManagedIdentityAuthTypeWorkspaceConnectionProperties
 		err := managedIdentity.Initialize_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS(source.ManagedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ManagedIdentity")
 		}
 		v2.ManagedIdentity = &managedIdentity
 	} else {
@@ -1571,7 +1571,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var none NoneAuthTypeWorkspaceConnectionProperties
 		err := none.Initialize_From_NoneAuthTypeWorkspaceConnectionProperties_STATUS(source.None)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NoneAuthTypeWorkspaceConnectionProperties_STATUS() to populate field None")
+			return eris.Wrap(err, "calling Initialize_From_NoneAuthTypeWorkspaceConnectionProperties_STATUS() to populate field None")
 		}
 		v2.None = &none
 	} else {
@@ -1583,7 +1583,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var oAuth2 OAuth2AuthTypeWorkspaceConnectionProperties
 		err := oAuth2.Initialize_From_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS(source.OAuth2)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS() to populate field OAuth2")
+			return eris.Wrap(err, "calling Initialize_From_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS() to populate field OAuth2")
 		}
 		v2.OAuth2 = &oAuth2
 	} else {
@@ -1595,7 +1595,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var pat PATAuthTypeWorkspaceConnectionProperties
 		err := pat.Initialize_From_PATAuthTypeWorkspaceConnectionProperties_STATUS(source.PAT)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PATAuthTypeWorkspaceConnectionProperties_STATUS() to populate field PAT")
+			return eris.Wrap(err, "calling Initialize_From_PATAuthTypeWorkspaceConnectionProperties_STATUS() to populate field PAT")
 		}
 		v2.PAT = &pat
 	} else {
@@ -1607,7 +1607,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var sas SASAuthTypeWorkspaceConnectionProperties
 		err := sas.Initialize_From_SASAuthTypeWorkspaceConnectionProperties_STATUS(source.SAS)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SASAuthTypeWorkspaceConnectionProperties_STATUS() to populate field SAS")
+			return eris.Wrap(err, "calling Initialize_From_SASAuthTypeWorkspaceConnectionProperties_STATUS() to populate field SAS")
 		}
 		v2.SAS = &sas
 	} else {
@@ -1619,7 +1619,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var servicePrincipal ServicePrincipalAuthTypeWorkspaceConnectionProperties
 		err := servicePrincipal.Initialize_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS(source.ServicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling Initialize_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ServicePrincipal")
 		}
 		v2.ServicePrincipal = &servicePrincipal
 	} else {
@@ -1631,7 +1631,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var usernamePassword UsernamePasswordAuthTypeWorkspaceConnectionProperties
 		err := usernamePassword.Initialize_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS(source.UsernamePassword)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS() to populate field UsernamePassword")
+			return eris.Wrap(err, "calling Initialize_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS() to populate field UsernamePassword")
 		}
 		v2.UsernamePassword = &usernamePassword
 	} else {
@@ -1838,7 +1838,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var aad AADAuthTypeWorkspaceConnectionProperties_STATUS
 		err := aad.AssignProperties_From_AADAuthTypeWorkspaceConnectionProperties_STATUS(source.AAD)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AADAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AAD")
+			return eris.Wrap(err, "calling AssignProperties_From_AADAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AAD")
 		}
 		v2.AAD = &aad
 	} else {
@@ -1850,7 +1850,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var accessKey AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS
 		err := accessKey.AssignProperties_From_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS(source.AccessKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccessKey")
+			return eris.Wrap(err, "calling AssignProperties_From_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccessKey")
 		}
 		v2.AccessKey = &accessKey
 	} else {
@@ -1862,7 +1862,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var accountKey AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS
 		err := accountKey.AssignProperties_From_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS(source.AccountKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccountKey")
+			return eris.Wrap(err, "calling AssignProperties_From_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccountKey")
 		}
 		v2.AccountKey = &accountKey
 	} else {
@@ -1874,7 +1874,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var apiKey ApiKeyAuthWorkspaceConnectionProperties_STATUS
 		err := apiKey.AssignProperties_From_ApiKeyAuthWorkspaceConnectionProperties_STATUS(source.ApiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiKeyAuthWorkspaceConnectionProperties_STATUS() to populate field ApiKey")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiKeyAuthWorkspaceConnectionProperties_STATUS() to populate field ApiKey")
 		}
 		v2.ApiKey = &apiKey
 	} else {
@@ -1886,7 +1886,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var customKey CustomKeysWorkspaceConnectionProperties_STATUS
 		err := customKey.AssignProperties_From_CustomKeysWorkspaceConnectionProperties_STATUS(source.CustomKeys)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomKeysWorkspaceConnectionProperties_STATUS() to populate field CustomKeys")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomKeysWorkspaceConnectionProperties_STATUS() to populate field CustomKeys")
 		}
 		v2.CustomKeys = &customKey
 	} else {
@@ -1898,7 +1898,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var managedIdentity ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS
 		err := managedIdentity.AssignProperties_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS(source.ManagedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ManagedIdentity")
 		}
 		v2.ManagedIdentity = &managedIdentity
 	} else {
@@ -1910,7 +1910,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var none NoneAuthTypeWorkspaceConnectionProperties_STATUS
 		err := none.AssignProperties_From_NoneAuthTypeWorkspaceConnectionProperties_STATUS(source.None)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NoneAuthTypeWorkspaceConnectionProperties_STATUS() to populate field None")
+			return eris.Wrap(err, "calling AssignProperties_From_NoneAuthTypeWorkspaceConnectionProperties_STATUS() to populate field None")
 		}
 		v2.None = &none
 	} else {
@@ -1922,7 +1922,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var oAuth2 OAuth2AuthTypeWorkspaceConnectionProperties_STATUS
 		err := oAuth2.AssignProperties_From_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS(source.OAuth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS() to populate field OAuth2")
+			return eris.Wrap(err, "calling AssignProperties_From_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS() to populate field OAuth2")
 		}
 		v2.OAuth2 = &oAuth2
 	} else {
@@ -1934,7 +1934,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var pat PATAuthTypeWorkspaceConnectionProperties_STATUS
 		err := pat.AssignProperties_From_PATAuthTypeWorkspaceConnectionProperties_STATUS(source.PAT)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PATAuthTypeWorkspaceConnectionProperties_STATUS() to populate field PAT")
+			return eris.Wrap(err, "calling AssignProperties_From_PATAuthTypeWorkspaceConnectionProperties_STATUS() to populate field PAT")
 		}
 		v2.PAT = &pat
 	} else {
@@ -1946,7 +1946,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var sas SASAuthTypeWorkspaceConnectionProperties_STATUS
 		err := sas.AssignProperties_From_SASAuthTypeWorkspaceConnectionProperties_STATUS(source.SAS)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SASAuthTypeWorkspaceConnectionProperties_STATUS() to populate field SAS")
+			return eris.Wrap(err, "calling AssignProperties_From_SASAuthTypeWorkspaceConnectionProperties_STATUS() to populate field SAS")
 		}
 		v2.SAS = &sas
 	} else {
@@ -1958,7 +1958,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var servicePrincipal ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS
 		err := servicePrincipal.AssignProperties_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS(source.ServicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ServicePrincipal")
 		}
 		v2.ServicePrincipal = &servicePrincipal
 	} else {
@@ -1970,7 +1970,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var usernamePassword UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS
 		err := usernamePassword.AssignProperties_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS(source.UsernamePassword)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS() to populate field UsernamePassword")
+			return eris.Wrap(err, "calling AssignProperties_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS() to populate field UsernamePassword")
 		}
 		v2.UsernamePassword = &usernamePassword
 	} else {
@@ -1991,7 +1991,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var aad storage.AADAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.AAD.AssignProperties_To_AADAuthTypeWorkspaceConnectionProperties_STATUS(&aad)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AADAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AAD")
+			return eris.Wrap(err, "calling AssignProperties_To_AADAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AAD")
 		}
 		destination.AAD = &aad
 	} else {
@@ -2003,7 +2003,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var accessKey storage.AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.AccessKey.AssignProperties_To_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS(&accessKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccessKey")
+			return eris.Wrap(err, "calling AssignProperties_To_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccessKey")
 		}
 		destination.AccessKey = &accessKey
 	} else {
@@ -2015,7 +2015,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var accountKey storage.AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.AccountKey.AssignProperties_To_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS(&accountKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccountKey")
+			return eris.Wrap(err, "calling AssignProperties_To_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccountKey")
 		}
 		destination.AccountKey = &accountKey
 	} else {
@@ -2027,7 +2027,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var apiKey storage.ApiKeyAuthWorkspaceConnectionProperties_STATUS
 		err := v2.ApiKey.AssignProperties_To_ApiKeyAuthWorkspaceConnectionProperties_STATUS(&apiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiKeyAuthWorkspaceConnectionProperties_STATUS() to populate field ApiKey")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiKeyAuthWorkspaceConnectionProperties_STATUS() to populate field ApiKey")
 		}
 		destination.ApiKey = &apiKey
 	} else {
@@ -2039,7 +2039,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var customKey storage.CustomKeysWorkspaceConnectionProperties_STATUS
 		err := v2.CustomKeys.AssignProperties_To_CustomKeysWorkspaceConnectionProperties_STATUS(&customKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomKeysWorkspaceConnectionProperties_STATUS() to populate field CustomKeys")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomKeysWorkspaceConnectionProperties_STATUS() to populate field CustomKeys")
 		}
 		destination.CustomKeys = &customKey
 	} else {
@@ -2051,7 +2051,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var managedIdentity storage.ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.ManagedIdentity.AssignProperties_To_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS(&managedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ManagedIdentity")
 		}
 		destination.ManagedIdentity = &managedIdentity
 	} else {
@@ -2063,7 +2063,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var none storage.NoneAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.None.AssignProperties_To_NoneAuthTypeWorkspaceConnectionProperties_STATUS(&none)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NoneAuthTypeWorkspaceConnectionProperties_STATUS() to populate field None")
+			return eris.Wrap(err, "calling AssignProperties_To_NoneAuthTypeWorkspaceConnectionProperties_STATUS() to populate field None")
 		}
 		destination.None = &none
 	} else {
@@ -2075,7 +2075,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var oAuth2 storage.OAuth2AuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.OAuth2.AssignProperties_To_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS(&oAuth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS() to populate field OAuth2")
+			return eris.Wrap(err, "calling AssignProperties_To_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS() to populate field OAuth2")
 		}
 		destination.OAuth2 = &oAuth2
 	} else {
@@ -2087,7 +2087,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var pat storage.PATAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.PAT.AssignProperties_To_PATAuthTypeWorkspaceConnectionProperties_STATUS(&pat)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PATAuthTypeWorkspaceConnectionProperties_STATUS() to populate field PAT")
+			return eris.Wrap(err, "calling AssignProperties_To_PATAuthTypeWorkspaceConnectionProperties_STATUS() to populate field PAT")
 		}
 		destination.PAT = &pat
 	} else {
@@ -2099,7 +2099,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var sas storage.SASAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.SAS.AssignProperties_To_SASAuthTypeWorkspaceConnectionProperties_STATUS(&sas)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SASAuthTypeWorkspaceConnectionProperties_STATUS() to populate field SAS")
+			return eris.Wrap(err, "calling AssignProperties_To_SASAuthTypeWorkspaceConnectionProperties_STATUS() to populate field SAS")
 		}
 		destination.SAS = &sas
 	} else {
@@ -2111,7 +2111,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var servicePrincipal storage.ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.ServicePrincipal.AssignProperties_To_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS(&servicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_To_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ServicePrincipal")
 		}
 		destination.ServicePrincipal = &servicePrincipal
 	} else {
@@ -2123,7 +2123,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var usernamePassword storage.UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.UsernamePassword.AssignProperties_To_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS(&usernamePassword)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS() to populate field UsernamePassword")
+			return eris.Wrap(err, "calling AssignProperties_To_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS() to populate field UsernamePassword")
 		}
 		destination.UsernamePassword = &usernamePassword
 	} else {
@@ -3069,7 +3069,7 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties) AssignProperti
 		var credential WorkspaceConnectionAccessKey
 		err := credential.AssignProperties_From_WorkspaceConnectionAccessKey(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccessKey() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccessKey() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -3138,7 +3138,7 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties) AssignProperti
 		var credential storage.WorkspaceConnectionAccessKey
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionAccessKey(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccessKey() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccessKey() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -3211,7 +3211,7 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties) Initialize_Fro
 		var credential WorkspaceConnectionAccessKey
 		err := credential.Initialize_From_WorkspaceConnectionAccessKey_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionAccessKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionAccessKey_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -3411,7 +3411,7 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS) AssignP
 		var credential WorkspaceConnectionAccessKey_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionAccessKey_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccessKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccessKey_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -3492,7 +3492,7 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS) AssignP
 		var credential storage.WorkspaceConnectionAccessKey_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionAccessKey_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccessKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccessKey_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -3768,7 +3768,7 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties) AssignPropert
 		var credential WorkspaceConnectionAccountKey
 		err := credential.AssignProperties_From_WorkspaceConnectionAccountKey(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccountKey() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccountKey() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -3837,7 +3837,7 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties) AssignPropert
 		var credential storage.WorkspaceConnectionAccountKey
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionAccountKey(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccountKey() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccountKey() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -3910,7 +3910,7 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties) Initialize_Fr
 		var credential WorkspaceConnectionAccountKey
 		err := credential.Initialize_From_WorkspaceConnectionAccountKey_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionAccountKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionAccountKey_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -4110,7 +4110,7 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS) Assign
 		var credential WorkspaceConnectionAccountKey_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionAccountKey_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccountKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccountKey_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -4191,7 +4191,7 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS) Assign
 		var credential storage.WorkspaceConnectionAccountKey_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionAccountKey_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccountKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccountKey_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -4469,7 +4469,7 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties) AssignProperties_From
 		var credential WorkspaceConnectionApiKey
 		err := credential.AssignProperties_From_WorkspaceConnectionApiKey(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionApiKey() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionApiKey() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -4538,7 +4538,7 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties) AssignProperties_To_A
 		var credential storage.WorkspaceConnectionApiKey
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionApiKey(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionApiKey() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionApiKey() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -4611,7 +4611,7 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties) Initialize_From_ApiKe
 		var credential WorkspaceConnectionApiKey
 		err := credential.Initialize_From_WorkspaceConnectionApiKey_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionApiKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionApiKey_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -4813,7 +4813,7 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties_STATUS) AssignProperti
 		var credential WorkspaceConnectionApiKey_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionApiKey_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionApiKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionApiKey_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -4894,7 +4894,7 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties_STATUS) AssignProperti
 		var credential storage.WorkspaceConnectionApiKey_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionApiKey_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionApiKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionApiKey_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -5172,7 +5172,7 @@ func (properties *CustomKeysWorkspaceConnectionProperties) AssignProperties_From
 		var credential CustomKeys
 		err := credential.AssignProperties_From_CustomKeys(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomKeys() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomKeys() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -5241,7 +5241,7 @@ func (properties *CustomKeysWorkspaceConnectionProperties) AssignProperties_To_C
 		var credential storage.CustomKeys
 		err := properties.Credentials.AssignProperties_To_CustomKeys(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomKeys() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomKeys() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -5314,7 +5314,7 @@ func (properties *CustomKeysWorkspaceConnectionProperties) Initialize_From_Custo
 		var credential CustomKeys
 		err := credential.Initialize_From_CustomKeys_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CustomKeys_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_CustomKeys_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -5516,7 +5516,7 @@ func (properties *CustomKeysWorkspaceConnectionProperties_STATUS) AssignProperti
 		var credential CustomKeys_STATUS
 		err := credential.AssignProperties_From_CustomKeys_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomKeys_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomKeys_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -5597,7 +5597,7 @@ func (properties *CustomKeysWorkspaceConnectionProperties_STATUS) AssignProperti
 		var credential storage.CustomKeys_STATUS
 		err := properties.Credentials.AssignProperties_To_CustomKeys_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomKeys_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomKeys_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -5873,7 +5873,7 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties) AssignPr
 		var credential WorkspaceConnectionManagedIdentity
 		err := credential.AssignProperties_From_WorkspaceConnectionManagedIdentity(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionManagedIdentity() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionManagedIdentity() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -5942,7 +5942,7 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties) AssignPr
 		var credential storage.WorkspaceConnectionManagedIdentity
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionManagedIdentity(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionManagedIdentity() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionManagedIdentity() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -6015,7 +6015,7 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties) Initiali
 		var credential WorkspaceConnectionManagedIdentity
 		err := credential.Initialize_From_WorkspaceConnectionManagedIdentity_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionManagedIdentity_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionManagedIdentity_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -6215,7 +6215,7 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS) A
 		var credential WorkspaceConnectionManagedIdentity_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionManagedIdentity_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionManagedIdentity_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionManagedIdentity_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -6296,7 +6296,7 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS) A
 		var credential storage.WorkspaceConnectionManagedIdentity_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionManagedIdentity_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionManagedIdentity_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionManagedIdentity_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -7180,7 +7180,7 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties) AssignProperties_
 		var credential WorkspaceConnectionOAuth2
 		err := credential.AssignProperties_From_WorkspaceConnectionOAuth2(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionOAuth2() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionOAuth2() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -7249,7 +7249,7 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties) AssignProperties_
 		var credential storage.WorkspaceConnectionOAuth2
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionOAuth2(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionOAuth2() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionOAuth2() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -7322,7 +7322,7 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties) Initialize_From_O
 		var credential WorkspaceConnectionOAuth2
 		err := credential.Initialize_From_WorkspaceConnectionOAuth2_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionOAuth2_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionOAuth2_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -7525,7 +7525,7 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties_STATUS) AssignProp
 		var credential WorkspaceConnectionOAuth2_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionOAuth2_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionOAuth2_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionOAuth2_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -7606,7 +7606,7 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties_STATUS) AssignProp
 		var credential storage.WorkspaceConnectionOAuth2_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionOAuth2_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionOAuth2_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionOAuth2_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -7882,7 +7882,7 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties) AssignProperties_Fro
 		var credential WorkspaceConnectionPersonalAccessToken
 		err := credential.AssignProperties_From_WorkspaceConnectionPersonalAccessToken(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPersonalAccessToken() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPersonalAccessToken() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -7951,7 +7951,7 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties) AssignProperties_To_
 		var credential storage.WorkspaceConnectionPersonalAccessToken
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionPersonalAccessToken(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPersonalAccessToken() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPersonalAccessToken() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -8024,7 +8024,7 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties) Initialize_From_PATA
 		var credential WorkspaceConnectionPersonalAccessToken
 		err := credential.Initialize_From_WorkspaceConnectionPersonalAccessToken_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionPersonalAccessToken_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionPersonalAccessToken_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -8224,7 +8224,7 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties_STATUS) AssignPropert
 		var credential WorkspaceConnectionPersonalAccessToken_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionPersonalAccessToken_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPersonalAccessToken_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPersonalAccessToken_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -8305,7 +8305,7 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties_STATUS) AssignPropert
 		var credential storage.WorkspaceConnectionPersonalAccessToken_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionPersonalAccessToken_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPersonalAccessToken_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPersonalAccessToken_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -8581,7 +8581,7 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties) AssignProperties_Fro
 		var credential WorkspaceConnectionSharedAccessSignature
 		err := credential.AssignProperties_From_WorkspaceConnectionSharedAccessSignature(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionSharedAccessSignature() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionSharedAccessSignature() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -8650,7 +8650,7 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties) AssignProperties_To_
 		var credential storage.WorkspaceConnectionSharedAccessSignature
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionSharedAccessSignature(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionSharedAccessSignature() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionSharedAccessSignature() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -8723,7 +8723,7 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties) Initialize_From_SASA
 		var credential WorkspaceConnectionSharedAccessSignature
 		err := credential.Initialize_From_WorkspaceConnectionSharedAccessSignature_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionSharedAccessSignature_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionSharedAccessSignature_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -8923,7 +8923,7 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties_STATUS) AssignPropert
 		var credential WorkspaceConnectionSharedAccessSignature_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionSharedAccessSignature_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionSharedAccessSignature_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionSharedAccessSignature_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -9004,7 +9004,7 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties_STATUS) AssignPropert
 		var credential storage.WorkspaceConnectionSharedAccessSignature_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionSharedAccessSignature_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionSharedAccessSignature_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionSharedAccessSignature_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -9280,7 +9280,7 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties) AssignP
 		var credential WorkspaceConnectionServicePrincipal
 		err := credential.AssignProperties_From_WorkspaceConnectionServicePrincipal(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionServicePrincipal() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionServicePrincipal() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -9349,7 +9349,7 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties) AssignP
 		var credential storage.WorkspaceConnectionServicePrincipal
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionServicePrincipal(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionServicePrincipal() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionServicePrincipal() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -9422,7 +9422,7 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties) Initial
 		var credential WorkspaceConnectionServicePrincipal
 		err := credential.Initialize_From_WorkspaceConnectionServicePrincipal_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionServicePrincipal_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionServicePrincipal_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -9622,7 +9622,7 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS) 
 		var credential WorkspaceConnectionServicePrincipal_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionServicePrincipal_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionServicePrincipal_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionServicePrincipal_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -9703,7 +9703,7 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS) 
 		var credential storage.WorkspaceConnectionServicePrincipal_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionServicePrincipal_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionServicePrincipal_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionServicePrincipal_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -9979,7 +9979,7 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties) AssignP
 		var credential WorkspaceConnectionUsernamePassword
 		err := credential.AssignProperties_From_WorkspaceConnectionUsernamePassword(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionUsernamePassword() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionUsernamePassword() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -10048,7 +10048,7 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties) AssignP
 		var credential storage.WorkspaceConnectionUsernamePassword
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionUsernamePassword(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionUsernamePassword() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionUsernamePassword() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -10121,7 +10121,7 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties) Initial
 		var credential WorkspaceConnectionUsernamePassword
 		err := credential.Initialize_From_WorkspaceConnectionUsernamePassword_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionUsernamePassword_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionUsernamePassword_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -10321,7 +10321,7 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS) 
 		var credential WorkspaceConnectionUsernamePassword_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionUsernamePassword_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionUsernamePassword_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionUsernamePassword_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -10402,7 +10402,7 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS) 
 		var credential storage.WorkspaceConnectionUsernamePassword_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionUsernamePassword_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionUsernamePassword_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionUsernamePassword_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -11083,7 +11083,7 @@ func (keys *CustomKeys) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		var temp map[string]string
 		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*keys.Keys)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property temp")
+			return nil, eris.Wrap(err, "looking up secret for property temp")
 		}
 		temp = tempSecret
 		result.Keys = temp
@@ -11543,7 +11543,7 @@ func (accessKey *WorkspaceConnectionAccessKey) ConvertToARM(resolved genruntime.
 	if accessKey.SecretAccessKey != nil {
 		secretAccessKeySecret, err := resolved.ResolvedSecrets.Lookup(*accessKey.SecretAccessKey)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property SecretAccessKey")
+			return nil, eris.Wrap(err, "looking up secret for property SecretAccessKey")
 		}
 		secretAccessKey := secretAccessKeySecret
 		result.SecretAccessKey = &secretAccessKey
@@ -11704,7 +11704,7 @@ func (accountKey *WorkspaceConnectionAccountKey) ConvertToARM(resolved genruntim
 	if accountKey.Key != nil {
 		keySecret, err := resolved.ResolvedSecrets.Lookup(*accountKey.Key)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Key")
+			return nil, eris.Wrap(err, "looking up secret for property Key")
 		}
 		key := keySecret
 		result.Key = &key
@@ -11838,7 +11838,7 @@ func (apiKey *WorkspaceConnectionApiKey) ConvertToARM(resolved genruntime.Conver
 	if apiKey.Key != nil {
 		keySecret, err := resolved.ResolvedSecrets.Lookup(*apiKey.Key)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Key")
+			return nil, eris.Wrap(err, "looking up secret for property Key")
 		}
 		key := keySecret
 		result.Key = &key
@@ -11978,7 +11978,7 @@ func (identity *WorkspaceConnectionManagedIdentity) ConvertToARM(resolved genrun
 	if identity.ClientIdFromConfig != nil {
 		clientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*identity.ClientIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property ClientId")
+			return nil, eris.Wrap(err, "looking up configmap for property ClientId")
 		}
 		clientId := clientIdValue
 		result.ClientId = &clientId
@@ -12228,7 +12228,7 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 	if auth2.ClientIdFromConfig != nil {
 		clientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*auth2.ClientIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property ClientId")
+			return nil, eris.Wrap(err, "looking up configmap for property ClientId")
 		}
 		clientId := clientIdValue
 		result.ClientId = &clientId
@@ -12238,7 +12238,7 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 	if auth2.ClientSecret != nil {
 		clientSecretSecret, err := resolved.ResolvedSecrets.Lookup(*auth2.ClientSecret)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ClientSecret")
+			return nil, eris.Wrap(err, "looking up secret for property ClientSecret")
 		}
 		clientSecret := clientSecretSecret
 		result.ClientSecret = &clientSecret
@@ -12248,7 +12248,7 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 	if auth2.DeveloperToken != nil {
 		developerTokenSecret, err := resolved.ResolvedSecrets.Lookup(*auth2.DeveloperToken)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property DeveloperToken")
+			return nil, eris.Wrap(err, "looking up secret for property DeveloperToken")
 		}
 		developerToken := developerTokenSecret
 		result.DeveloperToken = &developerToken
@@ -12258,7 +12258,7 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 	if auth2.Password != nil {
 		passwordSecret, err := resolved.ResolvedSecrets.Lookup(*auth2.Password)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Password")
+			return nil, eris.Wrap(err, "looking up secret for property Password")
 		}
 		password := passwordSecret
 		result.Password = &password
@@ -12268,7 +12268,7 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 	if auth2.RefreshToken != nil {
 		refreshTokenSecret, err := resolved.ResolvedSecrets.Lookup(*auth2.RefreshToken)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property RefreshToken")
+			return nil, eris.Wrap(err, "looking up secret for property RefreshToken")
 		}
 		refreshToken := refreshTokenSecret
 		result.RefreshToken = &refreshToken
@@ -12282,7 +12282,7 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 	if auth2.TenantIdFromConfig != nil {
 		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*auth2.TenantIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+			return nil, eris.Wrap(err, "looking up configmap for property TenantId")
 		}
 		tenantId := tenantIdValue
 		result.TenantId = &tenantId
@@ -12649,7 +12649,7 @@ func (token *WorkspaceConnectionPersonalAccessToken) ConvertToARM(resolved genru
 	if token.Pat != nil {
 		patSecret, err := resolved.ResolvedSecrets.Lookup(*token.Pat)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Pat")
+			return nil, eris.Wrap(err, "looking up secret for property Pat")
 		}
 		pat := patSecret
 		result.Pat = &pat
@@ -12790,7 +12790,7 @@ func (principal *WorkspaceConnectionServicePrincipal) ConvertToARM(resolved genr
 	if principal.ClientIdFromConfig != nil {
 		clientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*principal.ClientIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property ClientId")
+			return nil, eris.Wrap(err, "looking up configmap for property ClientId")
 		}
 		clientId := clientIdValue
 		result.ClientId = &clientId
@@ -12800,7 +12800,7 @@ func (principal *WorkspaceConnectionServicePrincipal) ConvertToARM(resolved genr
 	if principal.ClientSecret != nil {
 		clientSecretSecret, err := resolved.ResolvedSecrets.Lookup(*principal.ClientSecret)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ClientSecret")
+			return nil, eris.Wrap(err, "looking up secret for property ClientSecret")
 		}
 		clientSecret := clientSecretSecret
 		result.ClientSecret = &clientSecret
@@ -12814,7 +12814,7 @@ func (principal *WorkspaceConnectionServicePrincipal) ConvertToARM(resolved genr
 	if principal.TenantIdFromConfig != nil {
 		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*principal.TenantIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+			return nil, eris.Wrap(err, "looking up configmap for property TenantId")
 		}
 		tenantId := tenantIdValue
 		result.TenantId = &tenantId
@@ -13039,7 +13039,7 @@ func (signature *WorkspaceConnectionSharedAccessSignature) ConvertToARM(resolved
 	if signature.Sas != nil {
 		sasSecret, err := resolved.ResolvedSecrets.Lookup(*signature.Sas)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Sas")
+			return nil, eris.Wrap(err, "looking up secret for property Sas")
 		}
 		sas := sasSecret
 		result.Sas = &sas
@@ -13176,7 +13176,7 @@ func (password *WorkspaceConnectionUsernamePassword) ConvertToARM(resolved genru
 	if password.Password != nil {
 		passwordSecret, err := resolved.ResolvedSecrets.Lookup(*password.Password)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Password")
+			return nil, eris.Wrap(err, "looking up secret for property Password")
 		}
 		password1 := passwordSecret
 		result.Password = &password1
@@ -13186,7 +13186,7 @@ func (password *WorkspaceConnectionUsernamePassword) ConvertToARM(resolved genru
 	if password.SecurityToken != nil {
 		securityTokenSecret, err := resolved.ResolvedSecrets.Lookup(*password.SecurityToken)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property SecurityToken")
+			return nil, eris.Wrap(err, "looking up secret for property SecurityToken")
 		}
 		securityToken := securityTokenSecret
 		result.SecurityToken = &securityToken

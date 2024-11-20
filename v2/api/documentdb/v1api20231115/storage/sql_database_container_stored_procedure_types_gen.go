@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -131,7 +131,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntim
 	var st SqlDatabaseContainerStoredProcedure_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	procedure.Status = st
@@ -186,7 +186,7 @@ var _ genruntime.ConvertibleSpec = &SqlDatabaseContainerStoredProcedure_Spec{}
 // ConvertSpecFrom populates our SqlDatabaseContainerStoredProcedure_Spec from the provided source
 func (procedure *SqlDatabaseContainerStoredProcedure_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == procedure {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(procedure)
@@ -195,7 +195,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure_Spec) ConvertSpecFrom(sourc
 // ConvertSpecTo populates the provided destination from our SqlDatabaseContainerStoredProcedure_Spec
 func (procedure *SqlDatabaseContainerStoredProcedure_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == procedure {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(procedure)
@@ -218,7 +218,7 @@ var _ genruntime.ConvertibleStatus = &SqlDatabaseContainerStoredProcedure_STATUS
 // ConvertStatusFrom populates our SqlDatabaseContainerStoredProcedure_STATUS from the provided source
 func (procedure *SqlDatabaseContainerStoredProcedure_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == procedure {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(procedure)
@@ -227,7 +227,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure_STATUS) ConvertStatusFrom(s
 // ConvertStatusTo populates the provided destination from our SqlDatabaseContainerStoredProcedure_STATUS
 func (procedure *SqlDatabaseContainerStoredProcedure_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == procedure {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(procedure)

@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (rule *ServersOutboundFirewallRule) SetStatus(status genruntime.Convertible
 	var st ServersOutboundFirewallRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	rule.Status = st
@@ -309,7 +309,7 @@ func (rule *ServersOutboundFirewallRule) AssignProperties_From_ServersOutboundFi
 	var spec ServersOutboundFirewallRule_Spec
 	err := spec.AssignProperties_From_ServersOutboundFirewallRule_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersOutboundFirewallRule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersOutboundFirewallRule_Spec() to populate field Spec")
 	}
 	rule.Spec = spec
 
@@ -317,7 +317,7 @@ func (rule *ServersOutboundFirewallRule) AssignProperties_From_ServersOutboundFi
 	var status ServersOutboundFirewallRule_STATUS
 	err = status.AssignProperties_From_ServersOutboundFirewallRule_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersOutboundFirewallRule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersOutboundFirewallRule_STATUS() to populate field Status")
 	}
 	rule.Status = status
 
@@ -335,7 +335,7 @@ func (rule *ServersOutboundFirewallRule) AssignProperties_To_ServersOutboundFire
 	var spec storage.ServersOutboundFirewallRule_Spec
 	err := rule.Spec.AssignProperties_To_ServersOutboundFirewallRule_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersOutboundFirewallRule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersOutboundFirewallRule_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (rule *ServersOutboundFirewallRule) AssignProperties_To_ServersOutboundFire
 	var status storage.ServersOutboundFirewallRule_STATUS
 	err = rule.Status.AssignProperties_To_ServersOutboundFirewallRule_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersOutboundFirewallRule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersOutboundFirewallRule_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -441,13 +441,13 @@ func (rule *ServersOutboundFirewallRule_Spec) ConvertSpecFrom(source genruntime.
 	src = &storage.ServersOutboundFirewallRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = rule.AssignProperties_From_ServersOutboundFirewallRule_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -465,13 +465,13 @@ func (rule *ServersOutboundFirewallRule_Spec) ConvertSpecTo(destination genrunti
 	dst = &storage.ServersOutboundFirewallRule_Spec{}
 	err := rule.AssignProperties_To_ServersOutboundFirewallRule_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -488,7 +488,7 @@ func (rule *ServersOutboundFirewallRule_Spec) AssignProperties_From_ServersOutbo
 		var operatorSpec ServersOutboundFirewallRuleOperatorSpec
 		err := operatorSpec.AssignProperties_From_ServersOutboundFirewallRuleOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServersOutboundFirewallRuleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ServersOutboundFirewallRuleOperatorSpec() to populate field OperatorSpec")
 		}
 		rule.OperatorSpec = &operatorSpec
 	} else {
@@ -520,7 +520,7 @@ func (rule *ServersOutboundFirewallRule_Spec) AssignProperties_To_ServersOutboun
 		var operatorSpec storage.ServersOutboundFirewallRuleOperatorSpec
 		err := rule.OperatorSpec.AssignProperties_To_ServersOutboundFirewallRuleOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServersOutboundFirewallRuleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ServersOutboundFirewallRuleOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -597,13 +597,13 @@ func (rule *ServersOutboundFirewallRule_STATUS) ConvertStatusFrom(source genrunt
 	src = &storage.ServersOutboundFirewallRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = rule.AssignProperties_From_ServersOutboundFirewallRule_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -621,13 +621,13 @@ func (rule *ServersOutboundFirewallRule_STATUS) ConvertStatusTo(destination genr
 	dst = &storage.ServersOutboundFirewallRule_STATUS{}
 	err := rule.AssignProperties_To_ServersOutboundFirewallRule_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

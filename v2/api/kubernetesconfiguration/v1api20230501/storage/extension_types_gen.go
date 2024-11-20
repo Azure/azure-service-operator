@@ -12,7 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -154,7 +154,7 @@ func (extension *Extension) SetStatus(status genruntime.ConvertibleStatus) error
 	var st Extension_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	extension.Status = st
@@ -223,7 +223,7 @@ var _ genruntime.ConvertibleSpec = &Extension_Spec{}
 // ConvertSpecFrom populates our Extension_Spec from the provided source
 func (extension *Extension_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == extension {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(extension)
@@ -232,7 +232,7 @@ func (extension *Extension_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 // ConvertSpecTo populates the provided destination from our Extension_Spec
 func (extension *Extension_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == extension {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(extension)
@@ -271,7 +271,7 @@ var _ genruntime.ConvertibleStatus = &Extension_STATUS{}
 // ConvertStatusFrom populates our Extension_STATUS from the provided source
 func (extension *Extension_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == extension {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(extension)
@@ -280,7 +280,7 @@ func (extension *Extension_STATUS) ConvertStatusFrom(source genruntime.Convertib
 // ConvertStatusTo populates the provided destination from our Extension_STATUS
 func (extension *Extension_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == extension {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(extension)

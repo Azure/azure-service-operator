@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (origin *AfdOrigin) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st AfdOrigin_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	origin.Status = st
@@ -309,7 +309,7 @@ func (origin *AfdOrigin) AssignProperties_From_AfdOrigin(source *storage.AfdOrig
 	var spec AfdOrigin_Spec
 	err := spec.AssignProperties_From_AfdOrigin_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_AfdOrigin_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_AfdOrigin_Spec() to populate field Spec")
 	}
 	origin.Spec = spec
 
@@ -317,7 +317,7 @@ func (origin *AfdOrigin) AssignProperties_From_AfdOrigin(source *storage.AfdOrig
 	var status AfdOrigin_STATUS
 	err = status.AssignProperties_From_AfdOrigin_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_AfdOrigin_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_AfdOrigin_STATUS() to populate field Status")
 	}
 	origin.Status = status
 
@@ -335,7 +335,7 @@ func (origin *AfdOrigin) AssignProperties_To_AfdOrigin(destination *storage.AfdO
 	var spec storage.AfdOrigin_Spec
 	err := origin.Spec.AssignProperties_To_AfdOrigin_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_AfdOrigin_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_AfdOrigin_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (origin *AfdOrigin) AssignProperties_To_AfdOrigin(destination *storage.AfdO
 	var status storage.AfdOrigin_STATUS
 	err = origin.Status.AssignProperties_To_AfdOrigin_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_AfdOrigin_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_AfdOrigin_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -650,13 +650,13 @@ func (origin *AfdOrigin_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec)
 	src = &storage.AfdOrigin_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = origin.AssignProperties_From_AfdOrigin_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -674,13 +674,13 @@ func (origin *AfdOrigin_Spec) ConvertSpecTo(destination genruntime.ConvertibleSp
 	dst = &storage.AfdOrigin_Spec{}
 	err := origin.AssignProperties_To_AfdOrigin_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -697,7 +697,7 @@ func (origin *AfdOrigin_Spec) AssignProperties_From_AfdOrigin_Spec(source *stora
 		var azureOrigin ResourceReference
 		err := azureOrigin.AssignProperties_From_ResourceReference(source.AzureOrigin)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field AzureOrigin")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field AzureOrigin")
 		}
 		origin.AzureOrigin = &azureOrigin
 	} else {
@@ -745,7 +745,7 @@ func (origin *AfdOrigin_Spec) AssignProperties_From_AfdOrigin_Spec(source *stora
 		var operatorSpec AfdOriginOperatorSpec
 		err := operatorSpec.AssignProperties_From_AfdOriginOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AfdOriginOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_AfdOriginOperatorSpec() to populate field OperatorSpec")
 		}
 		origin.OperatorSpec = &operatorSpec
 	} else {
@@ -776,7 +776,7 @@ func (origin *AfdOrigin_Spec) AssignProperties_From_AfdOrigin_Spec(source *stora
 		var sharedPrivateLinkResource SharedPrivateLinkResourceProperties
 		err := sharedPrivateLinkResource.AssignProperties_From_SharedPrivateLinkResourceProperties(source.SharedPrivateLinkResource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SharedPrivateLinkResourceProperties() to populate field SharedPrivateLinkResource")
+			return eris.Wrap(err, "calling AssignProperties_From_SharedPrivateLinkResourceProperties() to populate field SharedPrivateLinkResource")
 		}
 		origin.SharedPrivateLinkResource = &sharedPrivateLinkResource
 	} else {
@@ -808,7 +808,7 @@ func (origin *AfdOrigin_Spec) AssignProperties_To_AfdOrigin_Spec(destination *st
 		var azureOrigin storage.ResourceReference
 		err := origin.AzureOrigin.AssignProperties_To_ResourceReference(&azureOrigin)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field AzureOrigin")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field AzureOrigin")
 		}
 		destination.AzureOrigin = &azureOrigin
 	} else {
@@ -855,7 +855,7 @@ func (origin *AfdOrigin_Spec) AssignProperties_To_AfdOrigin_Spec(destination *st
 		var operatorSpec storage.AfdOriginOperatorSpec
 		err := origin.OperatorSpec.AssignProperties_To_AfdOriginOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AfdOriginOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_AfdOriginOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -889,7 +889,7 @@ func (origin *AfdOrigin_Spec) AssignProperties_To_AfdOrigin_Spec(destination *st
 		var sharedPrivateLinkResource storage.SharedPrivateLinkResourceProperties
 		err := origin.SharedPrivateLinkResource.AssignProperties_To_SharedPrivateLinkResourceProperties(&sharedPrivateLinkResource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SharedPrivateLinkResourceProperties() to populate field SharedPrivateLinkResource")
+			return eris.Wrap(err, "calling AssignProperties_To_SharedPrivateLinkResourceProperties() to populate field SharedPrivateLinkResource")
 		}
 		destination.SharedPrivateLinkResource = &sharedPrivateLinkResource
 	} else {
@@ -923,7 +923,7 @@ func (origin *AfdOrigin_Spec) Initialize_From_AfdOrigin_STATUS(source *AfdOrigin
 		var azureOrigin ResourceReference
 		err := azureOrigin.Initialize_From_ResourceReference_STATUS(source.AzureOrigin)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field AzureOrigin")
+			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field AzureOrigin")
 		}
 		origin.AzureOrigin = &azureOrigin
 	} else {
@@ -981,7 +981,7 @@ func (origin *AfdOrigin_Spec) Initialize_From_AfdOrigin_STATUS(source *AfdOrigin
 		var sharedPrivateLinkResource SharedPrivateLinkResourceProperties
 		err := sharedPrivateLinkResource.Initialize_From_SharedPrivateLinkResourceProperties_STATUS(source.SharedPrivateLinkResource)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SharedPrivateLinkResourceProperties_STATUS() to populate field SharedPrivateLinkResource")
+			return eris.Wrap(err, "calling Initialize_From_SharedPrivateLinkResourceProperties_STATUS() to populate field SharedPrivateLinkResource")
 		}
 		origin.SharedPrivateLinkResource = &sharedPrivateLinkResource
 	} else {
@@ -1081,13 +1081,13 @@ func (origin *AfdOrigin_STATUS) ConvertStatusFrom(source genruntime.ConvertibleS
 	src = &storage.AfdOrigin_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = origin.AssignProperties_From_AfdOrigin_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1105,13 +1105,13 @@ func (origin *AfdOrigin_STATUS) ConvertStatusTo(destination genruntime.Convertib
 	dst = &storage.AfdOrigin_STATUS{}
 	err := origin.AssignProperties_To_AfdOrigin_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1307,7 +1307,7 @@ func (origin *AfdOrigin_STATUS) AssignProperties_From_AfdOrigin_STATUS(source *s
 		var azureOrigin ResourceReference_STATUS
 		err := azureOrigin.AssignProperties_From_ResourceReference_STATUS(source.AzureOrigin)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field AzureOrigin")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field AzureOrigin")
 		}
 		origin.AzureOrigin = &azureOrigin
 	} else {
@@ -1381,7 +1381,7 @@ func (origin *AfdOrigin_STATUS) AssignProperties_From_AfdOrigin_STATUS(source *s
 		var sharedPrivateLinkResource SharedPrivateLinkResourceProperties_STATUS
 		err := sharedPrivateLinkResource.AssignProperties_From_SharedPrivateLinkResourceProperties_STATUS(source.SharedPrivateLinkResource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SharedPrivateLinkResourceProperties_STATUS() to populate field SharedPrivateLinkResource")
+			return eris.Wrap(err, "calling AssignProperties_From_SharedPrivateLinkResourceProperties_STATUS() to populate field SharedPrivateLinkResource")
 		}
 		origin.SharedPrivateLinkResource = &sharedPrivateLinkResource
 	} else {
@@ -1393,7 +1393,7 @@ func (origin *AfdOrigin_STATUS) AssignProperties_From_AfdOrigin_STATUS(source *s
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		origin.SystemData = &systemDatum
 	} else {
@@ -1420,7 +1420,7 @@ func (origin *AfdOrigin_STATUS) AssignProperties_To_AfdOrigin_STATUS(destination
 		var azureOrigin storage.ResourceReference_STATUS
 		err := origin.AzureOrigin.AssignProperties_To_ResourceReference_STATUS(&azureOrigin)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field AzureOrigin")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field AzureOrigin")
 		}
 		destination.AzureOrigin = &azureOrigin
 	} else {
@@ -1491,7 +1491,7 @@ func (origin *AfdOrigin_STATUS) AssignProperties_To_AfdOrigin_STATUS(destination
 		var sharedPrivateLinkResource storage.SharedPrivateLinkResourceProperties_STATUS
 		err := origin.SharedPrivateLinkResource.AssignProperties_To_SharedPrivateLinkResourceProperties_STATUS(&sharedPrivateLinkResource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SharedPrivateLinkResourceProperties_STATUS() to populate field SharedPrivateLinkResource")
+			return eris.Wrap(err, "calling AssignProperties_To_SharedPrivateLinkResourceProperties_STATUS() to populate field SharedPrivateLinkResource")
 		}
 		destination.SharedPrivateLinkResource = &sharedPrivateLinkResource
 	} else {
@@ -1503,7 +1503,7 @@ func (origin *AfdOrigin_STATUS) AssignProperties_To_AfdOrigin_STATUS(destination
 		var systemDatum storage.SystemData_STATUS
 		err := origin.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1823,7 +1823,7 @@ func (properties *SharedPrivateLinkResourceProperties) AssignProperties_From_Sha
 		var privateLink ResourceReference
 		err := privateLink.AssignProperties_From_ResourceReference(source.PrivateLink)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field PrivateLink")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field PrivateLink")
 		}
 		properties.PrivateLink = &privateLink
 	} else {
@@ -1862,7 +1862,7 @@ func (properties *SharedPrivateLinkResourceProperties) AssignProperties_To_Share
 		var privateLink storage.ResourceReference
 		err := properties.PrivateLink.AssignProperties_To_ResourceReference(&privateLink)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field PrivateLink")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field PrivateLink")
 		}
 		destination.PrivateLink = &privateLink
 	} else {
@@ -1905,7 +1905,7 @@ func (properties *SharedPrivateLinkResourceProperties) Initialize_From_SharedPri
 		var privateLink ResourceReference
 		err := privateLink.Initialize_From_ResourceReference_STATUS(source.PrivateLink)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field PrivateLink")
+			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field PrivateLink")
 		}
 		properties.PrivateLink = &privateLink
 	} else {
@@ -2014,7 +2014,7 @@ func (properties *SharedPrivateLinkResourceProperties_STATUS) AssignProperties_F
 		var privateLink ResourceReference_STATUS
 		err := privateLink.AssignProperties_From_ResourceReference_STATUS(source.PrivateLink)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field PrivateLink")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field PrivateLink")
 		}
 		properties.PrivateLink = &privateLink
 	} else {
@@ -2053,7 +2053,7 @@ func (properties *SharedPrivateLinkResourceProperties_STATUS) AssignProperties_T
 		var privateLink storage.ResourceReference_STATUS
 		err := properties.PrivateLink.AssignProperties_To_ResourceReference_STATUS(&privateLink)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field PrivateLink")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field PrivateLink")
 		}
 		destination.PrivateLink = &privateLink
 	} else {

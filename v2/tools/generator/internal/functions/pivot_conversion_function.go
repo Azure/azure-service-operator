@@ -122,7 +122,7 @@ func (fn *PivotConversionFunction) Name() string {
 
 func (fn *PivotConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	return astmodel.NewPackageReferenceSet(
-		astmodel.GitHubErrorsReference,
+		astmodel.ErisReference,
 		astmodel.ControllerRuntimeConversion,
 		astmodel.FmtReference,
 		astmodel.GenRuntimeReference,
@@ -180,7 +180,7 @@ func (fn *PivotConversionFunction) bodyForPivot(
 	parameterName string,
 	generationContext *astmodel.CodeGenerationContext,
 ) []dst.Stmt {
-	errorsPkg := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	errorsPkg := generationContext.MustGetImportedPackageName(astmodel.ErisReference)
 
 	fnNameForOtherDirection := fn.direction.SelectString(fn.nameTo, fn.nameFrom)
 	parameter := dst.NewIdent(parameterName)

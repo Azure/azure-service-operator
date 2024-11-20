@@ -729,7 +729,7 @@ func (builder *convertToARMBuilder) convertSecretProperty(
 		return nil, nil
 	}
 
-	errorsPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	errorsPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.ErisReference)
 
 	localVarName := builder.idFactory.CreateLocal(params.NameHint + "Secret")
 	secretLookup := astbuilder.SimpleAssignmentWithErr(
@@ -773,7 +773,7 @@ func (builder *convertToARMBuilder) convertSecretMapProperty(
 		return nil, nil
 	}
 
-	errorsPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	errorsPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.ErisReference)
 
 	localVarName := builder.idFactory.CreateLocal(params.NameHint + "Secret")
 	secretLookup := astbuilder.SimpleAssignmentWithErr(
@@ -817,7 +817,7 @@ func (builder *convertToARMBuilder) convertConfigMapProperty(
 		return nil, nil
 	}
 
-	errorsPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	errorsPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.ErisReference)
 
 	localVarName := params.Locals.CreateLocal(params.NameHint + "Value")
 	configMapLookup := astbuilder.SimpleAssignmentWithErr(

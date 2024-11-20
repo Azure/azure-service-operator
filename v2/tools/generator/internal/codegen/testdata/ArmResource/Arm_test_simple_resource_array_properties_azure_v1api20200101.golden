@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -265,7 +265,7 @@ func (resource *FakeResource) AssignProperties_From_FakeResource(source *storage
 	var spec FakeResource_Spec
 	err := spec.AssignProperties_From_FakeResource_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FakeResource_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_FakeResource_Spec() to populate field Spec")
 	}
 	resource.Spec = spec
 
@@ -283,7 +283,7 @@ func (resource *FakeResource) AssignProperties_To_FakeResource(destination *stor
 	var spec storage.FakeResource_Spec
 	err := resource.Spec.AssignProperties_To_FakeResource_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FakeResource_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_FakeResource_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -543,13 +543,13 @@ func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.Convertible
 	src = &storage.FakeResource_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = resource.AssignProperties_From_FakeResource_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -567,13 +567,13 @@ func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.Converti
 	dst = &storage.FakeResource_Spec{}
 	err := resource.AssignProperties_To_FakeResource_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -599,7 +599,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 			var arrayFoo Foo
 			err := arrayFoo.AssignProperties_From_Foo(&arrayFooItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field ArrayFoo")
+				return eris.Wrap(err, "calling AssignProperties_From_Foo() to populate field ArrayFoo")
 			}
 			arrayFooList[arrayFooIndex] = arrayFoo
 		}
@@ -622,7 +622,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 					var arrayOfArray Foo
 					err := arrayOfArray.AssignProperties_From_Foo(&arrayOfArrayItem1)
 					if err != nil {
-						return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field ArrayOfArrays")
+						return eris.Wrap(err, "calling AssignProperties_From_Foo() to populate field ArrayOfArrays")
 					}
 					arrayOfArrayList1[arrayOfArrayIndex1] = arrayOfArray
 				}
@@ -655,7 +655,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 							var arrayOfArraysOfArray Foo
 							err := arrayOfArraysOfArray.AssignProperties_From_Foo(&arrayOfArraysOfArrayItem2)
 							if err != nil {
-								return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field ArrayOfArraysOfArrays")
+								return eris.Wrap(err, "calling AssignProperties_From_Foo() to populate field ArrayOfArraysOfArrays")
 							}
 							arrayOfArraysOfArrayList2[arrayOfArraysOfArrayIndex2] = arrayOfArraysOfArray
 						}
@@ -701,7 +701,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 					var arrayOfMapLocal Foo
 					err := arrayOfMapLocal.AssignProperties_From_Foo(&arrayOfMapValue)
 					if err != nil {
-						return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field ArrayOfMaps")
+						return eris.Wrap(err, "calling AssignProperties_From_Foo() to populate field ArrayOfMaps")
 					}
 					arrayOfMap[arrayOfMapKey] = arrayOfMapLocal
 				}
@@ -723,7 +723,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 		var operatorSpec FakeResourceOperatorSpec
 		err := operatorSpec.AssignProperties_From_FakeResourceOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FakeResourceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_FakeResourceOperatorSpec() to populate field OperatorSpec")
 		}
 		resource.OperatorSpec = &operatorSpec
 	} else {
@@ -768,7 +768,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 			var arrayFoo storage.Foo
 			err := arrayFooItem.AssignProperties_To_Foo(&arrayFoo)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field ArrayFoo")
+				return eris.Wrap(err, "calling AssignProperties_To_Foo() to populate field ArrayFoo")
 			}
 			arrayFooList[arrayFooIndex] = arrayFoo
 		}
@@ -791,7 +791,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 					var arrayOfArray storage.Foo
 					err := arrayOfArrayItem1.AssignProperties_To_Foo(&arrayOfArray)
 					if err != nil {
-						return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field ArrayOfArrays")
+						return eris.Wrap(err, "calling AssignProperties_To_Foo() to populate field ArrayOfArrays")
 					}
 					arrayOfArrayList1[arrayOfArrayIndex1] = arrayOfArray
 				}
@@ -824,7 +824,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 							var arrayOfArraysOfArray storage.Foo
 							err := arrayOfArraysOfArrayItem2.AssignProperties_To_Foo(&arrayOfArraysOfArray)
 							if err != nil {
-								return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field ArrayOfArraysOfArrays")
+								return eris.Wrap(err, "calling AssignProperties_To_Foo() to populate field ArrayOfArraysOfArrays")
 							}
 							arrayOfArraysOfArrayList2[arrayOfArraysOfArrayIndex2] = arrayOfArraysOfArray
 						}
@@ -870,7 +870,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 					var arrayOfMapLocal storage.Foo
 					err := arrayOfMapValue.AssignProperties_To_Foo(&arrayOfMapLocal)
 					if err != nil {
-						return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field ArrayOfMaps")
+						return eris.Wrap(err, "calling AssignProperties_To_Foo() to populate field ArrayOfMaps")
 					}
 					arrayOfMap[arrayOfMapKey] = arrayOfMapLocal
 				}
@@ -892,7 +892,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 		var operatorSpec storage.FakeResourceOperatorSpec
 		err := resource.OperatorSpec.AssignProperties_To_FakeResourceOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FakeResourceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_FakeResourceOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {

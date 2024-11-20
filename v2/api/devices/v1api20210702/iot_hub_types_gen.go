@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (iotHub *IotHub) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st IotHub_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	iotHub.Status = st
@@ -324,7 +324,7 @@ func (iotHub *IotHub) AssignProperties_From_IotHub(source *storage.IotHub) error
 	var spec IotHub_Spec
 	err := spec.AssignProperties_From_IotHub_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_IotHub_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_IotHub_Spec() to populate field Spec")
 	}
 	iotHub.Spec = spec
 
@@ -332,7 +332,7 @@ func (iotHub *IotHub) AssignProperties_From_IotHub(source *storage.IotHub) error
 	var status IotHub_STATUS
 	err = status.AssignProperties_From_IotHub_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_IotHub_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_IotHub_STATUS() to populate field Status")
 	}
 	iotHub.Status = status
 
@@ -350,7 +350,7 @@ func (iotHub *IotHub) AssignProperties_To_IotHub(destination *storage.IotHub) er
 	var spec storage.IotHub_Spec
 	err := iotHub.Spec.AssignProperties_To_IotHub_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_IotHub_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_IotHub_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -358,7 +358,7 @@ func (iotHub *IotHub) AssignProperties_To_IotHub(destination *storage.IotHub) er
 	var status storage.IotHub_STATUS
 	err = iotHub.Status.AssignProperties_To_IotHub_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_IotHub_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_IotHub_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -569,13 +569,13 @@ func (iotHub *IotHub_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 	src = &storage.IotHub_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = iotHub.AssignProperties_From_IotHub_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -593,13 +593,13 @@ func (iotHub *IotHub_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 	dst = &storage.IotHub_Spec{}
 	err := iotHub.AssignProperties_To_IotHub_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -616,7 +616,7 @@ func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *storage.Iot
 		var identity ArmIdentity
 		err := identity.AssignProperties_From_ArmIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ArmIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ArmIdentity() to populate field Identity")
 		}
 		iotHub.Identity = &identity
 	} else {
@@ -631,7 +631,7 @@ func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *storage.Iot
 		var operatorSpec IotHubOperatorSpec
 		err := operatorSpec.AssignProperties_From_IotHubOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IotHubOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_IotHubOperatorSpec() to populate field OperatorSpec")
 		}
 		iotHub.OperatorSpec = &operatorSpec
 	} else {
@@ -651,7 +651,7 @@ func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *storage.Iot
 		var property IotHubProperties
 		err := property.AssignProperties_From_IotHubProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IotHubProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_IotHubProperties() to populate field Properties")
 		}
 		iotHub.Properties = &property
 	} else {
@@ -663,7 +663,7 @@ func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *storage.Iot
 		var sku IotHubSkuInfo
 		err := sku.AssignProperties_From_IotHubSkuInfo(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IotHubSkuInfo() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_IotHubSkuInfo() to populate field Sku")
 		}
 		iotHub.Sku = &sku
 	} else {
@@ -690,7 +690,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *storage.
 		var identity storage.ArmIdentity
 		err := iotHub.Identity.AssignProperties_To_ArmIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ArmIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ArmIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -705,7 +705,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *storage.
 		var operatorSpec storage.IotHubOperatorSpec
 		err := iotHub.OperatorSpec.AssignProperties_To_IotHubOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IotHubOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_IotHubOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -728,7 +728,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *storage.
 		var property storage.IotHubProperties
 		err := iotHub.Properties.AssignProperties_To_IotHubProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IotHubProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_IotHubProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -740,7 +740,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *storage.
 		var sku storage.IotHubSkuInfo
 		err := iotHub.Sku.AssignProperties_To_IotHubSkuInfo(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IotHubSkuInfo() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_IotHubSkuInfo() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -769,7 +769,7 @@ func (iotHub *IotHub_Spec) Initialize_From_IotHub_STATUS(source *IotHub_STATUS) 
 		var identity ArmIdentity
 		err := identity.Initialize_From_ArmIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ArmIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ArmIdentity_STATUS() to populate field Identity")
 		}
 		iotHub.Identity = &identity
 	} else {
@@ -784,7 +784,7 @@ func (iotHub *IotHub_Spec) Initialize_From_IotHub_STATUS(source *IotHub_STATUS) 
 		var property IotHubProperties
 		err := property.Initialize_From_IotHubProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_IotHubProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling Initialize_From_IotHubProperties_STATUS() to populate field Properties")
 		}
 		iotHub.Properties = &property
 	} else {
@@ -796,7 +796,7 @@ func (iotHub *IotHub_Spec) Initialize_From_IotHub_STATUS(source *IotHub_STATUS) 
 		var sku IotHubSkuInfo
 		err := sku.Initialize_From_IotHubSkuInfo_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_IotHubSkuInfo_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_IotHubSkuInfo_STATUS() to populate field Sku")
 		}
 		iotHub.Sku = &sku
 	} else {
@@ -868,13 +868,13 @@ func (iotHub *IotHub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 	src = &storage.IotHub_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = iotHub.AssignProperties_From_IotHub_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -892,13 +892,13 @@ func (iotHub *IotHub_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 	dst = &storage.IotHub_STATUS{}
 	err := iotHub.AssignProperties_To_IotHub_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1023,7 +1023,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_From_IotHub_STATUS(source *storage
 		var identity ArmIdentity_STATUS
 		err := identity.AssignProperties_From_ArmIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ArmIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ArmIdentity_STATUS() to populate field Identity")
 		}
 		iotHub.Identity = &identity
 	} else {
@@ -1041,7 +1041,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_From_IotHub_STATUS(source *storage
 		var property IotHubProperties_STATUS
 		err := property.AssignProperties_From_IotHubProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IotHubProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_IotHubProperties_STATUS() to populate field Properties")
 		}
 		iotHub.Properties = &property
 	} else {
@@ -1053,7 +1053,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_From_IotHub_STATUS(source *storage
 		var sku IotHubSkuInfo_STATUS
 		err := sku.AssignProperties_From_IotHubSkuInfo_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IotHubSkuInfo_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_IotHubSkuInfo_STATUS() to populate field Sku")
 		}
 		iotHub.Sku = &sku
 	} else {
@@ -1065,7 +1065,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_From_IotHub_STATUS(source *storage
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		iotHub.SystemData = &systemDatum
 	} else {
@@ -1101,7 +1101,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *stor
 		var identity storage.ArmIdentity_STATUS
 		err := iotHub.Identity.AssignProperties_To_ArmIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ArmIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ArmIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1119,7 +1119,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *stor
 		var property storage.IotHubProperties_STATUS
 		err := iotHub.Properties.AssignProperties_To_IotHubProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IotHubProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_IotHubProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -1131,7 +1131,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *stor
 		var sku storage.IotHubSkuInfo_STATUS
 		err := iotHub.Sku.AssignProperties_To_IotHubSkuInfo_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IotHubSkuInfo_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_IotHubSkuInfo_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1143,7 +1143,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *stor
 		var systemDatum storage.SystemData_STATUS
 		err := iotHub.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1251,7 +1251,7 @@ func (identity *ArmIdentity) AssignProperties_From_ArmIdentity(source *storage.A
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -1286,7 +1286,7 @@ func (identity *ArmIdentity) AssignProperties_To_ArmIdentity(destination *storag
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -1424,7 +1424,7 @@ func (identity *ArmIdentity_STATUS) AssignProperties_From_ArmIdentity_STATUS(sou
 			var userAssignedIdentity ArmUserIdentity_STATUS
 			err := userAssignedIdentity.AssignProperties_From_ArmUserIdentity_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ArmUserIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_ArmUserIdentity_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1465,7 +1465,7 @@ func (identity *ArmIdentity_STATUS) AssignProperties_To_ArmIdentity_STATUS(desti
 			var userAssignedIdentity storage.ArmUserIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_ArmUserIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ArmUserIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_ArmUserIdentity_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1541,7 +1541,7 @@ func (operator *IotHubOperatorSpec) AssignProperties_From_IotHubOperatorSpec(sou
 		var secret IotHubOperatorSecrets
 		err := secret.AssignProperties_From_IotHubOperatorSecrets(source.Secrets)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IotHubOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_From_IotHubOperatorSecrets() to populate field Secrets")
 		}
 		operator.Secrets = &secret
 	} else {
@@ -1598,7 +1598,7 @@ func (operator *IotHubOperatorSpec) AssignProperties_To_IotHubOperatorSpec(desti
 		var secret storage.IotHubOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_IotHubOperatorSecrets(&secret)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IotHubOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_To_IotHubOperatorSecrets() to populate field Secrets")
 		}
 		destination.Secrets = &secret
 	} else {
@@ -2040,7 +2040,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 			var authorizationPolicy SharedAccessSignatureAuthorizationRule
 			err := authorizationPolicy.AssignProperties_From_SharedAccessSignatureAuthorizationRule(&authorizationPolicyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SharedAccessSignatureAuthorizationRule() to populate field AuthorizationPolicies")
+				return eris.Wrap(err, "calling AssignProperties_From_SharedAccessSignatureAuthorizationRule() to populate field AuthorizationPolicies")
 			}
 			authorizationPolicyList[authorizationPolicyIndex] = authorizationPolicy
 		}
@@ -2054,7 +2054,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 		var cloudToDevice CloudToDeviceProperties
 		err := cloudToDevice.AssignProperties_From_CloudToDeviceProperties(source.CloudToDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CloudToDeviceProperties() to populate field CloudToDevice")
+			return eris.Wrap(err, "calling AssignProperties_From_CloudToDeviceProperties() to populate field CloudToDevice")
 		}
 		properties.CloudToDevice = &cloudToDevice
 	} else {
@@ -2113,7 +2113,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 			var eventHubEndpoint EventHubProperties
 			err := eventHubEndpoint.AssignProperties_From_EventHubProperties(&eventHubEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EventHubProperties() to populate field EventHubEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_From_EventHubProperties() to populate field EventHubEndpoints")
 			}
 			eventHubEndpointMap[eventHubEndpointKey] = eventHubEndpoint
 		}
@@ -2140,7 +2140,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 			var ipFilterRule IpFilterRule
 			err := ipFilterRule.AssignProperties_From_IpFilterRule(&ipFilterRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpFilterRule() to populate field IpFilterRules")
+				return eris.Wrap(err, "calling AssignProperties_From_IpFilterRule() to populate field IpFilterRules")
 			}
 			ipFilterRuleList[ipFilterRuleIndex] = ipFilterRule
 		}
@@ -2158,7 +2158,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 			var messagingEndpoint MessagingEndpointProperties
 			err := messagingEndpoint.AssignProperties_From_MessagingEndpointProperties(&messagingEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_MessagingEndpointProperties() to populate field MessagingEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_From_MessagingEndpointProperties() to populate field MessagingEndpoints")
 			}
 			messagingEndpointMap[messagingEndpointKey] = messagingEndpoint
 		}
@@ -2175,7 +2175,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 		var networkRuleSet NetworkRuleSetProperties
 		err := networkRuleSet.AssignProperties_From_NetworkRuleSetProperties(source.NetworkRuleSets)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSetProperties() to populate field NetworkRuleSets")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkRuleSetProperties() to populate field NetworkRuleSets")
 		}
 		properties.NetworkRuleSets = &networkRuleSet
 	} else {
@@ -2204,7 +2204,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 		var routing RoutingProperties
 		err := routing.AssignProperties_From_RoutingProperties(source.Routing)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RoutingProperties() to populate field Routing")
+			return eris.Wrap(err, "calling AssignProperties_From_RoutingProperties() to populate field Routing")
 		}
 		properties.Routing = &routing
 	} else {
@@ -2220,7 +2220,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 			var storageEndpoint StorageEndpointProperties
 			err := storageEndpoint.AssignProperties_From_StorageEndpointProperties(&storageEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_StorageEndpointProperties() to populate field StorageEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_From_StorageEndpointProperties() to populate field StorageEndpoints")
 			}
 			storageEndpointMap[storageEndpointKey] = storageEndpoint
 		}
@@ -2250,7 +2250,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 			var authorizationPolicy storage.SharedAccessSignatureAuthorizationRule
 			err := authorizationPolicyItem.AssignProperties_To_SharedAccessSignatureAuthorizationRule(&authorizationPolicy)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SharedAccessSignatureAuthorizationRule() to populate field AuthorizationPolicies")
+				return eris.Wrap(err, "calling AssignProperties_To_SharedAccessSignatureAuthorizationRule() to populate field AuthorizationPolicies")
 			}
 			authorizationPolicyList[authorizationPolicyIndex] = authorizationPolicy
 		}
@@ -2264,7 +2264,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 		var cloudToDevice storage.CloudToDeviceProperties
 		err := properties.CloudToDevice.AssignProperties_To_CloudToDeviceProperties(&cloudToDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CloudToDeviceProperties() to populate field CloudToDevice")
+			return eris.Wrap(err, "calling AssignProperties_To_CloudToDeviceProperties() to populate field CloudToDevice")
 		}
 		destination.CloudToDevice = &cloudToDevice
 	} else {
@@ -2323,7 +2323,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 			var eventHubEndpoint storage.EventHubProperties
 			err := eventHubEndpointValue.AssignProperties_To_EventHubProperties(&eventHubEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EventHubProperties() to populate field EventHubEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_To_EventHubProperties() to populate field EventHubEndpoints")
 			}
 			eventHubEndpointMap[eventHubEndpointKey] = eventHubEndpoint
 		}
@@ -2349,7 +2349,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 			var ipFilterRule storage.IpFilterRule
 			err := ipFilterRuleItem.AssignProperties_To_IpFilterRule(&ipFilterRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpFilterRule() to populate field IpFilterRules")
+				return eris.Wrap(err, "calling AssignProperties_To_IpFilterRule() to populate field IpFilterRules")
 			}
 			ipFilterRuleList[ipFilterRuleIndex] = ipFilterRule
 		}
@@ -2367,7 +2367,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 			var messagingEndpoint storage.MessagingEndpointProperties
 			err := messagingEndpointValue.AssignProperties_To_MessagingEndpointProperties(&messagingEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_MessagingEndpointProperties() to populate field MessagingEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_To_MessagingEndpointProperties() to populate field MessagingEndpoints")
 			}
 			messagingEndpointMap[messagingEndpointKey] = messagingEndpoint
 		}
@@ -2384,7 +2384,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 		var networkRuleSet storage.NetworkRuleSetProperties
 		err := properties.NetworkRuleSets.AssignProperties_To_NetworkRuleSetProperties(&networkRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetProperties() to populate field NetworkRuleSets")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkRuleSetProperties() to populate field NetworkRuleSets")
 		}
 		destination.NetworkRuleSets = &networkRuleSet
 	} else {
@@ -2412,7 +2412,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 		var routing storage.RoutingProperties
 		err := properties.Routing.AssignProperties_To_RoutingProperties(&routing)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RoutingProperties() to populate field Routing")
+			return eris.Wrap(err, "calling AssignProperties_To_RoutingProperties() to populate field Routing")
 		}
 		destination.Routing = &routing
 	} else {
@@ -2428,7 +2428,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 			var storageEndpoint storage.StorageEndpointProperties
 			err := storageEndpointValue.AssignProperties_To_StorageEndpointProperties(&storageEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_StorageEndpointProperties() to populate field StorageEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_To_StorageEndpointProperties() to populate field StorageEndpoints")
 			}
 			storageEndpointMap[storageEndpointKey] = storageEndpoint
 		}
@@ -2463,7 +2463,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 			var authorizationPolicy SharedAccessSignatureAuthorizationRule
 			err := authorizationPolicy.Initialize_From_SharedAccessSignatureAuthorizationRule_STATUS(&authorizationPolicyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SharedAccessSignatureAuthorizationRule_STATUS() to populate field AuthorizationPolicies")
+				return eris.Wrap(err, "calling Initialize_From_SharedAccessSignatureAuthorizationRule_STATUS() to populate field AuthorizationPolicies")
 			}
 			authorizationPolicyList[authorizationPolicyIndex] = authorizationPolicy
 		}
@@ -2477,7 +2477,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 		var cloudToDevice CloudToDeviceProperties
 		err := cloudToDevice.Initialize_From_CloudToDeviceProperties_STATUS(source.CloudToDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CloudToDeviceProperties_STATUS() to populate field CloudToDevice")
+			return eris.Wrap(err, "calling Initialize_From_CloudToDeviceProperties_STATUS() to populate field CloudToDevice")
 		}
 		properties.CloudToDevice = &cloudToDevice
 	} else {
@@ -2536,7 +2536,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 			var eventHubEndpoint EventHubProperties
 			err := eventHubEndpoint.Initialize_From_EventHubProperties_STATUS(&eventHubEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_EventHubProperties_STATUS() to populate field EventHubEndpoints")
+				return eris.Wrap(err, "calling Initialize_From_EventHubProperties_STATUS() to populate field EventHubEndpoints")
 			}
 			eventHubEndpointMap[eventHubEndpointKey] = eventHubEndpoint
 		}
@@ -2562,7 +2562,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 			var ipFilterRule IpFilterRule
 			err := ipFilterRule.Initialize_From_IpFilterRule_STATUS(&ipFilterRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IpFilterRule_STATUS() to populate field IpFilterRules")
+				return eris.Wrap(err, "calling Initialize_From_IpFilterRule_STATUS() to populate field IpFilterRules")
 			}
 			ipFilterRuleList[ipFilterRuleIndex] = ipFilterRule
 		}
@@ -2580,7 +2580,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 			var messagingEndpoint MessagingEndpointProperties
 			err := messagingEndpoint.Initialize_From_MessagingEndpointProperties_STATUS(&messagingEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_MessagingEndpointProperties_STATUS() to populate field MessagingEndpoints")
+				return eris.Wrap(err, "calling Initialize_From_MessagingEndpointProperties_STATUS() to populate field MessagingEndpoints")
 			}
 			messagingEndpointMap[messagingEndpointKey] = messagingEndpoint
 		}
@@ -2597,7 +2597,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 		var networkRuleSet NetworkRuleSetProperties
 		err := networkRuleSet.Initialize_From_NetworkRuleSetProperties_STATUS(source.NetworkRuleSets)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NetworkRuleSetProperties_STATUS() to populate field NetworkRuleSets")
+			return eris.Wrap(err, "calling Initialize_From_NetworkRuleSetProperties_STATUS() to populate field NetworkRuleSets")
 		}
 		properties.NetworkRuleSets = &networkRuleSet
 	} else {
@@ -2625,7 +2625,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 		var routing RoutingProperties
 		err := routing.Initialize_From_RoutingProperties_STATUS(source.Routing)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RoutingProperties_STATUS() to populate field Routing")
+			return eris.Wrap(err, "calling Initialize_From_RoutingProperties_STATUS() to populate field Routing")
 		}
 		properties.Routing = &routing
 	} else {
@@ -2641,7 +2641,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 			var storageEndpoint StorageEndpointProperties
 			err := storageEndpoint.Initialize_From_StorageEndpointProperties_STATUS(&storageEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_StorageEndpointProperties_STATUS() to populate field StorageEndpoints")
+				return eris.Wrap(err, "calling Initialize_From_StorageEndpointProperties_STATUS() to populate field StorageEndpoints")
 			}
 			storageEndpointMap[storageEndpointKey] = storageEndpoint
 		}
@@ -2969,7 +2969,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 			var authorizationPolicy SharedAccessSignatureAuthorizationRule_STATUS
 			err := authorizationPolicy.AssignProperties_From_SharedAccessSignatureAuthorizationRule_STATUS(&authorizationPolicyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SharedAccessSignatureAuthorizationRule_STATUS() to populate field AuthorizationPolicies")
+				return eris.Wrap(err, "calling AssignProperties_From_SharedAccessSignatureAuthorizationRule_STATUS() to populate field AuthorizationPolicies")
 			}
 			authorizationPolicyList[authorizationPolicyIndex] = authorizationPolicy
 		}
@@ -2983,7 +2983,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 		var cloudToDevice CloudToDeviceProperties_STATUS
 		err := cloudToDevice.AssignProperties_From_CloudToDeviceProperties_STATUS(source.CloudToDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CloudToDeviceProperties_STATUS() to populate field CloudToDevice")
+			return eris.Wrap(err, "calling AssignProperties_From_CloudToDeviceProperties_STATUS() to populate field CloudToDevice")
 		}
 		properties.CloudToDevice = &cloudToDevice
 	} else {
@@ -3042,7 +3042,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 			var eventHubEndpoint EventHubProperties_STATUS
 			err := eventHubEndpoint.AssignProperties_From_EventHubProperties_STATUS(&eventHubEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EventHubProperties_STATUS() to populate field EventHubEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_From_EventHubProperties_STATUS() to populate field EventHubEndpoints")
 			}
 			eventHubEndpointMap[eventHubEndpointKey] = eventHubEndpoint
 		}
@@ -3072,7 +3072,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 			var ipFilterRule IpFilterRule_STATUS
 			err := ipFilterRule.AssignProperties_From_IpFilterRule_STATUS(&ipFilterRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpFilterRule_STATUS() to populate field IpFilterRules")
+				return eris.Wrap(err, "calling AssignProperties_From_IpFilterRule_STATUS() to populate field IpFilterRules")
 			}
 			ipFilterRuleList[ipFilterRuleIndex] = ipFilterRule
 		}
@@ -3090,7 +3090,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 			var location IotHubLocationDescription_STATUS
 			err := location.AssignProperties_From_IotHubLocationDescription_STATUS(&locationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IotHubLocationDescription_STATUS() to populate field Locations")
+				return eris.Wrap(err, "calling AssignProperties_From_IotHubLocationDescription_STATUS() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -3108,7 +3108,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 			var messagingEndpoint MessagingEndpointProperties_STATUS
 			err := messagingEndpoint.AssignProperties_From_MessagingEndpointProperties_STATUS(&messagingEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_MessagingEndpointProperties_STATUS() to populate field MessagingEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_From_MessagingEndpointProperties_STATUS() to populate field MessagingEndpoints")
 			}
 			messagingEndpointMap[messagingEndpointKey] = messagingEndpoint
 		}
@@ -3125,7 +3125,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 		var networkRuleSet NetworkRuleSetProperties_STATUS
 		err := networkRuleSet.AssignProperties_From_NetworkRuleSetProperties_STATUS(source.NetworkRuleSets)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSetProperties_STATUS() to populate field NetworkRuleSets")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkRuleSetProperties_STATUS() to populate field NetworkRuleSets")
 		}
 		properties.NetworkRuleSets = &networkRuleSet
 	} else {
@@ -3141,7 +3141,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -3175,7 +3175,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 		var routing RoutingProperties_STATUS
 		err := routing.AssignProperties_From_RoutingProperties_STATUS(source.Routing)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RoutingProperties_STATUS() to populate field Routing")
+			return eris.Wrap(err, "calling AssignProperties_From_RoutingProperties_STATUS() to populate field Routing")
 		}
 		properties.Routing = &routing
 	} else {
@@ -3194,7 +3194,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 			var storageEndpoint StorageEndpointProperties_STATUS
 			err := storageEndpoint.AssignProperties_From_StorageEndpointProperties_STATUS(&storageEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_StorageEndpointProperties_STATUS() to populate field StorageEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_From_StorageEndpointProperties_STATUS() to populate field StorageEndpoints")
 			}
 			storageEndpointMap[storageEndpointKey] = storageEndpoint
 		}
@@ -3224,7 +3224,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 			var authorizationPolicy storage.SharedAccessSignatureAuthorizationRule_STATUS
 			err := authorizationPolicyItem.AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS(&authorizationPolicy)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS() to populate field AuthorizationPolicies")
+				return eris.Wrap(err, "calling AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS() to populate field AuthorizationPolicies")
 			}
 			authorizationPolicyList[authorizationPolicyIndex] = authorizationPolicy
 		}
@@ -3238,7 +3238,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 		var cloudToDevice storage.CloudToDeviceProperties_STATUS
 		err := properties.CloudToDevice.AssignProperties_To_CloudToDeviceProperties_STATUS(&cloudToDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CloudToDeviceProperties_STATUS() to populate field CloudToDevice")
+			return eris.Wrap(err, "calling AssignProperties_To_CloudToDeviceProperties_STATUS() to populate field CloudToDevice")
 		}
 		destination.CloudToDevice = &cloudToDevice
 	} else {
@@ -3297,7 +3297,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 			var eventHubEndpoint storage.EventHubProperties_STATUS
 			err := eventHubEndpointValue.AssignProperties_To_EventHubProperties_STATUS(&eventHubEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EventHubProperties_STATUS() to populate field EventHubEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_To_EventHubProperties_STATUS() to populate field EventHubEndpoints")
 			}
 			eventHubEndpointMap[eventHubEndpointKey] = eventHubEndpoint
 		}
@@ -3326,7 +3326,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 			var ipFilterRule storage.IpFilterRule_STATUS
 			err := ipFilterRuleItem.AssignProperties_To_IpFilterRule_STATUS(&ipFilterRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpFilterRule_STATUS() to populate field IpFilterRules")
+				return eris.Wrap(err, "calling AssignProperties_To_IpFilterRule_STATUS() to populate field IpFilterRules")
 			}
 			ipFilterRuleList[ipFilterRuleIndex] = ipFilterRule
 		}
@@ -3344,7 +3344,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 			var location storage.IotHubLocationDescription_STATUS
 			err := locationItem.AssignProperties_To_IotHubLocationDescription_STATUS(&location)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IotHubLocationDescription_STATUS() to populate field Locations")
+				return eris.Wrap(err, "calling AssignProperties_To_IotHubLocationDescription_STATUS() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -3362,7 +3362,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 			var messagingEndpoint storage.MessagingEndpointProperties_STATUS
 			err := messagingEndpointValue.AssignProperties_To_MessagingEndpointProperties_STATUS(&messagingEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_MessagingEndpointProperties_STATUS() to populate field MessagingEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_To_MessagingEndpointProperties_STATUS() to populate field MessagingEndpoints")
 			}
 			messagingEndpointMap[messagingEndpointKey] = messagingEndpoint
 		}
@@ -3379,7 +3379,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 		var networkRuleSet storage.NetworkRuleSetProperties_STATUS
 		err := properties.NetworkRuleSets.AssignProperties_To_NetworkRuleSetProperties_STATUS(&networkRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetProperties_STATUS() to populate field NetworkRuleSets")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkRuleSetProperties_STATUS() to populate field NetworkRuleSets")
 		}
 		destination.NetworkRuleSets = &networkRuleSet
 	} else {
@@ -3395,7 +3395,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -3428,7 +3428,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 		var routing storage.RoutingProperties_STATUS
 		err := properties.Routing.AssignProperties_To_RoutingProperties_STATUS(&routing)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RoutingProperties_STATUS() to populate field Routing")
+			return eris.Wrap(err, "calling AssignProperties_To_RoutingProperties_STATUS() to populate field Routing")
 		}
 		destination.Routing = &routing
 	} else {
@@ -3447,7 +3447,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 			var storageEndpoint storage.StorageEndpointProperties_STATUS
 			err := storageEndpointValue.AssignProperties_To_StorageEndpointProperties_STATUS(&storageEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_StorageEndpointProperties_STATUS() to populate field StorageEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_To_StorageEndpointProperties_STATUS() to populate field StorageEndpoints")
 			}
 			storageEndpointMap[storageEndpointKey] = storageEndpoint
 		}
@@ -4077,7 +4077,7 @@ func (properties *CloudToDeviceProperties) AssignProperties_From_CloudToDevicePr
 		var feedback FeedbackProperties
 		err := feedback.AssignProperties_From_FeedbackProperties(source.Feedback)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FeedbackProperties() to populate field Feedback")
+			return eris.Wrap(err, "calling AssignProperties_From_FeedbackProperties() to populate field Feedback")
 		}
 		properties.Feedback = &feedback
 	} else {
@@ -4109,7 +4109,7 @@ func (properties *CloudToDeviceProperties) AssignProperties_To_CloudToDeviceProp
 		var feedback storage.FeedbackProperties
 		err := properties.Feedback.AssignProperties_To_FeedbackProperties(&feedback)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FeedbackProperties() to populate field Feedback")
+			return eris.Wrap(err, "calling AssignProperties_To_FeedbackProperties() to populate field Feedback")
 		}
 		destination.Feedback = &feedback
 	} else {
@@ -4146,7 +4146,7 @@ func (properties *CloudToDeviceProperties) Initialize_From_CloudToDeviceProperti
 		var feedback FeedbackProperties
 		err := feedback.Initialize_From_FeedbackProperties_STATUS(source.Feedback)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_FeedbackProperties_STATUS() to populate field Feedback")
+			return eris.Wrap(err, "calling Initialize_From_FeedbackProperties_STATUS() to populate field Feedback")
 		}
 		properties.Feedback = &feedback
 	} else {
@@ -4231,7 +4231,7 @@ func (properties *CloudToDeviceProperties_STATUS) AssignProperties_From_CloudToD
 		var feedback FeedbackProperties_STATUS
 		err := feedback.AssignProperties_From_FeedbackProperties_STATUS(source.Feedback)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FeedbackProperties_STATUS() to populate field Feedback")
+			return eris.Wrap(err, "calling AssignProperties_From_FeedbackProperties_STATUS() to populate field Feedback")
 		}
 		properties.Feedback = &feedback
 	} else {
@@ -4258,7 +4258,7 @@ func (properties *CloudToDeviceProperties_STATUS) AssignProperties_To_CloudToDev
 		var feedback storage.FeedbackProperties_STATUS
 		err := properties.Feedback.AssignProperties_To_FeedbackProperties_STATUS(&feedback)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FeedbackProperties_STATUS() to populate field Feedback")
+			return eris.Wrap(err, "calling AssignProperties_To_FeedbackProperties_STATUS() to populate field Feedback")
 		}
 		destination.Feedback = &feedback
 	} else {
@@ -5555,7 +5555,7 @@ func (properties *NetworkRuleSetProperties) AssignProperties_From_NetworkRuleSet
 			var ipRule NetworkRuleSetIpRule
 			err := ipRule.AssignProperties_From_NetworkRuleSetIpRule(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSetIpRule() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_NetworkRuleSetIpRule() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -5598,7 +5598,7 @@ func (properties *NetworkRuleSetProperties) AssignProperties_To_NetworkRuleSetPr
 			var ipRule storage.NetworkRuleSetIpRule
 			err := ipRuleItem.AssignProperties_To_NetworkRuleSetIpRule(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetIpRule() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_NetworkRuleSetIpRule() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -5646,7 +5646,7 @@ func (properties *NetworkRuleSetProperties) Initialize_From_NetworkRuleSetProper
 			var ipRule NetworkRuleSetIpRule
 			err := ipRule.Initialize_From_NetworkRuleSetIpRule_STATUS(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_NetworkRuleSetIpRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling Initialize_From_NetworkRuleSetIpRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -5742,7 +5742,7 @@ func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_From_Network
 			var ipRule NetworkRuleSetIpRule_STATUS
 			err := ipRule.AssignProperties_From_NetworkRuleSetIpRule_STATUS(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSetIpRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_NetworkRuleSetIpRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -5785,7 +5785,7 @@ func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_To_NetworkRu
 			var ipRule storage.NetworkRuleSetIpRule_STATUS
 			err := ipRuleItem.AssignProperties_To_NetworkRuleSetIpRule_STATUS(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetIpRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_NetworkRuleSetIpRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -6001,7 +6001,7 @@ func (properties *RoutingProperties) AssignProperties_From_RoutingProperties(sou
 		var endpoint RoutingEndpoints
 		err := endpoint.AssignProperties_From_RoutingEndpoints(source.Endpoints)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RoutingEndpoints() to populate field Endpoints")
+			return eris.Wrap(err, "calling AssignProperties_From_RoutingEndpoints() to populate field Endpoints")
 		}
 		properties.Endpoints = &endpoint
 	} else {
@@ -6017,7 +6017,7 @@ func (properties *RoutingProperties) AssignProperties_From_RoutingProperties(sou
 			var enrichment EnrichmentProperties
 			err := enrichment.AssignProperties_From_EnrichmentProperties(&enrichmentItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EnrichmentProperties() to populate field Enrichments")
+				return eris.Wrap(err, "calling AssignProperties_From_EnrichmentProperties() to populate field Enrichments")
 			}
 			enrichmentList[enrichmentIndex] = enrichment
 		}
@@ -6031,7 +6031,7 @@ func (properties *RoutingProperties) AssignProperties_From_RoutingProperties(sou
 		var fallbackRoute FallbackRouteProperties
 		err := fallbackRoute.AssignProperties_From_FallbackRouteProperties(source.FallbackRoute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FallbackRouteProperties() to populate field FallbackRoute")
+			return eris.Wrap(err, "calling AssignProperties_From_FallbackRouteProperties() to populate field FallbackRoute")
 		}
 		properties.FallbackRoute = &fallbackRoute
 	} else {
@@ -6047,7 +6047,7 @@ func (properties *RoutingProperties) AssignProperties_From_RoutingProperties(sou
 			var route RouteProperties
 			err := route.AssignProperties_From_RouteProperties(&routeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RouteProperties() to populate field Routes")
+				return eris.Wrap(err, "calling AssignProperties_From_RouteProperties() to populate field Routes")
 			}
 			routeList[routeIndex] = route
 		}
@@ -6070,7 +6070,7 @@ func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(desti
 		var endpoint storage.RoutingEndpoints
 		err := properties.Endpoints.AssignProperties_To_RoutingEndpoints(&endpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RoutingEndpoints() to populate field Endpoints")
+			return eris.Wrap(err, "calling AssignProperties_To_RoutingEndpoints() to populate field Endpoints")
 		}
 		destination.Endpoints = &endpoint
 	} else {
@@ -6086,7 +6086,7 @@ func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(desti
 			var enrichment storage.EnrichmentProperties
 			err := enrichmentItem.AssignProperties_To_EnrichmentProperties(&enrichment)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EnrichmentProperties() to populate field Enrichments")
+				return eris.Wrap(err, "calling AssignProperties_To_EnrichmentProperties() to populate field Enrichments")
 			}
 			enrichmentList[enrichmentIndex] = enrichment
 		}
@@ -6100,7 +6100,7 @@ func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(desti
 		var fallbackRoute storage.FallbackRouteProperties
 		err := properties.FallbackRoute.AssignProperties_To_FallbackRouteProperties(&fallbackRoute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FallbackRouteProperties() to populate field FallbackRoute")
+			return eris.Wrap(err, "calling AssignProperties_To_FallbackRouteProperties() to populate field FallbackRoute")
 		}
 		destination.FallbackRoute = &fallbackRoute
 	} else {
@@ -6116,7 +6116,7 @@ func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(desti
 			var route storage.RouteProperties
 			err := routeItem.AssignProperties_To_RouteProperties(&route)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RouteProperties() to populate field Routes")
+				return eris.Wrap(err, "calling AssignProperties_To_RouteProperties() to populate field Routes")
 			}
 			routeList[routeIndex] = route
 		}
@@ -6144,7 +6144,7 @@ func (properties *RoutingProperties) Initialize_From_RoutingProperties_STATUS(so
 		var endpoint RoutingEndpoints
 		err := endpoint.Initialize_From_RoutingEndpoints_STATUS(source.Endpoints)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RoutingEndpoints_STATUS() to populate field Endpoints")
+			return eris.Wrap(err, "calling Initialize_From_RoutingEndpoints_STATUS() to populate field Endpoints")
 		}
 		properties.Endpoints = &endpoint
 	} else {
@@ -6160,7 +6160,7 @@ func (properties *RoutingProperties) Initialize_From_RoutingProperties_STATUS(so
 			var enrichment EnrichmentProperties
 			err := enrichment.Initialize_From_EnrichmentProperties_STATUS(&enrichmentItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_EnrichmentProperties_STATUS() to populate field Enrichments")
+				return eris.Wrap(err, "calling Initialize_From_EnrichmentProperties_STATUS() to populate field Enrichments")
 			}
 			enrichmentList[enrichmentIndex] = enrichment
 		}
@@ -6174,7 +6174,7 @@ func (properties *RoutingProperties) Initialize_From_RoutingProperties_STATUS(so
 		var fallbackRoute FallbackRouteProperties
 		err := fallbackRoute.Initialize_From_FallbackRouteProperties_STATUS(source.FallbackRoute)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_FallbackRouteProperties_STATUS() to populate field FallbackRoute")
+			return eris.Wrap(err, "calling Initialize_From_FallbackRouteProperties_STATUS() to populate field FallbackRoute")
 		}
 		properties.FallbackRoute = &fallbackRoute
 	} else {
@@ -6190,7 +6190,7 @@ func (properties *RoutingProperties) Initialize_From_RoutingProperties_STATUS(so
 			var route RouteProperties
 			err := route.Initialize_From_RouteProperties_STATUS(&routeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_RouteProperties_STATUS() to populate field Routes")
+				return eris.Wrap(err, "calling Initialize_From_RouteProperties_STATUS() to populate field Routes")
 			}
 			routeList[routeIndex] = route
 		}
@@ -6293,7 +6293,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_From_RoutingPropert
 		var endpoint RoutingEndpoints_STATUS
 		err := endpoint.AssignProperties_From_RoutingEndpoints_STATUS(source.Endpoints)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RoutingEndpoints_STATUS() to populate field Endpoints")
+			return eris.Wrap(err, "calling AssignProperties_From_RoutingEndpoints_STATUS() to populate field Endpoints")
 		}
 		properties.Endpoints = &endpoint
 	} else {
@@ -6309,7 +6309,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_From_RoutingPropert
 			var enrichment EnrichmentProperties_STATUS
 			err := enrichment.AssignProperties_From_EnrichmentProperties_STATUS(&enrichmentItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EnrichmentProperties_STATUS() to populate field Enrichments")
+				return eris.Wrap(err, "calling AssignProperties_From_EnrichmentProperties_STATUS() to populate field Enrichments")
 			}
 			enrichmentList[enrichmentIndex] = enrichment
 		}
@@ -6323,7 +6323,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_From_RoutingPropert
 		var fallbackRoute FallbackRouteProperties_STATUS
 		err := fallbackRoute.AssignProperties_From_FallbackRouteProperties_STATUS(source.FallbackRoute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FallbackRouteProperties_STATUS() to populate field FallbackRoute")
+			return eris.Wrap(err, "calling AssignProperties_From_FallbackRouteProperties_STATUS() to populate field FallbackRoute")
 		}
 		properties.FallbackRoute = &fallbackRoute
 	} else {
@@ -6339,7 +6339,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_From_RoutingPropert
 			var route RouteProperties_STATUS
 			err := route.AssignProperties_From_RouteProperties_STATUS(&routeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RouteProperties_STATUS() to populate field Routes")
+				return eris.Wrap(err, "calling AssignProperties_From_RouteProperties_STATUS() to populate field Routes")
 			}
 			routeList[routeIndex] = route
 		}
@@ -6362,7 +6362,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingPropertie
 		var endpoint storage.RoutingEndpoints_STATUS
 		err := properties.Endpoints.AssignProperties_To_RoutingEndpoints_STATUS(&endpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RoutingEndpoints_STATUS() to populate field Endpoints")
+			return eris.Wrap(err, "calling AssignProperties_To_RoutingEndpoints_STATUS() to populate field Endpoints")
 		}
 		destination.Endpoints = &endpoint
 	} else {
@@ -6378,7 +6378,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingPropertie
 			var enrichment storage.EnrichmentProperties_STATUS
 			err := enrichmentItem.AssignProperties_To_EnrichmentProperties_STATUS(&enrichment)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EnrichmentProperties_STATUS() to populate field Enrichments")
+				return eris.Wrap(err, "calling AssignProperties_To_EnrichmentProperties_STATUS() to populate field Enrichments")
 			}
 			enrichmentList[enrichmentIndex] = enrichment
 		}
@@ -6392,7 +6392,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingPropertie
 		var fallbackRoute storage.FallbackRouteProperties_STATUS
 		err := properties.FallbackRoute.AssignProperties_To_FallbackRouteProperties_STATUS(&fallbackRoute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FallbackRouteProperties_STATUS() to populate field FallbackRoute")
+			return eris.Wrap(err, "calling AssignProperties_To_FallbackRouteProperties_STATUS() to populate field FallbackRoute")
 		}
 		destination.FallbackRoute = &fallbackRoute
 	} else {
@@ -6408,7 +6408,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingPropertie
 			var route storage.RouteProperties_STATUS
 			err := routeItem.AssignProperties_To_RouteProperties_STATUS(&route)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RouteProperties_STATUS() to populate field Routes")
+				return eris.Wrap(err, "calling AssignProperties_To_RouteProperties_STATUS() to populate field Routes")
 			}
 			routeList[routeIndex] = route
 		}
@@ -6688,7 +6688,7 @@ func (properties *StorageEndpointProperties) ConvertToARM(resolved genruntime.Co
 	if properties.ConnectionString != nil {
 		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+			return nil, eris.Wrap(err, "looking up secret for property ConnectionString")
 		}
 		connectionString := connectionStringSecret
 		result.ConnectionString = &connectionString
@@ -6795,7 +6795,7 @@ func (properties *StorageEndpointProperties) AssignProperties_From_StorageEndpoi
 		var identity ManagedIdentity
 		err := identity.AssignProperties_From_ManagedIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -6838,7 +6838,7 @@ func (properties *StorageEndpointProperties) AssignProperties_To_StorageEndpoint
 		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -6878,7 +6878,7 @@ func (properties *StorageEndpointProperties) Initialize_From_StorageEndpointProp
 		var identity ManagedIdentity
 		err := identity.Initialize_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -6978,7 +6978,7 @@ func (properties *StorageEndpointProperties_STATUS) AssignProperties_From_Storag
 		var identity ManagedIdentity_STATUS
 		err := identity.AssignProperties_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -7013,7 +7013,7 @@ func (properties *StorageEndpointProperties_STATUS) AssignProperties_To_StorageE
 		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -9008,7 +9008,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_From_RoutingEndpoints(source
 			var eventHub RoutingEventHubProperties
 			err := eventHub.AssignProperties_From_RoutingEventHubProperties(&eventHubItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingEventHubProperties() to populate field EventHubs")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingEventHubProperties() to populate field EventHubs")
 			}
 			eventHubList[eventHubIndex] = eventHub
 		}
@@ -9026,7 +9026,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_From_RoutingEndpoints(source
 			var serviceBusQueue RoutingServiceBusQueueEndpointProperties
 			err := serviceBusQueue.AssignProperties_From_RoutingServiceBusQueueEndpointProperties(&serviceBusQueueItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingServiceBusQueueEndpointProperties() to populate field ServiceBusQueues")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingServiceBusQueueEndpointProperties() to populate field ServiceBusQueues")
 			}
 			serviceBusQueueList[serviceBusQueueIndex] = serviceBusQueue
 		}
@@ -9044,7 +9044,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_From_RoutingEndpoints(source
 			var serviceBusTopic RoutingServiceBusTopicEndpointProperties
 			err := serviceBusTopic.AssignProperties_From_RoutingServiceBusTopicEndpointProperties(&serviceBusTopicItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingServiceBusTopicEndpointProperties() to populate field ServiceBusTopics")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingServiceBusTopicEndpointProperties() to populate field ServiceBusTopics")
 			}
 			serviceBusTopicList[serviceBusTopicIndex] = serviceBusTopic
 		}
@@ -9062,7 +9062,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_From_RoutingEndpoints(source
 			var storageContainer RoutingStorageContainerProperties
 			err := storageContainer.AssignProperties_From_RoutingStorageContainerProperties(&storageContainerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingStorageContainerProperties() to populate field StorageContainers")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingStorageContainerProperties() to populate field StorageContainers")
 			}
 			storageContainerList[storageContainerIndex] = storageContainer
 		}
@@ -9089,7 +9089,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destinat
 			var eventHub storage.RoutingEventHubProperties
 			err := eventHubItem.AssignProperties_To_RoutingEventHubProperties(&eventHub)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingEventHubProperties() to populate field EventHubs")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingEventHubProperties() to populate field EventHubs")
 			}
 			eventHubList[eventHubIndex] = eventHub
 		}
@@ -9107,7 +9107,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destinat
 			var serviceBusQueue storage.RoutingServiceBusQueueEndpointProperties
 			err := serviceBusQueueItem.AssignProperties_To_RoutingServiceBusQueueEndpointProperties(&serviceBusQueue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusQueueEndpointProperties() to populate field ServiceBusQueues")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingServiceBusQueueEndpointProperties() to populate field ServiceBusQueues")
 			}
 			serviceBusQueueList[serviceBusQueueIndex] = serviceBusQueue
 		}
@@ -9125,7 +9125,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destinat
 			var serviceBusTopic storage.RoutingServiceBusTopicEndpointProperties
 			err := serviceBusTopicItem.AssignProperties_To_RoutingServiceBusTopicEndpointProperties(&serviceBusTopic)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusTopicEndpointProperties() to populate field ServiceBusTopics")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingServiceBusTopicEndpointProperties() to populate field ServiceBusTopics")
 			}
 			serviceBusTopicList[serviceBusTopicIndex] = serviceBusTopic
 		}
@@ -9143,7 +9143,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destinat
 			var storageContainer storage.RoutingStorageContainerProperties
 			err := storageContainerItem.AssignProperties_To_RoutingStorageContainerProperties(&storageContainer)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingStorageContainerProperties() to populate field StorageContainers")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingStorageContainerProperties() to populate field StorageContainers")
 			}
 			storageContainerList[storageContainerIndex] = storageContainer
 		}
@@ -9175,7 +9175,7 @@ func (endpoints *RoutingEndpoints) Initialize_From_RoutingEndpoints_STATUS(sourc
 			var eventHub RoutingEventHubProperties
 			err := eventHub.Initialize_From_RoutingEventHubProperties_STATUS(&eventHubItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_RoutingEventHubProperties_STATUS() to populate field EventHubs")
+				return eris.Wrap(err, "calling Initialize_From_RoutingEventHubProperties_STATUS() to populate field EventHubs")
 			}
 			eventHubList[eventHubIndex] = eventHub
 		}
@@ -9193,7 +9193,7 @@ func (endpoints *RoutingEndpoints) Initialize_From_RoutingEndpoints_STATUS(sourc
 			var serviceBusQueue RoutingServiceBusQueueEndpointProperties
 			err := serviceBusQueue.Initialize_From_RoutingServiceBusQueueEndpointProperties_STATUS(&serviceBusQueueItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_RoutingServiceBusQueueEndpointProperties_STATUS() to populate field ServiceBusQueues")
+				return eris.Wrap(err, "calling Initialize_From_RoutingServiceBusQueueEndpointProperties_STATUS() to populate field ServiceBusQueues")
 			}
 			serviceBusQueueList[serviceBusQueueIndex] = serviceBusQueue
 		}
@@ -9211,7 +9211,7 @@ func (endpoints *RoutingEndpoints) Initialize_From_RoutingEndpoints_STATUS(sourc
 			var serviceBusTopic RoutingServiceBusTopicEndpointProperties
 			err := serviceBusTopic.Initialize_From_RoutingServiceBusTopicEndpointProperties_STATUS(&serviceBusTopicItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_RoutingServiceBusTopicEndpointProperties_STATUS() to populate field ServiceBusTopics")
+				return eris.Wrap(err, "calling Initialize_From_RoutingServiceBusTopicEndpointProperties_STATUS() to populate field ServiceBusTopics")
 			}
 			serviceBusTopicList[serviceBusTopicIndex] = serviceBusTopic
 		}
@@ -9229,7 +9229,7 @@ func (endpoints *RoutingEndpoints) Initialize_From_RoutingEndpoints_STATUS(sourc
 			var storageContainer RoutingStorageContainerProperties
 			err := storageContainer.Initialize_From_RoutingStorageContainerProperties_STATUS(&storageContainerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_RoutingStorageContainerProperties_STATUS() to populate field StorageContainers")
+				return eris.Wrap(err, "calling Initialize_From_RoutingStorageContainerProperties_STATUS() to populate field StorageContainers")
 			}
 			storageContainerList[storageContainerIndex] = storageContainer
 		}
@@ -9332,7 +9332,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_From_RoutingEndpoints
 			var eventHub RoutingEventHubProperties_STATUS
 			err := eventHub.AssignProperties_From_RoutingEventHubProperties_STATUS(&eventHubItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingEventHubProperties_STATUS() to populate field EventHubs")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingEventHubProperties_STATUS() to populate field EventHubs")
 			}
 			eventHubList[eventHubIndex] = eventHub
 		}
@@ -9350,7 +9350,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_From_RoutingEndpoints
 			var serviceBusQueue RoutingServiceBusQueueEndpointProperties_STATUS
 			err := serviceBusQueue.AssignProperties_From_RoutingServiceBusQueueEndpointProperties_STATUS(&serviceBusQueueItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingServiceBusQueueEndpointProperties_STATUS() to populate field ServiceBusQueues")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingServiceBusQueueEndpointProperties_STATUS() to populate field ServiceBusQueues")
 			}
 			serviceBusQueueList[serviceBusQueueIndex] = serviceBusQueue
 		}
@@ -9368,7 +9368,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_From_RoutingEndpoints
 			var serviceBusTopic RoutingServiceBusTopicEndpointProperties_STATUS
 			err := serviceBusTopic.AssignProperties_From_RoutingServiceBusTopicEndpointProperties_STATUS(&serviceBusTopicItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingServiceBusTopicEndpointProperties_STATUS() to populate field ServiceBusTopics")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingServiceBusTopicEndpointProperties_STATUS() to populate field ServiceBusTopics")
 			}
 			serviceBusTopicList[serviceBusTopicIndex] = serviceBusTopic
 		}
@@ -9386,7 +9386,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_From_RoutingEndpoints
 			var storageContainer RoutingStorageContainerProperties_STATUS
 			err := storageContainer.AssignProperties_From_RoutingStorageContainerProperties_STATUS(&storageContainerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingStorageContainerProperties_STATUS() to populate field StorageContainers")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingStorageContainerProperties_STATUS() to populate field StorageContainers")
 			}
 			storageContainerList[storageContainerIndex] = storageContainer
 		}
@@ -9413,7 +9413,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 			var eventHub storage.RoutingEventHubProperties_STATUS
 			err := eventHubItem.AssignProperties_To_RoutingEventHubProperties_STATUS(&eventHub)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingEventHubProperties_STATUS() to populate field EventHubs")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingEventHubProperties_STATUS() to populate field EventHubs")
 			}
 			eventHubList[eventHubIndex] = eventHub
 		}
@@ -9431,7 +9431,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 			var serviceBusQueue storage.RoutingServiceBusQueueEndpointProperties_STATUS
 			err := serviceBusQueueItem.AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS(&serviceBusQueue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS() to populate field ServiceBusQueues")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS() to populate field ServiceBusQueues")
 			}
 			serviceBusQueueList[serviceBusQueueIndex] = serviceBusQueue
 		}
@@ -9449,7 +9449,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 			var serviceBusTopic storage.RoutingServiceBusTopicEndpointProperties_STATUS
 			err := serviceBusTopicItem.AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS(&serviceBusTopic)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS() to populate field ServiceBusTopics")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS() to populate field ServiceBusTopics")
 			}
 			serviceBusTopicList[serviceBusTopicIndex] = serviceBusTopic
 		}
@@ -9467,7 +9467,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 			var storageContainer storage.RoutingStorageContainerProperties_STATUS
 			err := storageContainerItem.AssignProperties_To_RoutingStorageContainerProperties_STATUS(&storageContainer)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingStorageContainerProperties_STATUS() to populate field StorageContainers")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingStorageContainerProperties_STATUS() to populate field StorageContainers")
 			}
 			storageContainerList[storageContainerIndex] = storageContainer
 		}
@@ -9729,7 +9729,7 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 	if properties.ConnectionString != nil {
 		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+			return nil, eris.Wrap(err, "looking up secret for property ConnectionString")
 		}
 		connectionString := connectionStringSecret
 		result.ConnectionString = &connectionString
@@ -9887,7 +9887,7 @@ func (properties *RoutingEventHubProperties) AssignProperties_From_RoutingEventH
 		var identity ManagedIdentity
 		err := identity.AssignProperties_From_ManagedIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -9952,7 +9952,7 @@ func (properties *RoutingEventHubProperties) AssignProperties_To_RoutingEventHub
 		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -10014,7 +10014,7 @@ func (properties *RoutingEventHubProperties) Initialize_From_RoutingEventHubProp
 		var identity ManagedIdentity
 		err := identity.Initialize_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -10175,7 +10175,7 @@ func (properties *RoutingEventHubProperties_STATUS) AssignProperties_From_Routin
 		var identity ManagedIdentity_STATUS
 		err := identity.AssignProperties_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -10222,7 +10222,7 @@ func (properties *RoutingEventHubProperties_STATUS) AssignProperties_To_RoutingE
 		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -10304,7 +10304,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 	if properties.ConnectionString != nil {
 		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+			return nil, eris.Wrap(err, "looking up secret for property ConnectionString")
 		}
 		connectionString := connectionStringSecret
 		result.ConnectionString = &connectionString
@@ -10462,7 +10462,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_Fro
 		var identity ManagedIdentity
 		err := identity.AssignProperties_From_ManagedIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -10527,7 +10527,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_To_
 		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -10589,7 +10589,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) Initialize_From_Rout
 		var identity ManagedIdentity
 		err := identity.Initialize_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -10750,7 +10750,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignPropert
 		var identity ManagedIdentity_STATUS
 		err := identity.AssignProperties_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -10797,7 +10797,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignPropert
 		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -10879,7 +10879,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 	if properties.ConnectionString != nil {
 		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+			return nil, eris.Wrap(err, "looking up secret for property ConnectionString")
 		}
 		connectionString := connectionStringSecret
 		result.ConnectionString = &connectionString
@@ -11037,7 +11037,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_Fro
 		var identity ManagedIdentity
 		err := identity.AssignProperties_From_ManagedIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -11102,7 +11102,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_To_
 		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -11164,7 +11164,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) Initialize_From_Rout
 		var identity ManagedIdentity
 		err := identity.Initialize_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -11325,7 +11325,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignPropert
 		var identity ManagedIdentity_STATUS
 		err := identity.AssignProperties_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -11372,7 +11372,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignPropert
 		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -11481,7 +11481,7 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 	if properties.ConnectionString != nil {
 		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+			return nil, eris.Wrap(err, "looking up secret for property ConnectionString")
 		}
 		connectionString := connectionStringSecret
 		result.ConnectionString = &connectionString
@@ -11705,7 +11705,7 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_From_Routi
 		var identity ManagedIdentity
 		err := identity.AssignProperties_From_ManagedIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -11797,7 +11797,7 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_To_Routing
 		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -11886,7 +11886,7 @@ func (properties *RoutingStorageContainerProperties) Initialize_From_RoutingStor
 		var identity ManagedIdentity
 		err := identity.Initialize_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -12112,7 +12112,7 @@ func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_Fro
 		var identity ManagedIdentity_STATUS
 		err := identity.AssignProperties_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -12176,7 +12176,7 @@ func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_To_
 		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {

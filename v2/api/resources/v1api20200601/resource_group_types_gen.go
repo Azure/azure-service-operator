@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (group *ResourceGroup) SetStatus(status genruntime.ConvertibleStatus) error
 	var st ResourceGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	group.Status = st
@@ -311,7 +311,7 @@ func (group *ResourceGroup) AssignProperties_From_ResourceGroup(source *storage.
 	var spec ResourceGroup_Spec
 	err := spec.AssignProperties_From_ResourceGroup_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ResourceGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ResourceGroup_Spec() to populate field Spec")
 	}
 	group.Spec = spec
 
@@ -319,7 +319,7 @@ func (group *ResourceGroup) AssignProperties_From_ResourceGroup(source *storage.
 	var status ResourceGroup_STATUS
 	err = status.AssignProperties_From_ResourceGroup_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ResourceGroup_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ResourceGroup_STATUS() to populate field Status")
 	}
 	group.Status = status
 
@@ -337,7 +337,7 @@ func (group *ResourceGroup) AssignProperties_To_ResourceGroup(destination *stora
 	var spec storage.ResourceGroup_Spec
 	err := group.Spec.AssignProperties_To_ResourceGroup_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ResourceGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ResourceGroup_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -345,7 +345,7 @@ func (group *ResourceGroup) AssignProperties_To_ResourceGroup(destination *stora
 	var status storage.ResourceGroup_STATUS
 	err = group.Status.AssignProperties_To_ResourceGroup_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ResourceGroup_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ResourceGroup_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -489,13 +489,13 @@ func (group *ResourceGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 	src = &storage.ResourceGroup_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_ResourceGroup_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -513,13 +513,13 @@ func (group *ResourceGroup_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	dst = &storage.ResourceGroup_Spec{}
 	err := group.AssignProperties_To_ResourceGroup_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -542,7 +542,7 @@ func (group *ResourceGroup_Spec) AssignProperties_From_ResourceGroup_Spec(source
 		var operatorSpec ResourceGroupOperatorSpec
 		err := operatorSpec.AssignProperties_From_ResourceGroupOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceGroupOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceGroupOperatorSpec() to populate field OperatorSpec")
 		}
 		group.OperatorSpec = &operatorSpec
 	} else {
@@ -575,7 +575,7 @@ func (group *ResourceGroup_Spec) AssignProperties_To_ResourceGroup_Spec(destinat
 		var operatorSpec storage.ResourceGroupOperatorSpec
 		err := group.OperatorSpec.AssignProperties_To_ResourceGroupOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceGroupOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceGroupOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -665,13 +665,13 @@ func (group *ResourceGroup_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	src = &storage.ResourceGroup_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_ResourceGroup_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -689,13 +689,13 @@ func (group *ResourceGroup_STATUS) ConvertStatusTo(destination genruntime.Conver
 	dst = &storage.ResourceGroup_STATUS{}
 	err := group.AssignProperties_To_ResourceGroup_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -793,7 +793,7 @@ func (group *ResourceGroup_STATUS) AssignProperties_From_ResourceGroup_STATUS(so
 		var property ResourceGroupProperties_STATUS
 		err := property.AssignProperties_From_ResourceGroupProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceGroupProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceGroupProperties_STATUS() to populate field Properties")
 		}
 		group.Properties = &property
 	} else {
@@ -835,7 +835,7 @@ func (group *ResourceGroup_STATUS) AssignProperties_To_ResourceGroup_STATUS(dest
 		var property storage.ResourceGroupProperties_STATUS
 		err := group.Properties.AssignProperties_To_ResourceGroupProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceGroupProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceGroupProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {

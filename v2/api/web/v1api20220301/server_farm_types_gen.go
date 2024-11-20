@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (farm *ServerFarm) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st ServerFarm_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	farm.Status = st
@@ -309,7 +309,7 @@ func (farm *ServerFarm) AssignProperties_From_ServerFarm(source *storage.ServerF
 	var spec ServerFarm_Spec
 	err := spec.AssignProperties_From_ServerFarm_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServerFarm_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ServerFarm_Spec() to populate field Spec")
 	}
 	farm.Spec = spec
 
@@ -317,7 +317,7 @@ func (farm *ServerFarm) AssignProperties_From_ServerFarm(source *storage.ServerF
 	var status ServerFarm_STATUS
 	err = status.AssignProperties_From_ServerFarm_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServerFarm_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ServerFarm_STATUS() to populate field Status")
 	}
 	farm.Status = status
 
@@ -335,7 +335,7 @@ func (farm *ServerFarm) AssignProperties_To_ServerFarm(destination *storage.Serv
 	var spec storage.ServerFarm_Spec
 	err := farm.Spec.AssignProperties_To_ServerFarm_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServerFarm_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ServerFarm_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (farm *ServerFarm) AssignProperties_To_ServerFarm(destination *storage.Serv
 	var status storage.ServerFarm_STATUS
 	err = farm.Status.AssignProperties_To_ServerFarm_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServerFarm_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ServerFarm_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -824,13 +824,13 @@ func (farm *ServerFarm_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 	src = &storage.ServerFarm_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = farm.AssignProperties_From_ServerFarm_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -848,13 +848,13 @@ func (farm *ServerFarm_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	dst = &storage.ServerFarm_Spec{}
 	err := farm.AssignProperties_To_ServerFarm_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -879,7 +879,7 @@ func (farm *ServerFarm_Spec) AssignProperties_From_ServerFarm_Spec(source *stora
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		farm.ExtendedLocation = &extendedLocation
 	} else {
@@ -894,7 +894,7 @@ func (farm *ServerFarm_Spec) AssignProperties_From_ServerFarm_Spec(source *stora
 		var hostingEnvironmentProfile HostingEnvironmentProfile
 		err := hostingEnvironmentProfile.AssignProperties_From_HostingEnvironmentProfile(source.HostingEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
 		}
 		farm.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
@@ -933,7 +933,7 @@ func (farm *ServerFarm_Spec) AssignProperties_From_ServerFarm_Spec(source *stora
 		var kubeEnvironmentProfile KubeEnvironmentProfile
 		err := kubeEnvironmentProfile.AssignProperties_From_KubeEnvironmentProfile(source.KubeEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KubeEnvironmentProfile() to populate field KubeEnvironmentProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_KubeEnvironmentProfile() to populate field KubeEnvironmentProfile")
 		}
 		farm.KubeEnvironmentProfile = &kubeEnvironmentProfile
 	} else {
@@ -951,7 +951,7 @@ func (farm *ServerFarm_Spec) AssignProperties_From_ServerFarm_Spec(source *stora
 		var operatorSpec ServerFarmOperatorSpec
 		err := operatorSpec.AssignProperties_From_ServerFarmOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerFarmOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ServerFarmOperatorSpec() to populate field OperatorSpec")
 		}
 		farm.OperatorSpec = &operatorSpec
 	} else {
@@ -987,7 +987,7 @@ func (farm *ServerFarm_Spec) AssignProperties_From_ServerFarm_Spec(source *stora
 		var sku SkuDescription
 		err := sku.AssignProperties_From_SkuDescription(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SkuDescription() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_SkuDescription() to populate field Sku")
 		}
 		farm.Sku = &sku
 	} else {
@@ -1042,7 +1042,7 @@ func (farm *ServerFarm_Spec) AssignProperties_To_ServerFarm_Spec(destination *st
 		var extendedLocation storage.ExtendedLocation
 		err := farm.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1057,7 +1057,7 @@ func (farm *ServerFarm_Spec) AssignProperties_To_ServerFarm_Spec(destination *st
 		var hostingEnvironmentProfile storage.HostingEnvironmentProfile
 		err := farm.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile(&hostingEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
 		}
 		destination.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
@@ -1096,7 +1096,7 @@ func (farm *ServerFarm_Spec) AssignProperties_To_ServerFarm_Spec(destination *st
 		var kubeEnvironmentProfile storage.KubeEnvironmentProfile
 		err := farm.KubeEnvironmentProfile.AssignProperties_To_KubeEnvironmentProfile(&kubeEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KubeEnvironmentProfile() to populate field KubeEnvironmentProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_KubeEnvironmentProfile() to populate field KubeEnvironmentProfile")
 		}
 		destination.KubeEnvironmentProfile = &kubeEnvironmentProfile
 	} else {
@@ -1114,7 +1114,7 @@ func (farm *ServerFarm_Spec) AssignProperties_To_ServerFarm_Spec(destination *st
 		var operatorSpec storage.ServerFarmOperatorSpec
 		err := farm.OperatorSpec.AssignProperties_To_ServerFarmOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerFarmOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ServerFarmOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -1153,7 +1153,7 @@ func (farm *ServerFarm_Spec) AssignProperties_To_ServerFarm_Spec(destination *st
 		var sku storage.SkuDescription
 		err := farm.Sku.AssignProperties_To_SkuDescription(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SkuDescription() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_SkuDescription() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1210,7 +1210,7 @@ func (farm *ServerFarm_Spec) Initialize_From_ServerFarm_STATUS(source *ServerFar
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		farm.ExtendedLocation = &extendedLocation
 	} else {
@@ -1225,7 +1225,7 @@ func (farm *ServerFarm_Spec) Initialize_From_ServerFarm_STATUS(source *ServerFar
 		var hostingEnvironmentProfile HostingEnvironmentProfile
 		err := hostingEnvironmentProfile.Initialize_From_HostingEnvironmentProfile_STATUS(source.HostingEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
+			return eris.Wrap(err, "calling Initialize_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
 		}
 		farm.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
@@ -1264,7 +1264,7 @@ func (farm *ServerFarm_Spec) Initialize_From_ServerFarm_STATUS(source *ServerFar
 		var kubeEnvironmentProfile KubeEnvironmentProfile
 		err := kubeEnvironmentProfile.Initialize_From_KubeEnvironmentProfile_STATUS(source.KubeEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
+			return eris.Wrap(err, "calling Initialize_From_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
 		}
 		farm.KubeEnvironmentProfile = &kubeEnvironmentProfile
 	} else {
@@ -1298,7 +1298,7 @@ func (farm *ServerFarm_Spec) Initialize_From_ServerFarm_STATUS(source *ServerFar
 		var sku SkuDescription
 		err := sku.Initialize_From_SkuDescription_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SkuDescription_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_SkuDescription_STATUS() to populate field Sku")
 		}
 		farm.Sku = &sku
 	} else {
@@ -1455,13 +1455,13 @@ func (farm *ServerFarm_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 	src = &storage.ServerFarm_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = farm.AssignProperties_From_ServerFarm_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1479,13 +1479,13 @@ func (farm *ServerFarm_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 	dst = &storage.ServerFarm_STATUS{}
 	err := farm.AssignProperties_To_ServerFarm_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1811,7 +1811,7 @@ func (farm *ServerFarm_STATUS) AssignProperties_From_ServerFarm_STATUS(source *s
 		var extendedLocation ExtendedLocation_STATUS
 		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		farm.ExtendedLocation = &extendedLocation
 	} else {
@@ -1829,7 +1829,7 @@ func (farm *ServerFarm_STATUS) AssignProperties_From_ServerFarm_STATUS(source *s
 		var hostingEnvironmentProfile HostingEnvironmentProfile_STATUS
 		err := hostingEnvironmentProfile.AssignProperties_From_HostingEnvironmentProfile_STATUS(source.HostingEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
 		}
 		farm.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
@@ -1871,7 +1871,7 @@ func (farm *ServerFarm_STATUS) AssignProperties_From_ServerFarm_STATUS(source *s
 		var kubeEnvironmentProfile KubeEnvironmentProfile_STATUS
 		err := kubeEnvironmentProfile.AssignProperties_From_KubeEnvironmentProfile_STATUS(source.KubeEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
 		}
 		farm.KubeEnvironmentProfile = &kubeEnvironmentProfile
 	} else {
@@ -1929,7 +1929,7 @@ func (farm *ServerFarm_STATUS) AssignProperties_From_ServerFarm_STATUS(source *s
 		var sku SkuDescription_STATUS
 		err := sku.AssignProperties_From_SkuDescription_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SkuDescription_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_SkuDescription_STATUS() to populate field Sku")
 		}
 		farm.Sku = &sku
 	} else {
@@ -1999,7 +1999,7 @@ func (farm *ServerFarm_STATUS) AssignProperties_To_ServerFarm_STATUS(destination
 		var extendedLocation storage.ExtendedLocation_STATUS
 		err := farm.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -2017,7 +2017,7 @@ func (farm *ServerFarm_STATUS) AssignProperties_To_ServerFarm_STATUS(destination
 		var hostingEnvironmentProfile storage.HostingEnvironmentProfile_STATUS
 		err := farm.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile_STATUS(&hostingEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
 		}
 		destination.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
@@ -2059,7 +2059,7 @@ func (farm *ServerFarm_STATUS) AssignProperties_To_ServerFarm_STATUS(destination
 		var kubeEnvironmentProfile storage.KubeEnvironmentProfile_STATUS
 		err := farm.KubeEnvironmentProfile.AssignProperties_To_KubeEnvironmentProfile_STATUS(&kubeEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
 		}
 		destination.KubeEnvironmentProfile = &kubeEnvironmentProfile
 	} else {
@@ -2116,7 +2116,7 @@ func (farm *ServerFarm_STATUS) AssignProperties_To_ServerFarm_STATUS(destination
 		var sku storage.SkuDescription_STATUS
 		err := farm.Sku.AssignProperties_To_SkuDescription_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SkuDescription_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_SkuDescription_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -3019,7 +3019,7 @@ func (description *SkuDescription) AssignProperties_From_SkuDescription(source *
 			var capability Capability
 			err := capability.AssignProperties_From_Capability(&capabilityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Capability() to populate field Capabilities")
+				return eris.Wrap(err, "calling AssignProperties_From_Capability() to populate field Capabilities")
 			}
 			capabilityList[capabilityIndex] = capability
 		}
@@ -3048,7 +3048,7 @@ func (description *SkuDescription) AssignProperties_From_SkuDescription(source *
 		var skuCapacity SkuCapacity
 		err := skuCapacity.AssignProperties_From_SkuCapacity(source.SkuCapacity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SkuCapacity() to populate field SkuCapacity")
+			return eris.Wrap(err, "calling AssignProperties_From_SkuCapacity() to populate field SkuCapacity")
 		}
 		description.SkuCapacity = &skuCapacity
 	} else {
@@ -3076,7 +3076,7 @@ func (description *SkuDescription) AssignProperties_To_SkuDescription(destinatio
 			var capability storage.Capability
 			err := capabilityItem.AssignProperties_To_Capability(&capability)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Capability() to populate field Capabilities")
+				return eris.Wrap(err, "calling AssignProperties_To_Capability() to populate field Capabilities")
 			}
 			capabilityList[capabilityIndex] = capability
 		}
@@ -3105,7 +3105,7 @@ func (description *SkuDescription) AssignProperties_To_SkuDescription(destinatio
 		var skuCapacity storage.SkuCapacity
 		err := description.SkuCapacity.AssignProperties_To_SkuCapacity(&skuCapacity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SkuCapacity() to populate field SkuCapacity")
+			return eris.Wrap(err, "calling AssignProperties_To_SkuCapacity() to populate field SkuCapacity")
 		}
 		destination.SkuCapacity = &skuCapacity
 	} else {
@@ -3138,7 +3138,7 @@ func (description *SkuDescription) Initialize_From_SkuDescription_STATUS(source 
 			var capability Capability
 			err := capability.Initialize_From_Capability_STATUS(&capabilityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_Capability_STATUS() to populate field Capabilities")
+				return eris.Wrap(err, "calling Initialize_From_Capability_STATUS() to populate field Capabilities")
 			}
 			capabilityList[capabilityIndex] = capability
 		}
@@ -3167,7 +3167,7 @@ func (description *SkuDescription) Initialize_From_SkuDescription_STATUS(source 
 		var skuCapacity SkuCapacity
 		err := skuCapacity.Initialize_From_SkuCapacity_STATUS(source.SkuCapacity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SkuCapacity_STATUS() to populate field SkuCapacity")
+			return eris.Wrap(err, "calling Initialize_From_SkuCapacity_STATUS() to populate field SkuCapacity")
 		}
 		description.SkuCapacity = &skuCapacity
 	} else {
@@ -3294,7 +3294,7 @@ func (description *SkuDescription_STATUS) AssignProperties_From_SkuDescription_S
 			var capability Capability_STATUS
 			err := capability.AssignProperties_From_Capability_STATUS(&capabilityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Capability_STATUS() to populate field Capabilities")
+				return eris.Wrap(err, "calling AssignProperties_From_Capability_STATUS() to populate field Capabilities")
 			}
 			capabilityList[capabilityIndex] = capability
 		}
@@ -3323,7 +3323,7 @@ func (description *SkuDescription_STATUS) AssignProperties_From_SkuDescription_S
 		var skuCapacity SkuCapacity_STATUS
 		err := skuCapacity.AssignProperties_From_SkuCapacity_STATUS(source.SkuCapacity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SkuCapacity_STATUS() to populate field SkuCapacity")
+			return eris.Wrap(err, "calling AssignProperties_From_SkuCapacity_STATUS() to populate field SkuCapacity")
 		}
 		description.SkuCapacity = &skuCapacity
 	} else {
@@ -3351,7 +3351,7 @@ func (description *SkuDescription_STATUS) AssignProperties_To_SkuDescription_STA
 			var capability storage.Capability_STATUS
 			err := capabilityItem.AssignProperties_To_Capability_STATUS(&capability)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Capability_STATUS() to populate field Capabilities")
+				return eris.Wrap(err, "calling AssignProperties_To_Capability_STATUS() to populate field Capabilities")
 			}
 			capabilityList[capabilityIndex] = capability
 		}
@@ -3380,7 +3380,7 @@ func (description *SkuDescription_STATUS) AssignProperties_To_SkuDescription_STA
 		var skuCapacity storage.SkuCapacity_STATUS
 		err := description.SkuCapacity.AssignProperties_To_SkuCapacity_STATUS(&skuCapacity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SkuCapacity_STATUS() to populate field SkuCapacity")
+			return eris.Wrap(err, "calling AssignProperties_To_SkuCapacity_STATUS() to populate field SkuCapacity")
 		}
 		destination.SkuCapacity = &skuCapacity
 	} else {

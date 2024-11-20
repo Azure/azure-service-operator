@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -190,7 +190,7 @@ func (workspace *Workspace) SetStatus(status genruntime.ConvertibleStatus) error
 	var st Workspace_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	workspace.Status = st
@@ -322,7 +322,7 @@ func (workspace *Workspace) AssignProperties_From_Workspace(source *storage.Work
 	var spec Workspace_Spec
 	err := spec.AssignProperties_From_Workspace_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspace_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Workspace_Spec() to populate field Spec")
 	}
 	workspace.Spec = spec
 
@@ -330,7 +330,7 @@ func (workspace *Workspace) AssignProperties_From_Workspace(source *storage.Work
 	var status Workspace_STATUS
 	err = status.AssignProperties_From_Workspace_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspace_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Workspace_STATUS() to populate field Status")
 	}
 	workspace.Status = status
 
@@ -348,7 +348,7 @@ func (workspace *Workspace) AssignProperties_To_Workspace(destination *storage.W
 	var spec storage.Workspace_Spec
 	err := workspace.Spec.AssignProperties_To_Workspace_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspace_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Workspace_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -356,7 +356,7 @@ func (workspace *Workspace) AssignProperties_To_Workspace(destination *storage.W
 	var status storage.Workspace_STATUS
 	err = workspace.Status.AssignProperties_To_Workspace_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspace_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Workspace_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -569,7 +569,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if workspace.SqlAdministratorLoginPassword != nil {
 		sqlAdministratorLoginPasswordSecret, err := resolved.ResolvedSecrets.Lookup(*workspace.SqlAdministratorLoginPassword)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property SqlAdministratorLoginPassword")
+			return nil, eris.Wrap(err, "looking up secret for property SqlAdministratorLoginPassword")
 		}
 		sqlAdministratorLoginPassword := sqlAdministratorLoginPasswordSecret
 		result.Properties.SqlAdministratorLoginPassword = &sqlAdministratorLoginPassword
@@ -827,13 +827,13 @@ func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 	src = &storage.Workspace_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = workspace.AssignProperties_From_Workspace_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -851,13 +851,13 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	dst = &storage.Workspace_Spec{}
 	err := workspace.AssignProperties_To_Workspace_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -882,7 +882,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var cspWorkspaceAdminProperty CspWorkspaceAdminProperties
 		err := cspWorkspaceAdminProperty.AssignProperties_From_CspWorkspaceAdminProperties(source.CspWorkspaceAdminProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CspWorkspaceAdminProperties() to populate field CspWorkspaceAdminProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_CspWorkspaceAdminProperties() to populate field CspWorkspaceAdminProperties")
 		}
 		workspace.CspWorkspaceAdminProperties = &cspWorkspaceAdminProperty
 	} else {
@@ -894,7 +894,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var defaultDataLakeStorage DataLakeStorageAccountDetails
 		err := defaultDataLakeStorage.AssignProperties_From_DataLakeStorageAccountDetails(source.DefaultDataLakeStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataLakeStorageAccountDetails() to populate field DefaultDataLakeStorage")
+			return eris.Wrap(err, "calling AssignProperties_From_DataLakeStorageAccountDetails() to populate field DefaultDataLakeStorage")
 		}
 		workspace.DefaultDataLakeStorage = &defaultDataLakeStorage
 	} else {
@@ -906,7 +906,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var encryption EncryptionDetails
 		err := encryption.AssignProperties_From_EncryptionDetails(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionDetails() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionDetails() to populate field Encryption")
 		}
 		workspace.Encryption = &encryption
 	} else {
@@ -918,7 +918,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var identity ManagedIdentity
 		err := identity.AssignProperties_From_ManagedIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
 		}
 		workspace.Identity = &identity
 	} else {
@@ -939,7 +939,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var managedVirtualNetworkSetting ManagedVirtualNetworkSettings
 		err := managedVirtualNetworkSetting.AssignProperties_From_ManagedVirtualNetworkSettings(source.ManagedVirtualNetworkSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedVirtualNetworkSettings() to populate field ManagedVirtualNetworkSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedVirtualNetworkSettings() to populate field ManagedVirtualNetworkSettings")
 		}
 		workspace.ManagedVirtualNetworkSettings = &managedVirtualNetworkSetting
 	} else {
@@ -951,7 +951,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var operatorSpec WorkspaceOperatorSpec
 		err := operatorSpec.AssignProperties_From_WorkspaceOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceOperatorSpec() to populate field OperatorSpec")
 		}
 		workspace.OperatorSpec = &operatorSpec
 	} else {
@@ -980,7 +980,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var purviewConfiguration PurviewConfiguration
 		err := purviewConfiguration.AssignProperties_From_PurviewConfiguration(source.PurviewConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PurviewConfiguration() to populate field PurviewConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_PurviewConfiguration() to populate field PurviewConfiguration")
 		}
 		workspace.PurviewConfiguration = &purviewConfiguration
 	} else {
@@ -1014,7 +1014,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var virtualNetworkProfile VirtualNetworkProfile
 		err := virtualNetworkProfile.AssignProperties_From_VirtualNetworkProfile(source.VirtualNetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkProfile() to populate field VirtualNetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualNetworkProfile() to populate field VirtualNetworkProfile")
 		}
 		workspace.VirtualNetworkProfile = &virtualNetworkProfile
 	} else {
@@ -1026,7 +1026,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var workspaceRepositoryConfiguration WorkspaceRepositoryConfiguration
 		err := workspaceRepositoryConfiguration.AssignProperties_From_WorkspaceRepositoryConfiguration(source.WorkspaceRepositoryConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceRepositoryConfiguration() to populate field WorkspaceRepositoryConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceRepositoryConfiguration() to populate field WorkspaceRepositoryConfiguration")
 		}
 		workspace.WorkspaceRepositoryConfiguration = &workspaceRepositoryConfiguration
 	} else {
@@ -1058,7 +1058,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var cspWorkspaceAdminProperty storage.CspWorkspaceAdminProperties
 		err := workspace.CspWorkspaceAdminProperties.AssignProperties_To_CspWorkspaceAdminProperties(&cspWorkspaceAdminProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CspWorkspaceAdminProperties() to populate field CspWorkspaceAdminProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_CspWorkspaceAdminProperties() to populate field CspWorkspaceAdminProperties")
 		}
 		destination.CspWorkspaceAdminProperties = &cspWorkspaceAdminProperty
 	} else {
@@ -1070,7 +1070,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var defaultDataLakeStorage storage.DataLakeStorageAccountDetails
 		err := workspace.DefaultDataLakeStorage.AssignProperties_To_DataLakeStorageAccountDetails(&defaultDataLakeStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataLakeStorageAccountDetails() to populate field DefaultDataLakeStorage")
+			return eris.Wrap(err, "calling AssignProperties_To_DataLakeStorageAccountDetails() to populate field DefaultDataLakeStorage")
 		}
 		destination.DefaultDataLakeStorage = &defaultDataLakeStorage
 	} else {
@@ -1082,7 +1082,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var encryption storage.EncryptionDetails
 		err := workspace.Encryption.AssignProperties_To_EncryptionDetails(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionDetails() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionDetails() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1094,7 +1094,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var identity storage.ManagedIdentity
 		err := workspace.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1115,7 +1115,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var managedVirtualNetworkSetting storage.ManagedVirtualNetworkSettings
 		err := workspace.ManagedVirtualNetworkSettings.AssignProperties_To_ManagedVirtualNetworkSettings(&managedVirtualNetworkSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedVirtualNetworkSettings() to populate field ManagedVirtualNetworkSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedVirtualNetworkSettings() to populate field ManagedVirtualNetworkSettings")
 		}
 		destination.ManagedVirtualNetworkSettings = &managedVirtualNetworkSetting
 	} else {
@@ -1127,7 +1127,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var operatorSpec storage.WorkspaceOperatorSpec
 		err := workspace.OperatorSpec.AssignProperties_To_WorkspaceOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -1158,7 +1158,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var purviewConfiguration storage.PurviewConfiguration
 		err := workspace.PurviewConfiguration.AssignProperties_To_PurviewConfiguration(&purviewConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PurviewConfiguration() to populate field PurviewConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_PurviewConfiguration() to populate field PurviewConfiguration")
 		}
 		destination.PurviewConfiguration = &purviewConfiguration
 	} else {
@@ -1192,7 +1192,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var virtualNetworkProfile storage.VirtualNetworkProfile
 		err := workspace.VirtualNetworkProfile.AssignProperties_To_VirtualNetworkProfile(&virtualNetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkProfile() to populate field VirtualNetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualNetworkProfile() to populate field VirtualNetworkProfile")
 		}
 		destination.VirtualNetworkProfile = &virtualNetworkProfile
 	} else {
@@ -1204,7 +1204,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var workspaceRepositoryConfiguration storage.WorkspaceRepositoryConfiguration
 		err := workspace.WorkspaceRepositoryConfiguration.AssignProperties_To_WorkspaceRepositoryConfiguration(&workspaceRepositoryConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceRepositoryConfiguration() to populate field WorkspaceRepositoryConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceRepositoryConfiguration() to populate field WorkspaceRepositoryConfiguration")
 		}
 		destination.WorkspaceRepositoryConfiguration = &workspaceRepositoryConfiguration
 	} else {
@@ -1238,7 +1238,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var cspWorkspaceAdminProperty CspWorkspaceAdminProperties
 		err := cspWorkspaceAdminProperty.Initialize_From_CspWorkspaceAdminProperties_STATUS(source.CspWorkspaceAdminProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CspWorkspaceAdminProperties_STATUS() to populate field CspWorkspaceAdminProperties")
+			return eris.Wrap(err, "calling Initialize_From_CspWorkspaceAdminProperties_STATUS() to populate field CspWorkspaceAdminProperties")
 		}
 		workspace.CspWorkspaceAdminProperties = &cspWorkspaceAdminProperty
 	} else {
@@ -1250,7 +1250,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var defaultDataLakeStorage DataLakeStorageAccountDetails
 		err := defaultDataLakeStorage.Initialize_From_DataLakeStorageAccountDetails_STATUS(source.DefaultDataLakeStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataLakeStorageAccountDetails_STATUS() to populate field DefaultDataLakeStorage")
+			return eris.Wrap(err, "calling Initialize_From_DataLakeStorageAccountDetails_STATUS() to populate field DefaultDataLakeStorage")
 		}
 		workspace.DefaultDataLakeStorage = &defaultDataLakeStorage
 	} else {
@@ -1262,7 +1262,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var encryption EncryptionDetails
 		err := encryption.Initialize_From_EncryptionDetails_STATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EncryptionDetails_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling Initialize_From_EncryptionDetails_STATUS() to populate field Encryption")
 		}
 		workspace.Encryption = &encryption
 	} else {
@@ -1274,7 +1274,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var identity ManagedIdentity
 		err := identity.Initialize_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		workspace.Identity = &identity
 	} else {
@@ -1295,7 +1295,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var managedVirtualNetworkSetting ManagedVirtualNetworkSettings
 		err := managedVirtualNetworkSetting.Initialize_From_ManagedVirtualNetworkSettings_STATUS(source.ManagedVirtualNetworkSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedVirtualNetworkSettings_STATUS() to populate field ManagedVirtualNetworkSettings")
+			return eris.Wrap(err, "calling Initialize_From_ManagedVirtualNetworkSettings_STATUS() to populate field ManagedVirtualNetworkSettings")
 		}
 		workspace.ManagedVirtualNetworkSettings = &managedVirtualNetworkSetting
 	} else {
@@ -1315,7 +1315,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var purviewConfiguration PurviewConfiguration
 		err := purviewConfiguration.Initialize_From_PurviewConfiguration_STATUS(source.PurviewConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PurviewConfiguration_STATUS() to populate field PurviewConfiguration")
+			return eris.Wrap(err, "calling Initialize_From_PurviewConfiguration_STATUS() to populate field PurviewConfiguration")
 		}
 		workspace.PurviewConfiguration = &purviewConfiguration
 	} else {
@@ -1341,7 +1341,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var virtualNetworkProfile VirtualNetworkProfile
 		err := virtualNetworkProfile.Initialize_From_VirtualNetworkProfile_STATUS(source.VirtualNetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualNetworkProfile_STATUS() to populate field VirtualNetworkProfile")
+			return eris.Wrap(err, "calling Initialize_From_VirtualNetworkProfile_STATUS() to populate field VirtualNetworkProfile")
 		}
 		workspace.VirtualNetworkProfile = &virtualNetworkProfile
 	} else {
@@ -1353,7 +1353,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var workspaceRepositoryConfiguration WorkspaceRepositoryConfiguration
 		err := workspaceRepositoryConfiguration.Initialize_From_WorkspaceRepositoryConfiguration_STATUS(source.WorkspaceRepositoryConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceRepositoryConfiguration_STATUS() to populate field WorkspaceRepositoryConfiguration")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceRepositoryConfiguration_STATUS() to populate field WorkspaceRepositoryConfiguration")
 		}
 		workspace.WorkspaceRepositoryConfiguration = &workspaceRepositoryConfiguration
 	} else {
@@ -1474,13 +1474,13 @@ func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	src = &storage.Workspace_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = workspace.AssignProperties_From_Workspace_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1498,13 +1498,13 @@ func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.Conver
 	dst = &storage.Workspace_STATUS{}
 	err := workspace.AssignProperties_To_Workspace_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1825,7 +1825,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var cspWorkspaceAdminProperty CspWorkspaceAdminProperties_STATUS
 		err := cspWorkspaceAdminProperty.AssignProperties_From_CspWorkspaceAdminProperties_STATUS(source.CspWorkspaceAdminProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CspWorkspaceAdminProperties_STATUS() to populate field CspWorkspaceAdminProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_CspWorkspaceAdminProperties_STATUS() to populate field CspWorkspaceAdminProperties")
 		}
 		workspace.CspWorkspaceAdminProperties = &cspWorkspaceAdminProperty
 	} else {
@@ -1837,7 +1837,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var defaultDataLakeStorage DataLakeStorageAccountDetails_STATUS
 		err := defaultDataLakeStorage.AssignProperties_From_DataLakeStorageAccountDetails_STATUS(source.DefaultDataLakeStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataLakeStorageAccountDetails_STATUS() to populate field DefaultDataLakeStorage")
+			return eris.Wrap(err, "calling AssignProperties_From_DataLakeStorageAccountDetails_STATUS() to populate field DefaultDataLakeStorage")
 		}
 		workspace.DefaultDataLakeStorage = &defaultDataLakeStorage
 	} else {
@@ -1849,7 +1849,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var encryption EncryptionDetails_STATUS
 		err := encryption.AssignProperties_From_EncryptionDetails_STATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionDetails_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionDetails_STATUS() to populate field Encryption")
 		}
 		workspace.Encryption = &encryption
 	} else {
@@ -1877,7 +1877,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var identity ManagedIdentity_STATUS
 		err := identity.AssignProperties_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		workspace.Identity = &identity
 	} else {
@@ -1898,7 +1898,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var managedVirtualNetworkSetting ManagedVirtualNetworkSettings_STATUS
 		err := managedVirtualNetworkSetting.AssignProperties_From_ManagedVirtualNetworkSettings_STATUS(source.ManagedVirtualNetworkSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedVirtualNetworkSettings_STATUS() to populate field ManagedVirtualNetworkSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedVirtualNetworkSettings_STATUS() to populate field ManagedVirtualNetworkSettings")
 		}
 		workspace.ManagedVirtualNetworkSettings = &managedVirtualNetworkSetting
 	} else {
@@ -1917,7 +1917,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1943,7 +1943,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var purviewConfiguration PurviewConfiguration_STATUS
 		err := purviewConfiguration.AssignProperties_From_PurviewConfiguration_STATUS(source.PurviewConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PurviewConfiguration_STATUS() to populate field PurviewConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_PurviewConfiguration_STATUS() to populate field PurviewConfiguration")
 		}
 		workspace.PurviewConfiguration = &purviewConfiguration
 	} else {
@@ -1985,7 +1985,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var virtualNetworkProfile VirtualNetworkProfile_STATUS
 		err := virtualNetworkProfile.AssignProperties_From_VirtualNetworkProfile_STATUS(source.VirtualNetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkProfile_STATUS() to populate field VirtualNetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualNetworkProfile_STATUS() to populate field VirtualNetworkProfile")
 		}
 		workspace.VirtualNetworkProfile = &virtualNetworkProfile
 	} else {
@@ -1997,7 +1997,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var workspaceRepositoryConfiguration WorkspaceRepositoryConfiguration_STATUS
 		err := workspaceRepositoryConfiguration.AssignProperties_From_WorkspaceRepositoryConfiguration_STATUS(source.WorkspaceRepositoryConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceRepositoryConfiguration_STATUS() to populate field WorkspaceRepositoryConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceRepositoryConfiguration_STATUS() to populate field WorkspaceRepositoryConfiguration")
 		}
 		workspace.WorkspaceRepositoryConfiguration = &workspaceRepositoryConfiguration
 	} else {
@@ -2038,7 +2038,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var cspWorkspaceAdminProperty storage.CspWorkspaceAdminProperties_STATUS
 		err := workspace.CspWorkspaceAdminProperties.AssignProperties_To_CspWorkspaceAdminProperties_STATUS(&cspWorkspaceAdminProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CspWorkspaceAdminProperties_STATUS() to populate field CspWorkspaceAdminProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_CspWorkspaceAdminProperties_STATUS() to populate field CspWorkspaceAdminProperties")
 		}
 		destination.CspWorkspaceAdminProperties = &cspWorkspaceAdminProperty
 	} else {
@@ -2050,7 +2050,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var defaultDataLakeStorage storage.DataLakeStorageAccountDetails_STATUS
 		err := workspace.DefaultDataLakeStorage.AssignProperties_To_DataLakeStorageAccountDetails_STATUS(&defaultDataLakeStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataLakeStorageAccountDetails_STATUS() to populate field DefaultDataLakeStorage")
+			return eris.Wrap(err, "calling AssignProperties_To_DataLakeStorageAccountDetails_STATUS() to populate field DefaultDataLakeStorage")
 		}
 		destination.DefaultDataLakeStorage = &defaultDataLakeStorage
 	} else {
@@ -2062,7 +2062,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var encryption storage.EncryptionDetails_STATUS
 		err := workspace.Encryption.AssignProperties_To_EncryptionDetails_STATUS(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionDetails_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionDetails_STATUS() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -2090,7 +2090,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var identity storage.ManagedIdentity_STATUS
 		err := workspace.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -2111,7 +2111,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var managedVirtualNetworkSetting storage.ManagedVirtualNetworkSettings_STATUS
 		err := workspace.ManagedVirtualNetworkSettings.AssignProperties_To_ManagedVirtualNetworkSettings_STATUS(&managedVirtualNetworkSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedVirtualNetworkSettings_STATUS() to populate field ManagedVirtualNetworkSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedVirtualNetworkSettings_STATUS() to populate field ManagedVirtualNetworkSettings")
 		}
 		destination.ManagedVirtualNetworkSettings = &managedVirtualNetworkSetting
 	} else {
@@ -2130,7 +2130,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -2155,7 +2155,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var purviewConfiguration storage.PurviewConfiguration_STATUS
 		err := workspace.PurviewConfiguration.AssignProperties_To_PurviewConfiguration_STATUS(&purviewConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PurviewConfiguration_STATUS() to populate field PurviewConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_PurviewConfiguration_STATUS() to populate field PurviewConfiguration")
 		}
 		destination.PurviewConfiguration = &purviewConfiguration
 	} else {
@@ -2197,7 +2197,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var virtualNetworkProfile storage.VirtualNetworkProfile_STATUS
 		err := workspace.VirtualNetworkProfile.AssignProperties_To_VirtualNetworkProfile_STATUS(&virtualNetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkProfile_STATUS() to populate field VirtualNetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualNetworkProfile_STATUS() to populate field VirtualNetworkProfile")
 		}
 		destination.VirtualNetworkProfile = &virtualNetworkProfile
 	} else {
@@ -2209,7 +2209,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var workspaceRepositoryConfiguration storage.WorkspaceRepositoryConfiguration_STATUS
 		err := workspace.WorkspaceRepositoryConfiguration.AssignProperties_To_WorkspaceRepositoryConfiguration_STATUS(&workspaceRepositoryConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceRepositoryConfiguration_STATUS() to populate field WorkspaceRepositoryConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceRepositoryConfiguration_STATUS() to populate field WorkspaceRepositoryConfiguration")
 		}
 		destination.WorkspaceRepositoryConfiguration = &workspaceRepositoryConfiguration
 	} else {
@@ -2408,7 +2408,7 @@ func (details *DataLakeStorageAccountDetails) ConvertToARM(resolved genruntime.C
 	if details.AccountUrlFromConfig != nil {
 		accountUrlValue, err := resolved.ResolvedConfigMaps.Lookup(*details.AccountUrlFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property AccountUrl")
+			return nil, eris.Wrap(err, "looking up configmap for property AccountUrl")
 		}
 		accountUrl := accountUrlValue
 		result.AccountUrl = &accountUrl
@@ -2764,7 +2764,7 @@ func (details *EncryptionDetails) AssignProperties_From_EncryptionDetails(source
 		var cmk CustomerManagedKeyDetails
 		err := cmk.AssignProperties_From_CustomerManagedKeyDetails(source.Cmk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomerManagedKeyDetails() to populate field Cmk")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomerManagedKeyDetails() to populate field Cmk")
 		}
 		details.Cmk = &cmk
 	} else {
@@ -2785,7 +2785,7 @@ func (details *EncryptionDetails) AssignProperties_To_EncryptionDetails(destinat
 		var cmk storage.CustomerManagedKeyDetails
 		err := details.Cmk.AssignProperties_To_CustomerManagedKeyDetails(&cmk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomerManagedKeyDetails() to populate field Cmk")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomerManagedKeyDetails() to populate field Cmk")
 		}
 		destination.Cmk = &cmk
 	} else {
@@ -2811,7 +2811,7 @@ func (details *EncryptionDetails) Initialize_From_EncryptionDetails_STATUS(sourc
 		var cmk CustomerManagedKeyDetails
 		err := cmk.Initialize_From_CustomerManagedKeyDetails_STATUS(source.Cmk)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CustomerManagedKeyDetails_STATUS() to populate field Cmk")
+			return eris.Wrap(err, "calling Initialize_From_CustomerManagedKeyDetails_STATUS() to populate field Cmk")
 		}
 		details.Cmk = &cmk
 	} else {
@@ -2874,7 +2874,7 @@ func (details *EncryptionDetails_STATUS) AssignProperties_From_EncryptionDetails
 		var cmk CustomerManagedKeyDetails_STATUS
 		err := cmk.AssignProperties_From_CustomerManagedKeyDetails_STATUS(source.Cmk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomerManagedKeyDetails_STATUS() to populate field Cmk")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomerManagedKeyDetails_STATUS() to populate field Cmk")
 		}
 		details.Cmk = &cmk
 	} else {
@@ -2903,7 +2903,7 @@ func (details *EncryptionDetails_STATUS) AssignProperties_To_EncryptionDetails_S
 		var cmk storage.CustomerManagedKeyDetails_STATUS
 		err := details.Cmk.AssignProperties_To_CustomerManagedKeyDetails_STATUS(&cmk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomerManagedKeyDetails_STATUS() to populate field Cmk")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomerManagedKeyDetails_STATUS() to populate field Cmk")
 		}
 		destination.Cmk = &cmk
 	} else {
@@ -3015,7 +3015,7 @@ func (identity *ManagedIdentity) AssignProperties_From_ManagedIdentity(source *s
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -3050,7 +3050,7 @@ func (identity *ManagedIdentity) AssignProperties_To_ManagedIdentity(destination
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -3190,7 +3190,7 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_From_ManagedIdentity_ST
 			var userAssignedIdentity UserAssignedManagedIdentity_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedManagedIdentity_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedManagedIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedManagedIdentity_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -3231,7 +3231,7 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_To_ManagedIdentity_STAT
 			var userAssignedIdentity storage.UserAssignedManagedIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedManagedIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedManagedIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedManagedIdentity_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -4568,7 +4568,7 @@ func (details *CustomerManagedKeyDetails) AssignProperties_From_CustomerManagedK
 		var kekIdentity KekIdentityProperties
 		err := kekIdentity.AssignProperties_From_KekIdentityProperties(source.KekIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KekIdentityProperties() to populate field KekIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_KekIdentityProperties() to populate field KekIdentity")
 		}
 		details.KekIdentity = &kekIdentity
 	} else {
@@ -4580,7 +4580,7 @@ func (details *CustomerManagedKeyDetails) AssignProperties_From_CustomerManagedK
 		var key WorkspaceKeyDetails
 		err := key.AssignProperties_From_WorkspaceKeyDetails(source.Key)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceKeyDetails() to populate field Key")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceKeyDetails() to populate field Key")
 		}
 		details.Key = &key
 	} else {
@@ -4601,7 +4601,7 @@ func (details *CustomerManagedKeyDetails) AssignProperties_To_CustomerManagedKey
 		var kekIdentity storage.KekIdentityProperties
 		err := details.KekIdentity.AssignProperties_To_KekIdentityProperties(&kekIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KekIdentityProperties() to populate field KekIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_KekIdentityProperties() to populate field KekIdentity")
 		}
 		destination.KekIdentity = &kekIdentity
 	} else {
@@ -4613,7 +4613,7 @@ func (details *CustomerManagedKeyDetails) AssignProperties_To_CustomerManagedKey
 		var key storage.WorkspaceKeyDetails
 		err := details.Key.AssignProperties_To_WorkspaceKeyDetails(&key)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceKeyDetails() to populate field Key")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceKeyDetails() to populate field Key")
 		}
 		destination.Key = &key
 	} else {
@@ -4639,7 +4639,7 @@ func (details *CustomerManagedKeyDetails) Initialize_From_CustomerManagedKeyDeta
 		var kekIdentity KekIdentityProperties
 		err := kekIdentity.Initialize_From_KekIdentityProperties_STATUS(source.KekIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KekIdentityProperties_STATUS() to populate field KekIdentity")
+			return eris.Wrap(err, "calling Initialize_From_KekIdentityProperties_STATUS() to populate field KekIdentity")
 		}
 		details.KekIdentity = &kekIdentity
 	} else {
@@ -4651,7 +4651,7 @@ func (details *CustomerManagedKeyDetails) Initialize_From_CustomerManagedKeyDeta
 		var key WorkspaceKeyDetails
 		err := key.Initialize_From_WorkspaceKeyDetails_STATUS(source.Key)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceKeyDetails_STATUS() to populate field Key")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceKeyDetails_STATUS() to populate field Key")
 		}
 		details.Key = &key
 	} else {
@@ -4728,7 +4728,7 @@ func (details *CustomerManagedKeyDetails_STATUS) AssignProperties_From_CustomerM
 		var kekIdentity KekIdentityProperties_STATUS
 		err := kekIdentity.AssignProperties_From_KekIdentityProperties_STATUS(source.KekIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KekIdentityProperties_STATUS() to populate field KekIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_KekIdentityProperties_STATUS() to populate field KekIdentity")
 		}
 		details.KekIdentity = &kekIdentity
 	} else {
@@ -4740,7 +4740,7 @@ func (details *CustomerManagedKeyDetails_STATUS) AssignProperties_From_CustomerM
 		var key WorkspaceKeyDetails_STATUS
 		err := key.AssignProperties_From_WorkspaceKeyDetails_STATUS(source.Key)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceKeyDetails_STATUS() to populate field Key")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceKeyDetails_STATUS() to populate field Key")
 		}
 		details.Key = &key
 	} else {
@@ -4764,7 +4764,7 @@ func (details *CustomerManagedKeyDetails_STATUS) AssignProperties_To_CustomerMan
 		var kekIdentity storage.KekIdentityProperties_STATUS
 		err := details.KekIdentity.AssignProperties_To_KekIdentityProperties_STATUS(&kekIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KekIdentityProperties_STATUS() to populate field KekIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_KekIdentityProperties_STATUS() to populate field KekIdentity")
 		}
 		destination.KekIdentity = &kekIdentity
 	} else {
@@ -4776,7 +4776,7 @@ func (details *CustomerManagedKeyDetails_STATUS) AssignProperties_To_CustomerMan
 		var key storage.WorkspaceKeyDetails_STATUS
 		err := details.Key.AssignProperties_To_WorkspaceKeyDetails_STATUS(&key)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceKeyDetails_STATUS() to populate field Key")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceKeyDetails_STATUS() to populate field Key")
 		}
 		destination.Key = &key
 	} else {

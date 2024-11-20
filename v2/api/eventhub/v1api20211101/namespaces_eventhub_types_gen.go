@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (eventhub *NamespacesEventhub) SetStatus(status genruntime.ConvertibleStatu
 	var st NamespacesEventhub_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	eventhub.Status = st
@@ -309,7 +309,7 @@ func (eventhub *NamespacesEventhub) AssignProperties_From_NamespacesEventhub(sou
 	var spec NamespacesEventhub_Spec
 	err := spec.AssignProperties_From_NamespacesEventhub_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NamespacesEventhub_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_NamespacesEventhub_Spec() to populate field Spec")
 	}
 	eventhub.Spec = spec
 
@@ -317,7 +317,7 @@ func (eventhub *NamespacesEventhub) AssignProperties_From_NamespacesEventhub(sou
 	var status NamespacesEventhub_STATUS
 	err = status.AssignProperties_From_NamespacesEventhub_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NamespacesEventhub_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_NamespacesEventhub_STATUS() to populate field Status")
 	}
 	eventhub.Status = status
 
@@ -335,7 +335,7 @@ func (eventhub *NamespacesEventhub) AssignProperties_To_NamespacesEventhub(desti
 	var spec storage.NamespacesEventhub_Spec
 	err := eventhub.Spec.AssignProperties_To_NamespacesEventhub_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NamespacesEventhub_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_NamespacesEventhub_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (eventhub *NamespacesEventhub) AssignProperties_To_NamespacesEventhub(desti
 	var status storage.NamespacesEventhub_STATUS
 	err = eventhub.Status.AssignProperties_To_NamespacesEventhub_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NamespacesEventhub_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_NamespacesEventhub_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -509,13 +509,13 @@ func (eventhub *NamespacesEventhub_Spec) ConvertSpecFrom(source genruntime.Conve
 	src = &storage.NamespacesEventhub_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = eventhub.AssignProperties_From_NamespacesEventhub_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -533,13 +533,13 @@ func (eventhub *NamespacesEventhub_Spec) ConvertSpecTo(destination genruntime.Co
 	dst = &storage.NamespacesEventhub_Spec{}
 	err := eventhub.AssignProperties_To_NamespacesEventhub_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -556,7 +556,7 @@ func (eventhub *NamespacesEventhub_Spec) AssignProperties_From_NamespacesEventhu
 		var captureDescription CaptureDescription
 		err := captureDescription.AssignProperties_From_CaptureDescription(source.CaptureDescription)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CaptureDescription() to populate field CaptureDescription")
+			return eris.Wrap(err, "calling AssignProperties_From_CaptureDescription() to populate field CaptureDescription")
 		}
 		eventhub.CaptureDescription = &captureDescription
 	} else {
@@ -576,7 +576,7 @@ func (eventhub *NamespacesEventhub_Spec) AssignProperties_From_NamespacesEventhu
 		var operatorSpec NamespacesEventhubOperatorSpec
 		err := operatorSpec.AssignProperties_From_NamespacesEventhubOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NamespacesEventhubOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_NamespacesEventhubOperatorSpec() to populate field OperatorSpec")
 		}
 		eventhub.OperatorSpec = &operatorSpec
 	} else {
@@ -616,7 +616,7 @@ func (eventhub *NamespacesEventhub_Spec) AssignProperties_To_NamespacesEventhub_
 		var captureDescription storage.CaptureDescription
 		err := eventhub.CaptureDescription.AssignProperties_To_CaptureDescription(&captureDescription)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CaptureDescription() to populate field CaptureDescription")
+			return eris.Wrap(err, "calling AssignProperties_To_CaptureDescription() to populate field CaptureDescription")
 		}
 		destination.CaptureDescription = &captureDescription
 	} else {
@@ -636,7 +636,7 @@ func (eventhub *NamespacesEventhub_Spec) AssignProperties_To_NamespacesEventhub_
 		var operatorSpec storage.NamespacesEventhubOperatorSpec
 		err := eventhub.OperatorSpec.AssignProperties_To_NamespacesEventhubOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NamespacesEventhubOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_NamespacesEventhubOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -681,7 +681,7 @@ func (eventhub *NamespacesEventhub_Spec) Initialize_From_NamespacesEventhub_STAT
 		var captureDescription CaptureDescription
 		err := captureDescription.Initialize_From_CaptureDescription_STATUS(source.CaptureDescription)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CaptureDescription_STATUS() to populate field CaptureDescription")
+			return eris.Wrap(err, "calling Initialize_From_CaptureDescription_STATUS() to populate field CaptureDescription")
 		}
 		eventhub.CaptureDescription = &captureDescription
 	} else {
@@ -774,13 +774,13 @@ func (eventhub *NamespacesEventhub_STATUS) ConvertStatusFrom(source genruntime.C
 	src = &storage.NamespacesEventhub_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = eventhub.AssignProperties_From_NamespacesEventhub_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -798,13 +798,13 @@ func (eventhub *NamespacesEventhub_STATUS) ConvertStatusTo(destination genruntim
 	dst = &storage.NamespacesEventhub_STATUS{}
 	err := eventhub.AssignProperties_To_NamespacesEventhub_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -942,7 +942,7 @@ func (eventhub *NamespacesEventhub_STATUS) AssignProperties_From_NamespacesEvent
 		var captureDescription CaptureDescription_STATUS
 		err := captureDescription.AssignProperties_From_CaptureDescription_STATUS(source.CaptureDescription)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CaptureDescription_STATUS() to populate field CaptureDescription")
+			return eris.Wrap(err, "calling AssignProperties_From_CaptureDescription_STATUS() to populate field CaptureDescription")
 		}
 		eventhub.CaptureDescription = &captureDescription
 	} else {
@@ -987,7 +987,7 @@ func (eventhub *NamespacesEventhub_STATUS) AssignProperties_From_NamespacesEvent
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		eventhub.SystemData = &systemDatum
 	} else {
@@ -1014,7 +1014,7 @@ func (eventhub *NamespacesEventhub_STATUS) AssignProperties_To_NamespacesEventhu
 		var captureDescription storage.CaptureDescription_STATUS
 		err := eventhub.CaptureDescription.AssignProperties_To_CaptureDescription_STATUS(&captureDescription)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CaptureDescription_STATUS() to populate field CaptureDescription")
+			return eris.Wrap(err, "calling AssignProperties_To_CaptureDescription_STATUS() to populate field CaptureDescription")
 		}
 		destination.CaptureDescription = &captureDescription
 	} else {
@@ -1058,7 +1058,7 @@ func (eventhub *NamespacesEventhub_STATUS) AssignProperties_To_NamespacesEventhu
 		var systemDatum storage.SystemData_STATUS
 		err := eventhub.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1226,7 +1226,7 @@ func (description *CaptureDescription) AssignProperties_From_CaptureDescription(
 		var destination Destination
 		err := destination.AssignProperties_From_Destination(source.Destination)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Destination() to populate field Destination")
+			return eris.Wrap(err, "calling AssignProperties_From_Destination() to populate field Destination")
 		}
 		description.Destination = &destination
 	} else {
@@ -1278,7 +1278,7 @@ func (description *CaptureDescription) AssignProperties_To_CaptureDescription(de
 		var destinationLocal storage.Destination
 		err := description.Destination.AssignProperties_To_Destination(&destinationLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Destination() to populate field Destination")
+			return eris.Wrap(err, "calling AssignProperties_To_Destination() to populate field Destination")
 		}
 		destination.Destination = &destinationLocal
 	} else {
@@ -1334,7 +1334,7 @@ func (description *CaptureDescription) Initialize_From_CaptureDescription_STATUS
 		var destination Destination
 		err := destination.Initialize_From_Destination_STATUS(source.Destination)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Destination_STATUS() to populate field Destination")
+			return eris.Wrap(err, "calling Initialize_From_Destination_STATUS() to populate field Destination")
 		}
 		description.Destination = &destination
 	} else {
@@ -1468,7 +1468,7 @@ func (description *CaptureDescription_STATUS) AssignProperties_From_CaptureDescr
 		var destination Destination_STATUS
 		err := destination.AssignProperties_From_Destination_STATUS(source.Destination)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Destination_STATUS() to populate field Destination")
+			return eris.Wrap(err, "calling AssignProperties_From_Destination_STATUS() to populate field Destination")
 		}
 		description.Destination = &destination
 	} else {
@@ -1520,7 +1520,7 @@ func (description *CaptureDescription_STATUS) AssignProperties_To_CaptureDescrip
 		var destinationLocal storage.Destination_STATUS
 		err := description.Destination.AssignProperties_To_Destination_STATUS(&destinationLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Destination_STATUS() to populate field Destination")
+			return eris.Wrap(err, "calling AssignProperties_To_Destination_STATUS() to populate field Destination")
 		}
 		destination.Destination = &destinationLocal
 	} else {

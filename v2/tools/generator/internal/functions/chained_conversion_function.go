@@ -107,7 +107,7 @@ func (fn *ChainedConversionFunction) Name() string {
 
 func (fn *ChainedConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	return astmodel.NewPackageReferenceSet(
-		astmodel.GitHubErrorsReference,
+		astmodel.ErisReference,
 		astmodel.ControllerRuntimeConversion,
 		astmodel.FmtReference,
 		astmodel.GenRuntimeReference,
@@ -180,7 +180,7 @@ func (fn *ChainedConversionFunction) AsFunc(
 func (fn *ChainedConversionFunction) bodyForConvert(
 	receiverName string, parameterName string, generationContext *astmodel.CodeGenerationContext,
 ) []dst.Stmt {
-	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.ErisReference)
 
 	receiver := dst.NewIdent(receiverName)
 	parameter := dst.NewIdent(parameterName)

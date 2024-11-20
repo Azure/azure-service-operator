@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -152,7 +152,7 @@ func (connection *WorkspacesConnection) SetStatus(status genruntime.ConvertibleS
 	var st WorkspacesConnection_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	connection.Status = st
@@ -169,7 +169,7 @@ func (connection *WorkspacesConnection) AssignProperties_From_WorkspacesConnecti
 	var spec WorkspacesConnection_Spec
 	err := spec.AssignProperties_From_WorkspacesConnection_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_WorkspacesConnection_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_WorkspacesConnection_Spec() to populate field Spec")
 	}
 	connection.Spec = spec
 
@@ -177,7 +177,7 @@ func (connection *WorkspacesConnection) AssignProperties_From_WorkspacesConnecti
 	var status WorkspacesConnection_STATUS
 	err = status.AssignProperties_From_WorkspacesConnection_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_WorkspacesConnection_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_WorkspacesConnection_STATUS() to populate field Status")
 	}
 	connection.Status = status
 
@@ -186,7 +186,7 @@ func (connection *WorkspacesConnection) AssignProperties_From_WorkspacesConnecti
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForWorkspacesConnection); ok {
 		err := augmentedConnection.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -204,7 +204,7 @@ func (connection *WorkspacesConnection) AssignProperties_To_WorkspacesConnection
 	var spec storage.WorkspacesConnection_Spec
 	err := connection.Spec.AssignProperties_To_WorkspacesConnection_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_WorkspacesConnection_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_WorkspacesConnection_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -212,7 +212,7 @@ func (connection *WorkspacesConnection) AssignProperties_To_WorkspacesConnection
 	var status storage.WorkspacesConnection_STATUS
 	err = connection.Status.AssignProperties_To_WorkspacesConnection_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_WorkspacesConnection_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_WorkspacesConnection_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -221,7 +221,7 @@ func (connection *WorkspacesConnection) AssignProperties_To_WorkspacesConnection
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForWorkspacesConnection); ok {
 		err := augmentedConnection.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -290,13 +290,13 @@ func (connection *WorkspacesConnection_Spec) ConvertSpecFrom(source genruntime.C
 	src = &storage.WorkspacesConnection_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = connection.AssignProperties_From_WorkspacesConnection_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -314,13 +314,13 @@ func (connection *WorkspacesConnection_Spec) ConvertSpecTo(destination genruntim
 	dst = &storage.WorkspacesConnection_Spec{}
 	err := connection.AssignProperties_To_WorkspacesConnection_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -336,7 +336,7 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_From_WorkspacesCon
 		var authType string
 		err := propertyBag.Pull("AuthType", &authType)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'AuthType' from propertyBag")
+			return eris.Wrap(err, "pulling 'AuthType' from propertyBag")
 		}
 
 		connection.AuthType = &authType
@@ -352,7 +352,7 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_From_WorkspacesCon
 		var category string
 		err := propertyBag.Pull("Category", &category)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'Category' from propertyBag")
+			return eris.Wrap(err, "pulling 'Category' from propertyBag")
 		}
 
 		connection.Category = &category
@@ -365,7 +365,7 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_From_WorkspacesCon
 		var operatorSpec WorkspacesConnectionOperatorSpec
 		err := operatorSpec.AssignProperties_From_WorkspacesConnectionOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspacesConnectionOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspacesConnectionOperatorSpec() to populate field OperatorSpec")
 		}
 		connection.OperatorSpec = &operatorSpec
 	} else {
@@ -395,7 +395,7 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_From_WorkspacesCon
 		var target string
 		err := propertyBag.Pull("Target", &target)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'Target' from propertyBag")
+			return eris.Wrap(err, "pulling 'Target' from propertyBag")
 		}
 
 		connection.Target = &target
@@ -408,7 +408,7 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_From_WorkspacesCon
 		var value string
 		err := propertyBag.Pull("Value", &value)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'Value' from propertyBag")
+			return eris.Wrap(err, "pulling 'Value' from propertyBag")
 		}
 
 		connection.Value = &value
@@ -421,7 +421,7 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_From_WorkspacesCon
 		var valueFormat string
 		err := propertyBag.Pull("ValueFormat", &valueFormat)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'ValueFormat' from propertyBag")
+			return eris.Wrap(err, "pulling 'ValueFormat' from propertyBag")
 		}
 
 		connection.ValueFormat = &valueFormat
@@ -441,7 +441,7 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_From_WorkspacesCon
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForWorkspacesConnection_Spec); ok {
 		err := augmentedConnection.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -476,7 +476,7 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_To_WorkspacesConne
 		var operatorSpec storage.WorkspacesConnectionOperatorSpec
 		err := connection.OperatorSpec.AssignProperties_To_WorkspacesConnectionOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspacesConnectionOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspacesConnectionOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -499,7 +499,7 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_To_WorkspacesConne
 		var property storage.WorkspaceConnectionPropertiesV2
 		err := propertyBag.Pull("Properties", &property)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'Properties' from propertyBag")
+			return eris.Wrap(err, "pulling 'Properties' from propertyBag")
 		}
 
 		destination.Properties = &property
@@ -540,7 +540,7 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_To_WorkspacesConne
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForWorkspacesConnection_Spec); ok {
 		err := augmentedConnection.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -576,13 +576,13 @@ func (connection *WorkspacesConnection_STATUS) ConvertStatusFrom(source genrunti
 	src = &storage.WorkspacesConnection_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = connection.AssignProperties_From_WorkspacesConnection_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -600,13 +600,13 @@ func (connection *WorkspacesConnection_STATUS) ConvertStatusTo(destination genru
 	dst = &storage.WorkspacesConnection_STATUS{}
 	err := connection.AssignProperties_To_WorkspacesConnection_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -622,7 +622,7 @@ func (connection *WorkspacesConnection_STATUS) AssignProperties_From_WorkspacesC
 		var authType string
 		err := propertyBag.Pull("AuthType", &authType)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'AuthType' from propertyBag")
+			return eris.Wrap(err, "pulling 'AuthType' from propertyBag")
 		}
 
 		connection.AuthType = &authType
@@ -635,7 +635,7 @@ func (connection *WorkspacesConnection_STATUS) AssignProperties_From_WorkspacesC
 		var category string
 		err := propertyBag.Pull("Category", &category)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'Category' from propertyBag")
+			return eris.Wrap(err, "pulling 'Category' from propertyBag")
 		}
 
 		connection.Category = &category
@@ -671,7 +671,7 @@ func (connection *WorkspacesConnection_STATUS) AssignProperties_From_WorkspacesC
 		var target string
 		err := propertyBag.Pull("Target", &target)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'Target' from propertyBag")
+			return eris.Wrap(err, "pulling 'Target' from propertyBag")
 		}
 
 		connection.Target = &target
@@ -687,7 +687,7 @@ func (connection *WorkspacesConnection_STATUS) AssignProperties_From_WorkspacesC
 		var value string
 		err := propertyBag.Pull("Value", &value)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'Value' from propertyBag")
+			return eris.Wrap(err, "pulling 'Value' from propertyBag")
 		}
 
 		connection.Value = &value
@@ -700,7 +700,7 @@ func (connection *WorkspacesConnection_STATUS) AssignProperties_From_WorkspacesC
 		var valueFormat string
 		err := propertyBag.Pull("ValueFormat", &valueFormat)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'ValueFormat' from propertyBag")
+			return eris.Wrap(err, "pulling 'ValueFormat' from propertyBag")
 		}
 
 		connection.ValueFormat = &valueFormat
@@ -720,7 +720,7 @@ func (connection *WorkspacesConnection_STATUS) AssignProperties_From_WorkspacesC
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForWorkspacesConnection_STATUS); ok {
 		err := augmentedConnection.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -761,7 +761,7 @@ func (connection *WorkspacesConnection_STATUS) AssignProperties_To_WorkspacesCon
 		var property storage.WorkspaceConnectionPropertiesV2_STATUS
 		err := propertyBag.Pull("Properties", &property)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'Properties' from propertyBag")
+			return eris.Wrap(err, "pulling 'Properties' from propertyBag")
 		}
 
 		destination.Properties = &property
@@ -774,7 +774,7 @@ func (connection *WorkspacesConnection_STATUS) AssignProperties_To_WorkspacesCon
 		var systemDatum storage.SystemData_STATUS
 		err := propertyBag.Pull("SystemData", &systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'SystemData' from propertyBag")
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
 		}
 
 		destination.SystemData = &systemDatum
@@ -818,7 +818,7 @@ func (connection *WorkspacesConnection_STATUS) AssignProperties_To_WorkspacesCon
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForWorkspacesConnection_STATUS); ok {
 		err := augmentedConnection.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -897,7 +897,7 @@ func (operator *WorkspacesConnectionOperatorSpec) AssignProperties_From_Workspac
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForWorkspacesConnectionOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -958,7 +958,7 @@ func (operator *WorkspacesConnectionOperatorSpec) AssignProperties_To_Workspaces
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForWorkspacesConnectionOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

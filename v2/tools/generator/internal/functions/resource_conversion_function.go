@@ -80,7 +80,7 @@ func (fn *ResourceConversionFunction) Name() string {
 
 func (fn *ResourceConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	result := astmodel.NewPackageReferenceSet(
-		astmodel.GitHubErrorsReference,
+		astmodel.ErisReference,
 		astmodel.ControllerRuntimeConversion,
 		astmodel.FmtReference,
 	)
@@ -222,7 +222,7 @@ func (fn *ResourceConversionFunction) directConversion(
 func (fn *ResourceConversionFunction) indirectConversionFromHub(
 	receiverName string, generationContext *astmodel.CodeGenerationContext,
 ) ([]dst.Stmt, error) {
-	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.ErisReference)
 	localId := fn.localVariableId()
 	errIdent := dst.NewIdent("err")
 
@@ -286,7 +286,7 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 func (fn *ResourceConversionFunction) indirectConversionToHub(
 	receiverName string, generationContext *astmodel.CodeGenerationContext,
 ) ([]dst.Stmt, error) {
-	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.ErisReference)
 	localId := fn.localVariableId()
 	errIdent := dst.NewIdent("err")
 

@@ -157,7 +157,7 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 	// Package references
 	compatPkg := astmodel.MakeCompatPackageReference(builder.receiverDefinition.Name().InternalPackageReference())
 	packageReferences := astmodel.NewPackageReferenceSet(
-		astmodel.GitHubErrorsReference,
+		astmodel.ErisReference,
 		astmodel.GenRuntimeReference,
 		builder.otherDefinition.Name().PackageReference(),
 		compatPkg)

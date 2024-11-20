@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink) SetStatus(status genruntime.Conve
 	var st PrivateDnsZonesVirtualNetworkLink_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	link.Status = st
@@ -309,7 +309,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink) AssignProperties_From_PrivateDnsZ
 	var spec PrivateDnsZonesVirtualNetworkLink_Spec
 	err := spec.AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_Spec() to populate field Spec")
 	}
 	link.Spec = spec
 
@@ -317,7 +317,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink) AssignProperties_From_PrivateDnsZ
 	var status PrivateDnsZonesVirtualNetworkLink_STATUS
 	err = status.AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_STATUS() to populate field Status")
 	}
 	link.Status = status
 
@@ -335,7 +335,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink) AssignProperties_To_PrivateDnsZon
 	var spec storage.PrivateDnsZonesVirtualNetworkLink_Spec
 	err := link.Spec.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink) AssignProperties_To_PrivateDnsZon
 	var status storage.PrivateDnsZonesVirtualNetworkLink_STATUS
 	err = link.Status.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -561,13 +561,13 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) ConvertSpecFrom(source genru
 	src = &storage.PrivateDnsZonesVirtualNetworkLink_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = link.AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -585,13 +585,13 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) ConvertSpecTo(destination ge
 	dst = &storage.PrivateDnsZonesVirtualNetworkLink_Spec{}
 	err := link.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -614,7 +614,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) AssignProperties_From_Privat
 		var operatorSpec PrivateDnsZonesVirtualNetworkLinkOperatorSpec
 		err := operatorSpec.AssignProperties_From_PrivateDnsZonesVirtualNetworkLinkOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateDnsZonesVirtualNetworkLinkOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_PrivateDnsZonesVirtualNetworkLinkOperatorSpec() to populate field OperatorSpec")
 		}
 		link.OperatorSpec = &operatorSpec
 	} else {
@@ -654,7 +654,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) AssignProperties_From_Privat
 		var virtualNetwork SubResource
 		err := virtualNetwork.AssignProperties_From_SubResource(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualNetwork")
 		}
 		link.VirtualNetwork = &virtualNetwork
 	} else {
@@ -684,7 +684,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) AssignProperties_To_PrivateD
 		var operatorSpec storage.PrivateDnsZonesVirtualNetworkLinkOperatorSpec
 		err := link.OperatorSpec.AssignProperties_To_PrivateDnsZonesVirtualNetworkLinkOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZonesVirtualNetworkLinkOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_PrivateDnsZonesVirtualNetworkLinkOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -726,7 +726,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) AssignProperties_To_PrivateD
 		var virtualNetwork storage.SubResource
 		err := link.VirtualNetwork.AssignProperties_To_SubResource(&virtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualNetwork")
 		}
 		destination.VirtualNetwork = &virtualNetwork
 	} else {
@@ -777,7 +777,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) Initialize_From_PrivateDnsZo
 		var virtualNetwork SubResource
 		err := virtualNetwork.Initialize_From_SubResource_STATUS(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		link.VirtualNetwork = &virtualNetwork
 	} else {
@@ -856,13 +856,13 @@ func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) ConvertStatusFrom(source g
 	src = &storage.PrivateDnsZonesVirtualNetworkLink_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = link.AssignProperties_From_PrivateDnsZonesVirtualNetworkLink_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -880,13 +880,13 @@ func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) ConvertStatusTo(destinatio
 	dst = &storage.PrivateDnsZonesVirtualNetworkLink_STATUS{}
 	err := link.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1061,7 +1061,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) AssignProperties_From_Priv
 		var virtualNetwork SubResource_STATUS
 		err := virtualNetwork.AssignProperties_From_SubResource_STATUS(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		link.VirtualNetwork = &virtualNetwork
 	} else {
@@ -1136,7 +1136,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) AssignProperties_To_Privat
 		var virtualNetwork storage.SubResource_STATUS
 		err := link.VirtualNetwork.AssignProperties_To_SubResource_STATUS(&virtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		destination.VirtualNetwork = &virtualNetwork
 	} else {

@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -152,7 +152,7 @@ func (assignment *SqlRoleAssignment) SetStatus(status genruntime.ConvertibleStat
 	var st SqlRoleAssignment_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	assignment.Status = st
@@ -169,7 +169,7 @@ func (assignment *SqlRoleAssignment) AssignProperties_From_SqlRoleAssignment(sou
 	var spec SqlRoleAssignment_Spec
 	err := spec.AssignProperties_From_SqlRoleAssignment_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SqlRoleAssignment_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_SqlRoleAssignment_Spec() to populate field Spec")
 	}
 	assignment.Spec = spec
 
@@ -177,7 +177,7 @@ func (assignment *SqlRoleAssignment) AssignProperties_From_SqlRoleAssignment(sou
 	var status SqlRoleAssignment_STATUS
 	err = status.AssignProperties_From_SqlRoleAssignment_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SqlRoleAssignment_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_SqlRoleAssignment_STATUS() to populate field Status")
 	}
 	assignment.Status = status
 
@@ -186,7 +186,7 @@ func (assignment *SqlRoleAssignment) AssignProperties_From_SqlRoleAssignment(sou
 	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForSqlRoleAssignment); ok {
 		err := augmentedAssignment.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -204,7 +204,7 @@ func (assignment *SqlRoleAssignment) AssignProperties_To_SqlRoleAssignment(desti
 	var spec storage.SqlRoleAssignment_Spec
 	err := assignment.Spec.AssignProperties_To_SqlRoleAssignment_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SqlRoleAssignment_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_SqlRoleAssignment_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -212,7 +212,7 @@ func (assignment *SqlRoleAssignment) AssignProperties_To_SqlRoleAssignment(desti
 	var status storage.SqlRoleAssignment_STATUS
 	err = assignment.Status.AssignProperties_To_SqlRoleAssignment_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SqlRoleAssignment_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_SqlRoleAssignment_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -221,7 +221,7 @@ func (assignment *SqlRoleAssignment) AssignProperties_To_SqlRoleAssignment(desti
 	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForSqlRoleAssignment); ok {
 		err := augmentedAssignment.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -288,13 +288,13 @@ func (assignment *SqlRoleAssignment_Spec) ConvertSpecFrom(source genruntime.Conv
 	src = &storage.SqlRoleAssignment_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = assignment.AssignProperties_From_SqlRoleAssignment_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -312,13 +312,13 @@ func (assignment *SqlRoleAssignment_Spec) ConvertSpecTo(destination genruntime.C
 	dst = &storage.SqlRoleAssignment_Spec{}
 	err := assignment.AssignProperties_To_SqlRoleAssignment_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -337,7 +337,7 @@ func (assignment *SqlRoleAssignment_Spec) AssignProperties_From_SqlRoleAssignmen
 		var operatorSpec SqlRoleAssignmentOperatorSpec
 		err := operatorSpec.AssignProperties_From_SqlRoleAssignmentOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlRoleAssignmentOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_SqlRoleAssignmentOperatorSpec() to populate field OperatorSpec")
 		}
 		assignment.OperatorSpec = &operatorSpec
 	} else {
@@ -384,7 +384,7 @@ func (assignment *SqlRoleAssignment_Spec) AssignProperties_From_SqlRoleAssignmen
 	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForSqlRoleAssignment_Spec); ok {
 		err := augmentedAssignment.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -405,7 +405,7 @@ func (assignment *SqlRoleAssignment_Spec) AssignProperties_To_SqlRoleAssignment_
 		var operatorSpec storage.SqlRoleAssignmentOperatorSpec
 		err := assignment.OperatorSpec.AssignProperties_To_SqlRoleAssignmentOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlRoleAssignmentOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_SqlRoleAssignmentOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -452,7 +452,7 @@ func (assignment *SqlRoleAssignment_Spec) AssignProperties_To_SqlRoleAssignment_
 	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForSqlRoleAssignment_Spec); ok {
 		err := augmentedAssignment.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -486,13 +486,13 @@ func (assignment *SqlRoleAssignment_STATUS) ConvertStatusFrom(source genruntime.
 	src = &storage.SqlRoleAssignment_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = assignment.AssignProperties_From_SqlRoleAssignment_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -510,13 +510,13 @@ func (assignment *SqlRoleAssignment_STATUS) ConvertStatusTo(destination genrunti
 	dst = &storage.SqlRoleAssignment_STATUS{}
 	err := assignment.AssignProperties_To_SqlRoleAssignment_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -560,7 +560,7 @@ func (assignment *SqlRoleAssignment_STATUS) AssignProperties_From_SqlRoleAssignm
 	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForSqlRoleAssignment_STATUS); ok {
 		err := augmentedAssignment.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -606,7 +606,7 @@ func (assignment *SqlRoleAssignment_STATUS) AssignProperties_To_SqlRoleAssignmen
 	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForSqlRoleAssignment_STATUS); ok {
 		err := augmentedAssignment.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -685,7 +685,7 @@ func (operator *SqlRoleAssignmentOperatorSpec) AssignProperties_From_SqlRoleAssi
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSqlRoleAssignmentOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -746,7 +746,7 @@ func (operator *SqlRoleAssignmentOperatorSpec) AssignProperties_To_SqlRoleAssign
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSqlRoleAssignmentOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

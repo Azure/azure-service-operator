@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -58,12 +58,12 @@ func (encryptionSet *DiskEncryptionSet) ConvertFrom(hub conversion.Hub) error {
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = encryptionSet.AssignProperties_From_DiskEncryptionSet(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to encryptionSet")
+		return eris.Wrap(err, "converting from source to encryptionSet")
 	}
 
 	return nil
@@ -75,11 +75,11 @@ func (encryptionSet *DiskEncryptionSet) ConvertTo(hub conversion.Hub) error {
 	var destination storage.DiskEncryptionSet
 	err := encryptionSet.AssignProperties_To_DiskEncryptionSet(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from encryptionSet")
+		return eris.Wrap(err, "converting to destination from encryptionSet")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -192,7 +192,7 @@ func (encryptionSet *DiskEncryptionSet) SetStatus(status genruntime.ConvertibleS
 	var st DiskEncryptionSet_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	encryptionSet.Status = st
@@ -324,7 +324,7 @@ func (encryptionSet *DiskEncryptionSet) AssignProperties_From_DiskEncryptionSet(
 	var spec DiskEncryptionSet_Spec
 	err := spec.AssignProperties_From_DiskEncryptionSet_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSet_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_DiskEncryptionSet_Spec() to populate field Spec")
 	}
 	encryptionSet.Spec = spec
 
@@ -332,7 +332,7 @@ func (encryptionSet *DiskEncryptionSet) AssignProperties_From_DiskEncryptionSet(
 	var status DiskEncryptionSet_STATUS
 	err = status.AssignProperties_From_DiskEncryptionSet_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSet_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_DiskEncryptionSet_STATUS() to populate field Status")
 	}
 	encryptionSet.Status = status
 
@@ -350,7 +350,7 @@ func (encryptionSet *DiskEncryptionSet) AssignProperties_To_DiskEncryptionSet(de
 	var spec storage.DiskEncryptionSet_Spec
 	err := encryptionSet.Spec.AssignProperties_To_DiskEncryptionSet_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSet_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_DiskEncryptionSet_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -358,7 +358,7 @@ func (encryptionSet *DiskEncryptionSet) AssignProperties_To_DiskEncryptionSet(de
 	var status storage.DiskEncryptionSet_STATUS
 	err = encryptionSet.Status.AssignProperties_To_DiskEncryptionSet_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSet_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_DiskEncryptionSet_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -492,7 +492,7 @@ func (encryptionSet *DiskEncryptionSet_Spec) ConvertToARM(resolved genruntime.Co
 	if encryptionSet.FederatedClientIdFromConfig != nil {
 		federatedClientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*encryptionSet.FederatedClientIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property FederatedClientId")
+			return nil, eris.Wrap(err, "looking up configmap for property FederatedClientId")
 		}
 		federatedClientId := federatedClientIdValue
 		result.Properties.FederatedClientId = &federatedClientId
@@ -623,13 +623,13 @@ func (encryptionSet *DiskEncryptionSet_Spec) ConvertSpecFrom(source genruntime.C
 	src = &storage.DiskEncryptionSet_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = encryptionSet.AssignProperties_From_DiskEncryptionSet_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -647,13 +647,13 @@ func (encryptionSet *DiskEncryptionSet_Spec) ConvertSpecTo(destination genruntim
 	dst = &storage.DiskEncryptionSet_Spec{}
 	err := encryptionSet.AssignProperties_To_DiskEncryptionSet_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -667,7 +667,7 @@ func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_From_DiskEncryptio
 		var activeKey KeyForDiskEncryptionSet
 		err := activeKey.AssignProperties_From_KeyForDiskEncryptionSet(source.ActiveKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyForDiskEncryptionSet() to populate field ActiveKey")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyForDiskEncryptionSet() to populate field ActiveKey")
 		}
 		encryptionSet.ActiveKey = &activeKey
 	} else {
@@ -702,7 +702,7 @@ func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_From_DiskEncryptio
 		var identity EncryptionSetIdentity
 		err := identity.AssignProperties_From_EncryptionSetIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionSetIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionSetIdentity() to populate field Identity")
 		}
 		encryptionSet.Identity = &identity
 	} else {
@@ -717,7 +717,7 @@ func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_From_DiskEncryptio
 		var operatorSpec DiskEncryptionSetOperatorSpec
 		err := operatorSpec.AssignProperties_From_DiskEncryptionSetOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSetOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskEncryptionSetOperatorSpec() to populate field OperatorSpec")
 		}
 		encryptionSet.OperatorSpec = &operatorSpec
 	} else {
@@ -757,7 +757,7 @@ func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_To_DiskEncryptionS
 		var activeKey storage.KeyForDiskEncryptionSet
 		err := encryptionSet.ActiveKey.AssignProperties_To_KeyForDiskEncryptionSet(&activeKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyForDiskEncryptionSet() to populate field ActiveKey")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyForDiskEncryptionSet() to populate field ActiveKey")
 		}
 		destination.ActiveKey = &activeKey
 	} else {
@@ -791,7 +791,7 @@ func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_To_DiskEncryptionS
 		var identity storage.EncryptionSetIdentity
 		err := encryptionSet.Identity.AssignProperties_To_EncryptionSetIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionSetIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionSetIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -806,7 +806,7 @@ func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_To_DiskEncryptionS
 		var operatorSpec storage.DiskEncryptionSetOperatorSpec
 		err := encryptionSet.OperatorSpec.AssignProperties_To_DiskEncryptionSetOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSetOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskEncryptionSetOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -923,13 +923,13 @@ func (encryptionSet *DiskEncryptionSet_STATUS) ConvertStatusFrom(source genrunti
 	src = &storage.DiskEncryptionSet_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = encryptionSet.AssignProperties_From_DiskEncryptionSet_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -947,13 +947,13 @@ func (encryptionSet *DiskEncryptionSet_STATUS) ConvertStatusTo(destination genru
 	dst = &storage.DiskEncryptionSet_STATUS{}
 	err := encryptionSet.AssignProperties_To_DiskEncryptionSet_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1118,7 +1118,7 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_From_DiskEncrypt
 		var activeKey KeyForDiskEncryptionSet_STATUS
 		err := activeKey.AssignProperties_From_KeyForDiskEncryptionSet_STATUS(source.ActiveKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyForDiskEncryptionSet_STATUS() to populate field ActiveKey")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyForDiskEncryptionSet_STATUS() to populate field ActiveKey")
 		}
 		encryptionSet.ActiveKey = &activeKey
 	} else {
@@ -1130,7 +1130,7 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_From_DiskEncrypt
 		var autoKeyRotationError ApiError_STATUS
 		err := autoKeyRotationError.AssignProperties_From_ApiError_STATUS(source.AutoKeyRotationError)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiError_STATUS() to populate field AutoKeyRotationError")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiError_STATUS() to populate field AutoKeyRotationError")
 		}
 		encryptionSet.AutoKeyRotationError = &autoKeyRotationError
 	} else {
@@ -1160,7 +1160,7 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_From_DiskEncrypt
 		var identity EncryptionSetIdentity_STATUS
 		err := identity.AssignProperties_From_EncryptionSetIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionSetIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionSetIdentity_STATUS() to populate field Identity")
 		}
 		encryptionSet.Identity = &identity
 	} else {
@@ -1185,7 +1185,7 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_From_DiskEncrypt
 			var previousKey KeyForDiskEncryptionSet_STATUS
 			err := previousKey.AssignProperties_From_KeyForDiskEncryptionSet_STATUS(&previousKeyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_KeyForDiskEncryptionSet_STATUS() to populate field PreviousKeys")
+				return eris.Wrap(err, "calling AssignProperties_From_KeyForDiskEncryptionSet_STATUS() to populate field PreviousKeys")
 			}
 			previousKeyList[previousKeyIndex] = previousKey
 		}
@@ -1225,7 +1225,7 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_To_DiskEncryptio
 		var activeKey storage.KeyForDiskEncryptionSet_STATUS
 		err := encryptionSet.ActiveKey.AssignProperties_To_KeyForDiskEncryptionSet_STATUS(&activeKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyForDiskEncryptionSet_STATUS() to populate field ActiveKey")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyForDiskEncryptionSet_STATUS() to populate field ActiveKey")
 		}
 		destination.ActiveKey = &activeKey
 	} else {
@@ -1237,7 +1237,7 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_To_DiskEncryptio
 		var autoKeyRotationError storage.ApiError_STATUS
 		err := encryptionSet.AutoKeyRotationError.AssignProperties_To_ApiError_STATUS(&autoKeyRotationError)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiError_STATUS() to populate field AutoKeyRotationError")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiError_STATUS() to populate field AutoKeyRotationError")
 		}
 		destination.AutoKeyRotationError = &autoKeyRotationError
 	} else {
@@ -1266,7 +1266,7 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_To_DiskEncryptio
 		var identity storage.EncryptionSetIdentity_STATUS
 		err := encryptionSet.Identity.AssignProperties_To_EncryptionSetIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionSetIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionSetIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1291,7 +1291,7 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_To_DiskEncryptio
 			var previousKey storage.KeyForDiskEncryptionSet_STATUS
 			err := previousKeyItem.AssignProperties_To_KeyForDiskEncryptionSet_STATUS(&previousKey)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_KeyForDiskEncryptionSet_STATUS() to populate field PreviousKeys")
+				return eris.Wrap(err, "calling AssignProperties_To_KeyForDiskEncryptionSet_STATUS() to populate field PreviousKeys")
 			}
 			previousKeyList[previousKeyIndex] = previousKey
 		}
@@ -1418,7 +1418,7 @@ func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *stor
 			var detail ApiErrorBase_STATUS
 			err := detail.AssignProperties_From_ApiErrorBase_STATUS(&detailItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApiErrorBase_STATUS() to populate field Details")
+				return eris.Wrap(err, "calling AssignProperties_From_ApiErrorBase_STATUS() to populate field Details")
 			}
 			detailList[detailIndex] = detail
 		}
@@ -1432,7 +1432,7 @@ func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *stor
 		var innererror InnerError_STATUS
 		err := innererror.AssignProperties_From_InnerError_STATUS(source.Innererror)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_InnerError_STATUS() to populate field Innererror")
+			return eris.Wrap(err, "calling AssignProperties_From_InnerError_STATUS() to populate field Innererror")
 		}
 		error.Innererror = &innererror
 	} else {
@@ -1466,7 +1466,7 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *s
 			var detail storage.ApiErrorBase_STATUS
 			err := detailItem.AssignProperties_To_ApiErrorBase_STATUS(&detail)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApiErrorBase_STATUS() to populate field Details")
+				return eris.Wrap(err, "calling AssignProperties_To_ApiErrorBase_STATUS() to populate field Details")
 			}
 			detailList[detailIndex] = detail
 		}
@@ -1480,7 +1480,7 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *s
 		var innererror storage.InnerError_STATUS
 		err := error.Innererror.AssignProperties_To_InnerError_STATUS(&innererror)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_InnerError_STATUS() to populate field Innererror")
+			return eris.Wrap(err, "calling AssignProperties_To_InnerError_STATUS() to populate field Innererror")
 		}
 		destination.Innererror = &innererror
 	} else {
@@ -1732,7 +1732,7 @@ func (identity *EncryptionSetIdentity) AssignProperties_From_EncryptionSetIdenti
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -1767,7 +1767,7 @@ func (identity *EncryptionSetIdentity) AssignProperties_To_EncryptionSetIdentity
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -1887,7 +1887,7 @@ func (identity *EncryptionSetIdentity_STATUS) AssignProperties_From_EncryptionSe
 			var userAssignedIdentity EncryptionSetIdentity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentity.AssignProperties_From_EncryptionSetIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EncryptionSetIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_EncryptionSetIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1928,7 +1928,7 @@ func (identity *EncryptionSetIdentity_STATUS) AssignProperties_To_EncryptionSetI
 			var userAssignedIdentity storage.EncryptionSetIdentity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1980,7 +1980,7 @@ func (encryptionSet *KeyForDiskEncryptionSet) ConvertToARM(resolved genruntime.C
 	if encryptionSet.KeyUrlFromConfig != nil {
 		keyUrlValue, err := resolved.ResolvedConfigMaps.Lookup(*encryptionSet.KeyUrlFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property KeyUrl")
+			return nil, eris.Wrap(err, "looking up configmap for property KeyUrl")
 		}
 		keyUrl := keyUrlValue
 		result.KeyUrl = &keyUrl
@@ -2052,7 +2052,7 @@ func (encryptionSet *KeyForDiskEncryptionSet) AssignProperties_From_KeyForDiskEn
 		var sourceVault SourceVault
 		err := sourceVault.AssignProperties_From_SourceVault(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SourceVault() to populate field SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_From_SourceVault() to populate field SourceVault")
 		}
 		encryptionSet.SourceVault = &sourceVault
 	} else {
@@ -2084,7 +2084,7 @@ func (encryptionSet *KeyForDiskEncryptionSet) AssignProperties_To_KeyForDiskEncr
 		var sourceVault storage.SourceVault
 		err := encryptionSet.SourceVault.AssignProperties_To_SourceVault(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVault")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -2159,7 +2159,7 @@ func (encryptionSet *KeyForDiskEncryptionSet_STATUS) AssignProperties_From_KeyFo
 		var sourceVault SourceVault_STATUS
 		err := sourceVault.AssignProperties_From_SourceVault_STATUS(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SourceVault_STATUS() to populate field SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_From_SourceVault_STATUS() to populate field SourceVault")
 		}
 		encryptionSet.SourceVault = &sourceVault
 	} else {
@@ -2183,7 +2183,7 @@ func (encryptionSet *KeyForDiskEncryptionSet_STATUS) AssignProperties_To_KeyForD
 		var sourceVault storage.SourceVault_STATUS
 		err := encryptionSet.SourceVault.AssignProperties_To_SourceVault_STATUS(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault")
 		}
 		destination.SourceVault = &sourceVault
 	} else {

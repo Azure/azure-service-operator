@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -265,7 +265,7 @@ func (resource *AResource) AssignProperties_From_AResource(source *storage.AReso
 	var spec AResource_Spec
 	err := spec.AssignProperties_From_AResource_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_AResource_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_AResource_Spec() to populate field Spec")
 	}
 	resource.Spec = spec
 
@@ -283,7 +283,7 @@ func (resource *AResource) AssignProperties_To_AResource(destination *storage.AR
 	var spec storage.AResource_Spec
 	err := resource.Spec.AssignProperties_To_AResource_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_AResource_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_AResource_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -410,13 +410,13 @@ func (resource *AResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpe
 	src = &storage.AResource_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = resource.AssignProperties_From_AResource_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -434,13 +434,13 @@ func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.Convertible
 	dst = &storage.AResource_Spec{}
 	err := resource.AssignProperties_To_AResource_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -466,7 +466,7 @@ func (resource *AResource_Spec) AssignProperties_From_AResource_Spec(source *sto
 		var operatorSpec AResourceOperatorSpec
 		err := operatorSpec.AssignProperties_From_AResourceOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AResourceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_AResourceOperatorSpec() to populate field OperatorSpec")
 		}
 		resource.OperatorSpec = &operatorSpec
 	} else {
@@ -511,7 +511,7 @@ func (resource *AResource_Spec) AssignProperties_To_AResource_Spec(destination *
 		var operatorSpec storage.AResourceOperatorSpec
 		err := resource.OperatorSpec.AssignProperties_To_AResourceOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AResourceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_AResourceOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {

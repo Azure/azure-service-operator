@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntim
 	var st SqlDatabaseContainerStoredProcedure_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	procedure.Status = st
@@ -309,7 +309,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignProperties_From_SqlD
 	var spec SqlDatabaseContainerStoredProcedure_Spec
 	err := spec.AssignProperties_From_SqlDatabaseContainerStoredProcedure_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerStoredProcedure_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerStoredProcedure_Spec() to populate field Spec")
 	}
 	procedure.Spec = spec
 
@@ -317,7 +317,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignProperties_From_SqlD
 	var status SqlDatabaseContainerStoredProcedure_STATUS
 	err = status.AssignProperties_From_SqlDatabaseContainerStoredProcedure_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerStoredProcedure_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerStoredProcedure_STATUS() to populate field Status")
 	}
 	procedure.Status = status
 
@@ -335,7 +335,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignProperties_To_SqlDat
 	var spec storage.SqlDatabaseContainerStoredProcedure_Spec
 	err := procedure.Spec.AssignProperties_To_SqlDatabaseContainerStoredProcedure_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerStoredProcedure_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerStoredProcedure_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignProperties_To_SqlDat
 	var status storage.SqlDatabaseContainerStoredProcedure_STATUS
 	err = procedure.Status.AssignProperties_To_SqlDatabaseContainerStoredProcedure_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerStoredProcedure_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerStoredProcedure_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -530,13 +530,13 @@ func (procedure *SqlDatabaseContainerStoredProcedure_Spec) ConvertSpecFrom(sourc
 	src = &storage.SqlDatabaseContainerStoredProcedure_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = procedure.AssignProperties_From_SqlDatabaseContainerStoredProcedure_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -554,13 +554,13 @@ func (procedure *SqlDatabaseContainerStoredProcedure_Spec) ConvertSpecTo(destina
 	dst = &storage.SqlDatabaseContainerStoredProcedure_Spec{}
 	err := procedure.AssignProperties_To_SqlDatabaseContainerStoredProcedure_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -580,7 +580,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure_Spec) AssignProperties_From
 		var operatorSpec SqlDatabaseContainerStoredProcedureOperatorSpec
 		err := operatorSpec.AssignProperties_From_SqlDatabaseContainerStoredProcedureOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerStoredProcedureOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerStoredProcedureOperatorSpec() to populate field OperatorSpec")
 		}
 		procedure.OperatorSpec = &operatorSpec
 	} else {
@@ -592,7 +592,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure_Spec) AssignProperties_From
 		var option CreateUpdateOptions
 		err := option.AssignProperties_From_CreateUpdateOptions(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
+			return eris.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
 		}
 		procedure.Options = &option
 	} else {
@@ -612,7 +612,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure_Spec) AssignProperties_From
 		var resource SqlStoredProcedureResource
 		err := resource.AssignProperties_From_SqlStoredProcedureResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlStoredProcedureResource() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_From_SqlStoredProcedureResource() to populate field Resource")
 		}
 		procedure.Resource = &resource
 	} else {
@@ -642,7 +642,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure_Spec) AssignProperties_To_S
 		var operatorSpec storage.SqlDatabaseContainerStoredProcedureOperatorSpec
 		err := procedure.OperatorSpec.AssignProperties_To_SqlDatabaseContainerStoredProcedureOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerStoredProcedureOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerStoredProcedureOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -654,7 +654,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure_Spec) AssignProperties_To_S
 		var option storage.CreateUpdateOptions
 		err := procedure.Options.AssignProperties_To_CreateUpdateOptions(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
+			return eris.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -677,7 +677,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure_Spec) AssignProperties_To_S
 		var resource storage.SqlStoredProcedureResource
 		err := procedure.Resource.AssignProperties_To_SqlStoredProcedureResource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlStoredProcedureResource() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_To_SqlStoredProcedureResource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -709,7 +709,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure_Spec) Initialize_From_SqlDa
 		var resource SqlStoredProcedureResource
 		err := resource.Initialize_From_SqlStoredProcedureGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SqlStoredProcedureGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling Initialize_From_SqlStoredProcedureGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		procedure.Resource = &resource
 	} else {
@@ -766,13 +766,13 @@ func (procedure *SqlDatabaseContainerStoredProcedure_STATUS) ConvertStatusFrom(s
 	src = &storage.SqlDatabaseContainerStoredProcedure_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = procedure.AssignProperties_From_SqlDatabaseContainerStoredProcedure_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -790,13 +790,13 @@ func (procedure *SqlDatabaseContainerStoredProcedure_STATUS) ConvertStatusTo(des
 	dst = &storage.SqlDatabaseContainerStoredProcedure_STATUS{}
 	err := procedure.AssignProperties_To_SqlDatabaseContainerStoredProcedure_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -888,7 +888,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure_STATUS) AssignProperties_Fr
 		var resource SqlStoredProcedureGetProperties_Resource_STATUS
 		err := resource.AssignProperties_From_SqlStoredProcedureGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlStoredProcedureGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_From_SqlStoredProcedureGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		procedure.Resource = &resource
 	} else {
@@ -927,7 +927,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure_STATUS) AssignProperties_To
 		var resource storage.SqlStoredProcedureGetProperties_Resource_STATUS
 		err := procedure.Resource.AssignProperties_To_SqlStoredProcedureGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlStoredProcedureGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_To_SqlStoredProcedureGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {

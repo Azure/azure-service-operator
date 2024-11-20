@@ -512,7 +512,7 @@ func pullFromBagItem(
 			local = knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "", "Read")
 		}
 
-		errorsPkg := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+		errorsPkg := generationContext.MustGetImportedPackageName(astmodel.ErisReference)
 
 		// propertyBag.Contains("<sourceName>")
 		condition := astbuilder.CallQualifiedFunc(
@@ -1939,7 +1939,7 @@ func assignObjectDirectlyFromObject(
 		localId := dst.NewIdent(copyVar)
 		errLocal := dst.NewIdent("err")
 
-		errorsPackageName := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+		errorsPackageName := generationContext.MustGetImportedPackageName(astmodel.ErisReference)
 
 		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
 
@@ -2064,7 +2064,7 @@ func assignObjectDirectlyToObject(
 		localId := dst.NewIdent(copyVar)
 		errLocal := dst.NewIdent("err")
 
-		errorsPackageName := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+		errorsPackageName := generationContext.MustGetImportedPackageName(astmodel.ErisReference)
 
 		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
 

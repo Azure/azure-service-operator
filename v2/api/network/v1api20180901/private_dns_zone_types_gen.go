@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -58,12 +58,12 @@ func (zone *PrivateDnsZone) ConvertFrom(hub conversion.Hub) error {
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = zone.AssignProperties_From_PrivateDnsZone(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to zone")
+		return eris.Wrap(err, "converting from source to zone")
 	}
 
 	return nil
@@ -75,11 +75,11 @@ func (zone *PrivateDnsZone) ConvertTo(hub conversion.Hub) error {
 	var destination storage.PrivateDnsZone
 	err := zone.AssignProperties_To_PrivateDnsZone(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from zone")
+		return eris.Wrap(err, "converting to destination from zone")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -192,7 +192,7 @@ func (zone *PrivateDnsZone) SetStatus(status genruntime.ConvertibleStatus) error
 	var st PrivateDnsZone_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	zone.Status = st
@@ -312,7 +312,7 @@ func (zone *PrivateDnsZone) AssignProperties_From_PrivateDnsZone(source *storage
 	var spec PrivateDnsZone_Spec
 	err := spec.AssignProperties_From_PrivateDnsZone_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PrivateDnsZone_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_PrivateDnsZone_Spec() to populate field Spec")
 	}
 	zone.Spec = spec
 
@@ -320,7 +320,7 @@ func (zone *PrivateDnsZone) AssignProperties_From_PrivateDnsZone(source *storage
 	var status PrivateDnsZone_STATUS
 	err = status.AssignProperties_From_PrivateDnsZone_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PrivateDnsZone_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_PrivateDnsZone_STATUS() to populate field Status")
 	}
 	zone.Status = status
 
@@ -338,7 +338,7 @@ func (zone *PrivateDnsZone) AssignProperties_To_PrivateDnsZone(destination *stor
 	var spec storage.PrivateDnsZone_Spec
 	err := zone.Spec.AssignProperties_To_PrivateDnsZone_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZone_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_PrivateDnsZone_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -346,7 +346,7 @@ func (zone *PrivateDnsZone) AssignProperties_To_PrivateDnsZone(destination *stor
 	var status storage.PrivateDnsZone_STATUS
 	err = zone.Status.AssignProperties_To_PrivateDnsZone_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZone_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_PrivateDnsZone_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -498,13 +498,13 @@ func (zone *PrivateDnsZone_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 	src = &storage.PrivateDnsZone_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = zone.AssignProperties_From_PrivateDnsZone_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -522,13 +522,13 @@ func (zone *PrivateDnsZone_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	dst = &storage.PrivateDnsZone_Spec{}
 	err := zone.AssignProperties_To_PrivateDnsZone_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -551,7 +551,7 @@ func (zone *PrivateDnsZone_Spec) AssignProperties_From_PrivateDnsZone_Spec(sourc
 		var operatorSpec PrivateDnsZoneOperatorSpec
 		err := operatorSpec.AssignProperties_From_PrivateDnsZoneOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateDnsZoneOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_PrivateDnsZoneOperatorSpec() to populate field OperatorSpec")
 		}
 		zone.OperatorSpec = &operatorSpec
 	} else {
@@ -592,7 +592,7 @@ func (zone *PrivateDnsZone_Spec) AssignProperties_To_PrivateDnsZone_Spec(destina
 		var operatorSpec storage.PrivateDnsZoneOperatorSpec
 		err := zone.OperatorSpec.AssignProperties_To_PrivateDnsZoneOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZoneOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_PrivateDnsZoneOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -699,13 +699,13 @@ func (zone *PrivateDnsZone_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	src = &storage.PrivateDnsZone_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = zone.AssignProperties_From_PrivateDnsZone_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -723,13 +723,13 @@ func (zone *PrivateDnsZone_STATUS) ConvertStatusTo(destination genruntime.Conver
 	dst = &storage.PrivateDnsZone_STATUS{}
 	err := zone.AssignProperties_To_PrivateDnsZone_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

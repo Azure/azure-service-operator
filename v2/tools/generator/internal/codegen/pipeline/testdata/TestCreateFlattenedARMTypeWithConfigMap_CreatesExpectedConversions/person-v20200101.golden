@@ -7,7 +7,7 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/testing/person/v20200101/arm"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -76,7 +76,7 @@ func (person *Person_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if person.FamilyNameFromConfig != nil {
 		familyNameValue, err := resolved.ResolvedConfigMaps.Lookup(*person.FamilyNameFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property FamilyName")
+			return nil, eris.Wrap(err, "looking up configmap for property FamilyName")
 		}
 		familyName := familyNameValue
 		result.Properties.FamilyName = &familyName
@@ -85,7 +85,7 @@ func (person *Person_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		var temp string
 		tempValue, err := resolved.ResolvedConfigMaps.Lookup(*person.FullName)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property temp")
+			return nil, eris.Wrap(err, "looking up configmap for property temp")
 		}
 		temp = tempValue
 		result.Properties.FullName = temp

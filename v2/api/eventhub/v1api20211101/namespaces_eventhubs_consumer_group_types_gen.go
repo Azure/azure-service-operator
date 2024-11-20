@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (group *NamespacesEventhubsConsumerGroup) SetStatus(status genruntime.Conve
 	var st NamespacesEventhubsConsumerGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	group.Status = st
@@ -309,7 +309,7 @@ func (group *NamespacesEventhubsConsumerGroup) AssignProperties_From_NamespacesE
 	var spec NamespacesEventhubsConsumerGroup_Spec
 	err := spec.AssignProperties_From_NamespacesEventhubsConsumerGroup_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NamespacesEventhubsConsumerGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_NamespacesEventhubsConsumerGroup_Spec() to populate field Spec")
 	}
 	group.Spec = spec
 
@@ -317,7 +317,7 @@ func (group *NamespacesEventhubsConsumerGroup) AssignProperties_From_NamespacesE
 	var status NamespacesEventhubsConsumerGroup_STATUS
 	err = status.AssignProperties_From_NamespacesEventhubsConsumerGroup_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NamespacesEventhubsConsumerGroup_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_NamespacesEventhubsConsumerGroup_STATUS() to populate field Status")
 	}
 	group.Status = status
 
@@ -335,7 +335,7 @@ func (group *NamespacesEventhubsConsumerGroup) AssignProperties_To_NamespacesEve
 	var spec storage.NamespacesEventhubsConsumerGroup_Spec
 	err := group.Spec.AssignProperties_To_NamespacesEventhubsConsumerGroup_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NamespacesEventhubsConsumerGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_NamespacesEventhubsConsumerGroup_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (group *NamespacesEventhubsConsumerGroup) AssignProperties_To_NamespacesEve
 	var status storage.NamespacesEventhubsConsumerGroup_STATUS
 	err = group.Status.AssignProperties_To_NamespacesEventhubsConsumerGroup_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NamespacesEventhubsConsumerGroup_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_NamespacesEventhubsConsumerGroup_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -466,13 +466,13 @@ func (group *NamespacesEventhubsConsumerGroup_Spec) ConvertSpecFrom(source genru
 	src = &storage.NamespacesEventhubsConsumerGroup_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_NamespacesEventhubsConsumerGroup_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -490,13 +490,13 @@ func (group *NamespacesEventhubsConsumerGroup_Spec) ConvertSpecTo(destination ge
 	dst = &storage.NamespacesEventhubsConsumerGroup_Spec{}
 	err := group.AssignProperties_To_NamespacesEventhubsConsumerGroup_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -513,7 +513,7 @@ func (group *NamespacesEventhubsConsumerGroup_Spec) AssignProperties_From_Namesp
 		var operatorSpec NamespacesEventhubsConsumerGroupOperatorSpec
 		err := operatorSpec.AssignProperties_From_NamespacesEventhubsConsumerGroupOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NamespacesEventhubsConsumerGroupOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_NamespacesEventhubsConsumerGroupOperatorSpec() to populate field OperatorSpec")
 		}
 		group.OperatorSpec = &operatorSpec
 	} else {
@@ -548,7 +548,7 @@ func (group *NamespacesEventhubsConsumerGroup_Spec) AssignProperties_To_Namespac
 		var operatorSpec storage.NamespacesEventhubsConsumerGroupOperatorSpec
 		err := group.OperatorSpec.AssignProperties_To_NamespacesEventhubsConsumerGroupOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NamespacesEventhubsConsumerGroupOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_NamespacesEventhubsConsumerGroupOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -646,13 +646,13 @@ func (group *NamespacesEventhubsConsumerGroup_STATUS) ConvertStatusFrom(source g
 	src = &storage.NamespacesEventhubsConsumerGroup_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_NamespacesEventhubsConsumerGroup_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -670,13 +670,13 @@ func (group *NamespacesEventhubsConsumerGroup_STATUS) ConvertStatusTo(destinatio
 	dst = &storage.NamespacesEventhubsConsumerGroup_STATUS{}
 	err := group.AssignProperties_To_NamespacesEventhubsConsumerGroup_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -787,7 +787,7 @@ func (group *NamespacesEventhubsConsumerGroup_STATUS) AssignProperties_From_Name
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		group.SystemData = &systemDatum
 	} else {
@@ -832,7 +832,7 @@ func (group *NamespacesEventhubsConsumerGroup_STATUS) AssignProperties_To_Namesp
 		var systemDatum storage.SystemData_STATUS
 		err := group.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
