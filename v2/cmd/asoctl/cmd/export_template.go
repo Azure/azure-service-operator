@@ -13,9 +13,9 @@ import (
 	"strings"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	"github.com/rotisserie/eris"
 
 	"github.com/go-logr/logr"
+	"github.com/rotisserie/eris"
 	"github.com/spf13/cobra"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
