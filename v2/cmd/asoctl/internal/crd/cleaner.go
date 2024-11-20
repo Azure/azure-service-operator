@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	apiextensionsclient "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -73,7 +73,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 	selector = selector.Add(*appLabelRequirement)
 	crdsWithNewLabel, err := c.apiExtensionsClient.List(ctx, v1.ListOptions{LabelSelector: selector.String()})
 	if err != nil {
-		return errors.Wrap(err, "failed to list CRDs")
+		return eris.Wrap(err, "failed to list CRDs")
 	}
 
 	versionLabelRequirement, err := labels.NewRequirement(crdmanagement.ServiceOperatorVersionLabelOld, selection.Exists, []string{})
@@ -84,7 +84,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 	selector = selector.Add(*versionLabelRequirement)
 	crdsWithOldLabel, err := c.apiExtensionsClient.List(ctx, v1.ListOptions{LabelSelector: selector.String()})
 	if err != nil {
-		return errors.Wrap(err, "failed to list CRDs")
+		return eris.Wrap(err, "failed to list CRDs")
 	}
 
 	var crds []apiextensions.CustomResourceDefinition
@@ -101,7 +101,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		// If there is no new version found other than the matched version, we short circuit here, as there is no updated version found in the CRDs
 		if len(newStoredVersions) <= 0 {
 			// TODO: test?
-			return errors.Errorf("it doesn't look like your version of ASO is one that supports deprecating CRD %q, versions %q. Have you upgraded ASO yet?", crd.Name, deprecatedVersions)
+			return eris.Errorf("it doesn't look like your version of ASO is one that supports deprecating CRD %q, versions %q. Have you upgraded ASO yet?", crd.Name, deprecatedVersions)
 		}
 
 		// If the slice was not updated, there is no version to deprecate.
@@ -138,7 +138,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 	}
 
 	if asoCRDsSeen <= 0 {
-		return errors.New("found no Azure Service Operator CRDs, make sure you have ASO installed.")
+		return eris.New("found no Azure Service Operator CRDs, make sure you have ASO installed.")
 	}
 
 	if c.dryRun {
@@ -193,16 +193,18 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 
 		originalVersion, found, err := unstructured.NestedString(obj.Object, originalVersionFieldPath...)
 		if err != nil {
-			return errors.Wrap(err,
+			return eris.Wrap(err,
 				fmt.Sprintf("migrating %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind))
+
 		}
 
 		if found {
 			originalVersion = strings.Replace(originalVersion, "v1alpha1api", "v1beta", 1)
 			err = unstructured.SetNestedField(obj.Object, originalVersion, originalVersionFieldPath...)
 			if err != nil {
-				return errors.Wrap(err,
+				return eris.Wrap(err,
 					fmt.Sprintf("migrating %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind))
+
 			}
 		} else {
 			// If we don't find the originalVersion, it may not have been set.

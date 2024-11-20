@@ -13,9 +13,9 @@ import (
 	"strings"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/rotisserie/eris"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
@@ -66,7 +66,7 @@ asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*;con
 				uri = options.source
 			} else {
 				if !expectedVersionRegex.MatchString(options.version) {
-					return errors.New("specified version doesn't match expected format 'v#.#.#' (example: v2.6.0)")
+					return eris.New("specified version doesn't match expected format 'v#.#.#' (example: v2.6.0)")
 				}
 
 				uri = template.URIFromVersion(options.version)

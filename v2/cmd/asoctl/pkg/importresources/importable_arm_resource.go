@@ -18,7 +18,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -186,7 +186,7 @@ func (i *importableARMResource) FindChildren(
 		} else if err != nil {
 			// Something went wrong, but we still do the remaining child resource types
 			gk, _ := FindGroupKindForResourceType(subType) // If this was going to error, it would have already
-			errs = append(errs, errors.Wrapf(err, "importing %s/%s", gk.Group, gk.Kind))
+			errs = append(errs, eris.Wrapf(err, "importing %s/%s", gk.Group, gk.Kind))
 		} else {
 			// Collect all our child-resources
 			result = append(result, childResources...)
@@ -196,10 +196,11 @@ func (i *importableARMResource) FindChildren(
 	}
 
 	return result,
-		errors.Wrapf(
+		eris.Wrapf(
 			kerrors.NewAggregate(errs),
 			"importing childresources of %s",
 			i.armID)
+
 }
 
 func (i *importableARMResource) createImportFunction(
@@ -236,7 +237,7 @@ func (i *importableARMResource) loader() extensions.ImporterFunc {
 		importable, ok := resource.(genruntime.ImportableARMResource)
 		if !ok {
 			// Error doesn't need additional context
-			return extensions.ImportResult{}, errors.Errorf("resource %T is not an importable ARM resource", resource)
+			return extensions.ImportResult{}, eris.Errorf("resource %T is not an importable ARM resource", resource)
 		}
 
 		// Get the current status of the object from ARM
@@ -247,21 +248,21 @@ func (i *importableARMResource) loader() extensions.ImporterFunc {
 				return extensions.ImportSkipped(reason), nil
 			}
 
-			return extensions.ImportResult{}, errors.Wrapf(err, "getting status for resource %s", i.armID)
+			return extensions.ImportResult{}, eris.Wrapf(err, "getting status for resource %s", i.armID)
 		}
 
 		// Set up our objects Spec & Status
 		err = importable.InitializeSpec(status)
 		if err != nil {
 			return extensions.ImportResult{},
-				errors.Wrapf(err, "setting spec on Kubernetes resource for resource %s", i.armID)
+				eris.Wrapf(err, "setting spec on Kubernetes resource for resource %s", i.armID)
 		}
 
 		// We set the status as well so that any import customization can use information on the status
 		err = importable.SetStatus(status)
 		if err != nil {
 			return extensions.ImportResult{},
-				errors.Wrapf(err, "setting status on Kubernetes resource for resource %s", i.armID)
+				eris.Wrapf(err, "setting status on Kubernetes resource for resource %s", i.armID)
 		}
 
 		return extensions.ImportSucceeded(), nil
@@ -282,14 +283,14 @@ func (i *importableARMResource) clearStatus(next extensions.ImporterFunc) extens
 		rsrc, ok := resource.(genruntime.ImportableARMResource)
 		if !ok {
 			// Error doesn't need additional context
-			return extensions.ImportResult{}, errors.Errorf("resource %T is not an importable ARM resource", resource)
+			return extensions.ImportResult{}, eris.Errorf("resource %T is not an importable ARM resource", resource)
 		}
 
 		// Clear the status
 		status, err := genruntime.NewEmptyVersionedStatus(rsrc, i.scheme)
 		if err != nil {
 			return extensions.ImportResult{},
-				errors.Wrapf(err, "constructing status object for resource: %s", i.armID)
+				eris.Wrapf(err, "constructing status object for resource: %s", i.armID)
 		}
 
 		err = rsrc.SetStatus(status)
@@ -309,24 +310,25 @@ func (i *importableARMResource) importChildResources(
 	// Look up the GK for the child resource type we're importing
 	childResourceGK, ok := FindGroupKindForResourceType(childResourceType)
 	if !ok {
-		return nil, errors.Errorf("unable to find GroupKind for type %subType", childResourceType)
+		return nil, eris.Errorf("unable to find GroupKind for type %subType", childResourceType)
 	}
 
 	// Expand from the GK to GVK
 	childResourceGVK, err := i.selectVersionFromGK(childResourceGK)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to find GVK for type %subType", childResourceType)
+		return nil, eris.Wrapf(err, "unable to find GVK for type %subType", childResourceType)
 	}
 
 	// Create an empty instance from the GVK, so we can find the ARM API version needed for the list call
 	obj, err := i.createBlankObjectFromGVK(childResourceGVK)
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to create blank resource")
+		return nil, eris.Wrap(err, "unable to create blank resource")
 	}
 	imp, ok := obj.(genruntime.ImportableARMResource)
 	if !ok {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"unable to create blank resource, expected %s to identify an importable ARM object", childResourceType)
+
 	}
 
 	// Based on the ARM ID of our owner, create the container URI to list the child resources
@@ -342,14 +344,14 @@ func (i *importableARMResource) importChildResources(
 			return nil, nil
 		}
 
-		return nil, errors.Wrapf(err, "unable to list resources of type %s", childResourceType)
+		return nil, eris.Wrapf(err, "unable to list resources of type %s", childResourceType)
 	}
 
 	subResources := make([]ImportableResource, 0, len(childResourceReferences))
 	for _, ref := range childResourceReferences {
 		importer, err := NewImportableARMResource(ref.ID, &owner, i.client, i.scheme)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to create importable resource for %s", ref.ID)
+			return nil, eris.Wrapf(err, "unable to create importable resource for %s", ref.ID)
 		}
 
 		subResources = append(subResources, importer)
@@ -370,7 +372,7 @@ var skipCodes = set.Make(
 
 func (*importableARMResource) classifyError(err error) (string, bool) {
 	var responseError *azcore.ResponseError
-	if errors.As(err, &responseError) {
+	if eris.As(err, &responseError) {
 		if responseError.StatusCode == http.StatusNotFound {
 			// It's a non-fatal error if it doesn't exist
 			return "resource not found", true
@@ -402,24 +404,25 @@ func (i *importableARMResource) createImportableObjectFromID(
 	defer func() {
 		if r := recover(); r != nil {
 			resource = nil
-			err = errors.Errorf("creating importable object for %s: %s", armID.String(), r)
+			err = eris.Errorf("creating importable object for %s: %s", armID.String(), r)
 		}
 	}()
 
 	gvk, gvkErr := i.groupVersionKindFromID(armID)
 	if gvkErr != nil {
-		return nil, errors.Wrap(gvkErr, "unable to determine GVK of resource")
+		return nil, eris.Wrap(gvkErr, "unable to determine GVK of resource")
 	}
 
 	obj, objErr := i.createBlankObjectFromGVK(gvk)
 	if objErr != nil {
-		return nil, errors.Wrap(objErr, "unable to create blank resource")
+		return nil, eris.Wrap(objErr, "unable to create blank resource")
 	}
 
 	importable, ok := obj.(genruntime.ImportableARMResource)
 	if !ok {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"unable to create blank resource, expected %s to identify an importable ARM object", armID)
+
 	}
 
 	if owner != nil {
@@ -440,25 +443,25 @@ func (i *importableARMResource) getStatus(
 	// Create an empty ARM status object into which we capture the current state of the resource
 	armStatus, err := genruntime.NewEmptyARMStatus(importable, i.scheme)
 	if err != nil {
-		return nil, errors.Wrapf(err, "constructing ARM status for resource: %q", armID)
+		return nil, eris.Wrapf(err, "constructing ARM status for resource: %q", armID)
 	}
 
 	// Call ARM to get the current state of the resource
 	_, err = i.client.GetByID(ctx, armID, importable.GetAPIVersion(), armStatus)
 	if err != nil {
-		return nil, errors.Wrapf(err, "getting status update from ARM for resource %s", armID)
+		return nil, eris.Wrapf(err, "getting status update from ARM for resource %s", armID)
 	}
 
 	// Convert the ARM shape to the Kube shape
 	status, err := genruntime.NewEmptyVersionedStatus(importable, i.scheme)
 	if err != nil {
-		return nil, errors.Wrapf(err, "constructing Kube status object for resource: %q", armID)
+		return nil, eris.Wrapf(err, "constructing Kube status object for resource: %q", armID)
 	}
 
 	// Fill the kube status with the results from the arm status
 	s, ok := status.(genruntime.FromARMConverter)
 	if !ok {
-		return nil, errors.Errorf("expected status %T to implement genruntime.FromARMConverter", s)
+		return nil, eris.Errorf("expected status %T to implement genruntime.FromARMConverter", s)
 	}
 
 	o := genruntime.ArbitraryOwnerReference{}
@@ -472,7 +475,7 @@ func (i *importableARMResource) getStatus(
 
 	err = s.PopulateFromARM(o, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
 	if err != nil {
-		return nil, errors.Wrapf(err, "converting ARM status to Kubernetes status")
+		return nil, eris.Wrapf(err, "converting ARM status to Kubernetes status")
 	}
 
 	return status, nil
@@ -492,12 +495,12 @@ func (i *importableARMResource) groupVersionKindFromID(id *arm.ResourceID) (sche
 func (i *importableARMResource) groupKindFromID(id *arm.ResourceID) (schema.GroupKind, error) {
 	t := id.ResourceType.String()
 	if t == "" {
-		return schema.GroupKind{}, errors.Errorf("unable to determine resource type from ID %s", id)
+		return schema.GroupKind{}, eris.Errorf("unable to determine resource type from ID %s", id)
 	}
 
 	gk, ok := FindGroupKindForResourceType(t)
 	if !ok {
-		return schema.GroupKind{}, errors.Errorf("unable to determine resource type from ID %s", id)
+		return schema.GroupKind{}, eris.Errorf("unable to determine resource type from ID %s", id)
 	}
 
 	return gk, nil
