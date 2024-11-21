@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
@@ -53,7 +53,7 @@ func (ext *ConfigurationStoreExtension) ExportKubernetesSecrets(
 	// if the hub storage version changes.
 	typedObj, ok := obj.(*storage.ConfigurationStore)
 	if !ok {
-		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *appconfiguration.ConfigurationStore", obj)
+		return nil, eris.Errorf("cannot run on unknown resource type %T, expected *appconfiguration.ConfigurationStore", obj)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if
@@ -81,7 +81,7 @@ func (ext *ConfigurationStoreExtension) ExportKubernetesSecrets(
 		var confClient *armappconfiguration.ConfigurationStoresClient
 		confClient, err = armappconfiguration.NewConfigurationStoresClient(subscription, armClient.Creds(), armClient.ClientOptions())
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to create new ConfigurationStoresClient")
+			return nil, eris.Wrapf(err, "failed to create new ConfigurationStoresClient")
 		}
 
 		var pager *runtime.Pager[armappconfiguration.ConfigurationStoresClientListKeysResponse]
@@ -90,7 +90,7 @@ func (ext *ConfigurationStoreExtension) ExportKubernetesSecrets(
 		for pager.More() {
 			resp, err = pager.NextPage(ctx)
 			if err != nil {
-				return nil, errors.Wrapf(err, "failed to retreive response")
+				return nil, eris.Wrapf(err, "failed to retreive response")
 			}
 			addSecretsToMap(resp.Value, keys)
 		}

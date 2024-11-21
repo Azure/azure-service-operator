@@ -12,7 +12,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventhub/armeventhub"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
@@ -44,7 +44,7 @@ func (ext *NamespacesEventhubsAuthorizationRuleExtension) ExportKubernetesSecret
 	// if the hub storage version changes.
 	typedObj, ok := obj.(*storage.NamespacesEventhubsAuthorizationRule)
 	if !ok {
-		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *eventhub.NamespacesEventhubsAuthorizationRule", obj)
+		return nil, eris.Errorf("cannot run on unknown resource type %T, expected *eventhub.NamespacesEventhubsAuthorizationRule", obj)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if
@@ -72,12 +72,12 @@ func (ext *NamespacesEventhubsAuthorizationRuleExtension) ExportKubernetesSecret
 		var confClient *armeventhub.EventHubsClient
 		confClient, err = armeventhub.NewEventHubsClient(subscription, armClient.Creds(), armClient.ClientOptions())
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to create new EventHubsClient")
+			return nil, eris.Wrapf(err, "failed to create new EventHubsClient")
 		}
 
 		res, err = confClient.ListKeys(ctx, id.ResourceGroupName, id.Parent.Parent.Name, id.Parent.Name, typedObj.Name, nil)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to retreive response")
+			return nil, eris.Wrapf(err, "failed to retreive response")
 		}
 	}
 

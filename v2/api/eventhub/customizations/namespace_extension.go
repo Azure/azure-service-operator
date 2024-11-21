@@ -12,7 +12,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventhub/armeventhub"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
@@ -37,7 +37,7 @@ func (ext *NamespaceExtension) ExportKubernetesSecrets(
 	// if the hub storage version changes.
 	typedObj, ok := obj.(*storage.Namespace)
 	if !ok {
-		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *eventhub.Namespace", obj)
+		return nil, eris.Errorf("cannot run on unknown resource type %T, expected *eventhub.Namespace", obj)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if
@@ -66,14 +66,14 @@ func (ext *NamespaceExtension) ExportKubernetesSecrets(
 		var confClient *armeventhub.NamespacesClient
 		confClient, err = armeventhub.NewNamespacesClient(subscription, armClient.Creds(), armClient.ClientOptions())
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to create new NamespaceClient")
+			return nil, eris.Wrapf(err, "failed to create new NamespaceClient")
 		}
 
 		// RootManageSharedAccessKey is the default auth rule for namespace.
 		// See https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string
 		res, err = confClient.ListKeys(ctx, id.ResourceGroupName, typedObj.AzureName(), "RootManageSharedAccessKey", nil)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to retreive response")
+			return nil, eris.Wrapf(err, "failed to retreive response")
 		}
 	}
 

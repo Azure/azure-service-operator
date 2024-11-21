@@ -12,7 +12,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
@@ -37,7 +37,7 @@ func (ext *NamespacesAuthorizationRuleExtension) ExportKubernetesSecrets(
 	// This will need to be updated if the hub version changes
 	rule, ok := obj.(*servicebus.NamespacesAuthorizationRule)
 	if !ok {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"cannot run on unknown resource type %T, expected *servicebus.NamespacesAuthorizationRule",
 			obj)
 	}
@@ -65,14 +65,14 @@ func (ext *NamespacesAuthorizationRuleExtension) ExportKubernetesSecrets(
 	// connection each time through
 	clientFactory, err := armservicebus.NewClientFactory(subscription, armClient.Creds(), armClient.ClientOptions())
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to create ARM servicebus client factory")
+		return nil, eris.Wrapf(err, "failed to create ARM servicebus client factory")
 	}
 
 	client := clientFactory.NewNamespacesClient()
 	options := armservicebus.NamespacesClientListKeysOptions{}
 	response, err := client.ListKeys(ctx, id.ResourceGroupName, namespaceID.Name, rule.Name, &options)
 	if err != nil {
-		return nil, errors.Wrapf(
+		return nil, eris.Wrapf(
 			err,
 			"failed to retrieve keys for authorization rule %q",
 			rule.Name)
@@ -80,7 +80,7 @@ func (ext *NamespacesAuthorizationRuleExtension) ExportKubernetesSecrets(
 
 	ruleSecrets, err := authorizationRuleSecretsToWrite(rule, response)
 	if err != nil {
-		return nil, errors.Wrapf(
+		return nil, eris.Wrapf(
 			err,
 			"failed to create secrets for authorization rule %q",
 			rule.Name)
@@ -137,7 +137,7 @@ func authorizationRuleSecretsToWrite(
 ) ([]*v1.Secret, error) {
 	if rule.Spec.OperatorSpec == nil ||
 		rule.Spec.OperatorSpec.Secrets == nil {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"authorization rule %q has no secrets specified",
 			rule.Name)
 	}
