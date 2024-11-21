@@ -9,7 +9,7 @@ import (
 	"context"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/interfaces"
@@ -35,7 +35,7 @@ func ApplyKubernetesResourceInterface(
 					state.Definitions(),
 					log)
 				if err != nil {
-					return nil, errors.Wrapf(err, "couldn't implement Kubernetes resource interface for %q", typeName)
+					return nil, eris.Wrapf(err, "couldn't implement Kubernetes resource interface for %q", typeName)
 				}
 
 				updatedDefs.AddTypes(newDefs)

@@ -6,7 +6,7 @@
 package pipeline
 
 import (
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/net/context"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
@@ -81,7 +81,7 @@ func (s *propertyAssignmentTestCaseFactory) NeedsTest(def astmodel.TypeDefinitio
 func (s *propertyAssignmentTestCaseFactory) AddTestTo(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 	container, ok := astmodel.AsFunctionContainer(def.Type())
 	if !ok {
-		return astmodel.TypeDefinition{}, errors.Errorf("expected %s to be a function container", def.Name())
+		return astmodel.TypeDefinition{}, eris.Errorf("expected %s to be a function container", def.Name())
 	}
 
 	testCase := testcases.NewPropertyAssignmentTestCase(def.Name(), container, s.idFactory)

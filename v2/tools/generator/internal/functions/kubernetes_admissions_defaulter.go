@@ -9,11 +9,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dave/dst"
-	"github.com/pkg/errors"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/dave/dst"
+	"github.com/rotisserie/eris"
 )
 
 // DefaulterBuilder helps in building an interface implementation for admissions.Defaulter.
@@ -115,7 +114,7 @@ func (d *DefaulterBuilder) localDefault(
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	defaults := make([]dst.Stmt, 0, len(d.defaults))
@@ -145,7 +144,7 @@ func (d *DefaulterBuilder) defaultFunction(
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	tempVarIdent := "temp"
@@ -153,7 +152,7 @@ func (d *DefaulterBuilder) defaultFunction(
 
 	overrideInterfaceType, err := astmodel.GenRuntimeDefaulterInterfaceName.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating runtime defaulter interface type expression for method %s", methodName)
+		return nil, eris.Wrapf(err, "creating runtime defaulter interface type expression for method %s", methodName)
 	}
 
 	fn := &astbuilder.FuncDetails{

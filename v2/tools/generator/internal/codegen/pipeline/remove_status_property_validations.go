@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -69,7 +69,7 @@ func removeStatusTypeValidations(definitions astmodel.TypeDefinitionSet) (astmod
 	for _, def := range statusDefinitions {
 		updatedTypes, err := walker.Walk(def)
 		if err != nil {
-			errs = append(errs, errors.Wrapf(err, "failed walking definitions"))
+			errs = append(errs, eris.Wrapf(err, "failed walking definitions"))
 		}
 
 		err = result.AddTypesAllowDuplicates(updatedTypes)
@@ -95,7 +95,7 @@ type overlapError struct {
 func errorIfSpecStatusOverlap(statusDefinitions astmodel.TypeDefinitionSet, definitions astmodel.TypeDefinitionSet) error {
 	allSpecTypes, err := astmodel.FindSpecConnectedDefinitions(definitions)
 	if err != nil {
-		return errors.Wrap(err, "couldn't find all spec definitions")
+		return eris.Wrap(err, "couldn't find all spec definitions")
 	}
 
 	// Verify that the set of spec definitions and the set of modified status definitions is totally disjoint
@@ -136,7 +136,7 @@ func errorIfSpecStatusOverlap(statusDefinitions astmodel.TypeDefinitionSet, defi
 			}
 		}
 
-		return errors.New(result.String())
+		return eris.New(result.String())
 	}
 
 	return nil

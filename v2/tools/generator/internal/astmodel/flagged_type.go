@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
@@ -111,7 +111,7 @@ func (ft *FlaggedType) References() TypeNameSet {
 func (ft *FlaggedType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	result, err := ft.element.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating inner expression for flagged type")
+		return nil, eris.Wrapf(err, "creating inner expression for flagged type")
 	}
 
 	return result, nil

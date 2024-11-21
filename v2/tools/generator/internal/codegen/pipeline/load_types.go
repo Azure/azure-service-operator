@@ -18,7 +18,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/go-openapi/spec"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/sync/errgroup"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
@@ -52,7 +52,7 @@ func LoadTypes(
 
 			swaggerTypes, err := loadSwaggerData(ctx, idFactory, config, log)
 			if err != nil {
-				return nil, errors.Wrapf(err, "unable to load Swagger data")
+				return nil, eris.Wrapf(err, "unable to load Swagger data")
 			}
 
 			log.V(1).Info(
@@ -61,7 +61,7 @@ func LoadTypes(
 				"otherDefinitions", len(swaggerTypes.OtherDefinitions))
 
 			if len(swaggerTypes.ResourceDefinitions) == 0 || len(swaggerTypes.OtherDefinitions) == 0 {
-				return nil, errors.Errorf("Failed to load swagger information")
+				return nil, eris.Errorf("Failed to load swagger information")
 			}
 
 			resourceToStatus, statusTypes, err := generateStatusTypes(swaggerTypes)
@@ -112,11 +112,11 @@ func LoadTypes(
 
 				err = addObjectResourceLinkIfNeeded(defs, spec, resourceName)
 				if err != nil {
-					return nil, errors.Wrapf(err, "failed to add resource link to %s", spec.Name())
+					return nil, eris.Wrapf(err, "failed to add resource link to %s", spec.Name())
 				}
 				err = addObjectResourceLinkIfNeeded(defs, status, resourceName)
 				if err != nil {
-					return nil, errors.Wrapf(err, "failed to add resource link to %s", status.Name())
+					return nil, eris.Wrapf(err, "failed to add resource link to %s", status.Name())
 				}
 			}
 
@@ -319,7 +319,7 @@ func loadSwaggerData(
 
 		types, err := extractor.ExtractTypes(ctx)
 		if err != nil {
-			return jsonast.SwaggerTypes{}, errors.Wrapf(err, "error processing %q", schemaPath)
+			return jsonast.SwaggerTypes{}, eris.Wrapf(err, "error processing %q", schemaPath)
 		}
 
 		typesByGroup[*schema.Package] = append(typesByGroup[*schema.Package], typesFromFile{types, schemaPath})
@@ -363,7 +363,7 @@ func mergeSwaggerTypesByGroup(
 	for pkg, group := range m {
 		merged, err := mergeTypesForPackage(group, idFactory, cfg)
 		if err != nil {
-			return result, errors.Wrapf(err, "merging swagger types for %s", pkg)
+			return result, eris.Wrapf(err, "merging swagger types for %s", pkg)
 		}
 
 		for rn, rt := range merged.ResourceDefinitions {
@@ -376,7 +376,7 @@ func mergeSwaggerTypesByGroup(
 
 		err = result.OtherDefinitions.AddTypesAllowDuplicates(merged.OtherDefinitions)
 		if err != nil {
-			return result, errors.Wrapf(err, "when combining swagger types for %s", pkg)
+			return result, eris.Wrapf(err, "when combining swagger types for %s", pkg)
 		}
 	}
 
@@ -484,20 +484,22 @@ func mergeTypesForPackage(
 				newNameB, renamedB := tryRename(rn, foundRT, cfg)
 
 				if _, collides := mergedResult.ResourceDefinitions[newNameA]; collides {
-					err := errors.Errorf(
+					err := eris.Errorf(
 						"merging file %s: renaming %s to %s resulted in a collision with an existing type",
 						typesFromFile.filePath,
 						rn.Name(),
 						newNameA.Name())
+
 					return nil, err
 				}
 
 				if _, collides := mergedResult.ResourceDefinitions[newNameB]; collides {
-					err := errors.Errorf(
+					err := eris.Errorf(
 						"merging file %s: renaming %s to %s resulted in a collision with an existing type",
 						typesFromFile.filePath,
 						rn.Name(),
 						newNameB.Name())
+
 					return nil, err
 				}
 
@@ -509,10 +511,11 @@ func mergeTypesForPackage(
 				}
 
 				// Names are still the same. We have a collision.
-				err := errors.Errorf(
+				err := eris.Errorf(
 					"merging file %s: duplicate resource types generated with name %s",
 					typesFromFile.filePath,
 					rn.Name())
+
 				return nil, err
 			}
 
@@ -830,12 +833,12 @@ func loadAllSchemas(
 
 				fileContent, err := os.ReadFile(filePath)
 				if err != nil {
-					return errors.Wrapf(err, "unable to read swagger file %q", filePath)
+					return eris.Wrapf(err, "unable to read swagger file %q", filePath)
 				}
 
 				err = swagger.UnmarshalJSON(fileContent)
 				if err != nil {
-					return errors.Wrapf(err, "unable to parse swagger file %q", filePath)
+					return eris.Wrapf(err, "unable to parse swagger file %q", filePath)
 				}
 
 				mutex.Lock()

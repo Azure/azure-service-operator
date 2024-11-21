@@ -10,7 +10,7 @@ import (
 
 	"github.com/dave/dst"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -37,7 +37,7 @@ func InjectPropertyAssignmentFunctions(
 		func(ctx context.Context, state *State) (*State, error) {
 			graph, err := GetStateData[*storage.ConversionGraph](state, ConversionGraphInfo)
 			if err != nil {
-				return nil, errors.Wrapf(err, "couldn't find conversion graph")
+				return nil, eris.Wrapf(err, "couldn't find conversion graph")
 			}
 
 			defs := state.Definitions()
@@ -57,7 +57,7 @@ func InjectPropertyAssignmentFunctions(
 				// Find the definition we want to convert to/from
 				nextName, err := graph.FindNextType(name, state.Definitions())
 				if err != nil {
-					return nil, errors.Wrapf(err, "finding next type after %s", name)
+					return nil, eris.Wrapf(err, "finding next type after %s", name)
 				}
 
 				if nextName.IsEmpty() {
@@ -101,7 +101,7 @@ func InjectPropertyAssignmentFunctions(
 
 				modified, err := factory.injectBetween(def, nextDef, augmentationInterface)
 				if err != nil {
-					return nil, errors.Wrapf(err, "injecting property assignment functions into %s", name)
+					return nil, eris.Wrapf(err, "injecting property assignment functions into %s", name)
 				}
 
 				result[modified.Name()] = modified
@@ -159,7 +159,7 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 	assignFromFn, err := assignFromBuilder.Build(assignmentContext)
 	upstreamName := upstreamDef.Name()
 	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
+		return astmodel.TypeDefinition{}, eris.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
 
 	assignToBuilder := functions.NewPropertyAssignmentFunctionBuilder(upstreamDef, downstreamDef, conversions.ConvertTo)
@@ -169,17 +169,17 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 
 	assignToFn, err := assignToBuilder.Build(assignmentContext)
 	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignTo() function for %q", upstreamName)
+		return astmodel.TypeDefinition{}, eris.Wrapf(err, "creating AssignTo() function for %q", upstreamName)
 	}
 
 	updatedDefinition, err := f.functionInjector.Inject(upstreamDef, assignFromFn)
 	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "failed to inject %s function into %q", assignFromFn.Name(), upstreamName)
+		return astmodel.TypeDefinition{}, eris.Wrapf(err, "failed to inject %s function into %q", assignFromFn.Name(), upstreamName)
 	}
 
 	updatedDefinition, err = f.functionInjector.Inject(updatedDefinition, assignToFn)
 	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "failed to inject %s function into %q", assignToFn.Name(), upstreamName)
+		return astmodel.TypeDefinition{}, eris.Wrapf(err, "failed to inject %s function into %q", assignToFn.Name(), upstreamName)
 	}
 
 	return updatedDefinition, nil
@@ -200,7 +200,7 @@ func createAssignPropertiesOverrideStub(
 		}
 		paramTypeExpr, err := paramType.AsTypeExpr(codeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating parameter type expression for %s", paramName)
+			return nil, eris.Wrapf(err, "creating parameter type expression for %s", paramName)
 		}
 
 		funcDetails.AddParameter(paramName, paramTypeExpr)

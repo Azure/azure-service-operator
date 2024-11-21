@@ -10,7 +10,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -28,17 +28,17 @@ func AddSecrets(config *config.Configuration) *Stage {
 		func(ctx context.Context, state *State) (*State, error) {
 			types, err := applyConfigSecretOverrides(config, state.Definitions())
 			if err != nil {
-				return nil, errors.Wrap(err, "applying config secret overrides")
+				return nil, eris.Wrap(err, "applying config secret overrides")
 			}
 
 			updatedSpecs, err := transformSpecSecrets(types)
 			if err != nil {
-				return nil, errors.Wrap(err, "transforming spec secrets")
+				return nil, eris.Wrap(err, "transforming spec secrets")
 			}
 
 			updatedStatuses, err := removeStatusSecrets(types)
 			if err != nil {
-				return nil, errors.Wrap(err, "removing status secrets")
+				return nil, eris.Wrap(err, "removing status secrets")
 			}
 
 			return state.WithOverlaidDefinitions(astmodel.TypesDisjointUnion(updatedSpecs, updatedStatuses)), nil
@@ -75,7 +75,7 @@ func applyConfigSecretOverrides(
 			if !prop.IsSecret() && maybeSecret && !isSecretConfigured {
 				// Property might be a secret, but isn't already configured as one,
 				// and we don't have config to tell us for sure
-				return nil, errors.Errorf(
+				return nil, eris.Errorf(
 					"property %s might be a secret and must be configured with $isSecret",
 					prop.PropertyName())
 			}
@@ -102,7 +102,7 @@ func applyConfigSecretOverrides(
 
 		updatedDef, err := visitor.VisitDefinition(def, def.Name())
 		if err != nil {
-			errs = append(errs, errors.Wrapf(err, "visiting type %q", def.Name()))
+			errs = append(errs, eris.Wrapf(err, "visiting type %q", def.Name()))
 			continue
 		}
 
@@ -110,7 +110,7 @@ func applyConfigSecretOverrides(
 	}
 
 	if len(errs) > 0 {
-		return nil, errors.Wrap(
+		return nil, eris.Wrap(
 			kerrors.NewAggregate(errs),
 			"encountered errors while applying config secrets")
 	}
@@ -118,7 +118,7 @@ func applyConfigSecretOverrides(
 	// Verify that all 'isSecret' modifiers are consumed before returning the result
 	err := config.ObjectModelConfiguration.IsSecret.VerifyConsumed()
 	if err != nil {
-		return nil, errors.Wrap(
+		return nil, eris.Wrap(
 			err,
 			"Found unused $isSecret configurations; these need to be fixed or removed.")
 	}
@@ -209,7 +209,7 @@ func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.Type
 
 	specTypes, err := astmodel.FindSpecConnectedDefinitions(definitions)
 	if err != nil {
-		return nil, errors.Wrap(err, "couldn't find all spec definitions")
+		return nil, eris.Wrap(err, "couldn't find all spec definitions")
 	}
 
 	result := make(astmodel.TypeDefinitionSet)
@@ -217,7 +217,7 @@ func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.Type
 	for _, def := range specTypes {
 		updatedDef, err := specVisitor.VisitDefinition(def, nil)
 		if err != nil {
-			return nil, errors.Wrapf(err, "visiting type %q", def.Name())
+			return nil, eris.Wrapf(err, "visiting type %q", def.Name())
 		}
 
 		result.Add(updatedDef)
@@ -233,7 +233,7 @@ func removeStatusSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeD
 
 	statusTypes, err := astmodel.FindStatusConnectedDefinitions(definitions)
 	if err != nil {
-		return nil, errors.Wrap(err, "couldn't find all status definitions")
+		return nil, eris.Wrap(err, "couldn't find all status definitions")
 	}
 
 	result := make(astmodel.TypeDefinitionSet)
@@ -241,7 +241,7 @@ func removeStatusSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeD
 	for _, def := range statusTypes {
 		updatedDef, err := specVisitor.VisitDefinition(def, nil)
 		if err != nil {
-			return nil, errors.Wrapf(err, "visiting type %q", def.Name())
+			return nil, eris.Wrapf(err, "visiting type %q", def.Name())
 		}
 
 		result.Add(updatedDef)
@@ -283,7 +283,7 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 			}
 
 			if !isTypeSecretReferenceCandidate(propType) {
-				return nil, errors.Errorf("expected property %q to be a string, optional string, map[string]string, or []string, but was: %q", prop.PropertyName(), astmodel.DebugDescription(propType))
+				return nil, eris.Errorf("expected property %q to be a string, optional string, map[string]string, or []string, but was: %q", prop.PropertyName(), astmodel.DebugDescription(propType))
 			}
 
 			it = it.WithoutProperty(prop.PropertyName())
@@ -299,7 +299,7 @@ func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.Object
 			propType := prop.PropertyType()
 
 			if !isTypeSecretReferenceCandidate(propType) {
-				return nil, errors.Errorf("expected property %q to be a string, optional string, map[string]string, or []string, but was: %T", prop.PropertyName(), astmodel.DebugDescription(propType))
+				return nil, eris.Errorf("expected property %q to be a string, optional string, map[string]string, or []string, but was: %T", prop.PropertyName(), astmodel.DebugDescription(propType))
 			}
 
 			var newType astmodel.Type

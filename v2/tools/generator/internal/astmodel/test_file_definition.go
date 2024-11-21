@@ -10,7 +10,7 @@ import (
 	"go/token"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/slices"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
@@ -80,10 +80,9 @@ func (file *TestFileDefinition) AsAst() (*dst.File, error) {
 	}
 
 	if len(errs) > 0 {
-		return nil, errors.Wrap(
+		return nil, eris.Wrap(
 			kerrors.NewAggregate(errs),
-			"failed to generate test cases",
-		)
+			"failed to generate test cases")
 	}
 
 	var decls []dst.Decl

@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -79,7 +79,7 @@ func makeOneOfDiscriminantTypeRequired(
 ) (astmodel.TypeDefinitionSet, error) {
 	objectType, ok := astmodel.AsObjectType(oneOf.Type())
 	if !ok {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"OneOf %s was not of type Object, instead was: %s",
 			oneOf.Name(),
 			astmodel.DebugDescription(oneOf.Type()))
@@ -101,7 +101,7 @@ func makeOneOfDiscriminantTypeRequired(
 		}
 		updatedDef, err := remover.visitor.VisitDefinition(def, nil)
 		if err != nil {
-			return nil, errors.Wrapf(err, "error updating definition %s", def.Name())
+			return nil, eris.Wrapf(err, "error updating definition %s", def.Name())
 		}
 
 		result.Add(updatedDef)

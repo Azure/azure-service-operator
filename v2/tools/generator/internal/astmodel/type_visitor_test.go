@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 func Test_Visit_GivenCountingTypeVisitor_ReturnsExpectedCounts(t *testing.T) {
@@ -218,7 +218,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			StringType,
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitPrimitive = func(tv *TypeVisitor[any], p *PrimitiveType, _ interface{}) (Type, error) {
-					return p, errors.New(p.name)
+					return p, eris.New(p.name)
 				}
 			},
 			StringType,
@@ -229,7 +229,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			StringType,
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitPrimitive = func(p *PrimitiveType) (Type, error) {
-					return p, errors.New(p.name)
+					return p, eris.New(p.name)
 				}
 			},
 			StringType,
@@ -240,7 +240,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			OptionalIntType,
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitOptionalType = func(tv *TypeVisitor[any], ot *OptionalType, _ interface{}) (Type, error) {
-					return ot, errors.New(ot.String())
+					return ot, eris.New(ot.String())
 				}
 			},
 			OptionalIntType,
@@ -251,7 +251,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			OptionalIntType,
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitOptionalType = func(ot *OptionalType) (Type, error) {
-					return ot, errors.New(ot.String())
+					return ot, eris.New(ot.String())
 				}
 			},
 			OptionalIntType,
@@ -262,7 +262,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewEnumType(StringType),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitEnumType = func(tv *TypeVisitor[any], et *EnumType, _ interface{}) (Type, error) {
-					return et, errors.New(et.String())
+					return et, eris.New(et.String())
 				}
 			},
 			NewEnumType(StringType),
@@ -273,7 +273,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewEnumType(StringType),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitEnumType = func(et *EnumType) (Type, error) {
-					return et, errors.New(et.String())
+					return et, eris.New(et.String())
 				}
 			},
 			NewEnumType(StringType),
@@ -284,7 +284,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewObjectType(),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitObjectType = func(tv *TypeVisitor[any], ot *ObjectType, _ interface{}) (Type, error) {
-					return ot, errors.New(ot.String())
+					return ot, eris.New(ot.String())
 				}
 			},
 			NewObjectType(),
@@ -295,7 +295,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewObjectType(),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitObjectType = func(ot *ObjectType) (Type, error) {
-					return ot, errors.New(ot.String())
+					return ot, eris.New(ot.String())
 				}
 			},
 			NewObjectType(),
@@ -306,7 +306,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewOneOfType("x", BoolType, StringType),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitOneOfType = func(tv *TypeVisitor[any], ot *OneOfType, _ interface{}) (Type, error) {
-					return ot, errors.New(ot.String())
+					return ot, eris.New(ot.String())
 				}
 			},
 			NewOneOfType("x", BoolType, StringType),
@@ -317,7 +317,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewOneOfType("x", BoolType, StringType),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitOneOfType = func(ot *OneOfType) (Type, error) {
-					return ot, errors.New(ot.String())
+					return ot, eris.New(ot.String())
 				}
 			},
 			NewOneOfType("x", BoolType, StringType),
@@ -328,7 +328,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewErroredType(StringType, nil, nil),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitErroredType = func(tv *TypeVisitor[any], et *ErroredType, _ interface{}) (Type, error) {
-					return et, errors.New(et.String())
+					return et, eris.New(et.String())
 				}
 			},
 			NewErroredType(StringType, nil, nil),
@@ -339,7 +339,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewErroredType(StringType, nil, nil),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitErroredType = func(et *ErroredType) (Type, error) {
-					return et, errors.New(et.String())
+					return et, eris.New(et.String())
 				}
 			},
 			NewErroredType(StringType, nil, nil),
@@ -350,7 +350,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewValidatedType(StringType, StringValidations{}),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitValidatedType = func(tv *TypeVisitor[any], vt *ValidatedType, _ interface{}) (Type, error) {
-					return vt, errors.New(vt.String())
+					return vt, eris.New(vt.String())
 				}
 			},
 			NewValidatedType(StringType, StringValidations{}),
@@ -361,7 +361,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewValidatedType(StringType, StringValidations{}),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitValidatedType = func(vt *ValidatedType) (Type, error) {
-					return vt, errors.New(vt.String())
+					return vt, eris.New(vt.String())
 				}
 			},
 			NewValidatedType(StringType, StringValidations{}),
@@ -372,7 +372,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewResourceType(StringType, StringType),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitResourceType = func(tv *TypeVisitor[any], rt *ResourceType, _ interface{}) (Type, error) {
-					return rt, errors.New(rt.String())
+					return rt, eris.New(rt.String())
 				}
 			},
 			NewResourceType(StringType, StringType),
@@ -383,7 +383,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewResourceType(StringType, StringType),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitResourceType = func(rt *ResourceType) (Type, error) {
-					return rt, errors.New(rt.String())
+					return rt, eris.New(rt.String())
 				}
 			},
 			NewResourceType(StringType, StringType),
@@ -394,7 +394,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewAllOfType(),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitAllOfType = func(tv *TypeVisitor[any], at *AllOfType, _ interface{}) (Type, error) {
-					return at, errors.New(at.String())
+					return at, eris.New(at.String())
 				}
 			},
 			NewAllOfType(),
@@ -405,7 +405,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewAllOfType(),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitAllOfType = func(at *AllOfType) (Type, error) {
-					return at, errors.New(at.String())
+					return at, eris.New(at.String())
 				}
 			},
 			NewAllOfType(),
@@ -416,7 +416,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewMapType(StringType, IntType),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitMapType = func(tv *TypeVisitor[any], mt *MapType, _ interface{}) (Type, error) {
-					return mt, errors.New(mt.String())
+					return mt, eris.New(mt.String())
 				}
 			},
 			NewMapType(StringType, IntType),
@@ -427,7 +427,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewMapType(StringType, IntType),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitMapType = func(mt *MapType) (Type, error) {
-					return mt, errors.New(mt.String())
+					return mt, eris.New(mt.String())
 				}
 			},
 			NewMapType(StringType, IntType),
@@ -438,7 +438,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewArrayType(StringType),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitArrayType = func(tv *TypeVisitor[any], at *ArrayType, _ interface{}) (Type, error) {
-					return at, errors.New(at.String())
+					return at, eris.New(at.String())
 				}
 			},
 			NewArrayType(StringType),
@@ -449,7 +449,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			NewArrayType(StringType),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitArrayType = func(at *ArrayType) (Type, error) {
-					return at, errors.New(at.String())
+					return at, eris.New(at.String())
 				}
 			},
 			NewArrayType(StringType),
@@ -460,7 +460,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			StorageFlag.ApplyTo(StringType),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitFlaggedType = func(tv *TypeVisitor[any], ft *FlaggedType, _ interface{}) (Type, error) {
-					return ft, errors.New(ft.String())
+					return ft, eris.New(ft.String())
 				}
 			},
 			StorageFlag.ApplyTo(StringType),
@@ -471,7 +471,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			StorageFlag.ApplyTo(StringType),
 			func(builder *TypeVisitorBuilder[any]) {
 				builder.VisitFlaggedType = func(ft *FlaggedType) (Type, error) {
-					return ft, errors.New(ft.String())
+					return ft, eris.New(ft.String())
 				}
 			},
 			StorageFlag.ApplyTo(StringType),

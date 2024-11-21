@@ -9,7 +9,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"gopkg.in/yaml.v3"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
@@ -221,7 +221,7 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 
 	err := groupVisitor.visit(omc)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to find hand-crafted packages")
+		return nil, eris.Wrapf(err, "failed to find hand-crafted packages")
 	}
 
 	return result, nil
@@ -286,7 +286,7 @@ func (omc *ObjectModelConfiguration) findGroup(ref astmodel.InternalPackageRefer
 // The slice node.Content contains pairs of nodes, first one for an ID, then one for the value.
 func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	if value.Kind != yaml.MappingNode {
-		return errors.New("expected mapping")
+		return eris.New("expected mapping")
 	}
 
 	var lastId string
@@ -302,7 +302,7 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			g := NewGroupConfiguration(lastId)
 			err := c.Decode(&g)
 			if err != nil {
-				return errors.Wrapf(err, "decoding yaml for %q", lastId)
+				return eris.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
 			omc.addGroup(lastId, g)
@@ -310,8 +310,9 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// No handler for this value, return an error
-		return errors.Errorf(
+		return eris.Errorf(
 			"object model configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
+
 	}
 
 	return nil

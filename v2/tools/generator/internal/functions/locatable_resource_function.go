@@ -7,7 +7,7 @@ package functions
 
 import (
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -37,7 +37,7 @@ func locatableResourceLocationFunc(
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	locationSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec", "Location")
@@ -59,7 +59,7 @@ func locatableResourceLocationFunc(
 
 	stringTypeExpr, err := astmodel.StringType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating string type expression")
+		return nil, eris.Wrap(err, "creating string type expression")
 	}
 
 	fn.AddReturn(stringTypeExpr)

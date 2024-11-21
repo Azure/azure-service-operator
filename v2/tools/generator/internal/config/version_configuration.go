@@ -8,7 +8,7 @@ package config
 import (
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"gopkg.in/yaml.v3"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
@@ -57,7 +57,7 @@ func (vc *VersionConfiguration) visitType(
 
 	err := visitor.visitType(tc)
 	if err != nil {
-		return errors.Wrapf(err, "configuration of version %s", vc.name)
+		return eris.Wrapf(err, "configuration of version %s", vc.name)
 	}
 
 	return nil
@@ -73,7 +73,7 @@ func (vc *VersionConfiguration) visitTypes(visitor *configurationVisitor) error 
 	}
 
 	// Both errors.Wrapf() and kerrors.NewAggregate() return nil if nothing went wrong
-	return errors.Wrapf(
+	return eris.Wrapf(
 		kerrors.NewAggregate(errs),
 		"version %s",
 		vc.name)
@@ -97,14 +97,14 @@ func (vc *VersionConfiguration) addTypeAlias(name string, alias string) error {
 	// Lookup the existing configuration for 'name'
 	tc := vc.findType(name)
 	if tc == nil {
-		return errors.Errorf("unable to create type alias %s", alias)
+		return eris.Errorf("unable to create type alias %s", alias)
 	}
 
 	// Make sure we don't already have a conflicting configuration for 'alias'
 	// if it's already aliased, it's ok if it's the same config, otherwise return an error
 	other := vc.findType(alias)
 	if other != nil && other != tc {
-		return errors.Errorf(
+		return eris.Errorf(
 			"unable to create type alias %s for %s because that would conflict with existing configuration",
 			alias,
 			name)
@@ -119,7 +119,7 @@ func (vc *VersionConfiguration) addTypeAlias(name string, alias string) error {
 // Nested objects are handled by a *pair* of nodes (!!), one for the id and one for the content of the object
 func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	if value.Kind != yaml.MappingNode {
-		return errors.New("expected mapping")
+		return eris.New("expected mapping")
 	}
 
 	vc.types = make(map[string]*TypeConfiguration)
@@ -137,7 +137,7 @@ func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			tc := NewTypeConfiguration(lastId)
 			err := c.Decode(&tc)
 			if err != nil {
-				return errors.Wrapf(err, "decoding yaml for %q", lastId)
+				return eris.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
 			vc.addType(lastId, tc)
@@ -145,8 +145,9 @@ func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// No handler for this value, return an error
-		return errors.Errorf(
+		return eris.Errorf(
 			"version configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
+
 	}
 
 	return nil

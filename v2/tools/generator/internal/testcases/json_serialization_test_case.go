@@ -11,7 +11,7 @@ import (
 	"sort"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -103,7 +103,7 @@ func (o *JSONSerializationTestCase) AsFuncs(
 	// Write errors for any properties we don't handle
 	errs := make([]error, 0, len(properties))
 	for _, p := range properties {
-		errs = append(errs, errors.Errorf("no generator created for %s (%s)", p.PropertyName(), p.PropertyType()))
+		errs = append(errs, eris.Errorf("no generator created for %s (%s)", p.PropertyName(), p.PropertyType()))
 	}
 
 	err := kerrors.NewAggregate(errs)

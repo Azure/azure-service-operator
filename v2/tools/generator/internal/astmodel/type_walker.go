@@ -8,7 +8,7 @@ package astmodel
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 // TODO: This is conceptually kinda close to ReferenceGraph except more powerful. We may be able to refactor ReferenceGraph to use this
@@ -69,13 +69,13 @@ func NewTypeWalker[C any](allDefs TypeDefinitionSet, visitor TypeVisitor[C]) *Ty
 func (t *TypeWalker[C]) visitInternalTypeName(this *TypeVisitor[C], it InternalTypeName, ctx C) (Type, error) {
 	updatedCtx, err := t.MakeContext(it, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "MakeContext failed for name %q", it)
+		return nil, eris.Wrapf(err, "MakeContext failed for name %q", it)
 	}
 
 	if t.originalVisitInternalTypeName != nil {
 		visitedTypeName, terr := t.originalVisitInternalTypeName(this, it, updatedCtx)
 		if terr != nil {
-			return nil, errors.Wrapf(terr, "visitTypeName failed for name %q", it)
+			return nil, eris.Wrapf(terr, "visitTypeName failed for name %q", it)
 		}
 
 		itn, ok := visitedTypeName.(InternalTypeName)
@@ -103,7 +103,7 @@ func (t *TypeWalker[C]) visitInternalTypeName(this *TypeVisitor[C], it InternalT
 	if _, ok := t.state.processing[def.Name()]; ok {
 		remove, cycleErr := t.ShouldRemoveCycle(def, updatedCtx)
 		if cycleErr != nil {
-			return nil, errors.Wrapf(cycleErr, "ShouldRemoveCycle failed for def %q", def.Name())
+			return nil, eris.Wrapf(cycleErr, "ShouldRemoveCycle failed for def %q", def.Name())
 		}
 		if remove {
 			return typeWalkerRemoveType, nil
@@ -116,11 +116,11 @@ func (t *TypeWalker[C]) visitInternalTypeName(this *TypeVisitor[C], it InternalT
 
 	updatedType, err := this.Visit(def.Type(), updatedCtx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "error visiting type %q", def.Name())
+		return nil, eris.Wrapf(err, "error visiting type %q", def.Name())
 	}
 	updatedDef, err := t.AfterVisit(def, def.WithType(updatedType), updatedCtx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "AfterVisit failed for def %q", def.Name())
+		return nil, eris.Wrapf(err, "AfterVisit failed for def %q", def.Name())
 	}
 
 	delete(t.state.processing, def.Name())

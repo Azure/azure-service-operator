@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
@@ -34,7 +34,7 @@ func InjectOriginalVersionFunction(idFactory astmodel.IdentifierFactory) *Stage 
 				fn := functions.NewOriginalVersionFunction(idFactory)
 				defWithFn, err := injector.Inject(def, fn)
 				if err != nil {
-					return nil, errors.Wrapf(err, "injecting OriginalVersion() into %s", name)
+					return nil, eris.Wrapf(err, "injecting OriginalVersion() into %s", name)
 				}
 
 				result[defWithFn.Name()] = defWithFn

@@ -9,7 +9,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"github.com/spf13/cobra"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
@@ -99,7 +99,7 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 			}
 
 			if len(result.Resources) == 0 {
-				err = errors.Errorf("no files found in %q", basesPath)
+				err = eris.Errorf("no files found in %q", basesPath)
 				log.Error(
 					err,
 					"No CRD files found")

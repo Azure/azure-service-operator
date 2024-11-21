@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -46,7 +46,7 @@ func InjectOriginalVersionProperty() *Stage {
 				prop.WithDescription("returns the original API version used to create the resource")
 				defWithProp, err := injector.Inject(def, prop)
 				if err != nil {
-					return nil, errors.Wrapf(err, "injecting OriginalVersion into %s", name)
+					return nil, eris.Wrapf(err, "injecting OriginalVersion into %s", name)
 				}
 
 				result[defWithProp.Name()] = defWithProp

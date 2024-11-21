@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 // OneOfType represents something that can be any one of a number of selected types
@@ -152,7 +152,7 @@ var oneOFailureMsg = "OneOfType should have been replaced by generation time by 
 // AsType always panics; OneOf cannot be represented by the Go AST and must be
 // lowered to an object type
 func (oneOf *OneOfType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
-	panic(errors.New(oneOFailureMsg))
+	panic(eris.New(oneOFailureMsg))
 }
 
 // AsDeclarations always panics; OneOf cannot be represented by the Go AST and must be
@@ -161,18 +161,18 @@ func (oneOf *OneOfType) AsDeclarations(
 	codeGenerationContext *CodeGenerationContext,
 	declContext DeclarationContext,
 ) ([]dst.Decl, error) {
-	panic(errors.New(oneOFailureMsg))
+	panic(eris.New(oneOFailureMsg))
 }
 
 // AsZero always panics; OneOf cannot be represented by the Go AST and must be
 // lowered to an object type
 func (oneOf *OneOfType) AsZero(_ TypeDefinitionSet, _ *CodeGenerationContext) dst.Expr {
-	panic(errors.New(oneOFailureMsg))
+	panic(eris.New(oneOFailureMsg))
 }
 
 // RequiredPackageReferences returns the union of the required imports of all the oneOf types
 func (oneOf *OneOfType) RequiredPackageReferences() *PackageReferenceSet {
-	panic(errors.New(oneOFailureMsg))
+	panic(eris.New(oneOFailureMsg))
 }
 
 // Equals returns true if the other Type is a OneOfType that contains

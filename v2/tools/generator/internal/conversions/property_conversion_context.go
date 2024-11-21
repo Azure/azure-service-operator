@@ -6,7 +6,7 @@
 package conversions
 
 import (
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
@@ -247,7 +247,7 @@ func (c *PropertyConversionContext) validateTypeRename(
 	if !ok {
 		// No rename configured, but we can't proceed without one. Return an error - it'll be wrapped with property
 		// details by CreateTypeConversion() so we only need the specific details here
-		return errors.Errorf(
+		return eris.Errorf(
 			"no configuration to rename %s to %s",
 			earlier.Name(),
 			later.Name())
@@ -256,7 +256,7 @@ func (c *PropertyConversionContext) validateTypeRename(
 	if later.Name() != name {
 		// Configured rename doesn't match what we found. Return an error - it'll be wrapped with property details
 		// by CreateTypeConversion() so we only need the specific details here
-		return errors.Errorf(
+		return eris.Errorf(
 			"configuration includes rename of %s to %s, but found %s",
 			earlier.Name(),
 			name,

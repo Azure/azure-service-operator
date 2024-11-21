@@ -8,7 +8,7 @@ package config
 import (
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"gopkg.in/yaml.v3"
 )
 
@@ -68,7 +68,7 @@ func NewPropertyConfiguration(name string) *PropertyConfiguration {
 // The slice node.Content contains pairs of nodes, first one for an ID, then one for the value.
 func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	if value.Kind != yaml.MappingNode {
-		return errors.New("expected mapping")
+		return eris.New("expected mapping")
 	}
 
 	var lastId string
@@ -90,7 +90,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			var isSecret bool
 			err := c.Decode(&isSecret)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", isSecretTag)
+				return eris.Wrapf(err, "decoding %s", isSecretTag)
 			}
 
 			pc.IsSecret.Set(isSecret)
@@ -102,7 +102,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			var resourceLifecycleOwnedByParent string
 			err := c.Decode(&resourceLifecycleOwnedByParent)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", resourceLifecycleOwnedByParentTag)
+				return eris.Wrapf(err, "decoding %s", resourceLifecycleOwnedByParentTag)
 			}
 
 			pc.ResourceLifecycleOwnedByParent.Set(resourceLifecycleOwnedByParent)
@@ -114,7 +114,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			var isARMRef bool
 			err := c.Decode(&isARMRef)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", armReferenceTag)
+				return eris.Wrapf(err, "decoding %s", armReferenceTag)
 			}
 
 			pc.ARMReference.Set(isARMRef)
@@ -129,7 +129,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			case ImportConfigMapModeRequired:
 				pc.ImportConfigMapMode.Set(ImportConfigMapModeRequired)
 			default:
-				return errors.Errorf("unknown %s value: %s.", importConfigMapModeTag, c.Value)
+				return eris.Errorf("unknown %s value: %s.", importConfigMapModeTag, c.Value)
 			}
 
 			continue
@@ -140,7 +140,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			var renameTo string
 			err := c.Decode(&renameTo)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", renamePropertyToTag)
+				return eris.Wrapf(err, "decoding %s", renamePropertyToTag)
 			}
 
 			pc.RenameTo.Set(renameTo)
@@ -159,15 +159,16 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			case string(ExplicitProperties):
 				pc.PayloadType.Set(ExplicitProperties)
 			default:
-				return errors.Errorf("unknown %s value: %s.", payloadTypeTag, c.Value)
+				return eris.Errorf("unknown %s value: %s.", payloadTypeTag, c.Value)
 			}
 
 			continue
 		}
 
 		// No handler for this value, return an error
-		return errors.Errorf(
+		return eris.Errorf(
 			"property configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
+
 	}
 
 	return nil

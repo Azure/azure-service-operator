@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -72,12 +72,12 @@ func (m *MapType) AsDeclarations(codeGenerationContext *CodeGenerationContext, d
 func (m *MapType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	keyExpr, err := m.key.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating map key type")
+		return nil, eris.Wrap(err, "creating map key type")
 	}
 
 	valueExpr, err := m.value.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating map value type")
+		return nil, eris.Wrap(err, "creating map value type")
 	}
 
 	return &dst.MapType{

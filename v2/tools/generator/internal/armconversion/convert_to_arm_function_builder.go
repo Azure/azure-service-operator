@@ -10,7 +10,7 @@ import (
 	"go/token"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -35,7 +35,7 @@ func newConvertToARMFunctionBuilder(
 ) (*convertToARMBuilder, error) {
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+		return nil, eris.Wrapf(err, "creating type expression for %s", receiver)
 	}
 
 	result := &convertToARMBuilder{
@@ -90,7 +90,7 @@ func newConvertToARMFunctionBuilder(
 func (builder *convertToARMBuilder) functionDeclaration() (*dst.FuncDecl, error) {
 	body, err := builder.functionBodyStatements()
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to generate body for %s", builder.methodName)
+		return nil, eris.Wrapf(err, "unable to generate body for %s", builder.methodName)
 	}
 
 	fn := &astbuilder.FuncDetails{
@@ -102,7 +102,7 @@ func (builder *convertToARMBuilder) functionDeclaration() (*dst.FuncDecl, error)
 
 	convertToARMResolvedDetailsExpr, err := astmodel.ConvertToARMResolvedDetailsType.AsTypeExpr(builder.codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", astmodel.ConvertToARMResolvedDetailsType)
+		return nil, eris.Wrapf(err, "creating type expression for %s", astmodel.ConvertToARMResolvedDetailsType)
 	}
 
 	fn.AddParameter(resolvedParameterString, convertToARMResolvedDetailsExpr)
@@ -127,7 +127,7 @@ func (builder *convertToARMBuilder) functionBodyStatements() ([]dst.Stmt, error)
 		builder.destinationType,
 		builder.propertyConversionHandler)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to generate property conversions for %s", builder.methodName)
+		return nil, eris.Wrapf(err, "unable to generate property conversions for %s", builder.methodName)
 	}
 
 	returnStatement := &dst.ReturnStmt{
@@ -247,7 +247,7 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 	)
 	if err != nil {
 		return notHandled,
-			errors.Wrapf(err,
+			eris.Wrapf(err,
 				"unable to build conversion for property %s",
 				strProp.PropertyName())
 	}
@@ -267,7 +267,7 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 	)
 	if err != nil {
 		return notHandled,
-			errors.Wrapf(err,
+			eris.Wrapf(err,
 				"unable to build conversion for property %s",
 				refProp.PropertyName())
 	}
@@ -324,7 +324,7 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 	)
 	if err != nil {
 		return notHandled,
-			errors.Wrapf(err,
+			eris.Wrapf(err,
 				"unable to build conversion for property %s",
 				fromProp.PropertyName())
 	}
@@ -374,7 +374,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 	toPropType, err := allDefs.FullyResolve(toProp.PropertyType())
 	if err != nil {
 		return notHandled,
-			errors.Wrapf(err,
+			eris.Wrapf(err,
 				"unable to resolve type %s",
 				toProp.PropertyType().String())
 	}
@@ -389,7 +389,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		toPropType, err = allDefs.FullyResolve(optType.Element())
 		if err != nil {
 			return notHandled,
-				errors.Wrapf(err,
+				eris.Wrapf(err,
 					"unable to resolve type %s",
 					optType.Element().String())
 		}
@@ -406,7 +406,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		initializer, err := builder.buildToPropInitializer(fromProps, toPropTypeName, toPropName)
 		if err != nil {
 			return notHandled,
-				errors.Wrapf(err,
+				eris.Wrapf(err,
 					"unable to build initializer for property %s",
 					toPropName)
 		}
@@ -427,7 +427,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		toSubProp, ok := toPropObjType.Property(toSubPropName)
 		if !ok {
 			return notHandled,
-				errors.Errorf(
+				eris.Errorf(
 					"unable to find expected property %s inside property %s",
 					fromProp.PropertyName(),
 					toPropName)
@@ -449,7 +449,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 			})
 		if err != nil {
 			return notHandled,
-				errors.Wrapf(err,
+				eris.Wrapf(err,
 					"unable to build conversion for property %s",
 					fromProp.PropertyName())
 		}
@@ -490,7 +490,7 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 
 	toPropTypeExpr, err := toPropTypeName.AsTypeExpr(builder.codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", toPropTypeName)
+		return nil, eris.Wrapf(err, "creating type expression for %s", toPropTypeName)
 	}
 
 	literal := astbuilder.NewCompositeLiteralBuilder(toPropTypeExpr)
@@ -545,7 +545,7 @@ func (builder *convertToARMBuilder) propertiesByNameHandler(
 	)
 	if err != nil {
 		return notHandled,
-			errors.Wrapf(err,
+			eris.Wrapf(err,
 				"unable to build conversion for property %s",
 				fromProp.PropertyName())
 	}
@@ -600,7 +600,7 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 	refProperty, ok := uaiType.Property("Reference")
 	if !ok {
 		return nil,
-			errors.New("found UserAssignedIdentity type without Reference property")
+			eris.New("found UserAssignedIdentity type without Reference property")
 	}
 
 	locals := params.Locals.Clone()
@@ -609,7 +609,7 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 	keyTypeExpr, err := destinationType.KeyType().AsTypeExpr(conversionBuilder.CodeGenerationContext)
 	if err != nil {
 		return nil,
-			errors.Wrapf(err,
+			eris.Wrapf(err,
 				"creating type expression for key type %s",
 				destinationType.KeyType())
 	}
@@ -617,7 +617,7 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 	valueTypeExpr, err := destinationType.ValueType().AsTypeExpr(conversionBuilder.CodeGenerationContext)
 	if err != nil {
 		return nil,
-			errors.Wrapf(err,
+			eris.Wrapf(err,
 				"creating type expression for value type %s",
 				destinationType.ValueType())
 	}
@@ -648,7 +648,7 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 		})
 	if err != nil {
 		return nil,
-			errors.Wrapf(err,
+			eris.Wrapf(err,
 				"unable to build conversion for property %s",
 				refProperty.PropertyName())
 	}

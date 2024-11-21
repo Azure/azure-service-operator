@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -64,28 +64,28 @@ func (t *TypeMatcher) WasMatched() error {
 	}
 
 	if err := t.Group.WasMatched(); err != nil {
-		return errors.Wrapf(
+		return eris.Wrapf(
 			err,
 			"type matcher [%s] matched no types; every group was excluded",
 			t.String())
 	}
 
 	if err := t.Version.WasMatched(); err != nil {
-		return errors.Wrapf(
+		return eris.Wrapf(
 			err,
 			"type matcher [%s] matched no types; groups matched, but every version was excluded",
 			t.String())
 	}
 
 	if err := t.Name.WasMatched(); err != nil {
-		return errors.Wrapf(
+		return eris.Wrapf(
 			err,
 			"type matcher [%s] matched no types; groups and versions matched, but every type was excluded",
 			t.String())
 	}
 
 	// Don't expect this case to ever be used, but be informative anyway
-	return errors.Errorf("Type matcher [%s] matched no types", t.String())
+	return eris.Errorf("Type matcher [%s] matched no types", t.String())
 }
 
 // String returns a description of this filter

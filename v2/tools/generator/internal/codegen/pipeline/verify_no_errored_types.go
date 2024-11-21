@@ -9,7 +9,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -29,7 +29,7 @@ func VerifyNoErroredTypes() *Stage {
 
 				_, err := visitor.visitor.Visit(def.Type(), erroredTypeVisitorContext{name: def.Name()})
 				if err != nil {
-					return nil, errors.Wrapf(err, "failed while visiting %q", def.Name())
+					return nil, eris.Wrapf(err, "failed while visiting %q", def.Name())
 				}
 			}
 
@@ -74,7 +74,7 @@ func (v *errorCollectingVisitor) catalogErrors(
 ) (astmodel.Type, error) {
 	if len(it.Errors()) > 0 {
 		errStrings := strings.Join(it.Errors(), ", ")
-		v.errs = append(v.errs, errors.Errorf("%q has property %q with errors: %q", ctx.name, ctx.property, errStrings))
+		v.errs = append(v.errs, eris.Errorf("%q has property %q with errors: %q", ctx.name, ctx.property, errStrings))
 	}
 
 	return astmodel.IdentityVisitOfErroredType(this, it, ctx)
@@ -87,12 +87,12 @@ func includeResourcePropertyContext(
 ) (astmodel.Type, error) {
 	_, err := this.Visit(it.SpecType(), ctx.WithProperty("Spec"))
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit resource spec type %q", it.SpecType())
+		return nil, eris.Wrapf(err, "failed to visit resource spec type %q", it.SpecType())
 	}
 
 	_, err = this.Visit(it.StatusType(), ctx.WithProperty("Status"))
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit resource status type %q", it.StatusType())
+		return nil, eris.Wrapf(err, "failed to visit resource status type %q", it.StatusType())
 	}
 
 	return it, nil

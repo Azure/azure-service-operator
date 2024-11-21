@@ -13,9 +13,8 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
-	"github.com/pkg/errors"
 )
 
 // PackageDefinition is the definition of a package
@@ -52,7 +51,7 @@ func (p *PackageDefinition) GetDefinition(typeName InternalTypeName) (TypeDefini
 		return def, nil
 	}
 
-	return TypeDefinition{}, errors.Errorf("no type with name %s found", typeName)
+	return TypeDefinition{}, eris.Errorf("no type with name %s found", typeName)
 }
 
 // AddDefinition adds a Definition to the PackageDefinition
@@ -154,7 +153,7 @@ func (p *PackageDefinition) writeCodeFile(
 	fileWriter := NewGoSourceFileWriter(genFile)
 	err := fileWriter.SaveToFile(outputFile)
 	if err != nil {
-		return errors.Wrapf(err, "saving definitions to file %q", outputFile)
+		return eris.Wrapf(err, "saving definitions to file %q", outputFile)
 	}
 
 	return nil
@@ -185,7 +184,7 @@ func (p *PackageDefinition) writeTestFile(
 	fileWriter := NewGoSourceFileWriter(genFile)
 	err := fileWriter.SaveToFile(outputFile)
 	if err != nil {
-		return errors.Wrapf(err, "writing test cases to file %q", outputFile)
+		return eris.Wrapf(err, "writing test cases to file %q", outputFile)
 	}
 
 	return nil
@@ -234,7 +233,7 @@ func (pkgDef *PackageDefinition) emitTemplateFile(template *template.Template, f
 
 	err = os.WriteFile(fileRef, buf.Bytes(), 0o600)
 	if err != nil {
-		return errors.Wrapf(err, "error writing file %q", fileRef)
+		return eris.Wrapf(err, "error writing file %q", fileRef)
 	}
 
 	return nil

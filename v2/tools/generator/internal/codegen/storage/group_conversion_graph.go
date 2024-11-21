@@ -8,7 +8,7 @@ package storage
 import (
 	"io"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -87,7 +87,7 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 
 	// Didn't find the type we're looking for
 	return astmodel.InternalTypeName{},
-		errors.Errorf("rename of %s invalid because no type with name %s was found in any later version", name, rename)
+		eris.Errorf("rename of %s invalid because no type with name %s was found in any later version", name, rename)
 }
 
 // WriteTo gives a debug dump of the conversion graph for a particular type name
