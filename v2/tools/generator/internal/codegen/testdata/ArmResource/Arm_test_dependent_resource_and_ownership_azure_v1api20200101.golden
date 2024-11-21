@@ -146,6 +146,10 @@ func (a *A) GetType() string {
 
 // Owner returns the ResourceReference of the owner
 func (a *A) Owner() *genruntime.ResourceReference {
+	if a.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(a.Spec)
 	return a.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -431,6 +435,10 @@ func (b *B) GetType() string {
 
 // Owner returns the ResourceReference of the owner
 func (b *B) Owner() *genruntime.ResourceReference {
+	if b.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(b.Spec)
 	return b.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -716,6 +724,10 @@ func (c *C) GetType() string {
 
 // Owner returns the ResourceReference of the owner
 func (c *C) Owner() *genruntime.ResourceReference {
+	if c.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(c.Spec)
 	return c.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -1001,6 +1013,10 @@ func (d *D) GetType() string {
 
 // Owner returns the ResourceReference of the owner
 func (d *D) Owner() *genruntime.ResourceReference {
+	if d.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(d.Spec)
 	return d.Spec.Owner.AsResourceReference(group, kind)
 }
