@@ -39,3 +39,28 @@ One of the key features of ASO is that it takes care of sequencing - it works ou
 It's important that we exercise this in our tests. We've found in the past some resources where additional work was required to make this run smoothly - this is why we have extension points defined in the [`genruntime/extensions package`](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2@v2.10.0/pkg/genruntime/extensions).
 
 Instead of calling `tc.CreateResourceAndWait()` for each resource in turn, declare all the resources required for the test and then make a single call to `tc.CreateResourcesAndWait()` (note the plural in the name) to create them all at once.
+
+## Code formatting and linting
+
+We strongly believe that linting (aka static code analysis) can be very useful for identifying potential issues in the code. We use [golangci-lint](https://golangci-lint.run/) to run a suite of linters on the codebase as a part of our CI pipeline for every PR. We also use [gofumpt](https://github.com/mvdan/gofumpt), a stricter version of `gofmt`, to format the code.
+
+To ensure your code passes CI, we suggest running the following two commands before submitting your pull request. 
+
+First, ensure your code is formatted according to our standards:
+
+```bash
+task format-code
+```
+
+If any files are modified, commit them.
+
+
+Then, run the linters:
+
+```bash
+task controller:lint
+```
+
+The above target is appropriate if you're contributing a new resource or controller feature. If you're contributing to our commandline tool, use `task asoctl:lint`; if you're working on our code generator, use `task generator:lint`.
+
+If any issues are found, fix them before submitting your PR. 
