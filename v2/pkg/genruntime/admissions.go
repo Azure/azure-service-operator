@@ -38,8 +38,17 @@ func ValidateWriteOnceProperties(oldObj ARMMetaObject, newObj ARMMetaObject) (ad
 		return nil, nil
 	}
 
-	if oldObj.AzureName() != newObj.AzureName() {
-		errs = append(errs, errors.Errorf("updating 'spec.azureName' is not allowed for '%s : %s", oldObj.GetObjectKind().GroupVersionKind(), oldObj.GetName()))
+	// Prohibit changing the AzureName,
+	// but allow it to be set if it's empty.
+	//
+	// https://github.com/Azure/azure-service-operator/issues/4306
+	oldName := oldObj.AzureName()
+	if oldName != "" && oldName != newObj.AzureName() {
+		err := errors.Errorf(
+			"updating 'spec.azureName' is not allowed for '%s : %s",
+			oldObj.GetObjectKind().GroupVersionKind(),
+			oldObj.GetName())
+		errs = append(errs, err)
 	}
 
 	// Ensure that owner has not been changed
