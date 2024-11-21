@@ -173,6 +173,10 @@ func (fleet *Fleet) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (fleet *Fleet) Owner() *genruntime.ResourceReference {
+	if fleet.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(fleet.Spec)
 	return fleet.Spec.Owner.AsResourceReference(group, kind)
 }

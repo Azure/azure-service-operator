@@ -114,6 +114,10 @@ func (encryption *ServersDatabasesTransparentDataEncryption) NewEmptyStatus() ge
 
 // Owner returns the ResourceReference of the owner
 func (encryption *ServersDatabasesTransparentDataEncryption) Owner() *genruntime.ResourceReference {
+	if encryption.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(encryption.Spec)
 	return encryption.Spec.Owner.AsResourceReference(group, kind)
 }

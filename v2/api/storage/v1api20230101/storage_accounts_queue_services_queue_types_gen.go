@@ -173,6 +173,10 @@ func (queue *StorageAccountsQueueServicesQueue) NewEmptyStatus() genruntime.Conv
 
 // Owner returns the ResourceReference of the owner
 func (queue *StorageAccountsQueueServicesQueue) Owner() *genruntime.ResourceReference {
+	if queue.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(queue.Spec)
 	return queue.Spec.Owner.AsResourceReference(group, kind)
 }

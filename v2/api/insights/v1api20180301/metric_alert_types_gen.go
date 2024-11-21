@@ -174,6 +174,10 @@ func (alert *MetricAlert) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (alert *MetricAlert) Owner() *genruntime.ResourceReference {
+	if alert.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(alert.Spec)
 	return alert.Spec.Owner.AsResourceReference(group, kind)
 }

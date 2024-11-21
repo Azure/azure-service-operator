@@ -172,6 +172,10 @@ func (api *Api) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (api *Api) Owner() *genruntime.ResourceReference {
+	if api.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(api.Spec)
 	return api.Spec.Owner.AsResourceReference(group, kind)
 }

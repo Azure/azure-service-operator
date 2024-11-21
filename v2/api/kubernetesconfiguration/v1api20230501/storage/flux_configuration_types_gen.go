@@ -115,6 +115,10 @@ func (configuration *FluxConfiguration) NewEmptyStatus() genruntime.ConvertibleS
 
 // Owner returns the ResourceReference of the owner
 func (configuration *FluxConfiguration) Owner() *genruntime.ResourceReference {
+	if configuration.Spec.Owner == nil {
+		return nil
+	}
+
 	return configuration.Spec.Owner.AsResourceReference()
 }
 

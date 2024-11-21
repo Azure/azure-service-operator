@@ -199,6 +199,10 @@ func (component *Component) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (component *Component) Owner() *genruntime.ResourceReference {
+	if component.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(component.Spec)
 	return component.Spec.Owner.AsResourceReference(group, kind)
 }

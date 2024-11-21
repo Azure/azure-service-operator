@@ -116,6 +116,10 @@ func (versionSet *ApiVersionSet) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (versionSet *ApiVersionSet) Owner() *genruntime.ResourceReference {
+	if versionSet.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(versionSet.Spec)
 	return versionSet.Spec.Owner.AsResourceReference(group, kind)
 }

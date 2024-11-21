@@ -177,6 +177,10 @@ func (fragment *PolicyFragment) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (fragment *PolicyFragment) Owner() *genruntime.ResourceReference {
+	if fragment.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(fragment.Spec)
 	return fragment.Spec.Owner.AsResourceReference(group, kind)
 }

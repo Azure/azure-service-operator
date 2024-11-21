@@ -173,6 +173,10 @@ func (image *Image) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (image *Image) Owner() *genruntime.ResourceReference {
+	if image.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(image.Spec)
 	return image.Spec.Owner.AsResourceReference(group, kind)
 }

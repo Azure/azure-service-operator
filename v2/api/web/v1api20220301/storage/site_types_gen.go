@@ -115,6 +115,10 @@ func (site *Site) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (site *Site) Owner() *genruntime.ResourceReference {
+	if site.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(site.Spec)
 	return site.Spec.Owner.AsResourceReference(group, kind)
 }

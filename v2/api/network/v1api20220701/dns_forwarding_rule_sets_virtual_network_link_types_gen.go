@@ -173,6 +173,10 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) NewEmptyStatus() genruntime
 
 // Owner returns the ResourceReference of the owner
 func (link *DnsForwardingRuleSetsVirtualNetworkLink) Owner() *genruntime.ResourceReference {
+	if link.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(link.Spec)
 	return link.Spec.Owner.AsResourceReference(group, kind)
 }

@@ -173,6 +173,10 @@ func (host *BastionHost) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (host *BastionHost) Owner() *genruntime.ResourceReference {
+	if host.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(host.Spec)
 	return host.Spec.Owner.AsResourceReference(group, kind)
 }

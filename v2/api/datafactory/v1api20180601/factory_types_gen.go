@@ -174,6 +174,10 @@ func (factory *Factory) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (factory *Factory) Owner() *genruntime.ResourceReference {
+	if factory.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(factory.Spec)
 	return factory.Spec.Owner.AsResourceReference(group, kind)
 }

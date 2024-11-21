@@ -115,6 +115,10 @@ func (table *StorageAccountsTableServicesTable) NewEmptyStatus() genruntime.Conv
 
 // Owner returns the ResourceReference of the owner
 func (table *StorageAccountsTableServicesTable) Owner() *genruntime.ResourceReference {
+	if table.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(table.Spec)
 	return table.Spec.Owner.AsResourceReference(group, kind)
 }

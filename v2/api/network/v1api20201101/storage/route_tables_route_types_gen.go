@@ -136,6 +136,10 @@ func (route *RouteTablesRoute) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (route *RouteTablesRoute) Owner() *genruntime.ResourceReference {
+	if route.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(route.Spec)
 	return route.Spec.Owner.AsResourceReference(group, kind)
 }

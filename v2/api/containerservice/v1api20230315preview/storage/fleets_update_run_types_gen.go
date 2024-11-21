@@ -116,6 +116,10 @@ func (updateRun *FleetsUpdateRun) NewEmptyStatus() genruntime.ConvertibleStatus 
 
 // Owner returns the ResourceReference of the owner
 func (updateRun *FleetsUpdateRun) Owner() *genruntime.ResourceReference {
+	if updateRun.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(updateRun.Spec)
 	return updateRun.Spec.Owner.AsResourceReference(group, kind)
 }

@@ -173,6 +173,10 @@ func (provider *AuthorizationProvider) NewEmptyStatus() genruntime.ConvertibleSt
 
 // Owner returns the ResourceReference of the owner
 func (provider *AuthorizationProvider) Owner() *genruntime.ResourceReference {
+	if provider.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(provider.Spec)
 	return provider.Spec.Owner.AsResourceReference(group, kind)
 }

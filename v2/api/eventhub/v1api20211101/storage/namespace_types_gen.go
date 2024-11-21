@@ -115,6 +115,10 @@ func (namespace *Namespace) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (namespace *Namespace) Owner() *genruntime.ResourceReference {
+	if namespace.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(namespace.Spec)
 	return namespace.Spec.Owner.AsResourceReference(group, kind)
 }

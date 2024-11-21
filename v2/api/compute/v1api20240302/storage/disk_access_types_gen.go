@@ -115,6 +115,10 @@ func (access *DiskAccess) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (access *DiskAccess) Owner() *genruntime.ResourceReference {
+	if access.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(access.Spec)
 	return access.Spec.Owner.AsResourceReference(group, kind)
 }

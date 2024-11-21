@@ -174,6 +174,10 @@ func (extension *VirtualMachineScaleSetsExtension) NewEmptyStatus() genruntime.C
 
 // Owner returns the ResourceReference of the owner
 func (extension *VirtualMachineScaleSetsExtension) Owner() *genruntime.ResourceReference {
+	if extension.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(extension.Spec)
 	return extension.Spec.Owner.AsResourceReference(group, kind)
 }

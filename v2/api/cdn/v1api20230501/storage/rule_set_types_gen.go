@@ -115,6 +115,10 @@ func (ruleSet *RuleSet) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (ruleSet *RuleSet) Owner() *genruntime.ResourceReference {
+	if ruleSet.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(ruleSet.Spec)
 	return ruleSet.Spec.Owner.AsResourceReference(group, kind)
 }

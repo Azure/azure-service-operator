@@ -114,6 +114,10 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) NewEmptyStatus() g
 
 // Owner returns the ResourceReference of the owner
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy) Owner() *genruntime.ResourceReference {
+	if policy.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
 	return policy.Spec.Owner.AsResourceReference(group, kind)
 }
