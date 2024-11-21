@@ -103,6 +103,7 @@ tasks:
     desc: Ensure all code is formatted
     dir: v2
     cmds:
+      - golangci-lint run --fix ./...
       - gofumpt -l -w .
 
   build-docs-site:
