@@ -76,7 +76,6 @@ func (i *importableResource) selectVersionFromGK(gk schema.GroupKind) (schema.Gr
 				"no known versions for Group %s, Kind %s",
 				gk.Group,
 				gk.Kind)
-
 	}
 
 	// Scan for the GVK that implements genruntime.ImportableResource
@@ -96,7 +95,6 @@ func (i *importableResource) selectVersionFromGK(gk schema.GroupKind) (schema.Gr
 						"multiple known versions for Group %s, Kind %s implement genruntime.ImportableResource",
 						gk.Group,
 						gk.Kind)
-
 			}
 
 			result = &gvk
@@ -109,7 +107,6 @@ func (i *importableResource) selectVersionFromGK(gk schema.GroupKind) (schema.Gr
 				"no known versions for Group %s, Kind %s implement genruntime.ImportableResource",
 				gk.Group,
 				gk.Kind)
-
 	}
 
 	return *result, nil

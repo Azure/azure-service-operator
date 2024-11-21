@@ -195,7 +195,6 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 		if err != nil {
 			return eris.Wrap(err,
 				fmt.Sprintf("migrating %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind))
-
 		}
 
 		if found {
@@ -204,7 +203,6 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 			if err != nil {
 				return eris.Wrap(err,
 					fmt.Sprintf("migrating %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind))
-
 			}
 		} else {
 			// If we don't find the originalVersion, it may not have been set.

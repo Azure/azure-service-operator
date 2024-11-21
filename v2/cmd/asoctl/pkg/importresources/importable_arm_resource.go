@@ -200,7 +200,6 @@ func (i *importableARMResource) FindChildren(
 			kerrors.NewAggregate(errs),
 			"importing childresources of %s",
 			i.armID)
-
 }
 
 func (i *importableARMResource) createImportFunction(
@@ -328,7 +327,6 @@ func (i *importableARMResource) importChildResources(
 	if !ok {
 		return nil, eris.Errorf(
 			"unable to create blank resource, expected %s to identify an importable ARM object", childResourceType)
-
 	}
 
 	// Based on the ARM ID of our owner, create the container URI to list the child resources
@@ -422,7 +420,6 @@ func (i *importableARMResource) createImportableObjectFromID(
 	if !ok {
 		return nil, eris.Errorf(
 			"unable to create blank resource, expected %s to identify an importable ARM object", armID)
-
 	}
 
 	if owner != nil {
