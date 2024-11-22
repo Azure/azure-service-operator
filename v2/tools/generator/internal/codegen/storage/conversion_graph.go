@@ -10,7 +10,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -59,7 +59,7 @@ func (graph *ConversionGraph) FindNextType(
 	renamedType, err := subgraph.searchForRenamedType(name, definitions)
 	if err != nil {
 		// Something went wrong
-		return astmodel.InternalTypeName{}, errors.Wrapf(err, "searching for type renamed from %s", name)
+		return astmodel.InternalTypeName{}, eris.Wrapf(err, "searching for type renamed from %s", name)
 	}
 
 	// If we have no renamed type, return the next type (if any)
@@ -76,7 +76,7 @@ func (graph *ConversionGraph) FindNextType(
 	// If they're in the same package, the type-rename has been configured on the wrong version (or the wrong type)
 	if nextType.PackageReference().Equals(renamedType.PackageReference()) {
 		return astmodel.InternalTypeName{},
-			errors.Errorf("confict between rename of %s to %s and existing type %s", name, renamedType, nextType)
+			eris.Errorf("confict between rename of %s to %s and existing type %s", name, renamedType, nextType)
 	}
 
 	// Now we need to return the earlier type. We can do this by comparing the package paths.
@@ -120,7 +120,7 @@ func (graph *ConversionGraph) FindHubAndDistance(
 		if err != nil {
 			return astmodel.InternalTypeName{},
 				-1,
-				errors.Wrapf(err, "finding hub for %s",
+				eris.Wrapf(err, "finding hub for %s",
 					name)
 		}
 
@@ -186,7 +186,7 @@ func (graph *ConversionGraph) FindNextProperty(
 	if err != nil {
 		// Something went wrong
 		return astmodel.EmptyPropertyReference,
-			errors.Wrapf(err, "finding next property for %s", ref)
+			eris.Wrapf(err, "finding next property for %s", ref)
 	}
 
 	// If no next type, no next property either
@@ -203,7 +203,7 @@ func (graph *ConversionGraph) String(group string, kind string) (string, error) 
 	var content bytes.Buffer
 	err := graph.WriteTo(group, kind, &content)
 	if err != nil {
-		return "", errors.Wrapf(err, "writing conversion graph")
+		return "", eris.Wrapf(err, "writing conversion graph")
 	}
 
 	return content.String(), nil
@@ -212,14 +212,14 @@ func (graph *ConversionGraph) String(group string, kind string) (string, error) 
 func (graph *ConversionGraph) SaveTo(group string, kind string, filename string) error {
 	file, err := os.Create(filename)
 	if err != nil {
-		return errors.Wrapf(err, "creating %s", filename)
+		return eris.Wrapf(err, "creating %s", filename)
 	}
 
 	defer file.Close()
 
 	err = graph.WriteTo(group, kind, file)
 	if err != nil {
-		return errors.Wrapf(err, "writing conversion graph to %s", filename)
+		return eris.Wrapf(err, "writing conversion graph to %s", filename)
 	}
 
 	return nil

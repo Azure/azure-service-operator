@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -64,7 +64,7 @@ func (b *PropertyBagMemberType) References() astmodel.TypeNameSet {
 func (b *PropertyBagMemberType) AsTypeExpr(codeGenerationContext *astmodel.CodeGenerationContext) (dst.Expr, error) {
 	result, err := b.element.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating inner expression for property bag type")
+		return nil, eris.Wrapf(err, "creating inner expression for property bag type")
 	}
 
 	return result, nil
@@ -75,7 +75,7 @@ func (b *PropertyBagMemberType) AsDeclarations(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	declContext astmodel.DeclarationContext,
 ) ([]dst.Decl, error) {
-	panic(errors.New("should never try to render a PropertyBagMemberType into declarations"))
+	panic(eris.New("should never try to render a PropertyBagMemberType into declarations"))
 }
 
 // AsZero renders an expression for the "zero" value of the type

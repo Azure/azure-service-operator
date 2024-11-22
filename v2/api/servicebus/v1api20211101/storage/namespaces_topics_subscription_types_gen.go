@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -131,7 +131,7 @@ func (subscription *NamespacesTopicsSubscription) SetStatus(status genruntime.Co
 	var st NamespacesTopicsSubscription_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	subscription.Status = st
@@ -196,7 +196,7 @@ var _ genruntime.ConvertibleSpec = &NamespacesTopicsSubscription_Spec{}
 // ConvertSpecFrom populates our NamespacesTopicsSubscription_Spec from the provided source
 func (subscription *NamespacesTopicsSubscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(subscription)
@@ -205,7 +205,7 @@ func (subscription *NamespacesTopicsSubscription_Spec) ConvertSpecFrom(source ge
 // ConvertSpecTo populates the provided destination from our NamespacesTopicsSubscription_Spec
 func (subscription *NamespacesTopicsSubscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(subscription)
@@ -246,7 +246,7 @@ var _ genruntime.ConvertibleStatus = &NamespacesTopicsSubscription_STATUS{}
 // ConvertStatusFrom populates our NamespacesTopicsSubscription_STATUS from the provided source
 func (subscription *NamespacesTopicsSubscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(subscription)
@@ -255,7 +255,7 @@ func (subscription *NamespacesTopicsSubscription_STATUS) ConvertStatusFrom(sourc
 // ConvertStatusTo populates the provided destination from our NamespacesTopicsSubscription_STATUS
 func (subscription *NamespacesTopicsSubscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(subscription)

@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (member *FleetsMember) SetStatus(status genruntime.ConvertibleStatus) error
 	var st FleetsMember_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	member.Status = st
@@ -309,7 +309,7 @@ func (member *FleetsMember) AssignProperties_From_FleetsMember(source *storage.F
 	var spec FleetsMember_Spec
 	err := spec.AssignProperties_From_FleetsMember_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FleetsMember_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_FleetsMember_Spec() to populate field Spec")
 	}
 	member.Spec = spec
 
@@ -317,7 +317,7 @@ func (member *FleetsMember) AssignProperties_From_FleetsMember(source *storage.F
 	var status FleetsMember_STATUS
 	err = status.AssignProperties_From_FleetsMember_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FleetsMember_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_FleetsMember_STATUS() to populate field Status")
 	}
 	member.Status = status
 
@@ -335,7 +335,7 @@ func (member *FleetsMember) AssignProperties_To_FleetsMember(destination *storag
 	var spec storage.FleetsMember_Spec
 	err := member.Spec.AssignProperties_To_FleetsMember_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FleetsMember_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_FleetsMember_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (member *FleetsMember) AssignProperties_To_FleetsMember(destination *storag
 	var status storage.FleetsMember_STATUS
 	err = member.Status.AssignProperties_To_FleetsMember_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FleetsMember_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_FleetsMember_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -484,13 +484,13 @@ func (member *FleetsMember_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 	src = &storage.FleetsMember_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = member.AssignProperties_From_FleetsMember_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -508,13 +508,13 @@ func (member *FleetsMember_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	dst = &storage.FleetsMember_Spec{}
 	err := member.AssignProperties_To_FleetsMember_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -547,7 +547,7 @@ func (member *FleetsMember_Spec) AssignProperties_From_FleetsMember_Spec(source 
 		var operatorSpec FleetsMemberOperatorSpec
 		err := operatorSpec.AssignProperties_From_FleetsMemberOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FleetsMemberOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_FleetsMemberOperatorSpec() to populate field OperatorSpec")
 		}
 		member.OperatorSpec = &operatorSpec
 	} else {
@@ -595,7 +595,7 @@ func (member *FleetsMember_Spec) AssignProperties_To_FleetsMember_Spec(destinati
 		var operatorSpec storage.FleetsMemberOperatorSpec
 		err := member.OperatorSpec.AssignProperties_To_FleetsMemberOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FleetsMemberOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_FleetsMemberOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -703,13 +703,13 @@ func (member *FleetsMember_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	src = &storage.FleetsMember_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = member.AssignProperties_From_FleetsMember_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -727,13 +727,13 @@ func (member *FleetsMember_STATUS) ConvertStatusTo(destination genruntime.Conver
 	dst = &storage.FleetsMember_STATUS{}
 	err := member.AssignProperties_To_FleetsMember_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -858,7 +858,7 @@ func (member *FleetsMember_STATUS) AssignProperties_From_FleetsMember_STATUS(sou
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		member.SystemData = &systemDatum
 	} else {
@@ -908,7 +908,7 @@ func (member *FleetsMember_STATUS) AssignProperties_To_FleetsMember_STATUS(desti
 		var systemDatum storage.SystemData_STATUS
 		err := member.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

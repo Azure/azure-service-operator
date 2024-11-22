@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (policy *SecurityPolicy) SetStatus(status genruntime.ConvertibleStatus) err
 	var st SecurityPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	policy.Status = st
@@ -309,7 +309,7 @@ func (policy *SecurityPolicy) AssignProperties_From_SecurityPolicy(source *stora
 	var spec SecurityPolicy_Spec
 	err := spec.AssignProperties_From_SecurityPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
@@ -317,7 +317,7 @@ func (policy *SecurityPolicy) AssignProperties_From_SecurityPolicy(source *stora
 	var status SecurityPolicy_STATUS
 	err = status.AssignProperties_From_SecurityPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -335,7 +335,7 @@ func (policy *SecurityPolicy) AssignProperties_To_SecurityPolicy(destination *st
 	var spec storage.SecurityPolicy_Spec
 	err := policy.Spec.AssignProperties_To_SecurityPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (policy *SecurityPolicy) AssignProperties_To_SecurityPolicy(destination *st
 	var status storage.SecurityPolicy_STATUS
 	err = policy.Status.AssignProperties_To_SecurityPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -471,13 +471,13 @@ func (policy *SecurityPolicy_Spec) ConvertSpecFrom(source genruntime.Convertible
 	src = &storage.SecurityPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_SecurityPolicy_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -495,13 +495,13 @@ func (policy *SecurityPolicy_Spec) ConvertSpecTo(destination genruntime.Converti
 	dst = &storage.SecurityPolicy_Spec{}
 	err := policy.AssignProperties_To_SecurityPolicy_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -518,7 +518,7 @@ func (policy *SecurityPolicy_Spec) AssignProperties_From_SecurityPolicy_Spec(sou
 		var operatorSpec SecurityPolicyOperatorSpec
 		err := operatorSpec.AssignProperties_From_SecurityPolicyOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		policy.OperatorSpec = &operatorSpec
 	} else {
@@ -538,7 +538,7 @@ func (policy *SecurityPolicy_Spec) AssignProperties_From_SecurityPolicy_Spec(sou
 		var parameter SecurityPolicyPropertiesParameters
 		err := parameter.AssignProperties_From_SecurityPolicyPropertiesParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyPropertiesParameters() to populate field Parameters")
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyPropertiesParameters() to populate field Parameters")
 		}
 		policy.Parameters = &parameter
 	} else {
@@ -562,7 +562,7 @@ func (policy *SecurityPolicy_Spec) AssignProperties_To_SecurityPolicy_Spec(desti
 		var operatorSpec storage.SecurityPolicyOperatorSpec
 		err := policy.OperatorSpec.AssignProperties_To_SecurityPolicyOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -585,7 +585,7 @@ func (policy *SecurityPolicy_Spec) AssignProperties_To_SecurityPolicy_Spec(desti
 		var parameter storage.SecurityPolicyPropertiesParameters
 		err := policy.Parameters.AssignProperties_To_SecurityPolicyPropertiesParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyPropertiesParameters() to populate field Parameters")
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyPropertiesParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -611,7 +611,7 @@ func (policy *SecurityPolicy_Spec) Initialize_From_SecurityPolicy_STATUS(source 
 		var parameter SecurityPolicyPropertiesParameters
 		err := parameter.Initialize_From_SecurityPolicyPropertiesParameters_STATUS(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
+			return eris.Wrap(err, "calling Initialize_From_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
 		}
 		policy.Parameters = &parameter
 	} else {
@@ -671,13 +671,13 @@ func (policy *SecurityPolicy_STATUS) ConvertStatusFrom(source genruntime.Convert
 	src = &storage.SecurityPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_SecurityPolicy_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -695,13 +695,13 @@ func (policy *SecurityPolicy_STATUS) ConvertStatusTo(destination genruntime.Conv
 	dst = &storage.SecurityPolicy_STATUS{}
 	err := policy.AssignProperties_To_SecurityPolicy_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -827,7 +827,7 @@ func (policy *SecurityPolicy_STATUS) AssignProperties_From_SecurityPolicy_STATUS
 		var parameter SecurityPolicyPropertiesParameters_STATUS
 		err := parameter.AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
 		}
 		policy.Parameters = &parameter
 	} else {
@@ -851,7 +851,7 @@ func (policy *SecurityPolicy_STATUS) AssignProperties_From_SecurityPolicy_STATUS
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		policy.SystemData = &systemDatum
 	} else {
@@ -892,7 +892,7 @@ func (policy *SecurityPolicy_STATUS) AssignProperties_To_SecurityPolicy_STATUS(d
 		var parameter storage.SecurityPolicyPropertiesParameters_STATUS
 		err := policy.Parameters.AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -915,7 +915,7 @@ func (policy *SecurityPolicy_STATUS) AssignProperties_To_SecurityPolicy_STATUS(d
 		var systemDatum storage.SystemData_STATUS
 		err := policy.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1137,7 +1137,7 @@ func (parameters *SecurityPolicyPropertiesParameters) AssignProperties_From_Secu
 		var webApplicationFirewall SecurityPolicyWebApplicationFirewallParameters
 		err := webApplicationFirewall.AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters(source.WebApplicationFirewall)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters() to populate field WebApplicationFirewall")
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters() to populate field WebApplicationFirewall")
 		}
 		parameters.WebApplicationFirewall = &webApplicationFirewall
 	} else {
@@ -1158,7 +1158,7 @@ func (parameters *SecurityPolicyPropertiesParameters) AssignProperties_To_Securi
 		var webApplicationFirewall storage.SecurityPolicyWebApplicationFirewallParameters
 		err := parameters.WebApplicationFirewall.AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters(&webApplicationFirewall)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters() to populate field WebApplicationFirewall")
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters() to populate field WebApplicationFirewall")
 		}
 		destination.WebApplicationFirewall = &webApplicationFirewall
 	} else {
@@ -1184,7 +1184,7 @@ func (parameters *SecurityPolicyPropertiesParameters) Initialize_From_SecurityPo
 		var webApplicationFirewall SecurityPolicyWebApplicationFirewallParameters
 		err := webApplicationFirewall.Initialize_From_SecurityPolicyWebApplicationFirewallParameters_STATUS(source.WebApplicationFirewall)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
+			return eris.Wrap(err, "calling Initialize_From_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
 		}
 		parameters.WebApplicationFirewall = &webApplicationFirewall
 	} else {
@@ -1237,7 +1237,7 @@ func (parameters *SecurityPolicyPropertiesParameters_STATUS) AssignProperties_Fr
 		var webApplicationFirewall SecurityPolicyWebApplicationFirewallParameters_STATUS
 		err := webApplicationFirewall.AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS(source.WebApplicationFirewall)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
 		}
 		parameters.WebApplicationFirewall = &webApplicationFirewall
 	} else {
@@ -1258,7 +1258,7 @@ func (parameters *SecurityPolicyPropertiesParameters_STATUS) AssignProperties_To
 		var webApplicationFirewall storage.SecurityPolicyWebApplicationFirewallParameters_STATUS
 		err := parameters.WebApplicationFirewall.AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS(&webApplicationFirewall)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
 		}
 		destination.WebApplicationFirewall = &webApplicationFirewall
 	} else {
@@ -1383,7 +1383,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperti
 			var association SecurityPolicyWebApplicationFirewallAssociation
 			err := association.AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation(&associationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation() to populate field Associations")
+				return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation() to populate field Associations")
 			}
 			associationList[associationIndex] = association
 		}
@@ -1406,7 +1406,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperti
 		var wafPolicy ResourceReference
 		err := wafPolicy.AssignProperties_From_ResourceReference(source.WafPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field WafPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field WafPolicy")
 		}
 		parameters.WafPolicy = &wafPolicy
 	} else {
@@ -1431,7 +1431,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperti
 			var association storage.SecurityPolicyWebApplicationFirewallAssociation
 			err := associationItem.AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation(&association)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation() to populate field Associations")
+				return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation() to populate field Associations")
 			}
 			associationList[associationIndex] = association
 		}
@@ -1453,7 +1453,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperti
 		var wafPolicy storage.ResourceReference
 		err := parameters.WafPolicy.AssignProperties_To_ResourceReference(&wafPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field WafPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field WafPolicy")
 		}
 		destination.WafPolicy = &wafPolicy
 	} else {
@@ -1483,7 +1483,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) Initialize_Fro
 			var association SecurityPolicyWebApplicationFirewallAssociation
 			err := association.Initialize_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&associationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
+				return eris.Wrap(err, "calling Initialize_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
 			}
 			associationList[associationIndex] = association
 		}
@@ -1505,7 +1505,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) Initialize_Fro
 		var wafPolicy ResourceReference
 		err := wafPolicy.Initialize_From_ResourceReference_STATUS(source.WafPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field WafPolicy")
+			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field WafPolicy")
 		}
 		parameters.WafPolicy = &wafPolicy
 	} else {
@@ -1585,7 +1585,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignP
 			var association SecurityPolicyWebApplicationFirewallAssociation_STATUS
 			err := association.AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&associationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
+				return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
 			}
 			associationList[associationIndex] = association
 		}
@@ -1608,7 +1608,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignP
 		var wafPolicy ResourceReference_STATUS
 		err := wafPolicy.AssignProperties_From_ResourceReference_STATUS(source.WafPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field WafPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field WafPolicy")
 		}
 		parameters.WafPolicy = &wafPolicy
 	} else {
@@ -1633,7 +1633,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignP
 			var association storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS
 			err := associationItem.AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&association)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
+				return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
 			}
 			associationList[associationIndex] = association
 		}
@@ -1655,7 +1655,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignP
 		var wafPolicy storage.ResourceReference_STATUS
 		err := parameters.WafPolicy.AssignProperties_To_ResourceReference_STATUS(&wafPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field WafPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field WafPolicy")
 		}
 		destination.WafPolicy = &wafPolicy
 	} else {
@@ -1750,7 +1750,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) AssignProper
 			var domain ActivatedResourceReference
 			err := domain.AssignProperties_From_ActivatedResourceReference(&domainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference() to populate field Domains")
+				return eris.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference() to populate field Domains")
 			}
 			domainList[domainIndex] = domain
 		}
@@ -1780,7 +1780,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) AssignProper
 			var domain storage.ActivatedResourceReference
 			err := domainItem.AssignProperties_To_ActivatedResourceReference(&domain)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference() to populate field Domains")
+				return eris.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference() to populate field Domains")
 			}
 			domainList[domainIndex] = domain
 		}
@@ -1815,7 +1815,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) Initialize_F
 			var domain ActivatedResourceReference
 			err := domain.Initialize_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&domainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
+				return eris.Wrap(err, "calling Initialize_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
 			}
 			domainList[domainIndex] = domain
 		}
@@ -1885,7 +1885,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) Assig
 			var domain ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
 			err := domain.AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&domainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
+				return eris.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
 			}
 			domainList[domainIndex] = domain
 		}
@@ -1915,7 +1915,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) Assig
 			var domain storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
 			err := domainItem.AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&domain)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
+				return eris.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
 			}
 			domainList[domainIndex] = domain
 		}

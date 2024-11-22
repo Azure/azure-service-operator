@@ -46,7 +46,7 @@ var (
 	ControllerRuntimeConversion = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/conversion")
 	ControllerSchemeReference   = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/scheme")
 	ControllerRuntimeClient     = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/client")
-	GitHubErrorsReference       = MakeExternalPackageReference("github.com/pkg/errors")
+	ErisReference               = MakeExternalPackageReference("github.com/rotisserie/eris")
 
 	// References to libraries used for testing
 	CmpReference        = MakeExternalPackageReference("github.com/google/go-cmp/cmp")

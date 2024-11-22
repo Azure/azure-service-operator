@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -152,7 +152,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) SetStatus(status genruntime.Co
 	var st PrivateEndpointsPrivateDnsZoneGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	group.Status = st
@@ -169,7 +169,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) AssignProperties_From_PrivateE
 	var spec PrivateEndpointsPrivateDnsZoneGroup_Spec
 	err := spec.AssignProperties_From_PrivateEndpointsPrivateDnsZoneGroup_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointsPrivateDnsZoneGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointsPrivateDnsZoneGroup_Spec() to populate field Spec")
 	}
 	group.Spec = spec
 
@@ -177,7 +177,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) AssignProperties_From_PrivateE
 	var status PrivateEndpointsPrivateDnsZoneGroup_STATUS
 	err = status.AssignProperties_From_PrivateEndpointsPrivateDnsZoneGroup_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointsPrivateDnsZoneGroup_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointsPrivateDnsZoneGroup_STATUS() to populate field Status")
 	}
 	group.Status = status
 
@@ -186,7 +186,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) AssignProperties_From_PrivateE
 	if augmentedGroup, ok := groupAsAny.(augmentConversionForPrivateEndpointsPrivateDnsZoneGroup); ok {
 		err := augmentedGroup.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -204,7 +204,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) AssignProperties_To_PrivateEnd
 	var spec storage.PrivateEndpointsPrivateDnsZoneGroup_Spec
 	err := group.Spec.AssignProperties_To_PrivateEndpointsPrivateDnsZoneGroup_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointsPrivateDnsZoneGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointsPrivateDnsZoneGroup_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -212,7 +212,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) AssignProperties_To_PrivateEnd
 	var status storage.PrivateEndpointsPrivateDnsZoneGroup_STATUS
 	err = group.Status.AssignProperties_To_PrivateEndpointsPrivateDnsZoneGroup_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointsPrivateDnsZoneGroup_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointsPrivateDnsZoneGroup_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -221,7 +221,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) AssignProperties_To_PrivateEnd
 	if augmentedGroup, ok := groupAsAny.(augmentConversionForPrivateEndpointsPrivateDnsZoneGroup); ok {
 		err := augmentedGroup.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -285,13 +285,13 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec) ConvertSpecFrom(source ge
 	src = &storage.PrivateEndpointsPrivateDnsZoneGroup_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_PrivateEndpointsPrivateDnsZoneGroup_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -309,13 +309,13 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec) ConvertSpecTo(destination
 	dst = &storage.PrivateEndpointsPrivateDnsZoneGroup_Spec{}
 	err := group.AssignProperties_To_PrivateEndpointsPrivateDnsZoneGroup_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -334,7 +334,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec) AssignProperties_From_Pri
 		var operatorSpec PrivateEndpointsPrivateDnsZoneGroupOperatorSpec
 		err := operatorSpec.AssignProperties_From_PrivateEndpointsPrivateDnsZoneGroupOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointsPrivateDnsZoneGroupOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointsPrivateDnsZoneGroupOperatorSpec() to populate field OperatorSpec")
 		}
 		group.OperatorSpec = &operatorSpec
 	} else {
@@ -361,7 +361,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec) AssignProperties_From_Pri
 			var privateDnsZoneConfig PrivateDnsZoneConfig
 			err := privateDnsZoneConfig.AssignProperties_From_PrivateDnsZoneConfig(&privateDnsZoneConfigItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateDnsZoneConfig() to populate field PrivateDnsZoneConfigs")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateDnsZoneConfig() to populate field PrivateDnsZoneConfigs")
 			}
 			privateDnsZoneConfigList[privateDnsZoneConfigIndex] = privateDnsZoneConfig
 		}
@@ -382,7 +382,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec) AssignProperties_From_Pri
 	if augmentedGroup, ok := groupAsAny.(augmentConversionForPrivateEndpointsPrivateDnsZoneGroup_Spec); ok {
 		err := augmentedGroup.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -403,7 +403,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec) AssignProperties_To_Priva
 		var operatorSpec storage.PrivateEndpointsPrivateDnsZoneGroupOperatorSpec
 		err := group.OperatorSpec.AssignProperties_To_PrivateEndpointsPrivateDnsZoneGroupOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointsPrivateDnsZoneGroupOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointsPrivateDnsZoneGroupOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -430,7 +430,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec) AssignProperties_To_Priva
 			var privateDnsZoneConfig storage.PrivateDnsZoneConfig
 			err := privateDnsZoneConfigItem.AssignProperties_To_PrivateDnsZoneConfig(&privateDnsZoneConfig)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZoneConfig() to populate field PrivateDnsZoneConfigs")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateDnsZoneConfig() to populate field PrivateDnsZoneConfigs")
 			}
 			privateDnsZoneConfigList[privateDnsZoneConfigIndex] = privateDnsZoneConfig
 		}
@@ -451,7 +451,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec) AssignProperties_To_Priva
 	if augmentedGroup, ok := groupAsAny.(augmentConversionForPrivateEndpointsPrivateDnsZoneGroup_Spec); ok {
 		err := augmentedGroup.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -484,13 +484,13 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_STATUS) ConvertStatusFrom(sourc
 	src = &storage.PrivateEndpointsPrivateDnsZoneGroup_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_PrivateEndpointsPrivateDnsZoneGroup_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -508,13 +508,13 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_STATUS) ConvertStatusTo(destina
 	dst = &storage.PrivateEndpointsPrivateDnsZoneGroup_STATUS{}
 	err := group.AssignProperties_To_PrivateEndpointsPrivateDnsZoneGroup_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -546,7 +546,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_STATUS) AssignProperties_From_P
 			var privateDnsZoneConfig PrivateDnsZoneConfig_STATUS
 			err := privateDnsZoneConfig.AssignProperties_From_PrivateDnsZoneConfig_STATUS(&privateDnsZoneConfigItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateDnsZoneConfig_STATUS() to populate field PrivateDnsZoneConfigs")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateDnsZoneConfig_STATUS() to populate field PrivateDnsZoneConfigs")
 			}
 			privateDnsZoneConfigList[privateDnsZoneConfigIndex] = privateDnsZoneConfig
 		}
@@ -570,7 +570,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_STATUS) AssignProperties_From_P
 	if augmentedGroup, ok := groupAsAny.(augmentConversionForPrivateEndpointsPrivateDnsZoneGroup_STATUS); ok {
 		err := augmentedGroup.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -604,7 +604,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_STATUS) AssignProperties_To_Pri
 			var privateDnsZoneConfig storage.PrivateDnsZoneConfig_STATUS
 			err := privateDnsZoneConfigItem.AssignProperties_To_PrivateDnsZoneConfig_STATUS(&privateDnsZoneConfig)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZoneConfig_STATUS() to populate field PrivateDnsZoneConfigs")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateDnsZoneConfig_STATUS() to populate field PrivateDnsZoneConfigs")
 			}
 			privateDnsZoneConfigList[privateDnsZoneConfigIndex] = privateDnsZoneConfig
 		}
@@ -628,7 +628,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_STATUS) AssignProperties_To_Pri
 	if augmentedGroup, ok := groupAsAny.(augmentConversionForPrivateEndpointsPrivateDnsZoneGroup_STATUS); ok {
 		err := augmentedGroup.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -684,7 +684,7 @@ func (config *PrivateDnsZoneConfig) AssignProperties_From_PrivateDnsZoneConfig(s
 	if augmentedConfig, ok := configAsAny.(augmentConversionForPrivateDnsZoneConfig); ok {
 		err := augmentedConfig.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -720,7 +720,7 @@ func (config *PrivateDnsZoneConfig) AssignProperties_To_PrivateDnsZoneConfig(des
 	if augmentedConfig, ok := configAsAny.(augmentConversionForPrivateDnsZoneConfig); ok {
 		err := augmentedConfig.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -757,7 +757,7 @@ func (config *PrivateDnsZoneConfig_STATUS) AssignProperties_From_PrivateDnsZoneC
 			var recordSet RecordSet_STATUS
 			err := recordSet.AssignProperties_From_RecordSet_STATUS(&recordSetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RecordSet_STATUS() to populate field RecordSets")
+				return eris.Wrap(err, "calling AssignProperties_From_RecordSet_STATUS() to populate field RecordSets")
 			}
 			recordSetList[recordSetIndex] = recordSet
 		}
@@ -778,7 +778,7 @@ func (config *PrivateDnsZoneConfig_STATUS) AssignProperties_From_PrivateDnsZoneC
 	if augmentedConfig, ok := configAsAny.(augmentConversionForPrivateDnsZoneConfig_STATUS); ok {
 		err := augmentedConfig.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -806,7 +806,7 @@ func (config *PrivateDnsZoneConfig_STATUS) AssignProperties_To_PrivateDnsZoneCon
 			var recordSet storage.RecordSet_STATUS
 			err := recordSetItem.AssignProperties_To_RecordSet_STATUS(&recordSet)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RecordSet_STATUS() to populate field RecordSets")
+				return eris.Wrap(err, "calling AssignProperties_To_RecordSet_STATUS() to populate field RecordSets")
 			}
 			recordSetList[recordSetIndex] = recordSet
 		}
@@ -827,7 +827,7 @@ func (config *PrivateDnsZoneConfig_STATUS) AssignProperties_To_PrivateDnsZoneCon
 	if augmentedConfig, ok := configAsAny.(augmentConversionForPrivateDnsZoneConfig_STATUS); ok {
 		err := augmentedConfig.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -896,7 +896,7 @@ func (operator *PrivateEndpointsPrivateDnsZoneGroupOperatorSpec) AssignPropertie
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForPrivateEndpointsPrivateDnsZoneGroupOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -957,7 +957,7 @@ func (operator *PrivateEndpointsPrivateDnsZoneGroupOperatorSpec) AssignPropertie
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForPrivateEndpointsPrivateDnsZoneGroupOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1027,7 +1027,7 @@ func (recordSet *RecordSet_STATUS) AssignProperties_From_RecordSet_STATUS(source
 	if augmentedRecordSet, ok := recordSetAsAny.(augmentConversionForRecordSet_STATUS); ok {
 		err := augmentedRecordSet.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1070,7 +1070,7 @@ func (recordSet *RecordSet_STATUS) AssignProperties_To_RecordSet_STATUS(destinat
 	if augmentedRecordSet, ok := recordSetAsAny.(augmentConversionForRecordSet_STATUS); ok {
 		err := augmentedRecordSet.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

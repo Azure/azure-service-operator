@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (server *Server) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Server_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	server.Status = st
@@ -315,7 +315,7 @@ func (server *Server) AssignProperties_From_Server(source *storage.Server) error
 	var spec Server_Spec
 	err := spec.AssignProperties_From_Server_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Server_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Server_Spec() to populate field Spec")
 	}
 	server.Spec = spec
 
@@ -323,7 +323,7 @@ func (server *Server) AssignProperties_From_Server(source *storage.Server) error
 	var status Server_STATUS
 	err = status.AssignProperties_From_Server_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Server_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Server_STATUS() to populate field Status")
 	}
 	server.Status = status
 
@@ -341,7 +341,7 @@ func (server *Server) AssignProperties_To_Server(destination *storage.Server) er
 	var spec storage.Server_Spec
 	err := server.Spec.AssignProperties_To_Server_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Server_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Server_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -349,7 +349,7 @@ func (server *Server) AssignProperties_To_Server(destination *storage.Server) er
 	var status storage.Server_STATUS
 	err = server.Status.AssignProperties_To_Server_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Server_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Server_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -531,13 +531,13 @@ func (server *Server_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 	src = &storage.Server_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = server.AssignProperties_From_Server_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -555,13 +555,13 @@ func (server *Server_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 	dst = &storage.Server_Spec{}
 	err := server.AssignProperties_To_Server_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -581,7 +581,7 @@ func (server *Server_Spec) AssignProperties_From_Server_Spec(source *storage.Ser
 		var operatorSpec ServerOperatorSpec
 		err := operatorSpec.AssignProperties_From_ServerOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ServerOperatorSpec() to populate field OperatorSpec")
 		}
 		server.OperatorSpec = &operatorSpec
 	} else {
@@ -601,7 +601,7 @@ func (server *Server_Spec) AssignProperties_From_Server_Spec(source *storage.Ser
 		var property ServerPropertiesForCreate
 		err := property.AssignProperties_From_ServerPropertiesForCreate(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForCreate() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_ServerPropertiesForCreate() to populate field Properties")
 		}
 		server.Properties = &property
 	} else {
@@ -613,7 +613,7 @@ func (server *Server_Spec) AssignProperties_From_Server_Spec(source *storage.Ser
 		var sku Sku
 		err := sku.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
 		server.Sku = &sku
 	} else {
@@ -643,7 +643,7 @@ func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *storage.
 		var operatorSpec storage.ServerOperatorSpec
 		err := server.OperatorSpec.AssignProperties_To_ServerOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ServerOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -666,7 +666,7 @@ func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *storage.
 		var property storage.ServerPropertiesForCreate
 		err := server.Properties.AssignProperties_To_ServerPropertiesForCreate(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForCreate() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_ServerPropertiesForCreate() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -678,7 +678,7 @@ func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *storage.
 		var sku storage.Sku
 		err := server.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -710,7 +710,7 @@ func (server *Server_Spec) Initialize_From_Server_STATUS(source *Server_STATUS) 
 		var sku Sku
 		err := sku.Initialize_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
 		}
 		server.Sku = &sku
 	} else {
@@ -812,13 +812,13 @@ func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 	src = &storage.Server_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = server.AssignProperties_From_Server_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -836,13 +836,13 @@ func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 	dst = &storage.Server_STATUS{}
 	err := server.AssignProperties_To_Server_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1092,7 +1092,7 @@ func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *storage
 			var privateEndpointConnection ServerPrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_ServerPrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ServerPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_ServerPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1121,7 +1121,7 @@ func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *storage
 		var sku Sku_STATUS
 		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		server.Sku = &sku
 	} else {
@@ -1142,7 +1142,7 @@ func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *storage
 		var storageProfile StorageProfile_STATUS
 		err := storageProfile.AssignProperties_From_StorageProfile_STATUS(source.StorageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile_STATUS() to populate field StorageProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_StorageProfile_STATUS() to populate field StorageProfile")
 		}
 		server.StorageProfile = &storageProfile
 	} else {
@@ -1223,7 +1223,7 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *stor
 			var privateEndpointConnection storage.ServerPrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_ServerPrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ServerPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_ServerPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1251,7 +1251,7 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *stor
 		var sku storage.Sku_STATUS
 		err := server.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1271,7 +1271,7 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *stor
 		var storageProfile storage.StorageProfile_STATUS
 		err := server.StorageProfile.AssignProperties_To_StorageProfile_STATUS(&storageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile_STATUS() to populate field StorageProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_StorageProfile_STATUS() to populate field StorageProfile")
 		}
 		destination.StorageProfile = &storageProfile
 	} else {
@@ -1400,7 +1400,7 @@ func (operator *ServerOperatorSpec) AssignProperties_From_ServerOperatorSpec(sou
 		var secret ServerOperatorSecrets
 		err := secret.AssignProperties_From_ServerOperatorSecrets(source.Secrets)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_From_ServerOperatorSecrets() to populate field Secrets")
 		}
 		operator.Secrets = &secret
 	} else {
@@ -1457,7 +1457,7 @@ func (operator *ServerOperatorSpec) AssignProperties_To_ServerOperatorSpec(desti
 		var secret storage.ServerOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_ServerOperatorSecrets(&secret)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_To_ServerOperatorSecrets() to populate field Secrets")
 		}
 		destination.Secrets = &secret
 	} else {
@@ -1530,7 +1530,7 @@ func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_From_
 		var property ServerPrivateEndpointConnectionProperties_STATUS
 		err := property.AssignProperties_From_ServerPrivateEndpointConnectionProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPrivateEndpointConnectionProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_ServerPrivateEndpointConnectionProperties_STATUS() to populate field Properties")
 		}
 		connection.Properties = &property
 	} else {
@@ -1554,7 +1554,7 @@ func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_To_Se
 		var property storage.ServerPrivateEndpointConnectionProperties_STATUS
 		err := connection.Properties.AssignProperties_To_ServerPrivateEndpointConnectionProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPrivateEndpointConnectionProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_ServerPrivateEndpointConnectionProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -1720,7 +1720,7 @@ func (create *ServerPropertiesForCreate) AssignProperties_From_ServerPropertiesF
 		var def ServerPropertiesForDefaultCreate
 		err := def.AssignProperties_From_ServerPropertiesForDefaultCreate(source.Default)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForDefaultCreate() to populate field Default")
+			return eris.Wrap(err, "calling AssignProperties_From_ServerPropertiesForDefaultCreate() to populate field Default")
 		}
 		create.Default = &def
 	} else {
@@ -1732,7 +1732,7 @@ func (create *ServerPropertiesForCreate) AssignProperties_From_ServerPropertiesF
 		var geoRestore ServerPropertiesForGeoRestore
 		err := geoRestore.AssignProperties_From_ServerPropertiesForGeoRestore(source.GeoRestore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForGeoRestore() to populate field GeoRestore")
+			return eris.Wrap(err, "calling AssignProperties_From_ServerPropertiesForGeoRestore() to populate field GeoRestore")
 		}
 		create.GeoRestore = &geoRestore
 	} else {
@@ -1744,7 +1744,7 @@ func (create *ServerPropertiesForCreate) AssignProperties_From_ServerPropertiesF
 		var pointInTimeRestore ServerPropertiesForRestore
 		err := pointInTimeRestore.AssignProperties_From_ServerPropertiesForRestore(source.PointInTimeRestore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForRestore() to populate field PointInTimeRestore")
+			return eris.Wrap(err, "calling AssignProperties_From_ServerPropertiesForRestore() to populate field PointInTimeRestore")
 		}
 		create.PointInTimeRestore = &pointInTimeRestore
 	} else {
@@ -1756,7 +1756,7 @@ func (create *ServerPropertiesForCreate) AssignProperties_From_ServerPropertiesF
 		var replica ServerPropertiesForReplica
 		err := replica.AssignProperties_From_ServerPropertiesForReplica(source.Replica)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForReplica() to populate field Replica")
+			return eris.Wrap(err, "calling AssignProperties_From_ServerPropertiesForReplica() to populate field Replica")
 		}
 		create.Replica = &replica
 	} else {
@@ -1777,7 +1777,7 @@ func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesFor
 		var def storage.ServerPropertiesForDefaultCreate
 		err := create.Default.AssignProperties_To_ServerPropertiesForDefaultCreate(&def)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForDefaultCreate() to populate field Default")
+			return eris.Wrap(err, "calling AssignProperties_To_ServerPropertiesForDefaultCreate() to populate field Default")
 		}
 		destination.Default = &def
 	} else {
@@ -1789,7 +1789,7 @@ func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesFor
 		var geoRestore storage.ServerPropertiesForGeoRestore
 		err := create.GeoRestore.AssignProperties_To_ServerPropertiesForGeoRestore(&geoRestore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForGeoRestore() to populate field GeoRestore")
+			return eris.Wrap(err, "calling AssignProperties_To_ServerPropertiesForGeoRestore() to populate field GeoRestore")
 		}
 		destination.GeoRestore = &geoRestore
 	} else {
@@ -1801,7 +1801,7 @@ func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesFor
 		var pointInTimeRestore storage.ServerPropertiesForRestore
 		err := create.PointInTimeRestore.AssignProperties_To_ServerPropertiesForRestore(&pointInTimeRestore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForRestore() to populate field PointInTimeRestore")
+			return eris.Wrap(err, "calling AssignProperties_To_ServerPropertiesForRestore() to populate field PointInTimeRestore")
 		}
 		destination.PointInTimeRestore = &pointInTimeRestore
 	} else {
@@ -1813,7 +1813,7 @@ func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesFor
 		var replica storage.ServerPropertiesForReplica
 		err := create.Replica.AssignProperties_To_ServerPropertiesForReplica(&replica)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForReplica() to populate field Replica")
+			return eris.Wrap(err, "calling AssignProperties_To_ServerPropertiesForReplica() to populate field Replica")
 		}
 		destination.Replica = &replica
 	} else {
@@ -2451,7 +2451,7 @@ func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignProper
 		var privateEndpoint PrivateEndpointProperty_STATUS
 		err := privateEndpoint.AssignProperties_From_PrivateEndpointProperty_STATUS(source.PrivateEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointProperty_STATUS() to populate field PrivateEndpoint")
+			return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointProperty_STATUS() to populate field PrivateEndpoint")
 		}
 		properties.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -2463,7 +2463,7 @@ func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignProper
 		var privateLinkServiceConnectionState ServerPrivateLinkServiceConnectionStateProperty_STATUS
 		err := privateLinkServiceConnectionState.AssignProperties_From_ServerPrivateLinkServiceConnectionStateProperty_STATUS(source.PrivateLinkServiceConnectionState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPrivateLinkServiceConnectionStateProperty_STATUS() to populate field PrivateLinkServiceConnectionState")
+			return eris.Wrap(err, "calling AssignProperties_From_ServerPrivateLinkServiceConnectionStateProperty_STATUS() to populate field PrivateLinkServiceConnectionState")
 		}
 		properties.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	} else {
@@ -2493,7 +2493,7 @@ func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignProper
 		var privateEndpoint storage.PrivateEndpointProperty_STATUS
 		err := properties.PrivateEndpoint.AssignProperties_To_PrivateEndpointProperty_STATUS(&privateEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointProperty_STATUS() to populate field PrivateEndpoint")
+			return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointProperty_STATUS() to populate field PrivateEndpoint")
 		}
 		destination.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -2505,7 +2505,7 @@ func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignProper
 		var privateLinkServiceConnectionState storage.ServerPrivateLinkServiceConnectionStateProperty_STATUS
 		err := properties.PrivateLinkServiceConnectionState.AssignProperties_To_ServerPrivateLinkServiceConnectionStateProperty_STATUS(&privateLinkServiceConnectionState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPrivateLinkServiceConnectionStateProperty_STATUS() to populate field PrivateLinkServiceConnectionState")
+			return eris.Wrap(err, "calling AssignProperties_To_ServerPrivateLinkServiceConnectionStateProperty_STATUS() to populate field PrivateLinkServiceConnectionState")
 		}
 		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	} else {
@@ -2581,7 +2581,7 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 	if create.AdministratorLoginPassword != nil {
 		administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.Lookup(*create.AdministratorLoginPassword)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property AdministratorLoginPassword")
+			return nil, eris.Wrap(err, "looking up secret for property AdministratorLoginPassword")
 		}
 		administratorLoginPassword := administratorLoginPasswordSecret
 		result.AdministratorLoginPassword = &administratorLoginPassword
@@ -2769,7 +2769,7 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_From_ServerProp
 		var storageProfile StorageProfile
 		err := storageProfile.AssignProperties_From_StorageProfile(source.StorageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
 		}
 		create.StorageProfile = &storageProfile
 	} else {
@@ -2842,7 +2842,7 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_To_ServerProper
 		var storageProfile storage.StorageProfile
 		err := create.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
 		}
 		destination.StorageProfile = &storageProfile
 	} else {
@@ -3081,7 +3081,7 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_From_ServerProper
 		var storageProfile StorageProfile
 		err := storageProfile.AssignProperties_From_StorageProfile(source.StorageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
 		}
 		restore.StorageProfile = &storageProfile
 	} else {
@@ -3146,7 +3146,7 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_To_ServerProperti
 		var storageProfile storage.StorageProfile
 		err := restore.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
 		}
 		destination.StorageProfile = &storageProfile
 	} else {
@@ -3385,7 +3385,7 @@ func (replica *ServerPropertiesForReplica) AssignProperties_From_ServerPropertie
 		var storageProfile StorageProfile
 		err := storageProfile.AssignProperties_From_StorageProfile(source.StorageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
 		}
 		replica.StorageProfile = &storageProfile
 	} else {
@@ -3450,7 +3450,7 @@ func (replica *ServerPropertiesForReplica) AssignProperties_To_ServerPropertiesF
 		var storageProfile storage.StorageProfile
 		err := replica.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
 		}
 		destination.StorageProfile = &storageProfile
 	} else {
@@ -3708,7 +3708,7 @@ func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertie
 		var storageProfile StorageProfile
 		err := storageProfile.AssignProperties_From_StorageProfile(source.StorageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
 		}
 		restore.StorageProfile = &storageProfile
 	} else {
@@ -3776,7 +3776,7 @@ func (restore *ServerPropertiesForRestore) AssignProperties_To_ServerPropertiesF
 		var storageProfile storage.StorageProfile
 		err := restore.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
 		}
 		destination.StorageProfile = &storageProfile
 	} else {

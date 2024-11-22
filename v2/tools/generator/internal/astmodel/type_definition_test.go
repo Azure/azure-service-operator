@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 /*
@@ -119,7 +119,7 @@ func TestApplyObjectTransformation_GivenObjectAndTransformationReturningError_Re
 	original := MakeTypeDefinition(ref, NewObjectType())
 
 	_, err := original.ApplyObjectTransformation(func(objectType *ObjectType) (Type, error) {
-		return nil, errors.New("failed")
+		return nil, eris.New("failed")
 	})
 
 	g.Expect(err).NotTo(BeNil())
@@ -157,7 +157,7 @@ var (
 	}
 
 	failingTransform = func(objectType *ObjectType) (*ObjectType, error) {
-		return nil, errors.New("bang")
+		return nil, eris.New("bang")
 	}
 )
 

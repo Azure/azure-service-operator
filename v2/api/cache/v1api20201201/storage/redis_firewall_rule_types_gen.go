@@ -10,7 +10,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -54,12 +54,12 @@ func (rule *RedisFirewallRule) ConvertFrom(hub conversion.Hub) error {
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = rule.AssignProperties_From_RedisFirewallRule(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to rule")
+		return eris.Wrap(err, "converting from source to rule")
 	}
 
 	return nil
@@ -71,11 +71,11 @@ func (rule *RedisFirewallRule) ConvertTo(hub conversion.Hub) error {
 	var destination storage.RedisFirewallRule
 	err := rule.AssignProperties_To_RedisFirewallRule(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from rule")
+		return eris.Wrap(err, "converting to destination from rule")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -165,7 +165,7 @@ func (rule *RedisFirewallRule) SetStatus(status genruntime.ConvertibleStatus) er
 	var st RedisFirewallRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	rule.Status = st
@@ -182,7 +182,7 @@ func (rule *RedisFirewallRule) AssignProperties_From_RedisFirewallRule(source *s
 	var spec RedisFirewallRule_Spec
 	err := spec.AssignProperties_From_RedisFirewallRule_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RedisFirewallRule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_RedisFirewallRule_Spec() to populate field Spec")
 	}
 	rule.Spec = spec
 
@@ -190,7 +190,7 @@ func (rule *RedisFirewallRule) AssignProperties_From_RedisFirewallRule(source *s
 	var status RedisFirewallRule_STATUS
 	err = status.AssignProperties_From_RedisFirewallRule_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RedisFirewallRule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_RedisFirewallRule_STATUS() to populate field Status")
 	}
 	rule.Status = status
 
@@ -199,7 +199,7 @@ func (rule *RedisFirewallRule) AssignProperties_From_RedisFirewallRule(source *s
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedisFirewallRule); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -217,7 +217,7 @@ func (rule *RedisFirewallRule) AssignProperties_To_RedisFirewallRule(destination
 	var spec storage.RedisFirewallRule_Spec
 	err := rule.Spec.AssignProperties_To_RedisFirewallRule_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RedisFirewallRule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_RedisFirewallRule_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -225,7 +225,7 @@ func (rule *RedisFirewallRule) AssignProperties_To_RedisFirewallRule(destination
 	var status storage.RedisFirewallRule_STATUS
 	err = rule.Status.AssignProperties_To_RedisFirewallRule_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RedisFirewallRule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_RedisFirewallRule_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -234,7 +234,7 @@ func (rule *RedisFirewallRule) AssignProperties_To_RedisFirewallRule(destination
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedisFirewallRule); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -299,13 +299,13 @@ func (rule *RedisFirewallRule_Spec) ConvertSpecFrom(source genruntime.Convertibl
 	src = &storage.RedisFirewallRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = rule.AssignProperties_From_RedisFirewallRule_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -323,13 +323,13 @@ func (rule *RedisFirewallRule_Spec) ConvertSpecTo(destination genruntime.Convert
 	dst = &storage.RedisFirewallRule_Spec{}
 	err := rule.AssignProperties_To_RedisFirewallRule_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -351,7 +351,7 @@ func (rule *RedisFirewallRule_Spec) AssignProperties_From_RedisFirewallRule_Spec
 		var operatorSpec RedisFirewallRuleOperatorSpec
 		err := operatorSpec.AssignProperties_From_RedisFirewallRuleOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RedisFirewallRuleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_RedisFirewallRuleOperatorSpec() to populate field OperatorSpec")
 		}
 		rule.OperatorSpec = &operatorSpec
 	} else {
@@ -384,7 +384,7 @@ func (rule *RedisFirewallRule_Spec) AssignProperties_From_RedisFirewallRule_Spec
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedisFirewallRule_Spec); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -408,7 +408,7 @@ func (rule *RedisFirewallRule_Spec) AssignProperties_To_RedisFirewallRule_Spec(d
 		var operatorSpec storage.RedisFirewallRuleOperatorSpec
 		err := rule.OperatorSpec.AssignProperties_To_RedisFirewallRuleOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RedisFirewallRuleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_RedisFirewallRuleOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -441,7 +441,7 @@ func (rule *RedisFirewallRule_Spec) AssignProperties_To_RedisFirewallRule_Spec(d
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedisFirewallRule_Spec); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -474,13 +474,13 @@ func (rule *RedisFirewallRule_STATUS) ConvertStatusFrom(source genruntime.Conver
 	src = &storage.RedisFirewallRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = rule.AssignProperties_From_RedisFirewallRule_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -498,13 +498,13 @@ func (rule *RedisFirewallRule_STATUS) ConvertStatusTo(destination genruntime.Con
 	dst = &storage.RedisFirewallRule_STATUS{}
 	err := rule.AssignProperties_To_RedisFirewallRule_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -545,7 +545,7 @@ func (rule *RedisFirewallRule_STATUS) AssignProperties_From_RedisFirewallRule_ST
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedisFirewallRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -588,7 +588,7 @@ func (rule *RedisFirewallRule_STATUS) AssignProperties_To_RedisFirewallRule_STAT
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedisFirewallRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -667,7 +667,7 @@ func (operator *RedisFirewallRuleOperatorSpec) AssignProperties_From_RedisFirewa
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRedisFirewallRuleOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -728,7 +728,7 @@ func (operator *RedisFirewallRuleOperatorSpec) AssignProperties_To_RedisFirewall
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRedisFirewallRuleOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

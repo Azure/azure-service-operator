@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -33,7 +33,7 @@ func newConvertFromARMFunctionBuilder(
 ) (*convertFromARMBuilder, error) {
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+		return nil, eris.Wrapf(err, "creating type expression for %s", receiver)
 	}
 
 	result := &convertFromARMBuilder{
@@ -105,7 +105,7 @@ func (builder *convertFromARMBuilder) functionDeclaration() (*dst.FuncDecl, erro
 	fn.AddComments("populates a Kubernetes CRD object from an Azure ARM object")
 	ownerReferenceExpr, err := astmodel.ArbitraryOwnerReference.AsTypeExpr(builder.codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating owner reference type expression")
+		return nil, eris.Wrap(err, "creating owner reference type expression")
 	}
 
 	fn.AddParameter(
@@ -123,7 +123,7 @@ func (builder *convertFromARMBuilder) functionBodyStatements() ([]dst.Stmt, erro
 		builder.destinationType,
 		builder.propertyConversionHandler)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to generate conversion statements for %s", builder.methodName)
+		return nil, eris.Wrapf(err, "unable to generate conversion statements for %s", builder.methodName)
 	}
 
 	// We remove empty statements here as they may have been used to store comments or other
@@ -185,7 +185,7 @@ func (builder *convertFromARMBuilder) namePropertyHandler(
 	// Check to make sure that the ARM object has a "Name" property (which matches our "AzureName")
 	fromProp, ok := fromType.Property("Name")
 	if !ok {
-		return notHandled, errors.New("ARM resource missing property 'Name'")
+		return notHandled, eris.New("ARM resource missing property 'Name'")
 	}
 
 	// Invoke SetAzureName(ExtractKubernetesResourceNameFromARMName(this.Name)):
@@ -277,10 +277,11 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 		builder.sourceType.WriteDebugDescription(&armDescription, nil)
 
 		return notHandled,
-			errors.Errorf(
+			eris.Errorf(
 				"owner property was not of type TypeName. Kube: %s, ARM: %s",
 				kubeDescription.String(),
 				armDescription.String())
+
 	}
 
 	var convertedOwner dst.Expr
@@ -288,7 +289,7 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 		knownResourceReferenceExpr, err := astmodel.KnownResourceReferenceType.AsTypeExpr(builder.codeGenerationContext)
 		if err != nil {
 			return notHandled,
-				errors.Wrapf(err, "creating known resource reference type expression for %s", ownerProp)
+				eris.Wrapf(err, "creating known resource reference type expression for %s", ownerProp)
 		}
 
 		compositeLit := astbuilder.NewCompositeLiteralBuilder(knownResourceReferenceExpr)
@@ -299,7 +300,7 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 		convertedOwner = astbuilder.AddrOf(dst.NewIdent(ownerParameter))
 	} else {
 		return notHandled,
-			errors.Errorf(
+			eris.Errorf(
 				"found Owner property on spec with unexpected TypeName %s",
 				ownerNameType.String())
 	}
@@ -366,7 +367,7 @@ func (builder *convertFromARMBuilder) flattenedPropertyHandler(
 			result, err := builder.buildFlattenedAssignment(toProp, fromProp)
 			if err != nil {
 				return notHandled,
-					errors.Wrapf(err,
+					eris.Wrapf(err,
 						"failed to build flattened assignment for property %s",
 						toProp.PropertyName())
 			}
@@ -376,7 +377,7 @@ func (builder *convertFromARMBuilder) flattenedPropertyHandler(
 	}
 
 	return notHandled,
-		errors.Errorf(
+		eris.Errorf(
 			"couldn’t find source ARM property %q that k8s property %q was flattened from",
 			toProp.FlattenedFrom()[0],
 			toProp.PropertyName())
@@ -395,11 +396,12 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 		}
 
 		return notHandled,
-			errors.Errorf(
+			eris.Errorf(
 				"need to implement multiple levels of flattening: property %q on %s was flattened from %q",
 				toProp.PropertyName(),
 				builder.receiverIdent,
 				strings.Join(props, "."))
+
 	}
 
 	allDefs := builder.codeGenerationContext.GetAllReachableDefinitions()
@@ -414,7 +416,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 	fromPropType, err := allDefs.FullyResolve(fromProp.PropertyType())
 	if err != nil {
 		return notHandled,
-			errors.Wrapf(
+			eris.Wrapf(
 				err,
 				"failed to resolve type for property %s",
 				fromProp.PropertyName())
@@ -431,7 +433,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 		elementType, err = allDefs.FullyResolve(fromPropOptType.Element())
 		if err != nil {
 			return notHandled,
-				errors.Wrapf(
+				eris.Wrapf(
 					err,
 					"failed to resolve type for property %s",
 					fromProp.PropertyName())
@@ -447,7 +449,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 	if !objOk {
 		// see pipeline_flatten_properties.go:flattenPropType which will only flatten from (optional) object types
 		return notHandled,
-			errors.Errorf(
+			eris.Errorf(
 				"property %q marked as flattened from non-object type %T, which shouldn’t be possible",
 				toProp.PropertyName(),
 				fromPropType)
@@ -459,7 +461,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 	nestedProp, ok := fromPropObjType.Property(originalPropName)
 	if !ok {
 		return notHandled,
-			errors.Errorf(
+			eris.Errorf(
 				"couldn't find source of flattened property %q on %s",
 				toProp.PropertyName(),
 				builder.receiverIdent)
@@ -486,7 +488,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 		})
 	if err != nil {
 		return notHandled,
-			errors.Wrapf(
+			eris.Wrapf(
 				err,
 				"failed to generate conversion for flattened property %s",
 				toProp.PropertyName())
@@ -548,7 +550,7 @@ func (builder *convertFromARMBuilder) propertiesByNameHandler(
 		})
 	if err != nil {
 		return notHandled,
-			errors.Wrapf(
+			eris.Wrapf(
 				err,
 				"failed to generate conversion for property %s",
 				toProp.PropertyName())

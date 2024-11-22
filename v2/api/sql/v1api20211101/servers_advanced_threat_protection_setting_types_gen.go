@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -181,7 +181,7 @@ func (setting *ServersAdvancedThreatProtectionSetting) SetStatus(status genrunti
 	var st ServersAdvancedThreatProtectionSetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	setting.Status = st
@@ -301,7 +301,7 @@ func (setting *ServersAdvancedThreatProtectionSetting) AssignProperties_From_Ser
 	var spec ServersAdvancedThreatProtectionSetting_Spec
 	err := spec.AssignProperties_From_ServersAdvancedThreatProtectionSetting_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersAdvancedThreatProtectionSetting_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersAdvancedThreatProtectionSetting_Spec() to populate field Spec")
 	}
 	setting.Spec = spec
 
@@ -309,7 +309,7 @@ func (setting *ServersAdvancedThreatProtectionSetting) AssignProperties_From_Ser
 	var status ServersAdvancedThreatProtectionSetting_STATUS
 	err = status.AssignProperties_From_ServersAdvancedThreatProtectionSetting_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersAdvancedThreatProtectionSetting_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersAdvancedThreatProtectionSetting_STATUS() to populate field Status")
 	}
 	setting.Status = status
 
@@ -327,7 +327,7 @@ func (setting *ServersAdvancedThreatProtectionSetting) AssignProperties_To_Serve
 	var spec storage.ServersAdvancedThreatProtectionSetting_Spec
 	err := setting.Spec.AssignProperties_To_ServersAdvancedThreatProtectionSetting_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersAdvancedThreatProtectionSetting_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersAdvancedThreatProtectionSetting_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -335,7 +335,7 @@ func (setting *ServersAdvancedThreatProtectionSetting) AssignProperties_To_Serve
 	var status storage.ServersAdvancedThreatProtectionSetting_STATUS
 	err = setting.Status.AssignProperties_To_ServersAdvancedThreatProtectionSetting_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersAdvancedThreatProtectionSetting_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersAdvancedThreatProtectionSetting_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -453,13 +453,13 @@ func (setting *ServersAdvancedThreatProtectionSetting_Spec) ConvertSpecFrom(sour
 	src = &storage.ServersAdvancedThreatProtectionSetting_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = setting.AssignProperties_From_ServersAdvancedThreatProtectionSetting_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -477,13 +477,13 @@ func (setting *ServersAdvancedThreatProtectionSetting_Spec) ConvertSpecTo(destin
 	dst = &storage.ServersAdvancedThreatProtectionSetting_Spec{}
 	err := setting.AssignProperties_To_ServersAdvancedThreatProtectionSetting_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -497,7 +497,7 @@ func (setting *ServersAdvancedThreatProtectionSetting_Spec) AssignProperties_Fro
 		var operatorSpec ServersAdvancedThreatProtectionSettingOperatorSpec
 		err := operatorSpec.AssignProperties_From_ServersAdvancedThreatProtectionSettingOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServersAdvancedThreatProtectionSettingOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ServersAdvancedThreatProtectionSettingOperatorSpec() to populate field OperatorSpec")
 		}
 		setting.OperatorSpec = &operatorSpec
 	} else {
@@ -535,7 +535,7 @@ func (setting *ServersAdvancedThreatProtectionSetting_Spec) AssignProperties_To_
 		var operatorSpec storage.ServersAdvancedThreatProtectionSettingOperatorSpec
 		err := setting.OperatorSpec.AssignProperties_To_ServersAdvancedThreatProtectionSettingOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServersAdvancedThreatProtectionSettingOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ServersAdvancedThreatProtectionSettingOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -630,13 +630,13 @@ func (setting *ServersAdvancedThreatProtectionSetting_STATUS) ConvertStatusFrom(
 	src = &storage.ServersAdvancedThreatProtectionSetting_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = setting.AssignProperties_From_ServersAdvancedThreatProtectionSetting_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -654,13 +654,13 @@ func (setting *ServersAdvancedThreatProtectionSetting_STATUS) ConvertStatusTo(de
 	dst = &storage.ServersAdvancedThreatProtectionSetting_STATUS{}
 	err := setting.AssignProperties_To_ServersAdvancedThreatProtectionSetting_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -764,7 +764,7 @@ func (setting *ServersAdvancedThreatProtectionSetting_STATUS) AssignProperties_F
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		setting.SystemData = &systemDatum
 	} else {
@@ -808,7 +808,7 @@ func (setting *ServersAdvancedThreatProtectionSetting_STATUS) AssignProperties_T
 		var systemDatum storage.SystemData_STATUS
 		err := setting.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

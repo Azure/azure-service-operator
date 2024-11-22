@@ -8,7 +8,7 @@ package storage
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -181,7 +181,7 @@ func (p *PropertyConverter) defaultPropertyConversion(
 ) (*astmodel.PropertyDefinition, error) {
 	propertyType, err := p.visitor.Visit(property.PropertyType(), nil)
 	if err != nil {
-		return nil, errors.Wrapf(err, "converting property %q", property.PropertyName())
+		return nil, eris.Wrapf(err, "converting property %q", property.PropertyName())
 	}
 
 	newProperty := property.WithType(propertyType).

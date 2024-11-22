@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -41,7 +41,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 				if def.Name().Name() == "VirtualNetwork" {
 					subnetName := def.Name().WithName("VirtualNetworksSubnet")
 					if !state.Definitions().Contains(subnetName) {
-						return nil, errors.Errorf("Couldn't find subnet type matching %s. VirtualNetwork and VirtualNetworksSubnet must always be exported together", def.Name())
+						return nil, eris.Errorf("Couldn't find subnet type matching %s. VirtualNetwork and VirtualNetworksSubnet must always be exported together", def.Name())
 					}
 				}
 			}
@@ -60,7 +60,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 
 				updatedDef, err := pruner.visitor.VisitDefinition(def, def.Name())
 				if err != nil {
-					return nil, errors.Wrapf(err, "failed to visit definition %s", def.Name())
+					return nil, eris.Wrapf(err, "failed to visit definition %s", def.Name())
 				}
 
 				updatedDefs.Add(updatedDef)
@@ -99,7 +99,7 @@ func flagPrunedEmptyProperties(
 		// we need to add the noConversion tag on ARM type for the empty pruned property to relax the validation for convertToARM function.
 		armDef, ok := LookupARMTypeDefinition(emptyPrunedProp, defs)
 		if !ok {
-			return nil, errors.Errorf("couldn't find ARM definition for %s", emptyPrunedProp)
+			return nil, eris.Errorf("couldn't find ARM definition for %s", emptyPrunedProp)
 		}
 
 		emptyPrunedPropertiesArm.Add(armDef.Name())

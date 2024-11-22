@@ -9,7 +9,7 @@ import (
 	"context"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -29,7 +29,7 @@ func ApplyTypeRewrites(
 				// Apply type transformation, if any
 				newDef, err := transformDefinition(def, config, log)
 				if err != nil {
-					return nil, errors.Wrapf(err, "unable to transform type %q", name)
+					return nil, eris.Wrapf(err, "unable to transform type %q", name)
 				}
 
 				definitions.Add(newDef)

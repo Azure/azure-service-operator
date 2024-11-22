@@ -6,7 +6,7 @@
 package pipeline
 
 import (
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/maps"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
@@ -94,7 +94,7 @@ func (s *State) CheckFinalState() error {
 	var errs []error
 	for required, requiredBy := range s.stagesExpected {
 		for stageId := range requiredBy {
-			errs = append(errs, errors.Errorf("postrequisite %q of stage %q not satisfied", required, stageId))
+			errs = append(errs, eris.Errorf("postrequisite %q of stage %q not satisfied", required, stageId))
 		}
 	}
 
@@ -138,24 +138,25 @@ func GetStateData[I any](
 ) (I, error) {
 	if state.stateInfo == nil {
 		var zero I
-		return zero, errors.Errorf("no state information available")
+		return zero, eris.Errorf("no state information available")
 	}
 
 	value, ok := state.stateInfo[key]
 	if !ok {
 		var zero I
-		return zero, errors.Errorf("no state information found for key %s", key)
+		return zero, eris.Errorf("no state information found for key %s", key)
 	}
 
 	info, ok := value.(I)
 	if !ok {
 		var zero I
 		return zero,
-			errors.Errorf(
+			eris.Errorf(
 				"state information found for key %s of type %T, expected %T",
 				key,
 				value,
 				zero)
+
 	}
 
 	return info, nil

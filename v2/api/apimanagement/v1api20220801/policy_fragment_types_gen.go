@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -190,7 +190,7 @@ func (fragment *PolicyFragment) SetStatus(status genruntime.ConvertibleStatus) e
 	var st PolicyFragment_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	fragment.Status = st
@@ -310,7 +310,7 @@ func (fragment *PolicyFragment) AssignProperties_From_PolicyFragment(source *sto
 	var spec PolicyFragment_Spec
 	err := spec.AssignProperties_From_PolicyFragment_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PolicyFragment_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_PolicyFragment_Spec() to populate field Spec")
 	}
 	fragment.Spec = spec
 
@@ -318,7 +318,7 @@ func (fragment *PolicyFragment) AssignProperties_From_PolicyFragment(source *sto
 	var status PolicyFragment_STATUS
 	err = status.AssignProperties_From_PolicyFragment_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PolicyFragment_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_PolicyFragment_STATUS() to populate field Status")
 	}
 	fragment.Status = status
 
@@ -336,7 +336,7 @@ func (fragment *PolicyFragment) AssignProperties_To_PolicyFragment(destination *
 	var spec storage.PolicyFragment_Spec
 	err := fragment.Spec.AssignProperties_To_PolicyFragment_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PolicyFragment_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_PolicyFragment_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -344,7 +344,7 @@ func (fragment *PolicyFragment) AssignProperties_To_PolicyFragment(destination *
 	var status storage.PolicyFragment_STATUS
 	err = fragment.Status.AssignProperties_To_PolicyFragment_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PolicyFragment_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_PolicyFragment_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -507,13 +507,13 @@ func (fragment *PolicyFragment_Spec) ConvertSpecFrom(source genruntime.Convertib
 	src = &storage.PolicyFragment_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = fragment.AssignProperties_From_PolicyFragment_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -531,13 +531,13 @@ func (fragment *PolicyFragment_Spec) ConvertSpecTo(destination genruntime.Conver
 	dst = &storage.PolicyFragment_Spec{}
 	err := fragment.AssignProperties_To_PolicyFragment_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -571,7 +571,7 @@ func (fragment *PolicyFragment_Spec) AssignProperties_From_PolicyFragment_Spec(s
 		var operatorSpec PolicyFragmentOperatorSpec
 		err := operatorSpec.AssignProperties_From_PolicyFragmentOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PolicyFragmentOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_PolicyFragmentOperatorSpec() to populate field OperatorSpec")
 		}
 		fragment.OperatorSpec = &operatorSpec
 	} else {
@@ -622,7 +622,7 @@ func (fragment *PolicyFragment_Spec) AssignProperties_To_PolicyFragment_Spec(des
 		var operatorSpec storage.PolicyFragmentOperatorSpec
 		err := fragment.OperatorSpec.AssignProperties_To_PolicyFragmentOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PolicyFragmentOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_PolicyFragmentOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -726,13 +726,13 @@ func (fragment *PolicyFragment_STATUS) ConvertStatusFrom(source genruntime.Conve
 	src = &storage.PolicyFragment_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = fragment.AssignProperties_From_PolicyFragment_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -750,13 +750,13 @@ func (fragment *PolicyFragment_STATUS) ConvertStatusTo(destination genruntime.Co
 	dst = &storage.PolicyFragment_STATUS{}
 	err := fragment.AssignProperties_To_PolicyFragment_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

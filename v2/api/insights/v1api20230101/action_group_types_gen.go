@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (group *ActionGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st ActionGroupResource_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	group.Status = st
@@ -309,7 +309,7 @@ func (group *ActionGroup) AssignProperties_From_ActionGroup(source *storage.Acti
 	var spec ActionGroup_Spec
 	err := spec.AssignProperties_From_ActionGroup_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ActionGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ActionGroup_Spec() to populate field Spec")
 	}
 	group.Spec = spec
 
@@ -317,7 +317,7 @@ func (group *ActionGroup) AssignProperties_From_ActionGroup(source *storage.Acti
 	var status ActionGroupResource_STATUS
 	err = status.AssignProperties_From_ActionGroupResource_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ActionGroupResource_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ActionGroupResource_STATUS() to populate field Status")
 	}
 	group.Status = status
 
@@ -335,7 +335,7 @@ func (group *ActionGroup) AssignProperties_To_ActionGroup(destination *storage.A
 	var spec storage.ActionGroup_Spec
 	err := group.Spec.AssignProperties_To_ActionGroup_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ActionGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ActionGroup_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (group *ActionGroup) AssignProperties_To_ActionGroup(destination *storage.A
 	var status storage.ActionGroupResource_STATUS
 	err = group.Status.AssignProperties_To_ActionGroupResource_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ActionGroupResource_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ActionGroupResource_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -783,13 +783,13 @@ func (group *ActionGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 	src = &storage.ActionGroup_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_ActionGroup_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -807,13 +807,13 @@ func (group *ActionGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 	dst = &storage.ActionGroup_Spec{}
 	err := group.AssignProperties_To_ActionGroup_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -831,7 +831,7 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 			var armRoleReceiver ArmRoleReceiver
 			err := armRoleReceiver.AssignProperties_From_ArmRoleReceiver(&armRoleReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ArmRoleReceiver() to populate field ArmRoleReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_ArmRoleReceiver() to populate field ArmRoleReceivers")
 			}
 			armRoleReceiverList[armRoleReceiverIndex] = armRoleReceiver
 		}
@@ -849,7 +849,7 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 			var automationRunbookReceiver AutomationRunbookReceiver
 			err := automationRunbookReceiver.AssignProperties_From_AutomationRunbookReceiver(&automationRunbookReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_AutomationRunbookReceiver() to populate field AutomationRunbookReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_AutomationRunbookReceiver() to populate field AutomationRunbookReceivers")
 			}
 			automationRunbookReceiverList[automationRunbookReceiverIndex] = automationRunbookReceiver
 		}
@@ -867,7 +867,7 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 			var azureAppPushReceiver AzureAppPushReceiver
 			err := azureAppPushReceiver.AssignProperties_From_AzureAppPushReceiver(&azureAppPushReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_AzureAppPushReceiver() to populate field AzureAppPushReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_AzureAppPushReceiver() to populate field AzureAppPushReceivers")
 			}
 			azureAppPushReceiverList[azureAppPushReceiverIndex] = azureAppPushReceiver
 		}
@@ -885,7 +885,7 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 			var azureFunctionReceiver AzureFunctionReceiver
 			err := azureFunctionReceiver.AssignProperties_From_AzureFunctionReceiver(&azureFunctionReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_AzureFunctionReceiver() to populate field AzureFunctionReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_AzureFunctionReceiver() to populate field AzureFunctionReceivers")
 			}
 			azureFunctionReceiverList[azureFunctionReceiverIndex] = azureFunctionReceiver
 		}
@@ -906,7 +906,7 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 			var emailReceiver EmailReceiver
 			err := emailReceiver.AssignProperties_From_EmailReceiver(&emailReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EmailReceiver() to populate field EmailReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_EmailReceiver() to populate field EmailReceivers")
 			}
 			emailReceiverList[emailReceiverIndex] = emailReceiver
 		}
@@ -932,7 +932,7 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 			var eventHubReceiver EventHubReceiver
 			err := eventHubReceiver.AssignProperties_From_EventHubReceiver(&eventHubReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EventHubReceiver() to populate field EventHubReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_EventHubReceiver() to populate field EventHubReceivers")
 			}
 			eventHubReceiverList[eventHubReceiverIndex] = eventHubReceiver
 		}
@@ -958,7 +958,7 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 			var itsmReceiver ItsmReceiver
 			err := itsmReceiver.AssignProperties_From_ItsmReceiver(&itsmReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ItsmReceiver() to populate field ItsmReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_ItsmReceiver() to populate field ItsmReceivers")
 			}
 			itsmReceiverList[itsmReceiverIndex] = itsmReceiver
 		}
@@ -979,7 +979,7 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 			var logicAppReceiver LogicAppReceiver
 			err := logicAppReceiver.AssignProperties_From_LogicAppReceiver(&logicAppReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_LogicAppReceiver() to populate field LogicAppReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_LogicAppReceiver() to populate field LogicAppReceivers")
 			}
 			logicAppReceiverList[logicAppReceiverIndex] = logicAppReceiver
 		}
@@ -993,7 +993,7 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 		var operatorSpec ActionGroupOperatorSpec
 		err := operatorSpec.AssignProperties_From_ActionGroupOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ActionGroupOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ActionGroupOperatorSpec() to populate field OperatorSpec")
 		}
 		group.OperatorSpec = &operatorSpec
 	} else {
@@ -1017,7 +1017,7 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 			var smsReceiver SmsReceiver
 			err := smsReceiver.AssignProperties_From_SmsReceiver(&smsReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SmsReceiver() to populate field SmsReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_SmsReceiver() to populate field SmsReceivers")
 			}
 			smsReceiverList[smsReceiverIndex] = smsReceiver
 		}
@@ -1038,7 +1038,7 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 			var voiceReceiver VoiceReceiver
 			err := voiceReceiver.AssignProperties_From_VoiceReceiver(&voiceReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VoiceReceiver() to populate field VoiceReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_VoiceReceiver() to populate field VoiceReceivers")
 			}
 			voiceReceiverList[voiceReceiverIndex] = voiceReceiver
 		}
@@ -1056,7 +1056,7 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 			var webhookReceiver WebhookReceiver
 			err := webhookReceiver.AssignProperties_From_WebhookReceiver(&webhookReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_WebhookReceiver() to populate field WebhookReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_WebhookReceiver() to populate field WebhookReceivers")
 			}
 			webhookReceiverList[webhookReceiverIndex] = webhookReceiver
 		}
@@ -1083,7 +1083,7 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 			var armRoleReceiver storage.ArmRoleReceiver
 			err := armRoleReceiverItem.AssignProperties_To_ArmRoleReceiver(&armRoleReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ArmRoleReceiver() to populate field ArmRoleReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_ArmRoleReceiver() to populate field ArmRoleReceivers")
 			}
 			armRoleReceiverList[armRoleReceiverIndex] = armRoleReceiver
 		}
@@ -1101,7 +1101,7 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 			var automationRunbookReceiver storage.AutomationRunbookReceiver
 			err := automationRunbookReceiverItem.AssignProperties_To_AutomationRunbookReceiver(&automationRunbookReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_AutomationRunbookReceiver() to populate field AutomationRunbookReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_AutomationRunbookReceiver() to populate field AutomationRunbookReceivers")
 			}
 			automationRunbookReceiverList[automationRunbookReceiverIndex] = automationRunbookReceiver
 		}
@@ -1119,7 +1119,7 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 			var azureAppPushReceiver storage.AzureAppPushReceiver
 			err := azureAppPushReceiverItem.AssignProperties_To_AzureAppPushReceiver(&azureAppPushReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_AzureAppPushReceiver() to populate field AzureAppPushReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_AzureAppPushReceiver() to populate field AzureAppPushReceivers")
 			}
 			azureAppPushReceiverList[azureAppPushReceiverIndex] = azureAppPushReceiver
 		}
@@ -1137,7 +1137,7 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 			var azureFunctionReceiver storage.AzureFunctionReceiver
 			err := azureFunctionReceiverItem.AssignProperties_To_AzureFunctionReceiver(&azureFunctionReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_AzureFunctionReceiver() to populate field AzureFunctionReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_AzureFunctionReceiver() to populate field AzureFunctionReceivers")
 			}
 			azureFunctionReceiverList[azureFunctionReceiverIndex] = azureFunctionReceiver
 		}
@@ -1158,7 +1158,7 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 			var emailReceiver storage.EmailReceiver
 			err := emailReceiverItem.AssignProperties_To_EmailReceiver(&emailReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EmailReceiver() to populate field EmailReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_EmailReceiver() to populate field EmailReceivers")
 			}
 			emailReceiverList[emailReceiverIndex] = emailReceiver
 		}
@@ -1184,7 +1184,7 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 			var eventHubReceiver storage.EventHubReceiver
 			err := eventHubReceiverItem.AssignProperties_To_EventHubReceiver(&eventHubReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EventHubReceiver() to populate field EventHubReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_EventHubReceiver() to populate field EventHubReceivers")
 			}
 			eventHubReceiverList[eventHubReceiverIndex] = eventHubReceiver
 		}
@@ -1210,7 +1210,7 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 			var itsmReceiver storage.ItsmReceiver
 			err := itsmReceiverItem.AssignProperties_To_ItsmReceiver(&itsmReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ItsmReceiver() to populate field ItsmReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_ItsmReceiver() to populate field ItsmReceivers")
 			}
 			itsmReceiverList[itsmReceiverIndex] = itsmReceiver
 		}
@@ -1231,7 +1231,7 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 			var logicAppReceiver storage.LogicAppReceiver
 			err := logicAppReceiverItem.AssignProperties_To_LogicAppReceiver(&logicAppReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_LogicAppReceiver() to populate field LogicAppReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_LogicAppReceiver() to populate field LogicAppReceivers")
 			}
 			logicAppReceiverList[logicAppReceiverIndex] = logicAppReceiver
 		}
@@ -1245,7 +1245,7 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 		var operatorSpec storage.ActionGroupOperatorSpec
 		err := group.OperatorSpec.AssignProperties_To_ActionGroupOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ActionGroupOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ActionGroupOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -1272,7 +1272,7 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 			var smsReceiver storage.SmsReceiver
 			err := smsReceiverItem.AssignProperties_To_SmsReceiver(&smsReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SmsReceiver() to populate field SmsReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_SmsReceiver() to populate field SmsReceivers")
 			}
 			smsReceiverList[smsReceiverIndex] = smsReceiver
 		}
@@ -1293,7 +1293,7 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 			var voiceReceiver storage.VoiceReceiver
 			err := voiceReceiverItem.AssignProperties_To_VoiceReceiver(&voiceReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VoiceReceiver() to populate field VoiceReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_VoiceReceiver() to populate field VoiceReceivers")
 			}
 			voiceReceiverList[voiceReceiverIndex] = voiceReceiver
 		}
@@ -1311,7 +1311,7 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 			var webhookReceiver storage.WebhookReceiver
 			err := webhookReceiverItem.AssignProperties_To_WebhookReceiver(&webhookReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_WebhookReceiver() to populate field WebhookReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_WebhookReceiver() to populate field WebhookReceivers")
 			}
 			webhookReceiverList[webhookReceiverIndex] = webhookReceiver
 		}
@@ -1343,7 +1343,7 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 			var armRoleReceiver ArmRoleReceiver
 			err := armRoleReceiver.Initialize_From_ArmRoleReceiver_STATUS(&armRoleReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ArmRoleReceiver_STATUS() to populate field ArmRoleReceivers")
+				return eris.Wrap(err, "calling Initialize_From_ArmRoleReceiver_STATUS() to populate field ArmRoleReceivers")
 			}
 			armRoleReceiverList[armRoleReceiverIndex] = armRoleReceiver
 		}
@@ -1361,7 +1361,7 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 			var automationRunbookReceiver AutomationRunbookReceiver
 			err := automationRunbookReceiver.Initialize_From_AutomationRunbookReceiver_STATUS(&automationRunbookReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_AutomationRunbookReceiver_STATUS() to populate field AutomationRunbookReceivers")
+				return eris.Wrap(err, "calling Initialize_From_AutomationRunbookReceiver_STATUS() to populate field AutomationRunbookReceivers")
 			}
 			automationRunbookReceiverList[automationRunbookReceiverIndex] = automationRunbookReceiver
 		}
@@ -1379,7 +1379,7 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 			var azureAppPushReceiver AzureAppPushReceiver
 			err := azureAppPushReceiver.Initialize_From_AzureAppPushReceiver_STATUS(&azureAppPushReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_AzureAppPushReceiver_STATUS() to populate field AzureAppPushReceivers")
+				return eris.Wrap(err, "calling Initialize_From_AzureAppPushReceiver_STATUS() to populate field AzureAppPushReceivers")
 			}
 			azureAppPushReceiverList[azureAppPushReceiverIndex] = azureAppPushReceiver
 		}
@@ -1397,7 +1397,7 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 			var azureFunctionReceiver AzureFunctionReceiver
 			err := azureFunctionReceiver.Initialize_From_AzureFunctionReceiver_STATUS(&azureFunctionReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_AzureFunctionReceiver_STATUS() to populate field AzureFunctionReceivers")
+				return eris.Wrap(err, "calling Initialize_From_AzureFunctionReceiver_STATUS() to populate field AzureFunctionReceivers")
 			}
 			azureFunctionReceiverList[azureFunctionReceiverIndex] = azureFunctionReceiver
 		}
@@ -1415,7 +1415,7 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 			var emailReceiver EmailReceiver
 			err := emailReceiver.Initialize_From_EmailReceiver_STATUS(&emailReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_EmailReceiver_STATUS() to populate field EmailReceivers")
+				return eris.Wrap(err, "calling Initialize_From_EmailReceiver_STATUS() to populate field EmailReceivers")
 			}
 			emailReceiverList[emailReceiverIndex] = emailReceiver
 		}
@@ -1441,7 +1441,7 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 			var eventHubReceiver EventHubReceiver
 			err := eventHubReceiver.Initialize_From_EventHubReceiver_STATUS(&eventHubReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_EventHubReceiver_STATUS() to populate field EventHubReceivers")
+				return eris.Wrap(err, "calling Initialize_From_EventHubReceiver_STATUS() to populate field EventHubReceivers")
 			}
 			eventHubReceiverList[eventHubReceiverIndex] = eventHubReceiver
 		}
@@ -1467,7 +1467,7 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 			var itsmReceiver ItsmReceiver
 			err := itsmReceiver.Initialize_From_ItsmReceiver_STATUS(&itsmReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ItsmReceiver_STATUS() to populate field ItsmReceivers")
+				return eris.Wrap(err, "calling Initialize_From_ItsmReceiver_STATUS() to populate field ItsmReceivers")
 			}
 			itsmReceiverList[itsmReceiverIndex] = itsmReceiver
 		}
@@ -1488,7 +1488,7 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 			var logicAppReceiver LogicAppReceiver
 			err := logicAppReceiver.Initialize_From_LogicAppReceiver_STATUS(&logicAppReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_LogicAppReceiver_STATUS() to populate field LogicAppReceivers")
+				return eris.Wrap(err, "calling Initialize_From_LogicAppReceiver_STATUS() to populate field LogicAppReceivers")
 			}
 			logicAppReceiverList[logicAppReceiverIndex] = logicAppReceiver
 		}
@@ -1506,7 +1506,7 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 			var smsReceiver SmsReceiver
 			err := smsReceiver.Initialize_From_SmsReceiver_STATUS(&smsReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SmsReceiver_STATUS() to populate field SmsReceivers")
+				return eris.Wrap(err, "calling Initialize_From_SmsReceiver_STATUS() to populate field SmsReceivers")
 			}
 			smsReceiverList[smsReceiverIndex] = smsReceiver
 		}
@@ -1527,7 +1527,7 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 			var voiceReceiver VoiceReceiver
 			err := voiceReceiver.Initialize_From_VoiceReceiver_STATUS(&voiceReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_VoiceReceiver_STATUS() to populate field VoiceReceivers")
+				return eris.Wrap(err, "calling Initialize_From_VoiceReceiver_STATUS() to populate field VoiceReceivers")
 			}
 			voiceReceiverList[voiceReceiverIndex] = voiceReceiver
 		}
@@ -1545,7 +1545,7 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 			var webhookReceiver WebhookReceiver
 			err := webhookReceiver.Initialize_From_WebhookReceiver_STATUS(&webhookReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_WebhookReceiver_STATUS() to populate field WebhookReceivers")
+				return eris.Wrap(err, "calling Initialize_From_WebhookReceiver_STATUS() to populate field WebhookReceivers")
 			}
 			webhookReceiverList[webhookReceiverIndex] = webhookReceiver
 		}
@@ -1642,13 +1642,13 @@ func (resource *ActionGroupResource_STATUS) ConvertStatusFrom(source genruntime.
 	src = &storage.ActionGroupResource_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = resource.AssignProperties_From_ActionGroupResource_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1666,13 +1666,13 @@ func (resource *ActionGroupResource_STATUS) ConvertStatusTo(destination genrunti
 	dst = &storage.ActionGroupResource_STATUS{}
 	err := resource.AssignProperties_To_ActionGroupResource_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1903,7 +1903,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 			var armRoleReceiver ArmRoleReceiver_STATUS
 			err := armRoleReceiver.AssignProperties_From_ArmRoleReceiver_STATUS(&armRoleReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ArmRoleReceiver_STATUS() to populate field ArmRoleReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_ArmRoleReceiver_STATUS() to populate field ArmRoleReceivers")
 			}
 			armRoleReceiverList[armRoleReceiverIndex] = armRoleReceiver
 		}
@@ -1921,7 +1921,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 			var automationRunbookReceiver AutomationRunbookReceiver_STATUS
 			err := automationRunbookReceiver.AssignProperties_From_AutomationRunbookReceiver_STATUS(&automationRunbookReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_AutomationRunbookReceiver_STATUS() to populate field AutomationRunbookReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_AutomationRunbookReceiver_STATUS() to populate field AutomationRunbookReceivers")
 			}
 			automationRunbookReceiverList[automationRunbookReceiverIndex] = automationRunbookReceiver
 		}
@@ -1939,7 +1939,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 			var azureAppPushReceiver AzureAppPushReceiver_STATUS
 			err := azureAppPushReceiver.AssignProperties_From_AzureAppPushReceiver_STATUS(&azureAppPushReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_AzureAppPushReceiver_STATUS() to populate field AzureAppPushReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_AzureAppPushReceiver_STATUS() to populate field AzureAppPushReceivers")
 			}
 			azureAppPushReceiverList[azureAppPushReceiverIndex] = azureAppPushReceiver
 		}
@@ -1957,7 +1957,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 			var azureFunctionReceiver AzureFunctionReceiver_STATUS
 			err := azureFunctionReceiver.AssignProperties_From_AzureFunctionReceiver_STATUS(&azureFunctionReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_AzureFunctionReceiver_STATUS() to populate field AzureFunctionReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_AzureFunctionReceiver_STATUS() to populate field AzureFunctionReceivers")
 			}
 			azureFunctionReceiverList[azureFunctionReceiverIndex] = azureFunctionReceiver
 		}
@@ -1978,7 +1978,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 			var emailReceiver EmailReceiver_STATUS
 			err := emailReceiver.AssignProperties_From_EmailReceiver_STATUS(&emailReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EmailReceiver_STATUS() to populate field EmailReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_EmailReceiver_STATUS() to populate field EmailReceivers")
 			}
 			emailReceiverList[emailReceiverIndex] = emailReceiver
 		}
@@ -2004,7 +2004,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 			var eventHubReceiver EventHubReceiver_STATUS
 			err := eventHubReceiver.AssignProperties_From_EventHubReceiver_STATUS(&eventHubReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EventHubReceiver_STATUS() to populate field EventHubReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_EventHubReceiver_STATUS() to populate field EventHubReceivers")
 			}
 			eventHubReceiverList[eventHubReceiverIndex] = eventHubReceiver
 		}
@@ -2028,7 +2028,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 			var itsmReceiver ItsmReceiver_STATUS
 			err := itsmReceiver.AssignProperties_From_ItsmReceiver_STATUS(&itsmReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ItsmReceiver_STATUS() to populate field ItsmReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_ItsmReceiver_STATUS() to populate field ItsmReceivers")
 			}
 			itsmReceiverList[itsmReceiverIndex] = itsmReceiver
 		}
@@ -2049,7 +2049,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 			var logicAppReceiver LogicAppReceiver_STATUS
 			err := logicAppReceiver.AssignProperties_From_LogicAppReceiver_STATUS(&logicAppReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_LogicAppReceiver_STATUS() to populate field LogicAppReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_LogicAppReceiver_STATUS() to populate field LogicAppReceivers")
 			}
 			logicAppReceiverList[logicAppReceiverIndex] = logicAppReceiver
 		}
@@ -2070,7 +2070,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 			var smsReceiver SmsReceiver_STATUS
 			err := smsReceiver.AssignProperties_From_SmsReceiver_STATUS(&smsReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SmsReceiver_STATUS() to populate field SmsReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_SmsReceiver_STATUS() to populate field SmsReceivers")
 			}
 			smsReceiverList[smsReceiverIndex] = smsReceiver
 		}
@@ -2094,7 +2094,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 			var voiceReceiver VoiceReceiver_STATUS
 			err := voiceReceiver.AssignProperties_From_VoiceReceiver_STATUS(&voiceReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VoiceReceiver_STATUS() to populate field VoiceReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_VoiceReceiver_STATUS() to populate field VoiceReceivers")
 			}
 			voiceReceiverList[voiceReceiverIndex] = voiceReceiver
 		}
@@ -2112,7 +2112,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_From_ActionGroupRes
 			var webhookReceiver WebhookReceiver_STATUS
 			err := webhookReceiver.AssignProperties_From_WebhookReceiver_STATUS(&webhookReceiverItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_WebhookReceiver_STATUS() to populate field WebhookReceivers")
+				return eris.Wrap(err, "calling AssignProperties_From_WebhookReceiver_STATUS() to populate field WebhookReceivers")
 			}
 			webhookReceiverList[webhookReceiverIndex] = webhookReceiver
 		}
@@ -2139,7 +2139,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 			var armRoleReceiver storage.ArmRoleReceiver_STATUS
 			err := armRoleReceiverItem.AssignProperties_To_ArmRoleReceiver_STATUS(&armRoleReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ArmRoleReceiver_STATUS() to populate field ArmRoleReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_ArmRoleReceiver_STATUS() to populate field ArmRoleReceivers")
 			}
 			armRoleReceiverList[armRoleReceiverIndex] = armRoleReceiver
 		}
@@ -2157,7 +2157,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 			var automationRunbookReceiver storage.AutomationRunbookReceiver_STATUS
 			err := automationRunbookReceiverItem.AssignProperties_To_AutomationRunbookReceiver_STATUS(&automationRunbookReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_AutomationRunbookReceiver_STATUS() to populate field AutomationRunbookReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_AutomationRunbookReceiver_STATUS() to populate field AutomationRunbookReceivers")
 			}
 			automationRunbookReceiverList[automationRunbookReceiverIndex] = automationRunbookReceiver
 		}
@@ -2175,7 +2175,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 			var azureAppPushReceiver storage.AzureAppPushReceiver_STATUS
 			err := azureAppPushReceiverItem.AssignProperties_To_AzureAppPushReceiver_STATUS(&azureAppPushReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_AzureAppPushReceiver_STATUS() to populate field AzureAppPushReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_AzureAppPushReceiver_STATUS() to populate field AzureAppPushReceivers")
 			}
 			azureAppPushReceiverList[azureAppPushReceiverIndex] = azureAppPushReceiver
 		}
@@ -2193,7 +2193,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 			var azureFunctionReceiver storage.AzureFunctionReceiver_STATUS
 			err := azureFunctionReceiverItem.AssignProperties_To_AzureFunctionReceiver_STATUS(&azureFunctionReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_AzureFunctionReceiver_STATUS() to populate field AzureFunctionReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_AzureFunctionReceiver_STATUS() to populate field AzureFunctionReceivers")
 			}
 			azureFunctionReceiverList[azureFunctionReceiverIndex] = azureFunctionReceiver
 		}
@@ -2214,7 +2214,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 			var emailReceiver storage.EmailReceiver_STATUS
 			err := emailReceiverItem.AssignProperties_To_EmailReceiver_STATUS(&emailReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EmailReceiver_STATUS() to populate field EmailReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_EmailReceiver_STATUS() to populate field EmailReceivers")
 			}
 			emailReceiverList[emailReceiverIndex] = emailReceiver
 		}
@@ -2240,7 +2240,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 			var eventHubReceiver storage.EventHubReceiver_STATUS
 			err := eventHubReceiverItem.AssignProperties_To_EventHubReceiver_STATUS(&eventHubReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EventHubReceiver_STATUS() to populate field EventHubReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_EventHubReceiver_STATUS() to populate field EventHubReceivers")
 			}
 			eventHubReceiverList[eventHubReceiverIndex] = eventHubReceiver
 		}
@@ -2264,7 +2264,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 			var itsmReceiver storage.ItsmReceiver_STATUS
 			err := itsmReceiverItem.AssignProperties_To_ItsmReceiver_STATUS(&itsmReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ItsmReceiver_STATUS() to populate field ItsmReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_ItsmReceiver_STATUS() to populate field ItsmReceivers")
 			}
 			itsmReceiverList[itsmReceiverIndex] = itsmReceiver
 		}
@@ -2285,7 +2285,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 			var logicAppReceiver storage.LogicAppReceiver_STATUS
 			err := logicAppReceiverItem.AssignProperties_To_LogicAppReceiver_STATUS(&logicAppReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_LogicAppReceiver_STATUS() to populate field LogicAppReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_LogicAppReceiver_STATUS() to populate field LogicAppReceivers")
 			}
 			logicAppReceiverList[logicAppReceiverIndex] = logicAppReceiver
 		}
@@ -2306,7 +2306,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 			var smsReceiver storage.SmsReceiver_STATUS
 			err := smsReceiverItem.AssignProperties_To_SmsReceiver_STATUS(&smsReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SmsReceiver_STATUS() to populate field SmsReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_SmsReceiver_STATUS() to populate field SmsReceivers")
 			}
 			smsReceiverList[smsReceiverIndex] = smsReceiver
 		}
@@ -2330,7 +2330,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 			var voiceReceiver storage.VoiceReceiver_STATUS
 			err := voiceReceiverItem.AssignProperties_To_VoiceReceiver_STATUS(&voiceReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VoiceReceiver_STATUS() to populate field VoiceReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_VoiceReceiver_STATUS() to populate field VoiceReceivers")
 			}
 			voiceReceiverList[voiceReceiverIndex] = voiceReceiver
 		}
@@ -2348,7 +2348,7 @@ func (resource *ActionGroupResource_STATUS) AssignProperties_To_ActionGroupResou
 			var webhookReceiver storage.WebhookReceiver_STATUS
 			err := webhookReceiverItem.AssignProperties_To_WebhookReceiver_STATUS(&webhookReceiver)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_WebhookReceiver_STATUS() to populate field WebhookReceivers")
+				return eris.Wrap(err, "calling AssignProperties_To_WebhookReceiver_STATUS() to populate field WebhookReceivers")
 			}
 			webhookReceiverList[webhookReceiverIndex] = webhookReceiver
 		}

@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -107,7 +107,7 @@ func (fn *ChainedConversionFunction) Name() string {
 
 func (fn *ChainedConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	return astmodel.NewPackageReferenceSet(
-		astmodel.GitHubErrorsReference,
+		astmodel.ErisReference,
 		astmodel.ControllerRuntimeConversion,
 		astmodel.FmtReference,
 		astmodel.GenRuntimeReference,
@@ -131,7 +131,7 @@ func (fn *ChainedConversionFunction) AsFunc(
 	// We always use a pointer receiver, so we can modify it
 	receiverExpr, err := astmodel.NewOptionalType(receiver).AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating receiver type expression for %s", receiver)
+		return nil, eris.Wrapf(err, "creating receiver type expression for %s", receiver)
 	}
 
 	funcDetails := &astbuilder.FuncDetails{
@@ -143,7 +143,7 @@ func (fn *ChainedConversionFunction) AsFunc(
 	parameterName := fn.direction.SelectString("source", "destination")
 	parameterTypeExpr, err := fn.parameterType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating parameter type expression for %s", parameterName)
+		return nil, eris.Wrapf(err, "creating parameter type expression for %s", parameterName)
 	}
 
 	funcDetails.AddParameter(parameterName, parameterTypeExpr)
@@ -180,7 +180,7 @@ func (fn *ChainedConversionFunction) AsFunc(
 func (fn *ChainedConversionFunction) bodyForConvert(
 	receiverName string, parameterName string, generationContext *astmodel.CodeGenerationContext,
 ) []dst.Stmt {
-	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.ErisReference)
 
 	receiver := dst.NewIdent(receiverName)
 	parameter := dst.NewIdent(parameterName)

@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
@@ -31,14 +31,14 @@ func InjectHubFunction(idFactory astmodel.IdentifierFactory) *Stage {
 			for name, def := range resources {
 				rt, ok := astmodel.AsResourceType(def.Type())
 				if !ok {
-					return nil, errors.Errorf("expected %s to be a resource type (should never happen)", name)
+					return nil, eris.Errorf("expected %s to be a resource type (should never happen)", name)
 				}
 
 				if rt.IsStorageVersion() {
 					fn := functions.NewHubFunction(idFactory)
 					defWithFn, err := injector.Inject(def, fn)
 					if err != nil {
-						return nil, errors.Wrapf(err, "injecting Hub() into %s", name)
+						return nil, eris.Wrapf(err, "injecting Hub() into %s", name)
 					}
 
 					result[name] = defWithFn

@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (database *ServersDatabase) SetStatus(status genruntime.ConvertibleStatus) 
 	var st ServersDatabase_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	database.Status = st
@@ -309,7 +309,7 @@ func (database *ServersDatabase) AssignProperties_From_ServersDatabase(source *s
 	var spec ServersDatabase_Spec
 	err := spec.AssignProperties_From_ServersDatabase_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabase_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabase_Spec() to populate field Spec")
 	}
 	database.Spec = spec
 
@@ -317,7 +317,7 @@ func (database *ServersDatabase) AssignProperties_From_ServersDatabase(source *s
 	var status ServersDatabase_STATUS
 	err = status.AssignProperties_From_ServersDatabase_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabase_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabase_STATUS() to populate field Status")
 	}
 	database.Status = status
 
@@ -335,7 +335,7 @@ func (database *ServersDatabase) AssignProperties_To_ServersDatabase(destination
 	var spec storage.ServersDatabase_Spec
 	err := database.Spec.AssignProperties_To_ServersDatabase_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabase_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabase_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (database *ServersDatabase) AssignProperties_To_ServersDatabase(destination
 	var status storage.ServersDatabase_STATUS
 	err = database.Status.AssignProperties_To_ServersDatabase_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabase_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabase_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -1012,13 +1012,13 @@ func (database *ServersDatabase_Spec) ConvertSpecFrom(source genruntime.Converti
 	src = &storage.ServersDatabase_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = database.AssignProperties_From_ServersDatabase_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -1036,13 +1036,13 @@ func (database *ServersDatabase_Spec) ConvertSpecTo(destination genruntime.Conve
 	dst = &storage.ServersDatabase_Spec{}
 	err := database.AssignProperties_To_ServersDatabase_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -1102,7 +1102,7 @@ func (database *ServersDatabase_Spec) AssignProperties_From_ServersDatabase_Spec
 		var identity DatabaseIdentity
 		err := identity.AssignProperties_From_DatabaseIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DatabaseIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_DatabaseIdentity() to populate field Identity")
 		}
 		database.Identity = &identity
 	} else {
@@ -1156,7 +1156,7 @@ func (database *ServersDatabase_Spec) AssignProperties_From_ServersDatabase_Spec
 		var operatorSpec ServersDatabaseOperatorSpec
 		err := operatorSpec.AssignProperties_From_ServersDatabaseOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServersDatabaseOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ServersDatabaseOperatorSpec() to populate field OperatorSpec")
 		}
 		database.OperatorSpec = &operatorSpec
 	} else {
@@ -1239,7 +1239,7 @@ func (database *ServersDatabase_Spec) AssignProperties_From_ServersDatabase_Spec
 		var sku Sku
 		err := sku.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
 		database.Sku = &sku
 	} else {
@@ -1334,7 +1334,7 @@ func (database *ServersDatabase_Spec) AssignProperties_To_ServersDatabase_Spec(d
 		var identity storage.DatabaseIdentity
 		err := database.Identity.AssignProperties_To_DatabaseIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DatabaseIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_DatabaseIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1387,7 +1387,7 @@ func (database *ServersDatabase_Spec) AssignProperties_To_ServersDatabase_Spec(d
 		var operatorSpec storage.ServersDatabaseOperatorSpec
 		err := database.OperatorSpec.AssignProperties_To_ServersDatabaseOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServersDatabaseOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ServersDatabaseOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -1469,7 +1469,7 @@ func (database *ServersDatabase_Spec) AssignProperties_To_ServersDatabase_Spec(d
 		var sku storage.Sku
 		err := database.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1566,7 +1566,7 @@ func (database *ServersDatabase_Spec) Initialize_From_ServersDatabase_STATUS(sou
 		var identity DatabaseIdentity
 		err := identity.Initialize_From_DatabaseIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DatabaseIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_DatabaseIdentity_STATUS() to populate field Identity")
 		}
 		database.Identity = &identity
 	} else {
@@ -1678,7 +1678,7 @@ func (database *ServersDatabase_Spec) Initialize_From_ServersDatabase_STATUS(sou
 		var sku Sku
 		err := sku.Initialize_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
 		}
 		database.Sku = &sku
 	} else {
@@ -1943,13 +1943,13 @@ func (database *ServersDatabase_STATUS) ConvertStatusFrom(source genruntime.Conv
 	src = &storage.ServersDatabase_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = database.AssignProperties_From_ServersDatabase_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1967,13 +1967,13 @@ func (database *ServersDatabase_STATUS) ConvertStatusTo(destination genruntime.C
 	dst = &storage.ServersDatabase_STATUS{}
 	err := database.AssignProperties_To_ServersDatabase_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -2489,7 +2489,7 @@ func (database *ServersDatabase_STATUS) AssignProperties_From_ServersDatabase_ST
 		var currentSku Sku_STATUS
 		err := currentSku.AssignProperties_From_Sku_STATUS(source.CurrentSku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field CurrentSku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field CurrentSku")
 		}
 		database.CurrentSku = &currentSku
 	} else {
@@ -2525,7 +2525,7 @@ func (database *ServersDatabase_STATUS) AssignProperties_From_ServersDatabase_ST
 		var identity DatabaseIdentity_STATUS
 		err := identity.AssignProperties_From_DatabaseIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DatabaseIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_DatabaseIdentity_STATUS() to populate field Identity")
 		}
 		database.Identity = &identity
 	} else {
@@ -2651,7 +2651,7 @@ func (database *ServersDatabase_STATUS) AssignProperties_From_ServersDatabase_ST
 		var sku Sku_STATUS
 		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		database.Sku = &sku
 	} else {
@@ -2743,7 +2743,7 @@ func (database *ServersDatabase_STATUS) AssignProperties_To_ServersDatabase_STAT
 		var currentSku storage.Sku_STATUS
 		err := database.CurrentSku.AssignProperties_To_Sku_STATUS(&currentSku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field CurrentSku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field CurrentSku")
 		}
 		destination.CurrentSku = &currentSku
 	} else {
@@ -2779,7 +2779,7 @@ func (database *ServersDatabase_STATUS) AssignProperties_To_ServersDatabase_STAT
 		var identity storage.DatabaseIdentity_STATUS
 		err := database.Identity.AssignProperties_To_DatabaseIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DatabaseIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_DatabaseIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -2900,7 +2900,7 @@ func (database *ServersDatabase_STATUS) AssignProperties_To_ServersDatabase_STAT
 		var sku storage.Sku_STATUS
 		err := database.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -3035,7 +3035,7 @@ func (identity *DatabaseIdentity) AssignProperties_From_DatabaseIdentity(source 
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -3070,7 +3070,7 @@ func (identity *DatabaseIdentity) AssignProperties_To_DatabaseIdentity(destinati
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -3198,7 +3198,7 @@ func (identity *DatabaseIdentity_STATUS) AssignProperties_From_DatabaseIdentity_
 			var userAssignedIdentity DatabaseUserIdentity_STATUS
 			err := userAssignedIdentity.AssignProperties_From_DatabaseUserIdentity_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_DatabaseUserIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_DatabaseUserIdentity_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -3236,7 +3236,7 @@ func (identity *DatabaseIdentity_STATUS) AssignProperties_To_DatabaseIdentity_ST
 			var userAssignedIdentity storage.DatabaseUserIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_DatabaseUserIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_DatabaseUserIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_DatabaseUserIdentity_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}

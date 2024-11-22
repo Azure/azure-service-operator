@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -153,7 +153,7 @@ func (versionSet *ApiVersionSet) SetStatus(status genruntime.ConvertibleStatus) 
 	var st ApiVersionSet_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	versionSet.Status = st
@@ -170,7 +170,7 @@ func (versionSet *ApiVersionSet) AssignProperties_From_ApiVersionSet(source *sto
 	var spec ApiVersionSet_Spec
 	err := spec.AssignProperties_From_ApiVersionSet_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ApiVersionSet_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ApiVersionSet_Spec() to populate field Spec")
 	}
 	versionSet.Spec = spec
 
@@ -178,7 +178,7 @@ func (versionSet *ApiVersionSet) AssignProperties_From_ApiVersionSet(source *sto
 	var status ApiVersionSet_STATUS
 	err = status.AssignProperties_From_ApiVersionSet_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ApiVersionSet_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ApiVersionSet_STATUS() to populate field Status")
 	}
 	versionSet.Status = status
 
@@ -187,7 +187,7 @@ func (versionSet *ApiVersionSet) AssignProperties_From_ApiVersionSet(source *sto
 	if augmentedVersionSet, ok := versionSetAsAny.(augmentConversionForApiVersionSet); ok {
 		err := augmentedVersionSet.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -205,7 +205,7 @@ func (versionSet *ApiVersionSet) AssignProperties_To_ApiVersionSet(destination *
 	var spec storage.ApiVersionSet_Spec
 	err := versionSet.Spec.AssignProperties_To_ApiVersionSet_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ApiVersionSet_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ApiVersionSet_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -213,7 +213,7 @@ func (versionSet *ApiVersionSet) AssignProperties_To_ApiVersionSet(destination *
 	var status storage.ApiVersionSet_STATUS
 	err = versionSet.Status.AssignProperties_To_ApiVersionSet_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ApiVersionSet_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ApiVersionSet_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -222,7 +222,7 @@ func (versionSet *ApiVersionSet) AssignProperties_To_ApiVersionSet(destination *
 	if augmentedVersionSet, ok := versionSetAsAny.(augmentConversionForApiVersionSet); ok {
 		err := augmentedVersionSet.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -285,13 +285,13 @@ func (versionSet *ApiVersionSet_Spec) ConvertSpecFrom(source genruntime.Converti
 	src = &storage.ApiVersionSet_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = versionSet.AssignProperties_From_ApiVersionSet_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -309,13 +309,13 @@ func (versionSet *ApiVersionSet_Spec) ConvertSpecTo(destination genruntime.Conve
 	dst = &storage.ApiVersionSet_Spec{}
 	err := versionSet.AssignProperties_To_ApiVersionSet_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -340,7 +340,7 @@ func (versionSet *ApiVersionSet_Spec) AssignProperties_From_ApiVersionSet_Spec(s
 		var operatorSpec ApiVersionSetOperatorSpec
 		err := operatorSpec.AssignProperties_From_ApiVersionSetOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiVersionSetOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiVersionSetOperatorSpec() to populate field OperatorSpec")
 		}
 		versionSet.OperatorSpec = &operatorSpec
 	} else {
@@ -379,7 +379,7 @@ func (versionSet *ApiVersionSet_Spec) AssignProperties_From_ApiVersionSet_Spec(s
 	if augmentedVersionSet, ok := versionSetAsAny.(augmentConversionForApiVersionSet_Spec); ok {
 		err := augmentedVersionSet.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -406,7 +406,7 @@ func (versionSet *ApiVersionSet_Spec) AssignProperties_To_ApiVersionSet_Spec(des
 		var operatorSpec storage.ApiVersionSetOperatorSpec
 		err := versionSet.OperatorSpec.AssignProperties_To_ApiVersionSetOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiVersionSetOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiVersionSetOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -445,7 +445,7 @@ func (versionSet *ApiVersionSet_Spec) AssignProperties_To_ApiVersionSet_Spec(des
 	if augmentedVersionSet, ok := versionSetAsAny.(augmentConversionForApiVersionSet_Spec); ok {
 		err := augmentedVersionSet.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -481,13 +481,13 @@ func (versionSet *ApiVersionSet_STATUS) ConvertStatusFrom(source genruntime.Conv
 	src = &storage.ApiVersionSet_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = versionSet.AssignProperties_From_ApiVersionSet_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -505,13 +505,13 @@ func (versionSet *ApiVersionSet_STATUS) ConvertStatusTo(destination genruntime.C
 	dst = &storage.ApiVersionSet_STATUS{}
 	err := versionSet.AssignProperties_To_ApiVersionSet_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -561,7 +561,7 @@ func (versionSet *ApiVersionSet_STATUS) AssignProperties_From_ApiVersionSet_STAT
 	if augmentedVersionSet, ok := versionSetAsAny.(augmentConversionForApiVersionSet_STATUS); ok {
 		err := augmentedVersionSet.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -613,7 +613,7 @@ func (versionSet *ApiVersionSet_STATUS) AssignProperties_To_ApiVersionSet_STATUS
 	if augmentedVersionSet, ok := versionSetAsAny.(augmentConversionForApiVersionSet_STATUS); ok {
 		err := augmentedVersionSet.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -687,7 +687,7 @@ func (operator *ApiVersionSetOperatorSpec) AssignProperties_From_ApiVersionSetOp
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForApiVersionSetOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -748,7 +748,7 @@ func (operator *ApiVersionSetOperatorSpec) AssignProperties_To_ApiVersionSetOper
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForApiVersionSetOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

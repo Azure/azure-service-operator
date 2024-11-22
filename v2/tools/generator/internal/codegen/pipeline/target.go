@@ -8,7 +8,7 @@ package pipeline
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
@@ -46,6 +46,6 @@ func TranslatePipelineToTarget(pipeline config.GenerationPipeline) (Target, erro
 	case config.GenerationPipelineCrossplane:
 		return CrossplaneTarget, nil
 	default:
-		return Target{}, errors.Errorf("unknown pipeline target kind %s", pipeline)
+		return Target{}, eris.Errorf("unknown pipeline target kind %s", pipeline)
 	}
 }

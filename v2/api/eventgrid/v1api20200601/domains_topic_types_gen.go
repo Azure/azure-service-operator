@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (topic *DomainsTopic) SetStatus(status genruntime.ConvertibleStatus) error 
 	var st DomainsTopic_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	topic.Status = st
@@ -309,7 +309,7 @@ func (topic *DomainsTopic) AssignProperties_From_DomainsTopic(source *storage.Do
 	var spec DomainsTopic_Spec
 	err := spec.AssignProperties_From_DomainsTopic_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DomainsTopic_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_DomainsTopic_Spec() to populate field Spec")
 	}
 	topic.Spec = spec
 
@@ -317,7 +317,7 @@ func (topic *DomainsTopic) AssignProperties_From_DomainsTopic(source *storage.Do
 	var status DomainsTopic_STATUS
 	err = status.AssignProperties_From_DomainsTopic_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DomainsTopic_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_DomainsTopic_STATUS() to populate field Status")
 	}
 	topic.Status = status
 
@@ -335,7 +335,7 @@ func (topic *DomainsTopic) AssignProperties_To_DomainsTopic(destination *storage
 	var spec storage.DomainsTopic_Spec
 	err := topic.Spec.AssignProperties_To_DomainsTopic_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DomainsTopic_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_DomainsTopic_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (topic *DomainsTopic) AssignProperties_To_DomainsTopic(destination *storage
 	var status storage.DomainsTopic_STATUS
 	err = topic.Status.AssignProperties_To_DomainsTopic_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DomainsTopic_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_DomainsTopic_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -441,13 +441,13 @@ func (topic *DomainsTopic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpe
 	src = &storage.DomainsTopic_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = topic.AssignProperties_From_DomainsTopic_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -465,13 +465,13 @@ func (topic *DomainsTopic_Spec) ConvertSpecTo(destination genruntime.Convertible
 	dst = &storage.DomainsTopic_Spec{}
 	err := topic.AssignProperties_To_DomainsTopic_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -488,7 +488,7 @@ func (topic *DomainsTopic_Spec) AssignProperties_From_DomainsTopic_Spec(source *
 		var operatorSpec DomainsTopicOperatorSpec
 		err := operatorSpec.AssignProperties_From_DomainsTopicOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DomainsTopicOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_DomainsTopicOperatorSpec() to populate field OperatorSpec")
 		}
 		topic.OperatorSpec = &operatorSpec
 	} else {
@@ -520,7 +520,7 @@ func (topic *DomainsTopic_Spec) AssignProperties_To_DomainsTopic_Spec(destinatio
 		var operatorSpec storage.DomainsTopicOperatorSpec
 		err := topic.OperatorSpec.AssignProperties_To_DomainsTopicOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DomainsTopicOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_DomainsTopicOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -598,13 +598,13 @@ func (topic *DomainsTopic_STATUS) ConvertStatusFrom(source genruntime.Convertibl
 	src = &storage.DomainsTopic_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = topic.AssignProperties_From_DomainsTopic_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -622,13 +622,13 @@ func (topic *DomainsTopic_STATUS) ConvertStatusTo(destination genruntime.Convert
 	dst = &storage.DomainsTopic_STATUS{}
 	err := topic.AssignProperties_To_DomainsTopic_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -720,7 +720,7 @@ func (topic *DomainsTopic_STATUS) AssignProperties_From_DomainsTopic_STATUS(sour
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		topic.SystemData = &systemDatum
 	} else {
@@ -761,7 +761,7 @@ func (topic *DomainsTopic_STATUS) AssignProperties_To_DomainsTopic_STATUS(destin
 		var systemDatum storage.SystemData_STATUS
 		err := topic.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

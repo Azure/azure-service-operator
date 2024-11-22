@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -131,7 +131,7 @@ func (topic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) err
 	var st NamespacesTopic_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	topic.Status = st
@@ -193,7 +193,7 @@ var _ genruntime.ConvertibleSpec = &NamespacesTopic_Spec{}
 // ConvertSpecFrom populates our NamespacesTopic_Spec from the provided source
 func (topic *NamespacesTopic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(topic)
@@ -202,7 +202,7 @@ func (topic *NamespacesTopic_Spec) ConvertSpecFrom(source genruntime.Convertible
 // ConvertSpecTo populates the provided destination from our NamespacesTopic_Spec
 func (topic *NamespacesTopic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(topic)
@@ -241,7 +241,7 @@ var _ genruntime.ConvertibleStatus = &NamespacesTopic_STATUS{}
 // ConvertStatusFrom populates our NamespacesTopic_STATUS from the provided source
 func (topic *NamespacesTopic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(topic)
@@ -250,7 +250,7 @@ func (topic *NamespacesTopic_STATUS) ConvertStatusFrom(source genruntime.Convert
 // ConvertStatusTo populates the provided destination from our NamespacesTopic_STATUS
 func (topic *NamespacesTopic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(topic)

@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -68,7 +68,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	receiverName := f.idFactory.CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+		return nil, eris.Wrapf(err, "creating type expression for %s", receiver)
 	}
 
 	props := f.oneOfObject.Properties().AsSlice()

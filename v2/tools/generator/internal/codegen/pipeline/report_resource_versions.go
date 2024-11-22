@@ -16,7 +16,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/slices"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
@@ -56,7 +56,7 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 				outputFile := configuration.SupportedResourcesReport.GroupFullOutputPath(grp)
 				err = report.SaveGroupResourcesReportTo(grp, outputFile)
 				if err != nil {
-					errs = append(errs, errors.Wrapf(err, "writing versions report to %s for group %s", outputFile, grp))
+					errs = append(errs, eris.Wrapf(err, "writing versions report to %s for group %s", outputFile, grp))
 				}
 			}
 
@@ -114,12 +114,12 @@ func NewResourceVersionsReport(
 
 	err := result.loadFragments()
 	if err != nil {
-		return nil, errors.Wrapf(err, "Unable to load report fragments")
+		return nil, eris.Wrapf(err, "Unable to load report fragments")
 	}
 
 	err = result.summarize(definitions)
 	if err != nil {
-		return nil, errors.Wrapf(err, "Unable to summarize resources")
+		return nil, eris.Wrapf(err, "Unable to summarize resources")
 	}
 
 	return result, nil
@@ -149,7 +149,7 @@ func (report *ResourceVersionsReport) loadFragments() error {
 			// Load the file contents
 			content, err := os.ReadFile(path)
 			if err != nil {
-				return errors.Wrapf(err, "Unable to read fragment file %q", info.Name())
+				return eris.Wrapf(err, "Unable to read fragment file %q", info.Name())
 			}
 
 			// Strip the extension from the filename
@@ -159,7 +159,7 @@ func (report *ResourceVersionsReport) loadFragments() error {
 			return nil
 		})
 	if err != nil {
-		return errors.Wrapf(err, "Unable to load fragments from %q", fragmentsPath)
+		return eris.Wrapf(err, "Unable to load fragments from %q", fragmentsPath)
 	}
 
 	// We don't want our README to trigger an error
@@ -221,12 +221,12 @@ func (report *ResourceVersionsReport) SaveAllResourcesReportTo(outputFile string
 	var buffer strings.Builder
 	err := report.WriteAllResourcesReportToBuffer(frontMatter, &buffer)
 	if err != nil {
-		return errors.Wrapf(err, "writing versions report to %s", outputFile)
+		return eris.Wrapf(err, "writing versions report to %s", outputFile)
 	}
 
 	err = report.ensureFolderExists(outputFile)
 	if err != nil {
-		return errors.Wrapf(err, "writing versions report to %s", outputFile)
+		return eris.Wrapf(err, "writing versions report to %s", outputFile)
 	}
 
 	return os.WriteFile(outputFile, []byte(buffer.String()), 0o600)
@@ -237,7 +237,7 @@ func (report *ResourceVersionsReport) ensureFolderExists(outputFile string) erro
 	if _, err := os.Stat(outputFolder); os.IsNotExist(err) {
 		err = os.MkdirAll(outputFolder, 0o700)
 		if err != nil {
-			return errors.Wrapf(err, "unable to create directory %q", outputFile)
+			return eris.Wrapf(err, "unable to create directory %q", outputFile)
 		}
 	}
 
@@ -253,12 +253,12 @@ func (report *ResourceVersionsReport) SaveGroupResourcesReportTo(group string, o
 	var buffer strings.Builder
 	err := report.WriteGroupResourcesReportToBuffer(group, frontMatter, &buffer)
 	if err != nil {
-		return errors.Wrapf(err, "writing versions report to %s for group %s", outputFile, group)
+		return eris.Wrapf(err, "writing versions report to %s for group %s", outputFile, group)
 	}
 
 	err = report.ensureFolderExists(outputFile)
 	if err != nil {
-		return errors.Wrapf(err, "writing versions report to %s", outputFile)
+		return eris.Wrapf(err, "writing versions report to %s", outputFile)
 	}
 
 	return os.WriteFile(outputFile, []byte(buffer.String()), 0o600)
@@ -278,7 +278,7 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 	// Include file header if found
 	err := report.writeFragment("all-resources-header", nil, buffer)
 	if err != nil {
-		return errors.Wrapf(err, "writing all-resources-header fragment")
+		return eris.Wrapf(err, "writing all-resources-header fragment")
 	}
 
 	// Sort groups into alphabetical order
@@ -294,7 +294,7 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 		// Include our group fragment
 		err := report.writeFragment("group-header", info, buffer)
 		if err != nil {
-			return errors.Wrapf(err, "writing group-header fragment for group %s", info.Group)
+			return eris.Wrapf(err, "writing group-header fragment for group %s", info.Group)
 		}
 
 		// Include a custom fragment for this group if we have one
@@ -342,13 +342,13 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 	// Include our group fragment
 	err := report.writeFragment("group-header", info, buffer)
 	if err != nil {
-		return errors.Wrapf(err, "writing group-header fragment for group %s", group)
+		return eris.Wrapf(err, "writing group-header fragment for group %s", group)
 	}
 
 	// Include a fragment for this group if we have one
 	err = report.writeFragment(group, info, buffer)
 	if err != nil {
-		return errors.Wrapf(err, "writing fragment for group %s", group)
+		return eris.Wrapf(err, "writing fragment for group %s", group)
 	}
 
 	return report.writeGroupSections(info, items, buffer)
@@ -378,7 +378,7 @@ func (report *ResourceVersionsReport) writeGroupSections(
 		prereleaseResources,
 		buffer)
 	if err != nil {
-		return errors.Wrapf(err, "writing prerelease resources for group %s", group)
+		return eris.Wrapf(err, "writing prerelease resources for group %s", group)
 	}
 
 	// Prerelease may have no usage, but we don't want that to trigger an error
@@ -391,7 +391,7 @@ func (report *ResourceVersionsReport) writeGroupSections(
 		releasedResources,
 		buffer)
 	if err != nil {
-		return errors.Wrapf(err, "writing released resources for group %s", group)
+		return eris.Wrapf(err, "writing released resources for group %s", group)
 	}
 
 	err = report.writeSection(
@@ -401,7 +401,7 @@ func (report *ResourceVersionsReport) writeGroupSections(
 		deprecatedResources,
 		buffer)
 	if err != nil {
-		return errors.Wrapf(err, "writing deprecated resources for group %s", group)
+		return eris.Wrapf(err, "writing deprecated resources for group %s", group)
 	}
 
 	// Deprecated fragment may have no usage, but we don't want that to trigger an error
@@ -454,17 +454,17 @@ func (report *ResourceVersionsReport) writeSection(
 	// Write a generic description, then a specific one
 	err := report.writeFragment(fmt.Sprintf("%s-%s", info.Group, id), nil, buffer)
 	if err != nil {
-		return errors.Wrapf(err, "writing fragment for group %s", info.Group)
+		return eris.Wrapf(err, "writing fragment for group %s", info.Group)
 	}
 
 	err = report.writeFragment(id, nil, buffer)
 	if err != nil {
-		return errors.Wrapf(err, "writing fragment for group %s", info.Group)
+		return eris.Wrapf(err, "writing fragment for group %s", info.Group)
 	}
 
 	table, err := report.createTable(info, items)
 	if err != nil {
-		return errors.Wrapf(err, "creating table for group %s", info.Group)
+		return eris.Wrapf(err, "creating table for group %s", info.Group)
 	}
 
 	table.WriteTo(buffer)
@@ -542,7 +542,7 @@ func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]
 	if report.rootUrl != "" {
 		parsedRootURL, err := url.Parse(report.rootUrl)
 		if err != nil {
-			return nil, errors.Wrapf(err, "parsing rootUrl %s", report.rootUrl)
+			return nil, eris.Wrapf(err, "parsing rootUrl %s", report.rootUrl)
 		}
 
 		// We look for samples within only the subfolder for this group - this avoids getting sample links wrong
@@ -564,7 +564,7 @@ func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]
 			if !d.IsDir() && filepath.Base(filepath.Dir(filePath)) != "refs" {
 				filePath, err = filepath.Rel(filepath.Dir(report.samplesPath), filePath)
 				if err != nil {
-					return errors.Wrapf(err, "getting relative path for %s", filePath)
+					return eris.Wrapf(err, "getting relative path for %s", filePath)
 				}
 
 				filePath = filepath.ToSlash(filePath)
@@ -577,7 +577,7 @@ func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]
 			return nil
 		})
 		if err != nil {
-			return nil, errors.Wrapf(err, "walking through samples directory %s", report.samplesPath)
+			return nil, eris.Wrapf(err, "walking through samples directory %s", report.samplesPath)
 		}
 	}
 
@@ -608,7 +608,7 @@ func (report *ResourceVersionsReport) generateAPILink(name astmodel.InternalType
 	}
 
 	docFile := report.resourceDocFile(name)
-	if _, err := os.Stat(docFile); errors.Is(err, fs.ErrNotExist) {
+	if _, err := os.Stat(docFile); eris.Is(err, fs.ErrNotExist) {
 		// docFile does not exist, don't build a link
 		return crdKind
 	}
@@ -729,13 +729,13 @@ func (report *ResourceVersionsReport) writeFragment(name string, data any, buffe
 	// Create a template based on the fragment
 	tmpl, err := template.New(name).Parse(fragment)
 	if err != nil {
-		return errors.Wrapf(err, "unable to parse template for %s", name)
+		return eris.Wrapf(err, "unable to parse template for %s", name)
 	}
 
 	// Render the template
 	err = tmpl.Execute(buffer, data)
 	if err != nil {
-		return errors.Wrapf(err, "unable to render template for %s", name)
+		return eris.Wrapf(err, "unable to render template for %s", name)
 	}
 
 	return nil

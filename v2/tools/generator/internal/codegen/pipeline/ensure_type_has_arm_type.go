@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -31,13 +31,13 @@ func validateExpectedTypesHaveARMType(definitions astmodel.TypeDefinitionSet) er
 	findARMType := func(t astmodel.Type) error {
 		name, ok := astmodel.AsInternalTypeName(t)
 		if !ok {
-			return errors.Errorf("type was not of type TypeName, instead %T", t)
+			return eris.Errorf("type was not of type TypeName, instead %T", t)
 		}
 
 		armName := astmodel.CreateARMTypeName(name)
 
 		if _, ok = definitions[armName]; !ok {
-			return errors.Errorf("couldn't find ARM type %q", armName)
+			return eris.Errorf("couldn't find ARM type %q", armName)
 		}
 
 		return nil

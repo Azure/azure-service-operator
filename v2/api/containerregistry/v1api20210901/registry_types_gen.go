@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (registry *Registry) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Registry_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	registry.Status = st
@@ -309,7 +309,7 @@ func (registry *Registry) AssignProperties_From_Registry(source *storage.Registr
 	var spec Registry_Spec
 	err := spec.AssignProperties_From_Registry_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Registry_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Registry_Spec() to populate field Spec")
 	}
 	registry.Spec = spec
 
@@ -317,7 +317,7 @@ func (registry *Registry) AssignProperties_From_Registry(source *storage.Registr
 	var status Registry_STATUS
 	err = status.AssignProperties_From_Registry_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Registry_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Registry_STATUS() to populate field Status")
 	}
 	registry.Status = status
 
@@ -335,7 +335,7 @@ func (registry *Registry) AssignProperties_To_Registry(destination *storage.Regi
 	var spec storage.Registry_Spec
 	err := registry.Spec.AssignProperties_To_Registry_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Registry_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Registry_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (registry *Registry) AssignProperties_To_Registry(destination *storage.Regi
 	var status storage.Registry_STATUS
 	err = registry.Status.AssignProperties_To_Registry_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Registry_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Registry_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -712,13 +712,13 @@ func (registry *Registry_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 	src = &storage.Registry_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = registry.AssignProperties_From_Registry_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -736,13 +736,13 @@ func (registry *Registry_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 	dst = &storage.Registry_Spec{}
 	err := registry.AssignProperties_To_Registry_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -775,7 +775,7 @@ func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *stora
 		var encryption EncryptionProperty
 		err := encryption.AssignProperties_From_EncryptionProperty(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionProperty() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionProperty() to populate field Encryption")
 		}
 		registry.Encryption = &encryption
 	} else {
@@ -787,7 +787,7 @@ func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *stora
 		var identity IdentityProperties
 		err := identity.AssignProperties_From_IdentityProperties(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IdentityProperties() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_IdentityProperties() to populate field Identity")
 		}
 		registry.Identity = &identity
 	} else {
@@ -811,7 +811,7 @@ func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *stora
 		var networkRuleSet NetworkRuleSet
 		err := networkRuleSet.AssignProperties_From_NetworkRuleSet(source.NetworkRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSet() to populate field NetworkRuleSet")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkRuleSet() to populate field NetworkRuleSet")
 		}
 		registry.NetworkRuleSet = &networkRuleSet
 	} else {
@@ -823,7 +823,7 @@ func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *stora
 		var operatorSpec RegistryOperatorSpec
 		err := operatorSpec.AssignProperties_From_RegistryOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RegistryOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_RegistryOperatorSpec() to populate field OperatorSpec")
 		}
 		registry.OperatorSpec = &operatorSpec
 	} else {
@@ -843,7 +843,7 @@ func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *stora
 		var policy Policies
 		err := policy.AssignProperties_From_Policies(source.Policies)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Policies() to populate field Policies")
+			return eris.Wrap(err, "calling AssignProperties_From_Policies() to populate field Policies")
 		}
 		registry.Policies = &policy
 	} else {
@@ -864,7 +864,7 @@ func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *stora
 		var sku Sku
 		err := sku.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
 		registry.Sku = &sku
 	} else {
@@ -916,7 +916,7 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *st
 		var encryption storage.EncryptionProperty
 		err := registry.Encryption.AssignProperties_To_EncryptionProperty(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperty() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionProperty() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -928,7 +928,7 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *st
 		var identity storage.IdentityProperties
 		err := registry.Identity.AssignProperties_To_IdentityProperties(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IdentityProperties() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_IdentityProperties() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -951,7 +951,7 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *st
 		var networkRuleSet storage.NetworkRuleSet
 		err := registry.NetworkRuleSet.AssignProperties_To_NetworkRuleSet(&networkRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSet() to populate field NetworkRuleSet")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkRuleSet() to populate field NetworkRuleSet")
 		}
 		destination.NetworkRuleSet = &networkRuleSet
 	} else {
@@ -963,7 +963,7 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *st
 		var operatorSpec storage.RegistryOperatorSpec
 		err := registry.OperatorSpec.AssignProperties_To_RegistryOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RegistryOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_RegistryOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -986,7 +986,7 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *st
 		var policy storage.Policies
 		err := registry.Policies.AssignProperties_To_Policies(&policy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Policies() to populate field Policies")
+			return eris.Wrap(err, "calling AssignProperties_To_Policies() to populate field Policies")
 		}
 		destination.Policies = &policy
 	} else {
@@ -1006,7 +1006,7 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *st
 		var sku storage.Sku
 		err := registry.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1059,7 +1059,7 @@ func (registry *Registry_Spec) Initialize_From_Registry_STATUS(source *Registry_
 		var encryption EncryptionProperty
 		err := encryption.Initialize_From_EncryptionProperty_STATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EncryptionProperty_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling Initialize_From_EncryptionProperty_STATUS() to populate field Encryption")
 		}
 		registry.Encryption = &encryption
 	} else {
@@ -1071,7 +1071,7 @@ func (registry *Registry_Spec) Initialize_From_Registry_STATUS(source *Registry_
 		var identity IdentityProperties
 		err := identity.Initialize_From_IdentityProperties_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_IdentityProperties_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_IdentityProperties_STATUS() to populate field Identity")
 		}
 		registry.Identity = &identity
 	} else {
@@ -1094,7 +1094,7 @@ func (registry *Registry_Spec) Initialize_From_Registry_STATUS(source *Registry_
 		var networkRuleSet NetworkRuleSet
 		err := networkRuleSet.Initialize_From_NetworkRuleSet_STATUS(source.NetworkRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
+			return eris.Wrap(err, "calling Initialize_From_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
 		}
 		registry.NetworkRuleSet = &networkRuleSet
 	} else {
@@ -1106,7 +1106,7 @@ func (registry *Registry_Spec) Initialize_From_Registry_STATUS(source *Registry_
 		var policy Policies
 		err := policy.Initialize_From_Policies_STATUS(source.Policies)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Policies_STATUS() to populate field Policies")
+			return eris.Wrap(err, "calling Initialize_From_Policies_STATUS() to populate field Policies")
 		}
 		registry.Policies = &policy
 	} else {
@@ -1126,7 +1126,7 @@ func (registry *Registry_Spec) Initialize_From_Registry_STATUS(source *Registry_
 		var sku Sku
 		err := sku.Initialize_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
 		}
 		registry.Sku = &sku
 	} else {
@@ -1242,13 +1242,13 @@ func (registry *Registry_STATUS) ConvertStatusFrom(source genruntime.Convertible
 	src = &storage.Registry_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = registry.AssignProperties_From_Registry_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1266,13 +1266,13 @@ func (registry *Registry_STATUS) ConvertStatusTo(destination genruntime.Converti
 	dst = &storage.Registry_STATUS{}
 	err := registry.AssignProperties_To_Registry_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1553,7 +1553,7 @@ func (registry *Registry_STATUS) AssignProperties_From_Registry_STATUS(source *s
 		var encryption EncryptionProperty_STATUS
 		err := encryption.AssignProperties_From_EncryptionProperty_STATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionProperty_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionProperty_STATUS() to populate field Encryption")
 		}
 		registry.Encryption = &encryption
 	} else {
@@ -1568,7 +1568,7 @@ func (registry *Registry_STATUS) AssignProperties_From_Registry_STATUS(source *s
 		var identity IdentityProperties_STATUS
 		err := identity.AssignProperties_From_IdentityProperties_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IdentityProperties_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_IdentityProperties_STATUS() to populate field Identity")
 		}
 		registry.Identity = &identity
 	} else {
@@ -1598,7 +1598,7 @@ func (registry *Registry_STATUS) AssignProperties_From_Registry_STATUS(source *s
 		var networkRuleSet NetworkRuleSet_STATUS
 		err := networkRuleSet.AssignProperties_From_NetworkRuleSet_STATUS(source.NetworkRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
 		}
 		registry.NetworkRuleSet = &networkRuleSet
 	} else {
@@ -1610,7 +1610,7 @@ func (registry *Registry_STATUS) AssignProperties_From_Registry_STATUS(source *s
 		var policy Policies_STATUS
 		err := policy.AssignProperties_From_Policies_STATUS(source.Policies)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Policies_STATUS() to populate field Policies")
+			return eris.Wrap(err, "calling AssignProperties_From_Policies_STATUS() to populate field Policies")
 		}
 		registry.Policies = &policy
 	} else {
@@ -1626,7 +1626,7 @@ func (registry *Registry_STATUS) AssignProperties_From_Registry_STATUS(source *s
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1658,7 +1658,7 @@ func (registry *Registry_STATUS) AssignProperties_From_Registry_STATUS(source *s
 		var sku Sku_STATUS
 		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		registry.Sku = &sku
 	} else {
@@ -1670,7 +1670,7 @@ func (registry *Registry_STATUS) AssignProperties_From_Registry_STATUS(source *s
 		var status Status_STATUS
 		err := status.AssignProperties_From_Status_STATUS(source.Status)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Status_STATUS() to populate field Status")
+			return eris.Wrap(err, "calling AssignProperties_From_Status_STATUS() to populate field Status")
 		}
 		registry.Status = &status
 	} else {
@@ -1682,7 +1682,7 @@ func (registry *Registry_STATUS) AssignProperties_From_Registry_STATUS(source *s
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		registry.SystemData = &systemDatum
 	} else {
@@ -1743,7 +1743,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 		var encryption storage.EncryptionProperty_STATUS
 		err := registry.Encryption.AssignProperties_To_EncryptionProperty_STATUS(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperty_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionProperty_STATUS() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1758,7 +1758,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 		var identity storage.IdentityProperties_STATUS
 		err := registry.Identity.AssignProperties_To_IdentityProperties_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IdentityProperties_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_IdentityProperties_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1787,7 +1787,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 		var networkRuleSet storage.NetworkRuleSet_STATUS
 		err := registry.NetworkRuleSet.AssignProperties_To_NetworkRuleSet_STATUS(&networkRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
 		}
 		destination.NetworkRuleSet = &networkRuleSet
 	} else {
@@ -1799,7 +1799,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 		var policy storage.Policies_STATUS
 		err := registry.Policies.AssignProperties_To_Policies_STATUS(&policy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Policies_STATUS() to populate field Policies")
+			return eris.Wrap(err, "calling AssignProperties_To_Policies_STATUS() to populate field Policies")
 		}
 		destination.Policies = &policy
 	} else {
@@ -1815,7 +1815,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1845,7 +1845,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 		var sku storage.Sku_STATUS
 		err := registry.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1857,7 +1857,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 		var status storage.Status_STATUS
 		err := registry.Status.AssignProperties_To_Status_STATUS(&status)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Status_STATUS() to populate field Status")
+			return eris.Wrap(err, "calling AssignProperties_To_Status_STATUS() to populate field Status")
 		}
 		destination.Status = &status
 	} else {
@@ -1869,7 +1869,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 		var systemDatum storage.SystemData_STATUS
 		err := registry.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1981,7 +1981,7 @@ func (property *EncryptionProperty) AssignProperties_From_EncryptionProperty(sou
 		var keyVaultProperty KeyVaultProperties
 		err := keyVaultProperty.AssignProperties_From_KeyVaultProperties(source.KeyVaultProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultProperties() to populate field KeyVaultProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultProperties() to populate field KeyVaultProperties")
 		}
 		property.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2011,7 +2011,7 @@ func (property *EncryptionProperty) AssignProperties_To_EncryptionProperty(desti
 		var keyVaultProperty storage.KeyVaultProperties
 		err := property.KeyVaultProperties.AssignProperties_To_KeyVaultProperties(&keyVaultProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultProperties() to populate field KeyVaultProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultProperties() to populate field KeyVaultProperties")
 		}
 		destination.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2045,7 +2045,7 @@ func (property *EncryptionProperty) Initialize_From_EncryptionProperty_STATUS(so
 		var keyVaultProperty KeyVaultProperties
 		err := keyVaultProperty.Initialize_From_KeyVaultProperties_STATUS(source.KeyVaultProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
+			return eris.Wrap(err, "calling Initialize_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
 		}
 		property.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2117,7 +2117,7 @@ func (property *EncryptionProperty_STATUS) AssignProperties_From_EncryptionPrope
 		var keyVaultProperty KeyVaultProperties_STATUS
 		err := keyVaultProperty.AssignProperties_From_KeyVaultProperties_STATUS(source.KeyVaultProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
 		}
 		property.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2147,7 +2147,7 @@ func (property *EncryptionProperty_STATUS) AssignProperties_To_EncryptionPropert
 		var keyVaultProperty storage.KeyVaultProperties_STATUS
 		err := property.KeyVaultProperties.AssignProperties_To_KeyVaultProperties_STATUS(&keyVaultProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
 		}
 		destination.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2298,7 +2298,7 @@ func (properties *IdentityProperties) AssignProperties_From_IdentityProperties(s
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -2339,7 +2339,7 @@ func (properties *IdentityProperties) AssignProperties_To_IdentityProperties(des
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -2488,7 +2488,7 @@ func (properties *IdentityProperties_STATUS) AssignProperties_From_IdentityPrope
 			var userAssignedIdentity UserIdentityProperties_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserIdentityProperties_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -2529,7 +2529,7 @@ func (properties *IdentityProperties_STATUS) AssignProperties_To_IdentityPropert
 			var userAssignedIdentity storage.UserIdentityProperties_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserIdentityProperties_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -2642,7 +2642,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *stor
 			var ipRule IPRule
 			err := ipRule.AssignProperties_From_IPRule(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IPRule() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_IPRule() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2677,7 +2677,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *s
 			var ipRule storage.IPRule
 			err := ipRuleItem.AssignProperties_To_IPRule(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IPRule() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_IPRule() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2717,7 +2717,7 @@ func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *Net
 			var ipRule IPRule
 			err := ipRule.Initialize_From_IPRule_STATUS(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IPRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling Initialize_From_IPRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2796,7 +2796,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATU
 			var ipRule IPRule_STATUS
 			err := ipRule.AssignProperties_From_IPRule_STATUS(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IPRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_IPRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2831,7 +2831,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 			var ipRule storage.IPRule_STATUS
 			err := ipRuleItem.AssignProperties_To_IPRule_STATUS(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IPRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_IPRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2985,7 +2985,7 @@ func (policies *Policies) AssignProperties_From_Policies(source *storage.Policie
 		var exportPolicy ExportPolicy
 		err := exportPolicy.AssignProperties_From_ExportPolicy(source.ExportPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExportPolicy() to populate field ExportPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_ExportPolicy() to populate field ExportPolicy")
 		}
 		policies.ExportPolicy = &exportPolicy
 	} else {
@@ -2997,7 +2997,7 @@ func (policies *Policies) AssignProperties_From_Policies(source *storage.Policie
 		var quarantinePolicy QuarantinePolicy
 		err := quarantinePolicy.AssignProperties_From_QuarantinePolicy(source.QuarantinePolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_QuarantinePolicy() to populate field QuarantinePolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_QuarantinePolicy() to populate field QuarantinePolicy")
 		}
 		policies.QuarantinePolicy = &quarantinePolicy
 	} else {
@@ -3009,7 +3009,7 @@ func (policies *Policies) AssignProperties_From_Policies(source *storage.Policie
 		var retentionPolicy RetentionPolicy
 		err := retentionPolicy.AssignProperties_From_RetentionPolicy(source.RetentionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RetentionPolicy() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_RetentionPolicy() to populate field RetentionPolicy")
 		}
 		policies.RetentionPolicy = &retentionPolicy
 	} else {
@@ -3021,7 +3021,7 @@ func (policies *Policies) AssignProperties_From_Policies(source *storage.Policie
 		var trustPolicy TrustPolicy
 		err := trustPolicy.AssignProperties_From_TrustPolicy(source.TrustPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TrustPolicy() to populate field TrustPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_TrustPolicy() to populate field TrustPolicy")
 		}
 		policies.TrustPolicy = &trustPolicy
 	} else {
@@ -3042,7 +3042,7 @@ func (policies *Policies) AssignProperties_To_Policies(destination *storage.Poli
 		var exportPolicy storage.ExportPolicy
 		err := policies.ExportPolicy.AssignProperties_To_ExportPolicy(&exportPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExportPolicy() to populate field ExportPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_ExportPolicy() to populate field ExportPolicy")
 		}
 		destination.ExportPolicy = &exportPolicy
 	} else {
@@ -3054,7 +3054,7 @@ func (policies *Policies) AssignProperties_To_Policies(destination *storage.Poli
 		var quarantinePolicy storage.QuarantinePolicy
 		err := policies.QuarantinePolicy.AssignProperties_To_QuarantinePolicy(&quarantinePolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_QuarantinePolicy() to populate field QuarantinePolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_QuarantinePolicy() to populate field QuarantinePolicy")
 		}
 		destination.QuarantinePolicy = &quarantinePolicy
 	} else {
@@ -3066,7 +3066,7 @@ func (policies *Policies) AssignProperties_To_Policies(destination *storage.Poli
 		var retentionPolicy storage.RetentionPolicy
 		err := policies.RetentionPolicy.AssignProperties_To_RetentionPolicy(&retentionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RetentionPolicy() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_RetentionPolicy() to populate field RetentionPolicy")
 		}
 		destination.RetentionPolicy = &retentionPolicy
 	} else {
@@ -3078,7 +3078,7 @@ func (policies *Policies) AssignProperties_To_Policies(destination *storage.Poli
 		var trustPolicy storage.TrustPolicy
 		err := policies.TrustPolicy.AssignProperties_To_TrustPolicy(&trustPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TrustPolicy() to populate field TrustPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_TrustPolicy() to populate field TrustPolicy")
 		}
 		destination.TrustPolicy = &trustPolicy
 	} else {
@@ -3104,7 +3104,7 @@ func (policies *Policies) Initialize_From_Policies_STATUS(source *Policies_STATU
 		var exportPolicy ExportPolicy
 		err := exportPolicy.Initialize_From_ExportPolicy_STATUS(source.ExportPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ExportPolicy_STATUS() to populate field ExportPolicy")
+			return eris.Wrap(err, "calling Initialize_From_ExportPolicy_STATUS() to populate field ExportPolicy")
 		}
 		policies.ExportPolicy = &exportPolicy
 	} else {
@@ -3116,7 +3116,7 @@ func (policies *Policies) Initialize_From_Policies_STATUS(source *Policies_STATU
 		var quarantinePolicy QuarantinePolicy
 		err := quarantinePolicy.Initialize_From_QuarantinePolicy_STATUS(source.QuarantinePolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_QuarantinePolicy_STATUS() to populate field QuarantinePolicy")
+			return eris.Wrap(err, "calling Initialize_From_QuarantinePolicy_STATUS() to populate field QuarantinePolicy")
 		}
 		policies.QuarantinePolicy = &quarantinePolicy
 	} else {
@@ -3128,7 +3128,7 @@ func (policies *Policies) Initialize_From_Policies_STATUS(source *Policies_STATU
 		var retentionPolicy RetentionPolicy
 		err := retentionPolicy.Initialize_From_RetentionPolicy_STATUS(source.RetentionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RetentionPolicy_STATUS() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling Initialize_From_RetentionPolicy_STATUS() to populate field RetentionPolicy")
 		}
 		policies.RetentionPolicy = &retentionPolicy
 	} else {
@@ -3140,7 +3140,7 @@ func (policies *Policies) Initialize_From_Policies_STATUS(source *Policies_STATU
 		var trustPolicy TrustPolicy
 		err := trustPolicy.Initialize_From_TrustPolicy_STATUS(source.TrustPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_TrustPolicy_STATUS() to populate field TrustPolicy")
+			return eris.Wrap(err, "calling Initialize_From_TrustPolicy_STATUS() to populate field TrustPolicy")
 		}
 		policies.TrustPolicy = &trustPolicy
 	} else {
@@ -3236,7 +3236,7 @@ func (policies *Policies_STATUS) AssignProperties_From_Policies_STATUS(source *s
 		var exportPolicy ExportPolicy_STATUS
 		err := exportPolicy.AssignProperties_From_ExportPolicy_STATUS(source.ExportPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExportPolicy_STATUS() to populate field ExportPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_ExportPolicy_STATUS() to populate field ExportPolicy")
 		}
 		policies.ExportPolicy = &exportPolicy
 	} else {
@@ -3248,7 +3248,7 @@ func (policies *Policies_STATUS) AssignProperties_From_Policies_STATUS(source *s
 		var quarantinePolicy QuarantinePolicy_STATUS
 		err := quarantinePolicy.AssignProperties_From_QuarantinePolicy_STATUS(source.QuarantinePolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_QuarantinePolicy_STATUS() to populate field QuarantinePolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_QuarantinePolicy_STATUS() to populate field QuarantinePolicy")
 		}
 		policies.QuarantinePolicy = &quarantinePolicy
 	} else {
@@ -3260,7 +3260,7 @@ func (policies *Policies_STATUS) AssignProperties_From_Policies_STATUS(source *s
 		var retentionPolicy RetentionPolicy_STATUS
 		err := retentionPolicy.AssignProperties_From_RetentionPolicy_STATUS(source.RetentionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RetentionPolicy_STATUS() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_RetentionPolicy_STATUS() to populate field RetentionPolicy")
 		}
 		policies.RetentionPolicy = &retentionPolicy
 	} else {
@@ -3272,7 +3272,7 @@ func (policies *Policies_STATUS) AssignProperties_From_Policies_STATUS(source *s
 		var trustPolicy TrustPolicy_STATUS
 		err := trustPolicy.AssignProperties_From_TrustPolicy_STATUS(source.TrustPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TrustPolicy_STATUS() to populate field TrustPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_TrustPolicy_STATUS() to populate field TrustPolicy")
 		}
 		policies.TrustPolicy = &trustPolicy
 	} else {
@@ -3293,7 +3293,7 @@ func (policies *Policies_STATUS) AssignProperties_To_Policies_STATUS(destination
 		var exportPolicy storage.ExportPolicy_STATUS
 		err := policies.ExportPolicy.AssignProperties_To_ExportPolicy_STATUS(&exportPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExportPolicy_STATUS() to populate field ExportPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_ExportPolicy_STATUS() to populate field ExportPolicy")
 		}
 		destination.ExportPolicy = &exportPolicy
 	} else {
@@ -3305,7 +3305,7 @@ func (policies *Policies_STATUS) AssignProperties_To_Policies_STATUS(destination
 		var quarantinePolicy storage.QuarantinePolicy_STATUS
 		err := policies.QuarantinePolicy.AssignProperties_To_QuarantinePolicy_STATUS(&quarantinePolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_QuarantinePolicy_STATUS() to populate field QuarantinePolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_QuarantinePolicy_STATUS() to populate field QuarantinePolicy")
 		}
 		destination.QuarantinePolicy = &quarantinePolicy
 	} else {
@@ -3317,7 +3317,7 @@ func (policies *Policies_STATUS) AssignProperties_To_Policies_STATUS(destination
 		var retentionPolicy storage.RetentionPolicy_STATUS
 		err := policies.RetentionPolicy.AssignProperties_To_RetentionPolicy_STATUS(&retentionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RetentionPolicy_STATUS() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_RetentionPolicy_STATUS() to populate field RetentionPolicy")
 		}
 		destination.RetentionPolicy = &retentionPolicy
 	} else {
@@ -3329,7 +3329,7 @@ func (policies *Policies_STATUS) AssignProperties_To_Policies_STATUS(destination
 		var trustPolicy storage.TrustPolicy_STATUS
 		err := policies.TrustPolicy.AssignProperties_To_TrustPolicy_STATUS(&trustPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TrustPolicy_STATUS() to populate field TrustPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_TrustPolicy_STATUS() to populate field TrustPolicy")
 		}
 		destination.TrustPolicy = &trustPolicy
 	} else {

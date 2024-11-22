@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -182,7 +182,7 @@ func (authentication *ServersAzureADOnlyAuthentication) SetStatus(status genrunt
 	var st ServersAzureADOnlyAuthentication_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	authentication.Status = st
@@ -302,7 +302,7 @@ func (authentication *ServersAzureADOnlyAuthentication) AssignProperties_From_Se
 	var spec ServersAzureADOnlyAuthentication_Spec
 	err := spec.AssignProperties_From_ServersAzureADOnlyAuthentication_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersAzureADOnlyAuthentication_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersAzureADOnlyAuthentication_Spec() to populate field Spec")
 	}
 	authentication.Spec = spec
 
@@ -310,7 +310,7 @@ func (authentication *ServersAzureADOnlyAuthentication) AssignProperties_From_Se
 	var status ServersAzureADOnlyAuthentication_STATUS
 	err = status.AssignProperties_From_ServersAzureADOnlyAuthentication_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersAzureADOnlyAuthentication_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersAzureADOnlyAuthentication_STATUS() to populate field Status")
 	}
 	authentication.Status = status
 
@@ -328,7 +328,7 @@ func (authentication *ServersAzureADOnlyAuthentication) AssignProperties_To_Serv
 	var spec storage.ServersAzureADOnlyAuthentication_Spec
 	err := authentication.Spec.AssignProperties_To_ServersAzureADOnlyAuthentication_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersAzureADOnlyAuthentication_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersAzureADOnlyAuthentication_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -336,7 +336,7 @@ func (authentication *ServersAzureADOnlyAuthentication) AssignProperties_To_Serv
 	var status storage.ServersAzureADOnlyAuthentication_STATUS
 	err = authentication.Status.AssignProperties_To_ServersAzureADOnlyAuthentication_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersAzureADOnlyAuthentication_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersAzureADOnlyAuthentication_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -449,13 +449,13 @@ func (authentication *ServersAzureADOnlyAuthentication_Spec) ConvertSpecFrom(sou
 	src = &storage.ServersAzureADOnlyAuthentication_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = authentication.AssignProperties_From_ServersAzureADOnlyAuthentication_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -473,13 +473,13 @@ func (authentication *ServersAzureADOnlyAuthentication_Spec) ConvertSpecTo(desti
 	dst = &storage.ServersAzureADOnlyAuthentication_Spec{}
 	err := authentication.AssignProperties_To_ServersAzureADOnlyAuthentication_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -501,7 +501,7 @@ func (authentication *ServersAzureADOnlyAuthentication_Spec) AssignProperties_Fr
 		var operatorSpec ServersAzureADOnlyAuthenticationOperatorSpec
 		err := operatorSpec.AssignProperties_From_ServersAzureADOnlyAuthenticationOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServersAzureADOnlyAuthenticationOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ServersAzureADOnlyAuthenticationOperatorSpec() to populate field OperatorSpec")
 		}
 		authentication.OperatorSpec = &operatorSpec
 	} else {
@@ -538,7 +538,7 @@ func (authentication *ServersAzureADOnlyAuthentication_Spec) AssignProperties_To
 		var operatorSpec storage.ServersAzureADOnlyAuthenticationOperatorSpec
 		err := authentication.OperatorSpec.AssignProperties_To_ServersAzureADOnlyAuthenticationOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServersAzureADOnlyAuthenticationOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ServersAzureADOnlyAuthenticationOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -618,13 +618,13 @@ func (authentication *ServersAzureADOnlyAuthentication_STATUS) ConvertStatusFrom
 	src = &storage.ServersAzureADOnlyAuthentication_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = authentication.AssignProperties_From_ServersAzureADOnlyAuthentication_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -642,13 +642,13 @@ func (authentication *ServersAzureADOnlyAuthentication_STATUS) ConvertStatusTo(d
 	dst = &storage.ServersAzureADOnlyAuthentication_STATUS{}
 	err := authentication.AssignProperties_To_ServersAzureADOnlyAuthentication_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

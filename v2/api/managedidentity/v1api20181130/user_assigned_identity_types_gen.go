@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -62,12 +62,12 @@ func (identity *UserAssignedIdentity) ConvertFrom(hub conversion.Hub) error {
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = identity.AssignProperties_From_UserAssignedIdentity(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to identity")
+		return eris.Wrap(err, "converting from source to identity")
 	}
 
 	return nil
@@ -79,11 +79,11 @@ func (identity *UserAssignedIdentity) ConvertTo(hub conversion.Hub) error {
 	var destination storage.UserAssignedIdentity
 	err := identity.AssignProperties_To_UserAssignedIdentity(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from identity")
+		return eris.Wrap(err, "converting to destination from identity")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -223,7 +223,7 @@ func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleSta
 	var st UserAssignedIdentity_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	identity.Status = st
@@ -351,7 +351,7 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 	var spec UserAssignedIdentity_Spec
 	err := spec.AssignProperties_From_UserAssignedIdentity_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_Spec() to populate field Spec")
 	}
 	identity.Spec = spec
 
@@ -359,7 +359,7 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 	var status UserAssignedIdentity_STATUS
 	err = status.AssignProperties_From_UserAssignedIdentity_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Status")
 	}
 	identity.Status = status
 
@@ -377,7 +377,7 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 	var spec storage.UserAssignedIdentity_Spec
 	err := identity.Spec.AssignProperties_To_UserAssignedIdentity_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -385,7 +385,7 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 	var status storage.UserAssignedIdentity_STATUS
 	err = identity.Status.AssignProperties_To_UserAssignedIdentity_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -523,13 +523,13 @@ func (identity *UserAssignedIdentity_Spec) ConvertSpecFrom(source genruntime.Con
 	src = &storage.UserAssignedIdentity_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = identity.AssignProperties_From_UserAssignedIdentity_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -547,13 +547,13 @@ func (identity *UserAssignedIdentity_Spec) ConvertSpecTo(destination genruntime.
 	dst = &storage.UserAssignedIdentity_Spec{}
 	err := identity.AssignProperties_To_UserAssignedIdentity_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -573,7 +573,7 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_From_UserAssignedIde
 		var operatorSpec UserAssignedIdentityOperatorSpec
 		err := operatorSpec.AssignProperties_From_UserAssignedIdentityOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorSpec() to populate field OperatorSpec")
 		}
 		identity.OperatorSpec = &operatorSpec
 	} else {
@@ -611,7 +611,7 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_To_UserAssignedIdent
 		var operatorSpec storage.UserAssignedIdentityOperatorSpec
 		err := identity.OperatorSpec.AssignProperties_To_UserAssignedIdentityOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -697,13 +697,13 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusFrom(source genruntime
 	src = &storage.UserAssignedIdentity_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = identity.AssignProperties_From_UserAssignedIdentity_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -721,13 +721,13 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genrunt
 	dst = &storage.UserAssignedIdentity_STATUS{}
 	err := identity.AssignProperties_To_UserAssignedIdentity_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -927,7 +927,7 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssi
 		var configMap UserAssignedIdentityOperatorConfigMaps
 		err := configMap.AssignProperties_From_UserAssignedIdentityOperatorConfigMaps(source.ConfigMaps)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		operator.ConfigMaps = &configMap
 	} else {
@@ -984,7 +984,7 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_To_UserAssign
 		var configMap storage.UserAssignedIdentityOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_UserAssignedIdentityOperatorConfigMaps(&configMap)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		destination.ConfigMaps = &configMap
 	} else {

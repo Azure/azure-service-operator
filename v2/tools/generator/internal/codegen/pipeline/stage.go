@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -199,7 +199,7 @@ func (stage *Stage) Description() string {
 // Run is used to execute the action associated with this stage
 func (stage *Stage) Run(ctx context.Context, state *State) (*State, error) {
 	if err := stage.checkPreconditions(state); err != nil {
-		return nil, errors.Wrapf(err, "preconditions of stage %s not met", stage.id)
+		return nil, eris.Wrapf(err, "preconditions of stage %s not met", stage.id)
 	}
 
 	resultState, err := stage.action(ctx, state)
@@ -238,7 +238,7 @@ func (stage *Stage) checkPrerequisites(state *State) error {
 	for _, prereq := range stage.prerequisites {
 		satisfied := state.stagesSeen.Contains(prereq)
 		if !satisfied {
-			errs = append(errs, errors.Errorf("prerequisite %q of stage %q NOT satisfied.", prereq, stage.Id()))
+			errs = append(errs, eris.Errorf("prerequisite %q of stage %q NOT satisfied.", prereq, stage.Id()))
 		}
 	}
 
@@ -251,7 +251,7 @@ func (stage *Stage) checkPostrequisites(state *State) error {
 	for _, postreq := range stage.postrequisites {
 		early := state.stagesSeen.Contains(postreq)
 		if early {
-			errs = append(errs, errors.Errorf("postrequisite %q satisfied of stage %q early.", postreq, stage.Id()))
+			errs = append(errs, eris.Errorf("postrequisite %q satisfied of stage %q early.", postreq, stage.Id()))
 		}
 	}
 

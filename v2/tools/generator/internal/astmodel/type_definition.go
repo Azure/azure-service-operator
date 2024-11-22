@@ -10,7 +10,7 @@ import (
 	"go/token"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -97,7 +97,7 @@ func AsSimpleDeclarations(
 
 	theTypeExpr, err := theType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating simple declaration")
+		return nil, eris.Wrap(err, "creating simple declaration")
 	}
 
 	result := &dst.GenDecl{
@@ -169,11 +169,11 @@ func (def TypeDefinition) ApplyObjectTransformation(transform func(*ObjectType) 
 
 	newType, err := visitor.Visit(def.theType, nil)
 	if err != nil {
-		return TypeDefinition{}, errors.Wrapf(err, "transformation of %s failed", def.name)
+		return TypeDefinition{}, eris.Wrapf(err, "transformation of %s failed", def.name)
 	}
 
 	if !visited {
-		return TypeDefinition{}, errors.Errorf("transformation was not applied to %s (expected object type, found %s)", def.name, def.theType)
+		return TypeDefinition{}, eris.Errorf("transformation was not applied to %s (expected object type, found %s)", def.name, def.theType)
 	}
 
 	result := def.WithType(newType)
@@ -190,7 +190,7 @@ func (def TypeDefinition) ApplyObjectTransformations(transforms ...func(*ObjectT
 		for i, transform := range transforms {
 			rt, err := transform(result)
 			if err != nil {
-				return nil, errors.Wrapf(err, "failed to apply object transformation %d", i)
+				return nil, eris.Wrapf(err, "failed to apply object transformation %d", i)
 			}
 
 			result = rt

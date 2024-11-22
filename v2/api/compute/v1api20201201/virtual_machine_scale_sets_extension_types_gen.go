@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -59,12 +59,12 @@ func (extension *VirtualMachineScaleSetsExtension) ConvertFrom(hub conversion.Hu
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = extension.AssignProperties_From_VirtualMachineScaleSetsExtension(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to extension")
+		return eris.Wrap(err, "converting from source to extension")
 	}
 
 	return nil
@@ -76,11 +76,11 @@ func (extension *VirtualMachineScaleSetsExtension) ConvertTo(hub conversion.Hub)
 	var destination storage.VirtualMachineScaleSetsExtension
 	err := extension.AssignProperties_To_VirtualMachineScaleSetsExtension(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from extension")
+		return eris.Wrap(err, "converting to destination from extension")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -193,7 +193,7 @@ func (extension *VirtualMachineScaleSetsExtension) SetStatus(status genruntime.C
 	var st VirtualMachineScaleSetsExtension_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	extension.Status = st
@@ -313,7 +313,7 @@ func (extension *VirtualMachineScaleSetsExtension) AssignProperties_From_Virtual
 	var spec VirtualMachineScaleSetsExtension_Spec
 	err := spec.AssignProperties_From_VirtualMachineScaleSetsExtension_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineScaleSetsExtension_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_VirtualMachineScaleSetsExtension_Spec() to populate field Spec")
 	}
 	extension.Spec = spec
 
@@ -321,7 +321,7 @@ func (extension *VirtualMachineScaleSetsExtension) AssignProperties_From_Virtual
 	var status VirtualMachineScaleSetsExtension_STATUS
 	err = status.AssignProperties_From_VirtualMachineScaleSetsExtension_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineScaleSetsExtension_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_VirtualMachineScaleSetsExtension_STATUS() to populate field Status")
 	}
 	extension.Status = status
 
@@ -339,7 +339,7 @@ func (extension *VirtualMachineScaleSetsExtension) AssignProperties_To_VirtualMa
 	var spec storage.VirtualMachineScaleSetsExtension_Spec
 	err := extension.Spec.AssignProperties_To_VirtualMachineScaleSetsExtension_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineScaleSetsExtension_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_VirtualMachineScaleSetsExtension_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -347,7 +347,7 @@ func (extension *VirtualMachineScaleSetsExtension) AssignProperties_To_VirtualMa
 	var status storage.VirtualMachineScaleSetsExtension_STATUS
 	err = extension.Status.AssignProperties_To_VirtualMachineScaleSetsExtension_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineScaleSetsExtension_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_VirtualMachineScaleSetsExtension_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -462,7 +462,7 @@ func (extension *VirtualMachineScaleSetsExtension_Spec) ConvertToARM(resolved ge
 		var temp map[string]string
 		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*extension.ProtectedSettings)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property temp")
+			return nil, eris.Wrap(err, "looking up secret for property temp")
 		}
 		temp = tempSecret
 		result.Properties.ProtectedSettings = temp
@@ -607,13 +607,13 @@ func (extension *VirtualMachineScaleSetsExtension_Spec) ConvertSpecFrom(source g
 	src = &storage.VirtualMachineScaleSetsExtension_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = extension.AssignProperties_From_VirtualMachineScaleSetsExtension_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -631,13 +631,13 @@ func (extension *VirtualMachineScaleSetsExtension_Spec) ConvertSpecTo(destinatio
 	dst = &storage.VirtualMachineScaleSetsExtension_Spec{}
 	err := extension.AssignProperties_To_VirtualMachineScaleSetsExtension_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -673,7 +673,7 @@ func (extension *VirtualMachineScaleSetsExtension_Spec) AssignProperties_From_Vi
 		var operatorSpec VirtualMachineScaleSetsExtensionOperatorSpec
 		err := operatorSpec.AssignProperties_From_VirtualMachineScaleSetsExtensionOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineScaleSetsExtensionOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualMachineScaleSetsExtensionOperatorSpec() to populate field OperatorSpec")
 		}
 		extension.OperatorSpec = &operatorSpec
 	} else {
@@ -757,7 +757,7 @@ func (extension *VirtualMachineScaleSetsExtension_Spec) AssignProperties_To_Virt
 		var operatorSpec storage.VirtualMachineScaleSetsExtensionOperatorSpec
 		err := extension.OperatorSpec.AssignProperties_To_VirtualMachineScaleSetsExtensionOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineScaleSetsExtensionOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualMachineScaleSetsExtensionOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -888,13 +888,13 @@ func (extension *VirtualMachineScaleSetsExtension_STATUS) ConvertStatusFrom(sour
 	src = &storage.VirtualMachineScaleSetsExtension_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = extension.AssignProperties_From_VirtualMachineScaleSetsExtension_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -912,13 +912,13 @@ func (extension *VirtualMachineScaleSetsExtension_STATUS) ConvertStatusTo(destin
 	dst = &storage.VirtualMachineScaleSetsExtension_STATUS{}
 	err := extension.AssignProperties_To_VirtualMachineScaleSetsExtension_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

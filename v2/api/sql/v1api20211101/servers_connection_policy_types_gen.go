@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -181,7 +181,7 @@ func (policy *ServersConnectionPolicy) SetStatus(status genruntime.ConvertibleSt
 	var st ServersConnectionPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	policy.Status = st
@@ -301,7 +301,7 @@ func (policy *ServersConnectionPolicy) AssignProperties_From_ServersConnectionPo
 	var spec ServersConnectionPolicy_Spec
 	err := spec.AssignProperties_From_ServersConnectionPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersConnectionPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersConnectionPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
@@ -309,7 +309,7 @@ func (policy *ServersConnectionPolicy) AssignProperties_From_ServersConnectionPo
 	var status ServersConnectionPolicy_STATUS
 	err = status.AssignProperties_From_ServersConnectionPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ServersConnectionPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersConnectionPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -327,7 +327,7 @@ func (policy *ServersConnectionPolicy) AssignProperties_To_ServersConnectionPoli
 	var spec storage.ServersConnectionPolicy_Spec
 	err := policy.Spec.AssignProperties_To_ServersConnectionPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersConnectionPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersConnectionPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -335,7 +335,7 @@ func (policy *ServersConnectionPolicy) AssignProperties_To_ServersConnectionPoli
 	var status storage.ServersConnectionPolicy_STATUS
 	err = policy.Status.AssignProperties_To_ServersConnectionPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ServersConnectionPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersConnectionPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -452,13 +452,13 @@ func (policy *ServersConnectionPolicy_Spec) ConvertSpecFrom(source genruntime.Co
 	src = &storage.ServersConnectionPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_ServersConnectionPolicy_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -476,13 +476,13 @@ func (policy *ServersConnectionPolicy_Spec) ConvertSpecTo(destination genruntime
 	dst = &storage.ServersConnectionPolicy_Spec{}
 	err := policy.AssignProperties_To_ServersConnectionPolicy_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -505,7 +505,7 @@ func (policy *ServersConnectionPolicy_Spec) AssignProperties_From_ServersConnect
 		var operatorSpec ServersConnectionPolicyOperatorSpec
 		err := operatorSpec.AssignProperties_From_ServersConnectionPolicyOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServersConnectionPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ServersConnectionPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		policy.OperatorSpec = &operatorSpec
 	} else {
@@ -542,7 +542,7 @@ func (policy *ServersConnectionPolicy_Spec) AssignProperties_To_ServersConnectio
 		var operatorSpec storage.ServersConnectionPolicyOperatorSpec
 		err := policy.OperatorSpec.AssignProperties_To_ServersConnectionPolicyOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServersConnectionPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ServersConnectionPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -628,13 +628,13 @@ func (policy *ServersConnectionPolicy_STATUS) ConvertStatusFrom(source genruntim
 	src = &storage.ServersConnectionPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_ServersConnectionPolicy_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -652,13 +652,13 @@ func (policy *ServersConnectionPolicy_STATUS) ConvertStatusTo(destination genrun
 	dst = &storage.ServersConnectionPolicy_STATUS{}
 	err := policy.AssignProperties_To_ServersConnectionPolicy_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

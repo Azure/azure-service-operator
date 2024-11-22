@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -56,12 +56,12 @@ func (api *Api) ConvertFrom(hub conversion.Hub) error {
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = api.AssignProperties_From_Api(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to api")
+		return eris.Wrap(err, "converting from source to api")
 	}
 
 	return nil
@@ -73,11 +73,11 @@ func (api *Api) ConvertTo(hub conversion.Hub) error {
 	var destination storage.Api
 	err := api.AssignProperties_To_Api(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from api")
+		return eris.Wrap(err, "converting to destination from api")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -191,7 +191,7 @@ func (api *Api) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Api_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	api.Status = st
@@ -311,7 +311,7 @@ func (api *Api) AssignProperties_From_Api(source *storage.Api) error {
 	var spec Api_Spec
 	err := spec.AssignProperties_From_Api_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Api_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Api_Spec() to populate field Spec")
 	}
 	api.Spec = spec
 
@@ -319,7 +319,7 @@ func (api *Api) AssignProperties_From_Api(source *storage.Api) error {
 	var status Api_STATUS
 	err = status.AssignProperties_From_Api_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Api_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Api_STATUS() to populate field Status")
 	}
 	api.Status = status
 
@@ -337,7 +337,7 @@ func (api *Api) AssignProperties_To_Api(destination *storage.Api) error {
 	var spec storage.Api_Spec
 	err := api.Spec.AssignProperties_To_Api_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Api_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Api_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -345,7 +345,7 @@ func (api *Api) AssignProperties_To_Api(destination *storage.Api) error {
 	var status storage.Api_STATUS
 	err = api.Status.AssignProperties_To_Api_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Api_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Api_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -961,13 +961,13 @@ func (api *Api_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src = &storage.Api_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = api.AssignProperties_From_Api_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -985,13 +985,13 @@ func (api *Api_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error
 	dst = &storage.Api_Spec{}
 	err := api.AssignProperties_To_Api_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -1046,7 +1046,7 @@ func (api *Api_Spec) AssignProperties_From_Api_Spec(source *storage.Api_Spec) er
 		var apiVersionSet ApiVersionSetContractDetails
 		err := apiVersionSet.AssignProperties_From_ApiVersionSetContractDetails(source.ApiVersionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiVersionSetContractDetails() to populate field ApiVersionSet")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiVersionSetContractDetails() to populate field ApiVersionSet")
 		}
 		api.ApiVersionSet = &apiVersionSet
 	} else {
@@ -1066,7 +1066,7 @@ func (api *Api_Spec) AssignProperties_From_Api_Spec(source *storage.Api_Spec) er
 		var authenticationSetting AuthenticationSettingsContract
 		err := authenticationSetting.AssignProperties_From_AuthenticationSettingsContract(source.AuthenticationSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AuthenticationSettingsContract() to populate field AuthenticationSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_AuthenticationSettingsContract() to populate field AuthenticationSettings")
 		}
 		api.AuthenticationSettings = &authenticationSetting
 	} else {
@@ -1081,7 +1081,7 @@ func (api *Api_Spec) AssignProperties_From_Api_Spec(source *storage.Api_Spec) er
 		var contact ApiContactInformation
 		err := contact.AssignProperties_From_ApiContactInformation(source.Contact)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiContactInformation() to populate field Contact")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiContactInformation() to populate field Contact")
 		}
 		api.Contact = &contact
 	} else {
@@ -1121,7 +1121,7 @@ func (api *Api_Spec) AssignProperties_From_Api_Spec(source *storage.Api_Spec) er
 		var license ApiLicenseInformation
 		err := license.AssignProperties_From_ApiLicenseInformation(source.License)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiLicenseInformation() to populate field License")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiLicenseInformation() to populate field License")
 		}
 		api.License = &license
 	} else {
@@ -1133,7 +1133,7 @@ func (api *Api_Spec) AssignProperties_From_Api_Spec(source *storage.Api_Spec) er
 		var operatorSpec ApiOperatorSpec
 		err := operatorSpec.AssignProperties_From_ApiOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiOperatorSpec() to populate field OperatorSpec")
 		}
 		api.OperatorSpec = &operatorSpec
 	} else {
@@ -1190,7 +1190,7 @@ func (api *Api_Spec) AssignProperties_From_Api_Spec(source *storage.Api_Spec) er
 		var subscriptionKeyParameterName SubscriptionKeyParameterNamesContract
 		err := subscriptionKeyParameterName.AssignProperties_From_SubscriptionKeyParameterNamesContract(source.SubscriptionKeyParameterNames)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubscriptionKeyParameterNamesContract() to populate field SubscriptionKeyParameterNames")
+			return eris.Wrap(err, "calling AssignProperties_From_SubscriptionKeyParameterNamesContract() to populate field SubscriptionKeyParameterNames")
 		}
 		api.SubscriptionKeyParameterNames = &subscriptionKeyParameterName
 	} else {
@@ -1234,7 +1234,7 @@ func (api *Api_Spec) AssignProperties_From_Api_Spec(source *storage.Api_Spec) er
 		var wsdlSelector ApiCreateOrUpdateProperties_WsdlSelector
 		err := wsdlSelector.AssignProperties_From_ApiCreateOrUpdateProperties_WsdlSelector(source.WsdlSelector)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiCreateOrUpdateProperties_WsdlSelector() to populate field WsdlSelector")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiCreateOrUpdateProperties_WsdlSelector() to populate field WsdlSelector")
 		}
 		api.WsdlSelector = &wsdlSelector
 	} else {
@@ -1295,7 +1295,7 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 		var apiVersionSet storage.ApiVersionSetContractDetails
 		err := api.ApiVersionSet.AssignProperties_To_ApiVersionSetContractDetails(&apiVersionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiVersionSetContractDetails() to populate field ApiVersionSet")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiVersionSetContractDetails() to populate field ApiVersionSet")
 		}
 		destination.ApiVersionSet = &apiVersionSet
 	} else {
@@ -1315,7 +1315,7 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 		var authenticationSetting storage.AuthenticationSettingsContract
 		err := api.AuthenticationSettings.AssignProperties_To_AuthenticationSettingsContract(&authenticationSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AuthenticationSettingsContract() to populate field AuthenticationSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_AuthenticationSettingsContract() to populate field AuthenticationSettings")
 		}
 		destination.AuthenticationSettings = &authenticationSetting
 	} else {
@@ -1330,7 +1330,7 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 		var contact storage.ApiContactInformation
 		err := api.Contact.AssignProperties_To_ApiContactInformation(&contact)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiContactInformation() to populate field Contact")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiContactInformation() to populate field Contact")
 		}
 		destination.Contact = &contact
 	} else {
@@ -1369,7 +1369,7 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 		var license storage.ApiLicenseInformation
 		err := api.License.AssignProperties_To_ApiLicenseInformation(&license)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiLicenseInformation() to populate field License")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiLicenseInformation() to populate field License")
 		}
 		destination.License = &license
 	} else {
@@ -1381,7 +1381,7 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 		var operatorSpec storage.ApiOperatorSpec
 		err := api.OperatorSpec.AssignProperties_To_ApiOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -1441,7 +1441,7 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 		var subscriptionKeyParameterName storage.SubscriptionKeyParameterNamesContract
 		err := api.SubscriptionKeyParameterNames.AssignProperties_To_SubscriptionKeyParameterNamesContract(&subscriptionKeyParameterName)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubscriptionKeyParameterNamesContract() to populate field SubscriptionKeyParameterNames")
+			return eris.Wrap(err, "calling AssignProperties_To_SubscriptionKeyParameterNamesContract() to populate field SubscriptionKeyParameterNames")
 		}
 		destination.SubscriptionKeyParameterNames = &subscriptionKeyParameterName
 	} else {
@@ -1483,7 +1483,7 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 		var wsdlSelector storage.ApiCreateOrUpdateProperties_WsdlSelector
 		err := api.WsdlSelector.AssignProperties_To_ApiCreateOrUpdateProperties_WsdlSelector(&wsdlSelector)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiCreateOrUpdateProperties_WsdlSelector() to populate field WsdlSelector")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiCreateOrUpdateProperties_WsdlSelector() to populate field WsdlSelector")
 		}
 		destination.WsdlSelector = &wsdlSelector
 	} else {
@@ -1606,13 +1606,13 @@ func (api *Api_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) er
 	src = &storage.Api_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = api.AssignProperties_From_Api_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1630,13 +1630,13 @@ func (api *Api_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus)
 	dst = &storage.Api_STATUS{}
 	err := api.AssignProperties_To_Api_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1926,7 +1926,7 @@ func (api *Api_STATUS) AssignProperties_From_Api_STATUS(source *storage.Api_STAT
 		var apiVersionSet ApiVersionSetContractDetails_STATUS
 		err := apiVersionSet.AssignProperties_From_ApiVersionSetContractDetails_STATUS(source.ApiVersionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiVersionSetContractDetails_STATUS() to populate field ApiVersionSet")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiVersionSetContractDetails_STATUS() to populate field ApiVersionSet")
 		}
 		api.ApiVersionSet = &apiVersionSet
 	} else {
@@ -1941,7 +1941,7 @@ func (api *Api_STATUS) AssignProperties_From_Api_STATUS(source *storage.Api_STAT
 		var authenticationSetting AuthenticationSettingsContract_STATUS
 		err := authenticationSetting.AssignProperties_From_AuthenticationSettingsContract_STATUS(source.AuthenticationSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AuthenticationSettingsContract_STATUS() to populate field AuthenticationSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_AuthenticationSettingsContract_STATUS() to populate field AuthenticationSettings")
 		}
 		api.AuthenticationSettings = &authenticationSetting
 	} else {
@@ -1956,7 +1956,7 @@ func (api *Api_STATUS) AssignProperties_From_Api_STATUS(source *storage.Api_STAT
 		var contact ApiContactInformation_STATUS
 		err := contact.AssignProperties_From_ApiContactInformation_STATUS(source.Contact)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiContactInformation_STATUS() to populate field Contact")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiContactInformation_STATUS() to populate field Contact")
 		}
 		api.Contact = &contact
 	} else {
@@ -1993,7 +1993,7 @@ func (api *Api_STATUS) AssignProperties_From_Api_STATUS(source *storage.Api_STAT
 		var license ApiLicenseInformation_STATUS
 		err := license.AssignProperties_From_ApiLicenseInformation_STATUS(source.License)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiLicenseInformation_STATUS() to populate field License")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiLicenseInformation_STATUS() to populate field License")
 		}
 		api.License = &license
 	} else {
@@ -2042,7 +2042,7 @@ func (api *Api_STATUS) AssignProperties_From_Api_STATUS(source *storage.Api_STAT
 		var subscriptionKeyParameterName SubscriptionKeyParameterNamesContract_STATUS
 		err := subscriptionKeyParameterName.AssignProperties_From_SubscriptionKeyParameterNamesContract_STATUS(source.SubscriptionKeyParameterNames)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubscriptionKeyParameterNamesContract_STATUS() to populate field SubscriptionKeyParameterNames")
+			return eris.Wrap(err, "calling AssignProperties_From_SubscriptionKeyParameterNamesContract_STATUS() to populate field SubscriptionKeyParameterNames")
 		}
 		api.SubscriptionKeyParameterNames = &subscriptionKeyParameterName
 	} else {
@@ -2089,7 +2089,7 @@ func (api *Api_STATUS) AssignProperties_To_Api_STATUS(destination *storage.Api_S
 		var apiVersionSet storage.ApiVersionSetContractDetails_STATUS
 		err := api.ApiVersionSet.AssignProperties_To_ApiVersionSetContractDetails_STATUS(&apiVersionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiVersionSetContractDetails_STATUS() to populate field ApiVersionSet")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiVersionSetContractDetails_STATUS() to populate field ApiVersionSet")
 		}
 		destination.ApiVersionSet = &apiVersionSet
 	} else {
@@ -2104,7 +2104,7 @@ func (api *Api_STATUS) AssignProperties_To_Api_STATUS(destination *storage.Api_S
 		var authenticationSetting storage.AuthenticationSettingsContract_STATUS
 		err := api.AuthenticationSettings.AssignProperties_To_AuthenticationSettingsContract_STATUS(&authenticationSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AuthenticationSettingsContract_STATUS() to populate field AuthenticationSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_AuthenticationSettingsContract_STATUS() to populate field AuthenticationSettings")
 		}
 		destination.AuthenticationSettings = &authenticationSetting
 	} else {
@@ -2119,7 +2119,7 @@ func (api *Api_STATUS) AssignProperties_To_Api_STATUS(destination *storage.Api_S
 		var contact storage.ApiContactInformation_STATUS
 		err := api.Contact.AssignProperties_To_ApiContactInformation_STATUS(&contact)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiContactInformation_STATUS() to populate field Contact")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiContactInformation_STATUS() to populate field Contact")
 		}
 		destination.Contact = &contact
 	} else {
@@ -2156,7 +2156,7 @@ func (api *Api_STATUS) AssignProperties_To_Api_STATUS(destination *storage.Api_S
 		var license storage.ApiLicenseInformation_STATUS
 		err := api.License.AssignProperties_To_ApiLicenseInformation_STATUS(&license)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiLicenseInformation_STATUS() to populate field License")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiLicenseInformation_STATUS() to populate field License")
 		}
 		destination.License = &license
 	} else {
@@ -2204,7 +2204,7 @@ func (api *Api_STATUS) AssignProperties_To_Api_STATUS(destination *storage.Api_S
 		var subscriptionKeyParameterName storage.SubscriptionKeyParameterNamesContract_STATUS
 		err := api.SubscriptionKeyParameterNames.AssignProperties_To_SubscriptionKeyParameterNamesContract_STATUS(&subscriptionKeyParameterName)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubscriptionKeyParameterNamesContract_STATUS() to populate field SubscriptionKeyParameterNames")
+			return eris.Wrap(err, "calling AssignProperties_To_SubscriptionKeyParameterNamesContract_STATUS() to populate field SubscriptionKeyParameterNames")
 		}
 		destination.SubscriptionKeyParameterNames = &subscriptionKeyParameterName
 	} else {
@@ -3448,7 +3448,7 @@ func (contract *AuthenticationSettingsContract) AssignProperties_From_Authentica
 		var oAuth2 OAuth2AuthenticationSettingsContract
 		err := oAuth2.AssignProperties_From_OAuth2AuthenticationSettingsContract(source.OAuth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_OAuth2AuthenticationSettingsContract() to populate field OAuth2")
+			return eris.Wrap(err, "calling AssignProperties_From_OAuth2AuthenticationSettingsContract() to populate field OAuth2")
 		}
 		contract.OAuth2 = &oAuth2
 	} else {
@@ -3464,7 +3464,7 @@ func (contract *AuthenticationSettingsContract) AssignProperties_From_Authentica
 			var oAuth2AuthenticationSetting OAuth2AuthenticationSettingsContract
 			err := oAuth2AuthenticationSetting.AssignProperties_From_OAuth2AuthenticationSettingsContract(&oAuth2AuthenticationSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_OAuth2AuthenticationSettingsContract() to populate field OAuth2AuthenticationSettings")
+				return eris.Wrap(err, "calling AssignProperties_From_OAuth2AuthenticationSettingsContract() to populate field OAuth2AuthenticationSettings")
 			}
 			oAuth2AuthenticationSettingList[oAuth2AuthenticationSettingIndex] = oAuth2AuthenticationSetting
 		}
@@ -3478,7 +3478,7 @@ func (contract *AuthenticationSettingsContract) AssignProperties_From_Authentica
 		var openid OpenIdAuthenticationSettingsContract
 		err := openid.AssignProperties_From_OpenIdAuthenticationSettingsContract(source.Openid)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_OpenIdAuthenticationSettingsContract() to populate field Openid")
+			return eris.Wrap(err, "calling AssignProperties_From_OpenIdAuthenticationSettingsContract() to populate field Openid")
 		}
 		contract.Openid = &openid
 	} else {
@@ -3494,7 +3494,7 @@ func (contract *AuthenticationSettingsContract) AssignProperties_From_Authentica
 			var openidAuthenticationSetting OpenIdAuthenticationSettingsContract
 			err := openidAuthenticationSetting.AssignProperties_From_OpenIdAuthenticationSettingsContract(&openidAuthenticationSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_OpenIdAuthenticationSettingsContract() to populate field OpenidAuthenticationSettings")
+				return eris.Wrap(err, "calling AssignProperties_From_OpenIdAuthenticationSettingsContract() to populate field OpenidAuthenticationSettings")
 			}
 			openidAuthenticationSettingList[openidAuthenticationSettingIndex] = openidAuthenticationSetting
 		}
@@ -3517,7 +3517,7 @@ func (contract *AuthenticationSettingsContract) AssignProperties_To_Authenticati
 		var oAuth2 storage.OAuth2AuthenticationSettingsContract
 		err := contract.OAuth2.AssignProperties_To_OAuth2AuthenticationSettingsContract(&oAuth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_OAuth2AuthenticationSettingsContract() to populate field OAuth2")
+			return eris.Wrap(err, "calling AssignProperties_To_OAuth2AuthenticationSettingsContract() to populate field OAuth2")
 		}
 		destination.OAuth2 = &oAuth2
 	} else {
@@ -3533,7 +3533,7 @@ func (contract *AuthenticationSettingsContract) AssignProperties_To_Authenticati
 			var oAuth2AuthenticationSetting storage.OAuth2AuthenticationSettingsContract
 			err := oAuth2AuthenticationSettingItem.AssignProperties_To_OAuth2AuthenticationSettingsContract(&oAuth2AuthenticationSetting)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_OAuth2AuthenticationSettingsContract() to populate field OAuth2AuthenticationSettings")
+				return eris.Wrap(err, "calling AssignProperties_To_OAuth2AuthenticationSettingsContract() to populate field OAuth2AuthenticationSettings")
 			}
 			oAuth2AuthenticationSettingList[oAuth2AuthenticationSettingIndex] = oAuth2AuthenticationSetting
 		}
@@ -3547,7 +3547,7 @@ func (contract *AuthenticationSettingsContract) AssignProperties_To_Authenticati
 		var openid storage.OpenIdAuthenticationSettingsContract
 		err := contract.Openid.AssignProperties_To_OpenIdAuthenticationSettingsContract(&openid)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_OpenIdAuthenticationSettingsContract() to populate field Openid")
+			return eris.Wrap(err, "calling AssignProperties_To_OpenIdAuthenticationSettingsContract() to populate field Openid")
 		}
 		destination.Openid = &openid
 	} else {
@@ -3563,7 +3563,7 @@ func (contract *AuthenticationSettingsContract) AssignProperties_To_Authenticati
 			var openidAuthenticationSetting storage.OpenIdAuthenticationSettingsContract
 			err := openidAuthenticationSettingItem.AssignProperties_To_OpenIdAuthenticationSettingsContract(&openidAuthenticationSetting)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_OpenIdAuthenticationSettingsContract() to populate field OpenidAuthenticationSettings")
+				return eris.Wrap(err, "calling AssignProperties_To_OpenIdAuthenticationSettingsContract() to populate field OpenidAuthenticationSettings")
 			}
 			openidAuthenticationSettingList[openidAuthenticationSettingIndex] = openidAuthenticationSetting
 		}
@@ -3666,7 +3666,7 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_From_Aut
 		var oAuth2 OAuth2AuthenticationSettingsContract_STATUS
 		err := oAuth2.AssignProperties_From_OAuth2AuthenticationSettingsContract_STATUS(source.OAuth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_OAuth2AuthenticationSettingsContract_STATUS() to populate field OAuth2")
+			return eris.Wrap(err, "calling AssignProperties_From_OAuth2AuthenticationSettingsContract_STATUS() to populate field OAuth2")
 		}
 		contract.OAuth2 = &oAuth2
 	} else {
@@ -3682,7 +3682,7 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_From_Aut
 			var oAuth2AuthenticationSetting OAuth2AuthenticationSettingsContract_STATUS
 			err := oAuth2AuthenticationSetting.AssignProperties_From_OAuth2AuthenticationSettingsContract_STATUS(&oAuth2AuthenticationSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_OAuth2AuthenticationSettingsContract_STATUS() to populate field OAuth2AuthenticationSettings")
+				return eris.Wrap(err, "calling AssignProperties_From_OAuth2AuthenticationSettingsContract_STATUS() to populate field OAuth2AuthenticationSettings")
 			}
 			oAuth2AuthenticationSettingList[oAuth2AuthenticationSettingIndex] = oAuth2AuthenticationSetting
 		}
@@ -3696,7 +3696,7 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_From_Aut
 		var openid OpenIdAuthenticationSettingsContract_STATUS
 		err := openid.AssignProperties_From_OpenIdAuthenticationSettingsContract_STATUS(source.Openid)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_OpenIdAuthenticationSettingsContract_STATUS() to populate field Openid")
+			return eris.Wrap(err, "calling AssignProperties_From_OpenIdAuthenticationSettingsContract_STATUS() to populate field Openid")
 		}
 		contract.Openid = &openid
 	} else {
@@ -3712,7 +3712,7 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_From_Aut
 			var openidAuthenticationSetting OpenIdAuthenticationSettingsContract_STATUS
 			err := openidAuthenticationSetting.AssignProperties_From_OpenIdAuthenticationSettingsContract_STATUS(&openidAuthenticationSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_OpenIdAuthenticationSettingsContract_STATUS() to populate field OpenidAuthenticationSettings")
+				return eris.Wrap(err, "calling AssignProperties_From_OpenIdAuthenticationSettingsContract_STATUS() to populate field OpenidAuthenticationSettings")
 			}
 			openidAuthenticationSettingList[openidAuthenticationSettingIndex] = openidAuthenticationSetting
 		}
@@ -3735,7 +3735,7 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_To_Authe
 		var oAuth2 storage.OAuth2AuthenticationSettingsContract_STATUS
 		err := contract.OAuth2.AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS(&oAuth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS() to populate field OAuth2")
+			return eris.Wrap(err, "calling AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS() to populate field OAuth2")
 		}
 		destination.OAuth2 = &oAuth2
 	} else {
@@ -3751,7 +3751,7 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_To_Authe
 			var oAuth2AuthenticationSetting storage.OAuth2AuthenticationSettingsContract_STATUS
 			err := oAuth2AuthenticationSettingItem.AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS(&oAuth2AuthenticationSetting)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS() to populate field OAuth2AuthenticationSettings")
+				return eris.Wrap(err, "calling AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS() to populate field OAuth2AuthenticationSettings")
 			}
 			oAuth2AuthenticationSettingList[oAuth2AuthenticationSettingIndex] = oAuth2AuthenticationSetting
 		}
@@ -3765,7 +3765,7 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_To_Authe
 		var openid storage.OpenIdAuthenticationSettingsContract_STATUS
 		err := contract.Openid.AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS(&openid)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS() to populate field Openid")
+			return eris.Wrap(err, "calling AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS() to populate field Openid")
 		}
 		destination.Openid = &openid
 	} else {
@@ -3781,7 +3781,7 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_To_Authe
 			var openidAuthenticationSetting storage.OpenIdAuthenticationSettingsContract_STATUS
 			err := openidAuthenticationSettingItem.AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS(&openidAuthenticationSetting)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS() to populate field OpenidAuthenticationSettings")
+				return eris.Wrap(err, "calling AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS() to populate field OpenidAuthenticationSettings")
 			}
 			openidAuthenticationSettingList[openidAuthenticationSettingIndex] = openidAuthenticationSetting
 		}

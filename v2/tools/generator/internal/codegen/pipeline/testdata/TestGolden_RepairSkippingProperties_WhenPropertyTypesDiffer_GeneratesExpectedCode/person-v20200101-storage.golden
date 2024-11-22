@@ -8,7 +8,7 @@
 -	v20220630s "github.com/Azure/azure-service-operator/testing/person/v20220630/storage"
 +	v20211231sc "github.com/Azure/azure-service-operator/testing/person/v20211231/storage/compat"
  	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
- 	"github.com/pkg/errors"
+ 	"github.com/rotisserie/eris"
  )
  
  // Storage version of v20200101.Person_Spec
@@ -35,7 +35,7 @@
  		var residence Residence
  		err := propertyBag.Pull("Residence", &residence)
  		if err != nil {
- 			return errors.Wrap(err, "pulling 'Residence' from propertyBag")
+ 			return eris.Wrap(err, "pulling 'Residence' from propertyBag")
  		}
  
  		person.Residence = &residence
@@ -55,7 +55,7 @@
  	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_Spec); ok {
  		err := augmentedPerson.AssignPropertiesFrom(source)
  		if err != nil {
- 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+ 			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
  		}
  	}
  
@@ -93,7 +93,7 @@
  	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_Spec); ok {
  		err := augmentedPerson.AssignPropertiesTo(destination)
  		if err != nil {
- 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+ 			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
  		}
  	}
  
@@ -144,7 +144,7 @@
  	if augmentedResidence, ok := residenceAsAny.(augmentConversionForResidence); ok {
  		err := augmentedResidence.AssignPropertiesFrom(source)
  		if err != nil {
- 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+ 			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
  		}
  	}
  
@@ -169,7 +169,7 @@
 -		var suburb string
 -		err := propertyBag.Pull("Suburb", &suburb)
 -		if err != nil {
--			return errors.Wrap(err, "pulling 'Suburb' from propertyBag")
+-			return eris.Wrap(err, "pulling 'Suburb' from propertyBag")
 -		}
 -
 -		destination.Suburb = &suburb
@@ -189,7 +189,7 @@
  	if augmentedResidence, ok := residenceAsAny.(augmentConversionForResidence); ok {
  		err := augmentedResidence.AssignPropertiesTo(destination)
  		if err != nil {
- 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+ 			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
  		}
  	}
  

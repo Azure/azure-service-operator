@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -80,7 +80,7 @@ func (fn *ResourceConversionFunction) Name() string {
 
 func (fn *ResourceConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	result := astmodel.NewPackageReferenceSet(
-		astmodel.GitHubErrorsReference,
+		astmodel.ErisReference,
 		astmodel.ControllerRuntimeConversion,
 		astmodel.FmtReference,
 	)
@@ -108,7 +108,7 @@ func (fn *ResourceConversionFunction) AsFunc(
 	receiverType := astmodel.NewOptionalType(receiver)
 	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	funcDetails := &astbuilder.FuncDetails{
@@ -127,7 +127,7 @@ func (fn *ResourceConversionFunction) AsFunc(
 		// Not using an intermediate step
 		body, err := fn.directConversion(receiverName, codeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrap(err, "creating direct conversion body")
+			return nil, eris.Wrap(err, "creating direct conversion body")
 		}
 
 		funcDetails.Body = body
@@ -138,7 +138,7 @@ func (fn *ResourceConversionFunction) AsFunc(
 			WhenFrom(func() { body, err = fn.indirectConversionFromHub(receiverName, codeGenerationContext) }).
 			WhenTo(func() { body, err = fn.indirectConversionToHub(receiverName, codeGenerationContext) })
 		if err != nil {
-			return nil, errors.Wrap(err, "creating indirect conversion body")
+			return nil, eris.Wrap(err, "creating indirect conversion body")
 		}
 
 		funcDetails.Body = body
@@ -178,7 +178,7 @@ func (fn *ResourceConversionFunction) directConversion(
 
 	hubExpr, err := fn.hub.AsTypeExpr(generationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", fn.hub)
+		return nil, eris.Wrapf(err, "creating type expression for %s", fn.hub)
 	}
 
 	assignLocal := astbuilder.TypeAssert(
@@ -222,14 +222,14 @@ func (fn *ResourceConversionFunction) directConversion(
 func (fn *ResourceConversionFunction) indirectConversionFromHub(
 	receiverName string, generationContext *astmodel.CodeGenerationContext,
 ) ([]dst.Stmt, error) {
-	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.ErisReference)
 	localId := fn.localVariableId()
 	errIdent := dst.NewIdent("err")
 
 	intermediateType := fn.propertyFunction.ParameterType()
 	intermediateTypeExpr, err := intermediateType.AsTypeExpr(generationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating type expression for intermediate type")
+		return nil, eris.Wrap(err, "creating type expression for intermediate type")
 	}
 
 	declareLocal := astbuilder.LocalVariableDeclaration(
@@ -286,14 +286,14 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 func (fn *ResourceConversionFunction) indirectConversionToHub(
 	receiverName string, generationContext *astmodel.CodeGenerationContext,
 ) ([]dst.Stmt, error) {
-	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.ErisReference)
 	localId := fn.localVariableId()
 	errIdent := dst.NewIdent("err")
 
 	intermediateType := fn.propertyFunction.ParameterType()
 	intermediateTypeExpr, err := intermediateType.AsTypeExpr(generationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating type expression for intermediate type")
+		return nil, eris.Wrap(err, "creating type expression for intermediate type")
 	}
 
 	declareLocal := astbuilder.LocalVariableDeclaration(

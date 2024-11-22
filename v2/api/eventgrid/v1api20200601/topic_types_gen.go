@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -210,7 +210,7 @@ func (topic *Topic) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Topic_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	topic.Status = st
@@ -343,7 +343,7 @@ func (topic *Topic) AssignProperties_From_Topic(source *storage.Topic) error {
 	var spec Topic_Spec
 	err := spec.AssignProperties_From_Topic_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Topic_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Topic_Spec() to populate field Spec")
 	}
 	topic.Spec = spec
 
@@ -351,7 +351,7 @@ func (topic *Topic) AssignProperties_From_Topic(source *storage.Topic) error {
 	var status Topic_STATUS
 	err = status.AssignProperties_From_Topic_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Topic_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Topic_STATUS() to populate field Status")
 	}
 	topic.Status = status
 
@@ -369,7 +369,7 @@ func (topic *Topic) AssignProperties_To_Topic(destination *storage.Topic) error 
 	var spec storage.Topic_Spec
 	err := topic.Spec.AssignProperties_To_Topic_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Topic_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Topic_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -377,7 +377,7 @@ func (topic *Topic) AssignProperties_To_Topic(destination *storage.Topic) error 
 	var status storage.Topic_STATUS
 	err = topic.Status.AssignProperties_To_Topic_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Topic_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Topic_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -610,13 +610,13 @@ func (topic *Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 	src = &storage.Topic_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = topic.AssignProperties_From_Topic_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -634,13 +634,13 @@ func (topic *Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	dst = &storage.Topic_Spec{}
 	err := topic.AssignProperties_To_Topic_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -661,7 +661,7 @@ func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *storage.Topic_
 			var inboundIpRule InboundIpRule
 			err := inboundIpRule.AssignProperties_From_InboundIpRule(&inboundIpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_InboundIpRule() to populate field InboundIpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_InboundIpRule() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -684,7 +684,7 @@ func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *storage.Topic_
 		var inputSchemaMapping InputSchemaMapping
 		err := inputSchemaMapping.AssignProperties_From_InputSchemaMapping(source.InputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_InputSchemaMapping() to populate field InputSchemaMapping")
+			return eris.Wrap(err, "calling AssignProperties_From_InputSchemaMapping() to populate field InputSchemaMapping")
 		}
 		topic.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -699,7 +699,7 @@ func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *storage.Topic_
 		var operatorSpec TopicOperatorSpec
 		err := operatorSpec.AssignProperties_From_TopicOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TopicOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_TopicOperatorSpec() to populate field OperatorSpec")
 		}
 		topic.OperatorSpec = &operatorSpec
 	} else {
@@ -747,7 +747,7 @@ func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *storage.Top
 			var inboundIpRule storage.InboundIpRule
 			err := inboundIpRuleItem.AssignProperties_To_InboundIpRule(&inboundIpRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_InboundIpRule() to populate field InboundIpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_InboundIpRule() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -769,7 +769,7 @@ func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *storage.Top
 		var inputSchemaMapping storage.InputSchemaMapping
 		err := topic.InputSchemaMapping.AssignProperties_To_InputSchemaMapping(&inputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_InputSchemaMapping() to populate field InputSchemaMapping")
+			return eris.Wrap(err, "calling AssignProperties_To_InputSchemaMapping() to populate field InputSchemaMapping")
 		}
 		destination.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -784,7 +784,7 @@ func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *storage.Top
 		var operatorSpec storage.TopicOperatorSpec
 		err := topic.OperatorSpec.AssignProperties_To_TopicOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TopicOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_TopicOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -836,7 +836,7 @@ func (topic *Topic_Spec) Initialize_From_Topic_STATUS(source *Topic_STATUS) erro
 			var inboundIpRule InboundIpRule
 			err := inboundIpRule.Initialize_From_InboundIpRule_STATUS(&inboundIpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_InboundIpRule_STATUS() to populate field InboundIpRules")
+				return eris.Wrap(err, "calling Initialize_From_InboundIpRule_STATUS() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -858,7 +858,7 @@ func (topic *Topic_Spec) Initialize_From_Topic_STATUS(source *Topic_STATUS) erro
 		var inputSchemaMapping InputSchemaMapping
 		err := inputSchemaMapping.Initialize_From_InputSchemaMapping_STATUS(source.InputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
+			return eris.Wrap(err, "calling Initialize_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
 		}
 		topic.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -955,13 +955,13 @@ func (topic *Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	src = &storage.Topic_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = topic.AssignProperties_From_Topic_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -979,13 +979,13 @@ func (topic *Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	dst = &storage.Topic_STATUS{}
 	err := topic.AssignProperties_To_Topic_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1166,7 +1166,7 @@ func (topic *Topic_STATUS) AssignProperties_From_Topic_STATUS(source *storage.To
 			var inboundIpRule InboundIpRule_STATUS
 			err := inboundIpRule.AssignProperties_From_InboundIpRule_STATUS(&inboundIpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_InboundIpRule_STATUS() to populate field InboundIpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_InboundIpRule_STATUS() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -1189,7 +1189,7 @@ func (topic *Topic_STATUS) AssignProperties_From_Topic_STATUS(source *storage.To
 		var inputSchemaMapping InputSchemaMapping_STATUS
 		err := inputSchemaMapping.AssignProperties_From_InputSchemaMapping_STATUS(source.InputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
+			return eris.Wrap(err, "calling AssignProperties_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
 		}
 		topic.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -1214,7 +1214,7 @@ func (topic *Topic_STATUS) AssignProperties_From_Topic_STATUS(source *storage.To
 			var privateEndpointConnection PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1246,7 +1246,7 @@ func (topic *Topic_STATUS) AssignProperties_From_Topic_STATUS(source *storage.To
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		topic.SystemData = &systemDatum
 	} else {
@@ -1286,7 +1286,7 @@ func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *storage
 			var inboundIpRule storage.InboundIpRule_STATUS
 			err := inboundIpRuleItem.AssignProperties_To_InboundIpRule_STATUS(&inboundIpRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_InboundIpRule_STATUS() to populate field InboundIpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_InboundIpRule_STATUS() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -1308,7 +1308,7 @@ func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *storage
 		var inputSchemaMapping storage.InputSchemaMapping_STATUS
 		err := topic.InputSchemaMapping.AssignProperties_To_InputSchemaMapping_STATUS(&inputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
+			return eris.Wrap(err, "calling AssignProperties_To_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
 		}
 		destination.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -1333,7 +1333,7 @@ func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *storage
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1363,7 +1363,7 @@ func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *storage
 		var systemDatum storage.SystemData_STATUS
 		err := topic.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1486,7 +1486,7 @@ func (operator *TopicOperatorSpec) AssignProperties_From_TopicOperatorSpec(sourc
 		var configMap TopicOperatorConfigMaps
 		err := configMap.AssignProperties_From_TopicOperatorConfigMaps(source.ConfigMaps)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TopicOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_From_TopicOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		operator.ConfigMaps = &configMap
 	} else {
@@ -1516,7 +1516,7 @@ func (operator *TopicOperatorSpec) AssignProperties_From_TopicOperatorSpec(sourc
 		var secret TopicOperatorSecrets
 		err := secret.AssignProperties_From_TopicOperatorSecrets(source.Secrets)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TopicOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_From_TopicOperatorSecrets() to populate field Secrets")
 		}
 		operator.Secrets = &secret
 	} else {
@@ -1555,7 +1555,7 @@ func (operator *TopicOperatorSpec) AssignProperties_To_TopicOperatorSpec(destina
 		var configMap storage.TopicOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_TopicOperatorConfigMaps(&configMap)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TopicOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_To_TopicOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		destination.ConfigMaps = &configMap
 	} else {
@@ -1585,7 +1585,7 @@ func (operator *TopicOperatorSpec) AssignProperties_To_TopicOperatorSpec(destina
 		var secret storage.TopicOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_TopicOperatorSecrets(&secret)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TopicOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_To_TopicOperatorSecrets() to populate field Secrets")
 		}
 		destination.Secrets = &secret
 	} else {

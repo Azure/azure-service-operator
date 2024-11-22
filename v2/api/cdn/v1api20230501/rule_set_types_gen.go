@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (ruleSet *RuleSet) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st RuleSet_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	ruleSet.Status = st
@@ -309,7 +309,7 @@ func (ruleSet *RuleSet) AssignProperties_From_RuleSet(source *storage.RuleSet) e
 	var spec RuleSet_Spec
 	err := spec.AssignProperties_From_RuleSet_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RuleSet_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_RuleSet_Spec() to populate field Spec")
 	}
 	ruleSet.Spec = spec
 
@@ -317,7 +317,7 @@ func (ruleSet *RuleSet) AssignProperties_From_RuleSet(source *storage.RuleSet) e
 	var status RuleSet_STATUS
 	err = status.AssignProperties_From_RuleSet_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RuleSet_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_RuleSet_STATUS() to populate field Status")
 	}
 	ruleSet.Status = status
 
@@ -335,7 +335,7 @@ func (ruleSet *RuleSet) AssignProperties_To_RuleSet(destination *storage.RuleSet
 	var spec storage.RuleSet_Spec
 	err := ruleSet.Spec.AssignProperties_To_RuleSet_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RuleSet_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_RuleSet_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (ruleSet *RuleSet) AssignProperties_To_RuleSet(destination *storage.RuleSet
 	var status storage.RuleSet_STATUS
 	err = ruleSet.Status.AssignProperties_To_RuleSet_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RuleSet_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_RuleSet_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -441,13 +441,13 @@ func (ruleSet *RuleSet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 	src = &storage.RuleSet_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = ruleSet.AssignProperties_From_RuleSet_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -465,13 +465,13 @@ func (ruleSet *RuleSet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	dst = &storage.RuleSet_Spec{}
 	err := ruleSet.AssignProperties_To_RuleSet_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -488,7 +488,7 @@ func (ruleSet *RuleSet_Spec) AssignProperties_From_RuleSet_Spec(source *storage.
 		var operatorSpec RuleSetOperatorSpec
 		err := operatorSpec.AssignProperties_From_RuleSetOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RuleSetOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_RuleSetOperatorSpec() to populate field OperatorSpec")
 		}
 		ruleSet.OperatorSpec = &operatorSpec
 	} else {
@@ -520,7 +520,7 @@ func (ruleSet *RuleSet_Spec) AssignProperties_To_RuleSet_Spec(destination *stora
 		var operatorSpec storage.RuleSetOperatorSpec
 		err := ruleSet.OperatorSpec.AssignProperties_To_RuleSetOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RuleSetOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_RuleSetOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -602,13 +602,13 @@ func (ruleSet *RuleSet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 	src = &storage.RuleSet_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = ruleSet.AssignProperties_From_RuleSet_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -626,13 +626,13 @@ func (ruleSet *RuleSet_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 	dst = &storage.RuleSet_STATUS{}
 	err := ruleSet.AssignProperties_To_RuleSet_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -756,7 +756,7 @@ func (ruleSet *RuleSet_STATUS) AssignProperties_From_RuleSet_STATUS(source *stor
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		ruleSet.SystemData = &systemDatum
 	} else {
@@ -808,7 +808,7 @@ func (ruleSet *RuleSet_STATUS) AssignProperties_To_RuleSet_STATUS(destination *s
 		var systemDatum storage.SystemData_STATUS
 		err := ruleSet.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/testing/person/v20200101/arm"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -157,7 +157,7 @@ func (properties *PersonProperties) ConvertToARM(resolved genruntime.ConvertToAR
 	if properties.FamilyNameFromConfig != nil {
 		familyNameValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.FamilyNameFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property FamilyName")
+			return nil, eris.Wrap(err, "looking up configmap for property FamilyName")
 		}
 		familyName := familyNameValue
 		result.FamilyName = &familyName
@@ -166,7 +166,7 @@ func (properties *PersonProperties) ConvertToARM(resolved genruntime.ConvertToAR
 	// Set property "FullName":
 	fullNameValue, err := resolved.ResolvedConfigMaps.Lookup(properties.FullName)
 	if err != nil {
-		return nil, errors.Wrap(err, "looking up configmap for property FullName")
+		return nil, eris.Wrap(err, "looking up configmap for property FullName")
 	}
 	result.FullName = fullNameValue
 
@@ -181,7 +181,7 @@ func (properties *PersonProperties) ConvertToARM(resolved genruntime.ConvertToAR
 	if properties.RestrictedNameFromConfig != nil {
 		restrictedNameValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.RestrictedNameFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property RestrictedName")
+			return nil, eris.Wrap(err, "looking up configmap for property RestrictedName")
 		}
 		restrictedName := restrictedNameValue
 		result.RestrictedName = &restrictedName

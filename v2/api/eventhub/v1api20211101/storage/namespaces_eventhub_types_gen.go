@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -131,7 +131,7 @@ func (eventhub *NamespacesEventhub) SetStatus(status genruntime.ConvertibleStatu
 	var st NamespacesEventhub_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	eventhub.Status = st
@@ -185,7 +185,7 @@ var _ genruntime.ConvertibleSpec = &NamespacesEventhub_Spec{}
 // ConvertSpecFrom populates our NamespacesEventhub_Spec from the provided source
 func (eventhub *NamespacesEventhub_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == eventhub {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(eventhub)
@@ -194,7 +194,7 @@ func (eventhub *NamespacesEventhub_Spec) ConvertSpecFrom(source genruntime.Conve
 // ConvertSpecTo populates the provided destination from our NamespacesEventhub_Spec
 func (eventhub *NamespacesEventhub_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == eventhub {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(eventhub)
@@ -223,7 +223,7 @@ var _ genruntime.ConvertibleStatus = &NamespacesEventhub_STATUS{}
 // ConvertStatusFrom populates our NamespacesEventhub_STATUS from the provided source
 func (eventhub *NamespacesEventhub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == eventhub {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(eventhub)
@@ -232,7 +232,7 @@ func (eventhub *NamespacesEventhub_STATUS) ConvertStatusFrom(source genruntime.C
 // ConvertStatusTo populates the provided destination from our NamespacesEventhub_STATUS
 func (eventhub *NamespacesEventhub_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == eventhub {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(eventhub)

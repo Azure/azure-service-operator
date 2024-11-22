@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -58,12 +58,12 @@ func (share *StorageAccountsFileServicesShare) ConvertFrom(hub conversion.Hub) e
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = share.AssignProperties_From_StorageAccountsFileServicesShare(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to share")
+		return eris.Wrap(err, "converting from source to share")
 	}
 
 	return nil
@@ -75,11 +75,11 @@ func (share *StorageAccountsFileServicesShare) ConvertTo(hub conversion.Hub) err
 	var destination storage.StorageAccountsFileServicesShare
 	err := share.AssignProperties_To_StorageAccountsFileServicesShare(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from share")
+		return eris.Wrap(err, "converting to destination from share")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -192,7 +192,7 @@ func (share *StorageAccountsFileServicesShare) SetStatus(status genruntime.Conve
 	var st StorageAccountsFileServicesShare_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	share.Status = st
@@ -312,7 +312,7 @@ func (share *StorageAccountsFileServicesShare) AssignProperties_From_StorageAcco
 	var spec StorageAccountsFileServicesShare_Spec
 	err := spec.AssignProperties_From_StorageAccountsFileServicesShare_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsFileServicesShare_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsFileServicesShare_Spec() to populate field Spec")
 	}
 	share.Spec = spec
 
@@ -320,7 +320,7 @@ func (share *StorageAccountsFileServicesShare) AssignProperties_From_StorageAcco
 	var status StorageAccountsFileServicesShare_STATUS
 	err = status.AssignProperties_From_StorageAccountsFileServicesShare_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsFileServicesShare_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsFileServicesShare_STATUS() to populate field Status")
 	}
 	share.Status = status
 
@@ -338,7 +338,7 @@ func (share *StorageAccountsFileServicesShare) AssignProperties_To_StorageAccoun
 	var spec storage.StorageAccountsFileServicesShare_Spec
 	err := share.Spec.AssignProperties_To_StorageAccountsFileServicesShare_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsFileServicesShare_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsFileServicesShare_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -346,7 +346,7 @@ func (share *StorageAccountsFileServicesShare) AssignProperties_To_StorageAccoun
 	var status storage.StorageAccountsFileServicesShare_STATUS
 	err = share.Status.AssignProperties_To_StorageAccountsFileServicesShare_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsFileServicesShare_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsFileServicesShare_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -580,13 +580,13 @@ func (share *StorageAccountsFileServicesShare_Spec) ConvertSpecFrom(source genru
 	src = &storage.StorageAccountsFileServicesShare_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = share.AssignProperties_From_StorageAccountsFileServicesShare_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -604,13 +604,13 @@ func (share *StorageAccountsFileServicesShare_Spec) ConvertSpecTo(destination ge
 	dst = &storage.StorageAccountsFileServicesShare_Spec{}
 	err := share.AssignProperties_To_StorageAccountsFileServicesShare_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -648,7 +648,7 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_From_Storag
 		var operatorSpec StorageAccountsFileServicesShareOperatorSpec
 		err := operatorSpec.AssignProperties_From_StorageAccountsFileServicesShareOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsFileServicesShareOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsFileServicesShareOperatorSpec() to populate field OperatorSpec")
 		}
 		share.OperatorSpec = &operatorSpec
 	} else {
@@ -689,7 +689,7 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_From_Storag
 			var signedIdentifier SignedIdentifier
 			err := signedIdentifier.AssignProperties_From_SignedIdentifier(&signedIdentifierItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SignedIdentifier() to populate field SignedIdentifiers")
+				return eris.Wrap(err, "calling AssignProperties_From_SignedIdentifier() to populate field SignedIdentifiers")
 			}
 			signedIdentifierList[signedIdentifierIndex] = signedIdentifier
 		}
@@ -734,7 +734,7 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_To_StorageA
 		var operatorSpec storage.StorageAccountsFileServicesShareOperatorSpec
 		err := share.OperatorSpec.AssignProperties_To_StorageAccountsFileServicesShareOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsFileServicesShareOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsFileServicesShareOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -777,7 +777,7 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_To_StorageA
 			var signedIdentifier storage.SignedIdentifier
 			err := signedIdentifierItem.AssignProperties_To_SignedIdentifier(&signedIdentifier)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SignedIdentifier() to populate field SignedIdentifiers")
+				return eris.Wrap(err, "calling AssignProperties_To_SignedIdentifier() to populate field SignedIdentifiers")
 			}
 			signedIdentifierList[signedIdentifierIndex] = signedIdentifier
 		}
@@ -897,13 +897,13 @@ func (share *StorageAccountsFileServicesShare_STATUS) ConvertStatusFrom(source g
 	src = &storage.StorageAccountsFileServicesShare_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = share.AssignProperties_From_StorageAccountsFileServicesShare_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -921,13 +921,13 @@ func (share *StorageAccountsFileServicesShare_STATUS) ConvertStatusTo(destinatio
 	dst = &storage.StorageAccountsFileServicesShare_STATUS{}
 	err := share.AssignProperties_To_StorageAccountsFileServicesShare_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1267,7 +1267,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_From_Stor
 			var signedIdentifier SignedIdentifier_STATUS
 			err := signedIdentifier.AssignProperties_From_SignedIdentifier_STATUS(&signedIdentifierItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SignedIdentifier_STATUS() to populate field SignedIdentifiers")
+				return eris.Wrap(err, "calling AssignProperties_From_SignedIdentifier_STATUS() to populate field SignedIdentifiers")
 			}
 			signedIdentifierList[signedIdentifierIndex] = signedIdentifier
 		}
@@ -1395,7 +1395,7 @@ func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_To_Storag
 			var signedIdentifier storage.SignedIdentifier_STATUS
 			err := signedIdentifierItem.AssignProperties_To_SignedIdentifier_STATUS(&signedIdentifier)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SignedIdentifier_STATUS() to populate field SignedIdentifiers")
+				return eris.Wrap(err, "calling AssignProperties_To_SignedIdentifier_STATUS() to populate field SignedIdentifiers")
 			}
 			signedIdentifierList[signedIdentifierIndex] = signedIdentifier
 		}
@@ -1638,7 +1638,7 @@ func (identifier *SignedIdentifier) AssignProperties_From_SignedIdentifier(sourc
 		var accessPolicy AccessPolicy
 		err := accessPolicy.AssignProperties_From_AccessPolicy(source.AccessPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AccessPolicy() to populate field AccessPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_AccessPolicy() to populate field AccessPolicy")
 		}
 		identifier.AccessPolicy = &accessPolicy
 	} else {
@@ -1667,7 +1667,7 @@ func (identifier *SignedIdentifier) AssignProperties_To_SignedIdentifier(destina
 		var accessPolicy storage.AccessPolicy
 		err := identifier.AccessPolicy.AssignProperties_To_AccessPolicy(&accessPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AccessPolicy() to populate field AccessPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_AccessPolicy() to populate field AccessPolicy")
 		}
 		destination.AccessPolicy = &accessPolicy
 	} else {
@@ -1744,7 +1744,7 @@ func (identifier *SignedIdentifier_STATUS) AssignProperties_From_SignedIdentifie
 		var accessPolicy AccessPolicy_STATUS
 		err := accessPolicy.AssignProperties_From_AccessPolicy_STATUS(source.AccessPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AccessPolicy_STATUS() to populate field AccessPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_AccessPolicy_STATUS() to populate field AccessPolicy")
 		}
 		identifier.AccessPolicy = &accessPolicy
 	} else {
@@ -1768,7 +1768,7 @@ func (identifier *SignedIdentifier_STATUS) AssignProperties_To_SignedIdentifier_
 		var accessPolicy storage.AccessPolicy_STATUS
 		err := identifier.AccessPolicy.AssignProperties_To_AccessPolicy_STATUS(&accessPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AccessPolicy_STATUS() to populate field AccessPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_AccessPolicy_STATUS() to populate field AccessPolicy")
 		}
 		destination.AccessPolicy = &accessPolicy
 	} else {

@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (group *ApplicationSecurityGroup) SetStatus(status genruntime.ConvertibleSt
 	var st ApplicationSecurityGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	group.Status = st
@@ -309,7 +309,7 @@ func (group *ApplicationSecurityGroup) AssignProperties_From_ApplicationSecurity
 	var spec ApplicationSecurityGroup_Spec
 	err := spec.AssignProperties_From_ApplicationSecurityGroup_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_Spec() to populate field Spec")
 	}
 	group.Spec = spec
 
@@ -317,7 +317,7 @@ func (group *ApplicationSecurityGroup) AssignProperties_From_ApplicationSecurity
 	var status ApplicationSecurityGroup_STATUS
 	err = status.AssignProperties_From_ApplicationSecurityGroup_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS() to populate field Status")
 	}
 	group.Status = status
 
@@ -335,7 +335,7 @@ func (group *ApplicationSecurityGroup) AssignProperties_To_ApplicationSecurityGr
 	var spec storage.ApplicationSecurityGroup_Spec
 	err := group.Spec.AssignProperties_To_ApplicationSecurityGroup_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (group *ApplicationSecurityGroup) AssignProperties_To_ApplicationSecurityGr
 	var status storage.ApplicationSecurityGroup_STATUS
 	err = group.Status.AssignProperties_To_ApplicationSecurityGroup_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -480,13 +480,13 @@ func (group *ApplicationSecurityGroup_Spec) ConvertSpecFrom(source genruntime.Co
 	src = &storage.ApplicationSecurityGroup_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_ApplicationSecurityGroup_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -504,13 +504,13 @@ func (group *ApplicationSecurityGroup_Spec) ConvertSpecTo(destination genruntime
 	dst = &storage.ApplicationSecurityGroup_Spec{}
 	err := group.AssignProperties_To_ApplicationSecurityGroup_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -530,7 +530,7 @@ func (group *ApplicationSecurityGroup_Spec) AssignProperties_From_ApplicationSec
 		var operatorSpec ApplicationSecurityGroupOperatorSpec
 		err := operatorSpec.AssignProperties_From_ApplicationSecurityGroupOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupOperatorSpec() to populate field OperatorSpec")
 		}
 		group.OperatorSpec = &operatorSpec
 	} else {
@@ -568,7 +568,7 @@ func (group *ApplicationSecurityGroup_Spec) AssignProperties_To_ApplicationSecur
 		var operatorSpec storage.ApplicationSecurityGroupOperatorSpec
 		err := group.OperatorSpec.AssignProperties_To_ApplicationSecurityGroupOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -668,13 +668,13 @@ func (group *ApplicationSecurityGroup_STATUS) ConvertStatusFrom(source genruntim
 	src = &storage.ApplicationSecurityGroup_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_ApplicationSecurityGroup_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -692,13 +692,13 @@ func (group *ApplicationSecurityGroup_STATUS) ConvertStatusTo(destination genrun
 	dst = &storage.ApplicationSecurityGroup_STATUS{}
 	err := group.AssignProperties_To_ApplicationSecurityGroup_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

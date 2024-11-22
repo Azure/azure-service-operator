@@ -9,7 +9,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -27,7 +27,7 @@ func AddCrossplaneForProvider(idFactory astmodel.IdentifierFactory) *Stage {
 					forProviderTypes, err := nestSpecIntoForProvider(
 						idFactory, definitions, typeDef)
 					if err != nil {
-						return nil, errors.Wrapf(err, "creating 'ForProvider' definitions")
+						return nil, eris.Wrapf(err, "creating 'ForProvider' definitions")
 					}
 
 					result.AddAll(forProviderTypes...)
@@ -50,13 +50,13 @@ func nestSpecIntoForProvider(
 ) ([]astmodel.TypeDefinition, error) {
 	resource, ok := astmodel.AsResourceType(typeDef.Type())
 	if !ok {
-		return nil, errors.Errorf("provided typeDef was not a resourceType, instead %T", typeDef.Type())
+		return nil, eris.Errorf("provided typeDef was not a resourceType, instead %T", typeDef.Type())
 	}
 	resourceName := typeDef.Name()
 
 	specName, ok := astmodel.AsInternalTypeName(resource.SpecType())
 	if !ok {
-		return nil, errors.Errorf("resource %q spec was not of type TypeName, instead: %T", resourceName, resource.SpecType())
+		return nil, eris.Errorf("resource %q spec was not of type TypeName, instead: %T", resourceName, resource.SpecType())
 	}
 
 	// In the case where a spec type is reused across multiple resource definitions, we need to make sure
@@ -82,12 +82,12 @@ func nestType(
 ) ([]astmodel.TypeDefinition, error) {
 	outerType, ok := definitions[outerTypeName]
 	if !ok {
-		return nil, errors.Errorf("couldn't find type %q", outerTypeName)
+		return nil, eris.Errorf("couldn't find type %q", outerTypeName)
 	}
 
 	outerObject, ok := astmodel.AsObjectType(outerType.Type())
 	if !ok {
-		return nil, errors.Errorf("type %q was not of type ObjectType, instead %T", outerTypeName, outerType.Type())
+		return nil, eris.Errorf("type %q was not of type ObjectType, instead %T", outerTypeName, outerType.Type())
 	}
 
 	var result []astmodel.TypeDefinition

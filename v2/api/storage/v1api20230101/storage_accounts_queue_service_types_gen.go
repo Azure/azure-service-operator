@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -181,7 +181,7 @@ func (service *StorageAccountsQueueService) SetStatus(status genruntime.Converti
 	var st StorageAccountsQueueService_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	service.Status = st
@@ -301,7 +301,7 @@ func (service *StorageAccountsQueueService) AssignProperties_From_StorageAccount
 	var spec StorageAccountsQueueService_Spec
 	err := spec.AssignProperties_From_StorageAccountsQueueService_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsQueueService_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsQueueService_Spec() to populate field Spec")
 	}
 	service.Spec = spec
 
@@ -309,7 +309,7 @@ func (service *StorageAccountsQueueService) AssignProperties_From_StorageAccount
 	var status StorageAccountsQueueService_STATUS
 	err = status.AssignProperties_From_StorageAccountsQueueService_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsQueueService_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsQueueService_STATUS() to populate field Status")
 	}
 	service.Status = status
 
@@ -327,7 +327,7 @@ func (service *StorageAccountsQueueService) AssignProperties_To_StorageAccountsQ
 	var spec storage.StorageAccountsQueueService_Spec
 	err := service.Spec.AssignProperties_To_StorageAccountsQueueService_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsQueueService_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsQueueService_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -335,7 +335,7 @@ func (service *StorageAccountsQueueService) AssignProperties_To_StorageAccountsQ
 	var status storage.StorageAccountsQueueService_STATUS
 	err = service.Status.AssignProperties_To_StorageAccountsQueueService_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsQueueService_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsQueueService_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -458,13 +458,13 @@ func (service *StorageAccountsQueueService_Spec) ConvertSpecFrom(source genrunti
 	src = &storage.StorageAccountsQueueService_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = service.AssignProperties_From_StorageAccountsQueueService_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -482,13 +482,13 @@ func (service *StorageAccountsQueueService_Spec) ConvertSpecTo(destination genru
 	dst = &storage.StorageAccountsQueueService_Spec{}
 	err := service.AssignProperties_To_StorageAccountsQueueService_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -502,7 +502,7 @@ func (service *StorageAccountsQueueService_Spec) AssignProperties_From_StorageAc
 		var cor CorsRules
 		err := cor.AssignProperties_From_CorsRules(source.Cors)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CorsRules() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_From_CorsRules() to populate field Cors")
 		}
 		service.Cors = &cor
 	} else {
@@ -514,7 +514,7 @@ func (service *StorageAccountsQueueService_Spec) AssignProperties_From_StorageAc
 		var operatorSpec StorageAccountsQueueServiceOperatorSpec
 		err := operatorSpec.AssignProperties_From_StorageAccountsQueueServiceOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsQueueServiceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsQueueServiceOperatorSpec() to populate field OperatorSpec")
 		}
 		service.OperatorSpec = &operatorSpec
 	} else {
@@ -543,7 +543,7 @@ func (service *StorageAccountsQueueService_Spec) AssignProperties_To_StorageAcco
 		var cor storage.CorsRules
 		err := service.Cors.AssignProperties_To_CorsRules(&cor)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CorsRules() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_To_CorsRules() to populate field Cors")
 		}
 		destination.Cors = &cor
 	} else {
@@ -555,7 +555,7 @@ func (service *StorageAccountsQueueService_Spec) AssignProperties_To_StorageAcco
 		var operatorSpec storage.StorageAccountsQueueServiceOperatorSpec
 		err := service.OperatorSpec.AssignProperties_To_StorageAccountsQueueServiceOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsQueueServiceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsQueueServiceOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -592,7 +592,7 @@ func (service *StorageAccountsQueueService_Spec) Initialize_From_StorageAccounts
 		var cor CorsRules
 		err := cor.Initialize_From_CorsRules_STATUS(source.Cors)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CorsRules_STATUS() to populate field Cors")
+			return eris.Wrap(err, "calling Initialize_From_CorsRules_STATUS() to populate field Cors")
 		}
 		service.Cors = &cor
 	} else {
@@ -642,13 +642,13 @@ func (service *StorageAccountsQueueService_STATUS) ConvertStatusFrom(source genr
 	src = &storage.StorageAccountsQueueService_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = service.AssignProperties_From_StorageAccountsQueueService_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -666,13 +666,13 @@ func (service *StorageAccountsQueueService_STATUS) ConvertStatusTo(destination g
 	dst = &storage.StorageAccountsQueueService_STATUS{}
 	err := service.AssignProperties_To_StorageAccountsQueueService_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -741,7 +741,7 @@ func (service *StorageAccountsQueueService_STATUS) AssignProperties_From_Storage
 		var cor CorsRules_STATUS
 		err := cor.AssignProperties_From_CorsRules_STATUS(source.Cors)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CorsRules_STATUS() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_From_CorsRules_STATUS() to populate field Cors")
 		}
 		service.Cors = &cor
 	} else {
@@ -774,7 +774,7 @@ func (service *StorageAccountsQueueService_STATUS) AssignProperties_To_StorageAc
 		var cor storage.CorsRules_STATUS
 		err := service.Cors.AssignProperties_To_CorsRules_STATUS(&cor)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CorsRules_STATUS() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_To_CorsRules_STATUS() to populate field Cors")
 		}
 		destination.Cors = &cor
 	} else {

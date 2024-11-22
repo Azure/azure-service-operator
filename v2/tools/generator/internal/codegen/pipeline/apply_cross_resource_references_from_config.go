@@ -10,7 +10,7 @@ import (
 	"regexp"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -56,9 +56,10 @@ func ApplyCrossResourceReferencesFromConfig(
 						// config. Record an error saying that the config entry is no longer needed
 						crossResourceReferenceErrs = append(
 							crossResourceReferenceErrs,
-							errors.Errorf("%s.%s marked as ARM reference, but value is not needed because Swagger already says it is an ARM reference",
+							eris.Errorf("%s.%s marked as ARM reference, but value is not needed because Swagger already says it is an ARM reference",
 								typeName.String(),
-								prop.PropertyName().String()))
+								prop.PropertyName().String()),
+						)
 					}
 				}
 
@@ -68,10 +69,11 @@ func ApplyCrossResourceReferencesFromConfig(
 					// trust the Swagger.
 					crossResourceReferenceErrs = append(
 						crossResourceReferenceErrs,
-						errors.Errorf(
+						eris.Errorf(
 							"%s.%s looks like a resource reference but was not labelled as one; You may need to add it to the 'objectModelConfiguration' section of the config file",
 							typeName,
-							prop.PropertyName()))
+							prop.PropertyName()),
+					)
 				}
 
 				if isReference {
@@ -92,7 +94,7 @@ func ApplyCrossResourceReferencesFromConfig(
 
 				t, err := visitor.Visit(def.Type(), def.Name())
 				if err != nil {
-					return nil, errors.Wrapf(err, "visiting %q", def.Name())
+					return nil, eris.Wrapf(err, "visiting %q", def.Name())
 				}
 
 				typesWithARMIDs.Add(def.WithType(t))
@@ -108,7 +110,7 @@ func ApplyCrossResourceReferencesFromConfig(
 
 			err = configuration.ObjectModelConfiguration.ARMReference.VerifyConsumed()
 			if err != nil {
-				return nil, errors.Wrap(
+				return nil, eris.Wrap(
 					err,
 					"Found unused $armReference configurations; these need to be fixed or removed.")
 			}

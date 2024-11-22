@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (workspace *Workspace) SetStatus(status genruntime.ConvertibleStatus) error
 	var st Workspace_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	workspace.Status = st
@@ -309,7 +309,7 @@ func (workspace *Workspace) AssignProperties_From_Workspace(source *storage.Work
 	var spec Workspace_Spec
 	err := spec.AssignProperties_From_Workspace_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspace_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Workspace_Spec() to populate field Spec")
 	}
 	workspace.Spec = spec
 
@@ -317,7 +317,7 @@ func (workspace *Workspace) AssignProperties_From_Workspace(source *storage.Work
 	var status Workspace_STATUS
 	err = status.AssignProperties_From_Workspace_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspace_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Workspace_STATUS() to populate field Status")
 	}
 	workspace.Status = status
 
@@ -335,7 +335,7 @@ func (workspace *Workspace) AssignProperties_To_Workspace(destination *storage.W
 	var spec storage.Workspace_Spec
 	err := workspace.Spec.AssignProperties_To_Workspace_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspace_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Workspace_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (workspace *Workspace) AssignProperties_To_Workspace(destination *storage.W
 	var status storage.Workspace_STATUS
 	err = workspace.Status.AssignProperties_To_Workspace_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspace_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Workspace_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -679,13 +679,13 @@ func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 	src = &storage.Workspace_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = workspace.AssignProperties_From_Workspace_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -703,13 +703,13 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	dst = &storage.Workspace_Spec{}
 	err := workspace.AssignProperties_To_Workspace_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -729,7 +729,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var feature WorkspaceFeatures
 		err := feature.AssignProperties_From_WorkspaceFeatures(source.Features)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceFeatures() to populate field Features")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceFeatures() to populate field Features")
 		}
 		workspace.Features = &feature
 	} else {
@@ -752,7 +752,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var operatorSpec WorkspaceOperatorSpec
 		err := operatorSpec.AssignProperties_From_WorkspaceOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceOperatorSpec() to populate field OperatorSpec")
 		}
 		workspace.OperatorSpec = &operatorSpec
 	} else {
@@ -802,7 +802,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var sku WorkspaceSku
 		err := sku.AssignProperties_From_WorkspaceSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceSku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceSku() to populate field Sku")
 		}
 		workspace.Sku = &sku
 	} else {
@@ -817,7 +817,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var workspaceCapping WorkspaceCapping
 		err := workspaceCapping.AssignProperties_From_WorkspaceCapping(source.WorkspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceCapping() to populate field WorkspaceCapping")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceCapping() to populate field WorkspaceCapping")
 		}
 		workspace.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -844,7 +844,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var feature storage.WorkspaceFeatures
 		err := workspace.Features.AssignProperties_To_WorkspaceFeatures(&feature)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceFeatures() to populate field Features")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceFeatures() to populate field Features")
 		}
 		destination.Features = &feature
 	} else {
@@ -867,7 +867,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var operatorSpec storage.WorkspaceOperatorSpec
 		err := workspace.OperatorSpec.AssignProperties_To_WorkspaceOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -917,7 +917,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var sku storage.WorkspaceSku
 		err := workspace.Sku.AssignProperties_To_WorkspaceSku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceSku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceSku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -932,7 +932,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var workspaceCapping storage.WorkspaceCapping
 		err := workspace.WorkspaceCapping.AssignProperties_To_WorkspaceCapping(&workspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceCapping() to populate field WorkspaceCapping")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceCapping() to populate field WorkspaceCapping")
 		}
 		destination.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -961,7 +961,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var feature WorkspaceFeatures
 		err := feature.Initialize_From_WorkspaceFeatures_STATUS(source.Features)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceFeatures_STATUS() to populate field Features")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceFeatures_STATUS() to populate field Features")
 		}
 		workspace.Features = &feature
 	} else {
@@ -1011,7 +1011,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var sku WorkspaceSku
 		err := sku.Initialize_From_WorkspaceSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceSku_STATUS() to populate field Sku")
 		}
 		workspace.Sku = &sku
 	} else {
@@ -1026,7 +1026,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var workspaceCapping WorkspaceCapping
 		err := workspaceCapping.Initialize_From_WorkspaceCapping_STATUS(source.WorkspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
 		}
 		workspace.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -1121,13 +1121,13 @@ func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	src = &storage.Workspace_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = workspace.AssignProperties_From_Workspace_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1145,13 +1145,13 @@ func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.Conver
 	dst = &storage.Workspace_STATUS{}
 	err := workspace.AssignProperties_To_Workspace_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1368,7 +1368,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var feature WorkspaceFeatures_STATUS
 		err := feature.AssignProperties_From_WorkspaceFeatures_STATUS(source.Features)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceFeatures_STATUS() to populate field Features")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceFeatures_STATUS() to populate field Features")
 		}
 		workspace.Features = &feature
 	} else {
@@ -1404,7 +1404,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 			var privateLinkScopedResource PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResource.AssignProperties_From_PrivateLinkScopedResource_STATUS(&privateLinkScopedResourceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -1448,7 +1448,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var sku WorkspaceSku_STATUS
 		err := sku.AssignProperties_From_WorkspaceSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceSku_STATUS() to populate field Sku")
 		}
 		workspace.Sku = &sku
 	} else {
@@ -1466,7 +1466,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var workspaceCapping WorkspaceCapping_STATUS
 		err := workspaceCapping.AssignProperties_From_WorkspaceCapping_STATUS(source.WorkspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
 		}
 		workspace.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -1499,7 +1499,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var feature storage.WorkspaceFeatures_STATUS
 		err := workspace.Features.AssignProperties_To_WorkspaceFeatures_STATUS(&feature)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceFeatures_STATUS() to populate field Features")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceFeatures_STATUS() to populate field Features")
 		}
 		destination.Features = &feature
 	} else {
@@ -1535,7 +1535,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 			var privateLinkScopedResource storage.PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResourceItem.AssignProperties_To_PrivateLinkScopedResource_STATUS(&privateLinkScopedResource)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -1576,7 +1576,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var sku storage.WorkspaceSku_STATUS
 		err := workspace.Sku.AssignProperties_To_WorkspaceSku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceSku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1594,7 +1594,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var workspaceCapping storage.WorkspaceCapping_STATUS
 		err := workspace.WorkspaceCapping.AssignProperties_To_WorkspaceCapping_STATUS(&workspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
 		}
 		destination.WorkspaceCapping = &workspaceCapping
 	} else {

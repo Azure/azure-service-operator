@@ -9,7 +9,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -25,7 +25,7 @@ func AssembleOneOfTypes(idFactory astmodel.IdentifierFactory) *Stage {
 			assembler := newOneOfAssembler(state.Definitions(), idFactory)
 			newDefs, err := assembler.assembleOneOfs()
 			if err != nil {
-				return nil, errors.Wrapf(err, "assembling OneOf types")
+				return nil, eris.Wrapf(err, "assembling OneOf types")
 			}
 			return state.WithOverlaidDefinitions(newDefs), nil
 		})
@@ -117,14 +117,14 @@ func (oa *oneOfAssembler) assemblePair(
 	// Remove any direct reference to the parent from the leaf
 	err := oa.removeParentReferenceFromLeaf(ancestor, descendant)
 	if err != nil {
-		return errors.Wrapf(err, "removing parent reference %s from leaf %s", ancestor, descendant)
+		return eris.Wrapf(err, "removing parent reference %s from leaf %s", ancestor, descendant)
 	}
 
 	if oa.hasDiscriminatorValue(descendant) {
 		// Copy any common properties from the parent to the child
 		err = oa.embedCommonPropertiesInLeaf(ancestor, descendant)
 		if err != nil {
-			return errors.Wrapf(err, "embedding common properties from %s in leaf %s", ancestor, descendant)
+			return eris.Wrapf(err, "embedding common properties from %s in leaf %s", ancestor, descendant)
 		}
 	}
 
@@ -132,19 +132,19 @@ func (oa *oneOfAssembler) assemblePair(
 		// Strip common properties from the root (we replace these with other properties in a later stage)
 		err := oa.removeCommonPropertiesFromRoot(ancestor)
 		if err != nil {
-			return errors.Wrapf(err, "removing common properties from OneOf root %s", ancestor)
+			return eris.Wrapf(err, "removing common properties from OneOf root %s", ancestor)
 		}
 
 		// We've found the actual root, add a reference to the leaf
 		err = oa.addLeafReferenceToRoot(ancestor, descendant)
 		if err != nil {
-			return errors.Wrapf(err, "adding leaf reference to %s from root %s", descendant, ancestor)
+			return eris.Wrapf(err, "adding leaf reference to %s from root %s", descendant, ancestor)
 		}
 
 		// Ensure the discriminator property exists on the leaf
 		err = oa.addDiscriminatorProperty(descendant, ancestor)
 		if err != nil {
-			return errors.Wrapf(err, "ensuring discriminator property exists on %s", descendant)
+			return eris.Wrapf(err, "ensuring discriminator property exists on %s", descendant)
 		}
 	}
 
@@ -216,7 +216,7 @@ func (oa *oneOfAssembler) removeCommonPropertiesFromRoot(root astmodel.InternalT
 			return result, nil
 		})
 
-	return errors.Wrapf(err, "removing common properties from root %s", root)
+	return eris.Wrapf(err, "removing common properties from root %s", root)
 }
 
 // removeParentReferenceFromLeaf removes any reference to the root from the leaf.
@@ -228,7 +228,7 @@ func (oa *oneOfAssembler) removeParentReferenceFromLeaf(parent astmodel.TypeName
 		func(oneOf *astmodel.OneOfType) (*astmodel.OneOfType, error) {
 			return oneOf.WithoutType(parent), nil
 		})
-	return errors.Wrapf(err, "removing parent reference from leaf %s", leaf)
+	return eris.Wrapf(err, "removing parent reference from leaf %s", leaf)
 }
 
 // embedCommonPropertiesInLeaf embeds any common properties found on the parent into the leaf.
@@ -251,7 +251,7 @@ func (oa *oneOfAssembler) embedCommonPropertiesInLeaf(parent astmodel.InternalTy
 			return result, nil
 		})
 
-	return errors.Wrapf(err, "embedding common properties from OneOf in leaf %s", leaf)
+	return eris.Wrapf(err, "embedding common properties from OneOf in leaf %s", leaf)
 }
 
 // findCommonProperties finds all the object properties referenced by name to embed in a leaf OneOf.
@@ -291,14 +291,14 @@ func (oa *oneOfAssembler) addLeafReferenceToRoot(root astmodel.InternalTypeName,
 			return oneOf.WithType(leaf), nil
 		})
 
-	return errors.Wrapf(err, "adding leaf reference %s to root %s", leaf, root)
+	return eris.Wrapf(err, "adding leaf reference %s to root %s", leaf, root)
 }
 
 func (oa *oneOfAssembler) addDiscriminatorProperty(name astmodel.InternalTypeName, rootName astmodel.InternalTypeName) error {
 	// Find the name of the discriminator property from the root
 	root, ok := oa.asOneOf(rootName)
 	if !ok {
-		return errors.Errorf("couldn't find root %s", rootName)
+		return eris.Errorf("couldn't find root %s", rootName)
 	}
 
 	discriminatorProperty := root.DiscriminatorProperty()
@@ -404,13 +404,13 @@ func (oa *oneOfAssembler) updateOneOf(
 
 		oneOf, ok = astmodel.AsOneOfType(def.Type())
 		if !ok {
-			return errors.Errorf("found definition for %s, but it wasn't a OneOf", name)
+			return eris.Errorf("found definition for %s, but it wasn't a OneOf", name)
 		}
 	}
 
 	updated, err := transform(oneOf)
 	if err != nil {
-		return errors.Wrapf(err, "transforming oneOf %s", name)
+		return eris.Wrapf(err, "transforming oneOf %s", name)
 	}
 
 	oa.updates[name] = updated

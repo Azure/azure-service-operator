@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -58,12 +58,12 @@ func (networkInterface *NetworkInterface) ConvertFrom(hub conversion.Hub) error 
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = networkInterface.AssignProperties_From_NetworkInterface(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to networkInterface")
+		return eris.Wrap(err, "converting from source to networkInterface")
 	}
 
 	return nil
@@ -75,11 +75,11 @@ func (networkInterface *NetworkInterface) ConvertTo(hub conversion.Hub) error {
 	var destination storage.NetworkInterface
 	err := networkInterface.AssignProperties_To_NetworkInterface(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from networkInterface")
+		return eris.Wrap(err, "converting to destination from networkInterface")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -192,7 +192,7 @@ func (networkInterface *NetworkInterface) SetStatus(status genruntime.Convertibl
 	var st NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	networkInterface.Status = st
@@ -312,7 +312,7 @@ func (networkInterface *NetworkInterface) AssignProperties_From_NetworkInterface
 	var spec NetworkInterface_Spec
 	err := spec.AssignProperties_From_NetworkInterface_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NetworkInterface_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_NetworkInterface_Spec() to populate field Spec")
 	}
 	networkInterface.Spec = spec
 
@@ -320,7 +320,7 @@ func (networkInterface *NetworkInterface) AssignProperties_From_NetworkInterface
 	var status NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
 	err = status.AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Status")
 	}
 	networkInterface.Status = status
 
@@ -338,7 +338,7 @@ func (networkInterface *NetworkInterface) AssignProperties_To_NetworkInterface(d
 	var spec storage.NetworkInterface_Spec
 	err := networkInterface.Spec.AssignProperties_To_NetworkInterface_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NetworkInterface_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_NetworkInterface_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -346,7 +346,7 @@ func (networkInterface *NetworkInterface) AssignProperties_To_NetworkInterface(d
 	var status storage.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
 	err = networkInterface.Status.AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Status")
 	}
 	destination.Status = status
 
@@ -663,13 +663,13 @@ func (networkInterface *NetworkInterface_Spec) ConvertSpecFrom(source genruntime
 	src = &storage.NetworkInterface_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = networkInterface.AssignProperties_From_NetworkInterface_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -687,13 +687,13 @@ func (networkInterface *NetworkInterface_Spec) ConvertSpecTo(destination genrunt
 	dst = &storage.NetworkInterface_Spec{}
 	err := networkInterface.AssignProperties_To_NetworkInterface_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -710,7 +710,7 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_From_NetworkInte
 		var dnsSetting NetworkInterfaceDnsSettings
 		err := dnsSetting.AssignProperties_From_NetworkInterfaceDnsSettings(source.DnsSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceDnsSettings() to populate field DnsSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkInterfaceDnsSettings() to populate field DnsSettings")
 		}
 		networkInterface.DnsSettings = &dnsSetting
 	} else {
@@ -738,7 +738,7 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_From_NetworkInte
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		networkInterface.ExtendedLocation = &extendedLocation
 	} else {
@@ -754,7 +754,7 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_From_NetworkInte
 			var ipConfiguration NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
 			err := ipConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -771,7 +771,7 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_From_NetworkInte
 		var networkSecurityGroup NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
 		err := networkSecurityGroup.AssignProperties_From_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(source.NetworkSecurityGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
 		}
 		networkInterface.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
@@ -792,7 +792,7 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_From_NetworkInte
 		var operatorSpec NetworkInterfaceOperatorSpec
 		err := operatorSpec.AssignProperties_From_NetworkInterfaceOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkInterfaceOperatorSpec() to populate field OperatorSpec")
 		}
 		networkInterface.OperatorSpec = &operatorSpec
 	} else {
@@ -812,7 +812,7 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_From_NetworkInte
 		var privateLinkService PrivateLinkServiceSpec
 		err := privateLinkService.AssignProperties_From_PrivateLinkServiceSpec(source.PrivateLinkService)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceSpec() to populate field PrivateLinkService")
+			return eris.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceSpec() to populate field PrivateLinkService")
 		}
 		networkInterface.PrivateLinkService = &privateLinkService
 	} else {
@@ -839,7 +839,7 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 		var dnsSetting storage.NetworkInterfaceDnsSettings
 		err := networkInterface.DnsSettings.AssignProperties_To_NetworkInterfaceDnsSettings(&dnsSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceDnsSettings() to populate field DnsSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkInterfaceDnsSettings() to populate field DnsSettings")
 		}
 		destination.DnsSettings = &dnsSetting
 	} else {
@@ -867,7 +867,7 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 		var extendedLocation storage.ExtendedLocation
 		err := networkInterface.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -883,7 +883,7 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 			var ipConfiguration storage.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
 			err := ipConfigurationItem.AssignProperties_To_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -900,7 +900,7 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 		var networkSecurityGroup storage.NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
 		err := networkInterface.NetworkSecurityGroup.AssignProperties_To_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(&networkSecurityGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
 		}
 		destination.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
@@ -920,7 +920,7 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 		var operatorSpec storage.NetworkInterfaceOperatorSpec
 		err := networkInterface.OperatorSpec.AssignProperties_To_NetworkInterfaceOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkInterfaceOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -943,7 +943,7 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 		var privateLinkService storage.PrivateLinkServiceSpec
 		err := networkInterface.PrivateLinkService.AssignProperties_To_PrivateLinkServiceSpec(&privateLinkService)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceSpec() to populate field PrivateLinkService")
+			return eris.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceSpec() to populate field PrivateLinkService")
 		}
 		destination.PrivateLinkService = &privateLinkService
 	} else {
@@ -1066,13 +1066,13 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) Co
 	src = &storage.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = embedded.AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1090,13 +1090,13 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) Co
 	dst = &storage.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded{}
 	err := embedded.AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1378,7 +1378,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		var dnsSetting NetworkInterfaceDnsSettings_STATUS
 		err := dnsSetting.AssignProperties_From_NetworkInterfaceDnsSettings_STATUS(source.DnsSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceDnsSettings_STATUS() to populate field DnsSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkInterfaceDnsSettings_STATUS() to populate field DnsSettings")
 		}
 		embedded.DnsSettings = &dnsSetting
 	} else {
@@ -1390,7 +1390,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		var dscpConfiguration SubResource_STATUS
 		err := dscpConfiguration.AssignProperties_From_SubResource_STATUS(source.DscpConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DscpConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DscpConfiguration")
 		}
 		embedded.DscpConfiguration = &dscpConfiguration
 	} else {
@@ -1421,7 +1421,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		var extendedLocation ExtendedLocation_STATUS
 		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		embedded.ExtendedLocation = &extendedLocation
 	} else {
@@ -1443,7 +1443,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 			var ipConfiguration NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 			err := ipConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1475,7 +1475,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		var networkSecurityGroup NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 		err := networkSecurityGroup.AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source.NetworkSecurityGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
 		}
 		embedded.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
@@ -1504,7 +1504,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		var privateEndpoint PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
 		err := privateEndpoint.AssignProperties_From_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(source.PrivateEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateEndpoint")
+			return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateEndpoint")
 		}
 		embedded.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -1516,7 +1516,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		var privateLinkService PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
 		err := privateLinkService.AssignProperties_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(source.PrivateLinkService)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateLinkService")
+			return eris.Wrap(err, "calling AssignProperties_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateLinkService")
 		}
 		embedded.PrivateLinkService = &privateLinkService
 	} else {
@@ -1547,7 +1547,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 			var tapConfiguration NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 			err := tapConfiguration.AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&tapConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field TapConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field TapConfigurations")
 			}
 			tapConfigurationList[tapConfigurationIndex] = tapConfiguration
 		}
@@ -1564,7 +1564,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		var virtualMachine SubResource_STATUS
 		err := virtualMachine.AssignProperties_From_SubResource_STATUS(source.VirtualMachine)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualMachine")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualMachine")
 		}
 		embedded.VirtualMachine = &virtualMachine
 	} else {
@@ -1588,7 +1588,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		var dnsSetting storage.NetworkInterfaceDnsSettings_STATUS
 		err := embedded.DnsSettings.AssignProperties_To_NetworkInterfaceDnsSettings_STATUS(&dnsSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceDnsSettings_STATUS() to populate field DnsSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkInterfaceDnsSettings_STATUS() to populate field DnsSettings")
 		}
 		destination.DnsSettings = &dnsSetting
 	} else {
@@ -1600,7 +1600,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		var dscpConfiguration storage.SubResource_STATUS
 		err := embedded.DscpConfiguration.AssignProperties_To_SubResource_STATUS(&dscpConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DscpConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DscpConfiguration")
 		}
 		destination.DscpConfiguration = &dscpConfiguration
 	} else {
@@ -1631,7 +1631,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		var extendedLocation storage.ExtendedLocation_STATUS
 		err := embedded.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1653,7 +1653,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 			var ipConfiguration storage.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 			err := ipConfigurationItem.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1684,7 +1684,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		var networkSecurityGroup storage.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 		err := embedded.NetworkSecurityGroup.AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&networkSecurityGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
 		}
 		destination.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
@@ -1712,7 +1712,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		var privateEndpoint storage.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
 		err := embedded.PrivateEndpoint.AssignProperties_To_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(&privateEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateEndpoint")
+			return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateEndpoint")
 		}
 		destination.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -1724,7 +1724,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		var privateLinkService storage.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
 		err := embedded.PrivateLinkService.AssignProperties_To_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(&privateLinkService)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateLinkService")
+			return eris.Wrap(err, "calling AssignProperties_To_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateLinkService")
 		}
 		destination.PrivateLinkService = &privateLinkService
 	} else {
@@ -1754,7 +1754,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 			var tapConfiguration storage.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 			err := tapConfigurationItem.AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&tapConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field TapConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field TapConfigurations")
 			}
 			tapConfigurationList[tapConfigurationIndex] = tapConfiguration
 		}
@@ -1771,7 +1771,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		var virtualMachine storage.SubResource_STATUS
 		err := embedded.VirtualMachine.AssignProperties_To_SubResource_STATUS(&virtualMachine)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualMachine")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualMachine")
 		}
 		destination.VirtualMachine = &virtualMachine
 	} else {
@@ -2315,7 +2315,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 			var applicationGatewayBackendAddressPool ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
 			err := applicationGatewayBackendAddressPool.AssignProperties_From_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
+				return eris.Wrap(err, "calling AssignProperties_From_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
 			}
 			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
 		}
@@ -2333,7 +2333,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 			var applicationSecurityGroup ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
 			err := applicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
@@ -2351,7 +2351,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 			var loadBalancerBackendAddressPool BackendAddressPool_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerBackendAddressPool.AssignProperties_From_BackendAddressPool_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BackendAddressPool_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
+				return eris.Wrap(err, "calling AssignProperties_From_BackendAddressPool_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
 			}
 			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
 		}
@@ -2369,7 +2369,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 			var loadBalancerInboundNatRule InboundNatRule_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerInboundNatRule.AssignProperties_From_InboundNatRule_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_InboundNatRule_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
+				return eris.Wrap(err, "calling AssignProperties_From_InboundNatRule_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
 			}
 			loadBalancerInboundNatRuleList[loadBalancerInboundNatRuleIndex] = loadBalancerInboundNatRule
 		}
@@ -2415,7 +2415,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 		var publicIPAddress PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded
 		err := publicIPAddress.AssignProperties_From_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
+			return eris.Wrap(err, "calling AssignProperties_From_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
 		}
 		embedded.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2427,7 +2427,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 		var subnet Subnet_NetworkInterface_SubResourceEmbedded
 		err := subnet.AssignProperties_From_Subnet_NetworkInterface_SubResourceEmbedded(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Subnet_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_From_Subnet_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
 		}
 		embedded.Subnet = &subnet
 	} else {
@@ -2443,7 +2443,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 			var virtualNetworkTap VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
 			err := virtualNetworkTap.AssignProperties_From_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded(&virtualNetworkTapItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
+				return eris.Wrap(err, "calling AssignProperties_From_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
 			}
 			virtualNetworkTapList[virtualNetworkTapIndex] = virtualNetworkTap
 		}
@@ -2470,7 +2470,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 			var applicationGatewayBackendAddressPool storage.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
 			err := applicationGatewayBackendAddressPoolItem.AssignProperties_To_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPool)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
+				return eris.Wrap(err, "calling AssignProperties_To_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
 			}
 			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
 		}
@@ -2488,7 +2488,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 			var applicationSecurityGroup storage.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
 			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
@@ -2506,7 +2506,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 			var loadBalancerBackendAddressPool storage.BackendAddressPool_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerBackendAddressPoolItem.AssignProperties_To_BackendAddressPool_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPool)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BackendAddressPool_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
+				return eris.Wrap(err, "calling AssignProperties_To_BackendAddressPool_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
 			}
 			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
 		}
@@ -2524,7 +2524,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 			var loadBalancerInboundNatRule storage.InboundNatRule_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerInboundNatRuleItem.AssignProperties_To_InboundNatRule_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_InboundNatRule_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
+				return eris.Wrap(err, "calling AssignProperties_To_InboundNatRule_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
 			}
 			loadBalancerInboundNatRuleList[loadBalancerInboundNatRuleIndex] = loadBalancerInboundNatRule
 		}
@@ -2568,7 +2568,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 		var publicIPAddress storage.PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded
 		err := embedded.PublicIPAddress.AssignProperties_To_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded(&publicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
+			return eris.Wrap(err, "calling AssignProperties_To_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2580,7 +2580,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 		var subnet storage.Subnet_NetworkInterface_SubResourceEmbedded
 		err := embedded.Subnet.AssignProperties_To_Subnet_NetworkInterface_SubResourceEmbedded(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Subnet_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_To_Subnet_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -2596,7 +2596,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 			var virtualNetworkTap storage.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
 			err := virtualNetworkTapItem.AssignProperties_To_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded(&virtualNetworkTap)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
+				return eris.Wrap(err, "calling AssignProperties_To_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
 			}
 			virtualNetworkTapList[virtualNetworkTapIndex] = virtualNetworkTap
 		}
@@ -2882,7 +2882,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			var applicationGatewayBackendAddressPool ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 			err := applicationGatewayBackendAddressPool.AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
+				return eris.Wrap(err, "calling AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
 			}
 			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
 		}
@@ -2900,7 +2900,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			var applicationSecurityGroup ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 			err := applicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
@@ -2924,7 +2924,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			var loadBalancerBackendAddressPool BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerBackendAddressPool.AssignProperties_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
+				return eris.Wrap(err, "calling AssignProperties_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
 			}
 			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
 		}
@@ -2942,7 +2942,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			var loadBalancerInboundNatRule InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerInboundNatRule.AssignProperties_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
+				return eris.Wrap(err, "calling AssignProperties_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
 			}
 			loadBalancerInboundNatRuleList[loadBalancerInboundNatRuleIndex] = loadBalancerInboundNatRule
 		}
@@ -2988,7 +2988,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 		var privateLinkConnectionProperty NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
 		err := privateLinkConnectionProperty.AssignProperties_From_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(source.PrivateLinkConnectionProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS() to populate field PrivateLinkConnectionProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS() to populate field PrivateLinkConnectionProperties")
 		}
 		embedded.PrivateLinkConnectionProperties = &privateLinkConnectionProperty
 	} else {
@@ -3009,7 +3009,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 		var publicIPAddress PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
 		err := publicIPAddress.AssignProperties_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
+			return eris.Wrap(err, "calling AssignProperties_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
 		}
 		embedded.PublicIPAddress = &publicIPAddress
 	} else {
@@ -3021,7 +3021,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 		var subnet Subnet_STATUS_NetworkInterface_SubResourceEmbedded
 		err := subnet.AssignProperties_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
 		}
 		embedded.Subnet = &subnet
 	} else {
@@ -3040,7 +3040,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			var virtualNetworkTap VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
 			err := virtualNetworkTap.AssignProperties_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&virtualNetworkTapItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
+				return eris.Wrap(err, "calling AssignProperties_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
 			}
 			virtualNetworkTapList[virtualNetworkTapIndex] = virtualNetworkTap
 		}
@@ -3067,7 +3067,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			var applicationGatewayBackendAddressPool storage.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 			err := applicationGatewayBackendAddressPoolItem.AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPool)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
+				return eris.Wrap(err, "calling AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
 			}
 			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
 		}
@@ -3085,7 +3085,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			var applicationSecurityGroup storage.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
@@ -3109,7 +3109,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			var loadBalancerBackendAddressPool storage.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerBackendAddressPoolItem.AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPool)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
+				return eris.Wrap(err, "calling AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
 			}
 			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
 		}
@@ -3127,7 +3127,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			var loadBalancerInboundNatRule storage.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
 			err := loadBalancerInboundNatRuleItem.AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
+				return eris.Wrap(err, "calling AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
 			}
 			loadBalancerInboundNatRuleList[loadBalancerInboundNatRuleIndex] = loadBalancerInboundNatRule
 		}
@@ -3171,7 +3171,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 		var privateLinkConnectionProperty storage.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
 		err := embedded.PrivateLinkConnectionProperties.AssignProperties_To_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(&privateLinkConnectionProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS() to populate field PrivateLinkConnectionProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS() to populate field PrivateLinkConnectionProperties")
 		}
 		destination.PrivateLinkConnectionProperties = &privateLinkConnectionProperty
 	} else {
@@ -3191,7 +3191,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 		var publicIPAddress storage.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
 		err := embedded.PublicIPAddress.AssignProperties_To_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(&publicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
+			return eris.Wrap(err, "calling AssignProperties_To_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -3203,7 +3203,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 		var subnet storage.Subnet_STATUS_NetworkInterface_SubResourceEmbedded
 		err := embedded.Subnet.AssignProperties_To_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Subnet_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_To_Subnet_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -3222,7 +3222,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			var virtualNetworkTap storage.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
 			err := virtualNetworkTapItem.AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&virtualNetworkTap)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
+				return eris.Wrap(err, "calling AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
 			}
 			virtualNetworkTapList[virtualNetworkTapIndex] = virtualNetworkTap
 		}

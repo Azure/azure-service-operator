@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -58,12 +58,12 @@ func (versionSet *ApiVersionSet) ConvertFrom(hub conversion.Hub) error {
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = versionSet.AssignProperties_From_ApiVersionSet(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to versionSet")
+		return eris.Wrap(err, "converting from source to versionSet")
 	}
 
 	return nil
@@ -75,11 +75,11 @@ func (versionSet *ApiVersionSet) ConvertTo(hub conversion.Hub) error {
 	var destination storage.ApiVersionSet
 	err := versionSet.AssignProperties_To_ApiVersionSet(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from versionSet")
+		return eris.Wrap(err, "converting to destination from versionSet")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -193,7 +193,7 @@ func (versionSet *ApiVersionSet) SetStatus(status genruntime.ConvertibleStatus) 
 	var st ApiVersionSet_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	versionSet.Status = st
@@ -313,7 +313,7 @@ func (versionSet *ApiVersionSet) AssignProperties_From_ApiVersionSet(source *sto
 	var spec ApiVersionSet_Spec
 	err := spec.AssignProperties_From_ApiVersionSet_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ApiVersionSet_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ApiVersionSet_Spec() to populate field Spec")
 	}
 	versionSet.Spec = spec
 
@@ -321,7 +321,7 @@ func (versionSet *ApiVersionSet) AssignProperties_From_ApiVersionSet(source *sto
 	var status ApiVersionSet_STATUS
 	err = status.AssignProperties_From_ApiVersionSet_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ApiVersionSet_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ApiVersionSet_STATUS() to populate field Status")
 	}
 	versionSet.Status = status
 
@@ -339,7 +339,7 @@ func (versionSet *ApiVersionSet) AssignProperties_To_ApiVersionSet(destination *
 	var spec storage.ApiVersionSet_Spec
 	err := versionSet.Spec.AssignProperties_To_ApiVersionSet_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ApiVersionSet_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ApiVersionSet_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -347,7 +347,7 @@ func (versionSet *ApiVersionSet) AssignProperties_To_ApiVersionSet(destination *
 	var status storage.ApiVersionSet_STATUS
 	err = versionSet.Status.AssignProperties_To_ApiVersionSet_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ApiVersionSet_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ApiVersionSet_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -549,13 +549,13 @@ func (versionSet *ApiVersionSet_Spec) ConvertSpecFrom(source genruntime.Converti
 	src = &storage.ApiVersionSet_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = versionSet.AssignProperties_From_ApiVersionSet_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -573,13 +573,13 @@ func (versionSet *ApiVersionSet_Spec) ConvertSpecTo(destination genruntime.Conve
 	dst = &storage.ApiVersionSet_Spec{}
 	err := versionSet.AssignProperties_To_ApiVersionSet_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -607,7 +607,7 @@ func (versionSet *ApiVersionSet_Spec) AssignProperties_From_ApiVersionSet_Spec(s
 		var operatorSpec ApiVersionSetOperatorSpec
 		err := operatorSpec.AssignProperties_From_ApiVersionSetOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiVersionSetOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiVersionSetOperatorSpec() to populate field OperatorSpec")
 		}
 		versionSet.OperatorSpec = &operatorSpec
 	} else {
@@ -675,7 +675,7 @@ func (versionSet *ApiVersionSet_Spec) AssignProperties_To_ApiVersionSet_Spec(des
 		var operatorSpec storage.ApiVersionSetOperatorSpec
 		err := versionSet.OperatorSpec.AssignProperties_To_ApiVersionSetOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiVersionSetOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiVersionSetOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -782,13 +782,13 @@ func (versionSet *ApiVersionSet_STATUS) ConvertStatusFrom(source genruntime.Conv
 	src = &storage.ApiVersionSet_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = versionSet.AssignProperties_From_ApiVersionSet_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -806,13 +806,13 @@ func (versionSet *ApiVersionSet_STATUS) ConvertStatusTo(destination genruntime.C
 	dst = &storage.ApiVersionSet_STATUS{}
 	err := versionSet.AssignProperties_To_ApiVersionSet_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil

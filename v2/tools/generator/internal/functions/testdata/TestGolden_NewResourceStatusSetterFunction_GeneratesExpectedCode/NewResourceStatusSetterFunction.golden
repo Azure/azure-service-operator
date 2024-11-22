@@ -6,7 +6,7 @@
 -import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 +import (
 +	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-+	"github.com/pkg/errors"
++	"github.com/rotisserie/eris"
 +	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 +)
  
@@ -31,7 +31,7 @@
 +	var st Person_STATUS
 +	err := status.ConvertStatusTo(&st)
 +	if err != nil {
-+		return errors.Wrap(err, "failed to convert status")
++		return eris.Wrap(err, "failed to convert status")
 +	}
 +
 +	person.Status = st

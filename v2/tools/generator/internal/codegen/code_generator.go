@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -62,7 +62,7 @@ func NewTargetedCodeGeneratorFromConfig(
 ) (*CodeGenerator, error) {
 	result, err := NewCodeGeneratorFromConfig(configuration, idFactory, log)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating pipeline targeting %s", target)
+		return nil, eris.Wrapf(err, "creating pipeline targeting %s", target)
 	}
 
 	// Filter stages to use only those appropriate for our target
@@ -278,7 +278,7 @@ func (generator *CodeGenerator) Generate(
 		diagram := pipeline.NewPipelineDiagram(generator.debugSettings)
 		err := diagram.WriteDiagram(generator.pipeline)
 		if err != nil {
-			return errors.Wrapf(err, "failed to generate diagram")
+			return eris.Wrapf(err, "failed to generate diagram")
 		}
 	}
 
@@ -291,7 +291,7 @@ func (generator *CodeGenerator) Generate(
 
 		newState, err := generator.executeStage(ctx, stageNumber, stage, state)
 		if err != nil {
-			return errors.Wrapf(err, "failed to execute stage %d: %s", stageNumber, stage.Description())
+			return eris.Wrapf(err, "failed to execute stage %d: %s", stageNumber, stage.Description())
 		}
 
 		generator.logStateChanges(start, newState, state, log, stageDescription)
@@ -343,9 +343,9 @@ func (generator *CodeGenerator) executeStage(
 	defer func() {
 		if r := recover(); r != nil {
 			if e, ok := r.(error); ok {
-				err = errors.Wrapf(e, "panic: %s", string(debug.Stack()))
+				err = eris.Wrapf(e, "panic: %s", string(debug.Stack()))
 			} else {
-				err = errors.Errorf("panic: %s\n%s", r, string(debug.Stack()))
+				err = eris.Errorf("panic: %s\n%s", r, string(debug.Stack()))
 			}
 		}
 	}()
@@ -359,26 +359,26 @@ func (generator *CodeGenerator) executeStage(
 
 	if ctx.Err() != nil {
 		// Cancelled - will be wrapped by our caller
-		return nil, errors.New("pipeline cancelled")
+		return nil, eris.New("pipeline cancelled")
 	}
 
 	// Fail fast if something goes awry
 	if len(newState.Definitions()) == 0 {
 		// Will be wrapped by our caller with details of the stage
-		return nil, errors.Errorf("all type definitions removed by stage")
+		return nil, eris.Errorf("all type definitions removed by stage")
 	}
 
 	if generator.debugReporter != nil {
 		err := generator.debugReporter.ReportStage(stageNumber, stage.Description(), newState)
 		if err != nil {
 			// Will be wrapped by our caller with details of the stage
-			return nil, errors.Wrapf(err, "failed to generate debug report for stage")
+			return nil, eris.Wrapf(err, "failed to generate debug report for stage")
 		}
 
 		err = stage.RunDiagnostic(generator.debugSettings, stageNumber, newState)
 		if err != nil {
 			// Will be wrapped by our caller with details of the stage
-			return nil, errors.Wrapf(err, "failed to generate diagnostic report for stage")
+			return nil, eris.Wrapf(err, "failed to generate diagnostic report for stage")
 		}
 	}
 

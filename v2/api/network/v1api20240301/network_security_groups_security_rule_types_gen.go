@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) SetStatus(status genruntime.Conve
 	var st NetworkSecurityGroupsSecurityRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	rule.Status = st
@@ -309,7 +309,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) AssignProperties_From_NetworkSecu
 	var spec NetworkSecurityGroupsSecurityRule_Spec
 	err := spec.AssignProperties_From_NetworkSecurityGroupsSecurityRule_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroupsSecurityRule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroupsSecurityRule_Spec() to populate field Spec")
 	}
 	rule.Spec = spec
 
@@ -317,7 +317,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) AssignProperties_From_NetworkSecu
 	var status NetworkSecurityGroupsSecurityRule_STATUS
 	err = status.AssignProperties_From_NetworkSecurityGroupsSecurityRule_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroupsSecurityRule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroupsSecurityRule_STATUS() to populate field Status")
 	}
 	rule.Status = status
 
@@ -335,7 +335,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) AssignProperties_To_NetworkSecuri
 	var spec storage.NetworkSecurityGroupsSecurityRule_Spec
 	err := rule.Spec.AssignProperties_To_NetworkSecurityGroupsSecurityRule_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroupsSecurityRule_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroupsSecurityRule_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) AssignProperties_To_NetworkSecuri
 	var status storage.NetworkSecurityGroupsSecurityRule_STATUS
 	err = rule.Status.AssignProperties_To_NetworkSecurityGroupsSecurityRule_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroupsSecurityRule_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroupsSecurityRule_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -728,13 +728,13 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) ConvertSpecFrom(source genru
 	src = &storage.NetworkSecurityGroupsSecurityRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = rule.AssignProperties_From_NetworkSecurityGroupsSecurityRule_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -752,13 +752,13 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) ConvertSpecTo(destination ge
 	dst = &storage.NetworkSecurityGroupsSecurityRule_Spec{}
 	err := rule.AssignProperties_To_NetworkSecurityGroupsSecurityRule_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -797,7 +797,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignProperties_From_Networ
 			var destinationApplicationSecurityGroup ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := destinationApplicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&destinationApplicationSecurityGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
 			}
 			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
 		}
@@ -826,7 +826,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignProperties_From_Networ
 		var operatorSpec NetworkSecurityGroupsSecurityRuleOperatorSpec
 		err := operatorSpec.AssignProperties_From_NetworkSecurityGroupsSecurityRuleOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroupsSecurityRuleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroupsSecurityRuleOperatorSpec() to populate field OperatorSpec")
 		}
 		rule.OperatorSpec = &operatorSpec
 	} else {
@@ -868,7 +868,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignProperties_From_Networ
 			var sourceApplicationSecurityGroup ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := sourceApplicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&sourceApplicationSecurityGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
 			}
 			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
 		}
@@ -921,7 +921,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignProperties_To_NetworkS
 			var destinationApplicationSecurityGroup storage.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := destinationApplicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&destinationApplicationSecurityGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
 			}
 			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
 		}
@@ -949,7 +949,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignProperties_To_NetworkS
 		var operatorSpec storage.NetworkSecurityGroupsSecurityRuleOperatorSpec
 		err := rule.OperatorSpec.AssignProperties_To_NetworkSecurityGroupsSecurityRuleOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroupsSecurityRuleOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroupsSecurityRuleOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -993,7 +993,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignProperties_To_NetworkS
 			var sourceApplicationSecurityGroup storage.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := sourceApplicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&sourceApplicationSecurityGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
 			}
 			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
 		}
@@ -1048,7 +1048,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) Initialize_From_NetworkSecur
 			var destinationApplicationSecurityGroup ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := destinationApplicationSecurityGroup.Initialize_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&destinationApplicationSecurityGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
+				return eris.Wrap(err, "calling Initialize_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
 			}
 			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
 		}
@@ -1097,7 +1097,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) Initialize_From_NetworkSecur
 			var sourceApplicationSecurityGroup ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := sourceApplicationSecurityGroup.Initialize_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&sourceApplicationSecurityGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
+				return eris.Wrap(err, "calling Initialize_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
 			}
 			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
 		}
@@ -1211,13 +1211,13 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) ConvertStatusFrom(source g
 	src = &storage.NetworkSecurityGroupsSecurityRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = rule.AssignProperties_From_NetworkSecurityGroupsSecurityRule_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1235,13 +1235,13 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) ConvertStatusTo(destinatio
 	dst = &storage.NetworkSecurityGroupsSecurityRule_STATUS{}
 	err := rule.AssignProperties_To_NetworkSecurityGroupsSecurityRule_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1480,7 +1480,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignProperties_From_Netw
 			var destinationApplicationSecurityGroup ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := destinationApplicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&destinationApplicationSecurityGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
 			}
 			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
 		}
@@ -1549,7 +1549,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignProperties_From_Netw
 			var sourceApplicationSecurityGroup ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := sourceApplicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&sourceApplicationSecurityGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
 			}
 			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
 		}
@@ -1605,7 +1605,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignProperties_To_Networ
 			var destinationApplicationSecurityGroup storage.ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := destinationApplicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&destinationApplicationSecurityGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
 			}
 			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
 		}
@@ -1671,7 +1671,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignProperties_To_Networ
 			var sourceApplicationSecurityGroup storage.ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 			err := sourceApplicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&sourceApplicationSecurityGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
+				return eris.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
 			}
 			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
 		}

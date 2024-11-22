@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -131,7 +131,7 @@ func (encryptionSet *DiskEncryptionSet) SetStatus(status genruntime.ConvertibleS
 	var st DiskEncryptionSet_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	encryptionSet.Status = st
@@ -191,7 +191,7 @@ var _ genruntime.ConvertibleSpec = &DiskEncryptionSet_Spec{}
 // ConvertSpecFrom populates our DiskEncryptionSet_Spec from the provided source
 func (encryptionSet *DiskEncryptionSet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == encryptionSet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(encryptionSet)
@@ -200,7 +200,7 @@ func (encryptionSet *DiskEncryptionSet_Spec) ConvertSpecFrom(source genruntime.C
 // ConvertSpecTo populates the provided destination from our DiskEncryptionSet_Spec
 func (encryptionSet *DiskEncryptionSet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == encryptionSet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(encryptionSet)
@@ -232,7 +232,7 @@ var _ genruntime.ConvertibleStatus = &DiskEncryptionSet_STATUS{}
 // ConvertStatusFrom populates our DiskEncryptionSet_STATUS from the provided source
 func (encryptionSet *DiskEncryptionSet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == encryptionSet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(encryptionSet)
@@ -241,7 +241,7 @@ func (encryptionSet *DiskEncryptionSet_STATUS) ConvertStatusFrom(source genrunti
 // ConvertStatusTo populates the provided destination from our DiskEncryptionSet_STATUS
 func (encryptionSet *DiskEncryptionSet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == encryptionSet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(encryptionSet)

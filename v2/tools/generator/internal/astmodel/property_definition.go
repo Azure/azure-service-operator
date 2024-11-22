@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -178,7 +178,7 @@ func (property *PropertyDefinition) WithType(
 	newType Type,
 ) *PropertyDefinition {
 	if newType == nil {
-		panic(errors.New("nil type provided to WithType"))
+		panic(eris.New("nil type provided to WithType"))
 	}
 
 	if TypeEquals(property.propertyType, newType) {
@@ -286,7 +286,7 @@ func (property *PropertyDefinition) MakeRequired() *PropertyDefinition {
 	}
 
 	if !isTypeOptional(property.PropertyType()) {
-		panic(errors.Errorf(
+		panic(eris.Errorf(
 			"property %s with non-optional type %T cannot be marked kubebuilder:validation:Required.",
 			property.PropertyName(),
 			property.PropertyType()))
@@ -413,7 +413,7 @@ func (property *PropertyDefinition) AsField(
 	codeGenerationContext *CodeGenerationContext,
 ) (*dst.Field, error) {
 	if property.flatten {
-		return nil, errors.Errorf("property %s marked for flattening was not flattened", property.propertyName)
+		return nil, eris.Errorf("property %s marked for flattening was not flattened", property.propertyName)
 	}
 
 	tags := property.renderedTags()
@@ -438,7 +438,7 @@ func (property *PropertyDefinition) AsField(
 	// Some types opt out of codegen by returning nil
 	propTypeExpr, err := propType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to generate field for property %s", property.propertyName)
+		return nil, eris.Wrapf(err, "unable to generate field for property %s", property.propertyName)
 	}
 
 	typeExpr := propTypeExpr

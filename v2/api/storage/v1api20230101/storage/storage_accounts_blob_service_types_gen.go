@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -130,7 +130,7 @@ func (service *StorageAccountsBlobService) SetStatus(status genruntime.Convertib
 	var st StorageAccountsBlobService_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	service.Status = st
@@ -187,7 +187,7 @@ var _ genruntime.ConvertibleSpec = &StorageAccountsBlobService_Spec{}
 // ConvertSpecFrom populates our StorageAccountsBlobService_Spec from the provided source
 func (service *StorageAccountsBlobService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == service {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(service)
@@ -196,7 +196,7 @@ func (service *StorageAccountsBlobService_Spec) ConvertSpecFrom(source genruntim
 // ConvertSpecTo populates the provided destination from our StorageAccountsBlobService_Spec
 func (service *StorageAccountsBlobService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == service {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(service)
@@ -226,7 +226,7 @@ var _ genruntime.ConvertibleStatus = &StorageAccountsBlobService_STATUS{}
 // ConvertStatusFrom populates our StorageAccountsBlobService_STATUS from the provided source
 func (service *StorageAccountsBlobService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == service {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(service)
@@ -235,7 +235,7 @@ func (service *StorageAccountsBlobService_STATUS) ConvertStatusFrom(source genru
 // ConvertStatusTo populates the provided destination from our StorageAccountsBlobService_STATUS
 func (service *StorageAccountsBlobService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == service {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(service)

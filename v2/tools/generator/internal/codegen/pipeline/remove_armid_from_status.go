@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -53,7 +53,7 @@ func removeSpecIDField(defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinition
 
 	updatedDefs, err := removeIDVisitor.VisitDefinitions(astmodel.FindSpecDefinitions(defs), nil)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to remove spec.Id")
+		return nil, eris.Wrapf(err, "failed to remove spec.Id")
 	}
 
 	return updatedDefs, nil
@@ -72,7 +72,7 @@ func replaceStatusARMIDWithString(defs astmodel.TypeDefinitionSet) (astmodel.Typ
 
 	updatedDefs, err := replaceARMIDWithStringVisitor.VisitDefinitions(astmodel.FindStatusDefinitions(defs), nil)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to replace ARM ID with String on status types")
+		return nil, eris.Wrapf(err, "failed to replace ARM ID with String on status types")
 	}
 
 	return updatedDefs, nil

@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -58,12 +58,12 @@ func (container *StorageAccountsBlobServicesContainer) ConvertFrom(hub conversio
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = container.AssignProperties_From_StorageAccountsBlobServicesContainer(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to container")
+		return eris.Wrap(err, "converting from source to container")
 	}
 
 	return nil
@@ -75,11 +75,11 @@ func (container *StorageAccountsBlobServicesContainer) ConvertTo(hub conversion.
 	var destination storage.StorageAccountsBlobServicesContainer
 	err := container.AssignProperties_To_StorageAccountsBlobServicesContainer(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from container")
+		return eris.Wrap(err, "converting to destination from container")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -192,7 +192,7 @@ func (container *StorageAccountsBlobServicesContainer) SetStatus(status genrunti
 	var st StorageAccountsBlobServicesContainer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	container.Status = st
@@ -312,7 +312,7 @@ func (container *StorageAccountsBlobServicesContainer) AssignProperties_From_Sto
 	var spec StorageAccountsBlobServicesContainer_Spec
 	err := spec.AssignProperties_From_StorageAccountsBlobServicesContainer_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsBlobServicesContainer_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsBlobServicesContainer_Spec() to populate field Spec")
 	}
 	container.Spec = spec
 
@@ -320,7 +320,7 @@ func (container *StorageAccountsBlobServicesContainer) AssignProperties_From_Sto
 	var status StorageAccountsBlobServicesContainer_STATUS
 	err = status.AssignProperties_From_StorageAccountsBlobServicesContainer_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsBlobServicesContainer_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsBlobServicesContainer_STATUS() to populate field Status")
 	}
 	container.Status = status
 
@@ -338,7 +338,7 @@ func (container *StorageAccountsBlobServicesContainer) AssignProperties_To_Stora
 	var spec storage.StorageAccountsBlobServicesContainer_Spec
 	err := container.Spec.AssignProperties_To_StorageAccountsBlobServicesContainer_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsBlobServicesContainer_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsBlobServicesContainer_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -346,7 +346,7 @@ func (container *StorageAccountsBlobServicesContainer) AssignProperties_To_Stora
 	var status storage.StorageAccountsBlobServicesContainer_STATUS
 	err = container.Status.AssignProperties_To_StorageAccountsBlobServicesContainer_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsBlobServicesContainer_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsBlobServicesContainer_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -553,13 +553,13 @@ func (container *StorageAccountsBlobServicesContainer_Spec) ConvertSpecFrom(sour
 	src = &storage.StorageAccountsBlobServicesContainer_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = container.AssignProperties_From_StorageAccountsBlobServicesContainer_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -577,13 +577,13 @@ func (container *StorageAccountsBlobServicesContainer_Spec) ConvertSpecTo(destin
 	dst = &storage.StorageAccountsBlobServicesContainer_Spec{}
 	err := container.AssignProperties_To_StorageAccountsBlobServicesContainer_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -611,7 +611,7 @@ func (container *StorageAccountsBlobServicesContainer_Spec) AssignProperties_Fro
 		var immutableStorageWithVersioning ImmutableStorageWithVersioning
 		err := immutableStorageWithVersioning.AssignProperties_From_ImmutableStorageWithVersioning(source.ImmutableStorageWithVersioning)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ImmutableStorageWithVersioning() to populate field ImmutableStorageWithVersioning")
+			return eris.Wrap(err, "calling AssignProperties_From_ImmutableStorageWithVersioning() to populate field ImmutableStorageWithVersioning")
 		}
 		container.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	} else {
@@ -626,7 +626,7 @@ func (container *StorageAccountsBlobServicesContainer_Spec) AssignProperties_Fro
 		var operatorSpec StorageAccountsBlobServicesContainerOperatorSpec
 		err := operatorSpec.AssignProperties_From_StorageAccountsBlobServicesContainerOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsBlobServicesContainerOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsBlobServicesContainerOperatorSpec() to populate field OperatorSpec")
 		}
 		container.OperatorSpec = &operatorSpec
 	} else {
@@ -678,7 +678,7 @@ func (container *StorageAccountsBlobServicesContainer_Spec) AssignProperties_To_
 		var immutableStorageWithVersioning storage.ImmutableStorageWithVersioning
 		err := container.ImmutableStorageWithVersioning.AssignProperties_To_ImmutableStorageWithVersioning(&immutableStorageWithVersioning)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ImmutableStorageWithVersioning() to populate field ImmutableStorageWithVersioning")
+			return eris.Wrap(err, "calling AssignProperties_To_ImmutableStorageWithVersioning() to populate field ImmutableStorageWithVersioning")
 		}
 		destination.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	} else {
@@ -693,7 +693,7 @@ func (container *StorageAccountsBlobServicesContainer_Spec) AssignProperties_To_
 		var operatorSpec storage.StorageAccountsBlobServicesContainerOperatorSpec
 		err := container.OperatorSpec.AssignProperties_To_StorageAccountsBlobServicesContainerOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsBlobServicesContainerOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsBlobServicesContainerOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -829,13 +829,13 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) ConvertStatusFrom(
 	src = &storage.StorageAccountsBlobServicesContainer_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = container.AssignProperties_From_StorageAccountsBlobServicesContainer_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -853,13 +853,13 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) ConvertStatusTo(de
 	dst = &storage.StorageAccountsBlobServicesContainer_STATUS{}
 	err := container.AssignProperties_To_StorageAccountsBlobServicesContainer_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1142,7 +1142,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_F
 		var immutabilityPolicy ImmutabilityPolicyProperties_STATUS
 		err := immutabilityPolicy.AssignProperties_From_ImmutabilityPolicyProperties_STATUS(source.ImmutabilityPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ImmutabilityPolicyProperties_STATUS() to populate field ImmutabilityPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_ImmutabilityPolicyProperties_STATUS() to populate field ImmutabilityPolicy")
 		}
 		container.ImmutabilityPolicy = &immutabilityPolicy
 	} else {
@@ -1154,7 +1154,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_F
 		var immutableStorageWithVersioning ImmutableStorageWithVersioning_STATUS
 		err := immutableStorageWithVersioning.AssignProperties_From_ImmutableStorageWithVersioning_STATUS(source.ImmutableStorageWithVersioning)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ImmutableStorageWithVersioning_STATUS() to populate field ImmutableStorageWithVersioning")
+			return eris.Wrap(err, "calling AssignProperties_From_ImmutableStorageWithVersioning_STATUS() to populate field ImmutableStorageWithVersioning")
 		}
 		container.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	} else {
@@ -1196,7 +1196,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_F
 		var legalHold LegalHoldProperties_STATUS
 		err := legalHold.AssignProperties_From_LegalHoldProperties_STATUS(source.LegalHold)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_LegalHoldProperties_STATUS() to populate field LegalHold")
+			return eris.Wrap(err, "calling AssignProperties_From_LegalHoldProperties_STATUS() to populate field LegalHold")
 		}
 		container.LegalHold = &legalHold
 	} else {
@@ -1288,7 +1288,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_T
 		var immutabilityPolicy storage.ImmutabilityPolicyProperties_STATUS
 		err := container.ImmutabilityPolicy.AssignProperties_To_ImmutabilityPolicyProperties_STATUS(&immutabilityPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ImmutabilityPolicyProperties_STATUS() to populate field ImmutabilityPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_ImmutabilityPolicyProperties_STATUS() to populate field ImmutabilityPolicy")
 		}
 		destination.ImmutabilityPolicy = &immutabilityPolicy
 	} else {
@@ -1300,7 +1300,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_T
 		var immutableStorageWithVersioning storage.ImmutableStorageWithVersioning_STATUS
 		err := container.ImmutableStorageWithVersioning.AssignProperties_To_ImmutableStorageWithVersioning_STATUS(&immutableStorageWithVersioning)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ImmutableStorageWithVersioning_STATUS() to populate field ImmutableStorageWithVersioning")
+			return eris.Wrap(err, "calling AssignProperties_To_ImmutableStorageWithVersioning_STATUS() to populate field ImmutableStorageWithVersioning")
 		}
 		destination.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	} else {
@@ -1339,7 +1339,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_T
 		var legalHold storage.LegalHoldProperties_STATUS
 		err := container.LegalHold.AssignProperties_To_LegalHoldProperties_STATUS(&legalHold)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_LegalHoldProperties_STATUS() to populate field LegalHold")
+			return eris.Wrap(err, "calling AssignProperties_To_LegalHoldProperties_STATUS() to populate field LegalHold")
 		}
 		destination.LegalHold = &legalHold
 	} else {
@@ -1576,7 +1576,7 @@ func (properties *ImmutabilityPolicyProperties_STATUS) AssignProperties_From_Imm
 			var updateHistory UpdateHistoryProperty_STATUS
 			err := updateHistory.AssignProperties_From_UpdateHistoryProperty_STATUS(&updateHistoryItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UpdateHistoryProperty_STATUS() to populate field UpdateHistory")
+				return eris.Wrap(err, "calling AssignProperties_From_UpdateHistoryProperty_STATUS() to populate field UpdateHistory")
 			}
 			updateHistoryList[updateHistoryIndex] = updateHistory
 		}
@@ -1625,7 +1625,7 @@ func (properties *ImmutabilityPolicyProperties_STATUS) AssignProperties_To_Immut
 			var updateHistory storage.UpdateHistoryProperty_STATUS
 			err := updateHistoryItem.AssignProperties_To_UpdateHistoryProperty_STATUS(&updateHistory)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UpdateHistoryProperty_STATUS() to populate field UpdateHistory")
+				return eris.Wrap(err, "calling AssignProperties_To_UpdateHistoryProperty_STATUS() to populate field UpdateHistory")
 			}
 			updateHistoryList[updateHistoryIndex] = updateHistory
 		}
@@ -1906,7 +1906,7 @@ func (properties *LegalHoldProperties_STATUS) AssignProperties_From_LegalHoldPro
 			var tag TagProperty_STATUS
 			err := tag.AssignProperties_From_TagProperty_STATUS(&tagItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_TagProperty_STATUS() to populate field Tags")
+				return eris.Wrap(err, "calling AssignProperties_From_TagProperty_STATUS() to populate field Tags")
 			}
 			tagList[tagIndex] = tag
 		}
@@ -1941,7 +1941,7 @@ func (properties *LegalHoldProperties_STATUS) AssignProperties_To_LegalHoldPrope
 			var tag storage.TagProperty_STATUS
 			err := tagItem.AssignProperties_To_TagProperty_STATUS(&tag)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_TagProperty_STATUS() to populate field Tags")
+				return eris.Wrap(err, "calling AssignProperties_To_TagProperty_STATUS() to populate field Tags")
 			}
 			tagList[tagIndex] = tag
 		}

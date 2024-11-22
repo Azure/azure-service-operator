@@ -6,7 +6,7 @@
 +import (
 +	v20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
 +	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-+	"github.com/pkg/errors"
++	"github.com/rotisserie/eris"
 +)
 +
  type Person_Spec struct {
@@ -32,13 +32,13 @@
 +	src = &v20211231.Person_Spec{}
 +	err := src.ConvertSpecFrom(source)
 +	if err != nil {
-+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
++		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 +	}
 +
 +	// Update our instance from src
 +	err = person.AssignProperties_From_Person_Spec(src)
 +	if err != nil {
-+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
++		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 +	}
 +
 +	return nil
@@ -56,13 +56,13 @@
 +	dst = &v20211231.Person_Spec{}
 +	err := person.AssignProperties_To_Person_Spec(dst)
 +	if err != nil {
-+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
++		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 +	}
 +
 +	// Update dst from our instance
 +	err = dst.ConvertSpecTo(destination)
 +	if err != nil {
-+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
++		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 +	}
 +
 +	return nil

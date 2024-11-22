@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (profile *Profile) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Profile_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	profile.Status = st
@@ -309,7 +309,7 @@ func (profile *Profile) AssignProperties_From_Profile(source *storage.Profile) e
 	var spec Profile_Spec
 	err := spec.AssignProperties_From_Profile_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profile_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Profile_Spec() to populate field Spec")
 	}
 	profile.Spec = spec
 
@@ -317,7 +317,7 @@ func (profile *Profile) AssignProperties_From_Profile(source *storage.Profile) e
 	var status Profile_STATUS
 	err = status.AssignProperties_From_Profile_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profile_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Profile_STATUS() to populate field Status")
 	}
 	profile.Status = status
 
@@ -335,7 +335,7 @@ func (profile *Profile) AssignProperties_To_Profile(destination *storage.Profile
 	var spec storage.Profile_Spec
 	err := profile.Spec.AssignProperties_To_Profile_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profile_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Profile_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (profile *Profile) AssignProperties_To_Profile(destination *storage.Profile
 	var status storage.Profile_STATUS
 	err = profile.Status.AssignProperties_To_Profile_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profile_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Profile_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -549,13 +549,13 @@ func (profile *Profile_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 	src = &storage.Profile_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = profile.AssignProperties_From_Profile_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -573,13 +573,13 @@ func (profile *Profile_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	dst = &storage.Profile_Spec{}
 	err := profile.AssignProperties_To_Profile_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -596,7 +596,7 @@ func (profile *Profile_Spec) AssignProperties_From_Profile_Spec(source *storage.
 		var identity ManagedServiceIdentity
 		err := identity.AssignProperties_From_ManagedServiceIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity() to populate field Identity")
 		}
 		profile.Identity = &identity
 	} else {
@@ -611,7 +611,7 @@ func (profile *Profile_Spec) AssignProperties_From_Profile_Spec(source *storage.
 		var operatorSpec ProfileOperatorSpec
 		err := operatorSpec.AssignProperties_From_ProfileOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ProfileOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ProfileOperatorSpec() to populate field OperatorSpec")
 		}
 		profile.OperatorSpec = &operatorSpec
 	} else {
@@ -639,7 +639,7 @@ func (profile *Profile_Spec) AssignProperties_From_Profile_Spec(source *storage.
 		var sku Sku
 		err := sku.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
 		profile.Sku = &sku
 	} else {
@@ -666,7 +666,7 @@ func (profile *Profile_Spec) AssignProperties_To_Profile_Spec(destination *stora
 		var identity storage.ManagedServiceIdentity
 		err := profile.Identity.AssignProperties_To_ManagedServiceIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -681,7 +681,7 @@ func (profile *Profile_Spec) AssignProperties_To_Profile_Spec(destination *stora
 		var operatorSpec storage.ProfileOperatorSpec
 		err := profile.OperatorSpec.AssignProperties_To_ProfileOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ProfileOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ProfileOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -712,7 +712,7 @@ func (profile *Profile_Spec) AssignProperties_To_Profile_Spec(destination *stora
 		var sku storage.Sku
 		err := profile.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -741,7 +741,7 @@ func (profile *Profile_Spec) Initialize_From_Profile_STATUS(source *Profile_STAT
 		var identity ManagedServiceIdentity
 		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
 		}
 		profile.Identity = &identity
 	} else {
@@ -764,7 +764,7 @@ func (profile *Profile_Spec) Initialize_From_Profile_STATUS(source *Profile_STAT
 		var sku Sku
 		err := sku.Initialize_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
 		}
 		profile.Sku = &sku
 	} else {
@@ -850,13 +850,13 @@ func (profile *Profile_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 	src = &storage.Profile_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = profile.AssignProperties_From_Profile_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -874,13 +874,13 @@ func (profile *Profile_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 	dst = &storage.Profile_STATUS{}
 	err := profile.AssignProperties_To_Profile_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1048,7 +1048,7 @@ func (profile *Profile_STATUS) AssignProperties_From_Profile_STATUS(source *stor
 		var identity ManagedServiceIdentity_STATUS
 		err := identity.AssignProperties_From_ManagedServiceIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity_STATUS() to populate field Identity")
 		}
 		profile.Identity = &identity
 	} else {
@@ -1090,7 +1090,7 @@ func (profile *Profile_STATUS) AssignProperties_From_Profile_STATUS(source *stor
 		var sku Sku_STATUS
 		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		profile.Sku = &sku
 	} else {
@@ -1102,7 +1102,7 @@ func (profile *Profile_STATUS) AssignProperties_From_Profile_STATUS(source *stor
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		profile.SystemData = &systemDatum
 	} else {
@@ -1141,7 +1141,7 @@ func (profile *Profile_STATUS) AssignProperties_To_Profile_STATUS(destination *s
 		var identity storage.ManagedServiceIdentity_STATUS
 		err := profile.Identity.AssignProperties_To_ManagedServiceIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1181,7 +1181,7 @@ func (profile *Profile_STATUS) AssignProperties_To_Profile_STATUS(destination *s
 		var sku storage.Sku_STATUS
 		err := profile.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1193,7 +1193,7 @@ func (profile *Profile_STATUS) AssignProperties_To_Profile_STATUS(destination *s
 		var systemDatum storage.SystemData_STATUS
 		err := profile.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1302,7 +1302,7 @@ func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIden
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -1337,7 +1337,7 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -1477,7 +1477,7 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServ
 			var userAssignedIdentity UserAssignedIdentity_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1518,7 +1518,7 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServic
 			var userAssignedIdentity storage.UserAssignedIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}

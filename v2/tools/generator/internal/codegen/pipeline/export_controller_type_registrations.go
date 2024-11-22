@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -45,12 +45,12 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 
 						secretChains, err := catalogSecretPropertyChains(def, definitions)
 						if err != nil {
-							return nil, errors.Wrapf(err, "failed to catalog %s secret property chains", def.Name())
+							return nil, eris.Wrapf(err, "failed to catalog %s secret property chains", def.Name())
 						}
 
 						configMapChains, err := catalogConfigMapPropertyChains(def, definitions)
 						if err != nil {
-							return nil, errors.Wrapf(err, "failed to catalog %s configmap property chains", def.Name())
+							return nil, eris.Wrapf(err, "failed to catalog %s configmap property chains", def.Name())
 						}
 
 						resourceSecretIndexFunctions, resourceSecretPropertyKeys := transformChainsToIndexFunctionsAndKeys(secretChains, idFactory, def)
@@ -79,7 +79,7 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 
 			err := fileWriter.SaveToFile(outputPath)
 			if err != nil {
-				return nil, errors.Wrapf(err, "failed to write controller type registration file to %q", outputPath)
+				return nil, eris.Wrapf(err, "failed to write controller type registration file to %q", outputPath)
 			}
 
 			return definitions, nil
@@ -218,7 +218,7 @@ func catalogPropertyChains(
 
 	_, err := walker.Walk(def)
 	if err != nil {
-		return nil, errors.Wrapf(err, "error cataloging secret properties")
+		return nil, eris.Wrapf(err, "error cataloging secret properties")
 	}
 
 	return indexBuilder.propChains, nil

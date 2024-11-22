@@ -12,7 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -153,7 +153,7 @@ func (enterprise *RedisEnterprise) SetStatus(status genruntime.ConvertibleStatus
 	var st RedisEnterprise_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	enterprise.Status = st
@@ -170,7 +170,7 @@ func (enterprise *RedisEnterprise) AssignProperties_From_RedisEnterprise(source 
 	var spec RedisEnterprise_Spec
 	err := spec.AssignProperties_From_RedisEnterprise_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RedisEnterprise_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_RedisEnterprise_Spec() to populate field Spec")
 	}
 	enterprise.Spec = spec
 
@@ -178,7 +178,7 @@ func (enterprise *RedisEnterprise) AssignProperties_From_RedisEnterprise(source 
 	var status RedisEnterprise_STATUS
 	err = status.AssignProperties_From_RedisEnterprise_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RedisEnterprise_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_RedisEnterprise_STATUS() to populate field Status")
 	}
 	enterprise.Status = status
 
@@ -187,7 +187,7 @@ func (enterprise *RedisEnterprise) AssignProperties_From_RedisEnterprise(source 
 	if augmentedEnterprise, ok := enterpriseAsAny.(augmentConversionForRedisEnterprise); ok {
 		err := augmentedEnterprise.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -205,7 +205,7 @@ func (enterprise *RedisEnterprise) AssignProperties_To_RedisEnterprise(destinati
 	var spec v20230701s.RedisEnterprise_Spec
 	err := enterprise.Spec.AssignProperties_To_RedisEnterprise_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RedisEnterprise_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_RedisEnterprise_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -213,7 +213,7 @@ func (enterprise *RedisEnterprise) AssignProperties_To_RedisEnterprise(destinati
 	var status v20230701s.RedisEnterprise_STATUS
 	err = enterprise.Status.AssignProperties_To_RedisEnterprise_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RedisEnterprise_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_RedisEnterprise_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -222,7 +222,7 @@ func (enterprise *RedisEnterprise) AssignProperties_To_RedisEnterprise(destinati
 	if augmentedEnterprise, ok := enterpriseAsAny.(augmentConversionForRedisEnterprise); ok {
 		err := augmentedEnterprise.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -296,13 +296,13 @@ func (enterprise *RedisEnterprise_Spec) ConvertSpecFrom(source genruntime.Conver
 	src = &v20230701s.RedisEnterprise_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = enterprise.AssignProperties_From_RedisEnterprise_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -320,13 +320,13 @@ func (enterprise *RedisEnterprise_Spec) ConvertSpecTo(destination genruntime.Con
 	dst = &v20230701s.RedisEnterprise_Spec{}
 	err := enterprise.AssignProperties_To_RedisEnterprise_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -351,7 +351,7 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_From_RedisEnterprise_Sp
 		var operatorSpec RedisEnterpriseOperatorSpec
 		err := operatorSpec.AssignProperties_From_RedisEnterpriseOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RedisEnterpriseOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_RedisEnterpriseOperatorSpec() to populate field OperatorSpec")
 		}
 		enterprise.OperatorSpec = &operatorSpec
 	} else {
@@ -374,12 +374,12 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_From_RedisEnterprise_Sp
 		var skuStash v20230401s.Sku
 		err := skuStash.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field SkuStash from Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field SkuStash from Sku")
 		}
 		var sku Sku
 		err = sku.AssignProperties_From_Sku(&skuStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku from SkuStash")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku from SkuStash")
 		}
 		enterprise.Sku = &sku
 	} else {
@@ -404,7 +404,7 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_From_RedisEnterprise_Sp
 	if augmentedEnterprise, ok := enterpriseAsAny.(augmentConversionForRedisEnterprise_Spec); ok {
 		err := augmentedEnterprise.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -431,7 +431,7 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_To_RedisEnterprise_Spec
 		var operatorSpec v20230701s.RedisEnterpriseOperatorSpec
 		err := enterprise.OperatorSpec.AssignProperties_To_RedisEnterpriseOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RedisEnterpriseOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_RedisEnterpriseOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -454,12 +454,12 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_To_RedisEnterprise_Spec
 		var skuStash v20230401s.Sku
 		err := enterprise.Sku.AssignProperties_To_Sku(&skuStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field SkuStash from Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field SkuStash from Sku")
 		}
 		var sku v20230701s.Sku
 		err = skuStash.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku from SkuStash")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku from SkuStash")
 		}
 		destination.Sku = &sku
 	} else {
@@ -484,7 +484,7 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_To_RedisEnterprise_Spec
 	if augmentedEnterprise, ok := enterpriseAsAny.(augmentConversionForRedisEnterprise_Spec); ok {
 		err := augmentedEnterprise.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -525,13 +525,13 @@ func (enterprise *RedisEnterprise_STATUS) ConvertStatusFrom(source genruntime.Co
 	src = &v20230701s.RedisEnterprise_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = enterprise.AssignProperties_From_RedisEnterprise_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -549,13 +549,13 @@ func (enterprise *RedisEnterprise_STATUS) ConvertStatusTo(destination genruntime
 	dst = &v20230701s.RedisEnterprise_STATUS{}
 	err := enterprise.AssignProperties_To_RedisEnterprise_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -593,12 +593,12 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 			var privateEndpointConnectionSTATUSStash v20230401s.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionSTATUSStash.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnection_STATUSStash from PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnection_STATUSStash from PrivateEndpointConnections")
 			}
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err = privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionSTATUSStash)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUSStash")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUSStash")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -621,12 +621,12 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 		var skuSTATUSStash v20230401s.Sku_STATUS
 		err := skuSTATUSStash.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku_STATUSStash from Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku_STATUSStash from Sku")
 		}
 		var sku Sku_STATUS
 		err = sku.AssignProperties_From_Sku_STATUS(&skuSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku from Sku_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku from Sku_STATUSStash")
 		}
 		enterprise.Sku = &sku
 	} else {
@@ -654,7 +654,7 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 	if augmentedEnterprise, ok := enterpriseAsAny.(augmentConversionForRedisEnterprise_STATUS); ok {
 		err := augmentedEnterprise.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -694,12 +694,12 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_To_RedisEnterprise_ST
 			var privateEndpointConnectionSTATUSStash v20230401s.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnectionSTATUSStash)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnection_STATUSStash from PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnection_STATUSStash from PrivateEndpointConnections")
 			}
 			var privateEndpointConnection v20230701s.PrivateEndpointConnection_STATUS
 			err = privateEndpointConnectionSTATUSStash.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUSStash")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUSStash")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -722,12 +722,12 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_To_RedisEnterprise_ST
 		var skuSTATUSStash v20230401s.Sku_STATUS
 		err := enterprise.Sku.AssignProperties_To_Sku_STATUS(&skuSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku_STATUSStash from Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku_STATUSStash from Sku")
 		}
 		var sku v20230701s.Sku_STATUS
 		err = skuSTATUSStash.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku from Sku_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku from Sku_STATUSStash")
 		}
 		destination.Sku = &sku
 	} else {
@@ -755,7 +755,7 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_To_RedisEnterprise_ST
 	if augmentedEnterprise, ok := enterpriseAsAny.(augmentConversionForRedisEnterprise_STATUS); ok {
 		err := augmentedEnterprise.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -800,7 +800,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
 		err := augmentedConnection.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -828,7 +828,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
 		err := augmentedConnection.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -897,7 +897,7 @@ func (operator *RedisEnterpriseOperatorSpec) AssignProperties_From_RedisEnterpri
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRedisEnterpriseOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -958,7 +958,7 @@ func (operator *RedisEnterpriseOperatorSpec) AssignProperties_To_RedisEnterprise
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRedisEnterpriseOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1004,7 +1004,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20230401s.Sku) error {
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
 		err := augmentedSku.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1025,7 +1025,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20230401s.Sku) error {
 		var family string
 		err := propertyBag.Pull("Family", &family)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'Family' from propertyBag")
+			return eris.Wrap(err, "pulling 'Family' from propertyBag")
 		}
 
 		destination.Family = &family
@@ -1048,7 +1048,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20230401s.Sku) error {
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
 		err := augmentedSku.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1094,7 +1094,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20230401s.Sku_S
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
 		err := augmentedSku.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1115,7 +1115,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20230401s.Sk
 		var family string
 		err := propertyBag.Pull("Family", &family)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'Family' from propertyBag")
+			return eris.Wrap(err, "pulling 'Family' from propertyBag")
 		}
 
 		destination.Family = &family
@@ -1138,7 +1138,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20230401s.Sk
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
 		err := augmentedSku.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

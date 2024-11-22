@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (policy *BackupVaultsBackupPolicy) SetStatus(status genruntime.ConvertibleS
 	var st BackupVaultsBackupPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	policy.Status = st
@@ -309,7 +309,7 @@ func (policy *BackupVaultsBackupPolicy) AssignProperties_From_BackupVaultsBackup
 	var spec BackupVaultsBackupPolicy_Spec
 	err := spec.AssignProperties_From_BackupVaultsBackupPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
@@ -317,7 +317,7 @@ func (policy *BackupVaultsBackupPolicy) AssignProperties_From_BackupVaultsBackup
 	var status BackupVaultsBackupPolicy_STATUS
 	err = status.AssignProperties_From_BackupVaultsBackupPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -335,7 +335,7 @@ func (policy *BackupVaultsBackupPolicy) AssignProperties_To_BackupVaultsBackupPo
 	var spec storage.BackupVaultsBackupPolicy_Spec
 	err := policy.Spec.AssignProperties_To_BackupVaultsBackupPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (policy *BackupVaultsBackupPolicy) AssignProperties_To_BackupVaultsBackupPo
 	var status storage.BackupVaultsBackupPolicy_STATUS
 	err = policy.Status.AssignProperties_To_BackupVaultsBackupPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -465,13 +465,13 @@ func (policy *BackupVaultsBackupPolicy_Spec) ConvertSpecFrom(source genruntime.C
 	src = &storage.BackupVaultsBackupPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_BackupVaultsBackupPolicy_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -489,13 +489,13 @@ func (policy *BackupVaultsBackupPolicy_Spec) ConvertSpecTo(destination genruntim
 	dst = &storage.BackupVaultsBackupPolicy_Spec{}
 	err := policy.AssignProperties_To_BackupVaultsBackupPolicy_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -512,7 +512,7 @@ func (policy *BackupVaultsBackupPolicy_Spec) AssignProperties_From_BackupVaultsB
 		var operatorSpec BackupVaultsBackupPolicyOperatorSpec
 		err := operatorSpec.AssignProperties_From_BackupVaultsBackupPolicyOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		policy.OperatorSpec = &operatorSpec
 	} else {
@@ -532,7 +532,7 @@ func (policy *BackupVaultsBackupPolicy_Spec) AssignProperties_From_BackupVaultsB
 		var property BaseBackupPolicy
 		err := property.AssignProperties_From_BaseBackupPolicy(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BaseBackupPolicy() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_BaseBackupPolicy() to populate field Properties")
 		}
 		policy.Properties = &property
 	} else {
@@ -556,7 +556,7 @@ func (policy *BackupVaultsBackupPolicy_Spec) AssignProperties_To_BackupVaultsBac
 		var operatorSpec storage.BackupVaultsBackupPolicyOperatorSpec
 		err := policy.OperatorSpec.AssignProperties_To_BackupVaultsBackupPolicyOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupPolicyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupPolicyOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -579,7 +579,7 @@ func (policy *BackupVaultsBackupPolicy_Spec) AssignProperties_To_BackupVaultsBac
 		var property storage.BaseBackupPolicy
 		err := policy.Properties.AssignProperties_To_BaseBackupPolicy(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BaseBackupPolicy() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_BaseBackupPolicy() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -605,7 +605,7 @@ func (policy *BackupVaultsBackupPolicy_Spec) Initialize_From_BackupVaultsBackupP
 		var property BaseBackupPolicy
 		err := property.Initialize_From_BaseBackupPolicy_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BaseBackupPolicy_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling Initialize_From_BaseBackupPolicy_STATUS() to populate field Properties")
 		}
 		policy.Properties = &property
 	} else {
@@ -660,13 +660,13 @@ func (policy *BackupVaultsBackupPolicy_STATUS) ConvertStatusFrom(source genrunti
 	src = &storage.BackupVaultsBackupPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = policy.AssignProperties_From_BackupVaultsBackupPolicy_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -684,13 +684,13 @@ func (policy *BackupVaultsBackupPolicy_STATUS) ConvertStatusTo(destination genru
 	dst = &storage.BackupVaultsBackupPolicy_STATUS{}
 	err := policy.AssignProperties_To_BackupVaultsBackupPolicy_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -773,7 +773,7 @@ func (policy *BackupVaultsBackupPolicy_STATUS) AssignProperties_From_BackupVault
 		var property BaseBackupPolicy_STATUS
 		err := property.AssignProperties_From_BaseBackupPolicy_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BaseBackupPolicy_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_BaseBackupPolicy_STATUS() to populate field Properties")
 		}
 		policy.Properties = &property
 	} else {
@@ -785,7 +785,7 @@ func (policy *BackupVaultsBackupPolicy_STATUS) AssignProperties_From_BackupVault
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		policy.SystemData = &systemDatum
 	} else {
@@ -818,7 +818,7 @@ func (policy *BackupVaultsBackupPolicy_STATUS) AssignProperties_To_BackupVaultsB
 		var property storage.BaseBackupPolicy_STATUS
 		err := policy.Properties.AssignProperties_To_BaseBackupPolicy_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BaseBackupPolicy_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_BaseBackupPolicy_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -830,7 +830,7 @@ func (policy *BackupVaultsBackupPolicy_STATUS) AssignProperties_To_BackupVaultsB
 		var systemDatum storage.SystemData_STATUS
 		err := policy.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1016,7 +1016,7 @@ func (policy *BaseBackupPolicy) AssignProperties_From_BaseBackupPolicy(source *s
 		var backupPolicy BackupPolicy
 		err := backupPolicy.AssignProperties_From_BackupPolicy(source.BackupPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackupPolicy() to populate field BackupPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_BackupPolicy() to populate field BackupPolicy")
 		}
 		policy.BackupPolicy = &backupPolicy
 	} else {
@@ -1037,7 +1037,7 @@ func (policy *BaseBackupPolicy) AssignProperties_To_BaseBackupPolicy(destination
 		var backupPolicy storage.BackupPolicy
 		err := policy.BackupPolicy.AssignProperties_To_BackupPolicy(&backupPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackupPolicy() to populate field BackupPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_BackupPolicy() to populate field BackupPolicy")
 		}
 		destination.BackupPolicy = &backupPolicy
 	} else {
@@ -1063,7 +1063,7 @@ func (policy *BaseBackupPolicy) Initialize_From_BaseBackupPolicy_STATUS(source *
 		var backupPolicy BackupPolicy
 		err := backupPolicy.Initialize_From_BackupPolicy_STATUS(source.BackupPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BackupPolicy_STATUS() to populate field BackupPolicy")
+			return eris.Wrap(err, "calling Initialize_From_BackupPolicy_STATUS() to populate field BackupPolicy")
 		}
 		policy.BackupPolicy = &backupPolicy
 	} else {
@@ -1116,7 +1116,7 @@ func (policy *BaseBackupPolicy_STATUS) AssignProperties_From_BaseBackupPolicy_ST
 		var backupPolicy BackupPolicy_STATUS
 		err := backupPolicy.AssignProperties_From_BackupPolicy_STATUS(source.BackupPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackupPolicy_STATUS() to populate field BackupPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_BackupPolicy_STATUS() to populate field BackupPolicy")
 		}
 		policy.BackupPolicy = &backupPolicy
 	} else {
@@ -1137,7 +1137,7 @@ func (policy *BaseBackupPolicy_STATUS) AssignProperties_To_BaseBackupPolicy_STAT
 		var backupPolicy storage.BackupPolicy_STATUS
 		err := policy.BackupPolicy.AssignProperties_To_BackupPolicy_STATUS(&backupPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackupPolicy_STATUS() to populate field BackupPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_BackupPolicy_STATUS() to populate field BackupPolicy")
 		}
 		destination.BackupPolicy = &backupPolicy
 	} else {
@@ -1264,7 +1264,7 @@ func (policy *BackupPolicy) AssignProperties_From_BackupPolicy(source *storage.B
 			var policyRule BasePolicyRule
 			err := policyRule.AssignProperties_From_BasePolicyRule(&policyRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BasePolicyRule() to populate field PolicyRules")
+				return eris.Wrap(err, "calling AssignProperties_From_BasePolicyRule() to populate field PolicyRules")
 			}
 			policyRuleList[policyRuleIndex] = policyRule
 		}
@@ -1302,7 +1302,7 @@ func (policy *BackupPolicy) AssignProperties_To_BackupPolicy(destination *storag
 			var policyRule storage.BasePolicyRule
 			err := policyRuleItem.AssignProperties_To_BasePolicyRule(&policyRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BasePolicyRule() to populate field PolicyRules")
+				return eris.Wrap(err, "calling AssignProperties_To_BasePolicyRule() to populate field PolicyRules")
 			}
 			policyRuleList[policyRuleIndex] = policyRule
 		}
@@ -1345,7 +1345,7 @@ func (policy *BackupPolicy) Initialize_From_BackupPolicy_STATUS(source *BackupPo
 			var policyRule BasePolicyRule
 			err := policyRule.Initialize_From_BasePolicyRule_STATUS(&policyRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_BasePolicyRule_STATUS() to populate field PolicyRules")
+				return eris.Wrap(err, "calling Initialize_From_BasePolicyRule_STATUS() to populate field PolicyRules")
 			}
 			policyRuleList[policyRuleIndex] = policyRule
 		}
@@ -1431,7 +1431,7 @@ func (policy *BackupPolicy_STATUS) AssignProperties_From_BackupPolicy_STATUS(sou
 			var policyRule BasePolicyRule_STATUS
 			err := policyRule.AssignProperties_From_BasePolicyRule_STATUS(&policyRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BasePolicyRule_STATUS() to populate field PolicyRules")
+				return eris.Wrap(err, "calling AssignProperties_From_BasePolicyRule_STATUS() to populate field PolicyRules")
 			}
 			policyRuleList[policyRuleIndex] = policyRule
 		}
@@ -1469,7 +1469,7 @@ func (policy *BackupPolicy_STATUS) AssignProperties_To_BackupPolicy_STATUS(desti
 			var policyRule storage.BasePolicyRule_STATUS
 			err := policyRuleItem.AssignProperties_To_BasePolicyRule_STATUS(&policyRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BasePolicyRule_STATUS() to populate field PolicyRules")
+				return eris.Wrap(err, "calling AssignProperties_To_BasePolicyRule_STATUS() to populate field PolicyRules")
 			}
 			policyRuleList[policyRuleIndex] = policyRule
 		}
@@ -1593,7 +1593,7 @@ func (rule *BasePolicyRule) AssignProperties_From_BasePolicyRule(source *storage
 		var azureBackup AzureBackupRule
 		err := azureBackup.AssignProperties_From_AzureBackupRule(source.AzureBackup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AzureBackupRule() to populate field AzureBackup")
+			return eris.Wrap(err, "calling AssignProperties_From_AzureBackupRule() to populate field AzureBackup")
 		}
 		rule.AzureBackup = &azureBackup
 	} else {
@@ -1605,7 +1605,7 @@ func (rule *BasePolicyRule) AssignProperties_From_BasePolicyRule(source *storage
 		var azureRetention AzureRetentionRule
 		err := azureRetention.AssignProperties_From_AzureRetentionRule(source.AzureRetention)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AzureRetentionRule() to populate field AzureRetention")
+			return eris.Wrap(err, "calling AssignProperties_From_AzureRetentionRule() to populate field AzureRetention")
 		}
 		rule.AzureRetention = &azureRetention
 	} else {
@@ -1626,7 +1626,7 @@ func (rule *BasePolicyRule) AssignProperties_To_BasePolicyRule(destination *stor
 		var azureBackup storage.AzureBackupRule
 		err := rule.AzureBackup.AssignProperties_To_AzureBackupRule(&azureBackup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AzureBackupRule() to populate field AzureBackup")
+			return eris.Wrap(err, "calling AssignProperties_To_AzureBackupRule() to populate field AzureBackup")
 		}
 		destination.AzureBackup = &azureBackup
 	} else {
@@ -1638,7 +1638,7 @@ func (rule *BasePolicyRule) AssignProperties_To_BasePolicyRule(destination *stor
 		var azureRetention storage.AzureRetentionRule
 		err := rule.AzureRetention.AssignProperties_To_AzureRetentionRule(&azureRetention)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AzureRetentionRule() to populate field AzureRetention")
+			return eris.Wrap(err, "calling AssignProperties_To_AzureRetentionRule() to populate field AzureRetention")
 		}
 		destination.AzureRetention = &azureRetention
 	} else {
@@ -1664,7 +1664,7 @@ func (rule *BasePolicyRule) Initialize_From_BasePolicyRule_STATUS(source *BasePo
 		var azureBackup AzureBackupRule
 		err := azureBackup.Initialize_From_AzureBackupRule_STATUS(source.AzureBackup)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AzureBackupRule_STATUS() to populate field AzureBackup")
+			return eris.Wrap(err, "calling Initialize_From_AzureBackupRule_STATUS() to populate field AzureBackup")
 		}
 		rule.AzureBackup = &azureBackup
 	} else {
@@ -1676,7 +1676,7 @@ func (rule *BasePolicyRule) Initialize_From_BasePolicyRule_STATUS(source *BasePo
 		var azureRetention AzureRetentionRule
 		err := azureRetention.Initialize_From_AzureRetentionRule_STATUS(source.AzureRetention)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AzureRetentionRule_STATUS() to populate field AzureRetention")
+			return eris.Wrap(err, "calling Initialize_From_AzureRetentionRule_STATUS() to populate field AzureRetention")
 		}
 		rule.AzureRetention = &azureRetention
 	} else {
@@ -1743,7 +1743,7 @@ func (rule *BasePolicyRule_STATUS) AssignProperties_From_BasePolicyRule_STATUS(s
 		var azureBackup AzureBackupRule_STATUS
 		err := azureBackup.AssignProperties_From_AzureBackupRule_STATUS(source.AzureBackup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AzureBackupRule_STATUS() to populate field AzureBackup")
+			return eris.Wrap(err, "calling AssignProperties_From_AzureBackupRule_STATUS() to populate field AzureBackup")
 		}
 		rule.AzureBackup = &azureBackup
 	} else {
@@ -1755,7 +1755,7 @@ func (rule *BasePolicyRule_STATUS) AssignProperties_From_BasePolicyRule_STATUS(s
 		var azureRetention AzureRetentionRule_STATUS
 		err := azureRetention.AssignProperties_From_AzureRetentionRule_STATUS(source.AzureRetention)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AzureRetentionRule_STATUS() to populate field AzureRetention")
+			return eris.Wrap(err, "calling AssignProperties_From_AzureRetentionRule_STATUS() to populate field AzureRetention")
 		}
 		rule.AzureRetention = &azureRetention
 	} else {
@@ -1776,7 +1776,7 @@ func (rule *BasePolicyRule_STATUS) AssignProperties_To_BasePolicyRule_STATUS(des
 		var azureBackup storage.AzureBackupRule_STATUS
 		err := rule.AzureBackup.AssignProperties_To_AzureBackupRule_STATUS(&azureBackup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AzureBackupRule_STATUS() to populate field AzureBackup")
+			return eris.Wrap(err, "calling AssignProperties_To_AzureBackupRule_STATUS() to populate field AzureBackup")
 		}
 		destination.AzureBackup = &azureBackup
 	} else {
@@ -1788,7 +1788,7 @@ func (rule *BasePolicyRule_STATUS) AssignProperties_To_BasePolicyRule_STATUS(des
 		var azureRetention storage.AzureRetentionRule_STATUS
 		err := rule.AzureRetention.AssignProperties_To_AzureRetentionRule_STATUS(&azureRetention)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AzureRetentionRule_STATUS() to populate field AzureRetention")
+			return eris.Wrap(err, "calling AssignProperties_To_AzureRetentionRule_STATUS() to populate field AzureRetention")
 		}
 		destination.AzureRetention = &azureRetention
 	} else {
@@ -1949,7 +1949,7 @@ func (rule *AzureBackupRule) AssignProperties_From_AzureBackupRule(source *stora
 		var backupParameter BackupParameters
 		err := backupParameter.AssignProperties_From_BackupParameters(source.BackupParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackupParameters() to populate field BackupParameters")
+			return eris.Wrap(err, "calling AssignProperties_From_BackupParameters() to populate field BackupParameters")
 		}
 		rule.BackupParameters = &backupParameter
 	} else {
@@ -1961,7 +1961,7 @@ func (rule *AzureBackupRule) AssignProperties_From_AzureBackupRule(source *stora
 		var dataStore DataStoreInfoBase
 		err := dataStore.AssignProperties_From_DataStoreInfoBase(source.DataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataStoreInfoBase() to populate field DataStore")
+			return eris.Wrap(err, "calling AssignProperties_From_DataStoreInfoBase() to populate field DataStore")
 		}
 		rule.DataStore = &dataStore
 	} else {
@@ -1985,7 +1985,7 @@ func (rule *AzureBackupRule) AssignProperties_From_AzureBackupRule(source *stora
 		var trigger TriggerContext
 		err := trigger.AssignProperties_From_TriggerContext(source.Trigger)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TriggerContext() to populate field Trigger")
+			return eris.Wrap(err, "calling AssignProperties_From_TriggerContext() to populate field Trigger")
 		}
 		rule.Trigger = &trigger
 	} else {
@@ -2006,7 +2006,7 @@ func (rule *AzureBackupRule) AssignProperties_To_AzureBackupRule(destination *st
 		var backupParameter storage.BackupParameters
 		err := rule.BackupParameters.AssignProperties_To_BackupParameters(&backupParameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackupParameters() to populate field BackupParameters")
+			return eris.Wrap(err, "calling AssignProperties_To_BackupParameters() to populate field BackupParameters")
 		}
 		destination.BackupParameters = &backupParameter
 	} else {
@@ -2018,7 +2018,7 @@ func (rule *AzureBackupRule) AssignProperties_To_AzureBackupRule(destination *st
 		var dataStore storage.DataStoreInfoBase
 		err := rule.DataStore.AssignProperties_To_DataStoreInfoBase(&dataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase() to populate field DataStore")
+			return eris.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase() to populate field DataStore")
 		}
 		destination.DataStore = &dataStore
 	} else {
@@ -2041,7 +2041,7 @@ func (rule *AzureBackupRule) AssignProperties_To_AzureBackupRule(destination *st
 		var trigger storage.TriggerContext
 		err := rule.Trigger.AssignProperties_To_TriggerContext(&trigger)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TriggerContext() to populate field Trigger")
+			return eris.Wrap(err, "calling AssignProperties_To_TriggerContext() to populate field Trigger")
 		}
 		destination.Trigger = &trigger
 	} else {
@@ -2067,7 +2067,7 @@ func (rule *AzureBackupRule) Initialize_From_AzureBackupRule_STATUS(source *Azur
 		var backupParameter BackupParameters
 		err := backupParameter.Initialize_From_BackupParameters_STATUS(source.BackupParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BackupParameters_STATUS() to populate field BackupParameters")
+			return eris.Wrap(err, "calling Initialize_From_BackupParameters_STATUS() to populate field BackupParameters")
 		}
 		rule.BackupParameters = &backupParameter
 	} else {
@@ -2079,7 +2079,7 @@ func (rule *AzureBackupRule) Initialize_From_AzureBackupRule_STATUS(source *Azur
 		var dataStore DataStoreInfoBase
 		err := dataStore.Initialize_From_DataStoreInfoBase_STATUS(source.DataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataStoreInfoBase_STATUS() to populate field DataStore")
+			return eris.Wrap(err, "calling Initialize_From_DataStoreInfoBase_STATUS() to populate field DataStore")
 		}
 		rule.DataStore = &dataStore
 	} else {
@@ -2102,7 +2102,7 @@ func (rule *AzureBackupRule) Initialize_From_AzureBackupRule_STATUS(source *Azur
 		var trigger TriggerContext
 		err := trigger.Initialize_From_TriggerContext_STATUS(source.Trigger)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_TriggerContext_STATUS() to populate field Trigger")
+			return eris.Wrap(err, "calling Initialize_From_TriggerContext_STATUS() to populate field Trigger")
 		}
 		rule.Trigger = &trigger
 	} else {
@@ -2195,7 +2195,7 @@ func (rule *AzureBackupRule_STATUS) AssignProperties_From_AzureBackupRule_STATUS
 		var backupParameter BackupParameters_STATUS
 		err := backupParameter.AssignProperties_From_BackupParameters_STATUS(source.BackupParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackupParameters_STATUS() to populate field BackupParameters")
+			return eris.Wrap(err, "calling AssignProperties_From_BackupParameters_STATUS() to populate field BackupParameters")
 		}
 		rule.BackupParameters = &backupParameter
 	} else {
@@ -2207,7 +2207,7 @@ func (rule *AzureBackupRule_STATUS) AssignProperties_From_AzureBackupRule_STATUS
 		var dataStore DataStoreInfoBase_STATUS
 		err := dataStore.AssignProperties_From_DataStoreInfoBase_STATUS(source.DataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataStoreInfoBase_STATUS() to populate field DataStore")
+			return eris.Wrap(err, "calling AssignProperties_From_DataStoreInfoBase_STATUS() to populate field DataStore")
 		}
 		rule.DataStore = &dataStore
 	} else {
@@ -2231,7 +2231,7 @@ func (rule *AzureBackupRule_STATUS) AssignProperties_From_AzureBackupRule_STATUS
 		var trigger TriggerContext_STATUS
 		err := trigger.AssignProperties_From_TriggerContext_STATUS(source.Trigger)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TriggerContext_STATUS() to populate field Trigger")
+			return eris.Wrap(err, "calling AssignProperties_From_TriggerContext_STATUS() to populate field Trigger")
 		}
 		rule.Trigger = &trigger
 	} else {
@@ -2252,7 +2252,7 @@ func (rule *AzureBackupRule_STATUS) AssignProperties_To_AzureBackupRule_STATUS(d
 		var backupParameter storage.BackupParameters_STATUS
 		err := rule.BackupParameters.AssignProperties_To_BackupParameters_STATUS(&backupParameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackupParameters_STATUS() to populate field BackupParameters")
+			return eris.Wrap(err, "calling AssignProperties_To_BackupParameters_STATUS() to populate field BackupParameters")
 		}
 		destination.BackupParameters = &backupParameter
 	} else {
@@ -2264,7 +2264,7 @@ func (rule *AzureBackupRule_STATUS) AssignProperties_To_AzureBackupRule_STATUS(d
 		var dataStore storage.DataStoreInfoBase_STATUS
 		err := rule.DataStore.AssignProperties_To_DataStoreInfoBase_STATUS(&dataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase_STATUS() to populate field DataStore")
+			return eris.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase_STATUS() to populate field DataStore")
 		}
 		destination.DataStore = &dataStore
 	} else {
@@ -2287,7 +2287,7 @@ func (rule *AzureBackupRule_STATUS) AssignProperties_To_AzureBackupRule_STATUS(d
 		var trigger storage.TriggerContext_STATUS
 		err := rule.Trigger.AssignProperties_To_TriggerContext_STATUS(&trigger)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TriggerContext_STATUS() to populate field Trigger")
+			return eris.Wrap(err, "calling AssignProperties_To_TriggerContext_STATUS() to populate field Trigger")
 		}
 		destination.Trigger = &trigger
 	} else {
@@ -2424,7 +2424,7 @@ func (rule *AzureRetentionRule) AssignProperties_From_AzureRetentionRule(source 
 			var lifecycle SourceLifeCycle
 			err := lifecycle.AssignProperties_From_SourceLifeCycle(&lifecycleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SourceLifeCycle() to populate field Lifecycles")
+				return eris.Wrap(err, "calling AssignProperties_From_SourceLifeCycle() to populate field Lifecycles")
 			}
 			lifecycleList[lifecycleIndex] = lifecycle
 		}
@@ -2471,7 +2471,7 @@ func (rule *AzureRetentionRule) AssignProperties_To_AzureRetentionRule(destinati
 			var lifecycle storage.SourceLifeCycle
 			err := lifecycleItem.AssignProperties_To_SourceLifeCycle(&lifecycle)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SourceLifeCycle() to populate field Lifecycles")
+				return eris.Wrap(err, "calling AssignProperties_To_SourceLifeCycle() to populate field Lifecycles")
 			}
 			lifecycleList[lifecycleIndex] = lifecycle
 		}
@@ -2522,7 +2522,7 @@ func (rule *AzureRetentionRule) Initialize_From_AzureRetentionRule_STATUS(source
 			var lifecycle SourceLifeCycle
 			err := lifecycle.Initialize_From_SourceLifeCycle_STATUS(&lifecycleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SourceLifeCycle_STATUS() to populate field Lifecycles")
+				return eris.Wrap(err, "calling Initialize_From_SourceLifeCycle_STATUS() to populate field Lifecycles")
 			}
 			lifecycleList[lifecycleIndex] = lifecycle
 		}
@@ -2620,7 +2620,7 @@ func (rule *AzureRetentionRule_STATUS) AssignProperties_From_AzureRetentionRule_
 			var lifecycle SourceLifeCycle_STATUS
 			err := lifecycle.AssignProperties_From_SourceLifeCycle_STATUS(&lifecycleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SourceLifeCycle_STATUS() to populate field Lifecycles")
+				return eris.Wrap(err, "calling AssignProperties_From_SourceLifeCycle_STATUS() to populate field Lifecycles")
 			}
 			lifecycleList[lifecycleIndex] = lifecycle
 		}
@@ -2667,7 +2667,7 @@ func (rule *AzureRetentionRule_STATUS) AssignProperties_To_AzureRetentionRule_ST
 			var lifecycle storage.SourceLifeCycle_STATUS
 			err := lifecycleItem.AssignProperties_To_SourceLifeCycle_STATUS(&lifecycle)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SourceLifeCycle_STATUS() to populate field Lifecycles")
+				return eris.Wrap(err, "calling AssignProperties_To_SourceLifeCycle_STATUS() to populate field Lifecycles")
 			}
 			lifecycleList[lifecycleIndex] = lifecycle
 		}
@@ -2797,7 +2797,7 @@ func (parameters *BackupParameters) AssignProperties_From_BackupParameters(sourc
 		var azureBackupParam AzureBackupParams
 		err := azureBackupParam.AssignProperties_From_AzureBackupParams(source.AzureBackupParams)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AzureBackupParams() to populate field AzureBackupParams")
+			return eris.Wrap(err, "calling AssignProperties_From_AzureBackupParams() to populate field AzureBackupParams")
 		}
 		parameters.AzureBackupParams = &azureBackupParam
 	} else {
@@ -2818,7 +2818,7 @@ func (parameters *BackupParameters) AssignProperties_To_BackupParameters(destina
 		var azureBackupParam storage.AzureBackupParams
 		err := parameters.AzureBackupParams.AssignProperties_To_AzureBackupParams(&azureBackupParam)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AzureBackupParams() to populate field AzureBackupParams")
+			return eris.Wrap(err, "calling AssignProperties_To_AzureBackupParams() to populate field AzureBackupParams")
 		}
 		destination.AzureBackupParams = &azureBackupParam
 	} else {
@@ -2844,7 +2844,7 @@ func (parameters *BackupParameters) Initialize_From_BackupParameters_STATUS(sour
 		var azureBackupParam AzureBackupParams
 		err := azureBackupParam.Initialize_From_AzureBackupParams_STATUS(source.AzureBackupParams)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AzureBackupParams_STATUS() to populate field AzureBackupParams")
+			return eris.Wrap(err, "calling Initialize_From_AzureBackupParams_STATUS() to populate field AzureBackupParams")
 		}
 		parameters.AzureBackupParams = &azureBackupParam
 	} else {
@@ -2897,7 +2897,7 @@ func (parameters *BackupParameters_STATUS) AssignProperties_From_BackupParameter
 		var azureBackupParam AzureBackupParams_STATUS
 		err := azureBackupParam.AssignProperties_From_AzureBackupParams_STATUS(source.AzureBackupParams)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AzureBackupParams_STATUS() to populate field AzureBackupParams")
+			return eris.Wrap(err, "calling AssignProperties_From_AzureBackupParams_STATUS() to populate field AzureBackupParams")
 		}
 		parameters.AzureBackupParams = &azureBackupParam
 	} else {
@@ -2918,7 +2918,7 @@ func (parameters *BackupParameters_STATUS) AssignProperties_To_BackupParameters_
 		var azureBackupParam storage.AzureBackupParams_STATUS
 		err := parameters.AzureBackupParams.AssignProperties_To_AzureBackupParams_STATUS(&azureBackupParam)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AzureBackupParams_STATUS() to populate field AzureBackupParams")
+			return eris.Wrap(err, "calling AssignProperties_To_AzureBackupParams_STATUS() to populate field AzureBackupParams")
 		}
 		destination.AzureBackupParams = &azureBackupParam
 	} else {
@@ -3260,7 +3260,7 @@ func (cycle *SourceLifeCycle) AssignProperties_From_SourceLifeCycle(source *stor
 		var deleteAfter DeleteOption
 		err := deleteAfter.AssignProperties_From_DeleteOption(source.DeleteAfter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeleteOption() to populate field DeleteAfter")
+			return eris.Wrap(err, "calling AssignProperties_From_DeleteOption() to populate field DeleteAfter")
 		}
 		cycle.DeleteAfter = &deleteAfter
 	} else {
@@ -3272,7 +3272,7 @@ func (cycle *SourceLifeCycle) AssignProperties_From_SourceLifeCycle(source *stor
 		var sourceDataStore DataStoreInfoBase
 		err := sourceDataStore.AssignProperties_From_DataStoreInfoBase(source.SourceDataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataStoreInfoBase() to populate field SourceDataStore")
+			return eris.Wrap(err, "calling AssignProperties_From_DataStoreInfoBase() to populate field SourceDataStore")
 		}
 		cycle.SourceDataStore = &sourceDataStore
 	} else {
@@ -3288,7 +3288,7 @@ func (cycle *SourceLifeCycle) AssignProperties_From_SourceLifeCycle(source *stor
 			var targetDataStoreCopySetting TargetCopySetting
 			err := targetDataStoreCopySetting.AssignProperties_From_TargetCopySetting(&targetDataStoreCopySettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_TargetCopySetting() to populate field TargetDataStoreCopySettings")
+				return eris.Wrap(err, "calling AssignProperties_From_TargetCopySetting() to populate field TargetDataStoreCopySettings")
 			}
 			targetDataStoreCopySettingList[targetDataStoreCopySettingIndex] = targetDataStoreCopySetting
 		}
@@ -3311,7 +3311,7 @@ func (cycle *SourceLifeCycle) AssignProperties_To_SourceLifeCycle(destination *s
 		var deleteAfter storage.DeleteOption
 		err := cycle.DeleteAfter.AssignProperties_To_DeleteOption(&deleteAfter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeleteOption() to populate field DeleteAfter")
+			return eris.Wrap(err, "calling AssignProperties_To_DeleteOption() to populate field DeleteAfter")
 		}
 		destination.DeleteAfter = &deleteAfter
 	} else {
@@ -3323,7 +3323,7 @@ func (cycle *SourceLifeCycle) AssignProperties_To_SourceLifeCycle(destination *s
 		var sourceDataStore storage.DataStoreInfoBase
 		err := cycle.SourceDataStore.AssignProperties_To_DataStoreInfoBase(&sourceDataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase() to populate field SourceDataStore")
+			return eris.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase() to populate field SourceDataStore")
 		}
 		destination.SourceDataStore = &sourceDataStore
 	} else {
@@ -3339,7 +3339,7 @@ func (cycle *SourceLifeCycle) AssignProperties_To_SourceLifeCycle(destination *s
 			var targetDataStoreCopySetting storage.TargetCopySetting
 			err := targetDataStoreCopySettingItem.AssignProperties_To_TargetCopySetting(&targetDataStoreCopySetting)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_TargetCopySetting() to populate field TargetDataStoreCopySettings")
+				return eris.Wrap(err, "calling AssignProperties_To_TargetCopySetting() to populate field TargetDataStoreCopySettings")
 			}
 			targetDataStoreCopySettingList[targetDataStoreCopySettingIndex] = targetDataStoreCopySetting
 		}
@@ -3367,7 +3367,7 @@ func (cycle *SourceLifeCycle) Initialize_From_SourceLifeCycle_STATUS(source *Sou
 		var deleteAfter DeleteOption
 		err := deleteAfter.Initialize_From_DeleteOption_STATUS(source.DeleteAfter)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DeleteOption_STATUS() to populate field DeleteAfter")
+			return eris.Wrap(err, "calling Initialize_From_DeleteOption_STATUS() to populate field DeleteAfter")
 		}
 		cycle.DeleteAfter = &deleteAfter
 	} else {
@@ -3379,7 +3379,7 @@ func (cycle *SourceLifeCycle) Initialize_From_SourceLifeCycle_STATUS(source *Sou
 		var sourceDataStore DataStoreInfoBase
 		err := sourceDataStore.Initialize_From_DataStoreInfoBase_STATUS(source.SourceDataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataStoreInfoBase_STATUS() to populate field SourceDataStore")
+			return eris.Wrap(err, "calling Initialize_From_DataStoreInfoBase_STATUS() to populate field SourceDataStore")
 		}
 		cycle.SourceDataStore = &sourceDataStore
 	} else {
@@ -3395,7 +3395,7 @@ func (cycle *SourceLifeCycle) Initialize_From_SourceLifeCycle_STATUS(source *Sou
 			var targetDataStoreCopySetting TargetCopySetting
 			err := targetDataStoreCopySetting.Initialize_From_TargetCopySetting_STATUS(&targetDataStoreCopySettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_TargetCopySetting_STATUS() to populate field TargetDataStoreCopySettings")
+				return eris.Wrap(err, "calling Initialize_From_TargetCopySetting_STATUS() to populate field TargetDataStoreCopySettings")
 			}
 			targetDataStoreCopySettingList[targetDataStoreCopySettingIndex] = targetDataStoreCopySetting
 		}
@@ -3475,7 +3475,7 @@ func (cycle *SourceLifeCycle_STATUS) AssignProperties_From_SourceLifeCycle_STATU
 		var deleteAfter DeleteOption_STATUS
 		err := deleteAfter.AssignProperties_From_DeleteOption_STATUS(source.DeleteAfter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeleteOption_STATUS() to populate field DeleteAfter")
+			return eris.Wrap(err, "calling AssignProperties_From_DeleteOption_STATUS() to populate field DeleteAfter")
 		}
 		cycle.DeleteAfter = &deleteAfter
 	} else {
@@ -3487,7 +3487,7 @@ func (cycle *SourceLifeCycle_STATUS) AssignProperties_From_SourceLifeCycle_STATU
 		var sourceDataStore DataStoreInfoBase_STATUS
 		err := sourceDataStore.AssignProperties_From_DataStoreInfoBase_STATUS(source.SourceDataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataStoreInfoBase_STATUS() to populate field SourceDataStore")
+			return eris.Wrap(err, "calling AssignProperties_From_DataStoreInfoBase_STATUS() to populate field SourceDataStore")
 		}
 		cycle.SourceDataStore = &sourceDataStore
 	} else {
@@ -3503,7 +3503,7 @@ func (cycle *SourceLifeCycle_STATUS) AssignProperties_From_SourceLifeCycle_STATU
 			var targetDataStoreCopySetting TargetCopySetting_STATUS
 			err := targetDataStoreCopySetting.AssignProperties_From_TargetCopySetting_STATUS(&targetDataStoreCopySettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_TargetCopySetting_STATUS() to populate field TargetDataStoreCopySettings")
+				return eris.Wrap(err, "calling AssignProperties_From_TargetCopySetting_STATUS() to populate field TargetDataStoreCopySettings")
 			}
 			targetDataStoreCopySettingList[targetDataStoreCopySettingIndex] = targetDataStoreCopySetting
 		}
@@ -3526,7 +3526,7 @@ func (cycle *SourceLifeCycle_STATUS) AssignProperties_To_SourceLifeCycle_STATUS(
 		var deleteAfter storage.DeleteOption_STATUS
 		err := cycle.DeleteAfter.AssignProperties_To_DeleteOption_STATUS(&deleteAfter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeleteOption_STATUS() to populate field DeleteAfter")
+			return eris.Wrap(err, "calling AssignProperties_To_DeleteOption_STATUS() to populate field DeleteAfter")
 		}
 		destination.DeleteAfter = &deleteAfter
 	} else {
@@ -3538,7 +3538,7 @@ func (cycle *SourceLifeCycle_STATUS) AssignProperties_To_SourceLifeCycle_STATUS(
 		var sourceDataStore storage.DataStoreInfoBase_STATUS
 		err := cycle.SourceDataStore.AssignProperties_To_DataStoreInfoBase_STATUS(&sourceDataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase_STATUS() to populate field SourceDataStore")
+			return eris.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase_STATUS() to populate field SourceDataStore")
 		}
 		destination.SourceDataStore = &sourceDataStore
 	} else {
@@ -3554,7 +3554,7 @@ func (cycle *SourceLifeCycle_STATUS) AssignProperties_To_SourceLifeCycle_STATUS(
 			var targetDataStoreCopySetting storage.TargetCopySetting_STATUS
 			err := targetDataStoreCopySettingItem.AssignProperties_To_TargetCopySetting_STATUS(&targetDataStoreCopySetting)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_TargetCopySetting_STATUS() to populate field TargetDataStoreCopySettings")
+				return eris.Wrap(err, "calling AssignProperties_To_TargetCopySetting_STATUS() to populate field TargetDataStoreCopySettings")
 			}
 			targetDataStoreCopySettingList[targetDataStoreCopySettingIndex] = targetDataStoreCopySetting
 		}
@@ -3659,7 +3659,7 @@ func (context *TriggerContext) AssignProperties_From_TriggerContext(source *stor
 		var adhoc AdhocBasedTriggerContext
 		err := adhoc.AssignProperties_From_AdhocBasedTriggerContext(source.Adhoc)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AdhocBasedTriggerContext() to populate field Adhoc")
+			return eris.Wrap(err, "calling AssignProperties_From_AdhocBasedTriggerContext() to populate field Adhoc")
 		}
 		context.Adhoc = &adhoc
 	} else {
@@ -3671,7 +3671,7 @@ func (context *TriggerContext) AssignProperties_From_TriggerContext(source *stor
 		var schedule ScheduleBasedTriggerContext
 		err := schedule.AssignProperties_From_ScheduleBasedTriggerContext(source.Schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScheduleBasedTriggerContext() to populate field Schedule")
+			return eris.Wrap(err, "calling AssignProperties_From_ScheduleBasedTriggerContext() to populate field Schedule")
 		}
 		context.Schedule = &schedule
 	} else {
@@ -3692,7 +3692,7 @@ func (context *TriggerContext) AssignProperties_To_TriggerContext(destination *s
 		var adhoc storage.AdhocBasedTriggerContext
 		err := context.Adhoc.AssignProperties_To_AdhocBasedTriggerContext(&adhoc)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AdhocBasedTriggerContext() to populate field Adhoc")
+			return eris.Wrap(err, "calling AssignProperties_To_AdhocBasedTriggerContext() to populate field Adhoc")
 		}
 		destination.Adhoc = &adhoc
 	} else {
@@ -3704,7 +3704,7 @@ func (context *TriggerContext) AssignProperties_To_TriggerContext(destination *s
 		var schedule storage.ScheduleBasedTriggerContext
 		err := context.Schedule.AssignProperties_To_ScheduleBasedTriggerContext(&schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScheduleBasedTriggerContext() to populate field Schedule")
+			return eris.Wrap(err, "calling AssignProperties_To_ScheduleBasedTriggerContext() to populate field Schedule")
 		}
 		destination.Schedule = &schedule
 	} else {
@@ -3730,7 +3730,7 @@ func (context *TriggerContext) Initialize_From_TriggerContext_STATUS(source *Tri
 		var adhoc AdhocBasedTriggerContext
 		err := adhoc.Initialize_From_AdhocBasedTriggerContext_STATUS(source.Adhoc)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AdhocBasedTriggerContext_STATUS() to populate field Adhoc")
+			return eris.Wrap(err, "calling Initialize_From_AdhocBasedTriggerContext_STATUS() to populate field Adhoc")
 		}
 		context.Adhoc = &adhoc
 	} else {
@@ -3742,7 +3742,7 @@ func (context *TriggerContext) Initialize_From_TriggerContext_STATUS(source *Tri
 		var schedule ScheduleBasedTriggerContext
 		err := schedule.Initialize_From_ScheduleBasedTriggerContext_STATUS(source.Schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScheduleBasedTriggerContext_STATUS() to populate field Schedule")
+			return eris.Wrap(err, "calling Initialize_From_ScheduleBasedTriggerContext_STATUS() to populate field Schedule")
 		}
 		context.Schedule = &schedule
 	} else {
@@ -3809,7 +3809,7 @@ func (context *TriggerContext_STATUS) AssignProperties_From_TriggerContext_STATU
 		var adhoc AdhocBasedTriggerContext_STATUS
 		err := adhoc.AssignProperties_From_AdhocBasedTriggerContext_STATUS(source.Adhoc)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AdhocBasedTriggerContext_STATUS() to populate field Adhoc")
+			return eris.Wrap(err, "calling AssignProperties_From_AdhocBasedTriggerContext_STATUS() to populate field Adhoc")
 		}
 		context.Adhoc = &adhoc
 	} else {
@@ -3821,7 +3821,7 @@ func (context *TriggerContext_STATUS) AssignProperties_From_TriggerContext_STATU
 		var schedule ScheduleBasedTriggerContext_STATUS
 		err := schedule.AssignProperties_From_ScheduleBasedTriggerContext_STATUS(source.Schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScheduleBasedTriggerContext_STATUS() to populate field Schedule")
+			return eris.Wrap(err, "calling AssignProperties_From_ScheduleBasedTriggerContext_STATUS() to populate field Schedule")
 		}
 		context.Schedule = &schedule
 	} else {
@@ -3842,7 +3842,7 @@ func (context *TriggerContext_STATUS) AssignProperties_To_TriggerContext_STATUS(
 		var adhoc storage.AdhocBasedTriggerContext_STATUS
 		err := context.Adhoc.AssignProperties_To_AdhocBasedTriggerContext_STATUS(&adhoc)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AdhocBasedTriggerContext_STATUS() to populate field Adhoc")
+			return eris.Wrap(err, "calling AssignProperties_To_AdhocBasedTriggerContext_STATUS() to populate field Adhoc")
 		}
 		destination.Adhoc = &adhoc
 	} else {
@@ -3854,7 +3854,7 @@ func (context *TriggerContext_STATUS) AssignProperties_To_TriggerContext_STATUS(
 		var schedule storage.ScheduleBasedTriggerContext_STATUS
 		err := context.Schedule.AssignProperties_To_ScheduleBasedTriggerContext_STATUS(&schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScheduleBasedTriggerContext_STATUS() to populate field Schedule")
+			return eris.Wrap(err, "calling AssignProperties_To_ScheduleBasedTriggerContext_STATUS() to populate field Schedule")
 		}
 		destination.Schedule = &schedule
 	} else {
@@ -3963,7 +3963,7 @@ func (context *AdhocBasedTriggerContext) AssignProperties_From_AdhocBasedTrigger
 		var taggingCriterion AdhocBasedTaggingCriteria
 		err := taggingCriterion.AssignProperties_From_AdhocBasedTaggingCriteria(source.TaggingCriteria)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AdhocBasedTaggingCriteria() to populate field TaggingCriteria")
+			return eris.Wrap(err, "calling AssignProperties_From_AdhocBasedTaggingCriteria() to populate field TaggingCriteria")
 		}
 		context.TaggingCriteria = &taggingCriterion
 	} else {
@@ -3992,7 +3992,7 @@ func (context *AdhocBasedTriggerContext) AssignProperties_To_AdhocBasedTriggerCo
 		var taggingCriterion storage.AdhocBasedTaggingCriteria
 		err := context.TaggingCriteria.AssignProperties_To_AdhocBasedTaggingCriteria(&taggingCriterion)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AdhocBasedTaggingCriteria() to populate field TaggingCriteria")
+			return eris.Wrap(err, "calling AssignProperties_To_AdhocBasedTaggingCriteria() to populate field TaggingCriteria")
 		}
 		destination.TaggingCriteria = &taggingCriterion
 	} else {
@@ -4026,7 +4026,7 @@ func (context *AdhocBasedTriggerContext) Initialize_From_AdhocBasedTriggerContex
 		var taggingCriterion AdhocBasedTaggingCriteria
 		err := taggingCriterion.Initialize_From_AdhocBasedTaggingCriteria_STATUS(source.TaggingCriteria)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AdhocBasedTaggingCriteria_STATUS() to populate field TaggingCriteria")
+			return eris.Wrap(err, "calling Initialize_From_AdhocBasedTaggingCriteria_STATUS() to populate field TaggingCriteria")
 		}
 		context.TaggingCriteria = &taggingCriterion
 	} else {
@@ -4098,7 +4098,7 @@ func (context *AdhocBasedTriggerContext_STATUS) AssignProperties_From_AdhocBased
 		var taggingCriterion AdhocBasedTaggingCriteria_STATUS
 		err := taggingCriterion.AssignProperties_From_AdhocBasedTaggingCriteria_STATUS(source.TaggingCriteria)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AdhocBasedTaggingCriteria_STATUS() to populate field TaggingCriteria")
+			return eris.Wrap(err, "calling AssignProperties_From_AdhocBasedTaggingCriteria_STATUS() to populate field TaggingCriteria")
 		}
 		context.TaggingCriteria = &taggingCriterion
 	} else {
@@ -4127,7 +4127,7 @@ func (context *AdhocBasedTriggerContext_STATUS) AssignProperties_To_AdhocBasedTr
 		var taggingCriterion storage.AdhocBasedTaggingCriteria_STATUS
 		err := context.TaggingCriteria.AssignProperties_To_AdhocBasedTaggingCriteria_STATUS(&taggingCriterion)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AdhocBasedTaggingCriteria_STATUS() to populate field TaggingCriteria")
+			return eris.Wrap(err, "calling AssignProperties_To_AdhocBasedTaggingCriteria_STATUS() to populate field TaggingCriteria")
 		}
 		destination.TaggingCriteria = &taggingCriterion
 	} else {
@@ -4451,7 +4451,7 @@ func (option *DeleteOption) AssignProperties_From_DeleteOption(source *storage.D
 		var absoluteDeleteOption AbsoluteDeleteOption
 		err := absoluteDeleteOption.AssignProperties_From_AbsoluteDeleteOption(source.AbsoluteDeleteOption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AbsoluteDeleteOption() to populate field AbsoluteDeleteOption")
+			return eris.Wrap(err, "calling AssignProperties_From_AbsoluteDeleteOption() to populate field AbsoluteDeleteOption")
 		}
 		option.AbsoluteDeleteOption = &absoluteDeleteOption
 	} else {
@@ -4472,7 +4472,7 @@ func (option *DeleteOption) AssignProperties_To_DeleteOption(destination *storag
 		var absoluteDeleteOption storage.AbsoluteDeleteOption
 		err := option.AbsoluteDeleteOption.AssignProperties_To_AbsoluteDeleteOption(&absoluteDeleteOption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AbsoluteDeleteOption() to populate field AbsoluteDeleteOption")
+			return eris.Wrap(err, "calling AssignProperties_To_AbsoluteDeleteOption() to populate field AbsoluteDeleteOption")
 		}
 		destination.AbsoluteDeleteOption = &absoluteDeleteOption
 	} else {
@@ -4498,7 +4498,7 @@ func (option *DeleteOption) Initialize_From_DeleteOption_STATUS(source *DeleteOp
 		var absoluteDeleteOption AbsoluteDeleteOption
 		err := absoluteDeleteOption.Initialize_From_AbsoluteDeleteOption_STATUS(source.AbsoluteDeleteOption)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AbsoluteDeleteOption_STATUS() to populate field AbsoluteDeleteOption")
+			return eris.Wrap(err, "calling Initialize_From_AbsoluteDeleteOption_STATUS() to populate field AbsoluteDeleteOption")
 		}
 		option.AbsoluteDeleteOption = &absoluteDeleteOption
 	} else {
@@ -4551,7 +4551,7 @@ func (option *DeleteOption_STATUS) AssignProperties_From_DeleteOption_STATUS(sou
 		var absoluteDeleteOption AbsoluteDeleteOption_STATUS
 		err := absoluteDeleteOption.AssignProperties_From_AbsoluteDeleteOption_STATUS(source.AbsoluteDeleteOption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AbsoluteDeleteOption_STATUS() to populate field AbsoluteDeleteOption")
+			return eris.Wrap(err, "calling AssignProperties_From_AbsoluteDeleteOption_STATUS() to populate field AbsoluteDeleteOption")
 		}
 		option.AbsoluteDeleteOption = &absoluteDeleteOption
 	} else {
@@ -4572,7 +4572,7 @@ func (option *DeleteOption_STATUS) AssignProperties_To_DeleteOption_STATUS(desti
 		var absoluteDeleteOption storage.AbsoluteDeleteOption_STATUS
 		err := option.AbsoluteDeleteOption.AssignProperties_To_AbsoluteDeleteOption_STATUS(&absoluteDeleteOption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AbsoluteDeleteOption_STATUS() to populate field AbsoluteDeleteOption")
+			return eris.Wrap(err, "calling AssignProperties_To_AbsoluteDeleteOption_STATUS() to populate field AbsoluteDeleteOption")
 		}
 		destination.AbsoluteDeleteOption = &absoluteDeleteOption
 	} else {
@@ -4704,7 +4704,7 @@ func (context *ScheduleBasedTriggerContext) AssignProperties_From_ScheduleBasedT
 		var schedule BackupSchedule
 		err := schedule.AssignProperties_From_BackupSchedule(source.Schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackupSchedule() to populate field Schedule")
+			return eris.Wrap(err, "calling AssignProperties_From_BackupSchedule() to populate field Schedule")
 		}
 		context.Schedule = &schedule
 	} else {
@@ -4720,7 +4720,7 @@ func (context *ScheduleBasedTriggerContext) AssignProperties_From_ScheduleBasedT
 			var taggingCriterion TaggingCriteria
 			err := taggingCriterion.AssignProperties_From_TaggingCriteria(&taggingCriterionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_TaggingCriteria() to populate field TaggingCriteria")
+				return eris.Wrap(err, "calling AssignProperties_From_TaggingCriteria() to populate field TaggingCriteria")
 			}
 			taggingCriterionList[taggingCriterionIndex] = taggingCriterion
 		}
@@ -4751,7 +4751,7 @@ func (context *ScheduleBasedTriggerContext) AssignProperties_To_ScheduleBasedTri
 		var schedule storage.BackupSchedule
 		err := context.Schedule.AssignProperties_To_BackupSchedule(&schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackupSchedule() to populate field Schedule")
+			return eris.Wrap(err, "calling AssignProperties_To_BackupSchedule() to populate field Schedule")
 		}
 		destination.Schedule = &schedule
 	} else {
@@ -4767,7 +4767,7 @@ func (context *ScheduleBasedTriggerContext) AssignProperties_To_ScheduleBasedTri
 			var taggingCriterion storage.TaggingCriteria
 			err := taggingCriterionItem.AssignProperties_To_TaggingCriteria(&taggingCriterion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_TaggingCriteria() to populate field TaggingCriteria")
+				return eris.Wrap(err, "calling AssignProperties_To_TaggingCriteria() to populate field TaggingCriteria")
 			}
 			taggingCriterionList[taggingCriterionIndex] = taggingCriterion
 		}
@@ -4803,7 +4803,7 @@ func (context *ScheduleBasedTriggerContext) Initialize_From_ScheduleBasedTrigger
 		var schedule BackupSchedule
 		err := schedule.Initialize_From_BackupSchedule_STATUS(source.Schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BackupSchedule_STATUS() to populate field Schedule")
+			return eris.Wrap(err, "calling Initialize_From_BackupSchedule_STATUS() to populate field Schedule")
 		}
 		context.Schedule = &schedule
 	} else {
@@ -4819,7 +4819,7 @@ func (context *ScheduleBasedTriggerContext) Initialize_From_ScheduleBasedTrigger
 			var taggingCriterion TaggingCriteria
 			err := taggingCriterion.Initialize_From_TaggingCriteria_STATUS(&taggingCriterionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_TaggingCriteria_STATUS() to populate field TaggingCriteria")
+				return eris.Wrap(err, "calling Initialize_From_TaggingCriteria_STATUS() to populate field TaggingCriteria")
 			}
 			taggingCriterionList[taggingCriterionIndex] = taggingCriterion
 		}
@@ -4906,7 +4906,7 @@ func (context *ScheduleBasedTriggerContext_STATUS) AssignProperties_From_Schedul
 		var schedule BackupSchedule_STATUS
 		err := schedule.AssignProperties_From_BackupSchedule_STATUS(source.Schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackupSchedule_STATUS() to populate field Schedule")
+			return eris.Wrap(err, "calling AssignProperties_From_BackupSchedule_STATUS() to populate field Schedule")
 		}
 		context.Schedule = &schedule
 	} else {
@@ -4922,7 +4922,7 @@ func (context *ScheduleBasedTriggerContext_STATUS) AssignProperties_From_Schedul
 			var taggingCriterion TaggingCriteria_STATUS
 			err := taggingCriterion.AssignProperties_From_TaggingCriteria_STATUS(&taggingCriterionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_TaggingCriteria_STATUS() to populate field TaggingCriteria")
+				return eris.Wrap(err, "calling AssignProperties_From_TaggingCriteria_STATUS() to populate field TaggingCriteria")
 			}
 			taggingCriterionList[taggingCriterionIndex] = taggingCriterion
 		}
@@ -4953,7 +4953,7 @@ func (context *ScheduleBasedTriggerContext_STATUS) AssignProperties_To_ScheduleB
 		var schedule storage.BackupSchedule_STATUS
 		err := context.Schedule.AssignProperties_To_BackupSchedule_STATUS(&schedule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackupSchedule_STATUS() to populate field Schedule")
+			return eris.Wrap(err, "calling AssignProperties_To_BackupSchedule_STATUS() to populate field Schedule")
 		}
 		destination.Schedule = &schedule
 	} else {
@@ -4969,7 +4969,7 @@ func (context *ScheduleBasedTriggerContext_STATUS) AssignProperties_To_ScheduleB
 			var taggingCriterion storage.TaggingCriteria_STATUS
 			err := taggingCriterionItem.AssignProperties_To_TaggingCriteria_STATUS(&taggingCriterion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_TaggingCriteria_STATUS() to populate field TaggingCriteria")
+				return eris.Wrap(err, "calling AssignProperties_To_TaggingCriteria_STATUS() to populate field TaggingCriteria")
 			}
 			taggingCriterionList[taggingCriterionIndex] = taggingCriterion
 		}
@@ -5077,7 +5077,7 @@ func (setting *TargetCopySetting) AssignProperties_From_TargetCopySetting(source
 		var copyAfter CopyOption
 		err := copyAfter.AssignProperties_From_CopyOption(source.CopyAfter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CopyOption() to populate field CopyAfter")
+			return eris.Wrap(err, "calling AssignProperties_From_CopyOption() to populate field CopyAfter")
 		}
 		setting.CopyAfter = &copyAfter
 	} else {
@@ -5089,7 +5089,7 @@ func (setting *TargetCopySetting) AssignProperties_From_TargetCopySetting(source
 		var dataStore DataStoreInfoBase
 		err := dataStore.AssignProperties_From_DataStoreInfoBase(source.DataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataStoreInfoBase() to populate field DataStore")
+			return eris.Wrap(err, "calling AssignProperties_From_DataStoreInfoBase() to populate field DataStore")
 		}
 		setting.DataStore = &dataStore
 	} else {
@@ -5110,7 +5110,7 @@ func (setting *TargetCopySetting) AssignProperties_To_TargetCopySetting(destinat
 		var copyAfter storage.CopyOption
 		err := setting.CopyAfter.AssignProperties_To_CopyOption(&copyAfter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CopyOption() to populate field CopyAfter")
+			return eris.Wrap(err, "calling AssignProperties_To_CopyOption() to populate field CopyAfter")
 		}
 		destination.CopyAfter = &copyAfter
 	} else {
@@ -5122,7 +5122,7 @@ func (setting *TargetCopySetting) AssignProperties_To_TargetCopySetting(destinat
 		var dataStore storage.DataStoreInfoBase
 		err := setting.DataStore.AssignProperties_To_DataStoreInfoBase(&dataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase() to populate field DataStore")
+			return eris.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase() to populate field DataStore")
 		}
 		destination.DataStore = &dataStore
 	} else {
@@ -5148,7 +5148,7 @@ func (setting *TargetCopySetting) Initialize_From_TargetCopySetting_STATUS(sourc
 		var copyAfter CopyOption
 		err := copyAfter.Initialize_From_CopyOption_STATUS(source.CopyAfter)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CopyOption_STATUS() to populate field CopyAfter")
+			return eris.Wrap(err, "calling Initialize_From_CopyOption_STATUS() to populate field CopyAfter")
 		}
 		setting.CopyAfter = &copyAfter
 	} else {
@@ -5160,7 +5160,7 @@ func (setting *TargetCopySetting) Initialize_From_TargetCopySetting_STATUS(sourc
 		var dataStore DataStoreInfoBase
 		err := dataStore.Initialize_From_DataStoreInfoBase_STATUS(source.DataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataStoreInfoBase_STATUS() to populate field DataStore")
+			return eris.Wrap(err, "calling Initialize_From_DataStoreInfoBase_STATUS() to populate field DataStore")
 		}
 		setting.DataStore = &dataStore
 	} else {
@@ -5228,7 +5228,7 @@ func (setting *TargetCopySetting_STATUS) AssignProperties_From_TargetCopySetting
 		var copyAfter CopyOption_STATUS
 		err := copyAfter.AssignProperties_From_CopyOption_STATUS(source.CopyAfter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CopyOption_STATUS() to populate field CopyAfter")
+			return eris.Wrap(err, "calling AssignProperties_From_CopyOption_STATUS() to populate field CopyAfter")
 		}
 		setting.CopyAfter = &copyAfter
 	} else {
@@ -5240,7 +5240,7 @@ func (setting *TargetCopySetting_STATUS) AssignProperties_From_TargetCopySetting
 		var dataStore DataStoreInfoBase_STATUS
 		err := dataStore.AssignProperties_From_DataStoreInfoBase_STATUS(source.DataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataStoreInfoBase_STATUS() to populate field DataStore")
+			return eris.Wrap(err, "calling AssignProperties_From_DataStoreInfoBase_STATUS() to populate field DataStore")
 		}
 		setting.DataStore = &dataStore
 	} else {
@@ -5261,7 +5261,7 @@ func (setting *TargetCopySetting_STATUS) AssignProperties_To_TargetCopySetting_S
 		var copyAfter storage.CopyOption_STATUS
 		err := setting.CopyAfter.AssignProperties_To_CopyOption_STATUS(&copyAfter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CopyOption_STATUS() to populate field CopyAfter")
+			return eris.Wrap(err, "calling AssignProperties_To_CopyOption_STATUS() to populate field CopyAfter")
 		}
 		destination.CopyAfter = &copyAfter
 	} else {
@@ -5273,7 +5273,7 @@ func (setting *TargetCopySetting_STATUS) AssignProperties_To_TargetCopySetting_S
 		var dataStore storage.DataStoreInfoBase_STATUS
 		err := setting.DataStore.AssignProperties_To_DataStoreInfoBase_STATUS(&dataStore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase_STATUS() to populate field DataStore")
+			return eris.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase_STATUS() to populate field DataStore")
 		}
 		destination.DataStore = &dataStore
 	} else {
@@ -5567,7 +5567,7 @@ func (criteria *AdhocBasedTaggingCriteria) AssignProperties_From_AdhocBasedTaggi
 		var tagInfo RetentionTag
 		err := tagInfo.AssignProperties_From_RetentionTag(source.TagInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RetentionTag() to populate field TagInfo")
+			return eris.Wrap(err, "calling AssignProperties_From_RetentionTag() to populate field TagInfo")
 		}
 		criteria.TagInfo = &tagInfo
 	} else {
@@ -5588,7 +5588,7 @@ func (criteria *AdhocBasedTaggingCriteria) AssignProperties_To_AdhocBasedTagging
 		var tagInfo storage.RetentionTag
 		err := criteria.TagInfo.AssignProperties_To_RetentionTag(&tagInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RetentionTag() to populate field TagInfo")
+			return eris.Wrap(err, "calling AssignProperties_To_RetentionTag() to populate field TagInfo")
 		}
 		destination.TagInfo = &tagInfo
 	} else {
@@ -5614,7 +5614,7 @@ func (criteria *AdhocBasedTaggingCriteria) Initialize_From_AdhocBasedTaggingCrit
 		var tagInfo RetentionTag
 		err := tagInfo.Initialize_From_RetentionTag_STATUS(source.TagInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RetentionTag_STATUS() to populate field TagInfo")
+			return eris.Wrap(err, "calling Initialize_From_RetentionTag_STATUS() to populate field TagInfo")
 		}
 		criteria.TagInfo = &tagInfo
 	} else {
@@ -5668,7 +5668,7 @@ func (criteria *AdhocBasedTaggingCriteria_STATUS) AssignProperties_From_AdhocBas
 		var tagInfo RetentionTag_STATUS
 		err := tagInfo.AssignProperties_From_RetentionTag_STATUS(source.TagInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RetentionTag_STATUS() to populate field TagInfo")
+			return eris.Wrap(err, "calling AssignProperties_From_RetentionTag_STATUS() to populate field TagInfo")
 		}
 		criteria.TagInfo = &tagInfo
 	} else {
@@ -5689,7 +5689,7 @@ func (criteria *AdhocBasedTaggingCriteria_STATUS) AssignProperties_To_AdhocBased
 		var tagInfo storage.RetentionTag_STATUS
 		err := criteria.TagInfo.AssignProperties_To_RetentionTag_STATUS(&tagInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RetentionTag_STATUS() to populate field TagInfo")
+			return eris.Wrap(err, "calling AssignProperties_To_RetentionTag_STATUS() to populate field TagInfo")
 		}
 		destination.TagInfo = &tagInfo
 	} else {
@@ -6034,7 +6034,7 @@ func (option *CopyOption) AssignProperties_From_CopyOption(source *storage.CopyO
 		var copyOnExpiry CopyOnExpiryOption
 		err := copyOnExpiry.AssignProperties_From_CopyOnExpiryOption(source.CopyOnExpiry)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CopyOnExpiryOption() to populate field CopyOnExpiry")
+			return eris.Wrap(err, "calling AssignProperties_From_CopyOnExpiryOption() to populate field CopyOnExpiry")
 		}
 		option.CopyOnExpiry = &copyOnExpiry
 	} else {
@@ -6046,7 +6046,7 @@ func (option *CopyOption) AssignProperties_From_CopyOption(source *storage.CopyO
 		var customCopy CustomCopyOption
 		err := customCopy.AssignProperties_From_CustomCopyOption(source.CustomCopy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomCopyOption() to populate field CustomCopy")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomCopyOption() to populate field CustomCopy")
 		}
 		option.CustomCopy = &customCopy
 	} else {
@@ -6058,7 +6058,7 @@ func (option *CopyOption) AssignProperties_From_CopyOption(source *storage.CopyO
 		var immediateCopy ImmediateCopyOption
 		err := immediateCopy.AssignProperties_From_ImmediateCopyOption(source.ImmediateCopy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ImmediateCopyOption() to populate field ImmediateCopy")
+			return eris.Wrap(err, "calling AssignProperties_From_ImmediateCopyOption() to populate field ImmediateCopy")
 		}
 		option.ImmediateCopy = &immediateCopy
 	} else {
@@ -6079,7 +6079,7 @@ func (option *CopyOption) AssignProperties_To_CopyOption(destination *storage.Co
 		var copyOnExpiry storage.CopyOnExpiryOption
 		err := option.CopyOnExpiry.AssignProperties_To_CopyOnExpiryOption(&copyOnExpiry)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CopyOnExpiryOption() to populate field CopyOnExpiry")
+			return eris.Wrap(err, "calling AssignProperties_To_CopyOnExpiryOption() to populate field CopyOnExpiry")
 		}
 		destination.CopyOnExpiry = &copyOnExpiry
 	} else {
@@ -6091,7 +6091,7 @@ func (option *CopyOption) AssignProperties_To_CopyOption(destination *storage.Co
 		var customCopy storage.CustomCopyOption
 		err := option.CustomCopy.AssignProperties_To_CustomCopyOption(&customCopy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomCopyOption() to populate field CustomCopy")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomCopyOption() to populate field CustomCopy")
 		}
 		destination.CustomCopy = &customCopy
 	} else {
@@ -6103,7 +6103,7 @@ func (option *CopyOption) AssignProperties_To_CopyOption(destination *storage.Co
 		var immediateCopy storage.ImmediateCopyOption
 		err := option.ImmediateCopy.AssignProperties_To_ImmediateCopyOption(&immediateCopy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ImmediateCopyOption() to populate field ImmediateCopy")
+			return eris.Wrap(err, "calling AssignProperties_To_ImmediateCopyOption() to populate field ImmediateCopy")
 		}
 		destination.ImmediateCopy = &immediateCopy
 	} else {
@@ -6129,7 +6129,7 @@ func (option *CopyOption) Initialize_From_CopyOption_STATUS(source *CopyOption_S
 		var copyOnExpiry CopyOnExpiryOption
 		err := copyOnExpiry.Initialize_From_CopyOnExpiryOption_STATUS(source.CopyOnExpiry)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CopyOnExpiryOption_STATUS() to populate field CopyOnExpiry")
+			return eris.Wrap(err, "calling Initialize_From_CopyOnExpiryOption_STATUS() to populate field CopyOnExpiry")
 		}
 		option.CopyOnExpiry = &copyOnExpiry
 	} else {
@@ -6141,7 +6141,7 @@ func (option *CopyOption) Initialize_From_CopyOption_STATUS(source *CopyOption_S
 		var customCopy CustomCopyOption
 		err := customCopy.Initialize_From_CustomCopyOption_STATUS(source.CustomCopy)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CustomCopyOption_STATUS() to populate field CustomCopy")
+			return eris.Wrap(err, "calling Initialize_From_CustomCopyOption_STATUS() to populate field CustomCopy")
 		}
 		option.CustomCopy = &customCopy
 	} else {
@@ -6153,7 +6153,7 @@ func (option *CopyOption) Initialize_From_CopyOption_STATUS(source *CopyOption_S
 		var immediateCopy ImmediateCopyOption
 		err := immediateCopy.Initialize_From_ImmediateCopyOption_STATUS(source.ImmediateCopy)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ImmediateCopyOption_STATUS() to populate field ImmediateCopy")
+			return eris.Wrap(err, "calling Initialize_From_ImmediateCopyOption_STATUS() to populate field ImmediateCopy")
 		}
 		option.ImmediateCopy = &immediateCopy
 	} else {
@@ -6234,7 +6234,7 @@ func (option *CopyOption_STATUS) AssignProperties_From_CopyOption_STATUS(source 
 		var copyOnExpiry CopyOnExpiryOption_STATUS
 		err := copyOnExpiry.AssignProperties_From_CopyOnExpiryOption_STATUS(source.CopyOnExpiry)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CopyOnExpiryOption_STATUS() to populate field CopyOnExpiry")
+			return eris.Wrap(err, "calling AssignProperties_From_CopyOnExpiryOption_STATUS() to populate field CopyOnExpiry")
 		}
 		option.CopyOnExpiry = &copyOnExpiry
 	} else {
@@ -6246,7 +6246,7 @@ func (option *CopyOption_STATUS) AssignProperties_From_CopyOption_STATUS(source 
 		var customCopy CustomCopyOption_STATUS
 		err := customCopy.AssignProperties_From_CustomCopyOption_STATUS(source.CustomCopy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomCopyOption_STATUS() to populate field CustomCopy")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomCopyOption_STATUS() to populate field CustomCopy")
 		}
 		option.CustomCopy = &customCopy
 	} else {
@@ -6258,7 +6258,7 @@ func (option *CopyOption_STATUS) AssignProperties_From_CopyOption_STATUS(source 
 		var immediateCopy ImmediateCopyOption_STATUS
 		err := immediateCopy.AssignProperties_From_ImmediateCopyOption_STATUS(source.ImmediateCopy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ImmediateCopyOption_STATUS() to populate field ImmediateCopy")
+			return eris.Wrap(err, "calling AssignProperties_From_ImmediateCopyOption_STATUS() to populate field ImmediateCopy")
 		}
 		option.ImmediateCopy = &immediateCopy
 	} else {
@@ -6279,7 +6279,7 @@ func (option *CopyOption_STATUS) AssignProperties_To_CopyOption_STATUS(destinati
 		var copyOnExpiry storage.CopyOnExpiryOption_STATUS
 		err := option.CopyOnExpiry.AssignProperties_To_CopyOnExpiryOption_STATUS(&copyOnExpiry)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CopyOnExpiryOption_STATUS() to populate field CopyOnExpiry")
+			return eris.Wrap(err, "calling AssignProperties_To_CopyOnExpiryOption_STATUS() to populate field CopyOnExpiry")
 		}
 		destination.CopyOnExpiry = &copyOnExpiry
 	} else {
@@ -6291,7 +6291,7 @@ func (option *CopyOption_STATUS) AssignProperties_To_CopyOption_STATUS(destinati
 		var customCopy storage.CustomCopyOption_STATUS
 		err := option.CustomCopy.AssignProperties_To_CustomCopyOption_STATUS(&customCopy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomCopyOption_STATUS() to populate field CustomCopy")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomCopyOption_STATUS() to populate field CustomCopy")
 		}
 		destination.CustomCopy = &customCopy
 	} else {
@@ -6303,7 +6303,7 @@ func (option *CopyOption_STATUS) AssignProperties_To_CopyOption_STATUS(destinati
 		var immediateCopy storage.ImmediateCopyOption_STATUS
 		err := option.ImmediateCopy.AssignProperties_To_ImmediateCopyOption_STATUS(&immediateCopy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ImmediateCopyOption_STATUS() to populate field ImmediateCopy")
+			return eris.Wrap(err, "calling AssignProperties_To_ImmediateCopyOption_STATUS() to populate field ImmediateCopy")
 		}
 		destination.ImmediateCopy = &immediateCopy
 	} else {
@@ -6461,7 +6461,7 @@ func (criteria *TaggingCriteria) AssignProperties_From_TaggingCriteria(source *s
 			var criterion BackupCriteria
 			err := criterion.AssignProperties_From_BackupCriteria(&criterionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BackupCriteria() to populate field Criteria")
+				return eris.Wrap(err, "calling AssignProperties_From_BackupCriteria() to populate field Criteria")
 			}
 			criterionList[criterionIndex] = criterion
 		}
@@ -6483,7 +6483,7 @@ func (criteria *TaggingCriteria) AssignProperties_From_TaggingCriteria(source *s
 		var tagInfo RetentionTag
 		err := tagInfo.AssignProperties_From_RetentionTag(source.TagInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RetentionTag() to populate field TagInfo")
+			return eris.Wrap(err, "calling AssignProperties_From_RetentionTag() to populate field TagInfo")
 		}
 		criteria.TagInfo = &tagInfo
 	} else {
@@ -6511,7 +6511,7 @@ func (criteria *TaggingCriteria) AssignProperties_To_TaggingCriteria(destination
 			var criterion storage.BackupCriteria
 			err := criterionItem.AssignProperties_To_BackupCriteria(&criterion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BackupCriteria() to populate field Criteria")
+				return eris.Wrap(err, "calling AssignProperties_To_BackupCriteria() to populate field Criteria")
 			}
 			criterionList[criterionIndex] = criterion
 		}
@@ -6533,7 +6533,7 @@ func (criteria *TaggingCriteria) AssignProperties_To_TaggingCriteria(destination
 		var tagInfo storage.RetentionTag
 		err := criteria.TagInfo.AssignProperties_To_RetentionTag(&tagInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RetentionTag() to populate field TagInfo")
+			return eris.Wrap(err, "calling AssignProperties_To_RetentionTag() to populate field TagInfo")
 		}
 		destination.TagInfo = &tagInfo
 	} else {
@@ -6566,7 +6566,7 @@ func (criteria *TaggingCriteria) Initialize_From_TaggingCriteria_STATUS(source *
 			var criterion BackupCriteria
 			err := criterion.Initialize_From_BackupCriteria_STATUS(&criterionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_BackupCriteria_STATUS() to populate field Criteria")
+				return eris.Wrap(err, "calling Initialize_From_BackupCriteria_STATUS() to populate field Criteria")
 			}
 			criterionList[criterionIndex] = criterion
 		}
@@ -6588,7 +6588,7 @@ func (criteria *TaggingCriteria) Initialize_From_TaggingCriteria_STATUS(source *
 		var tagInfo RetentionTag
 		err := tagInfo.Initialize_From_RetentionTag_STATUS(source.TagInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RetentionTag_STATUS() to populate field TagInfo")
+			return eris.Wrap(err, "calling Initialize_From_RetentionTag_STATUS() to populate field TagInfo")
 		}
 		criteria.TagInfo = &tagInfo
 	} else {
@@ -6680,7 +6680,7 @@ func (criteria *TaggingCriteria_STATUS) AssignProperties_From_TaggingCriteria_ST
 			var criterion BackupCriteria_STATUS
 			err := criterion.AssignProperties_From_BackupCriteria_STATUS(&criterionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BackupCriteria_STATUS() to populate field Criteria")
+				return eris.Wrap(err, "calling AssignProperties_From_BackupCriteria_STATUS() to populate field Criteria")
 			}
 			criterionList[criterionIndex] = criterion
 		}
@@ -6702,7 +6702,7 @@ func (criteria *TaggingCriteria_STATUS) AssignProperties_From_TaggingCriteria_ST
 		var tagInfo RetentionTag_STATUS
 		err := tagInfo.AssignProperties_From_RetentionTag_STATUS(source.TagInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RetentionTag_STATUS() to populate field TagInfo")
+			return eris.Wrap(err, "calling AssignProperties_From_RetentionTag_STATUS() to populate field TagInfo")
 		}
 		criteria.TagInfo = &tagInfo
 	} else {
@@ -6730,7 +6730,7 @@ func (criteria *TaggingCriteria_STATUS) AssignProperties_To_TaggingCriteria_STAT
 			var criterion storage.BackupCriteria_STATUS
 			err := criterionItem.AssignProperties_To_BackupCriteria_STATUS(&criterion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BackupCriteria_STATUS() to populate field Criteria")
+				return eris.Wrap(err, "calling AssignProperties_To_BackupCriteria_STATUS() to populate field Criteria")
 			}
 			criterionList[criterionIndex] = criterion
 		}
@@ -6752,7 +6752,7 @@ func (criteria *TaggingCriteria_STATUS) AssignProperties_To_TaggingCriteria_STAT
 		var tagInfo storage.RetentionTag_STATUS
 		err := criteria.TagInfo.AssignProperties_To_RetentionTag_STATUS(&tagInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RetentionTag_STATUS() to populate field TagInfo")
+			return eris.Wrap(err, "calling AssignProperties_To_RetentionTag_STATUS() to populate field TagInfo")
 		}
 		destination.TagInfo = &tagInfo
 	} else {
@@ -6853,7 +6853,7 @@ func (criteria *BackupCriteria) AssignProperties_From_BackupCriteria(source *sto
 		var scheduleBasedBackupCriterion ScheduleBasedBackupCriteria
 		err := scheduleBasedBackupCriterion.AssignProperties_From_ScheduleBasedBackupCriteria(source.ScheduleBasedBackupCriteria)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScheduleBasedBackupCriteria() to populate field ScheduleBasedBackupCriteria")
+			return eris.Wrap(err, "calling AssignProperties_From_ScheduleBasedBackupCriteria() to populate field ScheduleBasedBackupCriteria")
 		}
 		criteria.ScheduleBasedBackupCriteria = &scheduleBasedBackupCriterion
 	} else {
@@ -6874,7 +6874,7 @@ func (criteria *BackupCriteria) AssignProperties_To_BackupCriteria(destination *
 		var scheduleBasedBackupCriterion storage.ScheduleBasedBackupCriteria
 		err := criteria.ScheduleBasedBackupCriteria.AssignProperties_To_ScheduleBasedBackupCriteria(&scheduleBasedBackupCriterion)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScheduleBasedBackupCriteria() to populate field ScheduleBasedBackupCriteria")
+			return eris.Wrap(err, "calling AssignProperties_To_ScheduleBasedBackupCriteria() to populate field ScheduleBasedBackupCriteria")
 		}
 		destination.ScheduleBasedBackupCriteria = &scheduleBasedBackupCriterion
 	} else {
@@ -6900,7 +6900,7 @@ func (criteria *BackupCriteria) Initialize_From_BackupCriteria_STATUS(source *Ba
 		var scheduleBasedBackupCriterion ScheduleBasedBackupCriteria
 		err := scheduleBasedBackupCriterion.Initialize_From_ScheduleBasedBackupCriteria_STATUS(source.ScheduleBasedBackupCriteria)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScheduleBasedBackupCriteria_STATUS() to populate field ScheduleBasedBackupCriteria")
+			return eris.Wrap(err, "calling Initialize_From_ScheduleBasedBackupCriteria_STATUS() to populate field ScheduleBasedBackupCriteria")
 		}
 		criteria.ScheduleBasedBackupCriteria = &scheduleBasedBackupCriterion
 	} else {
@@ -6953,7 +6953,7 @@ func (criteria *BackupCriteria_STATUS) AssignProperties_From_BackupCriteria_STAT
 		var scheduleBasedBackupCriterion ScheduleBasedBackupCriteria_STATUS
 		err := scheduleBasedBackupCriterion.AssignProperties_From_ScheduleBasedBackupCriteria_STATUS(source.ScheduleBasedBackupCriteria)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScheduleBasedBackupCriteria_STATUS() to populate field ScheduleBasedBackupCriteria")
+			return eris.Wrap(err, "calling AssignProperties_From_ScheduleBasedBackupCriteria_STATUS() to populate field ScheduleBasedBackupCriteria")
 		}
 		criteria.ScheduleBasedBackupCriteria = &scheduleBasedBackupCriterion
 	} else {
@@ -6974,7 +6974,7 @@ func (criteria *BackupCriteria_STATUS) AssignProperties_To_BackupCriteria_STATUS
 		var scheduleBasedBackupCriterion storage.ScheduleBasedBackupCriteria_STATUS
 		err := criteria.ScheduleBasedBackupCriteria.AssignProperties_To_ScheduleBasedBackupCriteria_STATUS(&scheduleBasedBackupCriterion)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScheduleBasedBackupCriteria_STATUS() to populate field ScheduleBasedBackupCriteria")
+			return eris.Wrap(err, "calling AssignProperties_To_ScheduleBasedBackupCriteria_STATUS() to populate field ScheduleBasedBackupCriteria")
 		}
 		destination.ScheduleBasedBackupCriteria = &scheduleBasedBackupCriterion
 	} else {
@@ -7962,7 +7962,7 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_From_ScheduleBased
 			var daysOfMonth Day
 			err := daysOfMonth.AssignProperties_From_Day(&daysOfMonthItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Day() to populate field DaysOfMonth")
+				return eris.Wrap(err, "calling AssignProperties_From_Day() to populate field DaysOfMonth")
 			}
 			daysOfMonthList[daysOfMonthIndex] = daysOfMonth
 		}
@@ -8053,7 +8053,7 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_To_ScheduleBasedBa
 			var daysOfMonth storage.Day
 			err := daysOfMonthItem.AssignProperties_To_Day(&daysOfMonth)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Day() to populate field DaysOfMonth")
+				return eris.Wrap(err, "calling AssignProperties_To_Day() to populate field DaysOfMonth")
 			}
 			daysOfMonthList[daysOfMonthIndex] = daysOfMonth
 		}
@@ -8149,7 +8149,7 @@ func (criteria *ScheduleBasedBackupCriteria) Initialize_From_ScheduleBasedBackup
 			var daysOfMonth Day
 			err := daysOfMonth.Initialize_From_Day_STATUS(&daysOfMonthItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_Day_STATUS() to populate field DaysOfMonth")
+				return eris.Wrap(err, "calling Initialize_From_Day_STATUS() to populate field DaysOfMonth")
 			}
 			daysOfMonthList[daysOfMonthIndex] = daysOfMonth
 		}
@@ -8332,7 +8332,7 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_From_Schedu
 			var daysOfMonth Day_STATUS
 			err := daysOfMonth.AssignProperties_From_Day_STATUS(&daysOfMonthItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Day_STATUS() to populate field DaysOfMonth")
+				return eris.Wrap(err, "calling AssignProperties_From_Day_STATUS() to populate field DaysOfMonth")
 			}
 			daysOfMonthList[daysOfMonthIndex] = daysOfMonth
 		}
@@ -8423,7 +8423,7 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_To_Schedule
 			var daysOfMonth storage.Day_STATUS
 			err := daysOfMonthItem.AssignProperties_To_Day_STATUS(&daysOfMonth)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Day_STATUS() to populate field DaysOfMonth")
+				return eris.Wrap(err, "calling AssignProperties_To_Day_STATUS() to populate field DaysOfMonth")
 			}
 			daysOfMonthList[daysOfMonthIndex] = daysOfMonth
 		}

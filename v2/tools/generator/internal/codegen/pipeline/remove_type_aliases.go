@@ -9,7 +9,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -64,7 +64,7 @@ func resolveTypeName(
 
 	def, ok := definitions[name]
 	if !ok {
-		return nil, errors.Errorf("couldn't find definition for type name %s", name)
+		return nil, eris.Errorf("couldn't find definition for type name %s", name)
 	}
 
 	// If this typeName definition has a type of object, enum, validated, flagged, resource, or resourceList

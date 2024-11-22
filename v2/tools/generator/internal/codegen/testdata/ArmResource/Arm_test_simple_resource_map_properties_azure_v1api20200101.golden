@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -265,7 +265,7 @@ func (resource *FakeResource) AssignProperties_From_FakeResource(source *storage
 	var spec FakeResource_Spec
 	err := spec.AssignProperties_From_FakeResource_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FakeResource_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_FakeResource_Spec() to populate field Spec")
 	}
 	resource.Spec = spec
 
@@ -283,7 +283,7 @@ func (resource *FakeResource) AssignProperties_To_FakeResource(destination *stor
 	var spec storage.FakeResource_Spec
 	err := resource.Spec.AssignProperties_To_FakeResource_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FakeResource_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_FakeResource_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -639,13 +639,13 @@ func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.Convertible
 	src = &storage.FakeResource_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = resource.AssignProperties_From_FakeResource_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -663,13 +663,13 @@ func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.Converti
 	dst = &storage.FakeResource_Spec{}
 	err := resource.AssignProperties_To_FakeResource_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -698,7 +698,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 			var mapFoo Foo
 			err := mapFoo.AssignProperties_From_Foo(&mapFooValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field MapFoo")
+				return eris.Wrap(err, "calling AssignProperties_From_Foo() to populate field MapFoo")
 			}
 			mapFooMap[mapFooKey] = mapFoo
 		}
@@ -721,7 +721,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 					var mapOfArray Foo
 					err := mapOfArray.AssignProperties_From_Foo(&mapOfArrayItem)
 					if err != nil {
-						return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field MapOfArrays")
+						return eris.Wrap(err, "calling AssignProperties_From_Foo() to populate field MapOfArrays")
 					}
 					mapOfArrayList[mapOfArrayIndex] = mapOfArray
 				}
@@ -762,7 +762,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 					var mapOfMapLocal Foo
 					err := mapOfMapLocal.AssignProperties_From_Foo(&mapOfMapValue1)
 					if err != nil {
-						return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field MapOfMaps")
+						return eris.Wrap(err, "calling AssignProperties_From_Foo() to populate field MapOfMaps")
 					}
 					mapOfMap1[mapOfMapKey1] = mapOfMapLocal
 				}
@@ -795,7 +795,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 							var mapOfMapsOfMapLocal Foo
 							err := mapOfMapsOfMapLocal.AssignProperties_From_Foo(&mapOfMapsOfMapValue2)
 							if err != nil {
-								return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field MapOfMapsOfMaps")
+								return eris.Wrap(err, "calling AssignProperties_From_Foo() to populate field MapOfMapsOfMaps")
 							}
 							mapOfMapsOfMap2[mapOfMapsOfMapKey2] = mapOfMapsOfMapLocal
 						}
@@ -845,7 +845,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 		var operatorSpec FakeResourceOperatorSpec
 		err := operatorSpec.AssignProperties_From_FakeResourceOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FakeResourceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_FakeResourceOperatorSpec() to populate field OperatorSpec")
 		}
 		resource.OperatorSpec = &operatorSpec
 	} else {
@@ -893,7 +893,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 			var mapFoo storage.Foo
 			err := mapFooValue.AssignProperties_To_Foo(&mapFoo)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field MapFoo")
+				return eris.Wrap(err, "calling AssignProperties_To_Foo() to populate field MapFoo")
 			}
 			mapFooMap[mapFooKey] = mapFoo
 		}
@@ -916,7 +916,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 					var mapOfArray storage.Foo
 					err := mapOfArrayItem.AssignProperties_To_Foo(&mapOfArray)
 					if err != nil {
-						return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field MapOfArrays")
+						return eris.Wrap(err, "calling AssignProperties_To_Foo() to populate field MapOfArrays")
 					}
 					mapOfArrayList[mapOfArrayIndex] = mapOfArray
 				}
@@ -957,7 +957,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 					var mapOfMapLocal storage.Foo
 					err := mapOfMapValue1.AssignProperties_To_Foo(&mapOfMapLocal)
 					if err != nil {
-						return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field MapOfMaps")
+						return eris.Wrap(err, "calling AssignProperties_To_Foo() to populate field MapOfMaps")
 					}
 					mapOfMap1[mapOfMapKey1] = mapOfMapLocal
 				}
@@ -990,7 +990,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 							var mapOfMapsOfMapLocal storage.Foo
 							err := mapOfMapsOfMapValue2.AssignProperties_To_Foo(&mapOfMapsOfMapLocal)
 							if err != nil {
-								return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field MapOfMapsOfMaps")
+								return eris.Wrap(err, "calling AssignProperties_To_Foo() to populate field MapOfMapsOfMaps")
 							}
 							mapOfMapsOfMap2[mapOfMapsOfMapKey2] = mapOfMapsOfMapLocal
 						}
@@ -1040,7 +1040,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 		var operatorSpec storage.FakeResourceOperatorSpec
 		err := resource.OperatorSpec.AssignProperties_To_FakeResourceOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FakeResourceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_FakeResourceOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {

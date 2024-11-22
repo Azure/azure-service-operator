@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -131,7 +131,7 @@ func (collection *MongodbDatabaseCollection) SetStatus(status genruntime.Convert
 	var st MongodbDatabaseCollection_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	collection.Status = st
@@ -186,7 +186,7 @@ var _ genruntime.ConvertibleSpec = &MongodbDatabaseCollection_Spec{}
 // ConvertSpecFrom populates our MongodbDatabaseCollection_Spec from the provided source
 func (collection *MongodbDatabaseCollection_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == collection {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(collection)
@@ -195,7 +195,7 @@ func (collection *MongodbDatabaseCollection_Spec) ConvertSpecFrom(source genrunt
 // ConvertSpecTo populates the provided destination from our MongodbDatabaseCollection_Spec
 func (collection *MongodbDatabaseCollection_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == collection {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(collection)
@@ -219,7 +219,7 @@ var _ genruntime.ConvertibleStatus = &MongodbDatabaseCollection_STATUS{}
 // ConvertStatusFrom populates our MongodbDatabaseCollection_STATUS from the provided source
 func (collection *MongodbDatabaseCollection_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == collection {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(collection)
@@ -228,7 +228,7 @@ func (collection *MongodbDatabaseCollection_STATUS) ConvertStatusFrom(source gen
 // ConvertStatusTo populates the provided destination from our MongodbDatabaseCollection_STATUS
 func (collection *MongodbDatabaseCollection_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == collection {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(collection)

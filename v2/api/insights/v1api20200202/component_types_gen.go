@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -215,7 +215,7 @@ func (component *Component) SetStatus(status genruntime.ConvertibleStatus) error
 	var st Component_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	component.Status = st
@@ -342,7 +342,7 @@ func (component *Component) AssignProperties_From_Component(source *storage.Comp
 	var spec Component_Spec
 	err := spec.AssignProperties_From_Component_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Component_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Component_Spec() to populate field Spec")
 	}
 	component.Spec = spec
 
@@ -350,7 +350,7 @@ func (component *Component) AssignProperties_From_Component(source *storage.Comp
 	var status Component_STATUS
 	err = status.AssignProperties_From_Component_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Component_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Component_STATUS() to populate field Status")
 	}
 	component.Status = status
 
@@ -368,7 +368,7 @@ func (component *Component) AssignProperties_To_Component(destination *storage.C
 	var spec storage.Component_Spec
 	err := component.Spec.AssignProperties_To_Component_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Component_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Component_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -376,7 +376,7 @@ func (component *Component) AssignProperties_To_Component(destination *storage.C
 	var status storage.Component_STATUS
 	err = component.Status.AssignProperties_To_Component_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Component_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Component_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -815,13 +815,13 @@ func (component *Component_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 	src = &storage.Component_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = component.AssignProperties_From_Component_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -839,13 +839,13 @@ func (component *Component_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	dst = &storage.Component_Spec{}
 	err := component.AssignProperties_To_Component_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -933,7 +933,7 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *st
 		var operatorSpec ComponentOperatorSpec
 		err := operatorSpec.AssignProperties_From_ComponentOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ComponentOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ComponentOperatorSpec() to populate field OperatorSpec")
 		}
 		component.OperatorSpec = &operatorSpec
 	} else {
@@ -1082,7 +1082,7 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 		var operatorSpec storage.ComponentOperatorSpec
 		err := component.OperatorSpec.AssignProperties_To_ComponentOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ComponentOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ComponentOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -1411,13 +1411,13 @@ func (component *Component_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	src = &storage.Component_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = component.AssignProperties_From_Component_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1435,13 +1435,13 @@ func (component *Component_STATUS) ConvertStatusTo(destination genruntime.Conver
 	dst = &storage.Component_STATUS{}
 	err := component.AssignProperties_To_Component_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1865,7 +1865,7 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 			var privateLinkScopedResource PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResource.AssignProperties_From_PrivateLinkScopedResource_STATUS(&privateLinkScopedResourceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -2046,7 +2046,7 @@ func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destinat
 			var privateLinkScopedResource storage.PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResourceItem.AssignProperties_To_PrivateLinkScopedResource_STATUS(&privateLinkScopedResource)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -2253,7 +2253,7 @@ func (operator *ComponentOperatorSpec) AssignProperties_From_ComponentOperatorSp
 		var configMap ComponentOperatorConfigMaps
 		err := configMap.AssignProperties_From_ComponentOperatorConfigMaps(source.ConfigMaps)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ComponentOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_From_ComponentOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		operator.ConfigMaps = &configMap
 	} else {
@@ -2310,7 +2310,7 @@ func (operator *ComponentOperatorSpec) AssignProperties_To_ComponentOperatorSpec
 		var configMap storage.ComponentOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_ComponentOperatorConfigMaps(&configMap)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ComponentOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_To_ComponentOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		destination.ConfigMaps = &configMap
 	} else {

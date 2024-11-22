@@ -9,7 +9,7 @@ import (
 	"context"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
@@ -51,7 +51,7 @@ type importableResource struct {
 func (i *importableResource) createBlankObjectFromGVK(gvk schema.GroupVersionKind) (runtime.Object, error) {
 	obj, err := i.scheme.New(gvk)
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to create blank resource")
+		return nil, eris.Wrap(err, "unable to create blank resource")
 	}
 
 	obj.GetObjectKind().SetGroupVersionKind(gvk)
@@ -64,7 +64,7 @@ func (i *importableResource) selectVersionFromGK(gk schema.GroupKind) (schema.Gr
 	knownVersions := i.scheme.VersionsForGroupKind(gk)
 	if len(knownVersions) == 0 {
 		return schema.GroupVersionKind{},
-			errors.Errorf(
+			eris.Errorf(
 				"no known versions for Group %s, Kind %s",
 				gk.Group,
 				gk.Kind)
@@ -77,13 +77,13 @@ func (i *importableResource) selectVersionFromGK(gk schema.GroupKind) (schema.Gr
 		gvk := gk.WithVersion(gv.Version)
 		obj, err := i.createBlankObjectFromGVK(gvk)
 		if err != nil {
-			return schema.GroupVersionKind{}, errors.Wrapf(err, "unable to create blank resource for GVK %s", gvk)
+			return schema.GroupVersionKind{}, eris.Wrapf(err, "unable to create blank resource for GVK %s", gvk)
 		}
 
 		if _, ok := obj.(genruntime.ImportableResource); ok {
 			if result != nil {
 				return schema.GroupVersionKind{},
-					errors.Errorf(
+					eris.Errorf(
 						"multiple known versions for Group %s, Kind %s implement genruntime.ImportableResource",
 						gk.Group,
 						gk.Kind)
@@ -95,7 +95,7 @@ func (i *importableResource) selectVersionFromGK(gk schema.GroupKind) (schema.Gr
 
 	if result == nil {
 		return schema.GroupVersionKind{},
-			errors.Errorf(
+			eris.Errorf(
 				"no known versions for Group %s, Kind %s implement genruntime.ImportableResource",
 				gk.Group,
 				gk.Kind)

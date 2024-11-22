@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -54,7 +54,7 @@ func (array *ArrayType) AsDeclarations(codeGenerationContext *CodeGenerationCont
 func (array *ArrayType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	elementExpr, err := array.element.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating array element type")
+		return nil, eris.Wrap(err, "creating array element type")
 	}
 
 	return &dst.ArrayType{

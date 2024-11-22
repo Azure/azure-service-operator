@@ -14,7 +14,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 // URIFromVersion creates an ASO template URI from a version
@@ -28,7 +28,7 @@ func URIFromVersion(version string) string {
 func Get(ctx context.Context, uri string) (string, error) {
 	parsedURI, err := url.Parse(uri)
 	if err != nil {
-		return "", errors.Wrapf(err, "failed to parse URI %s", uri)
+		return "", eris.Wrapf(err, "failed to parse URI %s", uri)
 	}
 
 	if parsedURI.Scheme == "" { // Assume that this is a local file?
@@ -36,7 +36,7 @@ func Get(ctx context.Context, uri string) (string, error) {
 	} else if parsedURI.Scheme == "http" || parsedURI.Scheme == "https" {
 		return download(ctx, uri)
 	} else {
-		return "", errors.Errorf("unknown URI scheme %s", parsedURI.Scheme)
+		return "", eris.Errorf("unknown URI scheme %s", parsedURI.Scheme)
 	}
 }
 
@@ -48,7 +48,7 @@ func Apply(template string, crdPattern string) (string, error) {
 	// TODO: Maybe fix the YAML to be an actual envsubst template?
 	result := strings.Replace(template, "- --crd-pattern=", newPattern, 1)
 	if template == result {
-		return "", errors.New("failed to inject crd-pattern, was the template used from ASO v2.1.0 or greater?")
+		return "", eris.New("failed to inject crd-pattern, was the template used from ASO v2.1.0 or greater?")
 	}
 
 	return result, nil
@@ -58,7 +58,7 @@ func Apply(template string, crdPattern string) (string, error) {
 func load(path string) (string, error) {
 	result, err := os.ReadFile(path)
 	if err != nil {
-		return "", errors.Wrapf(err, "failed to read file %s", path)
+		return "", eris.Wrapf(err, "failed to read file %s", path)
 	}
 
 	return string(result), nil
@@ -68,26 +68,26 @@ func load(path string) (string, error) {
 func download(ctx context.Context, url string) (string, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
-		return "", errors.Wrap(err, "failed to create request")
+		return "", eris.Wrap(err, "failed to create request")
 	}
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return "", errors.Wrapf(err, "failed to GET file at %s", url)
+		return "", eris.Wrapf(err, "failed to GET file at %s", url)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return "", errors.Errorf("unexpected status code %d from %s", resp.StatusCode, url)
+		return "", eris.Errorf("unexpected status code %d from %s", resp.StatusCode, url)
 	}
 
 	bldr := &strings.Builder{}
 	written, err := io.Copy(bldr, resp.Body)
 	if err != nil {
-		return "", errors.Wrap(err, "failed to copy body")
+		return "", eris.Wrap(err, "failed to copy body")
 	}
 	if written == 0 {
-		return "", errors.Errorf("file had no content")
+		return "", eris.Errorf("file had no content")
 	}
 
 	return bldr.String(), nil

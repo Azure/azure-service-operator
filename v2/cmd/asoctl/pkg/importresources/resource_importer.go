@@ -10,7 +10,7 @@ import (
 	"fmt"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
@@ -68,7 +68,7 @@ func (ri *ResourceImporter) Add(importer ImportableResource) {
 func (ri *ResourceImporter) AddARMID(armID string) error {
 	importer, err := NewImportableARMResource(armID, nil /* no owner */, ri.client, ri.scheme)
 	if err != nil {
-		return errors.Wrapf(err, "failed to create importer for %q", armID)
+		return eris.Wrapf(err, "failed to create importer for %q", armID)
 	}
 
 	ri.Add(importer)

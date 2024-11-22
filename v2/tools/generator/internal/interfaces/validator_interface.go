@@ -6,7 +6,7 @@
 package interfaces
 
 import (
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
@@ -20,7 +20,7 @@ func AddValidatorInterface(
 ) (astmodel.TypeDefinition, error) {
 	rt, ok := astmodel.AsResourceType(resourceDef.Type())
 	if !ok {
-		return astmodel.TypeDefinition{}, errors.Errorf("unable to resolve resource %s", resourceDef.Name())
+		return astmodel.TypeDefinition{}, eris.Errorf("unable to resolve resource %s", resourceDef.Name())
 	}
 
 	validatorBuilder := functions.NewValidatorBuilder(resourceDef.Name(), rt, idFactory)

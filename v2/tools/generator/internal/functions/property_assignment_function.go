@@ -11,7 +11,7 @@ import (
 	"sort"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/maps"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -138,12 +138,12 @@ func (fn *PropertyAssignmentFunction) AsFunc(
 	receiverType := astmodel.NewOptionalType(receiver)
 	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	body, err := fn.generateBody(fn.receiverName, fn.parameterName, codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to generate body for %s", fn.Name())
+		return nil, eris.Wrapf(err, "unable to generate body for %s", fn.Name())
 	}
 
 	funcDetails := &astbuilder.FuncDetails{
@@ -156,7 +156,7 @@ func (fn *PropertyAssignmentFunction) AsFunc(
 	parameterTypeExpr, err := astmodel.NewOptionalType(fn.ParameterType()).
 		AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating parameter type expression")
+		return nil, eris.Wrap(err, "creating parameter type expression")
 	}
 
 	funcDetails.AddParameter(fn.parameterName, parameterTypeExpr)
@@ -191,13 +191,13 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	bagPrologue := fn.createPropertyBagPrologue(source, generationContext)
 	assignments, err := fn.generateAssignments(knownLocals, dst.NewIdent(source), dst.NewIdent(destination), generationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to generate assignments for %s", fn.Name())
+		return nil, eris.Wrapf(err, "unable to generate assignments for %s", fn.Name())
 	}
 
 	bagEpilogue := fn.propertyBagEpilogue(destination)
 	handleOverrideInterface, err := fn.handleAugmentationInterface(receiver, parameter, knownLocals, generationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "generating augmentation interface handling for %s", fn.Name())
+		return nil, eris.Wrapf(err, "generating augmentation interface handling for %s", fn.Name())
 	}
 
 	return astbuilder.Statements(
@@ -316,7 +316,7 @@ func (fn *PropertyAssignmentFunction) handleAugmentationInterface(
 
 	augmentationInterfaceExpr, err := fn.augmentationInterface.AsTypeExpr(generationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating augmentation interface type expression")
+		return nil, eris.Wrap(err, "creating augmentation interface type expression")
 	}
 
 	receiverAsAnyIdent := knownLocals.CreateLocal(receiver + "AsAny")
@@ -334,7 +334,7 @@ func (fn *PropertyAssignmentFunction) handleAugmentationInterface(
 	returnIfNotNil := astbuilder.ReturnIfNotNil(
 		dst.NewIdent("err"),
 		astbuilder.WrappedError(
-			generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference),
+			generationContext.MustGetImportedPackageName(astmodel.ErisReference),
 			fmt.Sprintf("calling augmented %s() for conversion", conversionFuncName)))
 
 	ifStmt := astbuilder.IfType(
@@ -371,7 +371,7 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 		conversion := fn.conversions[prop]
 		block, err := conversion(source, destination, knownLocals, generationContext)
 		if err != nil {
-			return nil, errors.Wrapf(err, "property %s", prop)
+			return nil, eris.Wrapf(err, "property %s", prop)
 		}
 
 		if len(block) > 0 {

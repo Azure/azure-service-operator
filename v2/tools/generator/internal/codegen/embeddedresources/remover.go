@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -81,12 +81,12 @@ func MakeEmbeddedResourceRemover(configuration *config.Configuration, definition
 
 	resourcesEmbeddedInParent, err := findResourcesEmbeddedInParent(configuration, definitions)
 	if err != nil {
-		return EmbeddedResourceRemover{}, errors.Wrap(err, "couldn't find all resources embedded in parent")
+		return EmbeddedResourceRemover{}, eris.Wrap(err, "couldn't find all resources embedded in parent")
 	}
 
 	misbehavingResources, err := findMisbehavingResources(configuration, definitions)
 	if err != nil {
-		return EmbeddedResourceRemover{}, errors.Wrap(err, "couldn't find all misbehaving embedded resources")
+		return EmbeddedResourceRemover{}, eris.Wrap(err, "couldn't find all misbehaving embedded resources")
 	}
 
 	remover := EmbeddedResourceRemover{
@@ -367,13 +367,13 @@ func findResourcesEmbeddedInParent(
 
 		// Perform some validation that this annotation makes sense before we accept it
 		if !objectType.IsResource() {
-			errs = append(errs, errors.Errorf("%s is not labelled as a resource, so cannot be a resource embedded in a parent", name))
+			errs = append(errs, eris.Errorf("%s is not labelled as a resource, so cannot be a resource embedded in a parent", name))
 			continue
 		}
 
 		parentTypeName := name.WithName(parentResource)
 		if !defs.Contains(parentTypeName) {
-			errs = append(errs, errors.Errorf("cannot find %s parent %s", name, parentTypeName))
+			errs = append(errs, eris.Errorf("cannot find %s parent %s", name, parentTypeName))
 			continue
 		}
 

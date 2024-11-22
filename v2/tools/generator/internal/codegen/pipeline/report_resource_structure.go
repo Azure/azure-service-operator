@@ -9,7 +9,7 @@ import (
 	"context"
 	"path/filepath"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -74,5 +74,5 @@ func (report *ResourceStructureReport) saveReport(filePath string, defs astmodel
 	rpt := reporting.NewTypeCatalogReport(defs, reporting.InlineTypes)
 	rpt.AddHeader(astmodel.CodeGenerationComments...)
 	err := rpt.SaveTo(filePath)
-	return errors.Wrapf(err, "unable to save type catalog report to %q", filePath)
+	return eris.Wrapf(err, "unable to save type catalog report to %q", filePath)
 }

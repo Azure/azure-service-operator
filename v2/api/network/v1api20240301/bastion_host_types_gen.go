@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -189,7 +189,7 @@ func (host *BastionHost) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st BastionHost_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	host.Status = st
@@ -309,7 +309,7 @@ func (host *BastionHost) AssignProperties_From_BastionHost(source *storage.Basti
 	var spec BastionHost_Spec
 	err := spec.AssignProperties_From_BastionHost_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_BastionHost_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_BastionHost_Spec() to populate field Spec")
 	}
 	host.Spec = spec
 
@@ -317,7 +317,7 @@ func (host *BastionHost) AssignProperties_From_BastionHost(source *storage.Basti
 	var status BastionHost_STATUS
 	err = status.AssignProperties_From_BastionHost_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_BastionHost_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_BastionHost_STATUS() to populate field Status")
 	}
 	host.Status = status
 
@@ -335,7 +335,7 @@ func (host *BastionHost) AssignProperties_To_BastionHost(destination *storage.Ba
 	var spec storage.BastionHost_Spec
 	err := host.Spec.AssignProperties_To_BastionHost_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_BastionHost_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_BastionHost_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -343,7 +343,7 @@ func (host *BastionHost) AssignProperties_To_BastionHost(destination *storage.Ba
 	var status storage.BastionHost_STATUS
 	err = host.Status.AssignProperties_To_BastionHost_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_BastionHost_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_BastionHost_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -750,13 +750,13 @@ func (host *BastionHost_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec)
 	src = &storage.BastionHost_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = host.AssignProperties_From_BastionHost_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -774,13 +774,13 @@ func (host *BastionHost_Spec) ConvertSpecTo(destination genruntime.ConvertibleSp
 	dst = &storage.BastionHost_Spec{}
 	err := host.AssignProperties_To_BastionHost_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -860,7 +860,7 @@ func (host *BastionHost_Spec) AssignProperties_From_BastionHost_Spec(source *sto
 			var ipConfiguration BastionHostIPConfiguration
 			err := ipConfiguration.AssignProperties_From_BastionHostIPConfiguration(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BastionHostIPConfiguration() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_From_BastionHostIPConfiguration() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -877,7 +877,7 @@ func (host *BastionHost_Spec) AssignProperties_From_BastionHost_Spec(source *sto
 		var networkAcl BastionHostPropertiesFormat_NetworkAcls
 		err := networkAcl.AssignProperties_From_BastionHostPropertiesFormat_NetworkAcls(source.NetworkAcls)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BastionHostPropertiesFormat_NetworkAcls() to populate field NetworkAcls")
+			return eris.Wrap(err, "calling AssignProperties_From_BastionHostPropertiesFormat_NetworkAcls() to populate field NetworkAcls")
 		}
 		host.NetworkAcls = &networkAcl
 	} else {
@@ -889,7 +889,7 @@ func (host *BastionHost_Spec) AssignProperties_From_BastionHost_Spec(source *sto
 		var operatorSpec BastionHostOperatorSpec
 		err := operatorSpec.AssignProperties_From_BastionHostOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BastionHostOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_BastionHostOperatorSpec() to populate field OperatorSpec")
 		}
 		host.OperatorSpec = &operatorSpec
 	} else {
@@ -917,7 +917,7 @@ func (host *BastionHost_Spec) AssignProperties_From_BastionHost_Spec(source *sto
 		var sku Sku
 		err := sku.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
 		host.Sku = &sku
 	} else {
@@ -932,7 +932,7 @@ func (host *BastionHost_Spec) AssignProperties_From_BastionHost_Spec(source *sto
 		var virtualNetwork SubResource
 		err := virtualNetwork.AssignProperties_From_SubResource(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualNetwork")
 		}
 		host.VirtualNetwork = &virtualNetwork
 	} else {
@@ -1022,7 +1022,7 @@ func (host *BastionHost_Spec) AssignProperties_To_BastionHost_Spec(destination *
 			var ipConfiguration storage.BastionHostIPConfiguration
 			err := ipConfigurationItem.AssignProperties_To_BastionHostIPConfiguration(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BastionHostIPConfiguration() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_To_BastionHostIPConfiguration() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1039,7 +1039,7 @@ func (host *BastionHost_Spec) AssignProperties_To_BastionHost_Spec(destination *
 		var networkAcl storage.BastionHostPropertiesFormat_NetworkAcls
 		err := host.NetworkAcls.AssignProperties_To_BastionHostPropertiesFormat_NetworkAcls(&networkAcl)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BastionHostPropertiesFormat_NetworkAcls() to populate field NetworkAcls")
+			return eris.Wrap(err, "calling AssignProperties_To_BastionHostPropertiesFormat_NetworkAcls() to populate field NetworkAcls")
 		}
 		destination.NetworkAcls = &networkAcl
 	} else {
@@ -1051,7 +1051,7 @@ func (host *BastionHost_Spec) AssignProperties_To_BastionHost_Spec(destination *
 		var operatorSpec storage.BastionHostOperatorSpec
 		err := host.OperatorSpec.AssignProperties_To_BastionHostOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BastionHostOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_BastionHostOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -1082,7 +1082,7 @@ func (host *BastionHost_Spec) AssignProperties_To_BastionHost_Spec(destination *
 		var sku storage.Sku
 		err := host.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1097,7 +1097,7 @@ func (host *BastionHost_Spec) AssignProperties_To_BastionHost_Spec(destination *
 		var virtualNetwork storage.SubResource
 		err := host.VirtualNetwork.AssignProperties_To_SubResource(&virtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualNetwork")
 		}
 		destination.VirtualNetwork = &virtualNetwork
 	} else {
@@ -1189,7 +1189,7 @@ func (host *BastionHost_Spec) Initialize_From_BastionHost_STATUS(source *Bastion
 			var ipConfiguration BastionHostIPConfiguration
 			err := ipConfiguration.Initialize_From_BastionHostIPConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_BastionHostIPConfiguration_STATUS() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling Initialize_From_BastionHostIPConfiguration_STATUS() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1206,7 +1206,7 @@ func (host *BastionHost_Spec) Initialize_From_BastionHost_STATUS(source *Bastion
 		var networkAcl BastionHostPropertiesFormat_NetworkAcls
 		err := networkAcl.Initialize_From_BastionHostPropertiesFormat_NetworkAcls_STATUS(source.NetworkAcls)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BastionHostPropertiesFormat_NetworkAcls_STATUS() to populate field NetworkAcls")
+			return eris.Wrap(err, "calling Initialize_From_BastionHostPropertiesFormat_NetworkAcls_STATUS() to populate field NetworkAcls")
 		}
 		host.NetworkAcls = &networkAcl
 	} else {
@@ -1226,7 +1226,7 @@ func (host *BastionHost_Spec) Initialize_From_BastionHost_STATUS(source *Bastion
 		var sku Sku
 		err := sku.Initialize_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
 		}
 		host.Sku = &sku
 	} else {
@@ -1241,7 +1241,7 @@ func (host *BastionHost_Spec) Initialize_From_BastionHost_STATUS(source *Bastion
 		var virtualNetwork SubResource
 		err := virtualNetwork.Initialize_From_SubResource_STATUS(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		host.VirtualNetwork = &virtualNetwork
 	} else {
@@ -1344,13 +1344,13 @@ func (host *BastionHost_STATUS) ConvertStatusFrom(source genruntime.ConvertibleS
 	src = &storage.BastionHost_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = host.AssignProperties_From_BastionHost_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1368,13 +1368,13 @@ func (host *BastionHost_STATUS) ConvertStatusTo(destination genruntime.Convertib
 	dst = &storage.BastionHost_STATUS{}
 	err := host.AssignProperties_To_BastionHost_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1667,7 +1667,7 @@ func (host *BastionHost_STATUS) AssignProperties_From_BastionHost_STATUS(source 
 			var ipConfiguration BastionHostIPConfiguration_STATUS
 			err := ipConfiguration.AssignProperties_From_BastionHostIPConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BastionHostIPConfiguration_STATUS() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_From_BastionHostIPConfiguration_STATUS() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1687,7 +1687,7 @@ func (host *BastionHost_STATUS) AssignProperties_From_BastionHost_STATUS(source 
 		var networkAcl BastionHostPropertiesFormat_NetworkAcls_STATUS
 		err := networkAcl.AssignProperties_From_BastionHostPropertiesFormat_NetworkAcls_STATUS(source.NetworkAcls)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BastionHostPropertiesFormat_NetworkAcls_STATUS() to populate field NetworkAcls")
+			return eris.Wrap(err, "calling AssignProperties_From_BastionHostPropertiesFormat_NetworkAcls_STATUS() to populate field NetworkAcls")
 		}
 		host.NetworkAcls = &networkAcl
 	} else {
@@ -1711,7 +1711,7 @@ func (host *BastionHost_STATUS) AssignProperties_From_BastionHost_STATUS(source 
 		var sku Sku_STATUS
 		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		host.Sku = &sku
 	} else {
@@ -1729,7 +1729,7 @@ func (host *BastionHost_STATUS) AssignProperties_From_BastionHost_STATUS(source 
 		var virtualNetwork SubResource_STATUS
 		err := virtualNetwork.AssignProperties_From_SubResource_STATUS(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		host.VirtualNetwork = &virtualNetwork
 	} else {
@@ -1825,7 +1825,7 @@ func (host *BastionHost_STATUS) AssignProperties_To_BastionHost_STATUS(destinati
 			var ipConfiguration storage.BastionHostIPConfiguration_STATUS
 			err := ipConfigurationItem.AssignProperties_To_BastionHostIPConfiguration_STATUS(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BastionHostIPConfiguration_STATUS() to populate field IpConfigurations")
+				return eris.Wrap(err, "calling AssignProperties_To_BastionHostIPConfiguration_STATUS() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1845,7 +1845,7 @@ func (host *BastionHost_STATUS) AssignProperties_To_BastionHost_STATUS(destinati
 		var networkAcl storage.BastionHostPropertiesFormat_NetworkAcls_STATUS
 		err := host.NetworkAcls.AssignProperties_To_BastionHostPropertiesFormat_NetworkAcls_STATUS(&networkAcl)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BastionHostPropertiesFormat_NetworkAcls_STATUS() to populate field NetworkAcls")
+			return eris.Wrap(err, "calling AssignProperties_To_BastionHostPropertiesFormat_NetworkAcls_STATUS() to populate field NetworkAcls")
 		}
 		destination.NetworkAcls = &networkAcl
 	} else {
@@ -1868,7 +1868,7 @@ func (host *BastionHost_STATUS) AssignProperties_To_BastionHost_STATUS(destinati
 		var sku storage.Sku_STATUS
 		err := host.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1886,7 +1886,7 @@ func (host *BastionHost_STATUS) AssignProperties_To_BastionHost_STATUS(destinati
 		var virtualNetwork storage.SubResource_STATUS
 		err := host.VirtualNetwork.AssignProperties_To_SubResource_STATUS(&virtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		destination.VirtualNetwork = &virtualNetwork
 	} else {
@@ -2051,7 +2051,7 @@ func (configuration *BastionHostIPConfiguration) AssignProperties_From_BastionHo
 		var publicIPAddress SubResource
 		err := publicIPAddress.AssignProperties_From_SubResource(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIPAddress")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIPAddress")
 		}
 		configuration.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2063,7 +2063,7 @@ func (configuration *BastionHostIPConfiguration) AssignProperties_From_BastionHo
 		var subnet SubResource
 		err := subnet.AssignProperties_From_SubResource(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
 		}
 		configuration.Subnet = &subnet
 	} else {
@@ -2095,7 +2095,7 @@ func (configuration *BastionHostIPConfiguration) AssignProperties_To_BastionHost
 		var publicIPAddress storage.SubResource
 		err := configuration.PublicIPAddress.AssignProperties_To_SubResource(&publicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIPAddress")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIPAddress")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2107,7 +2107,7 @@ func (configuration *BastionHostIPConfiguration) AssignProperties_To_BastionHost
 		var subnet storage.SubResource
 		err := configuration.Subnet.AssignProperties_To_SubResource(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -2358,7 +2358,7 @@ func (acls *BastionHostPropertiesFormat_NetworkAcls) AssignProperties_From_Basti
 			var ipRule IPRule
 			err := ipRule.AssignProperties_From_IPRule(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IPRule() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_IPRule() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2385,7 +2385,7 @@ func (acls *BastionHostPropertiesFormat_NetworkAcls) AssignProperties_To_Bastion
 			var ipRule storage.IPRule
 			err := ipRuleItem.AssignProperties_To_IPRule(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IPRule() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_IPRule() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2417,7 +2417,7 @@ func (acls *BastionHostPropertiesFormat_NetworkAcls) Initialize_From_BastionHost
 			var ipRule IPRule
 			err := ipRule.Initialize_From_IPRule_STATUS(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IPRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling Initialize_From_IPRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2475,7 +2475,7 @@ func (acls *BastionHostPropertiesFormat_NetworkAcls_STATUS) AssignProperties_Fro
 			var ipRule IPRule_STATUS
 			err := ipRule.AssignProperties_From_IPRule_STATUS(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IPRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_IPRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2502,7 +2502,7 @@ func (acls *BastionHostPropertiesFormat_NetworkAcls_STATUS) AssignProperties_To_
 			var ipRule storage.IPRule_STATUS
 			err := ipRuleItem.AssignProperties_To_IPRule_STATUS(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IPRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_IPRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}

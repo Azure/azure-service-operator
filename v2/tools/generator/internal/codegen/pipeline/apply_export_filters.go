@@ -9,7 +9,7 @@ import (
 	"context"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -55,7 +55,7 @@ func filterTypes(
 
 	typesToExport, err := astmodel.FindConnectedDefinitions(state.Definitions(), resourcesToExport)
 	if err != nil {
-		return nil, errors.Wrap(err, "finding types connected to resources marked for export")
+		return nil, eris.Wrap(err, "finding types connected to resources marked for export")
 	}
 
 	// Find and apply renames.
