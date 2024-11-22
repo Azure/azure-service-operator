@@ -2,9 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    control-plane: controller-manager
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: ${VERSION}
   name: controller-manager-metrics-service
   namespace: system
 spec:
@@ -12,4 +10,4 @@ spec:
     - name: metrics
       port: 8443
   selector:
-    control-plane: controller-manager
+    app.kubernetes.io/name: azure-service-operator

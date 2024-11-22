@@ -11,7 +11,7 @@ spec:
   - {}
   podSelector:
     matchLabels:
-      control-plane: controller-manager
+      {{- include "azure-service-operator.selectorLabels" . | nindent 6 }}
   policyTypes:
   - Ingress
 ---
@@ -62,7 +62,7 @@ spec:
           cidr: {{ .Values.networkPolicies.sqlCIDR }}
   podSelector:
     matchLabels:
-      control-plane: controller-manager
+      {{- include "azure-service-operator.selectorLabels" . | nindent 6 }}
   policyTypes:
   - Egress
 {{- end }}

@@ -3,8 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.11.0
+    {{- include "azure-service-operator.labels" . | nindent 4 }}
   name: azureserviceoperator-webhook-service
   namespace: {{ .Release.Namespace }}
 spec:
@@ -12,5 +11,5 @@ spec:
   - port: 443
     targetPort: {{ .Values.webhook.port }}
   selector:
-    control-plane: controller-manager
+    {{- include "azure-service-operator.selectorLabels" . | nindent 6 }}
 {{- end }}

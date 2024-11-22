@@ -6,9 +6,7 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   labels:
-    app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.11.0
-    control-plane: controller-manager
+    {{- include "azure-service-operator.labels" . | nindent 4 }}
   name: azureserviceoperator-controller-manager
   namespace: {{ .Release.Namespace }}
 spec:
@@ -16,7 +14,7 @@ spec:
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   selector:
     matchLabels:
-      control-plane: controller-manager
+      {{- include "azure-service-operator.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -28,12 +26,7 @@ spec:
         {{- if .Values.aadPodIdentity.enable }}
         aadpodidbinding: aso-manager-binding
         {{- end }}
-        app.kubernetes.io/name: azure-service-operator
-        app.kubernetes.io/version: v2.11.0
-        control-plane: controller-manager
-        {{- with .Values.podLabels }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
+        {{- include "azure-service-operator.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.tolerations }}
       tolerations:

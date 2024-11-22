@@ -19,7 +19,7 @@ spec:
       protocol: TCP
       targetPort: 9443
   selector:
-    control-plane: controller-manager
+    app.kubernetes.io/name: azure-service-operator
   sessionAffinity: None
   type: ClusterIP
 EOF

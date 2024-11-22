@@ -4,9 +4,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.11.0
-    control-plane: controller-manager
+    {{- include "azure-service-operator.labels" . | nindent 4 }}
   name: azureserviceoperator-controller-manager-metrics-service
   namespace: {{ .Release.Namespace }}
 spec:
@@ -14,6 +12,6 @@ spec:
   - name: metrics
     port: 8443
   selector:
-    control-plane: controller-manager
+    {{- include "azure-service-operator.selectorLabels" . | nindent 4 }}
 {{- end }}
 {{- end }}

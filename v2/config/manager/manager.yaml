@@ -17,21 +17,17 @@ metadata:
   name: controller-manager
   namespace: system
   labels:
-    control-plane: controller-manager
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: ${VERSION}
 spec:
   selector:
     matchLabels:
-      control-plane: controller-manager
+      app.kubernetes.io/name: azure-service-operator
   replicas: 1
   revisionHistoryLimit: 10
   template:
     metadata:
       labels:
-        control-plane: controller-manager
         app.kubernetes.io/name: azure-service-operator
-        app.kubernetes.io/version: ${VERSION}
       annotations:
         kubectl.kubernetes.io/default-container: manager
     spec:
