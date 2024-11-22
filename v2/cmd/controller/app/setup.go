@@ -49,6 +49,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	common "github.com/Azure/azure-service-operator/v2/pkg/common/config"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -92,11 +93,17 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 	}
 
 	k8sConfig := ctrl.GetConfigOrDie()
-	mgr, err := ctrl.NewManager(k8sConfig, ctrl.Options{
+	ctrlOptions := ctrl.Options{
 		Scheme:           scheme,
 		NewCache:         cacheFunc,
 		LeaderElection:   flgs.EnableLeaderElection,
 		LeaderElectionID: "controllers-leader-election-azinfra-generated",
+		// Manually set lease duration (to default) so that we can use it for our leader elector too.
+		// See https://github.com/kubernetes-sigs/controller-runtime/blob/main/pkg/manager/internal.go#L52
+		LeaseDuration:           to.Ptr(15 * time.Second),
+		RenewDeadline:           to.Ptr(10 * time.Second),
+		RetryPeriod:             to.Ptr(2 * time.Second),
+		GracefulShutdownTimeout: to.Ptr(30 * time.Second),
 		// It's only safe to set LeaderElectionReleaseOnCancel to true if the manager binary ends
 		// when the manager exits. This is the case with us today, so we set this to true whenever
 		// flgs.EnableLeaderElection is true.
@@ -107,7 +114,8 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 			Port:    flgs.WebhookPort,
 			CertDir: flgs.WebhookCertDir,
 		}),
-	})
+	}
+	mgr, err := ctrl.NewManager(k8sConfig, ctrlOptions)
 	if err != nil {
 		setupLog.Error(err, "unable to create manager")
 		os.Exit(1)
@@ -119,13 +127,22 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		os.Exit(1)
 	}
 
-	// TODO: Put all of the CRD stuff into a method?
-	crdManager, err := newCRDManager(clients.log, mgr.GetConfig())
+	var leaderElector *crdmanagement.LeaderElector
+	if flgs.EnableLeaderElection {
+		// nolint: contextcheck // false positive?
+		leaderElector, err = crdmanagement.NewLeaderElector(k8sConfig, setupLog, ctrlOptions, mgr)
+		if err != nil {
+			setupLog.Error(err, "failed to initialize leader elector")
+			os.Exit(1)
+		}
+	}
+
+	crdManager, err := newCRDManager(clients.log, mgr.GetConfig(), leaderElector)
 	if err != nil {
 		setupLog.Error(err, "failed to initialize CRD client")
 		os.Exit(1)
 	}
-	existingCRDs, err := crdManager.ListOperatorCRDs(ctx)
+	existingCRDs, err := crdManager.ListCRDs(ctx)
 	if err != nil {
 		setupLog.Error(err, "failed to list current CRDs")
 		os.Exit(1)
@@ -133,31 +150,15 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 
 	switch flgs.CRDManagementMode {
 	case "auto":
-		var goalCRDs []apiextensions.CustomResourceDefinition
-		goalCRDs, err = crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation, cfg.PodNamespace)
-		if err != nil {
-			setupLog.Error(err, "failed to load CRDs from disk")
-			os.Exit(1)
-		}
-
 		// We only apply CRDs if we're in webhooks mode. No other mode will have CRD CRUD permissions
 		if cfg.OperatorMode.IncludesWebhooks() {
-			var installationInstructions []*crdmanagement.CRDInstallationInstruction
-			installationInstructions, err = crdManager.DetermineCRDsToInstallOrUpgrade(goalCRDs, existingCRDs, flgs.CRDPatterns)
-			if err != nil {
-				setupLog.Error(err, "failed to determine CRDs to apply")
-				os.Exit(1)
-			}
-
-			included := crdmanagement.IncludedCRDs(installationInstructions)
-			if len(included) == 0 {
-				err = eris.New("No existing CRDs in cluster and no --crd-pattern specified")
-				setupLog.Error(err, "failed to apply CRDs")
-				os.Exit(1)
-			}
-
 			// Note that this step will restart the pod when it succeeds
-			err = crdManager.ApplyCRDs(ctx, installationInstructions)
+			err = crdManager.Install(ctx, crdmanagement.Options{
+				CRDPatterns:  flgs.CRDPatterns,
+				ExistingCRDs: existingCRDs,
+				Path:         crdmanagement.CRDLocation,
+				Namespace:    cfg.PodNamespace,
+			})
 			if err != nil {
 				setupLog.Error(err, "failed to apply CRDs")
 				os.Exit(1)
@@ -172,7 +173,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 
 	// There are 3 possibilities once we reach here:
 	// 1. Webhooks mode + crd-management-mode=auto: existingCRDs will be up to date (upgraded, crd-pattern applied, etc)
-	//    by the time we get here as the pod will keep exiting until it is so (see crdManager.ApplyCRDs above).
+	//    by the time we get here as the pod will keep exiting until it is so (see crdManager.applyCRDs above).
 	// 2. Non-webhooks mode + auto: As outlined in https://azure.github.io/azure-service-operator/guide/authentication/multitenant-deployment/#upgrading
 	//    the webhooks mode pod must be upgraded first, so there's not really much practical difference between this and
 	//    crd-management-mode=none (see below).
@@ -458,7 +459,11 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
 	}
 }
 
-func newCRDManager(logger logr.Logger, k8sConfig *rest.Config) (*crdmanagement.Manager, error) {
+func newCRDManager(
+	logger logr.Logger,
+	k8sConfig *rest.Config,
+	leaderElection *crdmanagement.LeaderElector,
+) (*crdmanagement.Manager, error) {
 	crdScheme := runtime.NewScheme()
 	_ = apiextensions.AddToScheme(crdScheme)
 	crdClient, err := client.New(k8sConfig, client.Options{Scheme: crdScheme})
@@ -466,6 +471,6 @@ func newCRDManager(logger logr.Logger, k8sConfig *rest.Config) (*crdmanagement.M
 		return nil, eris.Wrap(err, "unable to create CRD client")
 	}
 
-	crdManager := crdmanagement.NewManager(logger, kubeclient.NewClient(crdClient))
+	crdManager := crdmanagement.NewManager(logger, kubeclient.NewClient(crdClient), leaderElection)
 	return crdManager, nil
 }
