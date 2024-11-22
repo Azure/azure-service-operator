@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"github.com/spf13/cobra"
 
 	"github.com/Azure/azure-service-operator/v2/api"
@@ -122,13 +122,13 @@ func importAzureResource(
 ) error {
 	// Check we're being asked to do something ... anything ...
 	if len(armIDs) == 0 {
-		return errors.New("no ARM IDs provided")
+		return eris.New("no ARM IDs provided")
 	}
 
 	// Create an ARM client for requesting resources
 	client, err := createARMClient(options)
 	if err != nil {
-		return errors.Wrapf(err, "failed to create ARM client")
+		return eris.Wrapf(err, "failed to create ARM client")
 	}
 
 	// Caution: the progress bar can deadlock if no bar is ever created, so make sure the gap between
@@ -146,7 +146,7 @@ func importAzureResource(
 	for _, armID := range armIDs {
 		err = importer.AddARMID(armID)
 		if err != nil {
-			return errors.Wrapf(err, "failed to add %q to import list", armID)
+			return eris.Wrapf(err, "failed to add %q to import list", armID)
 		}
 	}
 
@@ -163,7 +163,7 @@ func importAzureResource(
 
 	if err != nil {
 		if result.Count() == 0 {
-			return errors.Wrap(err, "failed to import any resources")
+			return eris.Wrap(err, "failed to import any resources")
 		}
 
 		log.Error(err, "Failed to import some resources.")
@@ -177,12 +177,12 @@ func importAzureResource(
 
 	err = configureImportedResources(options, result)
 	if err != nil {
-		return errors.Wrap(err, "failed to apply options to imported resources")
+		return eris.Wrap(err, "failed to apply options to imported resources")
 	}
 
 	err = writeResources(result, options, log, progressBar)
 	if err != nil {
-		return errors.Wrap(err, "failed to write resources")
+		return eris.Wrap(err, "failed to write resources")
 	}
 
 	return nil
@@ -192,7 +192,7 @@ func importAzureResource(
 func createARMClient(options *importAzureResourceOptions) (*genericarmclient.GenericClient, error) {
 	creds, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to get default Azure credential")
+		return nil, eris.Wrap(err, "unable to get default Azure credential")
 	}
 
 	clientOptions := &genericarmclient.GenericClientOptions{
@@ -217,7 +217,7 @@ func configureImportedResources(
 	if len(options.labels) > 0 {
 		err := result.AddLabels(options.labels)
 		if err != nil {
-			return errors.Wrap(err, "failed to add labels")
+			return eris.Wrap(err, "failed to add labels")
 		}
 	}
 
@@ -225,7 +225,7 @@ func configureImportedResources(
 	if len(options.annotations) > 0 {
 		err := result.AddAnnotations(options.annotations)
 		if err != nil {
-			return errors.Wrap(err, "failed to add annotations")
+			return eris.Wrap(err, "failed to add annotations")
 		}
 	}
 
@@ -245,7 +245,7 @@ func writeResources(
 			"file", file)
 		err := result.SaveToSingleFile(file)
 		if err != nil {
-			return errors.Wrapf(err, "failed to write to file %s", file)
+			return eris.Wrapf(err, "failed to write to file %s", file)
 		}
 
 		return nil
@@ -258,7 +258,7 @@ func writeResources(
 			"folder", folder)
 		err := result.SaveToIndividualFilesInFolder(folder)
 		if err != nil {
-			return errors.Wrapf(err, "failed to write into folder %s", folder)
+			return eris.Wrapf(err, "failed to write into folder %s", folder)
 		}
 
 		return nil
@@ -267,7 +267,7 @@ func writeResources(
 	// Write all the resources to stdout
 	err := result.SaveToWriter(out)
 	if err != nil {
-		return errors.Wrapf(err, "failed to write to stdout")
+		return eris.Wrapf(err, "failed to write to stdout")
 	}
 
 	return nil
