@@ -269,7 +269,7 @@ func (ri *ResourceImporter) collateErrors(
 ) {
 	for ie := range failures {
 		var skipped *SkippedError
-		if errors.As(ie.err, &skipped) {
+		if eris.As(ie.err, &skipped) {
 			ri.log.V(1).Info(
 				"Skipped",
 				"kind", ie.gk,
@@ -310,7 +310,7 @@ func (ri *ResourceImporter) importResource(
 
 	// Import the resource itself
 	if imported, err := rsrc.Import(ctx, progress, ri.log); err != nil {
-		return ImportResourceResult{}, errors.Wrapf(err, "importing %s", name)
+		return ImportResourceResult{}, eris.Wrapf(err, "importing %s", name)
 	} else {
 		return imported, nil
 	}
