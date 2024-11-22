@@ -12,7 +12,7 @@ import (
 
 	"github.com/go-logr/logr"
 	_ "github.com/go-sql-driver/mysql" // mysql driver
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 
@@ -60,7 +60,7 @@ func NewMySQLUserReconciler(
 func (r *MySQLUserReconciler) asUser(obj genruntime.MetaObject) (*asomysql.User, error) {
 	typedObj, ok := obj.(*asomysql.User)
 	if !ok {
-		return nil, errors.Errorf("cannot modify resource that is not of type *asomysql.User. Type is %T", obj)
+		return nil, eris.Errorf("cannot modify resource that is not of type *asomysql.User. Type is %T", obj)
 	}
 
 	return typedObj, nil
@@ -103,7 +103,7 @@ func (r *MySQLUserReconciler) Delete(ctx context.Context, log logr.Logger, event
 	_, err = r.ResourceResolver.ResolveOwner(ctx, user)
 	if err != nil {
 		var typedErr *core.ReferenceNotFound
-		if errors.As(err, &typedErr) {
+		if eris.As(err, &typedErr) {
 			return ctrl.Result{}, nil
 		}
 		return ctrl.Result{}, err
@@ -153,7 +153,7 @@ func (r *MySQLUserReconciler) UpdateStatus(ctx context.Context, log logr.Logger,
 	}
 
 	if !exists {
-		err = errors.Errorf("user %s does not exist", user.Spec.AzureName)
+		err = eris.Errorf("user %s does not exist", user.Spec.AzureName)
 		err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonAzureResourceNotFound)
 		return err
 	}
@@ -181,6 +181,6 @@ func (r *MySQLUserReconciler) newDBConnector(log logr.Logger, user *asomysql.Use
 	}
 
 	// This is also enforced with a webhook
-	err := errors.Errorf("unknown user type, user must be LocalUser or AADUser")
+	err := eris.Errorf("unknown user type, user must be LocalUser or AADUser")
 	return nil, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonFailed)
 }

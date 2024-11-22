@@ -13,7 +13,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/google/cel-go/cel"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
@@ -139,12 +139,12 @@ func Test_ProgramCache_ErrorsAreCached(t *testing.T) {
 func simpleCompile(env *cel.Env, expression string) (*asocel.CompilationResult, error) {
 	ast, iss := env.Compile(expression)
 	if iss.Err() != nil {
-		return nil, errors.Wrapf(iss.Err(), "failed to compile CEL expression: %q", expression)
+		return nil, eris.Wrapf(iss.Err(), "failed to compile CEL expression: %q", expression)
 	}
 
 	program, err := env.Program(ast)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to generate program from CEL AST: %q", expression)
+		return nil, eris.Wrapf(err, "failed to generate program from CEL AST: %q", expression)
 	}
 
 	return &asocel.CompilationResult{

@@ -13,7 +13,7 @@ import (
 	. "sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -189,7 +189,7 @@ func Test_ARMClientCache_PerResourceSecretInDifferentNamespace_ReturnsError(t *t
 	_, err = res.ARMClientCache.GetConnection(ctx, rg)
 	g.Expect(err).To(HaveOccurred())
 	var target *core.SecretNotFound
-	g.Expect(errors.As(err, &target)).To(BeTrue())
+	g.Expect(eris.As(err, &target)).To(BeTrue())
 }
 
 func Test_ARMClientCache_ReturnsError_IfSecretNotFound(t *testing.T) {

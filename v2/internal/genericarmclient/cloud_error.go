@@ -8,7 +8,7 @@ package genericarmclient
 import (
 	"encoding/json"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
@@ -99,7 +99,7 @@ func (e *CloudError) UnmarshalJSON(data []byte) error {
 
 	err := json.Unmarshal(data, &content)
 	if err != nil {
-		return errors.Wrap(err, "unmarshalling JSON for CloudError")
+		return eris.Wrap(err, "unmarshalling JSON for CloudError")
 	}
 
 	if content.InnerError != nil {

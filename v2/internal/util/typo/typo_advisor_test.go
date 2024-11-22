@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 func TestTypoAdvisorErrorf_WhenNoTerms_ReturnsExpectedError(t *testing.T) {
@@ -40,7 +40,7 @@ func TestTypoAdvisor_Wrapf_WhenErrorButNoTerms_ReturnsOriginalError(t *testing.T
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	advisor := createTestTypoAdvisor()
-	err := errors.New("Boom")
+	err := eris.New("Boom")
 	g.Expect(advisor.Wrapf(err, "beat", "format string")).To(Equal(err))
 }
 
@@ -48,7 +48,7 @@ func TestTypoAdvisor_Wrapf_WhenErrorButNoTypo_ReturnsOriginalError(t *testing.T)
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	advisor := createTestTypoAdvisor("alpha", "beta", "gamma", "delta")
-	err := errors.New("Boom")
+	err := eris.New("Boom")
 	g.Expect(advisor.Wrapf(err, "beta", "format string")).To(Equal(err))
 }
 
@@ -56,7 +56,7 @@ func TestTypoAdvisor_Wrapf_WhenErrorAndTypo_ReturnsExpectedError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	advisor := createTestTypoAdvisor("alpha", "beta", "gamma", "delta")
-	err := errors.New("Boom")
+	err := eris.New("Boom")
 	actual := advisor.Wrapf(err, "beat", "the typo was %s", "beat")
 
 	g.Expect(actual).NotTo(BeNil())

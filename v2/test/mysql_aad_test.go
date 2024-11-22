@@ -13,7 +13,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	_ "github.com/go-sql-driver/mysql" // sql drive link
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
@@ -406,12 +406,12 @@ func MySQL_AADUserAndGroup_CRUD(
 func readEnv() (string, string, error) {
 	identityName := os.Getenv(AzureManagedIdentityNameVar)
 	if identityName == "" {
-		return "", "", errors.Errorf("required environment variable %q was not supplied", AzureManagedIdentityNameVar)
+		return "", "", eris.Errorf("required environment variable %q was not supplied", AzureManagedIdentityNameVar)
 	}
 
 	identityResourceGroup := os.Getenv(AzureManagedIdentityResourceGroupVar)
 	if identityResourceGroup == "" {
-		return "", "", errors.Errorf("required environment variable %q was not supplied", AzureManagedIdentityResourceGroupVar)
+		return "", "", eris.Errorf("required environment variable %q was not supplied", AzureManagedIdentityResourceGroupVar)
 	}
 
 	return identityName, identityResourceGroup, nil

@@ -8,7 +8,7 @@ package vcr
 import (
 	"os"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 func EnsureCassetteFileExists(cassetteName string) error {
@@ -25,10 +25,10 @@ func EnsureCassetteFileExists(cassetteName string) error {
 
 	f, err := os.OpenFile(filename, os.O_RDONLY|os.O_CREATE, 0o644)
 	if err != nil {
-		return errors.Wrapf(err, "creating empty cassette %q", filename)
+		return eris.Wrapf(err, "creating empty cassette %q", filename)
 	}
 	if err := f.Close(); err != nil {
-		return errors.Wrapf(err, "failed to close empty cassette %q", filename)
+		return eris.Wrapf(err, "failed to close empty cassette %q", filename)
 	}
 
 	return nil

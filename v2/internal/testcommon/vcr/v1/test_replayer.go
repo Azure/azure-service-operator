@@ -15,7 +15,7 @@ import (
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/google/uuid"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
@@ -45,15 +45,15 @@ func NewTestPlayer(
 ) (vcr.Interface, error) {
 	cassetteExists, err := vcr.CassetteFileExists(cassetteName)
 	if err != nil {
-		return nil, errors.Wrapf(err, "checking for cassette file")
+		return nil, eris.Wrapf(err, "checking for cassette file")
 	}
 	if !cassetteExists {
-		return nil, errors.Errorf("cassette %s does not exist", cassetteName)
+		return nil, eris.Errorf("cassette %s does not exist", cassetteName)
 	}
 
 	r, err := recorder.NewAsMode(cassetteName, recorder.ModeReplaying, nil)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating player")
+		return nil, eris.Wrapf(err, "creating player")
 	}
 
 	var credentials azcore.TokenCredential

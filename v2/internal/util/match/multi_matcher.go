@@ -8,7 +8,7 @@ package match
 import (
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
@@ -62,7 +62,7 @@ func (mm *multiMatcher) WasMatched() error {
 		}
 	}
 
-	return errors.Wrapf(
+	return eris.Wrapf(
 		kerrors.NewAggregate(errs),
 		"%d of %d did not match",
 		count,

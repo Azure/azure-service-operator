@@ -20,7 +20,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/time/rate"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -151,7 +151,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 
 			included := crdmanagement.IncludedCRDs(installationInstructions)
 			if len(included) == 0 {
-				err = errors.New("No existing CRDs in cluster and no --crd-pattern specified")
+				err = eris.New("No existing CRDs in cluster and no --crd-pattern specified")
 				setupLog.Error(err, "failed to apply CRDs")
 				os.Exit(1)
 			}
@@ -297,7 +297,7 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 			TokenFilePath: identity.FederatedTokenFilePath,
 		})
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to get workload identity credential")
+			return nil, eris.Wrapf(err, "unable to get workload identity credential")
 		}
 
 		return credential, nil
@@ -307,7 +307,7 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 		certPassword := os.Getenv(common.AzureClientCertificatePassword)
 		credential, err := identity.NewClientCertificateCredential(cfg.TenantID, cfg.ClientID, []byte(cert), []byte(certPassword))
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to get client certificate credential")
+			return nil, eris.Wrapf(err, "unable to get client certificate credential")
 		}
 
 		return credential, nil
@@ -315,7 +315,7 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 
 	credential, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get default azure credential")
+		return nil, eris.Wrapf(err, "unable to get default azure credential")
 	}
 
 	return credential, err
@@ -340,7 +340,7 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 
 	credential, err := getDefaultAzureCredential(cfg, log)
 	if err != nil {
-		return nil, errors.Wrap(err, "error while fetching default global credential")
+		return nil, eris.Wrap(err, "error while fetching default global credential")
 	}
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
@@ -366,7 +366,7 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 		asocel.Log(log),
 	)
 	if err != nil {
-		return nil, errors.Wrap(err, "error creating expression evaluator")
+		return nil, eris.Wrap(err, "error creating expression evaluator")
 	}
 	// Register the evaluator for use by webhooks
 	asocel.RegisterEvaluator(expressionEvaluator)
@@ -396,13 +396,13 @@ func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDe
 		clients.expressionEvaluator,
 		clients.options)
 	if err != nil {
-		return errors.Wrap(err, "failed getting storage types and reconcilers")
+		return eris.Wrap(err, "failed getting storage types and reconcilers")
 	}
 
 	// Filter the types to register
 	objs, err = crdmanagement.FilterStorageTypesByReadyCRDs(clients.log, mgr.GetScheme(), readyResources, objs)
 	if err != nil {
-		return errors.Wrap(err, "failed to filter storage types by ready CRDs")
+		return eris.Wrap(err, "failed to filter storage types by ready CRDs")
 	}
 
 	err = generic.RegisterAll(
@@ -413,7 +413,7 @@ func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDe
 		objs,
 		clients.options)
 	if err != nil {
-		return errors.Wrap(err, "failed to register gvks")
+		return eris.Wrap(err, "failed to register gvks")
 	}
 
 	return nil
@@ -463,7 +463,7 @@ func newCRDManager(logger logr.Logger, k8sConfig *rest.Config) (*crdmanagement.M
 	_ = apiextensions.AddToScheme(crdScheme)
 	crdClient, err := client.New(k8sConfig, client.Options{Scheme: crdScheme})
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to create CRD client")
+		return nil, eris.Wrap(err, "unable to create CRD client")
 	}
 
 	crdManager := crdmanagement.NewManager(logger, kubeclient.NewClient(crdClient))

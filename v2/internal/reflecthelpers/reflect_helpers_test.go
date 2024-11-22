@@ -11,7 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -314,13 +314,13 @@ func defaultResourceReferencesName(transformer genruntime.ARMTransformer, name s
 					// Cannot do assignment on the reference variable as it is a copy
 					f := it.FieldByName("Name")
 					if !f.CanSet() {
-						return errors.New("cannot set 'Name' field of 'genruntime.ResourceReference'")
+						return eris.New("cannot set 'Name' field of 'genruntime.ResourceReference'")
 					}
 					f.SetString(name)
 				}
 			} else {
 				// This should be impossible given how the visitor works
-				return errors.New("genruntime.ResourceReference field was unexpectedly nil")
+				return eris.New("genruntime.ResourceReference field was unexpectedly nil")
 			}
 			return nil
 		}
@@ -330,7 +330,7 @@ func defaultResourceReferencesName(transformer genruntime.ARMTransformer, name s
 
 	err := visitor.Visit(transformer, nil)
 	if err != nil {
-		return errors.Wrap(err, "defaulting genruntime.ResourceReference")
+		return eris.Wrap(err, "defaulting genruntime.ResourceReference")
 	}
 
 	return nil

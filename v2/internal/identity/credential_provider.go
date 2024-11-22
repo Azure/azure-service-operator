@@ -12,7 +12,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
@@ -132,7 +132,7 @@ func (c *credentialProvider) GetCredential(ctx context.Context, obj genruntime.M
 
 	// Global credential
 	if c.globalCredential == nil {
-		return nil, errors.New("global credential not configured, you must use either namespaced or per-resource credentials")
+		return nil, eris.New("global credential not configured, you must use either namespaced or per-resource credentials")
 	}
 
 	// If not found, default is the global credential
@@ -147,7 +147,7 @@ func (c *credentialProvider) getCredentialFromNamespaceSecret(ctx context.Contex
 	cred, err := c.getCredentialFromSecret(ctx, secretNamespacedName)
 	if err != nil {
 		var secretNotFound *core.SecretNotFound
-		if errors.As(err, &secretNotFound) {
+		if eris.As(err, &secretNotFound) {
 			return nil, nil // Not finding this secret is allowed, allow caller to proceed to higher scope secret
 		}
 		return nil, err
@@ -168,7 +168,7 @@ func (c *credentialProvider) getCredentialFromAnnotation(ctx context.Context, ob
 
 	// Disallow credentials with `/` in their credentialFrom
 	if strings.Contains(credentialFrom, "/") {
-		err := errors.Errorf("%s cannot contain '/'. Secret must be in same namespace as resource.", annotation)
+		err := eris.Errorf("%s cannot contain '/'. Secret must be in same namespace as resource.", annotation)
 		namespacedName := types.NamespacedName{
 			Namespace: obj.GetNamespace(),
 			Name:      credentialFrom,
@@ -185,14 +185,14 @@ func (c *credentialProvider) getCredentialFromSecret(ctx context.Context, secret
 	secret, err := c.getSecret(ctx, secretNamespacedName.Namespace, secretNamespacedName.Name)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
-			return nil, core.NewSecretNotFoundError(secretNamespacedName, errors.Wrapf(err, "credential secret not found"))
+			return nil, core.NewSecretNotFoundError(secretNamespacedName, eris.Wrapf(err, "credential secret not found"))
 		}
 		return nil, err
 	}
 
 	cred, err := c.newCredentialFromSecret(secret)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to get credential %q", secretNamespacedName)
+		return nil, eris.Wrapf(err, "failed to get credential %q", secretNamespacedName)
 	}
 	return cred, nil
 }
@@ -206,10 +206,11 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 	if !ok {
 		err := core.NewSecretNotFoundError(
 			nsName,
-			errors.Errorf(
+			eris.Errorf(
 				"credential Secret %q does not contain key %q",
 				nsName,
-				config.AzureSubscriptionID))
+				config.AzureSubscriptionID),
+		)
 		errs = append(errs, err)
 	}
 
@@ -217,10 +218,11 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 	if !ok {
 		err := core.NewSecretNotFoundError(
 			nsName,
-			errors.Errorf(
+			eris.Errorf(
 				"credential Secret %q does not contain key %q",
 				nsName,
-				config.AzureTenantID))
+				config.AzureTenantID),
+		)
 		errs = append(errs, err)
 	}
 
@@ -228,10 +230,11 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 	if !ok {
 		err := core.NewSecretNotFoundError(
 			nsName,
-			errors.Errorf(
+			eris.Errorf(
 				"credential Secret %q does not contain key %q",
 				nsName,
-				config.AzureClientID))
+				config.AzureClientID),
+		)
 		errs = append(errs, err)
 	}
 
@@ -243,7 +246,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 	if clientSecret, hasClientSecret := secret.Data[config.AzureClientSecret]; hasClientSecret {
 		tokenCredential, err := c.tokenCredentialProvider.NewClientSecretCredential(string(tenantID), string(clientID), string(clientSecret), nil)
 		if err != nil {
-			return nil, errors.Wrap(err, errors.Errorf("invalid Client Secret Credential for %q encountered", nsName).Error())
+			return nil, eris.Wrap(err, eris.Errorf("invalid Client Secret Credential for %q encountered", nsName).Error())
 		}
 
 		return &Credential{
@@ -262,7 +265,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 
 		tokenCredential, err := c.tokenCredentialProvider.NewClientCertificateCredential(string(tenantID), string(clientID), clientCert, clientCertPassword)
 		if err != nil {
-			return nil, errors.Wrap(err, errors.Errorf("invalid Client Certificate Credential for %q encountered", nsName).Error())
+			return nil, eris.Wrap(err, eris.Errorf("invalid Client Certificate Credential for %q encountered", nsName).Error())
 		}
 
 		return &Credential{
@@ -276,7 +279,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 	if value, hasAuthMode := secret.Data[config.AuthMode]; hasAuthMode {
 		authMode, err := authModeOrDefault(string(value))
 		if err != nil {
-			return nil, errors.Wrap(err, errors.Errorf("invalid identity auth mode for %q encountered", nsName).Error())
+			return nil, eris.Wrap(err, eris.Errorf("invalid identity auth mode for %q encountered", nsName).Error())
 		}
 
 		if authMode == config.PodIdentityAuthMode {
@@ -285,7 +288,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 				ID:            azidentity.ClientID(clientID),
 			})
 			if err != nil {
-				return nil, errors.Wrap(err, errors.Errorf("invalid Managed Identity for %q encountered", nsName).Error())
+				return nil, eris.Wrap(err, eris.Errorf("invalid Managed Identity for %q encountered", nsName).Error())
 			}
 
 			return &Credential{
@@ -304,13 +307,14 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		TokenFilePath: FederatedTokenFilePath,
 	})
 	if err != nil {
-		err = errors.Wrapf(
+		err = eris.Wrapf(
 			err,
 			"credential secret %q does not contain key %q and failed to get workload identity credential for clientID %q from %q ",
 			nsName,
 			config.AzureClientSecret,
 			string(clientID),
 			FederatedTokenFilePath)
+
 		return nil, err
 	}
 
@@ -349,5 +353,5 @@ func authModeOrDefault(mode string) (config.AuthModeOption, error) {
 		return config.PodIdentityAuthMode, nil
 	}
 
-	return "", errors.Errorf("authorization mode %q not valid", mode)
+	return "", eris.Errorf("authorization mode %q not valid", mode)
 }
