@@ -895,6 +895,9 @@ status:
 #     Set to 'false' to disable our heuristics if a property is incorrectly 
 #     identified as an ARM reference.
 #
+# $description: <string>
+#     Overrides the property description with the provided value.
+#
 # $importConfigMapMode: <optional|required>
 #     Specifies that the property can be imported from a config map.
 #     Optional: The property may be specified as string or imported from a config map.
@@ -3104,6 +3107,9 @@ objectModelConfiguration:
       VirtualNetworks_Subnet: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
         $exportAs: VirtualNetworksSubnet
         $supportedFrom: v2.0.0-alpha.1
+      VirtualNetworksSubnet_STATUS:
+        IpConfigurations:
+          $description: "An array of references to the network interface IP configurations using subnet. This field is not included if there are more than 2000 entries."
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
@@ -3409,6 +3415,9 @@ objectModelConfiguration:
       VirtualNetworks_Subnet: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
         $exportAs: VirtualNetworksSubnet
         $supportedFrom: v2.11.0
+      VirtualNetworksSubnet_STATUS:
+        IpConfigurations:
+          $description: "An array of references to the network interface IP configurations using subnet. This field is not included if there are more than 2000 entries."
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.11.0
