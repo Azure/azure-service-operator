@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
@@ -54,14 +55,14 @@ func (r *kubeSecretResolver) ResolveSecretReference(ctx context.Context, ref gen
 			return "", errors.WithStack(err)
 		}
 
-		return "", errors.Wrapf(err, "couldn't resolve secret reference %s", ref.String())
+		return "", eris.Wrapf(err, "couldn't resolve secret reference %s", ref.String())
 	}
 
 	// TODO: Do we want to confirm that the type is Opaque?
 
 	valueBytes, ok := secret.Data[ref.Key]
 	if !ok {
-		return "", core.NewSecretNotFoundError(refNamespacedName, errors.Errorf("Secret %q does not contain key %q", refNamespacedName.String(), ref.Key))
+		return "", core.NewSecretNotFoundError(refNamespacedName, eris.Errorf("Secret %q does not contain key %q", refNamespacedName.String(), ref.Key))
 	}
 
 	return string(valueBytes), nil

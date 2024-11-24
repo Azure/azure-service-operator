@@ -6,7 +6,7 @@ Licensed under the MIT license.
 package testcommon
 
 import (
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -15,7 +15,7 @@ import (
 func createRealKubeContext() (BaseTestContextFactory, error) {
 	kubeConfig, err := ctrl.GetConfig()
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to retrieve kubeconfig")
+		return nil, eris.Wrapf(err, "unable to retrieve kubeconfig")
 	}
 
 	return func(perTestContext PerTestContext, _ config.Values) (*KubeBaseTestContext, error) {

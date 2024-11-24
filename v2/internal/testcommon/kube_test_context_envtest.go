@@ -21,7 +21,7 @@ import (
 
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/sync/semaphore"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/rest"
@@ -57,7 +57,7 @@ func getRoot() (string, error) {
 	cmd := exec.Command("git", "rev-parse", "--show-toplevel")
 	out, err := cmd.Output()
 	if err != nil {
-		return "", errors.Wrapf(err, "failed to get root directory")
+		return "", eris.Wrapf(err, "failed to get root directory")
 	}
 
 	return strings.TrimSpace(string(out)), nil
@@ -102,7 +102,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	log.Println("Starting envtest")
 	kubeConfig, err := environment.Start()
 	if err != nil {
-		return nil, errors.Wrapf(err, "starting envtest environment")
+		return nil, eris.Wrapf(err, "starting envtest environment")
 	}
 
 	stopEnvironment := func() {
@@ -160,7 +160,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	})
 	if err != nil {
 		stopEnvironment()
-		return nil, errors.Wrapf(err, "creating controller-runtime manager")
+		return nil, eris.Wrapf(err, "creating controller-runtime manager")
 	}
 
 	loggerFactory := func(obj metav1.Object) logr.Logger {
@@ -190,7 +190,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	// Note that we don't start expressionEvaluator here because we're in a test context and turning cache eviction
 	// on is probably overkill.
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating expression evaluator")
+		return nil, eris.Wrapf(err, "creating expression evaluator")
 	}
 
 	// This means a single evaluator will be used for all envtests. For the purposes of testing that's probably OK...
@@ -271,7 +271,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			options)
 		if err != nil {
 			stopEnvironment()
-			return nil, errors.Wrapf(err, "registering reconcilers")
+			return nil, eris.Wrapf(err, "registering reconcilers")
 		}
 	}
 
@@ -279,7 +279,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		err = generic.RegisterWebhooks(mgr, controllers.GetKnownTypes())
 		if err != nil {
 			stopEnvironment()
-			return nil, errors.Wrapf(err, "registering webhooks")
+			return nil, eris.Wrapf(err, "registering webhooks")
 		}
 	}
 
@@ -305,7 +305,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			}
 
 			if time.Now().After(timeoutAt) {
-				err = errors.Wrap(err, "timed out waiting for webhook server to start")
+				err = eris.Wrap(err, "timed out waiting for webhook server to start")
 				panic(err.Error())
 			}
 
@@ -428,7 +428,7 @@ func (set *sharedEnvTests) getEnvTestForConfig(ctx context.Context, cfg testConf
 	// nolint: contextcheck // 2022-09 @unrepentantgeek Seems to be a false positive
 	newEnvTest, err := createSharedEnvTest(cfg, set.namespaceResources)
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to create shared envtest environment")
+		return nil, eris.Wrap(err, "unable to create shared envtest environment")
 	}
 
 	set.envtests[envTestKey] = newEnvTest

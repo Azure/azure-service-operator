@@ -11,7 +11,7 @@ import (
 
 	gomegaformat "github.com/onsi/gomega/format"
 	"github.com/onsi/gomega/types"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -20,7 +20,7 @@ import (
 func actualAsConditioner(actual interface{}) (conditions.Conditioner, error) {
 	c, ok := actual.(conditions.Conditioner)
 	if !ok {
-		return nil, errors.Errorf("expected conditions.Conditioner, was: %T", actual)
+		return nil, eris.Errorf("expected conditions.Conditioner, was: %T", actual)
 	}
 
 	return c, nil

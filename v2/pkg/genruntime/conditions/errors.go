@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 // ReadyConditionImpactingError is an error that requires notification in the Ready condition
@@ -34,7 +34,7 @@ var _ error = &ReadyConditionImpactingError{}
 
 func AsReadyConditionImpactingError(err error) (*ReadyConditionImpactingError, bool) {
 	var typedErr *ReadyConditionImpactingError
-	if errors.As(err, &typedErr) {
+	if eris.As(err, &typedErr) {
 		return typedErr, true
 	}
 
@@ -56,7 +56,7 @@ func (e *ReadyConditionImpactingError) Error() string {
 
 func (e *ReadyConditionImpactingError) Is(err error) bool {
 	var typedErr *ReadyConditionImpactingError
-	if errors.As(err, &typedErr) {
+	if eris.As(err, &typedErr) {
 		return e.Severity == typedErr.Severity && e.Reason == typedErr.Reason
 	}
 	return false

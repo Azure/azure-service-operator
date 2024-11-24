@@ -13,7 +13,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/google/uuid"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -204,7 +204,7 @@ func getOIDCIssuer() (string, error) {
 		return issuer, nil
 	}
 
-	return "", errors.Errorf("could not determine cluster OIDC issuer either from %s or %s", KindOIDCIssuerPath, CLusterOIDCIssuerVar)
+	return "", eris.Errorf("could not determine cluster OIDC issuer either from %s or %s", KindOIDCIssuerPath, CLusterOIDCIssuerVar)
 }
 
 func newManagedIdentity(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *managedidentity.UserAssignedIdentity {

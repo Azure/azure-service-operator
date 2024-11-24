@@ -7,7 +7,7 @@ import (
 	"fmt"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -47,7 +47,7 @@ func FilterStorageTypesByReadyCRDs(
 		// Use the provided GVK to construct a new runtime object of the desired concrete type.
 		gvk, err := apiutil.GVKForObject(storageType.Obj, scheme)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating GVK for obj %T", storageType.Obj)
+			return nil, eris.Wrapf(err, "creating GVK for obj %T", storageType.Obj)
 		}
 
 		if !includeKinds.Contains(gvk.GroupKind()) {
@@ -80,7 +80,7 @@ func FilterKnownTypesByReadyCRDs(
 		// Use the provided GVK to construct a new runtime object of the desired concrete type.
 		gvk, err := apiutil.GVKForObject(knownType, scheme)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating GVK for obj %T", knownType)
+			return nil, eris.Wrapf(err, "creating GVK for obj %T", knownType)
 		}
 		if !includeKinds.Contains(gvk.GroupKind()) {
 			logger.V(0).Info(

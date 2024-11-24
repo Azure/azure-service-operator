@@ -14,7 +14,7 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/maps"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -71,7 +71,7 @@ func (m *Manager) ListOperatorCRDs(ctx context.Context) ([]apiextensions.CustomR
 
 	err = m.kubeClient.List(ctx, &list, match)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to list CRDs")
+		return nil, eris.Wrapf(err, "failed to list CRDs")
 	}
 
 	for _, crd := range list.Items {
@@ -207,7 +207,7 @@ func (m *Manager) DetermineCRDsToInstallOrUpgrade(
 	for name := range goalCRDsWithDifferentSpec {
 		result, ok := resultMap[name]
 		if !ok {
-			return nil, errors.Errorf("Couldn't find goal CRD %q. This is unexpected!", name)
+			return nil, eris.Errorf("Couldn't find goal CRD %q. This is unexpected!", name)
 		}
 
 		result.DiffResult = SpecDifferent
@@ -215,7 +215,7 @@ func (m *Manager) DetermineCRDsToInstallOrUpgrade(
 	for name := range goalCRDsWithDifferentVersion {
 		result, ok := resultMap[name]
 		if !ok {
-			return nil, errors.Errorf("Couldn't find goal CRD %q. This is unexpected!", name)
+			return nil, eris.Errorf("Couldn't find goal CRD %q. This is unexpected!", name)
 		}
 
 		result.DiffResult = VersionDifferent
@@ -280,7 +280,7 @@ func (m *Manager) ApplyCRDs(
 			return nil
 		})
 		if err != nil {
-			return errors.Wrapf(err, "failed to apply CRD %s", instruction.CRD.Name)
+			return eris.Wrapf(err, "failed to apply CRD %s", instruction.CRD.Name)
 		}
 
 		m.logger.V(Debug).Info("Successfully applied CRD", "name", instruction.CRD.Name, "result", result)
@@ -299,7 +299,7 @@ func (m *Manager) loadCRDs(path string) ([]apiextensions.CustomResourceDefinitio
 	// Expectation is that every file in this folder is a CRD
 	entries, err := os.ReadDir(path)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to read directory %s", path)
+		return nil, eris.Wrapf(err, "failed to read directory %s", path)
 	}
 
 	results := make([]apiextensions.CustomResourceDefinition, 0, len(entries))
@@ -313,13 +313,13 @@ func (m *Manager) loadCRDs(path string) ([]apiextensions.CustomResourceDefinitio
 		var content []byte
 		content, err = os.ReadFile(filePath)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to read %s", filePath)
+			return nil, eris.Wrapf(err, "failed to read %s", filePath)
 		}
 
 		crd := apiextensions.CustomResourceDefinition{}
 		err = yaml.Unmarshal(content, &crd)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to unmarshal %s to CRD", filePath)
+			return nil, eris.Wrapf(err, "failed to unmarshal %s to CRD", filePath)
 		}
 
 		m.logger.V(Verbose).Info("Loaded CRD", "crdPath", filePath, "name", crd.Name)

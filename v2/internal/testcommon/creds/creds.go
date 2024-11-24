@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/google/uuid"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -78,17 +78,17 @@ func GetCreds() (azcore.TokenCredential, AzureIDs, error) {
 
 	creds, err := getCredentials()
 	if err != nil {
-		return nil, AzureIDs{}, errors.Wrapf(err, "creating credentials")
+		return nil, AzureIDs{}, eris.Wrapf(err, "creating credentials")
 	}
 
 	subscriptionID := os.Getenv(config.AzureSubscriptionID)
 	if subscriptionID == "" {
-		return nil, AzureIDs{}, errors.Errorf("required environment variable %q was not supplied", config.AzureSubscriptionID)
+		return nil, AzureIDs{}, eris.Errorf("required environment variable %q was not supplied", config.AzureSubscriptionID)
 	}
 
 	tenantID := os.Getenv(config.AzureTenantID)
 	if tenantID == "" {
-		return nil, AzureIDs{}, errors.Errorf("required environment variable %q was not supplied", config.AzureTenantID)
+		return nil, AzureIDs{}, eris.Errorf("required environment variable %q was not supplied", config.AzureTenantID)
 	}
 
 	// This is test specific and doesn't have a corresponding config entry. It's also optional as it's only required for

@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -47,14 +47,14 @@ func (h ResourceHierarchy) ResourceGroup() (string, error) {
 		}
 
 		if armID.ResourceGroupName == "" {
-			return "", errors.Errorf("not rooted by a resource group: %s", armIDStr)
+			return "", eris.Errorf("not rooted by a resource group: %s", armIDStr)
 		}
 
 		return armID.ResourceGroupName, nil
 	}
 
 	if rootKind != ResourceHierarchyRootResourceGroup {
-		return "", errors.Errorf("not rooted by a resource group: %s", rootKind)
+		return "", eris.Errorf("not rooted by a resource group: %s", rootKind)
 	}
 
 	resourceGroup := h[0]
@@ -68,13 +68,13 @@ func (h ResourceHierarchy) Location() (string, error) {
 	// We don't support ARM ID rooted for this method because it doesn't really make sense.
 	// If there's a need for it in the future we can add it
 	if rootKind != ResourceHierarchyRootSubscription {
-		return "", errors.Errorf("not rooted in a subscription: %s", rootKind)
+		return "", eris.Errorf("not rooted in a subscription: %s", rootKind)
 	}
 
 	// There's an assumption here that the root resource has a location
 	locatable, ok := h[0].(genruntime.LocatableResource)
 	if !ok {
-		return "", errors.Errorf("root does not implement LocatableResource: %T", h[0])
+		return "", eris.Errorf("root does not implement LocatableResource: %T", h[0])
 	}
 
 	return locatable.Location(), nil
@@ -119,7 +119,7 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 			return "", err
 		}
 		if len(types) != 1 {
-			return "", errors.Errorf("extension resource cannot have more than one resource type, but had type: %s", lastResource.GetType())
+			return "", eris.Errorf("extension resource cannot have more than one resource type, but had type: %s", lastResource.GetType())
 		}
 
 		return fmt.Sprintf("%s/providers/%s/%s/%s", parentARMID, provider, types[0], lastResource.AzureName()), nil
@@ -164,7 +164,7 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 
 		// Ensure that we have the same number of names and types
 		if len(remainingNames) != len(resourceTypes) {
-			return "", errors.Errorf(
+			return "", eris.Errorf(
 				"could not create fully qualified ARM ID, had %d azureNames and %d resourceTypes. azureNames: %+q resourceTypes: %+q",
 				len(remainingNames),
 				len(resourceTypes),
@@ -186,7 +186,7 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 
 		// Ensure that we have the same number of names and types
 		if len(azureNames) != len(resourceTypes) {
-			return "", errors.Errorf(
+			return "", eris.Errorf(
 				"could not create fully qualified ARM ID, had %d azureNames and %d resourceTypes. azureNames: %+q resourceTypes: %+q",
 				len(azureNames),
 				len(resourceTypes),
@@ -240,7 +240,7 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 
 		// Ensure that we have the same number of names and types
 		if len(azureNames) != len(resourceTypes) {
-			return "", errors.Errorf("could not create fully qualified ARM ID, had %d azureNames and %d resourceTypes. azureNames: %+q resourceTypes: %+q",
+			return "", eris.Errorf("could not create fully qualified ARM ID, had %d azureNames and %d resourceTypes. azureNames: %+q resourceTypes: %+q",
 				len(azureNames),
 				len(resourceTypes),
 				azureNames,
@@ -260,10 +260,10 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 		// Find the resource that has the override and start building the ID from there:
 		idFragment, idx := h.getChildResourceIDOverride()
 		if idx == -1 {
-			return "", errors.Errorf("resource had root kind %q, but had no child resource ID override", rootKind)
+			return "", eris.Errorf("resource had root kind %q, but had no child resource ID override", rootKind)
 		}
 		if idx != 0 {
-			return "", errors.Errorf("resource had root kind %q, but child resource override was not at index 0. Instead at index %d", rootKind, idx)
+			return "", eris.Errorf("resource had root kind %q, but child resource override was not at index 0. Instead at index %d", rootKind, idx)
 		}
 		return idFragment, nil
 		// TODO: if we actually need to support this for hierarchies, we could do something like the below
@@ -274,7 +274,7 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 		// append them together and tack them on to the idFragment
 
 	default:
-		return "", errors.Errorf("unknown root kind %q", rootKind)
+		return "", eris.Errorf("unknown root kind %q", rootKind)
 	}
 }
 

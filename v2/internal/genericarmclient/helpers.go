@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 var zeroDuration time.Duration = 0
@@ -45,5 +45,5 @@ func parseHttpDate(s string) (time.Time, error) {
 		return t, nil
 	}
 
-	return time.Time{}, errors.New("unable to parse date")
+	return time.Time{}, eris.New("unable to parse date")
 }

@@ -14,7 +14,7 @@ import (
 
 	cassettev1 "github.com/dnaeon/go-vcr/cassette"
 	"github.com/google/go-cmp/cmp"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -92,12 +92,13 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 	if len(matchingBodies) == 0 {
 		return nil, conditions.NewReadyConditionImpactingError(
-			errors.Errorf("cannot find go-vcr recording for request from test %q (cassette: %q) (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n",
+			eris.Errorf("cannot find go-vcr recording for request from test %q (cassette: %q) (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n",
 				w.t.Name(),
 				w.cassetteName,
 				req.Method,
 				req.URL.String(),
 				req.Header.Get(COUNT_HEADER)),
+
 			conditions.ConditionSeverityError,
 			conditions.ReasonReconciliationFailedPermanently)
 	}
@@ -112,12 +113,13 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 	}
 
 	return nil, conditions.NewReadyConditionImpactingError(
-		errors.Errorf("cannot find go-vcr recording for request from test %q (cassette: %q) (body mismatch): %s %s\nShortest body diff: %s\n\n",
+		eris.Errorf("cannot find go-vcr recording for request from test %q (cassette: %q) (body mismatch): %s %s\nShortest body diff: %s\n\n",
 			w.t.Name(),
 			w.cassetteName,
 			req.Method,
 			req.URL.String(),
 			shortestDiff),
+
 		conditions.ConditionSeverityError,
 		conditions.ReasonReconciliationFailedPermanently)
 }

@@ -16,7 +16,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
@@ -121,8 +121,8 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 	// Some basic assertions about the shape of the error
 	var cloudError *genericarmclient.CloudError
 	var httpErr *azcore.ResponseError
-	g.Expect(errors.As(err, &cloudError)).To(BeTrue())
-	g.Expect(errors.As(err, &httpErr)).To(BeTrue())
+	g.Expect(eris.As(err, &cloudError)).To(BeTrue())
+	g.Expect(eris.As(err, &httpErr)).To(BeTrue())
 
 	// The body was already closed... suppressing linter
 	// nolint:bodyclose
