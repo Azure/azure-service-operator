@@ -41,7 +41,7 @@ Resource Types: APIVersion (string alias) Value Description &#34;2020-11-01&#34;
 AddressSpace (Appears on:VirtualNetworkGateway_Spec, VirtualNetwork_Spec, VirtualNetworksVirtualNetworkPeering_Spec, VpnClientConfiguration) AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
 Field Description addressPrefixes []string AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.
 AddressSpace_STATUS (Appears on:VirtualNetworkGateway_STATUS, VirtualNetwork_STATUS, VirtualNetworksVirtualNetworkPeering_STATUS, VpnClientConfiguration_STATUS) AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.">
-  <meta itemprop="wordCount" content="18213">
+  <meta itemprop="wordCount" content="18225">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="network.azure.com/v1api20201101">
   <meta name="twitter:description" content="network.azure.com/v1api20201101 Package v1api20201101 contains API Schema definitions for the network v1api20201101 API group
@@ -15599,7 +15599,8 @@ string
 </em>
 </td>
 <td>
-<p>IpConfigurations: An array of references to the network interface IP configurations using subnet.</p>
+<p>IpConfigurations: An array of references to the network interface IP configurations using subnet. This field is not
+included if there are more than 2000 entries.</p>
 </td>
 </tr>
 <tr>
