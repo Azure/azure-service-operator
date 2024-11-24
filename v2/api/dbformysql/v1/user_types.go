@@ -3,7 +3,7 @@
 package v1
 
 import (
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -155,10 +155,11 @@ func (user *User) validateWriteOncePropertiesNotChanged(oldObj runtime.Object) (
 	}
 
 	if oldUser.Spec.AzureName != user.Spec.AzureName {
-		err := errors.Errorf(
+		err := eris.Errorf(
 			"updating 'AzureName' is not allowed for '%s : %s",
 			oldObj.GetObjectKind().GroupVersionKind(),
 			oldUser.GetName())
+
 		errs = append(errs, err)
 	}
 
@@ -171,16 +172,18 @@ func (user *User) validateWriteOncePropertiesNotChanged(oldObj runtime.Object) (
 	ownerRemoved := oldOwner != nil && newOwner == nil
 
 	if (bothHaveOwner && oldOwner.Name != newOwner.Name) || ownerAdded {
-		err := errors.Errorf(
+		err := eris.Errorf(
 			"updating 'Owner.Name' is not allowed for '%s : %s",
 			oldObj.GetObjectKind().GroupVersionKind(),
 			oldUser.GetName())
+
 		errs = append(errs, err)
 	} else if ownerRemoved {
-		err := errors.Errorf(
+		err := eris.Errorf(
 			"removing 'Owner' is not allowed for '%s : %s",
 			oldObj.GetObjectKind().GroupVersionKind(),
 			oldUser.GetName())
+
 		errs = append(errs, err)
 	}
 
@@ -202,7 +205,7 @@ func (user *User) validateUserAADAliasNotChanged(oldObj runtime.Object) (admissi
 	newAlias := user.Spec.AADUser.Alias
 
 	if oldAlias != newAlias {
-		return nil, errors.Errorf("cannot change AAD user 'alias' from %q to %q", oldAlias, newAlias)
+		return nil, eris.Errorf("cannot change AAD user 'alias' from %q to %q", oldAlias, newAlias)
 	}
 
 	return nil, nil
@@ -217,12 +220,12 @@ func (user *User) validateUserTypeNotChanged(oldObj runtime.Object) (admission.W
 
 	// Prevent change from AAD -> Local
 	if oldUser.Spec.AADUser != nil && user.Spec.AADUser == nil {
-		return nil, errors.Errorf("cannot change from AAD User to local user")
+		return nil, eris.Errorf("cannot change from AAD User to local user")
 	}
 
 	// Prevent change from Local -> AAD
 	if oldUser.Spec.LocalUser != nil && user.Spec.LocalUser == nil {
-		return nil, errors.Errorf("cannot change from local user to AAD user")
+		return nil, eris.Errorf("cannot change from local user to AAD user")
 	}
 
 	return nil, nil
@@ -230,11 +233,11 @@ func (user *User) validateUserTypeNotChanged(oldObj runtime.Object) (admission.W
 
 func (user *User) validateIsLocalOrAAD() (admission.Warnings, error) {
 	if user.Spec.LocalUser == nil && user.Spec.AADUser == nil {
-		return nil, errors.Errorf("exactly one of spec.localuser or spec.aadUser must be set")
+		return nil, eris.Errorf("exactly one of spec.localuser or spec.aadUser must be set")
 	}
 
 	if user.Spec.LocalUser != nil && user.Spec.AADUser != nil {
-		return nil, errors.Errorf("exactly one of spec.localuser or spec.aadUser must be set")
+		return nil, eris.Errorf("exactly one of spec.localuser or spec.aadUser must be set")
 	}
 
 	return nil, nil

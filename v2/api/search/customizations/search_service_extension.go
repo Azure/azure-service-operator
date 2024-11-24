@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
@@ -44,7 +44,7 @@ func (ext *SearchServiceExtension) ExportKubernetesSecrets(
 	// if the hub devices version changes.
 	typedObj, ok := obj.(*search.SearchService)
 	if !ok {
-		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *devices.IotHub", obj)
+		return nil, eris.Errorf("cannot run on unknown resource type %T, expected *devices.IotHub", obj)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if
@@ -74,7 +74,7 @@ func (ext *SearchServiceExtension) ExportKubernetesSecrets(
 		var queryKeysClient *armsearch.QueryKeysClient
 		queryKeysClient, err = armsearch.NewQueryKeysClient(subscription, armClient.Creds(), armClient.ClientOptions())
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to create new SeachServiceQueryClient")
+			return nil, eris.Wrapf(err, "failed to create new SeachServiceQueryClient")
 		}
 
 		var pager *runtime.Pager[armsearch.QueryKeysClientListBySearchServiceResponse]
@@ -83,7 +83,7 @@ func (ext *SearchServiceExtension) ExportKubernetesSecrets(
 		for pager.More() {
 			resp, err = pager.NextPage(ctx)
 			if err != nil {
-				return nil, errors.Wrapf(err, "failed listing query keys")
+				return nil, eris.Wrapf(err, "failed listing query keys")
 			}
 			addSecretsToMap(resp.Value, queryKeys)
 		}
@@ -91,7 +91,7 @@ func (ext *SearchServiceExtension) ExportKubernetesSecrets(
 		var adminKeysClient *armsearch.AdminKeysClient
 		adminKeysClient, err = armsearch.NewAdminKeysClient(subscription, armClient.Creds(), armClient.ClientOptions())
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to create new SeachServiceAdminClient")
+			return nil, eris.Wrapf(err, "failed to create new SeachServiceAdminClient")
 		}
 
 		adminKeys, err = adminKeysClient.Get(ctx, id.ResourceGroupName, typedObj.AzureName(), nil, nil)

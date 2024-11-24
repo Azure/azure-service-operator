@@ -12,7 +12,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
@@ -42,7 +42,7 @@ func (ext *SubscriptionExtension) ExportKubernetesSecrets(
 	// if the hub storage version changes.
 	typedObj, ok := obj.(*apimanagement.Subscription)
 	if !ok {
-		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *apimanagement.Subscription", obj)
+		return nil, eris.Errorf("cannot run on unknown resource type %T, expected *apimanagement.Subscription", obj)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if
@@ -62,7 +62,7 @@ func (ext *SubscriptionExtension) ExportKubernetesSecrets(
 	}
 
 	if id.Parent == nil {
-		return nil, errors.Errorf("APIM subscription had no parent ID: %s", id.String())
+		return nil, eris.Errorf("APIM subscription had no parent ID: %s", id.String())
 	}
 	parentName := id.Parent.Name
 
@@ -75,13 +75,13 @@ func (ext *SubscriptionExtension) ExportKubernetesSecrets(
 		var subClient *armapimanagement.SubscriptionClient
 		subClient, err = armapimanagement.NewSubscriptionClient(subscription, armClient.Creds(), armClient.ClientOptions())
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to create new SubscriptionClient")
+			return nil, eris.Wrapf(err, "failed to create new SubscriptionClient")
 		}
 
 		var resp armapimanagement.SubscriptionClientListSecretsResponse
 		resp, err = subClient.ListSecrets(ctx, id.ResourceGroupName, parentName, typedObj.AzureName(), nil)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed listing secrets")
+			return nil, eris.Wrapf(err, "failed listing secrets")
 		}
 
 		s = resp.SubscriptionKeysContract
