@@ -103,6 +103,7 @@ tasks:
     desc: Ensure all code is formatted
     dir: v2
     cmds:
+      - golangci-lint run --fix ./...
       - gofumpt -l -w .
 
   build-docs-site:
@@ -1288,7 +1289,7 @@ tasks:
   verify-no-changes:
     desc: Checks that there are no uncommitted modifications to files
     cmds:
-      - cmd: 'if [ -n "{{.CHANGED}}" ]; then echo "Error: files were modified during the build (did you forget to commit generated files?):"; echo "{{.CHANGED}}"; git diff; exit 1; fi'
+      - cmd: 'if [ -n "{{.CHANGED}}" ]; then echo "Error: files were modified during the build (ensure you have commited generated files, and run ''task format-code'' to tidy):"; echo "{{.CHANGED}}"; git diff; exit 1; fi'
         silent: true
     vars:
       CHANGED:
