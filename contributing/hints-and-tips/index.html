@@ -29,7 +29,7 @@
 
   <meta itemprop="name" content="Hints and Tips">
   <meta itemprop="description" content="Extra information for making a successful contribution.">
-  <meta itemprop="wordCount" content="374">
+  <meta itemprop="wordCount" content="521">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Hints and Tips">
   <meta name="twitter:description" content="Extra information for making a successful contribution.">
@@ -749,6 +749,7 @@
         <li><a href="#combine-as-many-resources-as-possible-into-a-single-call-to-createresources">Combine as many resources as possible into a single call to CreateResources()</a></li>
       </ul>
     </li>
+    <li><a href="#code-formatting-and-linting">Code formatting and linting</a></li>
   </ul>
 </nav>
       </div>
@@ -793,6 +794,16 @@
 <p>One of the key features of ASO is that it takes care of sequencing - it works out the correct order of resource creation itself. This is essential, as when someone uses <code>kubectl</code> to apply a YAML file containing all the resources for their application, all the resurces get created in the cluster at the same times and ASO has to be able to do the right thing.</p>
 <p>It&rsquo;s important that we exercise this in our tests. We&rsquo;ve found in the past some resources where additional work was required to make this run smoothly - this is why we have extension points defined in the <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2@v2.10.0/pkg/genruntime/extensions"><code>genruntime/extensions package</code></a>.</p>
 <p>Instead of calling <code>tc.CreateResourceAndWait()</code> for each resource in turn, declare all the resources required for the test and then make a single call to <code>tc.CreateResourcesAndWait()</code> (note the plural in the name) to create them all at once.</p>
+<h2 id="code-formatting-and-linting">Code formatting and linting</h2>
+<p>We strongly believe that linting (aka static code analysis) can be very useful for identifying potential issues in the code. We use <a href="https://golangci-lint.run/">golangci-lint</a> to run a suite of linters on the codebase as a part of our CI pipeline for every PR. We also use <a href="https://github.com/mvdan/gofumpt">gofumpt</a>, a stricter version of <code>gofmt</code>, to format the code.</p>
+<p>To ensure your code passes CI, we suggest running the following two commands before submitting your pull request.</p>
+<p>First, ensure your code is formatted according to our standards:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>task format-code
+</span></span></code></pre></div><p>If any files are modified, commit them.</p>
+<p>Then, run the linters:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>task controller:lint
+</span></span></code></pre></div><p>The above target is appropriate if you&rsquo;re contributing a new resource or controller feature. If you&rsquo;re contributing to our commandline tool, use <code>task asoctl:lint</code>; if you&rsquo;re working on our code generator, use <code>task generator:lint</code>.</p>
+<p>If any issues are found, fix them before submitting your PR.</p>
 
   <div class="section-index">
     
