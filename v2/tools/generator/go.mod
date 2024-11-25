@@ -26,6 +26,7 @@ require (
 	github.com/leanovate/gopter v0.2.11
 	github.com/onsi/gomega v1.35.1
 	github.com/pkg/errors v0.9.1
+	github.com/rotisserie/eris v0.5.4
 	github.com/rs/zerolog v1.33.0
 	github.com/sebdah/goldie/v2 v2.5.5
 	github.com/spf13/cobra v1.8.1
@@ -37,7 +38,7 @@ require (
 	golang.org/x/sync v0.9.0
 	golang.org/x/text v0.20.0
 	gopkg.in/yaml.v3 v3.0.1
-	k8s.io/apimachinery v0.31.2
+	k8s.io/apimachinery v0.31.3
 )
 
 require (
@@ -52,7 +53,6 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/rogpeppe/go-internal v1.12.0 // indirect
-	github.com/rotisserie/eris v0.5.4 // indirect
 	github.com/sergi/go-diff v1.3.1 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
