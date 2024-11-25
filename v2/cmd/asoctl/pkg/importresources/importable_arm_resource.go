@@ -100,44 +100,50 @@ func (i *importableARMResource) Resource() genruntime.MetaObject {
 // ctx is the context to use for the import.
 func (i *importableARMResource) Import(
 	ctx context.Context,
+	progress importreporter.Interface,
 	_ logr.Logger,
-) (ImportedResource, error) {
+) (ImportResourceResult, error) {
 	// Create an importable blank object into which we capture the current state of the resource
 	importable, err := i.createImportableObjectFromID(i.owner, i.armID)
 	if err != nil {
 		// Error doesn't need additional context
-		return i, err
+		return ImportResourceResult{}, err
 	}
 
 	// Our resource might have an extension that can customize the import process,
 	// so we have a factory to create the loader function we call.
 	loader := i.createImportFunction(importable)
-	result, err := loader(ctx, importable, i.owner)
+	loaderResult, err := loader(ctx, importable, i.owner)
 	if err != nil {
 		i.err = err
-		return i, err
+		return ImportResourceResult{}, err
 	}
 
-	if because, skipped := result.Skipped(); skipped {
+	if because, skipped := loaderResult.Skipped(); skipped {
 		gk := importable.GetObjectKind().GroupVersionKind().GroupKind()
-		return i, NewSkippedError(gk, i.armID.Name, because, i)
+		return ImportResourceResult{}, NewSkippedError(gk, i.armID.Name, because, i)
 	}
 
 	i.resource = importable
 
-	return i, nil
+	result := ImportResourceResult{
+		resource: i,
+	}
+
+	if children, err := i.findChildren(ctx, progress); err != nil {
+		return result, err
+	} else {
+		result.pending = children
+	}
+
+	return result, nil
 }
 
-// Error returns any error that occurred during the import.
-func (i *importableARMResource) Error() error {
-	return i.err
-}
-
-// FindChildren returns any child resources that need to be imported.
+// findChildren returns any child resources that need to be imported.
 // ctx allows for cancellation of the import.
 // Returns any additional resources that also need to be imported, as well as any errors that occur.
 // Partial success is allowed, but the caller should be notified of any errors.
-func (i *importableARMResource) FindChildren(
+func (i *importableARMResource) findChildren(
 	ctx context.Context,
 	progress importreporter.Interface,
 ) ([]ImportableResource, error) {
