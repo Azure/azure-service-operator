@@ -62,8 +62,9 @@ vars:
 
 tasks:
   default:
-    deps:
-      - quick-checks
+    cmds:
+      - task: format-code # Run before quick-checks to avoid racing with generated file creation
+      - task: quick-checks
 
   quick-checks:
     desc: Perform all fast local pre-commit tasks.
@@ -73,8 +74,6 @@ tasks:
       - asoctl:quick-checks
       - crossplane:quick-checks
       - mangle-test:quick-checks
-    cmds:
-      - task: format-code # Run after the deps to avoid racing with generated file creation
 
   setup:
     desc: Perform setup tasks
@@ -103,7 +102,7 @@ tasks:
     desc: Ensure all code is formatted
     dir: v2
     cmds:
-      - golangci-lint run --fix ./...
+      - golangci-lint run --fix ./... --timeout 5m  # I don't know why fix doesn't use the configured timeout
       - gofumpt -l -w .
 
   build-docs-site:
