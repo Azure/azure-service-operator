@@ -5,7 +5,7 @@
 
 package astmodel
 
-import "github.com/pkg/errors"
+import "github.com/rotisserie/eris"
 
 // PropertyRemover is a utility for removing property definitions from objects
 type PropertyRemover struct {
@@ -28,7 +28,7 @@ func NewPropertyRemover() *PropertyRemover {
 func (pi *PropertyRemover) Remove(def TypeDefinition, name PropertyName) (TypeDefinition, error) {
 	result, err := pi.visitor.VisitDefinition(def, name)
 	if err != nil {
-		return TypeDefinition{}, errors.Wrapf(err, "failed to remove property %q from %q", name, def.Name())
+		return TypeDefinition{}, eris.Wrapf(err, "failed to remove property %q from %q", name, def.Name())
 	}
 
 	return result, nil

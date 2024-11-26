@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -65,7 +65,7 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 	receiverType := astmodel.NewOptionalType(receiver)
 	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	statusLocal := "st"
@@ -131,14 +131,14 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 
 	convertibleStatusInterfaceTypeExpr, err := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating convertible status interface type expression")
+		return nil, eris.Wrap(err, "creating convertible status interface type expression")
 	}
 
 	builder.AddParameter(statusParameter, convertibleStatusInterfaceTypeExpr)
 
 	errorTypeExpr, err := astmodel.ErrorType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating error type expression")
+		return nil, eris.Wrap(err, "creating error type expression")
 	}
 
 	builder.AddReturn(errorTypeExpr)

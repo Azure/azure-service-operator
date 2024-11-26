@@ -10,7 +10,7 @@ import (
 	"sort"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -88,7 +88,7 @@ func (d *KubernetesConfigExporterBuilder) exportKubernetesConfigMaps(
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	configMapsReference := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeConfigMapsReference)
@@ -123,14 +123,14 @@ func (d *KubernetesConfigExporterBuilder) exportKubernetesConfigMaps(
 		for i := len(propertyPath) - 1; i >= 0; i -= 1 {
 			propType := propertyPath[i].PropertyType()
 			if _, ok := astmodel.AsMapType(propType); ok {
-				return nil, errors.Errorf(
+				return nil, eris.Errorf(
 					"Exporting Map elements as configmaps is not supported currently. Property %s has type %s",
 					propertyNames[i],
 					propType.String())
 			}
 
 			if _, ok := astmodel.AsArrayType(propType); ok {
-				return nil, errors.Errorf(
+				return nil, eris.Errorf(
 					"Exporting Slice elements as configmaps is not supported currently. Property %s has type %s",
 					propertyNames[i],
 					propType.String())
@@ -211,32 +211,32 @@ func (d *KubernetesConfigExporterBuilder) exportKubernetesConfigMaps(
 
 	contextTypeExpr, err := astmodel.ContextType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating context type expression")
+		return nil, eris.Wrap(err, "creating context type expression")
 	}
 	fn.AddParameter("_", contextTypeExpr)
 
 	metaObjectTypeExpr, err := astmodel.GenRuntimeMetaObjectType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating meta object type expression")
+		return nil, eris.Wrap(err, "creating meta object type expression")
 	}
 	fn.AddParameter("_", metaObjectTypeExpr)
 
 	clientTypeExpr, err := astmodel.NewOptionalType(astmodel.GenericClientType).AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating client type expression")
+		return nil, eris.Wrap(err, "creating client type expression")
 	}
 	fn.AddParameter("_", clientTypeExpr)
 
 	logrTypeExpr, err := astmodel.LogrType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating logr type expression")
+		return nil, eris.Wrap(err, "creating logr type expression")
 	}
 	fn.AddParameter("_", logrTypeExpr)
 
 	objectArrayType, err := astmodel.NewArrayType(astmodel.ControllerRuntimeObjectType).
 		AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating object array type expression")
+		return nil, eris.Wrap(err, "creating object array type expression")
 	}
 
 	fn.AddReturn(objectArrayType)

@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
@@ -67,7 +68,7 @@ func (r *kubeSecretMapResolver) ResolveSecretMapReference(
 			return nil, errors.WithStack(err)
 		}
 
-		return nil, errors.Wrapf(err, "couldn't resolve secret collection %s", ref.String())
+		return nil, eris.Wrapf(err, "couldn't resolve secret collection %s", ref.String())
 	}
 
 	// TODO: Do we want to confirm that the type is Opaque?

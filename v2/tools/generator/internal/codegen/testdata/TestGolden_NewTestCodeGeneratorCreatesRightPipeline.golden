@@ -39,6 +39,7 @@ applyKubernetesResourceInterface           azure      Add the KubernetesResource
 flattenProperties                                     Apply flattening to properties marked for flattening
 stripUnused                                           Strip unused types for test
 renameProperties                                      Rename properties
+overrideDescriptions                                  Applies the configured description overrides
 addStatusConditions                        azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
 addOperatorSpec                            azure      Adds the property 'OperatorSpec' to all Spec types that require it
 addKubernetesExporter                      azure      Adds the KubernetesExporter interface to resources that need it

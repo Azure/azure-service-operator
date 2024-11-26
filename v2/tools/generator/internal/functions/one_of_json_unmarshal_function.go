@@ -10,7 +10,7 @@ import (
 	"sort"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -62,14 +62,14 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 	receiverName := f.idFactory.CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+		return nil, eris.Wrapf(err, "creating type expression for %s", receiver)
 	}
 
 	allDefinitions := codeGenerationContext.GetAllReachableDefinitions()
 	discrimJSONName, valuesMapping, err := astmodel.DetermineDiscriminantAndValues(f.oneOfObject, allDefinitions)
 	if err != nil {
 		// Something went wrong; this late in the process we can't do anything about it
-		return nil, errors.Wrap(err, "unable to determine discriminant and values")
+		return nil, eris.Wrap(err, "unable to determine discriminant and values")
 	}
 
 	paramName := "data"

@@ -37,6 +37,7 @@ addSerializationTypeTag                                 Adds a property tag to p
 flattenProperties                                       Apply flattening to properties marked for flattening
 stripUnreferenced                                       Strip unreferenced types
 renameProperties                                        Rename properties
+overrideDescriptions                                    Applies the configured description overrides
 addCrossplaneOwnerProperties                 crossplane Add the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
 addCrossplaneForProviderProperty             crossplane Add a 'ForProvider' property on every spec
 addCrossplaneAtProviderProperty              crossplane Add an 'AtProvider' property on every status

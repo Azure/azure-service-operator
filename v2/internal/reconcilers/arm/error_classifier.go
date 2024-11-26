@@ -7,7 +7,7 @@ package arm
 
 import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
@@ -98,7 +98,7 @@ func classifyCloudError(err *genericarmclient.CloudError) core.ErrorClassificati
 
 func classifyHTTPError(err *genericarmclient.CloudError) core.ErrorClassification {
 	var httpError *azcore.ResponseError
-	if !errors.As(err.Unwrap(), &httpError) {
+	if !eris.As(err.Unwrap(), &httpError) {
 		return core.ErrorRetryable
 	}
 	if httpError.StatusCode == 400 {

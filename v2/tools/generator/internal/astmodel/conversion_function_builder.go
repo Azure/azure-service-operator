@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -246,7 +246,7 @@ func IdentityConvertComplexOptionalProperty(
 			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to build conversion for optional element")
+		return nil, eris.Wrap(err, "unable to build conversion for optional element")
 	}
 
 	// Tack on the final assignment
@@ -300,7 +300,7 @@ func IdentityConvertComplexArrayProperty(
 		destination = dst.NewIdent(innerDestinationIdent)
 		destinationTypeExpr, err := destinationType.AsTypeExpr(builder.CodeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrap(err, "creating destination type expression")
+			return nil, eris.Wrap(err, "creating destination type expression")
 		}
 
 		results = append(
@@ -325,7 +325,7 @@ func IdentityConvertComplexArrayProperty(
 			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to build conversion for array element")
+		return nil, eris.Wrap(err, "unable to build conversion for array element")
 	}
 
 	result := &dst.RangeStmt{
@@ -349,7 +349,7 @@ func IdentityConvertComplexArrayProperty(
 	if depth == 0 && builder.ShouldInitializeCollectionToEmpty(params.SourceProperty) {
 		destinationTypeExpr, err := destinationType.Element().AsTypeExpr(builder.CodeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrap(err, "creating destination type expression")
+			return nil, eris.Wrap(err, "creating destination type expression")
 		}
 
 		emptySlice := astbuilder.SliceLiteral(destinationTypeExpr)
@@ -425,12 +425,12 @@ func IdentityConvertComplexMapProperty(
 
 	keyTypeExpr, err := destinationType.KeyType().AsTypeExpr(builder.CodeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating key type expression")
+		return nil, eris.Wrap(err, "creating key type expression")
 	}
 
 	valueTypeExpr, err := destinationType.ValueType().AsTypeExpr(builder.CodeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating value type expression")
+		return nil, eris.Wrap(err, "creating value type expression")
 	}
 
 	makeMapStatement := astbuilder.AssignmentStatement(
@@ -453,7 +453,7 @@ func IdentityConvertComplexMapProperty(
 			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to build conversion for map value")
+		return nil, eris.Wrap(err, "unable to build conversion for map value")
 	}
 
 	rangeStatement := &dst.RangeStmt{
@@ -596,7 +596,7 @@ func AssignToOptional(
 			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to build inner conversion to optional")
+		return nil, eris.Wrap(err, "unable to build inner conversion to optional")
 	}
 
 	if len(conversion) == 0 {
@@ -605,7 +605,7 @@ func AssignToOptional(
 
 	destinationTypeExpr, err := dstType.AsTypeExpr(builder.CodeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating destination type expression")
+		return nil, eris.Wrap(err, "creating destination type expression")
 	}
 
 	return astbuilder.Statements(
@@ -664,7 +664,7 @@ func AssignFromOptional(
 			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to build inner conversion from optional")
+		return nil, eris.Wrap(err, "unable to build inner conversion from optional")
 	}
 
 	if len(conversion) == 0 {
@@ -674,7 +674,7 @@ func AssignFromOptional(
 	var result []dst.Stmt
 	destinationTypeExpr, err := params.DestinationType.AsTypeExpr(builder.CodeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating destination type expression")
+		return nil, eris.Wrap(err, "creating destination type expression")
 	}
 
 	result = append(result, astbuilder.LocalVariableDeclaration(tmpLocal, destinationTypeExpr, ""))
@@ -861,7 +861,7 @@ func AssignToAliasOfCollection(
 			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to build conversion for array element")
+		return nil, eris.Wrap(err, "unable to build conversion for array element")
 	}
 
 	return astbuilder.Statements(
@@ -930,7 +930,7 @@ func AssignFromAliasOfCollection(
 			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to build conversion for array element")
+		return nil, eris.Wrap(err, "unable to build conversion for array element")
 	}
 
 	return astbuilder.Statements(
@@ -1000,7 +1000,7 @@ func AssignToEnum(
 			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to build inner conversion to enum %s", itn.name)
+		return nil, eris.Wrapf(err, "unable to build inner conversion to enum %s", itn.name)
 	}
 
 	if len(conversion) == 0 {
@@ -1010,7 +1010,7 @@ func AssignToEnum(
 
 	destinationTypeExpr, err := dstType.AsTypeExpr(builder.CodeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating destination type expression")
+		return nil, eris.Wrap(err, "creating destination type expression")
 	}
 
 	var cast dst.Expr
@@ -1071,7 +1071,7 @@ func AssignFromEnum(
 			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to build inner conversion to enum %s", itn.name)
+		return nil, eris.Wrapf(err, "unable to build inner conversion to enum %s", itn.name)
 	}
 
 	if len(conversion) == 0 {

@@ -10,7 +10,7 @@ import (
 	"fmt"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
@@ -37,9 +37,8 @@ type ResourceImporterOptions struct {
 }
 
 type ImportResourceResult struct {
-	resource ImportedResource
-	pending  []ImportableResource
-	err      error
+	resource ImportedResource     // The resource that was imported
+	pending  []ImportableResource // Any child resources that need to be imported next
 }
 
 // New creates a new factory with the scheme baked in
@@ -69,7 +68,7 @@ func (ri *ResourceImporter) Add(importer ImportableResource) {
 func (ri *ResourceImporter) AddARMID(armID string) error {
 	importer, err := NewImportableARMResource(armID, nil /* no owner */, ri.client, ri.scheme)
 	if err != nil {
-		return errors.Wrapf(err, "failed to create importer for %q", armID)
+		return eris.Wrapf(err, "failed to create importer for %q", armID)
 	}
 
 	ri.Add(importer)
@@ -83,21 +82,25 @@ func (ri *ResourceImporter) Import(
 	done chan struct{},
 ) (*Result, error) {
 	workersRequired := ri.desiredWorkers()
+
 	candidates := make(chan ImportableResource)  // candidates that need to be deduped
 	pending := make(chan ImportableResource)     // importers that are pending import
-	completed := make(chan ImportResourceResult) // importers that have been executed successfully
-	report := make(chan *resourceImportReport)   // summary report of the import
+	successes := make(chan ImportResourceResult) // importers that have been executed successfully
+	failures := make(chan ImportError)           // errors from importers that failed
+	completions := make(chan struct{})           // channel to signal completion
 
 	// Dedupe candidates so we import each distinct resource only once
 	go ri.queueUniqueImporters(candidates, pending, ri.reporter)
 
 	// Create workers to run the import
 	for i := 0; i < workersRequired; i++ {
-		go ri.importWorker(ctx, pending, completed, ri.reporter)
+		go ri.importWorker(ctx, pending, successes, failures, ri.reporter, completions)
 	}
 
 	// Collate the results
-	go ri.collateResults(completed, candidates, ri.reporter, report)
+	report := newResourceImportReport()
+	go ri.collateResults(successes, candidates, ri.reporter, report, completions)
+	go ri.collateErrors(failures, report, completions)
 
 	// Set up by adding our initial resources; these will be completed when we collate their results
 	for _, rsrc := range ri.resources {
@@ -117,11 +120,15 @@ func (ri *ResourceImporter) Import(
 	// Close channels so final reporting and other cleanup occurs
 	close(candidates)
 	close(pending)
-	close(completed)
+	close(successes)
+
+	// Wait for everything to finish
+	for i := 0; i < workersRequired+2; i++ {
+		<-completions
+	}
 
 	// Get the summary report and write it
-	rpt := <-report
-	rpt.WriteToLog(ri.log)
+	report.WriteToLog(ri.log)
 
 	// Now we've imported everything, return the resources
 	// We do this even if there's an error so that we can return partial results
@@ -186,11 +193,21 @@ func (ri *ResourceImporter) queueUniqueImporters(
 	}
 }
 
+// importerWorker is a goroutine for importing resources.
+// It reads from the pending channel, imports the resource, and sends the result to the completed
+// channel if it worked, or the failed channel if it didn't.
+// ctx is used to check for cancellation.
+// pending is a source of resources to import.
+// completed is where we send the result of a successful import.
+// failed is where we send the error from a failed import.
+// done is a channel we signal when we're finished.
 func (ri *ResourceImporter) importWorker(
 	ctx context.Context,
 	pending <-chan ImportableResource,
 	completed chan<- ImportResourceResult,
+	failed chan<- ImportError,
 	progress importreporter.Interface,
+	done chan<- struct{},
 ) {
 	for rsrc := range pending {
 		if ctx.Err() != nil {
@@ -201,18 +218,24 @@ func (ri *ResourceImporter) importWorker(
 
 		// We have a resource to import
 		ri.log.V(1).Info("Importing", "resource", rsrc.ID())
-		result := ri.importResource(ctx, rsrc, progress)
-		completed <- result
+
+		if imported, err := ri.importResource(ctx, rsrc, progress); err != nil {
+			failed <- MakeImportError(err, rsrc.GroupKind(), rsrc.Name())
+		} else {
+			completed <- imported
+		}
 	}
+
+	done <- struct{}{}
 }
 
 func (ri *ResourceImporter) collateResults(
 	completed <-chan ImportResourceResult, // completed imports for us to collate
 	candidates chan<- ImportableResource, // additional candidates for importing
 	progress importreporter.Interface, // importreporter tracking
-	publish chan<- *resourceImportReport, // publishing our final summary
+	report *resourceImportReport, // report to write to
+	done chan<- struct{}, // channel to signal completion
 ) {
-	report := newResourceImportReport()
 	for importResult := range completed {
 		rsrc := importResult.resource
 		gk := rsrc.GroupKind()
@@ -223,46 +246,54 @@ func (ri *ResourceImporter) collateResults(
 			candidates <- p
 		}
 
-		if importResult.err != nil {
-			var skipped *SkippedError
-			if errors.As(importResult.err, &skipped) {
-				ri.log.V(1).Info(
-					"Skipped",
-					"kind", gk,
-					"name", rsrc.Name(),
-					"because", skipped.Because)
-				report.AddSkippedImport(rsrc, skipped.Because)
-			} else {
-				ri.log.Error(importResult.err,
-					"Failed",
-					"kind", gk,
-					"name", rsrc.Name())
+		ri.log.Info(
+			"Imported",
+			"kind", gk,
+			"name", rsrc.Name())
 
-				report.AddFailedImport(rsrc, importResult.err.Error())
-			}
-		} else {
-			ri.log.Info(
-				"Imported",
-				"kind", gk,
-				"name", rsrc.Name())
-
-			report.AddSuccessfulImport(rsrc)
-			ri.imported[rsrc.ID()] = rsrc
-		}
+		report.AddSuccessfulImport(gk)
+		ri.imported[rsrc.ID()] = rsrc
 
 		// Flag the main resource as complete
 		// We do this after everything else because it might indicate we're finished
 		progress.Completed(1)
 	}
 
-	publish <- report
+	done <- struct{}{}
+}
+
+func (ri *ResourceImporter) collateErrors(
+	failures <-chan ImportError,
+	report *resourceImportReport,
+	done chan<- struct{},
+) {
+	for ie := range failures {
+		var skipped *SkippedError
+		if eris.As(ie.err, &skipped) {
+			ri.log.V(1).Info(
+				"Skipped",
+				"kind", ie.gk,
+				"name", ie.name,
+				"because", skipped.Because)
+			report.AddSkippedImport(ie.gk, skipped.Because)
+		} else {
+			ri.log.Error(ie.err,
+				"Failed",
+				"kind", ie.gk,
+				"name", ie.name)
+
+			report.AddFailedImport(ie.gk, ie.err.Error())
+		}
+	}
+
+	done <- struct{}{}
 }
 
 func (ri *ResourceImporter) importResource(
 	ctx context.Context,
 	rsrc ImportableResource,
 	parent importreporter.Interface,
-) ImportResourceResult {
+) (ImportResourceResult, error) {
 	// Import it
 	gk := rsrc.GroupKind()
 	name := fmt.Sprintf("%s %s", gk, rsrc.Name())
@@ -273,23 +304,16 @@ func (ri *ResourceImporter) importResource(
 	// Our main resource is pending
 	progress.AddPending(1)
 
-	// Import the resource itself
-	imported, err := rsrc.Import(ctx, ri.log)
-	result := ImportResourceResult{
-		resource: imported,
-		err:      err,
-	}
-
-	// If the main resource was imported ok, look for any children
-	if result.err == nil {
-		result.pending, result.err = rsrc.FindChildren(ctx, progress)
-	}
-
 	// Indicate the main resource is complete
-	// (we must only do this after checking for children, to ensure we don't appear complete too early)
-	progress.Completed(1)
+	// (we must only do this when we return, to ensure we don't appear complete too early)
+	defer progress.Completed(1)
 
-	return result
+	// Import the resource itself
+	if imported, err := rsrc.Import(ctx, progress, ri.log); err != nil {
+		return ImportResourceResult{}, eris.Wrapf(err, "importing %s", name)
+	} else {
+		return imported, nil
+	}
 }
 
 // desiredWorkers returns the number of workers to use for importing resources.

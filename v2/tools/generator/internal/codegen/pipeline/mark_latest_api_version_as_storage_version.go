@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -25,7 +25,7 @@ func MarkLatestAPIVersionAsStorageVersion() *Stage {
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			updatedDefs, err := MarkLatestResourceVersionsForStorage(definitions)
 			if err != nil {
-				return nil, errors.Wrapf(err, "unable to mark latest resource version as storage version")
+				return nil, eris.Wrapf(err, "unable to mark latest resource version as storage version")
 			}
 
 			return updatedDefs, nil

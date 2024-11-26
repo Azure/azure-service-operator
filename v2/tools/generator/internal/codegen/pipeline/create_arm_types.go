@@ -9,7 +9,7 @@ import (
 	"context"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
@@ -109,14 +109,14 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 	for _, def := range resourceDefs {
 		resolved, err := c.definitions.ResolveResourceSpecAndStatus(def)
 		if err != nil {
-			return nil, errors.Wrapf(err, "resolving resource spec and status for %s", def.Name())
+			return nil, eris.Wrapf(err, "resolving resource spec and status for %s", def.Name())
 		}
 
 		resourceSpecDefs.Add(resolved.SpecDef)
 
 		armSpecDef, err := c.createARMResourceSpecDefinition(resolved.ResourceDef, resolved.SpecDef)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to create arm resource spec definition for resource %s", def.Name())
+			return nil, eris.Wrapf(err, "unable to create arm resource spec definition for resource %s", def.Name())
 		}
 
 		result.Add(armSpecDef)
@@ -158,7 +158,7 @@ func (c *armTypeCreator) createARMResourceSpecDefinition(
 	resource, ok := astmodel.AsResourceType(rsrcDef.Type())
 	if !ok {
 		return astmodel.TypeDefinition{},
-			errors.Errorf(
+			eris.Errorf(
 				"expected resource %s to be a resource type, but got %s",
 				rsrcDef.Name(),
 				astmodel.DebugDescription(rsrcDef.Type(), rsrcDef.Name().InternalPackageReference()))
@@ -175,7 +175,7 @@ func (c *armTypeCreator) createARMResourceSpecDefinition(
 
 	// ARM specs have a special interface that they need to implement, go ahead and create that here
 	if !astmodel.ARMFlag.IsOn(armTypeDef.Type()) {
-		return emptyDef, errors.Errorf("arm spec %q isn't a flagged object, instead: %T", armTypeDef.Name(), armTypeDef.Type())
+		return emptyDef, eris.Errorf("arm spec %q isn't a flagged object, instead: %T", armTypeDef.Name(), armTypeDef.Type())
 	}
 
 	// Safe because above test passed
@@ -183,7 +183,7 @@ func (c *armTypeCreator) createARMResourceSpecDefinition(
 
 	specObj, ok := flagged.Element().(*astmodel.ObjectType)
 	if !ok {
-		return emptyDef, errors.Errorf("arm spec %q isn't an object, instead: %T", armTypeDef.Name(), armTypeDef.Type())
+		return emptyDef, eris.Errorf("arm spec %q isn't an object, instead: %T", armTypeDef.Name(), armTypeDef.Type())
 	}
 
 	iface, err := armconversion.NewARMSpecInterfaceImpl(c.idFactory, resource, specObj)
@@ -231,7 +231,7 @@ func (c *armTypeCreator) createARMTypeDefinition(
 	}
 
 	debug := astmodel.DebugDescription(def.Type())
-	return astmodel.TypeDefinition{}, errors.New("unsupported type: " + debug)
+	return astmodel.TypeDefinition{}, eris.New("unsupported type: " + debug)
 }
 
 func (c *armTypeCreator) createARMObjectTypeDefinition(
@@ -265,7 +265,7 @@ func (c *armTypeCreator) createARMObjectTypeDefinition(
 		removeFlattening)
 	if err != nil {
 		return astmodel.TypeDefinition{},
-			errors.Wrapf(err, "creating ARM prototype %s from Kubernetes definition %s", armName, def.Name())
+			eris.Wrapf(err, "creating ARM prototype %s from Kubernetes definition %s", armName, def.Name())
 	}
 
 	result, err := armDef.ApplyObjectTransformation(func(objectType *astmodel.ObjectType) (astmodel.Type, error) {
@@ -273,7 +273,7 @@ func (c *armTypeCreator) createARMObjectTypeDefinition(
 	})
 	if err != nil {
 		return astmodel.TypeDefinition{},
-			errors.Wrapf(err, "creating ARM definition %s from Kubernetes definition %s", armName, def.Name())
+			eris.Wrapf(err, "creating ARM definition %s from Kubernetes definition %s", armName, def.Name())
 	}
 
 	// copy OneOf flag over to ARM type, if applicable
@@ -356,11 +356,11 @@ func (c *armTypeCreator) createResourceReferenceProperty(
 	// Extract expected property name
 	values, ok := prop.Tag(astmodel.ARMReferenceTag)
 	if !ok {
-		return nil, errors.Errorf("ResourceReference property missing %q tag", astmodel.ARMReferenceTag)
+		return nil, eris.Errorf("ResourceReference property missing %q tag", astmodel.ARMReferenceTag)
 	}
 
 	if len(values) != 1 {
-		return nil, errors.Errorf("ResourceReference %q tag len(values) != 1", astmodel.ARMReferenceTag)
+		return nil, eris.Errorf("ResourceReference %q tag len(values) != 1", astmodel.ARMReferenceTag)
 	}
 
 	var newPropType astmodel.Type
@@ -493,7 +493,7 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(
 		for _, handler := range propertyHandlers {
 			newProp, err := handler(prop, convContext)
 			if err != nil {
-				if errors.As(err, &skipError{}) {
+				if eris.As(err, &skipError{}) {
 					break
 				}
 				errs = append(errs, err)
@@ -568,7 +568,7 @@ func (c *armTypeCreator) visitARMTypeName(
 		var updatedType astmodel.Type
 		updatedType, err = this.Visit(def.Type(), ctx)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to look through definition %s", def.Name())
+			return nil, eris.Wrapf(err, "failed to look through definition %s", def.Name())
 		}
 
 		return updatedType, nil
@@ -583,7 +583,7 @@ func (c *armTypeCreator) visitARMTypeName(
 	// just keep using that alias)
 	updatedType, err := this.Visit(def.Type(), ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to update definition %s", def.Name())
+		return nil, eris.Wrapf(err, "failed to update definition %s", def.Name())
 	}
 
 	// If no change, keep the existing name

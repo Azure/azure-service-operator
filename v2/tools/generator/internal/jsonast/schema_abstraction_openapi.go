@@ -16,7 +16,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/go-openapi/jsonpointer"
 	"github.com/go-openapi/spec"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -370,13 +370,12 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.InternalTypeName, error) {
 			// or is nil (so could be set to the pulling-in package)
 			if otherSchema.Package == nil || otherSchema.Package.Equals(schema.outputPackage) {
 				if _, ok := otherSchema.Swagger.Definitions[name]; ok {
-					return astmodel.InternalTypeName{}, errors.Errorf(
+					return astmodel.InternalTypeName{}, eris.Errorf(
 						"importing type %s from file %s into package %s could generate collision with type in %s",
 						name,
 						absRefPath,
 						pkg,
-						otherFile,
-					)
+						otherFile)
 				}
 			}
 		}
@@ -474,7 +473,7 @@ func objectNameFromPointer(ptr *jsonpointer.Pointer) string {
 // resolveAbsolutePath makes an absolute path by combining 'baseFileName' and 'url'
 func resolveAbsolutePath(baseFileName string, url *url.URL) (string, error) {
 	if url.IsAbs() {
-		return "", errors.Errorf("absolute path %q not supported (only relative URLs)", url)
+		return "", eris.Errorf("absolute path %q not supported (only relative URLs)", url)
 	}
 
 	dir := filepath.Dir(baseFileName)

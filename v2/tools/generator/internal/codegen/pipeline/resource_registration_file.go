@@ -10,7 +10,7 @@ import (
 	"sort"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -82,7 +82,7 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	// getKnownStorageTypes() function
 	knownStorageTypes, err := r.createGetKnownStorageTypesFunc(codeGenContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating %s function", "getKnownStorageTypes")
+		return nil, eris.Wrapf(err, "creating %s function", "getKnownStorageTypes")
 	}
 
 	decls = append(decls, knownStorageTypes)
@@ -97,7 +97,7 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	// createScheme() function
 	createSchemeFunc, err := r.createCreateSchemeFunc(codeGenContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating getKnownResourceExtensions function")
+		return nil, eris.Wrap(err, "creating getKnownResourceExtensions function")
 	}
 
 	decls = append(decls, createSchemeFunc)
@@ -105,7 +105,7 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	// Create Resource Extensions
 	resourceExtensionTypes, err := r.createGetResourceExtensions(codeGenContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating getKnownResourceExtensions function")
+		return nil, eris.Wrap(err, "creating getKnownResourceExtensions function")
 	}
 
 	decls = append(decls, resourceExtensionTypes)
@@ -113,7 +113,7 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	// All the index functions
 	indexFunctionDecls, err := r.defineIndexFunctions(codeGenContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "defining index functions")
+		return nil, eris.Wrap(err, "defining index functions")
 	}
 
 	decls = append(decls, indexFunctionDecls...)
@@ -233,7 +233,7 @@ func createGetKnownTypesFunc(
 
 		typeNameExpr, err := typeName.AsTypeExpr(codeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating type expression for %s", typeName.Name())
+			return nil, eris.Wrapf(err, "creating type expression for %s", typeName.Name())
 		}
 
 		batch = append(batch, astbuilder.CallFunc("new", typeNameExpr))
@@ -295,7 +295,7 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 			astmodel.StorageTypeRegistrationType))
 	resultTypeExpr, err := resultType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating type expression for StorageTypeRegistrationType")
+		return nil, eris.Wrap(err, "creating type expression for StorageTypeRegistrationType")
 	}
 
 	resultVar := astbuilder.LocalVariableDeclaration(
@@ -309,12 +309,12 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 	for _, typeName := range r.storageVersionResources {
 		typeNameExpr, err := typeName.AsTypeExpr(codeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating type expression for %s", typeName.Name())
+			return nil, eris.Wrapf(err, "creating type expression for %s", typeName.Name())
 		}
 
 		registrationTypeExpr, err := astmodel.StorageTypeRegistrationType.AsTypeExpr(codeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrap(err, "creating type expression for StorageTypeRegistrationType")
+			return nil, eris.Wrap(err, "creating type expression for StorageTypeRegistrationType")
 		}
 
 		newStorageTypeBuilder := astbuilder.NewCompositeLiteralBuilder(registrationTypeExpr)
@@ -331,7 +331,7 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 			var indexRegistrationTypeExpr dst.Expr
 			indexRegistrationTypeExpr, err = astmodel.IndexRegistrationType.AsTypeExpr(codeGenerationContext)
 			if err != nil {
-				return nil, errors.Wrap(err, "creating type expression for IndexRegistrationType")
+				return nil, eris.Wrap(err, "creating type expression for IndexRegistrationType")
 			}
 
 			sliceBuilder := astbuilder.NewSliceLiteralBuilder(indexRegistrationTypeExpr, true)
@@ -357,7 +357,7 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 		//	}
 		watches, err := r.makeWatchesExpr(typeName, codeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating watches expression for %s", typeName.Name())
+			return nil, eris.Wrapf(err, "creating watches expression for %s", typeName.Name())
 		}
 
 		if watches != nil {
@@ -401,7 +401,7 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(
 	resultType := astmodel.NewArrayType(astmodel.ResourceExtensionType)
 	resultTypeExpr, err := resultType.AsTypeExpr(context)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating type expression for ResourceExtensionType")
+		return nil, eris.Wrap(err, "creating type expression for ResourceExtensionType")
 	}
 
 	resultVar := astbuilder.LocalVariableDeclaration(
@@ -413,7 +413,7 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(
 	for _, typeName := range r.resourceExtensions {
 		typeNameExpr, err := typeName.AsTypeExpr(context)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating type expression for %s", typeName.Name())
+			return nil, eris.Wrapf(err, "creating type expression for %s", typeName.Name())
 		}
 
 		literalExpr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(typeNameExpr).Build())
@@ -557,7 +557,7 @@ func (r *ResourceRegistrationFile) makeWatchesExpr(
 		r.secretPropertyKeys,
 		codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating watches expression for secrets")
+		return nil, eris.Wrap(err, "creating watches expression for secrets")
 	}
 
 	configMapWatchesExpr, err := r.makeSimpleWatchesExpr(
@@ -567,7 +567,7 @@ func (r *ResourceRegistrationFile) makeWatchesExpr(
 		r.configMapPropertyKeys,
 		codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating watches expression for configmaps")
+		return nil, eris.Wrap(err, "creating watches expression for configmaps")
 	}
 
 	if secretWatchesExpr == nil && configMapWatchesExpr == nil {
@@ -576,7 +576,7 @@ func (r *ResourceRegistrationFile) makeWatchesExpr(
 
 	watchRegistrationTypeExpr, err := astmodel.WatchRegistrationType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating type expression for WatchRegistrationType")
+		return nil, eris.Wrap(err, "creating type expression for WatchRegistrationType")
 	}
 
 	sliceBuilder := astbuilder.NewSliceLiteralBuilder(watchRegistrationTypeExpr, true)
@@ -614,7 +614,7 @@ func (r *ResourceRegistrationFile) makeSimpleWatchesExpr(
 
 	watchRegistrationTypeExpr, err := astmodel.WatchRegistrationType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating type expression for WatchRegistrationType")
+		return nil, eris.Wrap(err, "creating type expression for WatchRegistrationType")
 	}
 
 	newWatchBuilder := astbuilder.NewCompositeLiteralBuilder(watchRegistrationTypeExpr)
@@ -622,7 +622,7 @@ func (r *ResourceRegistrationFile) makeSimpleWatchesExpr(
 
 	fieldTypeExpr, err := fieldType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", fieldType.Name())
+		return nil, eris.Wrapf(err, "creating type expression for %s", fieldType.Name())
 	}
 
 	objectType := astbuilder.AddrOf(&dst.CompositeLit{
@@ -638,7 +638,7 @@ func (r *ResourceRegistrationFile) makeSimpleWatchesExpr(
 	listType := typeName.WithName(typeName.Name() + "List")
 	listTypeExpr, err := listType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", listType.Name())
+		return nil, eris.Wrapf(err, "creating type expression for %s", listType.Name())
 	}
 
 	eventHandler := astbuilder.CallFunc(

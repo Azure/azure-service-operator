@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 func TestCanMergeSameTypes(t *testing.T) {
@@ -18,7 +18,7 @@ func TestCanMergeSameTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(func(_ interface{}, l, r Type) (Type, error) {
-		return nil, errors.New("reached fallback")
+		return nil, eris.New("reached fallback")
 	})
 
 	merger.Add(func(l, r *PrimitiveType) (Type, error) {

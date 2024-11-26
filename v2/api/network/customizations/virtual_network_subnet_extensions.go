@@ -6,7 +6,7 @@ import (
 	"context"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
@@ -30,7 +30,7 @@ func (extension *VirtualNetworksSubnetExtension) PostReconcileCheck(
 	subnet, ok := obj.(*network.VirtualNetworksSubnet)
 	if !ok {
 		return extensions.PostReconcileCheckResult{},
-			errors.Errorf("cannot run on unknown resource type %T, expected *network.VirtualNetworksSubnet", obj)
+			eris.Errorf("cannot run on unknown resource type %T, expected *network.VirtualNetworksSubnet", obj)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if

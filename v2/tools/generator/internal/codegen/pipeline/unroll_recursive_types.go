@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline/recursivetypefixer"
@@ -70,7 +70,7 @@ func UnrollRecursiveTypes(log logr.Logger) *Stage {
 				// we can't be sure it's safe to unroll, so we raise an error. This is fatal because controller-gen
 				// will error on recursive types when we run it later and we want to fail fast.
 				if !astmodel.TypeEquals(def.Type(), updatedDef.Type()) && !strings.Contains(def.Name().Name(), "Error") {
-					return nil, errors.Errorf("%q is directly recursive and cannot be unrolled because it doesn't contain 'Error'", def.Name())
+					return nil, eris.Errorf("%q is directly recursive and cannot be unrolled because it doesn't contain 'Error'", def.Name())
 				}
 
 				result.Add(updatedDef)

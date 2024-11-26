@@ -5,9 +5,7 @@
 
 package config
 
-import (
-	"github.com/pkg/errors"
-)
+import "github.com/rotisserie/eris"
 
 // configurable represents a value that may be configured.
 // Includes tracking for whether we consume the configured value or not, allowing us to flag unnecessary configuration
@@ -34,7 +32,7 @@ func (c *configurable[T]) Lookup() (T, bool) {
 // VerifyConsumed returns an error if the value is configured but not consumed.
 func (c *configurable[T]) VerifyConsumed() error {
 	if c.isUnconsumed() {
-		return errors.Errorf("%s specified for %s but not consumed", c.tag, c.scope)
+		return eris.Errorf("%s specified for %s but not consumed", c.tag, c.scope)
 	}
 
 	return nil

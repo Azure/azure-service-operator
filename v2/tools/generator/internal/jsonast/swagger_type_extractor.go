@@ -15,7 +15,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/go-openapi/spec"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/slices"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
@@ -88,19 +88,19 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 
 	err := extractor.ExtractResourceTypes(ctx, scanner, result)
 	if err != nil {
-		return SwaggerTypes{}, errors.Wrap(err, "error extracting resource types")
+		return SwaggerTypes{}, eris.Wrap(err, "error extracting resource types")
 	}
 
 	err = extractor.ExtractOneOfTypes(ctx, scanner, result)
 	if err != nil {
-		return SwaggerTypes{}, errors.Wrap(err, "error extracting one-of option types")
+		return SwaggerTypes{}, eris.Wrap(err, "error extracting one-of option types")
 	}
 
 	for _, def := range scanner.Definitions() {
 		// Add additional type definitions required by the resources
 		if existingDef, ok := result.OtherDefinitions[def.Name()]; ok {
 			if !astmodel.TypeEquals(existingDef.Type(), def.Type()) {
-				return SwaggerTypes{}, errors.Errorf("type already defined differently: %s\nwas %s is %s\ndiff:\n%s",
+				return SwaggerTypes{}, eris.Errorf("type already defined differently: %s\nwas %s is %s\ndiff:\n%s",
 					def.Name(),
 					existingDef.Type(),
 					def.Type(),
@@ -223,11 +223,11 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 	} else {
 		resourceSpec, err = scanner.RunHandlerForSchema(ctx, *specSchema)
 		if err != nil {
-			if errors.Is(err, context.Canceled) {
+			if eris.Is(err, context.Canceled) {
 				return err
 			}
 
-			return errors.Wrapf(err, "unable to produce spec type for resource %s", resourceName)
+			return eris.Wrapf(err, "unable to produce spec type for resource %s", resourceName)
 		}
 	}
 
@@ -252,18 +252,18 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 	} else {
 		resourceStatus, err = scanner.RunHandlerForSchema(ctx, *statusSchema)
 		if err != nil {
-			if errors.Is(err, context.Canceled) {
+			if eris.Is(err, context.Canceled) {
 				return err
 			}
 
-			return errors.Wrapf(err, "unable to produce status type for resource %s", resourceName)
+			return eris.Wrapf(err, "unable to produce status type for resource %s", resourceName)
 		}
 	}
 
 	if existingResource, ok := result.ResourceDefinitions[resourceName]; ok {
 		// TODO: check status types as well
 		if !astmodel.TypeEquals(existingResource.SpecType, resourceSpec) {
-			return errors.Errorf("resource already defined differently: %s\ndiff:\n%s",
+			return eris.Errorf("resource already defined differently: %s\ndiff:\n%s",
 				resourceName,
 				astmodel.DiffTypes(existingResource.SpecType, resourceSpec))
 		}
@@ -316,7 +316,7 @@ func (extractor *SwaggerTypeExtractor) ExtractOneOfTypes(
 		// Run a handler to generate our type
 		t, err := scanner.RunHandlerForSchema(ctx, schema)
 		if err != nil {
-			errs = append(errs, errors.Wrapf(err, "unable to produce type for definition %s", name))
+			errs = append(errs, eris.Wrapf(err, "unable to produce type for definition %s", name))
 			continue
 		}
 
@@ -761,7 +761,7 @@ func (extractor *SwaggerTypeExtractor) expandAndCanonicalizePath(
 func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPath string) (string, astmodel.InternalTypeName, error) {
 	group, resource, name, err := extractor.inferNameFromURLPath(operationPath)
 	if err != nil {
-		return "", astmodel.InternalTypeName{}, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
+		return "", astmodel.InternalTypeName{}, eris.Wrapf(err, "unable to infer name from path %q", operationPath)
 	}
 
 	return group + "/" + resource, astmodel.MakeInternalTypeName(extractor.outputPackage, name), nil
@@ -783,7 +783,7 @@ func (extractor *SwaggerTypeExtractor) extractResourceSubpath(operationPath stri
 		}
 	}
 
-	return "", "", errors.Errorf("no group name (‘Microsoft…’) found in %s", operationPath)
+	return "", "", eris.Errorf("no group name (‘Microsoft…’) found in %s", operationPath)
 }
 
 // inferNameFromURLPath attempts to extract a name from a Swagger operation path
@@ -822,7 +822,7 @@ func (extractor *SwaggerTypeExtractor) inferNameFromURLPath(operationPath string
 			// this is a URL parameter
 			if skippedLast {
 				// this means two {parameters} in a row
-				return "", "", "", errors.Errorf("multiple parameters in path")
+				return "", "", "", eris.Errorf("multiple parameters in path")
 			}
 
 			skippedLast = true
@@ -834,7 +834,7 @@ func (extractor *SwaggerTypeExtractor) inferNameFromURLPath(operationPath string
 	}
 
 	if len(nameParts) == 0 {
-		return "", "", "", errors.Errorf("couldn’t infer name")
+		return "", "", "", eris.Errorf("couldn’t infer name")
 	}
 
 	resource := strings.Join(nameParts, "/") // capture this before uppercasing/singularizing

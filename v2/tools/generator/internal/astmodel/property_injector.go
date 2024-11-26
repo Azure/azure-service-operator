@@ -5,7 +5,7 @@
 
 package astmodel
 
-import "github.com/pkg/errors"
+import "github.com/rotisserie/eris"
 
 // PropertyInjector is a utility for injecting property definitions into resources and objects
 type PropertyInjector struct {
@@ -28,7 +28,7 @@ func NewPropertyInjector() *PropertyInjector {
 func (pi *PropertyInjector) Inject(def TypeDefinition, prop *PropertyDefinition) (TypeDefinition, error) {
 	result, err := pi.visitor.VisitDefinition(def, prop)
 	if err != nil {
-		return TypeDefinition{}, errors.Wrapf(err, "failed to inject property %q into %q", prop.PropertyName(), def.Name())
+		return TypeDefinition{}, eris.Wrapf(err, "failed to inject property %q into %q", prop.PropertyName(), def.Name())
 	}
 
 	return result, nil
@@ -40,7 +40,7 @@ func (pi *PropertyInjector) injectPropertyIntoObject(
 ) (Type, error) {
 	// Ensure that we don't already have a property with the same name
 	if _, ok := ot.Property(prop.PropertyName()); ok {
-		return nil, errors.Errorf("already has property named %q", prop.PropertyName())
+		return nil, eris.Errorf("already has property named %q", prop.PropertyName())
 	}
 
 	return ot.WithProperty(prop), nil

@@ -10,7 +10,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -66,11 +66,11 @@ func checkForAnyType(description string, packages []string) *Stage {
 
 			badPackages, err := collectBadPackages(badNames, expectedPackages)
 			if err != nil {
-				return nil, errors.Wrap(err, "summarising bad types")
+				return nil, eris.Wrap(err, "summarising bad types")
 			}
 
 			if len(badPackages) > 0 {
-				return nil, errors.Errorf("AnyTypes found - add exclusions for: %s", strings.Join(badPackages, ", "))
+				return nil, eris.Errorf("AnyTypes found - add exclusions for: %s", strings.Join(badPackages, ", "))
 			}
 
 			return output, nil
@@ -125,8 +125,9 @@ func collectBadPackages(
 			leftovers = append(leftovers, value)
 		}
 		sort.Strings(leftovers)
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"no AnyTypes found in: %s", strings.Join(leftovers, ", "))
+
 	}
 
 	return groupNames, nil

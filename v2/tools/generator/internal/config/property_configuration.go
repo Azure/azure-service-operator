@@ -8,7 +8,7 @@ package config
 import (
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"gopkg.in/yaml.v3"
 )
 
@@ -24,6 +24,7 @@ type PropertyConfiguration struct {
 	name string
 	// Configurable properties here (alphabetical, please)
 	ARMReference                   configurable[bool]                // Specify whether this property is an ARM reference
+	Description                    configurable[string]              // Specify a description override for this property
 	ImportConfigMapMode            configurable[ImportConfigMapMode] // The config map mode
 	IsSecret                       configurable[bool]                // Specify whether this property is a secret
 	NameInNextVersion              configurable[string]              // Name this property has in the next version
@@ -42,6 +43,7 @@ const (
 // Tags used in yaml files to specify configurable properties. Alphabetical please.
 const (
 	armReferenceTag                   = "$armReference"                   // Bool specifying whether a property is an ARM reference
+	descriptionTag                    = "$description"                    // String overriding the properties default description
 	exportAsConfigMapPropertyNameTag  = "$exportAsConfigMapPropertyName"  // String specifying the name of the property set to export this property as a config map.
 	importConfigMapModeTag            = "$importConfigMapMode"            // string specifying the ImportConfigMapMode mode
 	isSecretTag                       = "$isSecret"                       // Bool specifying whether a property contains a secret
@@ -56,6 +58,7 @@ func NewPropertyConfiguration(name string) *PropertyConfiguration {
 		name: name,
 		// Initialize configurable properties here (alphabetical, please)
 		ARMReference:                   makeConfigurable[bool](armReferenceTag, scope),
+		Description:                    makeConfigurable[string](descriptionTag, scope),
 		ImportConfigMapMode:            makeConfigurable[ImportConfigMapMode](importConfigMapModeTag, scope),
 		IsSecret:                       makeConfigurable[bool](isSecretTag, scope),
 		NameInNextVersion:              makeConfigurable[string](nameInNextVersionTag, scope),
@@ -68,7 +71,7 @@ func NewPropertyConfiguration(name string) *PropertyConfiguration {
 // The slice node.Content contains pairs of nodes, first one for an ID, then one for the value.
 func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	if value.Kind != yaml.MappingNode {
-		return errors.New("expected mapping")
+		return eris.New("expected mapping")
 	}
 
 	var lastId string
@@ -90,7 +93,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			var isSecret bool
 			err := c.Decode(&isSecret)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", isSecretTag)
+				return eris.Wrapf(err, "decoding %s", isSecretTag)
 			}
 
 			pc.IsSecret.Set(isSecret)
@@ -102,7 +105,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			var resourceLifecycleOwnedByParent string
 			err := c.Decode(&resourceLifecycleOwnedByParent)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", resourceLifecycleOwnedByParentTag)
+				return eris.Wrapf(err, "decoding %s", resourceLifecycleOwnedByParentTag)
 			}
 
 			pc.ResourceLifecycleOwnedByParent.Set(resourceLifecycleOwnedByParent)
@@ -114,7 +117,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			var isARMRef bool
 			err := c.Decode(&isARMRef)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", armReferenceTag)
+				return eris.Wrapf(err, "decoding %s", armReferenceTag)
 			}
 
 			pc.ARMReference.Set(isARMRef)
@@ -129,7 +132,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			case ImportConfigMapModeRequired:
 				pc.ImportConfigMapMode.Set(ImportConfigMapModeRequired)
 			default:
-				return errors.Errorf("unknown %s value: %s.", importConfigMapModeTag, c.Value)
+				return eris.Errorf("unknown %s value: %s.", importConfigMapModeTag, c.Value)
 			}
 
 			continue
@@ -140,7 +143,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			var renameTo string
 			err := c.Decode(&renameTo)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", renamePropertyToTag)
+				return eris.Wrapf(err, "decoding %s", renamePropertyToTag)
 			}
 
 			pc.RenameTo.Set(renameTo)
@@ -159,15 +162,28 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			case string(ExplicitProperties):
 				pc.PayloadType.Set(ExplicitProperties)
 			default:
-				return errors.Errorf("unknown %s value: %s.", payloadTypeTag, c.Value)
+				return eris.Errorf("unknown %s value: %s.", payloadTypeTag, c.Value)
 			}
 
 			continue
 		}
 
+		// description: string
+		if strings.EqualFold(lastId, descriptionTag) && c.Kind == yaml.ScalarNode {
+			var description string
+			err := c.Decode(&description)
+			if err != nil {
+				return eris.Wrapf(err, "decoding %s", descriptionTag)
+			}
+
+			pc.Description.Set(description)
+			continue
+		}
+
 		// No handler for this value, return an error
-		return errors.Errorf(
+		return eris.Errorf(
 			"property configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
+
 	}
 
 	return nil

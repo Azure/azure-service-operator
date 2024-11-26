@@ -11,7 +11,7 @@ import (
 	"sync"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -122,10 +122,10 @@ func (builder conversionBuilder) propertyConversionHandler(
 		armDescription.String())
 
 	if err != nil {
-		return nil, errors.Wrap(err, message)
+		return nil, eris.Wrap(err, message)
 	}
 
-	return nil, errors.New(message)
+	return nil, eris.New(message)
 }
 
 type propertyConversionHandler = func(

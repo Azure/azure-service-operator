@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
@@ -26,13 +26,13 @@ func AddKubernetesExporter(idFactory astmodel.IdentifierFactory) *Stage {
 
 			mappings, err := GetStateData[*ExportedTypeNameProperties](state, ExportedConfigMaps)
 			if err != nil {
-				return nil, errors.Wrapf(err, "couldn't find exported config maps")
+				return nil, eris.Wrapf(err, "couldn't find exported config maps")
 			}
 
 			for _, def := range astmodel.FindResourceDefinitions(defs) {
 				resourceType, ok := astmodel.AsResourceType(def.Type())
 				if !ok {
-					return nil, errors.Errorf("%s definition type wasn't a resource", def.Name())
+					return nil, eris.Errorf("%s definition type wasn't a resource", def.Name())
 				}
 
 				configMapMappings, ok := mappings.Get(def.Name())

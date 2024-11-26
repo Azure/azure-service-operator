@@ -12,7 +12,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
@@ -44,7 +44,7 @@ func (ext *SignalRExtension) ExportKubernetesSecrets(
 	// This will need to be updated if the hub version changes
 	typedObj, ok := obj.(*signalr.SignalR)
 	if !ok {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"cannot run on unknown resource type %T, expected *signalr.SignalR", obj)
 	}
 
@@ -69,12 +69,12 @@ func (ext *SignalRExtension) ExportKubernetesSecrets(
 	// connection each time through
 	clientFactory, err := armsignalr.NewClientFactory(id.SubscriptionID, armClient.Creds(), armClient.ClientOptions())
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to create ARM signalR client factory")
+		return nil, eris.Wrapf(err, "failed to create ARM signalR client factory")
 	}
 
 	res, err := clientFactory.NewClient().ListKeys(ctx, id.ResourceGroupName, typedObj.AzureName(), nil)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to list keys")
+		return nil, eris.Wrapf(err, "failed to list keys")
 	}
 
 	secretSlice, err := secretsToWrite(typedObj, res.Keys)

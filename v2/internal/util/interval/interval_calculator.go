@@ -11,7 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
@@ -137,15 +137,15 @@ func (i *calculator) failureResult(req ctrl.Request, err error) (ctrl.Result, er
 			return ctrl.Result{RequeueAfter: delay}, nil
 		case conditions.RetryNone:
 			// This shouldn't happen, return an error
-			return ctrl.Result{}, errors.New("didn't expect RetryNone classification for error")
+			return ctrl.Result{}, eris.New("didn't expect RetryNone classification for error")
 		default:
 			// This shouldn't happen, return an error
-			return ctrl.Result{}, errors.Errorf("unknown RetryClassification %q", readyErr.RetryClassification)
+			return ctrl.Result{}, eris.Errorf("unknown RetryClassification %q", readyErr.RetryClassification)
 		}
 	}
 
 	// This shouldn't happen, return an error
-	return ctrl.Result{}, errors.Errorf("Error with severity %q is unexpected", readyErr.Severity)
+	return ctrl.Result{}, eris.Errorf("Error with severity %q is unexpected", readyErr.Severity)
 }
 
 func (i *calculator) makeSuccessResult() ctrl.Result {

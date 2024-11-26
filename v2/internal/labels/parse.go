@@ -6,7 +6,7 @@
 package labels
 
 import (
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/annotations"
 )
@@ -39,7 +39,7 @@ func ParseAll(labels []string) ([]Label, error) {
 	for _, label := range labels {
 		parsed, err := Parse(label)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed parsing %s", label)
+			return nil, eris.Wrapf(err, "failed parsing %s", label)
 		}
 		result = append(result, parsed)
 	}

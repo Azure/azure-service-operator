@@ -7,7 +7,7 @@ package armconversion
 
 import (
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -80,7 +80,7 @@ func (c *ConvertToARMFunction) AsFunc(
 		receiver,
 		c.Name())
 	if err != nil {
-		return nil, errors.Wrapf(
+		return nil, eris.Wrapf(
 			err,
 			"error creating ConvertToARM function for %s",
 			receiver.Name())
@@ -88,7 +88,7 @@ func (c *ConvertToARMFunction) AsFunc(
 
 	decl, err := builder.functionDeclaration()
 	if err != nil {
-		return nil, errors.Wrapf(
+		return nil, eris.Wrapf(
 			err,
 			"error generating ConvertToARM function for %s",
 			c.Name())
@@ -107,7 +107,7 @@ func (c *PopulateFromARMFunction) AsFunc(
 		receiver,
 		c.Name())
 	if err != nil {
-		return nil, errors.Wrapf(
+		return nil, eris.Wrapf(
 			err,
 			"error creating ConvertFromARM function for %s",
 			receiver.Name())
@@ -115,7 +115,7 @@ func (c *PopulateFromARMFunction) AsFunc(
 
 	decl, err := builder.functionDeclaration()
 	if err != nil {
-		return nil, errors.Wrapf(
+		return nil, eris.Wrapf(
 			err,
 			"error generating ConvertFromARM function for %s",
 			c.Name())

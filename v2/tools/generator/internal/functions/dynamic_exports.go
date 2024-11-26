@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -117,7 +117,7 @@ func (d *PropertyExporter) getPropertyFunction(
 	receiverType := astmodel.NewOptionalType(receiver)
 	receiverTypeExpr, err := receiverType.AsTypeExpr(genContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	nilChecks := make([]dst.Stmt, 0, len(d.nilChecks))
@@ -144,7 +144,7 @@ func (d *PropertyExporter) getPropertyFunction(
 
 	exportTypeExpr, err := d.exportType.AsTypeExpr(genContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating return type expression")
+		return nil, eris.Wrap(err, "creating return type expression")
 	}
 
 	fn.AddReturn(exportTypeExpr)

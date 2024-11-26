@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -32,7 +32,7 @@ func AddCrossplaneEmbeddedResourceSpec(idFactory astmodel.IdentifierFactory) *St
 
 					specDef, err := definitions.ResolveResourceSpecDefinition(resource)
 					if err != nil {
-						return nil, errors.Wrapf(err, "getting resource spec definition")
+						return nil, eris.Wrapf(err, "getting resource spec definition")
 					}
 
 					// The assumption here is that specs are all Objects
@@ -40,7 +40,7 @@ func AddCrossplaneEmbeddedResourceSpec(idFactory astmodel.IdentifierFactory) *St
 						return o.WithEmbeddedProperty(embeddedSpec)
 					})
 					if err != nil {
-						return nil, errors.Wrapf(err, "adding embedded crossplane spec")
+						return nil, eris.Wrapf(err, "adding embedded crossplane spec")
 					}
 
 					result.Add(typeDef)

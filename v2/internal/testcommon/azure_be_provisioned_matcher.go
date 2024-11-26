@@ -11,7 +11,7 @@ import (
 
 	gomegaformat "github.com/onsi/gomega/format"
 	"github.com/onsi/gomega/types"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
@@ -27,7 +27,7 @@ var _ types.GomegaMatcher = &AzureBeProvisionedMatcher{}
 func (m *AzureBeProvisionedMatcher) typedActual(actual interface{}) (*genericarmclient.PollerResponse[genericarmclient.GenericResource], error) {
 	poller, ok := actual.(*genericarmclient.PollerResponse[genericarmclient.GenericResource])
 	if !ok {
-		return nil, errors.Errorf("Expected actual of type *genericarmclient.PollerResponse, instead %T", actual)
+		return nil, eris.Errorf("Expected actual of type *genericarmclient.PollerResponse, instead %T", actual)
 	}
 
 	return poller, nil

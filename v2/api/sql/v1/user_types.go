@@ -3,7 +3,7 @@
 package v1
 
 import (
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -154,10 +154,11 @@ func (user *User) validateWriteOncePropertiesNotChanged(oldObj runtime.Object) (
 	}
 
 	if oldUser.Spec.AzureName != user.Spec.AzureName {
-		err := errors.Errorf(
+		err := eris.Errorf(
 			"updating 'AzureName' is not allowed for '%s : %s",
 			oldObj.GetObjectKind().GroupVersionKind(),
 			oldUser.GetName())
+
 		errs = append(errs, err)
 	}
 
@@ -170,16 +171,18 @@ func (user *User) validateWriteOncePropertiesNotChanged(oldObj runtime.Object) (
 	ownerRemoved := oldOwner != nil && newOwner == nil
 
 	if (bothHaveOwner && oldOwner.Name != newOwner.Name) || ownerAdded {
-		err := errors.Errorf(
+		err := eris.Errorf(
 			"updating 'Owner.Name' is not allowed for '%s : %s",
 			oldObj.GetObjectKind().GroupVersionKind(),
 			oldUser.GetName())
+
 		errs = append(errs, err)
 	} else if ownerRemoved {
-		err := errors.Errorf(
+		err := eris.Errorf(
 			"removing 'Owner' is not allowed for '%s : %s",
 			oldObj.GetObjectKind().GroupVersionKind(),
 			oldUser.GetName())
+
 		errs = append(errs, err)
 	}
 

@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
@@ -54,12 +55,12 @@ func (r *kubeConfigMapResolver) ResolveConfigMapReference(ctx context.Context, r
 			return "", errors.WithStack(err)
 		}
 
-		return "", errors.Wrapf(err, "couldn't resolve config map reference %s", ref.String())
+		return "", eris.Wrapf(err, "couldn't resolve config map reference %s", ref.String())
 	}
 
 	value, ok := configMap.Data[ref.Key] // TODO: Do we need to also check the binaryData field?
 	if !ok {
-		return "", core.NewConfigMapNotFoundError(refNamespacedName, errors.Errorf("ConfigMap %q does not contain key %q", refNamespacedName.String(), ref.Key))
+		return "", core.NewConfigMapNotFoundError(refNamespacedName, eris.Errorf("ConfigMap %q does not contain key %q", refNamespacedName.String(), ref.Key))
 	}
 
 	return value, nil

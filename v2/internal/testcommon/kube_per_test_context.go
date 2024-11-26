@@ -18,7 +18,7 @@ import (
 
 	"github.com/onsi/gomega"
 	"github.com/onsi/gomega/format"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -66,7 +66,7 @@ func (tc KubePerTestContext) CreateTestNamespace(namespaceName string) error {
 	})
 
 	if err != nil && !apierrors.IsAlreadyExists(err) {
-		return errors.Wrapf(err, "creating namespace")
+		return eris.Wrapf(err, "creating namespace")
 	}
 
 	return nil
@@ -844,17 +844,17 @@ func (tc *KubePerTestContext) exportAsYAML(resource runtime.Object, filePath str
 
 	content, err := yaml.Marshal(resource)
 	if err != nil {
-		return errors.Wrap(err, "failed to marshal to yaml")
+		return eris.Wrap(err, "failed to marshal to yaml")
 	}
 
 	folder := filepath.Dir(filePath)
 	if err = os.MkdirAll(folder, os.ModePerm); err != nil {
-		return errors.Wrapf(err, "couldn't create directory path to %s", filePath)
+		return eris.Wrapf(err, "couldn't create directory path to %s", filePath)
 	}
 
 	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0o600)
 	if err != nil {
-		return errors.Wrapf(err, "failed to open file %s", filePath)
+		return eris.Wrapf(err, "failed to open file %s", filePath)
 	}
 
 	defer file.Close()
@@ -862,7 +862,7 @@ func (tc *KubePerTestContext) exportAsYAML(resource runtime.Object, filePath str
 	clean := sanitiseSample(string(content))
 	_, err = file.WriteString(clean)
 	if err != nil {
-		return errors.Wrapf(err, "failed to write yaml to file %s", filePath)
+		return eris.Wrapf(err, "failed to write yaml to file %s", filePath)
 	}
 
 	return nil

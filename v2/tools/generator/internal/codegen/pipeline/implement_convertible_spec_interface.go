@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
@@ -31,7 +31,7 @@ func ImplementConvertibleSpecInterface(idFactory astmodel.IdentifierFactory) *St
 				convertible := createConvertibleSpecInterfaceImplementation(def, idFactory)
 				modified, err := injector.Inject(def, convertible)
 				if err != nil {
-					return nil, errors.Wrapf(err, "injecting Convertible interface into %s", name)
+					return nil, eris.Wrapf(err, "injecting Convertible interface into %s", name)
 				}
 
 				modifiedDefinitions.Add(modified)

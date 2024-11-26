@@ -1413,7 +1413,8 @@ type VirtualNetworksSubnet_STATUS struct {
 	// IpConfigurationProfiles: Array of IP configuration profiles which reference this subnet.
 	IpConfigurationProfiles []IPConfigurationProfile_STATUS `json:"ipConfigurationProfiles,omitempty"`
 
-	// IpConfigurations: An array of references to the network interface IP configurations using subnet.
+	// IpConfigurations: An array of references to the network interface IP configurations using subnet. This field is not
+	// included if there are more than 2000 entries.
 	IpConfigurations []IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded `json:"ipConfigurations,omitempty"`
 
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.

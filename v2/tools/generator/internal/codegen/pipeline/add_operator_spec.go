@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -90,7 +90,7 @@ func createOperatorSpecIfNeeded(
 ) (astmodel.TypeDefinitionSet, ExportedProperties, error) {
 	resolved, err := defs.ResolveResourceSpecAndStatus(resource)
 	if err != nil {
-		return nil, nil, errors.Wrapf(err, "resolving resource spec and status for %s", resource.Name())
+		return nil, nil, eris.Wrapf(err, "resolving resource spec and status for %s", resource.Name())
 	}
 
 	// Look up Azure generated secrets for this resource
@@ -102,7 +102,7 @@ func createOperatorSpecIfNeeded(
 	// Lookup any properties that might be exported to config maps
 	configs, exportedProperties, err := getConfigMapProperties(defs, configuration, resource)
 	if err != nil {
-		return nil, nil, errors.Wrapf(err, "finding properties allowed to export as config maps")
+		return nil, nil, eris.Wrapf(err, "finding properties allowed to export as config maps")
 	}
 
 	builder := newOperatorSpecBuilder(configuration, idFactory, resolved.ResourceDef)
@@ -114,13 +114,13 @@ func createOperatorSpecIfNeeded(
 
 	operatorSpec, err := builder.build()
 	if err != nil {
-		return nil, nil, errors.Wrapf(err, "building OperatorSpec for %q", resolved.ResourceDef.Name())
+		return nil, nil, eris.Wrapf(err, "building OperatorSpec for %q", resolved.ResourceDef.Name())
 	}
 
 	propInjector := astmodel.NewPropertyInjector()
 	updatedDef, err := propInjector.Inject(resolved.SpecDef, builder.newOperatorSpecProperty(operatorSpec))
 	if err != nil {
-		return nil, nil, errors.Wrapf(err, "couldn't add OperatorSpec to spec %q", resolved.SpecDef.Name())
+		return nil, nil, eris.Wrapf(err, "couldn't add OperatorSpec to spec %q", resolved.SpecDef.Name())
 	}
 
 	result := make(astmodel.TypeDefinitionSet)
@@ -198,20 +198,20 @@ func (w *configMapTypeWalker) includeSpecStatus(
 ) (astmodel.Type, error) {
 	specProp, ok := it.Property("Spec")
 	if !ok {
-		return nil, errors.Errorf("couldn't find resource spec")
+		return nil, eris.Errorf("couldn't find resource spec")
 	}
 	_, err := this.Visit(it.SpecType(), ctx.withPathElement(specProp))
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit resource spec type %q", it.SpecType())
+		return nil, eris.Wrapf(err, "failed to visit resource spec type %q", it.SpecType())
 	}
 
 	statusProp, ok := it.Property("Status")
 	if !ok {
-		return nil, errors.Errorf("couldn't find resource status")
+		return nil, eris.Errorf("couldn't find resource status")
 	}
 	_, err = this.Visit(it.StatusType(), ctx.withPathElement(statusProp))
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit resource status type %q", it.StatusType())
+		return nil, eris.Wrapf(err, "failed to visit resource status type %q", it.StatusType())
 	}
 
 	// We're not planning on actually modifying any types here, so we can just return the type we started with
@@ -249,7 +249,7 @@ func (w *configMapTypeWalker) catalogObjectConfigMapProperties(
 func (w *configMapTypeWalker) Walk(def astmodel.TypeDefinition) (ExportedProperties, error) {
 	_, err := w.walker.Walk(def)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to walk definition %s", def.Name())
+		return nil, eris.Wrapf(err, "failed to walk definition %s", def.Name())
 	}
 
 	return w.exportedProperties, nil
@@ -289,7 +289,7 @@ func getConfigMapProperties(
 	// There should be an exported configMap property for every configured configMapPath
 	for name, path := range configMapPaths {
 		if _, ok := exportedConfigMapProperties[name]; !ok {
-			return nil, nil, errors.Errorf("$generatedConfigs property %q not found at path %q", name, path)
+			return nil, nil, eris.Errorf("$generatedConfigs property %q not found at path %q", name, path)
 		}
 	}
 
@@ -466,7 +466,7 @@ func (b *operatorSpecBuilder) addCustomProperties(
 		if !ok {
 			b.errs = append(
 				b.errs,
-				errors.Errorf("unknown type %q for custom OperatorSpec property %q", prop.Type, prop.Name))
+				eris.Errorf("unknown type %q for custom OperatorSpec property %q", prop.Type, prop.Name))
 			continue
 		}
 
@@ -483,7 +483,7 @@ func (b *operatorSpecBuilder) addCustomProperties(
 func (b *operatorSpecBuilder) build() (astmodel.TypeDefinition, error) {
 	if len(b.errs) > 0 {
 		return astmodel.TypeDefinition{},
-			errors.Wrapf(
+			eris.Wrapf(
 				kerrors.NewAggregate(b.errs),
 				"failed to build OperatorSpec for %q",
 				b.resource.Name())

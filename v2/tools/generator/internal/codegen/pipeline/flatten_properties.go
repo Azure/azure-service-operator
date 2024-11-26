@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -181,7 +181,7 @@ func flattenProperty(
 ) ([]*astmodel.PropertyDefinition, error) {
 	props, err := flattenPropType(container, prop.PropertyType(), defs, log)
 	if err != nil {
-		return nil, errors.Wrapf(err, "flattening property %s", prop.PropertyName())
+		return nil, eris.Wrapf(err, "flattening property %s", prop.PropertyName())
 	}
 
 	for i, p := range props {
@@ -221,7 +221,7 @@ func flattenPropType(
 	case *astmodel.OptionalType:
 		innerProps, err := flattenPropType(container, propType.Element(), defs, log)
 		if err != nil {
-			return nil, errors.Wrap(err, "wrapping optional type")
+			return nil, eris.Wrap(err, "wrapping optional type")
 		}
 
 		for ix := range innerProps {
@@ -232,6 +232,6 @@ func flattenPropType(
 
 	default:
 		desc := astmodel.DebugDescription(propType)
-		return nil, errors.Errorf("flatten applied to non-object type: %s", desc)
+		return nil, eris.Errorf("flatten applied to non-object type: %s", desc)
 	}
 }

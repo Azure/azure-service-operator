@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -19,7 +19,7 @@ import (
 func checkPropertyPresence(o *astmodel.ObjectType, name astmodel.PropertyName) error {
 	_, ok := o.Property(name)
 	if !ok {
-		return errors.Errorf("resource spec doesn't have %q property", name)
+		return eris.Errorf("resource spec doesn't have %q property", name)
 	}
 
 	return nil
@@ -83,7 +83,7 @@ func armSpecInterfaceSimpleGetFunction(
 	receiverIdent := fn.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", receiver.Name())
+		return nil, eris.Wrapf(err, "creating type expression for %s", receiver.Name())
 	}
 
 	var result dst.Expr = astbuilder.Selector(dst.NewIdent(receiverIdent), propertyName)

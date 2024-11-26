@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
@@ -34,7 +34,7 @@ func AddStatusConditions(idFactory astmodel.IdentifierFactory) *Stage {
 				conditionsProp = conditionsProp.WithDescription("The observed state of the resource").MakeOptional()
 				updatedDef, err := propInjector.Inject(def, conditionsProp)
 				if err != nil {
-					return nil, errors.Wrapf(err, "couldn't add Conditions condition to status %q", def.Name())
+					return nil, eris.Wrapf(err, "couldn't add Conditions condition to status %q", def.Name())
 				}
 				result.Add(updatedDef)
 			}
@@ -45,7 +45,7 @@ func AddStatusConditions(idFactory astmodel.IdentifierFactory) *Stage {
 
 				conditionerImpl, err := NewConditionerInterfaceImpl(idFactory, resourceType)
 				if err != nil {
-					return nil, errors.Wrapf(err, "couldn't create genruntime.Conditioner implementation for %q", def.Name())
+					return nil, eris.Wrapf(err, "couldn't create genruntime.Conditioner implementation for %q", def.Name())
 				}
 				resourceType = resourceType.WithInterface(conditionerImpl)
 

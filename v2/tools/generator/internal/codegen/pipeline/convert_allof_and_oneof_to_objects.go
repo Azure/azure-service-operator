@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 
@@ -48,7 +48,7 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) *Stage 
 
 				transformed, err := visitor.VisitDefinition(def, resourceUpdater)
 				if err != nil {
-					return nil, errors.Wrapf(err, "processing type %s", def.Name())
+					return nil, eris.Wrapf(err, "processing type %s", def.Name())
 				}
 
 				newDefs.Add(transformed)
@@ -72,7 +72,7 @@ func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisit
 
 		object, err := synth.allOfObject(it)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating object for allOf")
+			return nil, eris.Wrapf(err, "creating object for allOf")
 		}
 
 		// we might end up with something that requires re-visiting
@@ -89,7 +89,7 @@ func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisit
 
 		t, err := synth.oneOfToObject(it)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating object for oneOf")
+			return nil, eris.Wrapf(err, "creating object for oneOf")
 		}
 
 		// we might end up with something that requires re-visiting
@@ -103,12 +103,12 @@ func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisit
 	) (astmodel.Type, error) {
 		spec, err := this.Visit(it.SpecType(), chooseSpec)
 		if err != nil {
-			return nil, errors.Wrapf(err, "visiting resource spec type")
+			return nil, eris.Wrapf(err, "visiting resource spec type")
 		}
 
 		status, err := this.Visit(it.StatusType(), chooseStatus)
 		if err != nil {
-			return nil, errors.Wrapf(err, "visiting resource status type")
+			return nil, eris.Wrapf(err, "visiting resource status type")
 		}
 
 		return it.WithSpec(spec).WithStatus(status), nil
@@ -316,7 +316,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		}
 
 		// Otherwise return an error
-		return propertyNames{}, errors.Errorf("expected nested oneOf member to have discriminator value, type: %T", t)
+		return propertyNames{}, eris.Errorf("expected nested oneOf member to have discriminator value, type: %T", t)
 
 	case *astmodel.EnumType:
 		// JSON name is unimportant here because we will implement the JSON marshaller anyway,
@@ -394,17 +394,17 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 			return *result, nil
 		}
 
-		return propertyNames{}, errors.New("unable to produce name for AllOf")
+		return propertyNames{}, eris.New("unable to produce name for AllOf")
 
 	case astmodel.MetaType:
 		// Try unwrapping the meta type and basing the name on what's inside
 		return s.getOneOfName(concreteType.Unwrap(), propIndex)
 
 	case *astmodel.InterfaceType:
-		return propertyNames{}, errors.Errorf("Cannot merge oneOf containing interface (there should be no interfaces contained in a oneOf so this is likely a bug)")
+		return propertyNames{}, eris.Errorf("Cannot merge oneOf containing interface (there should be no interfaces contained in a oneOf so this is likely a bug)")
 
 	default:
-		return propertyNames{}, errors.Errorf("unexpected oneOf member, type: %T", t)
+		return propertyNames{}, eris.Errorf("unexpected oneOf member, type: %T", t)
 	}
 }
 
@@ -459,7 +459,7 @@ var intersector *astmodel.TypeMerger
 
 func init() {
 	i := astmodel.NewTypeMerger(func(_ctx interface{}, left, right astmodel.Type) (astmodel.Type, error) {
-		return nil, errors.Errorf("don't know how to intersect types: %s and %s", left, right)
+		return nil, eris.Errorf("don't know how to intersect types: %s and %s", left, right)
 	})
 
 	i.Add(synthesizer.handleEqualTypes)
@@ -624,7 +624,7 @@ func (s synthesizer) handleObjectObject(
 
 		newType, err := s.intersectTypes(existingProp.PropertyType(), p.PropertyType())
 		if err != nil {
-			return errors.Wrapf(err, "unable to combine properties: %s", p.PropertyName())
+			return eris.Wrapf(err, "unable to combine properties: %s", p.PropertyName())
 		}
 
 		// TODO: need to handle merging requiredness and tags and...
@@ -641,7 +641,7 @@ func (s synthesizer) handleObjectObject(
 		return nil
 	})
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to combine properties in handle object-object")
+		return nil, eris.Wrapf(err, "unable to combine properties in handle object-object")
 	}
 
 	// flatten
@@ -656,7 +656,7 @@ func (s synthesizer) handleObjectObject(
 
 func (s synthesizer) handleEnumEnum(leftEnum *astmodel.EnumType, rightEnum *astmodel.EnumType) (astmodel.Type, error) {
 	if !astmodel.TypeEquals(leftEnum.BaseType(), rightEnum.BaseType()) {
-		return nil, errors.Errorf("cannot merge enums with differing base types")
+		return nil, eris.Errorf("cannot merge enums with differing base types")
 	}
 
 	leftOptions := leftEnum.Options()
@@ -686,7 +686,7 @@ func (s synthesizer) handleEnum(leftEnum *astmodel.EnumType, right astmodel.Type
 		strs = append(strs, enumValue.String())
 	}
 
-	return nil, errors.Errorf("don't know how to merge enum type (%s) with %s", strings.Join(strs, ", "), right)
+	return nil, eris.Errorf("don't know how to merge enum type (%s) with %s", strings.Join(strs, ", "), right)
 }
 
 func (s synthesizer) handleAllOfType(leftAllOf *astmodel.AllOfType, right astmodel.Type) (astmodel.Type, error) {
@@ -717,7 +717,7 @@ func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.T
 		return nil
 	})
 	if err != nil {
-		return nil, errors.Wrapf(err, "intersecting oneOf with %s", astmodel.DebugDescription(right))
+		return nil, eris.Wrapf(err, "intersecting oneOf with %s", astmodel.DebugDescription(right))
 	}
 
 	if only, ok := newTypes.Single(); ok {
@@ -732,7 +732,7 @@ func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.T
 func (s synthesizer) handleTypeName(leftName astmodel.InternalTypeName, right astmodel.Type) (astmodel.Type, error) {
 	found, ok := s.defs[leftName]
 	if !ok {
-		return nil, errors.Errorf("couldn't find type %s", leftName)
+		return nil, eris.Errorf("couldn't find type %s", leftName)
 	}
 
 	if s.activeNames.Contains(leftName) {
@@ -746,7 +746,7 @@ func (s synthesizer) handleTypeName(leftName astmodel.InternalTypeName, right as
 
 	result, err := s.intersectTypes(found.Type(), right)
 	if err != nil {
-		return nil, errors.Wrapf(
+		return nil, eris.Wrapf(
 			err,
 			"intersecting %s with %s", leftName, astmodel.DebugDescription(right))
 	}
@@ -783,7 +783,7 @@ func (s synthesizer) handleTypeName(leftName astmodel.InternalTypeName, right as
 		// Grab the existing redefinition and merge it with our current result
 		merged, err := s.intersectTypes(result, redefined.Type())
 		if err != nil {
-			return nil, errors.Wrapf(err, "merging %s with %s", result, redefined.Type())
+			return nil, eris.Wrapf(err, "merging %s with %s", result, redefined.Type())
 		}
 
 		// We use the intermediate variable 'merged' to allow inspection/comparison while debugging.
@@ -920,7 +920,7 @@ func (s synthesizer) allOfSlice(types []astmodel.Type) (astmodel.Type, error) {
 		var err error
 		result, err = s.intersectTypes(result, t)
 		if err != nil {
-			return nil, errors.Wrapf(err, "merging %s with %s", result, t)
+			return nil, eris.Wrapf(err, "merging %s with %s", result, t)
 		}
 	}
 

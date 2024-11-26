@@ -10,7 +10,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"github.com/spf13/cobra"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen"
@@ -61,7 +61,7 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 
 			err = cg.Generate(ctx, log)
 			if err != nil {
-				err = errors.Wrap(err, "error generating code")
+				err = eris.Wrap(err, "error generating code")
 				return err
 			}
 

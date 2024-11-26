@@ -16,7 +16,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/google/cel-go/cel"
 	"github.com/jellydator/ttlcache/v3"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 )
@@ -91,7 +91,7 @@ func (c *ProgramCache) Get(resource reflect.Type, expression string) (*Compilati
 
 	env, err := c.envCache.Get(resource)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to get CEL env")
+		return nil, eris.Wrap(err, "failed to get CEL env")
 	}
 	key := fmt.Sprintf("%s-%s", envKey, expression)
 

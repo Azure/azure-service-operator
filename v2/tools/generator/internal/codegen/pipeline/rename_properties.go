@@ -9,7 +9,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -53,7 +53,7 @@ func RenameProperties(cfg *config.ObjectModelConfiguration) *Stage {
 			}
 
 			if err := cfg.RenamePropertyTo.VerifyConsumed(); err != nil {
-				return nil, errors.Wrap(err, "verifying property rename configuration")
+				return nil, eris.Wrap(err, "verifying property rename configuration")
 			}
 
 			return state.WithOverlaidDefinitions(modified), nil
@@ -105,7 +105,7 @@ func renamePropertiesInObjectType(
 			return nil
 		})
 	if err != nil {
-		return nil, errors.Wrapf(err, "renaming properties for %s", typeName)
+		return nil, eris.Wrapf(err, "renaming properties for %s", typeName)
 	}
 
 	return ot.WithoutProperties().WithProperties(properties...), nil

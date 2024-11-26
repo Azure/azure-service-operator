@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -83,7 +83,7 @@ func GetUserRoleOptions(ctx context.Context, db *sql.DB, user SQLUser) (*RoleOpt
 		"SELECT rolcanlogin, rolcreaterole, rolcreatedb, rolreplication FROM pg_roles WHERE rolname !~ '^pg_' AND rolname = $1",
 		user.Name)
 	if err != nil {
-		return nil, errors.Wrapf(err, "listing grants for user %s", user)
+		return nil, eris.Wrapf(err, "listing grants for user %s", user)
 	}
 	defer rows.Close()
 
@@ -92,12 +92,12 @@ func GetUserRoleOptions(ctx context.Context, db *sql.DB, user SQLUser) (*RoleOpt
 	for rows.Next() {
 		err := rows.Scan(&result.Login, &result.CreateRole, &result.CreateDb, &result.Replication)
 		if err != nil {
-			return nil, errors.Wrapf(err, "extracting RoleOption field")
+			return nil, eris.Wrapf(err, "extracting RoleOption field")
 		}
 		// No error handling required here, as sql returns already defined constants
 	}
 	if rows.Err() != nil {
-		return nil, errors.Wrap(rows.Err(), "iterating RoleOptions")
+		return nil, eris.Wrap(rows.Err(), "iterating RoleOptions")
 	}
 
 	return result, nil
@@ -109,7 +109,7 @@ func ReconcileUserRoleOptions(ctx context.Context, db *sql.DB, user SQLUser, des
 	var errs []error
 	currentOptions, err := GetUserRoleOptions(ctx, db, user)
 	if err != nil {
-		return errors.Wrapf(err, "couldn't get existing RoleOptions for user %s", user)
+		return eris.Wrapf(err, "couldn't get existing RoleOptions for user %s", user)
 	}
 
 	privsDiff := DiffCurrentAndExpectedSQLRoleOptions(*currentOptions, desiredOptions)

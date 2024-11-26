@@ -6,7 +6,7 @@
 package storage
 
 import (
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -53,7 +53,7 @@ func (b *ConversionGraphBuilder) Build() (*ConversionGraph, error) {
 	for group, builder := range b.subBuilders {
 		subgraph, err := builder.Build()
 		if err != nil {
-			return nil, errors.Wrapf(err, "building subgraph for group %s", group)
+			return nil, eris.Wrapf(err, "building subgraph for group %s", group)
 		}
 
 		subgraphs[group] = subgraph
