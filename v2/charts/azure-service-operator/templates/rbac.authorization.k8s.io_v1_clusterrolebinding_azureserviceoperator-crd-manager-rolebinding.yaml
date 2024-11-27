@@ -1,4 +1,3 @@
-{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}
 {{- if and (eq .Values.installCRDs true) (or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks")) }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -12,5 +11,4 @@ subjects:
 - kind: ServiceAccount
   name: {{ include "azure-service-operator.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
-{{- end }}
 {{- end }}

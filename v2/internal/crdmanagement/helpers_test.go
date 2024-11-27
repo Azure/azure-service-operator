@@ -114,7 +114,7 @@ func testSetup(t *testing.T) *testData {
 	logger := testcommon.NewTestLogger(t)
 	cfg := config.Values{}
 
-	crdManager := crdmanagement.NewManager(logger, kubeClient)
+	crdManager := crdmanagement.NewManager(logger, kubeClient, nil)
 
 	return &testData{
 		cfg:        cfg,

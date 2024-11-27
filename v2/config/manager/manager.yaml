@@ -25,6 +25,8 @@ spec:
     matchLabels:
       control-plane: controller-manager
   replicas: 1
+  strategy:
+    type: Recreate
   revisionHistoryLimit: 10
   template:
     metadata:

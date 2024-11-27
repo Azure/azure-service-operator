@@ -17,6 +17,8 @@ spec:
   selector:
     matchLabels:
       control-plane: controller-manager
+  strategy:
+    type: Recreate
   template:
     metadata:
       annotations:
@@ -55,9 +57,7 @@ spec:
         - --profiling-metrics={{ .Values.metrics.profiling }}
         {{- end }}
         - --health-addr=:8081
-        {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "watchers") }}
         - --enable-leader-election
-        {{- end }}
         - --v=2
         {{- if and (eq .Values.installCRDs true) (or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks")) }}
         - --crd-pattern={{ .Values.crdPattern }}
