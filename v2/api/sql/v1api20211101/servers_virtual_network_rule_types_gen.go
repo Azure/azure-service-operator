@@ -173,6 +173,10 @@ func (rule *ServersVirtualNetworkRule) NewEmptyStatus() genruntime.ConvertibleSt
 
 // Owner returns the ResourceReference of the owner
 func (rule *ServersVirtualNetworkRule) Owner() *genruntime.ResourceReference {
+	if rule.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
 	return rule.Spec.Owner.AsResourceReference(group, kind)
 }

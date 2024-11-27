@@ -176,6 +176,10 @@ func (container *StorageAccountsBlobServicesContainer) NewEmptyStatus() genrunti
 
 // Owner returns the ResourceReference of the owner
 func (container *StorageAccountsBlobServicesContainer) Owner() *genruntime.ResourceReference {
+	if container.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(container.Spec)
 	return container.Spec.Owner.AsResourceReference(group, kind)
 }

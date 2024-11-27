@@ -115,6 +115,10 @@ func (administrator *ServersAdministrator) NewEmptyStatus() genruntime.Convertib
 
 // Owner returns the ResourceReference of the owner
 func (administrator *ServersAdministrator) Owner() *genruntime.ResourceReference {
+	if administrator.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(administrator.Spec)
 	return administrator.Spec.Owner.AsResourceReference(group, kind)
 }

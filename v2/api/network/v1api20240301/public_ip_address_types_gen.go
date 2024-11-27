@@ -173,6 +173,10 @@ func (address *PublicIPAddress) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (address *PublicIPAddress) Owner() *genruntime.ResourceReference {
+	if address.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(address.Spec)
 	return address.Spec.Owner.AsResourceReference(group, kind)
 }

@@ -177,6 +177,10 @@ func (machine *VirtualMachine) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (machine *VirtualMachine) Owner() *genruntime.ResourceReference {
+	if machine.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(machine.Spec)
 	return machine.Spec.Owner.AsResourceReference(group, kind)
 }

@@ -173,6 +173,10 @@ func (pool *WorkspacesBigDataPool) NewEmptyStatus() genruntime.ConvertibleStatus
 
 // Owner returns the ResourceReference of the owner
 func (pool *WorkspacesBigDataPool) Owner() *genruntime.ResourceReference {
+	if pool.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(pool.Spec)
 	return pool.Spec.Owner.AsResourceReference(group, kind)
 }

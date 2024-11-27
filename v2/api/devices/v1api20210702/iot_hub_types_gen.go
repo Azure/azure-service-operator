@@ -173,6 +173,10 @@ func (iotHub *IotHub) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (iotHub *IotHub) Owner() *genruntime.ResourceReference {
+	if iotHub.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(iotHub.Spec)
 	return iotHub.Spec.Owner.AsResourceReference(group, kind)
 }

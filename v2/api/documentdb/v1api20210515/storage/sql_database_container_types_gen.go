@@ -136,6 +136,10 @@ func (container *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleSt
 
 // Owner returns the ResourceReference of the owner
 func (container *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
+	if container.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(container.Spec)
 	return container.Spec.Owner.AsResourceReference(group, kind)
 }

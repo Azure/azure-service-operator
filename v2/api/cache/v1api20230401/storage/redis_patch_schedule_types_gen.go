@@ -136,6 +136,10 @@ func (schedule *RedisPatchSchedule) NewEmptyStatus() genruntime.ConvertibleStatu
 
 // Owner returns the ResourceReference of the owner
 func (schedule *RedisPatchSchedule) Owner() *genruntime.ResourceReference {
+	if schedule.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(schedule.Spec)
 	return schedule.Spec.Owner.AsResourceReference(group, kind)
 }

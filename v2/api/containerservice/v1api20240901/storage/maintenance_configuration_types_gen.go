@@ -115,6 +115,10 @@ func (configuration *MaintenanceConfiguration) NewEmptyStatus() genruntime.Conve
 
 // Owner returns the ResourceReference of the owner
 func (configuration *MaintenanceConfiguration) Owner() *genruntime.ResourceReference {
+	if configuration.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(configuration.Spec)
 	return configuration.Spec.Owner.AsResourceReference(group, kind)
 }

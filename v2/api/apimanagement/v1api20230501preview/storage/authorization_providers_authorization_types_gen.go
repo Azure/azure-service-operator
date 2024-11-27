@@ -136,6 +136,10 @@ func (authorization *AuthorizationProvidersAuthorization) NewEmptyStatus() genru
 
 // Owner returns the ResourceReference of the owner
 func (authorization *AuthorizationProvidersAuthorization) Owner() *genruntime.ResourceReference {
+	if authorization.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(authorization.Spec)
 	return authorization.Spec.Owner.AsResourceReference(group, kind)
 }

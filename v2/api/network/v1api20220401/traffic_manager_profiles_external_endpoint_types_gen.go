@@ -173,6 +173,10 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint) NewEmptyStatus() genrunt
 
 // Owner returns the ResourceReference of the owner
 func (endpoint *TrafficManagerProfilesExternalEndpoint) Owner() *genruntime.ResourceReference {
+	if endpoint.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(endpoint.Spec)
 	return endpoint.Spec.Owner.AsResourceReference(group, kind)
 }

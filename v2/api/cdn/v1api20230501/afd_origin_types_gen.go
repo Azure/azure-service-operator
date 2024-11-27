@@ -173,6 +173,10 @@ func (origin *AfdOrigin) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (origin *AfdOrigin) Owner() *genruntime.ResourceReference {
+	if origin.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(origin.Spec)
 	return origin.Spec.Owner.AsResourceReference(group, kind)
 }

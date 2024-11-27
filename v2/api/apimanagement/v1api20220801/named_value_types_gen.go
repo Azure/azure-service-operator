@@ -174,6 +174,10 @@ func (value *NamedValue) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (value *NamedValue) Owner() *genruntime.ResourceReference {
+	if value.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(value.Spec)
 	return value.Spec.Owner.AsResourceReference(group, kind)
 }

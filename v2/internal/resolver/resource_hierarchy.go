@@ -101,6 +101,12 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 	lastResource := h[len(h)-1]
 	lastResourceScope := lastResource.GetResourceScope()
 
+	// Under normal circumstances, this can't happen - but if there's a problem with the
+	// webhooks it is possible. We can't create a valid ARM ID without an AzureName, so we fail here.
+	if lastResource.AzureName() == "" {
+		return "", eris.Errorf("resource has empty AzureName, cannot create fully qualified ARM ID")
+	}
+
 	if lastResourceScope == genruntime.ResourceScopeExtension {
 		var parentARMID string
 		if lastResource.Owner().IsDirectARMReference() {

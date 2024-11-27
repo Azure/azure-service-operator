@@ -165,6 +165,10 @@ func (policy *ServersSecurityAlertPolicy) NewEmptyStatus() genruntime.Convertibl
 
 // Owner returns the ResourceReference of the owner
 func (policy *ServersSecurityAlertPolicy) Owner() *genruntime.ResourceReference {
+	if policy.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
 	return policy.Spec.Owner.AsResourceReference(group, kind)
 }

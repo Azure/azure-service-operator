@@ -116,6 +116,10 @@ func (setting *DiagnosticSetting) NewEmptyStatus() genruntime.ConvertibleStatus 
 
 // Owner returns the ResourceReference of the owner
 func (setting *DiagnosticSetting) Owner() *genruntime.ResourceReference {
+	if setting.Spec.Owner == nil {
+		return nil
+	}
+
 	return setting.Spec.Owner.AsResourceReference()
 }
 

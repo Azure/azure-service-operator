@@ -115,6 +115,10 @@ func (definition *RoleDefinition) NewEmptyStatus() genruntime.ConvertibleStatus 
 
 // Owner returns the ResourceReference of the owner
 func (definition *RoleDefinition) Owner() *genruntime.ResourceReference {
+	if definition.Spec.Owner == nil {
+		return nil
+	}
+
 	return definition.Spec.Owner.AsResourceReference()
 }
 

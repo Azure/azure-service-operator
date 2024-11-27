@@ -115,6 +115,10 @@ func (assignment *RoleAssignment) NewEmptyStatus() genruntime.ConvertibleStatus 
 
 // Owner returns the ResourceReference of the owner
 func (assignment *RoleAssignment) Owner() *genruntime.ResourceReference {
+	if assignment.Spec.Owner == nil {
+		return nil
+	}
+
 	return assignment.Spec.Owner.AsResourceReference()
 }
 

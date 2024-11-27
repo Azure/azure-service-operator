@@ -174,6 +174,10 @@ func (compute *WorkspacesCompute) NewEmptyStatus() genruntime.ConvertibleStatus 
 
 // Owner returns the ResourceReference of the owner
 func (compute *WorkspacesCompute) Owner() *genruntime.ResourceReference {
+	if compute.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(compute.Spec)
 	return compute.Spec.Owner.AsResourceReference(group, kind)
 }

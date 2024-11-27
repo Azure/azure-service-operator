@@ -169,6 +169,10 @@ func (administrator *FlexibleServersAdministrator) NewEmptyStatus() genruntime.C
 
 // Owner returns the ResourceReference of the owner
 func (administrator *FlexibleServersAdministrator) Owner() *genruntime.ResourceReference {
+	if administrator.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(administrator.Spec)
 	return administrator.Spec.Owner.AsResourceReference(group, kind)
 }

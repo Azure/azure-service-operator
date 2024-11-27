@@ -197,6 +197,10 @@ func (extension *Extension) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (extension *Extension) Owner() *genruntime.ResourceReference {
+	if extension.Spec.Owner == nil {
+		return nil
+	}
+
 	return extension.Spec.Owner.AsResourceReference()
 }
 

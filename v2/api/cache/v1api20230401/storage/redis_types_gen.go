@@ -137,6 +137,10 @@ func (redis *Redis) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (redis *Redis) Owner() *genruntime.ResourceReference {
+	if redis.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(redis.Spec)
 	return redis.Spec.Owner.AsResourceReference(group, kind)
 }

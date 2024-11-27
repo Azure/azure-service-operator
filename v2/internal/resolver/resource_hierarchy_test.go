@@ -12,7 +12,9 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/google/uuid"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
+	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -403,4 +405,35 @@ func Test_ResourceHierarchy_ChildResourceIDOverride_ImpactsExtensionResource(t *
 
 	g.Expect(hierarchy.FullyQualifiedARMID("00000000-0000-0000-0000-000000000000")).To(Equal(expectedARMID))
 	g.Expect(hierarchy.AzureName()).To(Equal(extensionName))
+}
+
+func Test_ResourceHierarchy_GivenTopLevelResourceMissingAzureName_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	resourceGroupName := "myrg"
+	a := createResourceGroup(resourceGroupName)
+
+	name := "myresource"
+	b := &batch.BatchAccount{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "BatchAccount",
+			APIVersion: batch.GroupVersion.String(),
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: testNamespace,
+		},
+		Spec: batch.BatchAccount_Spec{
+			Owner: &genruntime.KnownResourceReference{
+				Name: resourceGroupName,
+			},
+		},
+	}
+
+	hierarchy := resolver.ResourceHierarchy{a, b}
+	_, err := hierarchy.FullyQualifiedARMID("00000000-0000-0000-0000-000000000000")
+
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("empty AzureName"))
 }

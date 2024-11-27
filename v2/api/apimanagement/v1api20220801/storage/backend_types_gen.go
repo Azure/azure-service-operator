@@ -116,6 +116,10 @@ func (backend *Backend) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (backend *Backend) Owner() *genruntime.ResourceReference {
+	if backend.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(backend.Spec)
 	return backend.Spec.Owner.AsResourceReference(group, kind)
 }

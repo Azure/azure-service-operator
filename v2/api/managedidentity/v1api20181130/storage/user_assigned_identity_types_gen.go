@@ -167,6 +167,10 @@ func (identity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleSta
 
 // Owner returns the ResourceReference of the owner
 func (identity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
+	if identity.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(identity.Spec)
 	return identity.Spec.Owner.AsResourceReference(group, kind)
 }

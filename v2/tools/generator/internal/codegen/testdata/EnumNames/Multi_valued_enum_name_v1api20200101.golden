@@ -148,6 +148,10 @@ func (resource *AResource) GetType() string {
 
 // Owner returns the ResourceReference of the owner
 func (resource *AResource) Owner() *genruntime.ResourceReference {
+	if resource.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(resource.Spec)
 	return resource.Spec.Owner.AsResourceReference(group, kind)
 }

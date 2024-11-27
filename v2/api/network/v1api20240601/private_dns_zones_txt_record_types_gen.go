@@ -173,6 +173,10 @@ func (record *PrivateDnsZonesTXTRecord) NewEmptyStatus() genruntime.ConvertibleS
 
 // Owner returns the ResourceReference of the owner
 func (record *PrivateDnsZonesTXTRecord) Owner() *genruntime.ResourceReference {
+	if record.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(record.Spec)
 	return record.Spec.Owner.AsResourceReference(group, kind)
 }

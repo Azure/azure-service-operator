@@ -177,6 +177,10 @@ func (scaleSet *VirtualMachineScaleSet) NewEmptyStatus() genruntime.ConvertibleS
 
 // Owner returns the ResourceReference of the owner
 func (scaleSet *VirtualMachineScaleSet) Owner() *genruntime.ResourceReference {
+	if scaleSet.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(scaleSet.Spec)
 	return scaleSet.Spec.Owner.AsResourceReference(group, kind)
 }

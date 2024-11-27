@@ -140,6 +140,10 @@ func (link *PrivateDnsZonesVirtualNetworkLink) NewEmptyStatus() genruntime.Conve
 
 // Owner returns the ResourceReference of the owner
 func (link *PrivateDnsZonesVirtualNetworkLink) Owner() *genruntime.ResourceReference {
+	if link.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(link.Spec)
 	return link.Spec.Owner.AsResourceReference(group, kind)
 }

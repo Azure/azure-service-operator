@@ -835,7 +835,7 @@ func (r *azureDeploymentReconcilerInstance) deleteResource(
 	// If we have no resourceID to begin with, the Azure resource was never created
 	resourceID := genruntime.GetResourceIDOrDefault(obj)
 	if resourceID == "" {
-		log.V(Status).Info("Not issuing delete as resource had no ResourceID annotation")
+		log.V(Status).Info("Not issuing ARM delete as resource had no ResourceID annotation")
 		return ctrl.Result{}, nil
 	}
 

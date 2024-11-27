@@ -199,6 +199,10 @@ func (vault *BackupVault) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (vault *BackupVault) Owner() *genruntime.ResourceReference {
+	if vault.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(vault.Spec)
 	return vault.Spec.Owner.AsResourceReference(group, kind)
 }

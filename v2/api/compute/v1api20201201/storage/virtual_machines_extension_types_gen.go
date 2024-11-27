@@ -137,6 +137,10 @@ func (extension *VirtualMachinesExtension) NewEmptyStatus() genruntime.Convertib
 
 // Owner returns the ResourceReference of the owner
 func (extension *VirtualMachinesExtension) Owner() *genruntime.ResourceReference {
+	if extension.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(extension.Spec)
 	return extension.Spec.Owner.AsResourceReference(group, kind)
 }

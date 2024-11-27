@@ -114,6 +114,10 @@ func (setting *MongodbDatabaseThroughputSetting) NewEmptyStatus() genruntime.Con
 
 // Owner returns the ResourceReference of the owner
 func (setting *MongodbDatabaseThroughputSetting) Owner() *genruntime.ResourceReference {
+	if setting.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
 	return setting.Spec.Owner.AsResourceReference(group, kind)
 }

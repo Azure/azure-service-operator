@@ -115,6 +115,10 @@ func (resolver *DnsResolver) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (resolver *DnsResolver) Owner() *genruntime.ResourceReference {
+	if resolver.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(resolver.Spec)
 	return resolver.Spec.Owner.AsResourceReference(group, kind)
 }

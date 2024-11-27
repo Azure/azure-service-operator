@@ -141,6 +141,10 @@ func (registry *Registry) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (registry *Registry) Owner() *genruntime.ResourceReference {
+	if registry.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(registry.Spec)
 	return registry.Spec.Owner.AsResourceReference(group, kind)
 }

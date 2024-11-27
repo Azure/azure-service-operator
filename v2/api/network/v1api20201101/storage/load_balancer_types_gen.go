@@ -138,6 +138,10 @@ func (balancer *LoadBalancer) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (balancer *LoadBalancer) Owner() *genruntime.ResourceReference {
+	if balancer.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(balancer.Spec)
 	return balancer.Spec.Owner.AsResourceReference(group, kind)
 }

@@ -173,6 +173,10 @@ func (secret *Secret) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (secret *Secret) Owner() *genruntime.ResourceReference {
+	if secret.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(secret.Spec)
 	return secret.Spec.Owner.AsResourceReference(group, kind)
 }

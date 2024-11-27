@@ -173,6 +173,10 @@ func (endpoint *DnsResolversOutboundEndpoint) NewEmptyStatus() genruntime.Conver
 
 // Owner returns the ResourceReference of the owner
 func (endpoint *DnsResolversOutboundEndpoint) Owner() *genruntime.ResourceReference {
+	if endpoint.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(endpoint.Spec)
 	return endpoint.Spec.Owner.AsResourceReference(group, kind)
 }

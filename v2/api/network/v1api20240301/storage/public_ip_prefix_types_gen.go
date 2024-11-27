@@ -115,6 +115,10 @@ func (prefix *PublicIPPrefix) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (prefix *PublicIPPrefix) Owner() *genruntime.ResourceReference {
+	if prefix.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(prefix.Spec)
 	return prefix.Spec.Owner.AsResourceReference(group, kind)
 }

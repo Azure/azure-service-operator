@@ -115,6 +115,10 @@ func (eventhub *NamespacesEventhub) NewEmptyStatus() genruntime.ConvertibleStatu
 
 // Owner returns the ResourceReference of the owner
 func (eventhub *NamespacesEventhub) Owner() *genruntime.ResourceReference {
+	if eventhub.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(eventhub.Spec)
 	return eventhub.Spec.Owner.AsResourceReference(group, kind)
 }

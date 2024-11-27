@@ -136,6 +136,10 @@ func (database *FlexibleServersDatabase) NewEmptyStatus() genruntime.Convertible
 
 // Owner returns the ResourceReference of the owner
 func (database *FlexibleServersDatabase) Owner() *genruntime.ResourceReference {
+	if database.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(database.Spec)
 	return database.Spec.Owner.AsResourceReference(group, kind)
 }

@@ -138,6 +138,10 @@ func (network *VirtualNetwork) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (network *VirtualNetwork) Owner() *genruntime.ResourceReference {
+	if network.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(network.Spec)
 	return network.Spec.Owner.AsResourceReference(group, kind)
 }

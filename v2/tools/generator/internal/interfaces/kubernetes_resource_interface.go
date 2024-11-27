@@ -409,26 +409,33 @@ func getOwnerFunction(
 	}
 
 	owner := astbuilder.Selector(specSelector, astmodel.OwnerProperty)
+	nilOwnerCheck := astbuilder.IfNil(owner, astbuilder.Returns(astbuilder.Nil()))
+	nilOwnerCheck.Decs.After = dst.EmptyLine
 
 	switch r.Resource().Scope() {
 	case astmodel.ResourceScopeResourceGroup:
 		fn.AddComments("returns the ResourceReference of the owner")
 		fn.AddStatements(
+			nilOwnerCheck,
 			lookupGroupAndKindStmt(groupLocal, kindLocal, specSelector),
 			astbuilder.Returns(createResourceReferenceWithGroupKind(dst.NewIdent(groupLocal), dst.NewIdent(kindLocal), owner)))
+
 	case astmodel.ResourceScopeExtension:
 		fn.AddComments("returns the ResourceReference of the owner")
-
 		fn.AddStatements(
+			nilOwnerCheck,
 			astbuilder.Returns(createResourceReference(owner)))
+
 	case astmodel.ResourceScopeTenant:
 		// Tenant resources never have an owner, just return nil
 		fn.AddComments("returns nil as Tenant scoped resources never have an owner")
 		fn.AddStatements(astbuilder.Returns(astbuilder.Nil()))
+
 	case astmodel.ResourceScopeLocation:
 		// Location resources never have an owner, just return nil
 		fn.AddComments("returns nil as Location scoped resources never have an owner")
 		fn.AddStatements(astbuilder.Returns(astbuilder.Nil()))
+
 	default:
 		panic(fmt.Sprintf("unknown resource kind: %s", r.Resource().Scope()))
 	}

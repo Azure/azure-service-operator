@@ -115,6 +115,10 @@ func (domain *AfdCustomDomain) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (domain *AfdCustomDomain) Owner() *genruntime.ResourceReference {
+	if domain.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(domain.Spec)
 	return domain.Spec.Owner.AsResourceReference(group, kind)
 }
