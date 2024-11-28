@@ -47,9 +47,14 @@ func newLogProgress(
 			total += int64(delta.pending)
 
 			// If we're done, finish up
-			if parent == nil && total > 0 && completed >= total {
-				// We're the root importreporter log, so we also need to handle the done channel
-				close(done)
+			if total > 0 && completed >= total {
+				close(result.updates)
+
+				if parent == nil {
+					// We're the root importreporter log, so we also need to handle the done channel
+					close(done)
+				}
+
 				break
 			}
 
