@@ -10,12 +10,14 @@ import (
 	"io"
 	"os"
 	"sync"
+	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	"github.com/spf13/cobra"
+	"github.com/vbauerster/mpb/v8"
 
 	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
@@ -111,6 +113,13 @@ https://docs.microsoft.com/azure/active-directory/develop/authentication-nationa
 		4,
 		"The number of parallel workers to use when importing resources")
 
+	cmd.Flags().BoolVarP(
+		&options.simpleLogging,
+		"simple-logging",
+		"s",
+		false,
+		"Use simple logging instead of progress bars")
+
 	return cmd
 }
 
@@ -131,29 +140,50 @@ func importAzureResource(
 		return eris.Wrapf(err, "failed to create ARM client")
 	}
 
-	// Caution: the progress bar can deadlock if no bar is ever created, so make sure the gap between
-	// this and the call to importer.Import() is as small as possible.
-	log, progressBar := CreateLoggerAndProgressBar()
-
 	done := make(chan struct{}) // signal for when we're done
-	pb := importreporter.NewBar("Import Azure Resources", progressBar, done)
+
+	var log logr.Logger
+	var progress importreporter.Interface
+	var output io.Writer
+	if options.simpleLogging {
+		log = CreateLogger()
+		progress = importreporter.NewLog("Import Azure Resources", log, done)
+		output = os.Stderr
+	} else {
+		var bar *mpb.Progress
+
+		// Caution: the progress bar can deadlock if no bar is ever created, so make sure the gap between
+		// this and the call to importer.Import() is as small as possible.
+		log, bar = CreateLoggerAndProgressBar()
+		progress = importreporter.NewBar("Import Azure Resources", bar, done)
+
+		// The progress bar can deadlock if no bar is ever created - which can happen if we need to return an error
+		// between here and the call to importer.Import(). To avoid this, we create a dummy bar that will complete
+		// asynchronously after a short delay.
+		setup := progress.Create("Initalizing")
+		setup.AddPending(1)
+		go func() {
+			time.Sleep(200 * time.Millisecond)
+			setup.Completed(1)
+		}()
+
+		output = bar
+
+		// Ensure the progress bar is closed when we're done
+		defer bar.Wait()
+	}
 
 	importerOptions := importresources.ResourceImporterOptions{
 		Workers: options.workers,
 	}
 
-	importer := importresources.New(api.CreateScheme(), client, log, pb, importerOptions)
+	importer := importresources.New(api.CreateScheme(), client, log, progress, importerOptions)
 	for _, armID := range armIDs {
 		err = importer.AddARMID(armID)
 		if err != nil {
 			return eris.Wrapf(err, "failed to add %q to import list", armID)
 		}
 	}
-
-	// Make sure all output is written when we're done.
-	// This defer has to be immediately before the call the importer.Import();
-	// if you move it earlier, any `return err` between there and here will cause a deadlock.
-	defer progressBar.Wait()
 
 	result, err := importer.Import(ctx, done)
 
@@ -180,7 +210,7 @@ func importAzureResource(
 		return eris.Wrap(err, "failed to apply options to imported resources")
 	}
 
-	err = writeResources(result, options, log, progressBar)
+	err = writeResources(result, options, log, output)
 	if err != nil {
 		return eris.Wrap(err, "failed to write resources")
 	}
@@ -274,12 +304,13 @@ func writeResources(
 }
 
 type importAzureResourceOptions struct {
-	outputPath   string
-	outputFolder string
-	namespace    string
-	annotations  []string
-	labels       []string
-	workers      int
+	outputPath    string
+	outputFolder  string
+	namespace     string
+	annotations   []string
+	labels        []string
+	workers       int
+	simpleLogging bool
 
 	readCloud               sync.Once
 	azureAuthorityHost      string
