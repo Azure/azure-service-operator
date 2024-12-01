@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type SqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabase_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccounts_SqlDatabase_STATUS `json:"status,omitempty"`
+	Spec              SqlDatabase_Spec   `json:"spec,omitempty"`
+	Status            SqlDatabase_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabase{}
@@ -42,6 +45,26 @@ func (database *SqlDatabase) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (database *SqlDatabase) SetConditions(conditions conditions.Conditions) {
 	database.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &SqlDatabase{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (database *SqlDatabase) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if database.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return database.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &SqlDatabase{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (database *SqlDatabase) SecretDestinationExpressions() []*core.DestinationExpression {
+	if database.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return database.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabase{}
@@ -87,11 +110,15 @@ func (database *SqlDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *SqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccounts_SqlDatabase_STATUS{}
+	return &SqlDatabase_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (database *SqlDatabase) Owner() *genruntime.ResourceReference {
+	if database.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(database.Spec)
 	return database.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (database *SqlDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *SqlDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccounts_SqlDatabase_STATUS); ok {
+	if st, ok := status.(*SqlDatabase_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccounts_SqlDatabase_STATUS
+	var st SqlDatabase_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	database.Status = st
@@ -138,14 +165,15 @@ type SqlDatabaseList struct {
 	Items           []SqlDatabase `json:"items"`
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_SqlDatabase_Spec
-type DatabaseAccounts_SqlDatabase_Spec struct {
+// Storage version of v1api20231115.SqlDatabase_Spec
+type SqlDatabase_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string               `json:"azureName,omitempty"`
-	Location        *string              `json:"location,omitempty"`
-	Options         *CreateUpdateOptions `json:"options,omitempty"`
-	OriginalVersion string               `json:"originalVersion,omitempty"`
+	AzureName       string                   `json:"azureName,omitempty"`
+	Location        *string                  `json:"location,omitempty"`
+	OperatorSpec    *SqlDatabaseOperatorSpec `json:"operatorSpec,omitempty"`
+	Options         *CreateUpdateOptions     `json:"options,omitempty"`
+	OriginalVersion string                   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -157,28 +185,28 @@ type DatabaseAccounts_SqlDatabase_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabase_Spec{}
+var _ genruntime.ConvertibleSpec = &SqlDatabase_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabase_Spec from the provided source
-func (database *DatabaseAccounts_SqlDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our SqlDatabase_Spec from the provided source
+func (database *SqlDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(database)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabase_Spec
-func (database *DatabaseAccounts_SqlDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our SqlDatabase_Spec
+func (database *SqlDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(database)
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_SqlDatabase_STATUS
-type DatabaseAccounts_SqlDatabase_STATUS struct {
+// Storage version of v1api20231115.SqlDatabase_STATUS
+type SqlDatabase_STATUS struct {
 	Conditions  []conditions.Condition                    `json:"conditions,omitempty"`
 	Id          *string                                   `json:"id,omitempty"`
 	Location    *string                                   `json:"location,omitempty"`
@@ -190,21 +218,21 @@ type DatabaseAccounts_SqlDatabase_STATUS struct {
 	Type        *string                                   `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabase_STATUS{}
+var _ genruntime.ConvertibleStatus = &SqlDatabase_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccounts_SqlDatabase_STATUS from the provided source
-func (database *DatabaseAccounts_SqlDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our SqlDatabase_STATUS from the provided source
+func (database *SqlDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(database)
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlDatabase_STATUS
-func (database *DatabaseAccounts_SqlDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our SqlDatabase_STATUS
+func (database *SqlDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(database)
@@ -221,6 +249,14 @@ type SqlDatabaseGetProperties_Resource_STATUS struct {
 	Rid               *string                       `json:"_rid,omitempty"`
 	Ts                *float64                      `json:"_ts,omitempty"`
 	Users             *string                       `json:"_users,omitempty"`
+}
+
+// Storage version of v1api20231115.SqlDatabaseOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SqlDatabaseOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20231115.SqlDatabaseResource

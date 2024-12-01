@@ -10,11 +10,13 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	network20240301 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -35,10 +37,33 @@ func newVMVirtualNetwork(tc *testcommon.KubePerTestContext, owner *genruntime.Kn
 	}
 }
 
+func newVMVirtualNetwork20240301(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network20240301.VirtualNetwork {
+	return &network20240301.VirtualNetwork{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
+		Spec: network20240301.VirtualNetwork_Spec{
+			Owner:    owner,
+			Location: tc.AzureRegion,
+			AddressSpace: &network20240301.AddressSpace{
+				AddressPrefixes: []string{"10.0.0.0/16"},
+			},
+		},
+	}
+}
+
 func newVMSubnet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.VirtualNetworksSubnet {
 	return &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: network.VirtualNetworks_Subnet_Spec{
+		Spec: network.VirtualNetworksSubnet_Spec{
+			Owner:         owner,
+			AddressPrefix: to.Ptr("10.0.0.0/24"),
+		},
+	}
+}
+
+func newVMSubnet20240301(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network20240301.VirtualNetworksSubnet {
+	return &network20240301.VirtualNetworksSubnet{
+		ObjectMeta: tc.MakeObjectMeta("subnet"),
+		Spec: network20240301.VirtualNetworksSubnet_Spec{
 			Owner:         owner,
 			AddressPrefix: to.Ptr("10.0.0.0/24"),
 		},
@@ -295,7 +320,7 @@ func checkExtensionExists2020(tc *testcommon.KubePerTestContext, vmss *compute20
 func VMSS_Extension_20201201_CRUD(tc *testcommon.KubePerTestContext, vmss *compute2020.VirtualMachineScaleSet, extensionName string) {
 	extension := &compute2020.VirtualMachineScaleSetsExtension{
 		ObjectMeta: tc.MakeObjectMetaWithName(extensionName),
-		Spec: compute2020.VirtualMachineScaleSets_Extension_Spec{
+		Spec: compute2020.VirtualMachineScaleSetsExtension_Spec{
 			Owner:              testcommon.AsOwner(vmss),
 			Publisher:          to.Ptr("Microsoft.ManagedServices"),
 			Type:               to.Ptr("ApplicationHealthLinux"),

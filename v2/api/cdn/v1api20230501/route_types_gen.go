@@ -5,11 +5,15 @@ package v1api20230501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -29,8 +33,8 @@ import (
 type Route struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_AfdEndpoints_Route_Spec   `json:"spec,omitempty"`
-	Status            Profiles_AfdEndpoints_Route_STATUS `json:"status,omitempty"`
+	Spec              Route_Spec   `json:"spec,omitempty"`
+	Status            Route_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Route{}
@@ -90,15 +94,35 @@ func (route *Route) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Route resource
 func (route *Route) defaultImpl() { route.defaultAzureName() }
 
+var _ configmaps.Exporter = &Route{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (route *Route) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if route.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return route.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Route{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (route *Route) SecretDestinationExpressions() []*core.DestinationExpression {
+	if route.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return route.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &Route{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (route *Route) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Profiles_AfdEndpoints_Route_STATUS); ok {
-		return route.Spec.Initialize_From_Profiles_AfdEndpoints_Route_STATUS(s)
+	if s, ok := status.(*Route_STATUS); ok {
+		return route.Spec.Initialize_From_Route_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Profiles_AfdEndpoints_Route_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type Route_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Route{}
@@ -144,11 +168,15 @@ func (route *Route) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (route *Route) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Profiles_AfdEndpoints_Route_STATUS{}
+	return &Route_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (route *Route) Owner() *genruntime.ResourceReference {
+	if route.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(route.Spec)
 	return route.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -156,16 +184,16 @@ func (route *Route) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (route *Route) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Profiles_AfdEndpoints_Route_STATUS); ok {
+	if st, ok := status.(*Route_STATUS); ok {
 		route.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Profiles_AfdEndpoints_Route_STATUS
+	var st Route_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	route.Status = st
@@ -208,7 +236,7 @@ func (route *Route) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (route *Route) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){route.validateResourceReferences, route.validateOwnerReference}
+	return []func() (admission.Warnings, error){route.validateResourceReferences, route.validateOwnerReference, route.validateSecretDestinations, route.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +254,21 @@ func (route *Route) updateValidations() []func(old runtime.Object) (admission.Wa
 		func(old runtime.Object) (admission.Warnings, error) {
 			return route.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return route.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return route.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (route *Route) validateConfigMapDestinations() (admission.Warnings, error) {
+	if route.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(route, nil, route.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -241,6 +283,14 @@ func (route *Route) validateResourceReferences() (admission.Warnings, error) {
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (route *Route) validateSecretDestinations() (admission.Warnings, error) {
+	if route.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(route, nil, route.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -260,18 +310,18 @@ func (route *Route) AssignProperties_From_Route(source *storage.Route) error {
 	route.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Profiles_AfdEndpoints_Route_Spec
-	err := spec.AssignProperties_From_Profiles_AfdEndpoints_Route_Spec(&source.Spec)
+	var spec Route_Spec
+	err := spec.AssignProperties_From_Route_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_AfdEndpoints_Route_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Route_Spec() to populate field Spec")
 	}
 	route.Spec = spec
 
 	// Status
-	var status Profiles_AfdEndpoints_Route_STATUS
-	err = status.AssignProperties_From_Profiles_AfdEndpoints_Route_STATUS(&source.Status)
+	var status Route_STATUS
+	err = status.AssignProperties_From_Route_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_AfdEndpoints_Route_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Route_STATUS() to populate field Status")
 	}
 	route.Status = status
 
@@ -286,18 +336,18 @@ func (route *Route) AssignProperties_To_Route(destination *storage.Route) error 
 	destination.ObjectMeta = *route.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Profiles_AfdEndpoints_Route_Spec
-	err := route.Spec.AssignProperties_To_Profiles_AfdEndpoints_Route_Spec(&spec)
+	var spec storage.Route_Spec
+	err := route.Spec.AssignProperties_To_Route_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_AfdEndpoints_Route_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Route_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Profiles_AfdEndpoints_Route_STATUS
-	err = route.Status.AssignProperties_To_Profiles_AfdEndpoints_Route_STATUS(&status)
+	var status storage.Route_STATUS
+	err = route.Status.AssignProperties_To_Route_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_AfdEndpoints_Route_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Route_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +374,7 @@ type RouteList struct {
 	Items           []Route `json:"items"`
 }
 
-type Profiles_AfdEndpoints_Route_Spec struct {
+type Route_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -349,6 +399,10 @@ type Profiles_AfdEndpoints_Route_Spec struct {
 	// LinkToDefaultDomain: whether this route will be linked to the default endpoint domain.
 	LinkToDefaultDomain *RouteProperties_LinkToDefaultDomain `json:"linkToDefaultDomain,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *RouteOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// OriginGroup: A reference to the origin group.
 	OriginGroup *ResourceReference `json:"originGroup,omitempty"`
 
@@ -372,14 +426,14 @@ type Profiles_AfdEndpoints_Route_Spec struct {
 	SupportedProtocols []AFDEndpointProtocols `json:"supportedProtocols,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Profiles_AfdEndpoints_Route_Spec{}
+var _ genruntime.ARMTransformer = &Route_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (route *Profiles_AfdEndpoints_Route_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (route *Route_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if route == nil {
 		return nil, nil
 	}
-	result := &Profiles_AfdEndpoints_Route_Spec_ARM{}
+	result := &arm.Route_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -396,14 +450,14 @@ func (route *Profiles_AfdEndpoints_Route_Spec) ConvertToARM(resolved genruntime.
 		route.PatternsToMatch != nil ||
 		route.RuleSets != nil ||
 		route.SupportedProtocols != nil {
-		result.Properties = &RouteProperties_ARM{}
+		result.Properties = &arm.RouteProperties{}
 	}
 	if route.CacheConfiguration != nil {
 		cacheConfiguration_ARM, err := (*route.CacheConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		cacheConfiguration := *cacheConfiguration_ARM.(*AfdRouteCacheConfiguration_ARM)
+		cacheConfiguration := *cacheConfiguration_ARM.(*arm.AfdRouteCacheConfiguration)
 		result.Properties.CacheConfiguration = &cacheConfiguration
 	}
 	for _, item := range route.CustomDomains {
@@ -411,30 +465,30 @@ func (route *Profiles_AfdEndpoints_Route_Spec) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.CustomDomains = append(result.Properties.CustomDomains, *item_ARM.(*ActivatedResourceReference_ARM))
+		result.Properties.CustomDomains = append(result.Properties.CustomDomains, *item_ARM.(*arm.ActivatedResourceReference))
 	}
 	if route.EnabledState != nil {
 		var temp string
 		temp = string(*route.EnabledState)
-		enabledState := RouteProperties_EnabledState_ARM(temp)
+		enabledState := arm.RouteProperties_EnabledState(temp)
 		result.Properties.EnabledState = &enabledState
 	}
 	if route.ForwardingProtocol != nil {
 		var temp string
 		temp = string(*route.ForwardingProtocol)
-		forwardingProtocol := RouteProperties_ForwardingProtocol_ARM(temp)
+		forwardingProtocol := arm.RouteProperties_ForwardingProtocol(temp)
 		result.Properties.ForwardingProtocol = &forwardingProtocol
 	}
 	if route.HttpsRedirect != nil {
 		var temp string
 		temp = string(*route.HttpsRedirect)
-		httpsRedirect := RouteProperties_HttpsRedirect_ARM(temp)
+		httpsRedirect := arm.RouteProperties_HttpsRedirect(temp)
 		result.Properties.HttpsRedirect = &httpsRedirect
 	}
 	if route.LinkToDefaultDomain != nil {
 		var temp string
 		temp = string(*route.LinkToDefaultDomain)
-		linkToDefaultDomain := RouteProperties_LinkToDefaultDomain_ARM(temp)
+		linkToDefaultDomain := arm.RouteProperties_LinkToDefaultDomain(temp)
 		result.Properties.LinkToDefaultDomain = &linkToDefaultDomain
 	}
 	if route.OriginGroup != nil {
@@ -442,7 +496,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		originGroup := *originGroup_ARM.(*ResourceReference_ARM)
+		originGroup := *originGroup_ARM.(*arm.ResourceReference)
 		result.Properties.OriginGroup = &originGroup
 	}
 	if route.OriginPath != nil {
@@ -457,26 +511,26 @@ func (route *Profiles_AfdEndpoints_Route_Spec) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.RuleSets = append(result.Properties.RuleSets, *item_ARM.(*ResourceReference_ARM))
+		result.Properties.RuleSets = append(result.Properties.RuleSets, *item_ARM.(*arm.ResourceReference))
 	}
 	for _, item := range route.SupportedProtocols {
 		var temp string
 		temp = string(item)
-		result.Properties.SupportedProtocols = append(result.Properties.SupportedProtocols, AFDEndpointProtocols_ARM(temp))
+		result.Properties.SupportedProtocols = append(result.Properties.SupportedProtocols, arm.AFDEndpointProtocols(temp))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (route *Profiles_AfdEndpoints_Route_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_AfdEndpoints_Route_Spec_ARM{}
+func (route *Route_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.Route_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (route *Profiles_AfdEndpoints_Route_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_AfdEndpoints_Route_Spec_ARM)
+func (route *Route_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.Route_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_AfdEndpoints_Route_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Route_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -553,6 +607,8 @@ func (route *Profiles_AfdEndpoints_Route_Spec) PopulateFromARM(owner genruntime.
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "OriginGroup":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -617,58 +673,58 @@ func (route *Profiles_AfdEndpoints_Route_Spec) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Profiles_AfdEndpoints_Route_Spec{}
+var _ genruntime.ConvertibleSpec = &Route_Spec{}
 
-// ConvertSpecFrom populates our Profiles_AfdEndpoints_Route_Spec from the provided source
-func (route *Profiles_AfdEndpoints_Route_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Profiles_AfdEndpoints_Route_Spec)
+// ConvertSpecFrom populates our Route_Spec from the provided source
+func (route *Route_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.Route_Spec)
 	if ok {
 		// Populate our instance from source
-		return route.AssignProperties_From_Profiles_AfdEndpoints_Route_Spec(src)
+		return route.AssignProperties_From_Route_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Profiles_AfdEndpoints_Route_Spec{}
+	src = &storage.Route_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = route.AssignProperties_From_Profiles_AfdEndpoints_Route_Spec(src)
+	err = route.AssignProperties_From_Route_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Profiles_AfdEndpoints_Route_Spec
-func (route *Profiles_AfdEndpoints_Route_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Profiles_AfdEndpoints_Route_Spec)
+// ConvertSpecTo populates the provided destination from our Route_Spec
+func (route *Route_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.Route_Spec)
 	if ok {
 		// Populate destination from our instance
-		return route.AssignProperties_To_Profiles_AfdEndpoints_Route_Spec(dst)
+		return route.AssignProperties_To_Route_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Profiles_AfdEndpoints_Route_Spec{}
-	err := route.AssignProperties_To_Profiles_AfdEndpoints_Route_Spec(dst)
+	dst = &storage.Route_Spec{}
+	err := route.AssignProperties_To_Route_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_Profiles_AfdEndpoints_Route_Spec populates our Profiles_AfdEndpoints_Route_Spec from the provided source Profiles_AfdEndpoints_Route_Spec
-func (route *Profiles_AfdEndpoints_Route_Spec) AssignProperties_From_Profiles_AfdEndpoints_Route_Spec(source *storage.Profiles_AfdEndpoints_Route_Spec) error {
+// AssignProperties_From_Route_Spec populates our Route_Spec from the provided source Route_Spec
+func (route *Route_Spec) AssignProperties_From_Route_Spec(source *storage.Route_Spec) error {
 
 	// AzureName
 	route.AzureName = source.AzureName
@@ -678,7 +734,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) AssignProperties_From_Profiles_Af
 		var cacheConfiguration AfdRouteCacheConfiguration
 		err := cacheConfiguration.AssignProperties_From_AfdRouteCacheConfiguration(source.CacheConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AfdRouteCacheConfiguration() to populate field CacheConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_AfdRouteCacheConfiguration() to populate field CacheConfiguration")
 		}
 		route.CacheConfiguration = &cacheConfiguration
 	} else {
@@ -694,7 +750,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) AssignProperties_From_Profiles_Af
 			var customDomain ActivatedResourceReference
 			err := customDomain.AssignProperties_From_ActivatedResourceReference(&customDomainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference() to populate field CustomDomains")
+				return eris.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -739,12 +795,24 @@ func (route *Profiles_AfdEndpoints_Route_Spec) AssignProperties_From_Profiles_Af
 		route.LinkToDefaultDomain = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RouteOperatorSpec
+		err := operatorSpec.AssignProperties_From_RouteOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_RouteOperatorSpec() to populate field OperatorSpec")
+		}
+		route.OperatorSpec = &operatorSpec
+	} else {
+		route.OperatorSpec = nil
+	}
+
 	// OriginGroup
 	if source.OriginGroup != nil {
 		var originGroup ResourceReference
 		err := originGroup.AssignProperties_From_ResourceReference(source.OriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field OriginGroup")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field OriginGroup")
 		}
 		route.OriginGroup = &originGroup
 	} else {
@@ -774,7 +842,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) AssignProperties_From_Profiles_Af
 			var ruleSet ResourceReference
 			err := ruleSet.AssignProperties_From_ResourceReference(&ruleSetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field RuleSets")
+				return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field RuleSets")
 			}
 			ruleSetList[ruleSetIndex] = ruleSet
 		}
@@ -800,8 +868,8 @@ func (route *Profiles_AfdEndpoints_Route_Spec) AssignProperties_From_Profiles_Af
 	return nil
 }
 
-// AssignProperties_To_Profiles_AfdEndpoints_Route_Spec populates the provided destination Profiles_AfdEndpoints_Route_Spec from our Profiles_AfdEndpoints_Route_Spec
-func (route *Profiles_AfdEndpoints_Route_Spec) AssignProperties_To_Profiles_AfdEndpoints_Route_Spec(destination *storage.Profiles_AfdEndpoints_Route_Spec) error {
+// AssignProperties_To_Route_Spec populates the provided destination Route_Spec from our Route_Spec
+func (route *Route_Spec) AssignProperties_To_Route_Spec(destination *storage.Route_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -813,7 +881,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) AssignProperties_To_Profiles_AfdE
 		var cacheConfiguration storage.AfdRouteCacheConfiguration
 		err := route.CacheConfiguration.AssignProperties_To_AfdRouteCacheConfiguration(&cacheConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AfdRouteCacheConfiguration() to populate field CacheConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_AfdRouteCacheConfiguration() to populate field CacheConfiguration")
 		}
 		destination.CacheConfiguration = &cacheConfiguration
 	} else {
@@ -829,7 +897,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) AssignProperties_To_Profiles_AfdE
 			var customDomain storage.ActivatedResourceReference
 			err := customDomainItem.AssignProperties_To_ActivatedResourceReference(&customDomain)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference() to populate field CustomDomains")
+				return eris.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -870,12 +938,24 @@ func (route *Profiles_AfdEndpoints_Route_Spec) AssignProperties_To_Profiles_AfdE
 		destination.LinkToDefaultDomain = nil
 	}
 
+	// OperatorSpec
+	if route.OperatorSpec != nil {
+		var operatorSpec storage.RouteOperatorSpec
+		err := route.OperatorSpec.AssignProperties_To_RouteOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_RouteOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// OriginGroup
 	if route.OriginGroup != nil {
 		var originGroup storage.ResourceReference
 		err := route.OriginGroup.AssignProperties_To_ResourceReference(&originGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field OriginGroup")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field OriginGroup")
 		}
 		destination.OriginGroup = &originGroup
 	} else {
@@ -908,7 +988,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) AssignProperties_To_Profiles_AfdE
 			var ruleSet storage.ResourceReference
 			err := ruleSetItem.AssignProperties_To_ResourceReference(&ruleSet)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field RuleSets")
+				return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field RuleSets")
 			}
 			ruleSetList[ruleSetIndex] = ruleSet
 		}
@@ -941,15 +1021,15 @@ func (route *Profiles_AfdEndpoints_Route_Spec) AssignProperties_To_Profiles_AfdE
 	return nil
 }
 
-// Initialize_From_Profiles_AfdEndpoints_Route_STATUS populates our Profiles_AfdEndpoints_Route_Spec from the provided source Profiles_AfdEndpoints_Route_STATUS
-func (route *Profiles_AfdEndpoints_Route_Spec) Initialize_From_Profiles_AfdEndpoints_Route_STATUS(source *Profiles_AfdEndpoints_Route_STATUS) error {
+// Initialize_From_Route_STATUS populates our Route_Spec from the provided source Route_STATUS
+func (route *Route_Spec) Initialize_From_Route_STATUS(source *Route_STATUS) error {
 
 	// CacheConfiguration
 	if source.CacheConfiguration != nil {
 		var cacheConfiguration AfdRouteCacheConfiguration
 		err := cacheConfiguration.Initialize_From_AfdRouteCacheConfiguration_STATUS(source.CacheConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
+			return eris.Wrap(err, "calling Initialize_From_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
 		}
 		route.CacheConfiguration = &cacheConfiguration
 	} else {
@@ -965,7 +1045,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) Initialize_From_Profiles_AfdEndpo
 			var customDomain ActivatedResourceReference
 			err := customDomain.Initialize_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(&customDomainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
+				return eris.Wrap(err, "calling Initialize_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -1011,7 +1091,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) Initialize_From_Profiles_AfdEndpo
 		var originGroup ResourceReference
 		err := originGroup.Initialize_From_ResourceReference_STATUS(source.OriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field OriginGroup")
+			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field OriginGroup")
 		}
 		route.OriginGroup = &originGroup
 	} else {
@@ -1033,7 +1113,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) Initialize_From_Profiles_AfdEndpo
 			var ruleSet ResourceReference
 			err := ruleSet.Initialize_From_ResourceReference_STATUS(&ruleSetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field RuleSets")
+				return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field RuleSets")
 			}
 			ruleSetList[ruleSetIndex] = ruleSet
 		}
@@ -1061,16 +1141,14 @@ func (route *Profiles_AfdEndpoints_Route_Spec) Initialize_From_Profiles_AfdEndpo
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (route *Profiles_AfdEndpoints_Route_Spec) OriginalVersion() string {
+func (route *Route_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (route *Profiles_AfdEndpoints_Route_Spec) SetAzureName(azureName string) {
-	route.AzureName = azureName
-}
+func (route *Route_Spec) SetAzureName(azureName string) { route.AzureName = azureName }
 
-type Profiles_AfdEndpoints_Route_STATUS struct {
+type Route_STATUS struct {
 	// CacheConfiguration: The caching configuration for this route. To disable caching, do not provide a cacheConfiguration
 	// object.
 	CacheConfiguration *AfdRouteCacheConfiguration_STATUS `json:"cacheConfiguration,omitempty"`
@@ -1130,68 +1208,68 @@ type Profiles_AfdEndpoints_Route_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Profiles_AfdEndpoints_Route_STATUS{}
+var _ genruntime.ConvertibleStatus = &Route_STATUS{}
 
-// ConvertStatusFrom populates our Profiles_AfdEndpoints_Route_STATUS from the provided source
-func (route *Profiles_AfdEndpoints_Route_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Profiles_AfdEndpoints_Route_STATUS)
+// ConvertStatusFrom populates our Route_STATUS from the provided source
+func (route *Route_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.Route_STATUS)
 	if ok {
 		// Populate our instance from source
-		return route.AssignProperties_From_Profiles_AfdEndpoints_Route_STATUS(src)
+		return route.AssignProperties_From_Route_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Profiles_AfdEndpoints_Route_STATUS{}
+	src = &storage.Route_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = route.AssignProperties_From_Profiles_AfdEndpoints_Route_STATUS(src)
+	err = route.AssignProperties_From_Route_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Profiles_AfdEndpoints_Route_STATUS
-func (route *Profiles_AfdEndpoints_Route_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Profiles_AfdEndpoints_Route_STATUS)
+// ConvertStatusTo populates the provided destination from our Route_STATUS
+func (route *Route_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.Route_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return route.AssignProperties_To_Profiles_AfdEndpoints_Route_STATUS(dst)
+		return route.AssignProperties_To_Route_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Profiles_AfdEndpoints_Route_STATUS{}
-	err := route.AssignProperties_To_Profiles_AfdEndpoints_Route_STATUS(dst)
+	dst = &storage.Route_STATUS{}
+	err := route.AssignProperties_To_Route_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Profiles_AfdEndpoints_Route_STATUS{}
+var _ genruntime.FromARMConverter = &Route_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (route *Profiles_AfdEndpoints_Route_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_AfdEndpoints_Route_STATUS_ARM{}
+func (route *Route_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.Route_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (route *Profiles_AfdEndpoints_Route_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_AfdEndpoints_Route_STATUS_ARM)
+func (route *Route_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.Route_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_AfdEndpoints_Route_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Route_STATUS, got %T", armInput)
 	}
 
 	// Set property "CacheConfiguration":
@@ -1385,15 +1463,15 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignProperties_From_Profiles_AfdEndpoints_Route_STATUS populates our Profiles_AfdEndpoints_Route_STATUS from the provided source Profiles_AfdEndpoints_Route_STATUS
-func (route *Profiles_AfdEndpoints_Route_STATUS) AssignProperties_From_Profiles_AfdEndpoints_Route_STATUS(source *storage.Profiles_AfdEndpoints_Route_STATUS) error {
+// AssignProperties_From_Route_STATUS populates our Route_STATUS from the provided source Route_STATUS
+func (route *Route_STATUS) AssignProperties_From_Route_STATUS(source *storage.Route_STATUS) error {
 
 	// CacheConfiguration
 	if source.CacheConfiguration != nil {
 		var cacheConfiguration AfdRouteCacheConfiguration_STATUS
 		err := cacheConfiguration.AssignProperties_From_AfdRouteCacheConfiguration_STATUS(source.CacheConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
 		}
 		route.CacheConfiguration = &cacheConfiguration
 	} else {
@@ -1412,7 +1490,7 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) AssignProperties_From_Profiles_
 			var customDomain ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
 			err := customDomain.AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(&customDomainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
+				return eris.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -1480,7 +1558,7 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) AssignProperties_From_Profiles_
 		var originGroup ResourceReference_STATUS
 		err := originGroup.AssignProperties_From_ResourceReference_STATUS(source.OriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field OriginGroup")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field OriginGroup")
 		}
 		route.OriginGroup = &originGroup
 	} else {
@@ -1511,7 +1589,7 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) AssignProperties_From_Profiles_
 			var ruleSet ResourceReference_STATUS
 			err := ruleSet.AssignProperties_From_ResourceReference_STATUS(&ruleSetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field RuleSets")
+				return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field RuleSets")
 			}
 			ruleSetList[ruleSetIndex] = ruleSet
 		}
@@ -1538,7 +1616,7 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) AssignProperties_From_Profiles_
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		route.SystemData = &systemDatum
 	} else {
@@ -1552,8 +1630,8 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) AssignProperties_From_Profiles_
 	return nil
 }
 
-// AssignProperties_To_Profiles_AfdEndpoints_Route_STATUS populates the provided destination Profiles_AfdEndpoints_Route_STATUS from our Profiles_AfdEndpoints_Route_STATUS
-func (route *Profiles_AfdEndpoints_Route_STATUS) AssignProperties_To_Profiles_AfdEndpoints_Route_STATUS(destination *storage.Profiles_AfdEndpoints_Route_STATUS) error {
+// AssignProperties_To_Route_STATUS populates the provided destination Route_STATUS from our Route_STATUS
+func (route *Route_STATUS) AssignProperties_To_Route_STATUS(destination *storage.Route_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1562,7 +1640,7 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) AssignProperties_To_Profiles_Af
 		var cacheConfiguration storage.AfdRouteCacheConfiguration_STATUS
 		err := route.CacheConfiguration.AssignProperties_To_AfdRouteCacheConfiguration_STATUS(&cacheConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
 		}
 		destination.CacheConfiguration = &cacheConfiguration
 	} else {
@@ -1581,7 +1659,7 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) AssignProperties_To_Profiles_Af
 			var customDomain storage.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
 			err := customDomainItem.AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(&customDomain)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
+				return eris.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -1644,7 +1722,7 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) AssignProperties_To_Profiles_Af
 		var originGroup storage.ResourceReference_STATUS
 		err := route.OriginGroup.AssignProperties_To_ResourceReference_STATUS(&originGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field OriginGroup")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field OriginGroup")
 		}
 		destination.OriginGroup = &originGroup
 	} else {
@@ -1674,7 +1752,7 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) AssignProperties_To_Profiles_Af
 			var ruleSet storage.ResourceReference_STATUS
 			err := ruleSetItem.AssignProperties_To_ResourceReference_STATUS(&ruleSet)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field RuleSets")
+				return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field RuleSets")
 			}
 			ruleSetList[ruleSetIndex] = ruleSet
 		}
@@ -1701,7 +1779,7 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) AssignProperties_To_Profiles_Af
 		var systemDatum storage.SystemData_STATUS
 		err := route.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1735,7 +1813,7 @@ func (reference *ActivatedResourceReference) ConvertToARM(resolved genruntime.Co
 	if reference == nil {
 		return nil, nil
 	}
-	result := &ActivatedResourceReference_ARM{}
+	result := &arm.ActivatedResourceReference{}
 
 	// Set property "Id":
 	if reference.Reference != nil {
@@ -1751,14 +1829,14 @@ func (reference *ActivatedResourceReference) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *ActivatedResourceReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ActivatedResourceReference_ARM{}
+	return &arm.ActivatedResourceReference{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *ActivatedResourceReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(ActivatedResourceReference_ARM)
+	_, ok := armInput.(arm.ActivatedResourceReference)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ActivatedResourceReference_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ActivatedResourceReference, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -1846,14 +1924,14 @@ var _ genruntime.FromARMConverter = &ActivatedResourceReference_STATUS_Profiles_
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded_ARM{}
+	return &arm.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1945,7 +2023,7 @@ func (configuration *AfdRouteCacheConfiguration) ConvertToARM(resolved genruntim
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &AfdRouteCacheConfiguration_ARM{}
+	result := &arm.AfdRouteCacheConfiguration{}
 
 	// Set property "CompressionSettings":
 	if configuration.CompressionSettings != nil {
@@ -1953,7 +2031,7 @@ func (configuration *AfdRouteCacheConfiguration) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		compressionSettings := *compressionSettings_ARM.(*CompressionSettings_ARM)
+		compressionSettings := *compressionSettings_ARM.(*arm.CompressionSettings)
 		result.CompressionSettings = &compressionSettings
 	}
 
@@ -1967,7 +2045,7 @@ func (configuration *AfdRouteCacheConfiguration) ConvertToARM(resolved genruntim
 	if configuration.QueryStringCachingBehavior != nil {
 		var temp string
 		temp = string(*configuration.QueryStringCachingBehavior)
-		queryStringCachingBehavior := AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM(temp)
+		queryStringCachingBehavior := arm.AfdRouteCacheConfiguration_QueryStringCachingBehavior(temp)
 		result.QueryStringCachingBehavior = &queryStringCachingBehavior
 	}
 	return result, nil
@@ -1975,14 +2053,14 @@ func (configuration *AfdRouteCacheConfiguration) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *AfdRouteCacheConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AfdRouteCacheConfiguration_ARM{}
+	return &arm.AfdRouteCacheConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *AfdRouteCacheConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AfdRouteCacheConfiguration_ARM)
+	typedInput, ok := armInput.(arm.AfdRouteCacheConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AfdRouteCacheConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AfdRouteCacheConfiguration, got %T", armInput)
 	}
 
 	// Set property "CompressionSettings":
@@ -2022,7 +2100,7 @@ func (configuration *AfdRouteCacheConfiguration) AssignProperties_From_AfdRouteC
 		var compressionSetting CompressionSettings
 		err := compressionSetting.AssignProperties_From_CompressionSettings(source.CompressionSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CompressionSettings() to populate field CompressionSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_CompressionSettings() to populate field CompressionSettings")
 		}
 		configuration.CompressionSettings = &compressionSetting
 	} else {
@@ -2055,7 +2133,7 @@ func (configuration *AfdRouteCacheConfiguration) AssignProperties_To_AfdRouteCac
 		var compressionSetting storage.CompressionSettings
 		err := configuration.CompressionSettings.AssignProperties_To_CompressionSettings(&compressionSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CompressionSettings() to populate field CompressionSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_CompressionSettings() to populate field CompressionSettings")
 		}
 		destination.CompressionSettings = &compressionSetting
 	} else {
@@ -2092,7 +2170,7 @@ func (configuration *AfdRouteCacheConfiguration) Initialize_From_AfdRouteCacheCo
 		var compressionSetting CompressionSettings
 		err := compressionSetting.Initialize_From_CompressionSettings_STATUS(source.CompressionSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CompressionSettings_STATUS() to populate field CompressionSettings")
+			return eris.Wrap(err, "calling Initialize_From_CompressionSettings_STATUS() to populate field CompressionSettings")
 		}
 		configuration.CompressionSettings = &compressionSetting
 	} else {
@@ -2132,14 +2210,14 @@ var _ genruntime.FromARMConverter = &AfdRouteCacheConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *AfdRouteCacheConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AfdRouteCacheConfiguration_STATUS_ARM{}
+	return &arm.AfdRouteCacheConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *AfdRouteCacheConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AfdRouteCacheConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AfdRouteCacheConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AfdRouteCacheConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AfdRouteCacheConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "CompressionSettings":
@@ -2179,7 +2257,7 @@ func (configuration *AfdRouteCacheConfiguration_STATUS) AssignProperties_From_Af
 		var compressionSetting CompressionSettings_STATUS
 		err := compressionSetting.AssignProperties_From_CompressionSettings_STATUS(source.CompressionSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CompressionSettings_STATUS() to populate field CompressionSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_CompressionSettings_STATUS() to populate field CompressionSettings")
 		}
 		configuration.CompressionSettings = &compressionSetting
 	} else {
@@ -2212,7 +2290,7 @@ func (configuration *AfdRouteCacheConfiguration_STATUS) AssignProperties_To_AfdR
 		var compressionSetting storage.CompressionSettings_STATUS
 		err := configuration.CompressionSettings.AssignProperties_To_CompressionSettings_STATUS(&compressionSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CompressionSettings_STATUS() to populate field CompressionSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_CompressionSettings_STATUS() to populate field CompressionSettings")
 		}
 		destination.CompressionSettings = &compressionSetting
 	} else {
@@ -2228,6 +2306,110 @@ func (configuration *AfdRouteCacheConfiguration_STATUS) AssignProperties_To_AfdR
 		destination.QueryStringCachingBehavior = &queryStringCachingBehavior
 	} else {
 		destination.QueryStringCachingBehavior = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RouteOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_RouteOperatorSpec populates our RouteOperatorSpec from the provided source RouteOperatorSpec
+func (operator *RouteOperatorSpec) AssignProperties_From_RouteOperatorSpec(source *storage.RouteOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RouteOperatorSpec populates the provided destination RouteOperatorSpec from our RouteOperatorSpec
+func (operator *RouteOperatorSpec) AssignProperties_To_RouteOperatorSpec(destination *storage.RouteOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag
@@ -2399,14 +2581,14 @@ var _ genruntime.FromARMConverter = &ActivatedResourceReference_STATUS_Profiles_
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded_ARM{}
+	return &arm.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -2501,7 +2683,7 @@ func (settings *CompressionSettings) ConvertToARM(resolved genruntime.ConvertToA
 	if settings == nil {
 		return nil, nil
 	}
-	result := &CompressionSettings_ARM{}
+	result := &arm.CompressionSettings{}
 
 	// Set property "ContentTypesToCompress":
 	for _, item := range settings.ContentTypesToCompress {
@@ -2518,14 +2700,14 @@ func (settings *CompressionSettings) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *CompressionSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CompressionSettings_ARM{}
+	return &arm.CompressionSettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *CompressionSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CompressionSettings_ARM)
+	typedInput, ok := armInput.(arm.CompressionSettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CompressionSettings_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CompressionSettings, got %T", armInput)
 	}
 
 	// Set property "ContentTypesToCompress":
@@ -2621,14 +2803,14 @@ var _ genruntime.FromARMConverter = &CompressionSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *CompressionSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CompressionSettings_STATUS_ARM{}
+	return &arm.CompressionSettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *CompressionSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CompressionSettings_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CompressionSettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CompressionSettings_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CompressionSettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "ContentTypesToCompress":

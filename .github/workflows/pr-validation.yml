@@ -133,7 +133,7 @@ jobs:
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: test-output
           path: reports/*.json
@@ -146,7 +146,7 @@ jobs:
         if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Archive outputs
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: output
           path: v2/bin/*
@@ -166,6 +166,7 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          directory: reports
           verbose: true
 
   # TODO: Changing this name requires changing the github API calls in pr-validation-fork.yml

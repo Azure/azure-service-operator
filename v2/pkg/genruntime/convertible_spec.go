@@ -6,7 +6,7 @@
 package genruntime
 
 import (
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -46,6 +46,7 @@ type ConvertibleSpec interface {
 
 // GetVersionedSpec returns a versioned spec for the provided resource; the original API version used when the
 // resource was first created is used to identify the version to return
+// TODO: This is currently unused
 func GetVersionedSpec(metaObject ARMMetaObject, scheme *runtime.Scheme) (ConvertibleSpec, error) {
 	return GetVersionedSpecFromGVK(metaObject, scheme, GetOriginalGVK(metaObject))
 }
@@ -55,7 +56,7 @@ func GetVersionedSpec(metaObject ARMMetaObject, scheme *runtime.Scheme) (Convert
 func GetVersionedSpecFromGVK(metaObject ARMMetaObject, scheme *runtime.Scheme, gvk schema.GroupVersionKind) (ConvertibleSpec, error) {
 	rsrc, err := NewEmptyVersionedResourceFromGVK(scheme, gvk)
 	if err != nil {
-		return nil, errors.Wrap(err, "getting versioned spec")
+		return nil, eris.Wrap(err, "getting versioned spec")
 	}
 
 	if rsrc.GetObjectKind().GroupVersionKind() == metaObject.GetObjectKind().GroupVersionKind() {
@@ -67,7 +68,7 @@ func GetVersionedSpecFromGVK(metaObject ARMMetaObject, scheme *runtime.Scheme, g
 	spec := rsrc.GetSpec()
 	err = spec.ConvertSpecFrom(metaObject.GetSpec())
 	if err != nil {
-		return nil, errors.Wrap(err, "failed conversion of spec")
+		return nil, eris.Wrap(err, "failed conversion of spec")
 	}
 
 	return spec, nil

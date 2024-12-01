@@ -8,7 +8,7 @@ package kustomization
 import (
 	"os"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"gopkg.in/yaml.v3"
 )
 
@@ -82,12 +82,12 @@ func NewConversionPatchFile(resourceName string) *ConversionPatchFile {
 func (p *ConversionPatchFile) Save(destination string) error {
 	data, err := yaml.Marshal(*p)
 	if err != nil {
-		return errors.Wrap(err, "serializing to yaml")
+		return eris.Wrap(err, "serializing to yaml")
 	}
 
 	err = os.WriteFile(destination, data, 0o644) // #nosec G306
 	if err != nil {
-		return errors.Wrapf(err, "writing to %s", destination)
+		return eris.Wrapf(err, "writing to %s", destination)
 	}
 
 	return nil

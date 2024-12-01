@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -29,8 +32,8 @@ import (
 type WorkspacesCompute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Workspaces_Compute_Spec   `json:"spec,omitempty"`
-	Status            Workspaces_Compute_STATUS `json:"status,omitempty"`
+	Spec              WorkspacesCompute_Spec   `json:"spec,omitempty"`
+	Status            WorkspacesCompute_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WorkspacesCompute{}
@@ -43,6 +46,26 @@ func (compute *WorkspacesCompute) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (compute *WorkspacesCompute) SetConditions(conditions conditions.Conditions) {
 	compute.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &WorkspacesCompute{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (compute *WorkspacesCompute) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if compute.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return compute.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &WorkspacesCompute{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (compute *WorkspacesCompute) SecretDestinationExpressions() []*core.DestinationExpression {
+	if compute.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return compute.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &WorkspacesCompute{}
@@ -88,11 +111,15 @@ func (compute *WorkspacesCompute) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (compute *WorkspacesCompute) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Workspaces_Compute_STATUS{}
+	return &WorkspacesCompute_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (compute *WorkspacesCompute) Owner() *genruntime.ResourceReference {
+	if compute.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(compute.Spec)
 	return compute.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -100,16 +127,16 @@ func (compute *WorkspacesCompute) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (compute *WorkspacesCompute) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Workspaces_Compute_STATUS); ok {
+	if st, ok := status.(*WorkspacesCompute_STATUS); ok {
 		compute.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Workspaces_Compute_STATUS
+	var st WorkspacesCompute_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	compute.Status = st
@@ -139,14 +166,15 @@ type WorkspacesComputeList struct {
 	Items           []WorkspacesCompute `json:"items"`
 }
 
-// Storage version of v1api20240401.Workspaces_Compute_Spec
-type Workspaces_Compute_Spec struct {
+// Storage version of v1api20240401.WorkspacesCompute_Spec
+type WorkspacesCompute_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string                  `json:"azureName,omitempty"`
-	Identity        *ManagedServiceIdentity `json:"identity,omitempty"`
-	Location        *string                 `json:"location,omitempty"`
-	OriginalVersion string                  `json:"originalVersion,omitempty"`
+	AzureName       string                         `json:"azureName,omitempty"`
+	Identity        *ManagedServiceIdentity        `json:"identity,omitempty"`
+	Location        *string                        `json:"location,omitempty"`
+	OperatorSpec    *WorkspacesComputeOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -159,28 +187,28 @@ type Workspaces_Compute_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Workspaces_Compute_Spec{}
+var _ genruntime.ConvertibleSpec = &WorkspacesCompute_Spec{}
 
-// ConvertSpecFrom populates our Workspaces_Compute_Spec from the provided source
-func (compute *Workspaces_Compute_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our WorkspacesCompute_Spec from the provided source
+func (compute *WorkspacesCompute_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == compute {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(compute)
 }
 
-// ConvertSpecTo populates the provided destination from our Workspaces_Compute_Spec
-func (compute *Workspaces_Compute_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our WorkspacesCompute_Spec
+func (compute *WorkspacesCompute_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == compute {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(compute)
 }
 
-// Storage version of v1api20240401.Workspaces_Compute_STATUS
-type Workspaces_Compute_STATUS struct {
+// Storage version of v1api20240401.WorkspacesCompute_STATUS
+type WorkspacesCompute_STATUS struct {
 	Conditions  []conditions.Condition         `json:"conditions,omitempty"`
 	Id          *string                        `json:"id,omitempty"`
 	Identity    *ManagedServiceIdentity_STATUS `json:"identity,omitempty"`
@@ -194,21 +222,21 @@ type Workspaces_Compute_STATUS struct {
 	Type        *string                        `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Workspaces_Compute_STATUS{}
+var _ genruntime.ConvertibleStatus = &WorkspacesCompute_STATUS{}
 
-// ConvertStatusFrom populates our Workspaces_Compute_STATUS from the provided source
-func (compute *Workspaces_Compute_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our WorkspacesCompute_STATUS from the provided source
+func (compute *WorkspacesCompute_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == compute {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(compute)
 }
 
-// ConvertStatusTo populates the provided destination from our Workspaces_Compute_STATUS
-func (compute *Workspaces_Compute_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our WorkspacesCompute_STATUS
+func (compute *WorkspacesCompute_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == compute {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(compute)
@@ -242,6 +270,14 @@ type Compute_STATUS struct {
 	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 	SynapseSpark      *SynapseSpark_STATUS      `json:"synapseSpark,omitempty"`
 	VirtualMachine    *VirtualMachine_STATUS    `json:"virtualMachine,omitempty"`
+}
+
+// Storage version of v1api20240401.WorkspacesComputeOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WorkspacesComputeOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20240401.AKS

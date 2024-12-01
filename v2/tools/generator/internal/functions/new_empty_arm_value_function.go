@@ -7,7 +7,7 @@ package functions
 
 import (
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -39,14 +39,14 @@ func newEmptyARMValueBody(instanceType astmodel.InternalTypeName) ObjectFunction
 		receiverName := fn.IdFactory().CreateReceiver(receiver.Name())
 		receiverTypeExpr, err := receiver.AsTypeExpr(genContext)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+			return nil, eris.Wrapf(err, "creating type expression for %s", receiver)
 		}
 		receiverTypeExpr = astbuilder.PointerTo(receiverTypeExpr)
 
 		// return &<pkg.instanceType>{}
 		instanceTypeExpr, err := instanceType.AsTypeExpr(genContext)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating type expression for %s", instanceType)
+			return nil, eris.Wrapf(err, "creating type expression for %s", instanceType)
 		}
 
 		instance := astbuilder.NewCompositeLiteralBuilder(instanceTypeExpr)
@@ -61,7 +61,7 @@ func newEmptyARMValueBody(instanceType astmodel.InternalTypeName) ObjectFunction
 
 		armResourceStatusTypeExpr, err := astmodel.ARMResourceStatusType.AsTypeExpr(genContext)
 		if err != nil {
-			return nil, errors.Wrap(err, "creating ARM resource status type expression")
+			return nil, eris.Wrap(err, "creating ARM resource status type expression")
 		}
 
 		details.AddReturn(armResourceStatusTypeExpr)

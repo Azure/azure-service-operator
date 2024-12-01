@@ -890,6 +890,102 @@ func AddRelatedPropertyGeneratorsForImageOSDisk_STATUS(gens map[string]gopter.Ge
 	gens["Snapshot"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
+func Test_ImageOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ImageOperatorSpec to ImageOperatorSpec via AssignProperties_To_ImageOperatorSpec & AssignProperties_From_ImageOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForImageOperatorSpec, ImageOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForImageOperatorSpec tests if a specific instance of ImageOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForImageOperatorSpec(subject ImageOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ImageOperatorSpec
+	err := copied.AssignProperties_To_ImageOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ImageOperatorSpec
+	err = actual.AssignProperties_From_ImageOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ImageOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ImageOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImageOperatorSpec, ImageOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForImageOperatorSpec runs a test to see if a specific instance of ImageOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForImageOperatorSpec(subject ImageOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ImageOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ImageOperatorSpec instances for property testing - lazily instantiated by ImageOperatorSpecGenerator()
+var imageOperatorSpecGenerator gopter.Gen
+
+// ImageOperatorSpecGenerator returns a generator of ImageOperatorSpec instances for property testing.
+func ImageOperatorSpecGenerator() gopter.Gen {
+	if imageOperatorSpecGenerator != nil {
+		return imageOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	imageOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ImageOperatorSpec{}), generators)
+
+	return imageOperatorSpecGenerator
+}
+
 func Test_ImageStorageProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1371,6 +1467,7 @@ func AddIndependentPropertyGeneratorsForImage_Spec(gens map[string]gopter.Gen) {
 // AddRelatedPropertyGeneratorsForImage_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForImage_Spec(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ImageOperatorSpecGenerator())
 	gens["SourceVirtualMachine"] = gen.PtrOf(SubResourceGenerator())
 	gens["StorageProfile"] = gen.PtrOf(ImageStorageProfileGenerator())
 }

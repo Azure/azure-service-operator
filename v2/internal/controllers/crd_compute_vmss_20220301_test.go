@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -191,7 +192,7 @@ func checkExtensionExists2022(tc *testcommon.KubePerTestContext, vmss *compute20
 func VMSS_Extension_20220301_CRUD(tc *testcommon.KubePerTestContext, vmss *compute2022.VirtualMachineScaleSet, extensionName string) {
 	extension := &compute2022.VirtualMachineScaleSetsExtension{
 		ObjectMeta: tc.MakeObjectMetaWithName(extensionName),
-		Spec: compute2022.VirtualMachineScaleSets_Extension_Spec{
+		Spec: compute2022.VirtualMachineScaleSetsExtension_Spec{
 			Owner:              testcommon.AsOwner(vmss),
 			Publisher:          to.Ptr("Microsoft.ManagedServices"),
 			Type:               to.Ptr("ApplicationHealthLinux"),

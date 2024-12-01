@@ -6,14 +6,17 @@ package v1api20200202
 import (
 	"context"
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -95,6 +98,26 @@ func (component *Component) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Component resource
 func (component *Component) defaultImpl() { component.defaultAzureName() }
 
+var _ configmaps.Exporter = &Component{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (component *Component) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if component.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return component.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Component{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (component *Component) SecretDestinationExpressions() []*core.DestinationExpression {
+	if component.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return component.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &Component{}
 
 // InitializeSpec initializes the spec for this resource from the given status
@@ -106,10 +129,10 @@ func (component *Component) InitializeSpec(status genruntime.ConvertibleStatus) 
 	return fmt.Errorf("expected Status of type Component_STATUS but received %T instead", status)
 }
 
-var _ genruntime.KubernetesExporter = &Component{}
+var _ genruntime.KubernetesConfigExporter = &Component{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (component *Component) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (component *Component) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(component.Namespace)
 	if component.Spec.OperatorSpec != nil && component.Spec.OperatorSpec.ConfigMaps != nil {
 		if component.Status.ConnectionString != nil {
@@ -176,6 +199,10 @@ func (component *Component) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (component *Component) Owner() *genruntime.ResourceReference {
+	if component.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(component.Spec)
 	return component.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -192,7 +219,7 @@ func (component *Component) SetStatus(status genruntime.ConvertibleStatus) error
 	var st Component_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	component.Status = st
@@ -235,7 +262,7 @@ func (component *Component) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (component *Component) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){component.validateResourceReferences, component.validateOwnerReference, component.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){component.validateResourceReferences, component.validateOwnerReference, component.validateSecretDestinations, component.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -254,6 +281,9 @@ func (component *Component) updateValidations() []func(old runtime.Object) (admi
 			return component.validateOwnerReference()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
+			return component.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return component.validateConfigMapDestinations()
 		},
 	}
@@ -264,14 +294,14 @@ func (component *Component) validateConfigMapDestinations() (admission.Warnings,
 	if component.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	if component.Spec.OperatorSpec.ConfigMaps == nil {
-		return nil, nil
+	var toValidate []*genruntime.ConfigMapDestination
+	if component.Spec.OperatorSpec.ConfigMaps != nil {
+		toValidate = []*genruntime.ConfigMapDestination{
+			component.Spec.OperatorSpec.ConfigMaps.ConnectionString,
+			component.Spec.OperatorSpec.ConfigMaps.InstrumentationKey,
+		}
 	}
-	toValidate := []*genruntime.ConfigMapDestination{
-		component.Spec.OperatorSpec.ConfigMaps.ConnectionString,
-		component.Spec.OperatorSpec.ConfigMaps.InstrumentationKey,
-	}
-	return configmaps.ValidateDestinations(toValidate)
+	return configmaps.ValidateDestinations(component, toValidate, component.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -286,6 +316,14 @@ func (component *Component) validateResourceReferences() (admission.Warnings, er
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (component *Component) validateSecretDestinations() (admission.Warnings, error) {
+	if component.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(component, nil, component.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -308,7 +346,7 @@ func (component *Component) AssignProperties_From_Component(source *storage.Comp
 	var spec Component_Spec
 	err := spec.AssignProperties_From_Component_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Component_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Component_Spec() to populate field Spec")
 	}
 	component.Spec = spec
 
@@ -316,7 +354,7 @@ func (component *Component) AssignProperties_From_Component(source *storage.Comp
 	var status Component_STATUS
 	err = status.AssignProperties_From_Component_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Component_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Component_STATUS() to populate field Status")
 	}
 	component.Status = status
 
@@ -334,7 +372,7 @@ func (component *Component) AssignProperties_To_Component(destination *storage.C
 	var spec storage.Component_Spec
 	err := component.Spec.AssignProperties_To_Component_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Component_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Component_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -342,7 +380,7 @@ func (component *Component) AssignProperties_To_Component(destination *storage.C
 	var status storage.Component_STATUS
 	err = component.Status.AssignProperties_To_Component_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Component_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Component_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -460,7 +498,7 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if component == nil {
 		return nil, nil
 	}
-	result := &Component_Spec_ARM{}
+	result := &arm.Component_Spec{}
 
 	// Set property "Etag":
 	if component.Etag != nil {
@@ -498,12 +536,12 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		component.RetentionInDays != nil ||
 		component.SamplingPercentage != nil ||
 		component.WorkspaceResourceReference != nil {
-		result.Properties = &ApplicationInsightsComponentProperties_ARM{}
+		result.Properties = &arm.ApplicationInsightsComponentProperties{}
 	}
 	if component.Application_Type != nil {
 		var temp string
 		temp = string(*component.Application_Type)
-		applicationType := ApplicationInsightsComponentProperties_Application_Type_ARM(temp)
+		applicationType := arm.ApplicationInsightsComponentProperties_Application_Type(temp)
 		result.Properties.Application_Type = &applicationType
 	}
 	if component.DisableIpMasking != nil {
@@ -517,7 +555,7 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if component.Flow_Type != nil {
 		var temp string
 		temp = string(*component.Flow_Type)
-		flowType := ApplicationInsightsComponentProperties_Flow_Type_ARM(temp)
+		flowType := arm.ApplicationInsightsComponentProperties_Flow_Type(temp)
 		result.Properties.Flow_Type = &flowType
 	}
 	if component.ForceCustomerStorageForProfiler != nil {
@@ -535,25 +573,25 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if component.IngestionMode != nil {
 		var temp string
 		temp = string(*component.IngestionMode)
-		ingestionMode := ApplicationInsightsComponentProperties_IngestionMode_ARM(temp)
+		ingestionMode := arm.ApplicationInsightsComponentProperties_IngestionMode(temp)
 		result.Properties.IngestionMode = &ingestionMode
 	}
 	if component.PublicNetworkAccessForIngestion != nil {
 		var temp string
 		temp = string(*component.PublicNetworkAccessForIngestion)
-		publicNetworkAccessForIngestion := PublicNetworkAccessType_ARM(temp)
+		publicNetworkAccessForIngestion := arm.PublicNetworkAccessType(temp)
 		result.Properties.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	}
 	if component.PublicNetworkAccessForQuery != nil {
 		var temp string
 		temp = string(*component.PublicNetworkAccessForQuery)
-		publicNetworkAccessForQuery := PublicNetworkAccessType_ARM(temp)
+		publicNetworkAccessForQuery := arm.PublicNetworkAccessType(temp)
 		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	}
 	if component.Request_Source != nil {
 		var temp string
 		temp = string(*component.Request_Source)
-		requestSource := ApplicationInsightsComponentProperties_Request_Source_ARM(temp)
+		requestSource := arm.ApplicationInsightsComponentProperties_Request_Source(temp)
 		result.Properties.Request_Source = &requestSource
 	}
 	if component.RetentionInDays != nil {
@@ -585,14 +623,14 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (component *Component_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Component_Spec_ARM{}
+	return &arm.Component_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Component_Spec_ARM)
+	typedInput, ok := armInput.(arm.Component_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Component_Spec, got %T", armInput)
 	}
 
 	// Set property "Application_Type":
@@ -781,13 +819,13 @@ func (component *Component_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 	src = &storage.Component_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = component.AssignProperties_From_Component_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -805,13 +843,13 @@ func (component *Component_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	dst = &storage.Component_Spec{}
 	err := component.AssignProperties_To_Component_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -899,7 +937,7 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *st
 		var operatorSpec ComponentOperatorSpec
 		err := operatorSpec.AssignProperties_From_ComponentOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ComponentOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ComponentOperatorSpec() to populate field OperatorSpec")
 		}
 		component.OperatorSpec = &operatorSpec
 	} else {
@@ -1048,7 +1086,7 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 		var operatorSpec storage.ComponentOperatorSpec
 		err := component.OperatorSpec.AssignProperties_To_ComponentOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ComponentOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ComponentOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -1377,13 +1415,13 @@ func (component *Component_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	src = &storage.Component_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = component.AssignProperties_From_Component_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1401,13 +1439,13 @@ func (component *Component_STATUS) ConvertStatusTo(destination genruntime.Conver
 	dst = &storage.Component_STATUS{}
 	err := component.AssignProperties_To_Component_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1417,14 +1455,14 @@ var _ genruntime.FromARMConverter = &Component_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (component *Component_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Component_STATUS_ARM{}
+	return &arm.Component_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Component_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Component_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Component_STATUS, got %T", armInput)
 	}
 
 	// Set property "AppId":
@@ -1831,7 +1869,7 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 			var privateLinkScopedResource PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResource.AssignProperties_From_PrivateLinkScopedResource_STATUS(&privateLinkScopedResourceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -2012,7 +2050,7 @@ func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destinat
 			var privateLinkScopedResource storage.PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResourceItem.AssignProperties_To_PrivateLinkScopedResource_STATUS(&privateLinkScopedResource)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -2183,23 +2221,65 @@ var applicationInsightsComponentProperties_Request_Source_STATUS_Values = map[st
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ComponentOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
 	// ConfigMaps: configures where to place operator written ConfigMaps.
 	ConfigMaps *ComponentOperatorConfigMaps `json:"configMaps,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // AssignProperties_From_ComponentOperatorSpec populates our ComponentOperatorSpec from the provided source ComponentOperatorSpec
 func (operator *ComponentOperatorSpec) AssignProperties_From_ComponentOperatorSpec(source *storage.ComponentOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
 
 	// ConfigMaps
 	if source.ConfigMaps != nil {
 		var configMap ComponentOperatorConfigMaps
 		err := configMap.AssignProperties_From_ComponentOperatorConfigMaps(source.ConfigMaps)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ComponentOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_From_ComponentOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		operator.ConfigMaps = &configMap
 	} else {
 		operator.ConfigMaps = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
 	}
 
 	// No error
@@ -2211,16 +2291,52 @@ func (operator *ComponentOperatorSpec) AssignProperties_To_ComponentOperatorSpec
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
 	// ConfigMaps
 	if operator.ConfigMaps != nil {
 		var configMap storage.ComponentOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_ComponentOperatorConfigMaps(&configMap)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ComponentOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_To_ComponentOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		destination.ConfigMaps = &configMap
 	} else {
 		destination.ConfigMaps = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag
@@ -2247,14 +2363,14 @@ var _ genruntime.FromARMConverter = &PrivateLinkScopedResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *PrivateLinkScopedResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkScopedResource_STATUS_ARM{}
+	return &arm.PrivateLinkScopedResource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *PrivateLinkScopedResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkScopedResource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateLinkScopedResource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkScopedResource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateLinkScopedResource_STATUS, got %T", armInput)
 	}
 
 	// Set property "ResourceId":

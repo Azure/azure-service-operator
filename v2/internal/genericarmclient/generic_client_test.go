@@ -12,13 +12,15 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	. "github.com/onsi/gomega"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
-	. "github.com/onsi/gomega"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	arm "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
@@ -47,7 +49,7 @@ func Test_NewResourceGroup(t *testing.T) {
 	spec, err := resourceGroup.Spec.ConvertToARM(resolved)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	typedResourceGroupSpec := spec.(*resources.ResourceGroup_Spec_ARM)
+	typedResourceGroupSpec := spec.(*arm.ResourceGroup_Spec)
 
 	id := genericarmclient.MakeResourceGroupID(testContext.AzureSubscription, resourceGroup.Name)
 
@@ -109,7 +111,7 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 	spec, err := resourceGroup.Spec.ConvertToARM(resolved)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	typedResourceGroupSpec := spec.(*resources.ResourceGroup_Spec_ARM)
+	typedResourceGroupSpec := spec.(*arm.ResourceGroup_Spec)
 
 	id := genericarmclient.MakeResourceGroupID(testContext.AzureSubscription, resourceGroup.Name)
 
@@ -119,8 +121,8 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 	// Some basic assertions about the shape of the error
 	var cloudError *genericarmclient.CloudError
 	var httpErr *azcore.ResponseError
-	g.Expect(errors.As(err, &cloudError)).To(BeTrue())
-	g.Expect(errors.As(err, &httpErr)).To(BeTrue())
+	g.Expect(eris.As(err, &cloudError)).To(BeTrue())
+	g.Expect(eris.As(err, &httpErr)).To(BeTrue())
 
 	// The body was already closed... suppressing linter
 	// nolint:bodyclose

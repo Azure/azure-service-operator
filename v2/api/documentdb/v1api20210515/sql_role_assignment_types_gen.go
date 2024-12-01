@@ -5,12 +5,15 @@ package v1api20210515
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -30,8 +33,8 @@ import (
 type SqlRoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlRoleAssignment_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccounts_SqlRoleAssignment_STATUS `json:"status,omitempty"`
+	Spec              SqlRoleAssignment_Spec   `json:"spec,omitempty"`
+	Status            SqlRoleAssignment_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlRoleAssignment{}
@@ -55,12 +58,12 @@ func (assignment *SqlRoleAssignment) ConvertFrom(hub conversion.Hub) error {
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = assignment.AssignProperties_From_SqlRoleAssignment(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to assignment")
+		return eris.Wrap(err, "converting from source to assignment")
 	}
 
 	return nil
@@ -72,11 +75,11 @@ func (assignment *SqlRoleAssignment) ConvertTo(hub conversion.Hub) error {
 	var destination storage.SqlRoleAssignment
 	err := assignment.AssignProperties_To_SqlRoleAssignment(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from assignment")
+		return eris.Wrap(err, "converting to destination from assignment")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -97,6 +100,26 @@ func (assignment *SqlRoleAssignment) Default() {
 
 // defaultImpl applies the code generated defaults to the SqlRoleAssignment resource
 func (assignment *SqlRoleAssignment) defaultImpl() {}
+
+var _ configmaps.Exporter = &SqlRoleAssignment{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (assignment *SqlRoleAssignment) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if assignment.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return assignment.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &SqlRoleAssignment{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (assignment *SqlRoleAssignment) SecretDestinationExpressions() []*core.DestinationExpression {
+	if assignment.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return assignment.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &SqlRoleAssignment{}
 
@@ -141,11 +164,15 @@ func (assignment *SqlRoleAssignment) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (assignment *SqlRoleAssignment) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccounts_SqlRoleAssignment_STATUS{}
+	return &SqlRoleAssignment_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (assignment *SqlRoleAssignment) Owner() *genruntime.ResourceReference {
+	if assignment.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(assignment.Spec)
 	return assignment.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -153,16 +180,16 @@ func (assignment *SqlRoleAssignment) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (assignment *SqlRoleAssignment) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccounts_SqlRoleAssignment_STATUS); ok {
+	if st, ok := status.(*SqlRoleAssignment_STATUS); ok {
 		assignment.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccounts_SqlRoleAssignment_STATUS
+	var st SqlRoleAssignment_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	assignment.Status = st
@@ -205,7 +232,7 @@ func (assignment *SqlRoleAssignment) ValidateUpdate(old runtime.Object) (admissi
 
 // createValidations validates the creation of the resource
 func (assignment *SqlRoleAssignment) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){assignment.validateResourceReferences, assignment.validateOwnerReference, assignment.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){assignment.validateResourceReferences, assignment.validateOwnerReference, assignment.validateSecretDestinations, assignment.validateConfigMapDestinations, assignment.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -224,9 +251,23 @@ func (assignment *SqlRoleAssignment) updateValidations() []func(old runtime.Obje
 			return assignment.validateOwnerReference()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
+			return assignment.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return assignment.validateConfigMapDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return assignment.validateOptionalConfigMapReferences()
 		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (assignment *SqlRoleAssignment) validateConfigMapDestinations() (admission.Warnings, error) {
+	if assignment.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(assignment, nil, assignment.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
@@ -252,6 +293,14 @@ func (assignment *SqlRoleAssignment) validateResourceReferences() (admission.War
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (assignment *SqlRoleAssignment) validateSecretDestinations() (admission.Warnings, error) {
+	if assignment.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(assignment, nil, assignment.Spec.OperatorSpec.SecretExpressions)
+}
+
 // validateWriteOnceProperties validates all WriteOnce properties
 func (assignment *SqlRoleAssignment) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*SqlRoleAssignment)
@@ -269,18 +318,18 @@ func (assignment *SqlRoleAssignment) AssignProperties_From_SqlRoleAssignment(sou
 	assignment.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccounts_SqlRoleAssignment_Spec
-	err := spec.AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_Spec(&source.Spec)
+	var spec SqlRoleAssignment_Spec
+	err := spec.AssignProperties_From_SqlRoleAssignment_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_SqlRoleAssignment_Spec() to populate field Spec")
 	}
 	assignment.Spec = spec
 
 	// Status
-	var status DatabaseAccounts_SqlRoleAssignment_STATUS
-	err = status.AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS(&source.Status)
+	var status SqlRoleAssignment_STATUS
+	err = status.AssignProperties_From_SqlRoleAssignment_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_SqlRoleAssignment_STATUS() to populate field Status")
 	}
 	assignment.Status = status
 
@@ -295,18 +344,18 @@ func (assignment *SqlRoleAssignment) AssignProperties_To_SqlRoleAssignment(desti
 	destination.ObjectMeta = *assignment.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.DatabaseAccounts_SqlRoleAssignment_Spec
-	err := assignment.Spec.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec(&spec)
+	var spec storage.SqlRoleAssignment_Spec
+	err := assignment.Spec.AssignProperties_To_SqlRoleAssignment_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_SqlRoleAssignment_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.DatabaseAccounts_SqlRoleAssignment_STATUS
-	err = assignment.Status.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(&status)
+	var status storage.SqlRoleAssignment_STATUS
+	err = assignment.Status.AssignProperties_To_SqlRoleAssignment_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_SqlRoleAssignment_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -333,10 +382,14 @@ type SqlRoleAssignmentList struct {
 	Items           []SqlRoleAssignment `json:"items"`
 }
 
-type DatabaseAccounts_SqlRoleAssignment_Spec struct {
+type SqlRoleAssignment_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *SqlRoleAssignmentOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -360,14 +413,14 @@ type DatabaseAccounts_SqlRoleAssignment_Spec struct {
 	Scope *string `json:"scope,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DatabaseAccounts_SqlRoleAssignment_Spec{}
+var _ genruntime.ARMTransformer = &SqlRoleAssignment_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (assignment *SqlRoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if assignment == nil {
 		return nil, nil
 	}
-	result := &DatabaseAccounts_SqlRoleAssignment_Spec_ARM{}
+	result := &arm.SqlRoleAssignment_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -377,7 +430,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertToARM(resolved
 		assignment.PrincipalIdFromConfig != nil ||
 		assignment.RoleDefinitionId != nil ||
 		assignment.Scope != nil {
-		result.Properties = &SqlRoleAssignmentResource_ARM{}
+		result.Properties = &arm.SqlRoleAssignmentResource{}
 	}
 	if assignment.PrincipalId != nil {
 		principalId := *assignment.PrincipalId
@@ -386,7 +439,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertToARM(resolved
 	if assignment.PrincipalIdFromConfig != nil {
 		principalIdValue, err := resolved.ResolvedConfigMaps.Lookup(*assignment.PrincipalIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property PrincipalId")
+			return nil, eris.Wrap(err, "looking up configmap for property PrincipalId")
 		}
 		principalId := principalIdValue
 		result.Properties.PrincipalId = &principalId
@@ -403,19 +456,21 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertToARM(resolved
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_SqlRoleAssignment_Spec_ARM{}
+func (assignment *SqlRoleAssignment_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.SqlRoleAssignment_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_SqlRoleAssignment_Spec_ARM)
+func (assignment *SqlRoleAssignment_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.SqlRoleAssignment_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlRoleAssignment_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SqlRoleAssignment_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
 	assignment.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	assignment.Owner = &genruntime.KnownResourceReference{
@@ -456,61 +511,73 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) PopulateFromARM(owner
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlRoleAssignment_Spec{}
+var _ genruntime.ConvertibleSpec = &SqlRoleAssignment_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_SqlRoleAssignment_Spec from the provided source
-func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.DatabaseAccounts_SqlRoleAssignment_Spec)
+// ConvertSpecFrom populates our SqlRoleAssignment_Spec from the provided source
+func (assignment *SqlRoleAssignment_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.SqlRoleAssignment_Spec)
 	if ok {
 		// Populate our instance from source
-		return assignment.AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_Spec(src)
+		return assignment.AssignProperties_From_SqlRoleAssignment_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DatabaseAccounts_SqlRoleAssignment_Spec{}
+	src = &storage.SqlRoleAssignment_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = assignment.AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_Spec(src)
+	err = assignment.AssignProperties_From_SqlRoleAssignment_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlRoleAssignment_Spec
-func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.DatabaseAccounts_SqlRoleAssignment_Spec)
+// ConvertSpecTo populates the provided destination from our SqlRoleAssignment_Spec
+func (assignment *SqlRoleAssignment_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.SqlRoleAssignment_Spec)
 	if ok {
 		// Populate destination from our instance
-		return assignment.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec(dst)
+		return assignment.AssignProperties_To_SqlRoleAssignment_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DatabaseAccounts_SqlRoleAssignment_Spec{}
-	err := assignment.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec(dst)
+	dst = &storage.SqlRoleAssignment_Spec{}
+	err := assignment.AssignProperties_To_SqlRoleAssignment_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_Spec populates our DatabaseAccounts_SqlRoleAssignment_Spec from the provided source DatabaseAccounts_SqlRoleAssignment_Spec
-func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_Spec(source *storage.DatabaseAccounts_SqlRoleAssignment_Spec) error {
+// AssignProperties_From_SqlRoleAssignment_Spec populates our SqlRoleAssignment_Spec from the provided source SqlRoleAssignment_Spec
+func (assignment *SqlRoleAssignment_Spec) AssignProperties_From_SqlRoleAssignment_Spec(source *storage.SqlRoleAssignment_Spec) error {
 
 	// AzureName
 	assignment.AzureName = source.AzureName
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SqlRoleAssignmentOperatorSpec
+		err := operatorSpec.AssignProperties_From_SqlRoleAssignmentOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SqlRoleAssignmentOperatorSpec() to populate field OperatorSpec")
+		}
+		assignment.OperatorSpec = &operatorSpec
+	} else {
+		assignment.OperatorSpec = nil
+	}
 
 	// Owner
 	if source.Owner != nil {
@@ -541,13 +608,25 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) AssignProperties_From
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec populates the provided destination DatabaseAccounts_SqlRoleAssignment_Spec from our DatabaseAccounts_SqlRoleAssignment_Spec
-func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec(destination *storage.DatabaseAccounts_SqlRoleAssignment_Spec) error {
+// AssignProperties_To_SqlRoleAssignment_Spec populates the provided destination SqlRoleAssignment_Spec from our SqlRoleAssignment_Spec
+func (assignment *SqlRoleAssignment_Spec) AssignProperties_To_SqlRoleAssignment_Spec(destination *storage.SqlRoleAssignment_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
 	destination.AzureName = assignment.AzureName
+
+	// OperatorSpec
+	if assignment.OperatorSpec != nil {
+		var operatorSpec storage.SqlRoleAssignmentOperatorSpec
+		err := assignment.OperatorSpec.AssignProperties_To_SqlRoleAssignmentOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SqlRoleAssignmentOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = assignment.OriginalVersion()
@@ -589,16 +668,16 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) AssignProperties_To_D
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) OriginalVersion() string {
+func (assignment *SqlRoleAssignment_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) SetAzureName(azureName string) {
+func (assignment *SqlRoleAssignment_Spec) SetAzureName(azureName string) {
 	assignment.AzureName = azureName
 }
 
-type DatabaseAccounts_SqlRoleAssignment_STATUS struct {
+type SqlRoleAssignment_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -622,68 +701,68 @@ type DatabaseAccounts_SqlRoleAssignment_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlRoleAssignment_STATUS{}
+var _ genruntime.ConvertibleStatus = &SqlRoleAssignment_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccounts_SqlRoleAssignment_STATUS from the provided source
-func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.DatabaseAccounts_SqlRoleAssignment_STATUS)
+// ConvertStatusFrom populates our SqlRoleAssignment_STATUS from the provided source
+func (assignment *SqlRoleAssignment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.SqlRoleAssignment_STATUS)
 	if ok {
 		// Populate our instance from source
-		return assignment.AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS(src)
+		return assignment.AssignProperties_From_SqlRoleAssignment_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DatabaseAccounts_SqlRoleAssignment_STATUS{}
+	src = &storage.SqlRoleAssignment_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = assignment.AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS(src)
+	err = assignment.AssignProperties_From_SqlRoleAssignment_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlRoleAssignment_STATUS
-func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.DatabaseAccounts_SqlRoleAssignment_STATUS)
+// ConvertStatusTo populates the provided destination from our SqlRoleAssignment_STATUS
+func (assignment *SqlRoleAssignment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.SqlRoleAssignment_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return assignment.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(dst)
+		return assignment.AssignProperties_To_SqlRoleAssignment_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DatabaseAccounts_SqlRoleAssignment_STATUS{}
-	err := assignment.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(dst)
+	dst = &storage.SqlRoleAssignment_STATUS{}
+	err := assignment.AssignProperties_To_SqlRoleAssignment_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &DatabaseAccounts_SqlRoleAssignment_STATUS{}
+var _ genruntime.FromARMConverter = &SqlRoleAssignment_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_SqlRoleAssignment_STATUS_ARM{}
+func (assignment *SqlRoleAssignment_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.SqlRoleAssignment_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_SqlRoleAssignment_STATUS_ARM)
+func (assignment *SqlRoleAssignment_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.SqlRoleAssignment_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlRoleAssignment_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SqlRoleAssignment_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -737,8 +816,8 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) PopulateFromARM(own
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS populates our DatabaseAccounts_SqlRoleAssignment_STATUS from the provided source DatabaseAccounts_SqlRoleAssignment_STATUS
-func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS(source *storage.DatabaseAccounts_SqlRoleAssignment_STATUS) error {
+// AssignProperties_From_SqlRoleAssignment_STATUS populates our SqlRoleAssignment_STATUS from the provided source SqlRoleAssignment_STATUS
+func (assignment *SqlRoleAssignment_STATUS) AssignProperties_From_SqlRoleAssignment_STATUS(source *storage.SqlRoleAssignment_STATUS) error {
 
 	// Conditions
 	assignment.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -765,8 +844,8 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) AssignProperties_Fr
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS populates the provided destination DatabaseAccounts_SqlRoleAssignment_STATUS from our DatabaseAccounts_SqlRoleAssignment_STATUS
-func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(destination *storage.DatabaseAccounts_SqlRoleAssignment_STATUS) error {
+// AssignProperties_To_SqlRoleAssignment_STATUS populates the provided destination SqlRoleAssignment_STATUS from our SqlRoleAssignment_STATUS
+func (assignment *SqlRoleAssignment_STATUS) AssignProperties_To_SqlRoleAssignment_STATUS(destination *storage.SqlRoleAssignment_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -790,6 +869,110 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) AssignProperties_To
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(assignment.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SqlRoleAssignmentOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_SqlRoleAssignmentOperatorSpec populates our SqlRoleAssignmentOperatorSpec from the provided source SqlRoleAssignmentOperatorSpec
+func (operator *SqlRoleAssignmentOperatorSpec) AssignProperties_From_SqlRoleAssignmentOperatorSpec(source *storage.SqlRoleAssignmentOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SqlRoleAssignmentOperatorSpec populates the provided destination SqlRoleAssignmentOperatorSpec from our SqlRoleAssignmentOperatorSpec
+func (operator *SqlRoleAssignmentOperatorSpec) AssignProperties_To_SqlRoleAssignmentOperatorSpec(destination *storage.SqlRoleAssignmentOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

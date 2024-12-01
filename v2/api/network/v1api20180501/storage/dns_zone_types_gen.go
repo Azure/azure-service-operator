@@ -7,7 +7,10 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -43,6 +46,26 @@ func (zone *DnsZone) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (zone *DnsZone) SetConditions(conditions conditions.Conditions) {
 	zone.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &DnsZone{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (zone *DnsZone) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if zone.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return zone.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &DnsZone{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (zone *DnsZone) SecretDestinationExpressions() []*core.DestinationExpression {
+	if zone.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return zone.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &DnsZone{}
@@ -93,6 +116,10 @@ func (zone *DnsZone) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (zone *DnsZone) Owner() *genruntime.ResourceReference {
+	if zone.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(zone.Spec)
 	return zone.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -109,7 +136,7 @@ func (zone *DnsZone) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st DnsZone_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	zone.Status = st
@@ -149,9 +176,10 @@ const APIVersion_Value = APIVersion("2018-05-01")
 type DnsZone_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string               `json:"azureName,omitempty"`
+	Location        *string              `json:"location,omitempty"`
+	OperatorSpec    *DnsZoneOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -170,7 +198,7 @@ var _ genruntime.ConvertibleSpec = &DnsZone_Spec{}
 // ConvertSpecFrom populates our DnsZone_Spec from the provided source
 func (zone *DnsZone_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == zone {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(zone)
@@ -179,7 +207,7 @@ func (zone *DnsZone_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) err
 // ConvertSpecTo populates the provided destination from our DnsZone_Spec
 func (zone *DnsZone_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == zone {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(zone)
@@ -209,7 +237,7 @@ var _ genruntime.ConvertibleStatus = &DnsZone_STATUS{}
 // ConvertStatusFrom populates our DnsZone_STATUS from the provided source
 func (zone *DnsZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == zone {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(zone)
@@ -218,10 +246,18 @@ func (zone *DnsZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatu
 // ConvertStatusTo populates the provided destination from our DnsZone_STATUS
 func (zone *DnsZone_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == zone {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(zone)
+}
+
+// Storage version of v1api20180501.DnsZoneOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DnsZoneOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20180501.SubResource
@@ -258,7 +294,7 @@ func (resource *SubResource) AssignProperties_From_SubResource(source *storage.S
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -291,7 +327,7 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *storag
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -326,7 +362,7 @@ func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(sou
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -354,7 +390,7 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

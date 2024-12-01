@@ -7,7 +7,7 @@ package functions
 
 import (
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -59,7 +59,7 @@ func (o *OriginalVersionFunction) AsFunc(
 	receiverName := o.idFactory.CreateReceiver(receiver.Name())
 	receiverTypeExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+		return nil, eris.Wrapf(err, "creating type expression for %s", receiver)
 	}
 
 	returnVersion := astbuilder.Returns(

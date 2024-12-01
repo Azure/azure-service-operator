@@ -7,7 +7,10 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -44,6 +47,26 @@ func (machine *VirtualMachine) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (machine *VirtualMachine) SetConditions(conditions conditions.Conditions) {
 	machine.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &VirtualMachine{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (machine *VirtualMachine) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if machine.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return machine.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &VirtualMachine{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (machine *VirtualMachine) SecretDestinationExpressions() []*core.DestinationExpression {
+	if machine.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return machine.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &VirtualMachine{}
@@ -94,6 +117,10 @@ func (machine *VirtualMachine) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (machine *VirtualMachine) Owner() *genruntime.ResourceReference {
+	if machine.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(machine.Spec)
 	return machine.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -110,7 +137,7 @@ func (machine *VirtualMachine) SetStatus(status genruntime.ConvertibleStatus) er
 	var st VirtualMachine_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	machine.Status = st
@@ -162,6 +189,7 @@ type VirtualMachine_Spec struct {
 	LicenseType          *string                     `json:"licenseType,omitempty"`
 	Location             *string                     `json:"location,omitempty"`
 	NetworkProfile       *NetworkProfile             `json:"networkProfile,omitempty"`
+	OperatorSpec         *VirtualMachineOperatorSpec `json:"operatorSpec,omitempty"`
 	OriginalVersion      string                      `json:"originalVersion,omitempty"`
 	OsProfile            *OSProfile                  `json:"osProfile,omitempty"`
 
@@ -189,7 +217,7 @@ var _ genruntime.ConvertibleSpec = &VirtualMachine_Spec{}
 // ConvertSpecFrom populates our VirtualMachine_Spec from the provided source
 func (machine *VirtualMachine_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == machine {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(machine)
@@ -198,7 +226,7 @@ func (machine *VirtualMachine_Spec) ConvertSpecFrom(source genruntime.Convertibl
 // ConvertSpecTo populates the provided destination from our VirtualMachine_Spec
 func (machine *VirtualMachine_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == machine {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(machine)
@@ -252,7 +280,7 @@ var _ genruntime.ConvertibleStatus = &VirtualMachine_STATUS{}
 // ConvertStatusFrom populates our VirtualMachine_STATUS from the provided source
 func (machine *VirtualMachine_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == machine {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(machine)
@@ -261,7 +289,7 @@ func (machine *VirtualMachine_STATUS) ConvertStatusFrom(source genruntime.Conver
 // ConvertStatusTo populates the provided destination from our VirtualMachine_STATUS
 func (machine *VirtualMachine_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == machine {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(machine)
@@ -542,6 +570,14 @@ type VirtualMachineInstanceView_STATUS struct {
 	Statuses                  []InstanceViewStatus_STATUS                  `json:"statuses,omitempty"`
 	VmAgent                   *VirtualMachineAgentInstanceView_STATUS      `json:"vmAgent,omitempty"`
 	VmHealth                  *VirtualMachineHealthStatus_STATUS           `json:"vmHealth,omitempty"`
+}
+
+// Storage version of v1api20220301.VirtualMachineOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type VirtualMachineOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20220301.BootDiagnostics
@@ -830,7 +866,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 	if augmentedDetails, ok := detailsAsAny.(augmentConversionForUserAssignedIdentityDetails); ok {
 		err := augmentedDetails.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -858,7 +894,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIden
 	if augmentedDetails, ok := detailsAsAny.(augmentConversionForUserAssignedIdentityDetails); ok {
 		err := augmentedDetails.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1307,7 +1343,7 @@ func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *stor
 			var detail ApiErrorBase_STATUS
 			err := detail.AssignProperties_From_ApiErrorBase_STATUS(&detailItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApiErrorBase_STATUS() to populate field Details")
+				return eris.Wrap(err, "calling AssignProperties_From_ApiErrorBase_STATUS() to populate field Details")
 			}
 			detailList[detailIndex] = detail
 		}
@@ -1321,7 +1357,7 @@ func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *stor
 		var innererror InnerError_STATUS
 		err := innererror.AssignProperties_From_InnerError_STATUS(source.Innererror)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_InnerError_STATUS() to populate field Innererror")
+			return eris.Wrap(err, "calling AssignProperties_From_InnerError_STATUS() to populate field Innererror")
 		}
 		error.Innererror = &innererror
 	} else {
@@ -1346,7 +1382,7 @@ func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *stor
 	if augmentedError, ok := errorAsAny.(augmentConversionForApiError_STATUS); ok {
 		err := augmentedError.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1371,7 +1407,7 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *s
 			var detail storage.ApiErrorBase_STATUS
 			err := detailItem.AssignProperties_To_ApiErrorBase_STATUS(&detail)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApiErrorBase_STATUS() to populate field Details")
+				return eris.Wrap(err, "calling AssignProperties_To_ApiErrorBase_STATUS() to populate field Details")
 			}
 			detailList[detailIndex] = detail
 		}
@@ -1385,7 +1421,7 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *s
 		var innererror storage.InnerError_STATUS
 		err := error.Innererror.AssignProperties_To_InnerError_STATUS(&innererror)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_InnerError_STATUS() to populate field Innererror")
+			return eris.Wrap(err, "calling AssignProperties_To_InnerError_STATUS() to populate field Innererror")
 		}
 		destination.Innererror = &innererror
 	} else {
@@ -1410,7 +1446,7 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *s
 	if augmentedError, ok := errorAsAny.(augmentConversionForApiError_STATUS); ok {
 		err := augmentedError.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1577,7 +1613,7 @@ func (base *ApiErrorBase_STATUS) AssignProperties_From_ApiErrorBase_STATUS(sourc
 	if augmentedBase, ok := baseAsAny.(augmentConversionForApiErrorBase_STATUS); ok {
 		err := augmentedBase.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1611,7 +1647,7 @@ func (base *ApiErrorBase_STATUS) AssignProperties_To_ApiErrorBase_STATUS(destina
 	if augmentedBase, ok := baseAsAny.(augmentConversionForApiErrorBase_STATUS); ok {
 		err := augmentedBase.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1655,7 +1691,7 @@ func (error *InnerError_STATUS) AssignProperties_From_InnerError_STATUS(source *
 	if augmentedError, ok := errorAsAny.(augmentConversionForInnerError_STATUS); ok {
 		err := augmentedError.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1686,7 +1722,7 @@ func (error *InnerError_STATUS) AssignProperties_To_InnerError_STATUS(destinatio
 	if augmentedError, ok := errorAsAny.(augmentConversionForInnerError_STATUS); ok {
 		err := augmentedError.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

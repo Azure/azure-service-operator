@@ -13,6 +13,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -43,7 +44,7 @@ func Test_LoadCRDs(t *testing.T) {
 	crdPath := filepath.Join(dir, "crd.yaml")
 	g.Expect(os.WriteFile(crdPath, bytes, 0o600)).To(Succeed())
 
-	crdManager := crdmanagement.NewManager(logger, nil)
+	crdManager := crdmanagement.NewManager(logger, nil, nil)
 
 	loadedCRDs, err := crdManager.LoadOperatorCRDs(dir, "azureserviceoperator-system")
 	g.Expect(err).ToNot(HaveOccurred())
@@ -82,7 +83,7 @@ func Test_LoadCRDs_FixesNamespace(t *testing.T) {
 	crdPath := filepath.Join(dir, "crd.yaml")
 	g.Expect(os.WriteFile(crdPath, bytes, 0o600)).To(Succeed())
 
-	crdManager := crdmanagement.NewManager(logger, nil)
+	crdManager := crdmanagement.NewManager(logger, nil, nil)
 
 	loadedCRDs, err := crdManager.LoadOperatorCRDs(dir, "other-namespace")
 	g.Expect(err).ToNot(HaveOccurred())
@@ -107,7 +108,7 @@ func Test_FindMatchingCRDs_EqualCRDsCompareAsEqual(t *testing.T) {
 	goal := []apiextensions.CustomResourceDefinition{goalCRD}
 
 	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil)
+	crdManager := crdmanagement.NewManager(logger, nil, nil)
 
 	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
 
@@ -123,7 +124,7 @@ func Test_FindMatchingCRDs_MissingCRD(t *testing.T) {
 	goal := []apiextensions.CustomResourceDefinition{goalCRD}
 
 	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil)
+	crdManager := crdmanagement.NewManager(logger, nil, nil)
 
 	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
 
@@ -170,7 +171,7 @@ func Test_FindMatchingCRDs_CRDsWithDifferentConversionsCompareAsEqual(t *testing
 	goal := []apiextensions.CustomResourceDefinition{goalCRD}
 
 	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil)
+	crdManager := crdmanagement.NewManager(logger, nil, nil)
 
 	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
 
@@ -193,7 +194,7 @@ func Test_FindNonMatchingCRDs_EqualCRDsCompareAsEqual(t *testing.T) {
 	goal := []apiextensions.CustomResourceDefinition{goalCRD}
 
 	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil)
+	crdManager := crdmanagement.NewManager(logger, nil, nil)
 
 	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
 
@@ -209,7 +210,7 @@ func Test_FindNonMatchingCRDs_MissingCRD(t *testing.T) {
 	goal := []apiextensions.CustomResourceDefinition{goalCRD}
 
 	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil)
+	crdManager := crdmanagement.NewManager(logger, nil, nil)
 
 	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
 
@@ -256,7 +257,7 @@ func Test_FindNonMatchingCRDs_CRDsWithDifferentConversionsCompareAsEqual(t *test
 	goal := []apiextensions.CustomResourceDefinition{goalCRD}
 
 	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil)
+	crdManager := crdmanagement.NewManager(logger, nil, nil)
 
 	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
 
@@ -382,7 +383,7 @@ func Test_DetermineCRDsToInstallOrUpgrade(t *testing.T) {
 
 			g := NewGomegaWithT(t)
 			logger := testcommon.NewTestLogger(t)
-			crdManager := crdmanagement.NewManager(logger, nil)
+			crdManager := crdmanagement.NewManager(logger, nil, nil)
 
 			instructions, err := crdManager.DetermineCRDsToInstallOrUpgrade(c.goal, c.existing, c.patterns)
 			g.Expect(err).ToNot(HaveOccurred())
@@ -412,9 +413,9 @@ func Test_ListCRDs_ListsOnlyCRDsMatchingLabel(t *testing.T) {
 	g.Expect(kubeClient.Create(ctx, &crd3)).To(Succeed())
 
 	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, kubeClient)
+	crdManager := crdmanagement.NewManager(logger, kubeClient, nil)
 
-	crds, err := crdManager.ListOperatorCRDs(ctx)
+	crds, err := crdManager.ListCRDs(ctx)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(crds).To(HaveLen(1))
 }

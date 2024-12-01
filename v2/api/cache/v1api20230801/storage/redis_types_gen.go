@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -42,6 +45,26 @@ func (redis *Redis) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (redis *Redis) SetConditions(conditions conditions.Conditions) {
 	redis.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Redis{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (redis *Redis) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if redis.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return redis.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Redis{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (redis *Redis) SecretDestinationExpressions() []*core.DestinationExpression {
+	if redis.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return redis.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Redis{}
@@ -92,6 +115,10 @@ func (redis *Redis) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (redis *Redis) Owner() *genruntime.ResourceReference {
+	if redis.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(redis.Spec)
 	return redis.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -108,7 +135,7 @@ func (redis *Redis) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Redis_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	redis.Status = st
@@ -185,7 +212,7 @@ var _ genruntime.ConvertibleSpec = &Redis_Spec{}
 // ConvertSpecFrom populates our Redis_Spec from the provided source
 func (redis *Redis_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == redis {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(redis)
@@ -194,7 +221,7 @@ func (redis *Redis_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 // ConvertSpecTo populates the provided destination from our Redis_Spec
 func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == redis {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(redis)
@@ -238,7 +265,7 @@ var _ genruntime.ConvertibleStatus = &Redis_STATUS{}
 // ConvertStatusFrom populates our Redis_STATUS from the provided source
 func (redis *Redis_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == redis {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(redis)
@@ -247,7 +274,7 @@ func (redis *Redis_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 // ConvertStatusTo populates the provided destination from our Redis_STATUS
 func (redis *Redis_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == redis {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(redis)
@@ -321,8 +348,10 @@ type RedisLinkedServer_STATUS struct {
 // Storage version of v1api20230801.RedisOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RedisOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Secrets     *RedisOperatorSecrets  `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	Secrets              *RedisOperatorSecrets         `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20230801.RedisProperties_RedisConfiguration_STATUS

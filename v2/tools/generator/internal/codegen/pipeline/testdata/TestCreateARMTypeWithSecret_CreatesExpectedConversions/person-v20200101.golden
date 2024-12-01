@@ -7,7 +7,7 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/testing/person/v20200101/arm"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -151,7 +151,7 @@ func (properties *PersonProperties) ConvertToARM(resolved genruntime.ConvertToAR
 	// Set property "FullName":
 	fullNameSecret, err := resolved.ResolvedSecrets.Lookup(properties.FullName)
 	if err != nil {
-		return nil, errors.Wrap(err, "looking up secret for property FullName")
+		return nil, eris.Wrap(err, "looking up secret for property FullName")
 	}
 	result.FullName = fullNameSecret
 
@@ -163,7 +163,7 @@ func (properties *PersonProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		var temp map[string]string
 		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*properties.SecretData)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property temp")
+			return nil, eris.Wrap(err, "looking up secret for property temp")
 		}
 		temp = tempSecret
 		result.SecretData = temp
@@ -173,7 +173,7 @@ func (properties *PersonProperties) ConvertToARM(resolved genruntime.ConvertToAR
 	for _, item := range properties.SecretSlice {
 		itemSecret, err := resolved.ResolvedSecrets.Lookup(item)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property item")
+			return nil, eris.Wrap(err, "looking up secret for property item")
 		}
 		result.SecretSlice = append(result.SecretSlice, itemSecret)
 	}

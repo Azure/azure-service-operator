@@ -9,13 +9,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"gopkg.in/yaml.v3"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/typo"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -87,7 +86,7 @@ func (gc *GroupConfiguration) visitVersion(
 
 	err := visitor.visitVersion(vc)
 	if err != nil {
-		return errors.Wrapf(err, "configuration of group %s", gc.name)
+		return eris.Wrapf(err, "configuration of group %s", gc.name)
 	}
 
 	return nil
@@ -112,7 +111,7 @@ func (gc *GroupConfiguration) visitVersions(visitor *configurationVisitor) error
 	}
 
 	// Both errors.Wrapf() and kerrors.NewAggregate() return nil if nothing went wrong
-	return errors.Wrapf(
+	return eris.Wrapf(
 		kerrors.NewAggregate(errs),
 		"group %s",
 		gc.name)
@@ -158,7 +157,7 @@ func (gc *GroupConfiguration) findVersionForLocalPackageReference(ref astmodel.L
 // The slice node.Content contains pairs of nodes, first one for an ID, then one for the value.
 func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	if value.Kind != yaml.MappingNode {
-		return errors.New("expected mapping")
+		return eris.New("expected mapping")
 	}
 
 	gc.versions = make(map[string]*VersionConfiguration)
@@ -176,7 +175,7 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			v := NewVersionConfiguration(lastId)
 			err := c.Decode(&v)
 			if err != nil {
-				return errors.Wrapf(err, "decoding yaml for %q", lastId)
+				return eris.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
 			gc.addVersion(lastId, v)
@@ -195,15 +194,16 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			case string(ExplicitProperties):
 				gc.PayloadType.Set(ExplicitProperties)
 			default:
-				return errors.Errorf("unknown %s value: %s.", payloadTypeTag, c.Value)
+				return eris.Errorf("unknown %s value: %s.", payloadTypeTag, c.Value)
 			}
 
 			continue
 		}
 
 		// No handler for this value, return an error
-		return errors.Errorf(
+		return eris.Errorf(
 			"group configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
+
 	}
 
 	return nil

@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2022-03-01"
 Image: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (10 properties)
+├── Spec: Object (11 properties)
 │   ├── AzureName: string
 │   ├── ExtendedLocation: *Object (3 properties)
 │   │   ├── Name: *string
@@ -13,6 +13,10 @@ Image: Resource
 │   │   └── Type: *string
 │   ├── HyperVGeneration: *string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -111,7 +115,7 @@ Image: Resource
     └── Type: *string
 VirtualMachine: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (32 properties)
+├── Spec: Object (33 properties)
 │   ├── AdditionalCapabilities: *Object (3 properties)
 │   │   ├── HibernationEnabled: *bool
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -234,6 +238,10 @@ VirtualMachine: Resource
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── OsProfile: *Object (10 properties)
 │   │   ├── AdminPassword: *genruntime.SecretReference
@@ -940,7 +948,7 @@ VirtualMachine: Resource
     └── Zones: string[]
 VirtualMachineScaleSet: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (25 properties)
+├── Spec: Object (26 properties)
 │   ├── AdditionalCapabilities: *Object (3 properties)
 │   │   ├── HibernationEnabled: *bool
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -966,6 +974,10 @@ VirtualMachineScaleSet: Resource
 │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │       └── Reference: genruntime.ResourceReference
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OrchestrationMode: *string
 │   ├── OriginalVersion: string
 │   ├── Overprovision: *bool
@@ -1609,11 +1621,15 @@ VirtualMachineScaleSet: Resource
     └── Zones: string[]
 VirtualMachineScaleSetsExtension: Resource
 ├── Owner: compute/v1api20220301.VirtualMachineScaleSet
-├── Spec: Object (15 properties)
+├── Spec: Object (16 properties)
 │   ├── AutoUpgradeMinorVersion: *bool
 │   ├── AzureName: string
 │   ├── EnableAutomaticUpgrade: *bool
 │   ├── ForceUpdateTag: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -1654,7 +1670,7 @@ VirtualMachineScaleSetsExtension: Resource
     └── TypeHandlerVersion: *string
 VirtualMachinesExtension: Resource
 ├── Owner: compute/v1api20220301.VirtualMachine
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── AutoUpgradeMinorVersion: *bool
 │   ├── AzureName: string
 │   ├── EnableAutomaticUpgrade: *bool
@@ -1679,6 +1695,10 @@ VirtualMachinesExtension: Resource
 │   │   ├── Type: *string
 │   │   └── TypeHandlerVersion: *string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag

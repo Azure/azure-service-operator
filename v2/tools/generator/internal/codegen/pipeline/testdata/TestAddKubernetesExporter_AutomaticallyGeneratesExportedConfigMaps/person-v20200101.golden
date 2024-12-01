@@ -8,6 +8,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -22,10 +24,30 @@ type Person struct {
 	Status            Person_STATUS `json:"status,omitempty"`
 }
 
-var _ genruntime.KubernetesExporter = &Person{}
+var _ configmaps.Exporter = &Person{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (person *Person) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (person *Person) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if person.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return person.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Person{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (person *Person) SecretDestinationExpressions() []*core.DestinationExpression {
+	if person.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return person.Spec.OperatorSpec.SecretExpressions
+}
+
+var _ genruntime.KubernetesConfigExporter = &Person{}
+
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (person *Person) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(person.Namespace)
 	if person.Spec.OperatorSpec != nil && person.Spec.OperatorSpec.ConfigMaps != nil {
 		if person.Status.OptionalString != nil {
@@ -74,8 +96,14 @@ type Person_STATUS struct {
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type PersonOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
 	// ConfigMaps: configures where to place operator written ConfigMaps.
 	ConfigMaps *PersonOperatorConfigMaps `json:"configMaps,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 type PersonOperatorConfigMaps struct {

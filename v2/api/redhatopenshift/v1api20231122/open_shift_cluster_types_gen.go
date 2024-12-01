@@ -5,12 +5,15 @@ package v1api20231122
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -91,6 +94,26 @@ func (cluster *OpenShiftCluster) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the OpenShiftCluster resource
 func (cluster *OpenShiftCluster) defaultImpl() { cluster.defaultAzureName() }
 
+var _ configmaps.Exporter = &OpenShiftCluster{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (cluster *OpenShiftCluster) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if cluster.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return cluster.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &OpenShiftCluster{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (cluster *OpenShiftCluster) SecretDestinationExpressions() []*core.DestinationExpression {
+	if cluster.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return cluster.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &OpenShiftCluster{}
 
 // InitializeSpec initializes the spec for this resource from the given status
@@ -150,6 +173,10 @@ func (cluster *OpenShiftCluster) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (cluster *OpenShiftCluster) Owner() *genruntime.ResourceReference {
+	if cluster.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(cluster.Spec)
 	return cluster.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -166,7 +193,7 @@ func (cluster *OpenShiftCluster) SetStatus(status genruntime.ConvertibleStatus) 
 	var st OpenShiftCluster_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	cluster.Status = st
@@ -209,7 +236,7 @@ func (cluster *OpenShiftCluster) ValidateUpdate(old runtime.Object) (admission.W
 
 // createValidations validates the creation of the resource
 func (cluster *OpenShiftCluster) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){cluster.validateResourceReferences, cluster.validateOwnerReference, cluster.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){cluster.validateResourceReferences, cluster.validateOwnerReference, cluster.validateSecretDestinations, cluster.validateConfigMapDestinations, cluster.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -228,9 +255,23 @@ func (cluster *OpenShiftCluster) updateValidations() []func(old runtime.Object) 
 			return cluster.validateOwnerReference()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
+			return cluster.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return cluster.validateConfigMapDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return cluster.validateOptionalConfigMapReferences()
 		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (cluster *OpenShiftCluster) validateConfigMapDestinations() (admission.Warnings, error) {
+	if cluster.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(cluster, nil, cluster.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
@@ -256,6 +297,14 @@ func (cluster *OpenShiftCluster) validateResourceReferences() (admission.Warning
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (cluster *OpenShiftCluster) validateSecretDestinations() (admission.Warnings, error) {
+	if cluster.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(cluster, nil, cluster.Spec.OperatorSpec.SecretExpressions)
+}
+
 // validateWriteOnceProperties validates all WriteOnce properties
 func (cluster *OpenShiftCluster) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*OpenShiftCluster)
@@ -276,7 +325,7 @@ func (cluster *OpenShiftCluster) AssignProperties_From_OpenShiftCluster(source *
 	var spec OpenShiftCluster_Spec
 	err := spec.AssignProperties_From_OpenShiftCluster_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_OpenShiftCluster_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_OpenShiftCluster_Spec() to populate field Spec")
 	}
 	cluster.Spec = spec
 
@@ -284,7 +333,7 @@ func (cluster *OpenShiftCluster) AssignProperties_From_OpenShiftCluster(source *
 	var status OpenShiftCluster_STATUS
 	err = status.AssignProperties_From_OpenShiftCluster_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_OpenShiftCluster_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_OpenShiftCluster_STATUS() to populate field Status")
 	}
 	cluster.Status = status
 
@@ -302,7 +351,7 @@ func (cluster *OpenShiftCluster) AssignProperties_To_OpenShiftCluster(destinatio
 	var spec storage.OpenShiftCluster_Spec
 	err := cluster.Spec.AssignProperties_To_OpenShiftCluster_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_OpenShiftCluster_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_OpenShiftCluster_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -310,7 +359,7 @@ func (cluster *OpenShiftCluster) AssignProperties_To_OpenShiftCluster(destinatio
 	var status storage.OpenShiftCluster_STATUS
 	err = cluster.Status.AssignProperties_To_OpenShiftCluster_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_OpenShiftCluster_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_OpenShiftCluster_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -366,6 +415,10 @@ type OpenShiftCluster_Spec struct {
 	// NetworkProfile: The cluster network profile.
 	NetworkProfile *NetworkProfile `json:"networkProfile,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *OpenShiftClusterOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -389,7 +442,7 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if cluster == nil {
 		return nil, nil
 	}
-	result := &OpenShiftCluster_Spec_ARM{}
+	result := &arm.OpenShiftCluster_Spec{}
 
 	// Set property "Location":
 	if cluster.Location != nil {
@@ -408,14 +461,14 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		cluster.NetworkProfile != nil ||
 		cluster.ServicePrincipalProfile != nil ||
 		cluster.WorkerProfiles != nil {
-		result.Properties = &OpenShiftClusterProperties_ARM{}
+		result.Properties = &arm.OpenShiftClusterProperties{}
 	}
 	if cluster.ApiserverProfile != nil {
 		apiserverProfile_ARM, err := (*cluster.ApiserverProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		apiserverProfile := *apiserverProfile_ARM.(*APIServerProfile_ARM)
+		apiserverProfile := *apiserverProfile_ARM.(*arm.APIServerProfile)
 		result.Properties.ApiserverProfile = &apiserverProfile
 	}
 	if cluster.ClusterProfile != nil {
@@ -423,7 +476,7 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		clusterProfile := *clusterProfile_ARM.(*ClusterProfile_ARM)
+		clusterProfile := *clusterProfile_ARM.(*arm.ClusterProfile)
 		result.Properties.ClusterProfile = &clusterProfile
 	}
 	for _, item := range cluster.IngressProfiles {
@@ -431,14 +484,14 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IngressProfiles = append(result.Properties.IngressProfiles, *item_ARM.(*IngressProfile_ARM))
+		result.Properties.IngressProfiles = append(result.Properties.IngressProfiles, *item_ARM.(*arm.IngressProfile))
 	}
 	if cluster.MasterProfile != nil {
 		masterProfile_ARM, err := (*cluster.MasterProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		masterProfile := *masterProfile_ARM.(*MasterProfile_ARM)
+		masterProfile := *masterProfile_ARM.(*arm.MasterProfile)
 		result.Properties.MasterProfile = &masterProfile
 	}
 	if cluster.NetworkProfile != nil {
@@ -446,7 +499,7 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		networkProfile := *networkProfile_ARM.(*NetworkProfile_ARM)
+		networkProfile := *networkProfile_ARM.(*arm.NetworkProfile)
 		result.Properties.NetworkProfile = &networkProfile
 	}
 	if cluster.ServicePrincipalProfile != nil {
@@ -454,7 +507,7 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		servicePrincipalProfile := *servicePrincipalProfile_ARM.(*ServicePrincipalProfile_ARM)
+		servicePrincipalProfile := *servicePrincipalProfile_ARM.(*arm.ServicePrincipalProfile)
 		result.Properties.ServicePrincipalProfile = &servicePrincipalProfile
 	}
 	for _, item := range cluster.WorkerProfiles {
@@ -462,7 +515,7 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.WorkerProfiles = append(result.Properties.WorkerProfiles, *item_ARM.(*WorkerProfile_ARM))
+		result.Properties.WorkerProfiles = append(result.Properties.WorkerProfiles, *item_ARM.(*arm.WorkerProfile))
 	}
 
 	// Set property "Tags":
@@ -477,14 +530,14 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (cluster *OpenShiftCluster_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OpenShiftCluster_Spec_ARM{}
+	return &arm.OpenShiftCluster_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (cluster *OpenShiftCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OpenShiftCluster_Spec_ARM)
+	typedInput, ok := armInput.(arm.OpenShiftCluster_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OpenShiftCluster_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.OpenShiftCluster_Spec, got %T", armInput)
 	}
 
 	// Set property "ApiserverProfile":
@@ -565,6 +618,8 @@ func (cluster *OpenShiftCluster_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	cluster.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -624,13 +679,13 @@ func (cluster *OpenShiftCluster_Spec) ConvertSpecFrom(source genruntime.Converti
 	src = &storage.OpenShiftCluster_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = cluster.AssignProperties_From_OpenShiftCluster_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -648,13 +703,13 @@ func (cluster *OpenShiftCluster_Spec) ConvertSpecTo(destination genruntime.Conve
 	dst = &storage.OpenShiftCluster_Spec{}
 	err := cluster.AssignProperties_To_OpenShiftCluster_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -668,7 +723,7 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_From_OpenShiftCluster_Spe
 		var apiserverProfile APIServerProfile
 		err := apiserverProfile.AssignProperties_From_APIServerProfile(source.ApiserverProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_APIServerProfile() to populate field ApiserverProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_APIServerProfile() to populate field ApiserverProfile")
 		}
 		cluster.ApiserverProfile = &apiserverProfile
 	} else {
@@ -683,7 +738,7 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_From_OpenShiftCluster_Spe
 		var clusterProfile ClusterProfile
 		err := clusterProfile.AssignProperties_From_ClusterProfile(source.ClusterProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ClusterProfile() to populate field ClusterProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterProfile() to populate field ClusterProfile")
 		}
 		cluster.ClusterProfile = &clusterProfile
 	} else {
@@ -699,7 +754,7 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_From_OpenShiftCluster_Spe
 			var ingressProfile IngressProfile
 			err := ingressProfile.AssignProperties_From_IngressProfile(&ingressProfileItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IngressProfile() to populate field IngressProfiles")
+				return eris.Wrap(err, "calling AssignProperties_From_IngressProfile() to populate field IngressProfiles")
 			}
 			ingressProfileList[ingressProfileIndex] = ingressProfile
 		}
@@ -716,7 +771,7 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_From_OpenShiftCluster_Spe
 		var masterProfile MasterProfile
 		err := masterProfile.AssignProperties_From_MasterProfile(source.MasterProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_MasterProfile() to populate field MasterProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_MasterProfile() to populate field MasterProfile")
 		}
 		cluster.MasterProfile = &masterProfile
 	} else {
@@ -728,11 +783,23 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_From_OpenShiftCluster_Spe
 		var networkProfile NetworkProfile
 		err := networkProfile.AssignProperties_From_NetworkProfile(source.NetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkProfile() to populate field NetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkProfile() to populate field NetworkProfile")
 		}
 		cluster.NetworkProfile = &networkProfile
 	} else {
 		cluster.NetworkProfile = nil
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec OpenShiftClusterOperatorSpec
+		err := operatorSpec.AssignProperties_From_OpenShiftClusterOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_OpenShiftClusterOperatorSpec() to populate field OperatorSpec")
+		}
+		cluster.OperatorSpec = &operatorSpec
+	} else {
+		cluster.OperatorSpec = nil
 	}
 
 	// Owner
@@ -748,7 +815,7 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_From_OpenShiftCluster_Spe
 		var servicePrincipalProfile ServicePrincipalProfile
 		err := servicePrincipalProfile.AssignProperties_From_ServicePrincipalProfile(source.ServicePrincipalProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServicePrincipalProfile() to populate field ServicePrincipalProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_ServicePrincipalProfile() to populate field ServicePrincipalProfile")
 		}
 		cluster.ServicePrincipalProfile = &servicePrincipalProfile
 	} else {
@@ -767,7 +834,7 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_From_OpenShiftCluster_Spe
 			var workerProfile WorkerProfile
 			err := workerProfile.AssignProperties_From_WorkerProfile(&workerProfileItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_WorkerProfile() to populate field WorkerProfiles")
+				return eris.Wrap(err, "calling AssignProperties_From_WorkerProfile() to populate field WorkerProfiles")
 			}
 			workerProfileList[workerProfileIndex] = workerProfile
 		}
@@ -790,7 +857,7 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_To_OpenShiftCluster_Spec(
 		var apiserverProfile storage.APIServerProfile
 		err := cluster.ApiserverProfile.AssignProperties_To_APIServerProfile(&apiserverProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_APIServerProfile() to populate field ApiserverProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_APIServerProfile() to populate field ApiserverProfile")
 		}
 		destination.ApiserverProfile = &apiserverProfile
 	} else {
@@ -805,7 +872,7 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_To_OpenShiftCluster_Spec(
 		var clusterProfile storage.ClusterProfile
 		err := cluster.ClusterProfile.AssignProperties_To_ClusterProfile(&clusterProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ClusterProfile() to populate field ClusterProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterProfile() to populate field ClusterProfile")
 		}
 		destination.ClusterProfile = &clusterProfile
 	} else {
@@ -821,7 +888,7 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_To_OpenShiftCluster_Spec(
 			var ingressProfile storage.IngressProfile
 			err := ingressProfileItem.AssignProperties_To_IngressProfile(&ingressProfile)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IngressProfile() to populate field IngressProfiles")
+				return eris.Wrap(err, "calling AssignProperties_To_IngressProfile() to populate field IngressProfiles")
 			}
 			ingressProfileList[ingressProfileIndex] = ingressProfile
 		}
@@ -838,7 +905,7 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_To_OpenShiftCluster_Spec(
 		var masterProfile storage.MasterProfile
 		err := cluster.MasterProfile.AssignProperties_To_MasterProfile(&masterProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_MasterProfile() to populate field MasterProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_MasterProfile() to populate field MasterProfile")
 		}
 		destination.MasterProfile = &masterProfile
 	} else {
@@ -850,11 +917,23 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_To_OpenShiftCluster_Spec(
 		var networkProfile storage.NetworkProfile
 		err := cluster.NetworkProfile.AssignProperties_To_NetworkProfile(&networkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkProfile() to populate field NetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkProfile() to populate field NetworkProfile")
 		}
 		destination.NetworkProfile = &networkProfile
 	} else {
 		destination.NetworkProfile = nil
+	}
+
+	// OperatorSpec
+	if cluster.OperatorSpec != nil {
+		var operatorSpec storage.OpenShiftClusterOperatorSpec
+		err := cluster.OperatorSpec.AssignProperties_To_OpenShiftClusterOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_OpenShiftClusterOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -873,7 +952,7 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_To_OpenShiftCluster_Spec(
 		var servicePrincipalProfile storage.ServicePrincipalProfile
 		err := cluster.ServicePrincipalProfile.AssignProperties_To_ServicePrincipalProfile(&servicePrincipalProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServicePrincipalProfile() to populate field ServicePrincipalProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_ServicePrincipalProfile() to populate field ServicePrincipalProfile")
 		}
 		destination.ServicePrincipalProfile = &servicePrincipalProfile
 	} else {
@@ -892,7 +971,7 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_To_OpenShiftCluster_Spec(
 			var workerProfile storage.WorkerProfile
 			err := workerProfileItem.AssignProperties_To_WorkerProfile(&workerProfile)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_WorkerProfile() to populate field WorkerProfiles")
+				return eris.Wrap(err, "calling AssignProperties_To_WorkerProfile() to populate field WorkerProfiles")
 			}
 			workerProfileList[workerProfileIndex] = workerProfile
 		}
@@ -920,7 +999,7 @@ func (cluster *OpenShiftCluster_Spec) Initialize_From_OpenShiftCluster_STATUS(so
 		var apiserverProfile APIServerProfile
 		err := apiserverProfile.Initialize_From_APIServerProfile_STATUS(source.ApiserverProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_APIServerProfile_STATUS() to populate field ApiserverProfile")
+			return eris.Wrap(err, "calling Initialize_From_APIServerProfile_STATUS() to populate field ApiserverProfile")
 		}
 		cluster.ApiserverProfile = &apiserverProfile
 	} else {
@@ -932,7 +1011,7 @@ func (cluster *OpenShiftCluster_Spec) Initialize_From_OpenShiftCluster_STATUS(so
 		var clusterProfile ClusterProfile
 		err := clusterProfile.Initialize_From_ClusterProfile_STATUS(source.ClusterProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ClusterProfile_STATUS() to populate field ClusterProfile")
+			return eris.Wrap(err, "calling Initialize_From_ClusterProfile_STATUS() to populate field ClusterProfile")
 		}
 		cluster.ClusterProfile = &clusterProfile
 	} else {
@@ -948,7 +1027,7 @@ func (cluster *OpenShiftCluster_Spec) Initialize_From_OpenShiftCluster_STATUS(so
 			var ingressProfile IngressProfile
 			err := ingressProfile.Initialize_From_IngressProfile_STATUS(&ingressProfileItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IngressProfile_STATUS() to populate field IngressProfiles")
+				return eris.Wrap(err, "calling Initialize_From_IngressProfile_STATUS() to populate field IngressProfiles")
 			}
 			ingressProfileList[ingressProfileIndex] = ingressProfile
 		}
@@ -965,7 +1044,7 @@ func (cluster *OpenShiftCluster_Spec) Initialize_From_OpenShiftCluster_STATUS(so
 		var masterProfile MasterProfile
 		err := masterProfile.Initialize_From_MasterProfile_STATUS(source.MasterProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_MasterProfile_STATUS() to populate field MasterProfile")
+			return eris.Wrap(err, "calling Initialize_From_MasterProfile_STATUS() to populate field MasterProfile")
 		}
 		cluster.MasterProfile = &masterProfile
 	} else {
@@ -977,7 +1056,7 @@ func (cluster *OpenShiftCluster_Spec) Initialize_From_OpenShiftCluster_STATUS(so
 		var networkProfile NetworkProfile
 		err := networkProfile.Initialize_From_NetworkProfile_STATUS(source.NetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NetworkProfile_STATUS() to populate field NetworkProfile")
+			return eris.Wrap(err, "calling Initialize_From_NetworkProfile_STATUS() to populate field NetworkProfile")
 		}
 		cluster.NetworkProfile = &networkProfile
 	} else {
@@ -989,7 +1068,7 @@ func (cluster *OpenShiftCluster_Spec) Initialize_From_OpenShiftCluster_STATUS(so
 		var servicePrincipalProfile ServicePrincipalProfile
 		err := servicePrincipalProfile.Initialize_From_ServicePrincipalProfile_STATUS(source.ServicePrincipalProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ServicePrincipalProfile_STATUS() to populate field ServicePrincipalProfile")
+			return eris.Wrap(err, "calling Initialize_From_ServicePrincipalProfile_STATUS() to populate field ServicePrincipalProfile")
 		}
 		cluster.ServicePrincipalProfile = &servicePrincipalProfile
 	} else {
@@ -1008,7 +1087,7 @@ func (cluster *OpenShiftCluster_Spec) Initialize_From_OpenShiftCluster_STATUS(so
 			var workerProfile WorkerProfile
 			err := workerProfile.Initialize_From_WorkerProfile_STATUS(&workerProfileItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_WorkerProfile_STATUS() to populate field WorkerProfiles")
+				return eris.Wrap(err, "calling Initialize_From_WorkerProfile_STATUS() to populate field WorkerProfiles")
 			}
 			workerProfileList[workerProfileIndex] = workerProfile
 		}
@@ -1098,13 +1177,13 @@ func (cluster *OpenShiftCluster_STATUS) ConvertStatusFrom(source genruntime.Conv
 	src = &storage.OpenShiftCluster_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = cluster.AssignProperties_From_OpenShiftCluster_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1122,13 +1201,13 @@ func (cluster *OpenShiftCluster_STATUS) ConvertStatusTo(destination genruntime.C
 	dst = &storage.OpenShiftCluster_STATUS{}
 	err := cluster.AssignProperties_To_OpenShiftCluster_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1138,14 +1217,14 @@ var _ genruntime.FromARMConverter = &OpenShiftCluster_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (cluster *OpenShiftCluster_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OpenShiftCluster_STATUS_ARM{}
+	return &arm.OpenShiftCluster_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (cluster *OpenShiftCluster_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OpenShiftCluster_STATUS_ARM)
+	typedInput, ok := armInput.(arm.OpenShiftCluster_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OpenShiftCluster_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.OpenShiftCluster_STATUS, got %T", armInput)
 	}
 
 	// Set property "ApiserverProfile":
@@ -1339,7 +1418,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_From_OpenShiftCluster_S
 		var apiserverProfile APIServerProfile_STATUS
 		err := apiserverProfile.AssignProperties_From_APIServerProfile_STATUS(source.ApiserverProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_APIServerProfile_STATUS() to populate field ApiserverProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_APIServerProfile_STATUS() to populate field ApiserverProfile")
 		}
 		cluster.ApiserverProfile = &apiserverProfile
 	} else {
@@ -1351,7 +1430,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_From_OpenShiftCluster_S
 		var clusterProfile ClusterProfile_STATUS
 		err := clusterProfile.AssignProperties_From_ClusterProfile_STATUS(source.ClusterProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ClusterProfile_STATUS() to populate field ClusterProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterProfile_STATUS() to populate field ClusterProfile")
 		}
 		cluster.ClusterProfile = &clusterProfile
 	} else {
@@ -1366,7 +1445,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_From_OpenShiftCluster_S
 		var consoleProfile ConsoleProfile_STATUS
 		err := consoleProfile.AssignProperties_From_ConsoleProfile_STATUS(source.ConsoleProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ConsoleProfile_STATUS() to populate field ConsoleProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_ConsoleProfile_STATUS() to populate field ConsoleProfile")
 		}
 		cluster.ConsoleProfile = &consoleProfile
 	} else {
@@ -1385,7 +1464,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_From_OpenShiftCluster_S
 			var ingressProfile IngressProfile_STATUS
 			err := ingressProfile.AssignProperties_From_IngressProfile_STATUS(&ingressProfileItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IngressProfile_STATUS() to populate field IngressProfiles")
+				return eris.Wrap(err, "calling AssignProperties_From_IngressProfile_STATUS() to populate field IngressProfiles")
 			}
 			ingressProfileList[ingressProfileIndex] = ingressProfile
 		}
@@ -1402,7 +1481,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_From_OpenShiftCluster_S
 		var masterProfile MasterProfile_STATUS
 		err := masterProfile.AssignProperties_From_MasterProfile_STATUS(source.MasterProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_MasterProfile_STATUS() to populate field MasterProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_MasterProfile_STATUS() to populate field MasterProfile")
 		}
 		cluster.MasterProfile = &masterProfile
 	} else {
@@ -1417,7 +1496,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_From_OpenShiftCluster_S
 		var networkProfile NetworkProfile_STATUS
 		err := networkProfile.AssignProperties_From_NetworkProfile_STATUS(source.NetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkProfile_STATUS() to populate field NetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkProfile_STATUS() to populate field NetworkProfile")
 		}
 		cluster.NetworkProfile = &networkProfile
 	} else {
@@ -1438,7 +1517,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_From_OpenShiftCluster_S
 		var servicePrincipalProfile ServicePrincipalProfile_STATUS
 		err := servicePrincipalProfile.AssignProperties_From_ServicePrincipalProfile_STATUS(source.ServicePrincipalProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServicePrincipalProfile_STATUS() to populate field ServicePrincipalProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_ServicePrincipalProfile_STATUS() to populate field ServicePrincipalProfile")
 		}
 		cluster.ServicePrincipalProfile = &servicePrincipalProfile
 	} else {
@@ -1450,7 +1529,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_From_OpenShiftCluster_S
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		cluster.SystemData = &systemDatum
 	} else {
@@ -1472,7 +1551,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_From_OpenShiftCluster_S
 			var workerProfile WorkerProfile_STATUS
 			err := workerProfile.AssignProperties_From_WorkerProfile_STATUS(&workerProfileItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_WorkerProfile_STATUS() to populate field WorkerProfiles")
+				return eris.Wrap(err, "calling AssignProperties_From_WorkerProfile_STATUS() to populate field WorkerProfiles")
 			}
 			workerProfileList[workerProfileIndex] = workerProfile
 		}
@@ -1490,7 +1569,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_From_OpenShiftCluster_S
 			var workerProfilesStatus WorkerProfile_STATUS
 			err := workerProfilesStatus.AssignProperties_From_WorkerProfile_STATUS(&workerProfilesStatusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_WorkerProfile_STATUS() to populate field WorkerProfilesStatus")
+				return eris.Wrap(err, "calling AssignProperties_From_WorkerProfile_STATUS() to populate field WorkerProfilesStatus")
 			}
 			workerProfilesStatusList[workerProfilesStatusIndex] = workerProfilesStatus
 		}
@@ -1513,7 +1592,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_To_OpenShiftCluster_STA
 		var apiserverProfile storage.APIServerProfile_STATUS
 		err := cluster.ApiserverProfile.AssignProperties_To_APIServerProfile_STATUS(&apiserverProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_APIServerProfile_STATUS() to populate field ApiserverProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_APIServerProfile_STATUS() to populate field ApiserverProfile")
 		}
 		destination.ApiserverProfile = &apiserverProfile
 	} else {
@@ -1525,7 +1604,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_To_OpenShiftCluster_STA
 		var clusterProfile storage.ClusterProfile_STATUS
 		err := cluster.ClusterProfile.AssignProperties_To_ClusterProfile_STATUS(&clusterProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ClusterProfile_STATUS() to populate field ClusterProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterProfile_STATUS() to populate field ClusterProfile")
 		}
 		destination.ClusterProfile = &clusterProfile
 	} else {
@@ -1540,7 +1619,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_To_OpenShiftCluster_STA
 		var consoleProfile storage.ConsoleProfile_STATUS
 		err := cluster.ConsoleProfile.AssignProperties_To_ConsoleProfile_STATUS(&consoleProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ConsoleProfile_STATUS() to populate field ConsoleProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_ConsoleProfile_STATUS() to populate field ConsoleProfile")
 		}
 		destination.ConsoleProfile = &consoleProfile
 	} else {
@@ -1559,7 +1638,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_To_OpenShiftCluster_STA
 			var ingressProfile storage.IngressProfile_STATUS
 			err := ingressProfileItem.AssignProperties_To_IngressProfile_STATUS(&ingressProfile)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IngressProfile_STATUS() to populate field IngressProfiles")
+				return eris.Wrap(err, "calling AssignProperties_To_IngressProfile_STATUS() to populate field IngressProfiles")
 			}
 			ingressProfileList[ingressProfileIndex] = ingressProfile
 		}
@@ -1576,7 +1655,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_To_OpenShiftCluster_STA
 		var masterProfile storage.MasterProfile_STATUS
 		err := cluster.MasterProfile.AssignProperties_To_MasterProfile_STATUS(&masterProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_MasterProfile_STATUS() to populate field MasterProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_MasterProfile_STATUS() to populate field MasterProfile")
 		}
 		destination.MasterProfile = &masterProfile
 	} else {
@@ -1591,7 +1670,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_To_OpenShiftCluster_STA
 		var networkProfile storage.NetworkProfile_STATUS
 		err := cluster.NetworkProfile.AssignProperties_To_NetworkProfile_STATUS(&networkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkProfile_STATUS() to populate field NetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkProfile_STATUS() to populate field NetworkProfile")
 		}
 		destination.NetworkProfile = &networkProfile
 	} else {
@@ -1611,7 +1690,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_To_OpenShiftCluster_STA
 		var servicePrincipalProfile storage.ServicePrincipalProfile_STATUS
 		err := cluster.ServicePrincipalProfile.AssignProperties_To_ServicePrincipalProfile_STATUS(&servicePrincipalProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServicePrincipalProfile_STATUS() to populate field ServicePrincipalProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_ServicePrincipalProfile_STATUS() to populate field ServicePrincipalProfile")
 		}
 		destination.ServicePrincipalProfile = &servicePrincipalProfile
 	} else {
@@ -1623,7 +1702,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_To_OpenShiftCluster_STA
 		var systemDatum storage.SystemData_STATUS
 		err := cluster.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1645,7 +1724,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_To_OpenShiftCluster_STA
 			var workerProfile storage.WorkerProfile_STATUS
 			err := workerProfileItem.AssignProperties_To_WorkerProfile_STATUS(&workerProfile)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_WorkerProfile_STATUS() to populate field WorkerProfiles")
+				return eris.Wrap(err, "calling AssignProperties_To_WorkerProfile_STATUS() to populate field WorkerProfiles")
 			}
 			workerProfileList[workerProfileIndex] = workerProfile
 		}
@@ -1663,7 +1742,7 @@ func (cluster *OpenShiftCluster_STATUS) AssignProperties_To_OpenShiftCluster_STA
 			var workerProfilesStatus storage.WorkerProfile_STATUS
 			err := workerProfilesStatusItem.AssignProperties_To_WorkerProfile_STATUS(&workerProfilesStatus)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_WorkerProfile_STATUS() to populate field WorkerProfilesStatus")
+				return eris.Wrap(err, "calling AssignProperties_To_WorkerProfile_STATUS() to populate field WorkerProfilesStatus")
 			}
 			workerProfilesStatusList[workerProfilesStatusIndex] = workerProfilesStatus
 		}
@@ -1696,13 +1775,13 @@ func (profile *APIServerProfile) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if profile == nil {
 		return nil, nil
 	}
-	result := &APIServerProfile_ARM{}
+	result := &arm.APIServerProfile{}
 
 	// Set property "Visibility":
 	if profile.Visibility != nil {
 		var temp string
 		temp = string(*profile.Visibility)
-		visibility := Visibility_ARM(temp)
+		visibility := arm.Visibility(temp)
 		result.Visibility = &visibility
 	}
 	return result, nil
@@ -1710,14 +1789,14 @@ func (profile *APIServerProfile) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *APIServerProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &APIServerProfile_ARM{}
+	return &arm.APIServerProfile{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *APIServerProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(APIServerProfile_ARM)
+	typedInput, ok := armInput.(arm.APIServerProfile)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected APIServerProfile_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.APIServerProfile, got %T", armInput)
 	}
 
 	// Set property "Visibility":
@@ -1803,14 +1882,14 @@ var _ genruntime.FromARMConverter = &APIServerProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *APIServerProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &APIServerProfile_STATUS_ARM{}
+	return &arm.APIServerProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *APIServerProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(APIServerProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.APIServerProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected APIServerProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.APIServerProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "Ip":
@@ -1914,7 +1993,7 @@ func (profile *ClusterProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile == nil {
 		return nil, nil
 	}
-	result := &ClusterProfile_ARM{}
+	result := &arm.ClusterProfile{}
 
 	// Set property "Domain":
 	if profile.Domain != nil {
@@ -1926,7 +2005,7 @@ func (profile *ClusterProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile.FipsValidatedModules != nil {
 		var temp string
 		temp = string(*profile.FipsValidatedModules)
-		fipsValidatedModules := FipsValidatedModules_ARM(temp)
+		fipsValidatedModules := arm.FipsValidatedModules(temp)
 		result.FipsValidatedModules = &fipsValidatedModules
 	}
 
@@ -1934,7 +2013,7 @@ func (profile *ClusterProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile.PullSecret != nil {
 		pullSecretSecret, err := resolved.ResolvedSecrets.Lookup(*profile.PullSecret)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property PullSecret")
+			return nil, eris.Wrap(err, "looking up secret for property PullSecret")
 		}
 		pullSecret := pullSecretSecret
 		result.PullSecret = &pullSecret
@@ -1956,14 +2035,14 @@ func (profile *ClusterProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *ClusterProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ClusterProfile_ARM{}
+	return &arm.ClusterProfile{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *ClusterProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ClusterProfile_ARM)
+	typedInput, ok := armInput.(arm.ClusterProfile)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ClusterProfile_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ClusterProfile, got %T", armInput)
 	}
 
 	// Set property "Domain":
@@ -2115,14 +2194,14 @@ var _ genruntime.FromARMConverter = &ClusterProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *ClusterProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ClusterProfile_STATUS_ARM{}
+	return &arm.ClusterProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *ClusterProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ClusterProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ClusterProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ClusterProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ClusterProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "Domain":
@@ -2223,14 +2302,14 @@ var _ genruntime.FromARMConverter = &ConsoleProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *ConsoleProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ConsoleProfile_STATUS_ARM{}
+	return &arm.ConsoleProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *ConsoleProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ConsoleProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ConsoleProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConsoleProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ConsoleProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "Url":
@@ -2288,7 +2367,7 @@ func (profile *IngressProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile == nil {
 		return nil, nil
 	}
-	result := &IngressProfile_ARM{}
+	result := &arm.IngressProfile{}
 
 	// Set property "Name":
 	if profile.Name != nil {
@@ -2300,7 +2379,7 @@ func (profile *IngressProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile.Visibility != nil {
 		var temp string
 		temp = string(*profile.Visibility)
-		visibility := Visibility_ARM(temp)
+		visibility := arm.Visibility(temp)
 		result.Visibility = &visibility
 	}
 	return result, nil
@@ -2308,14 +2387,14 @@ func (profile *IngressProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *IngressProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IngressProfile_ARM{}
+	return &arm.IngressProfile{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *IngressProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IngressProfile_ARM)
+	typedInput, ok := armInput.(arm.IngressProfile)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IngressProfile_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IngressProfile, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -2416,14 +2495,14 @@ var _ genruntime.FromARMConverter = &IngressProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *IngressProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IngressProfile_STATUS_ARM{}
+	return &arm.IngressProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *IngressProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IngressProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.IngressProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IngressProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IngressProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "Ip":
@@ -2524,7 +2603,7 @@ func (profile *MasterProfile) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if profile == nil {
 		return nil, nil
 	}
-	result := &MasterProfile_ARM{}
+	result := &arm.MasterProfile{}
 
 	// Set property "DiskEncryptionSetId":
 	if profile.DiskEncryptionSetReference != nil {
@@ -2540,7 +2619,7 @@ func (profile *MasterProfile) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if profile.EncryptionAtHost != nil {
 		var temp string
 		temp = string(*profile.EncryptionAtHost)
-		encryptionAtHost := EncryptionAtHost_ARM(temp)
+		encryptionAtHost := arm.EncryptionAtHost(temp)
 		result.EncryptionAtHost = &encryptionAtHost
 	}
 
@@ -2564,14 +2643,14 @@ func (profile *MasterProfile) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *MasterProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MasterProfile_ARM{}
+	return &arm.MasterProfile{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *MasterProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MasterProfile_ARM)
+	typedInput, ok := armInput.(arm.MasterProfile)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MasterProfile_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MasterProfile, got %T", armInput)
 	}
 
 	// no assignment for property "DiskEncryptionSetReference"
@@ -2727,14 +2806,14 @@ var _ genruntime.FromARMConverter = &MasterProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *MasterProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MasterProfile_STATUS_ARM{}
+	return &arm.MasterProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *MasterProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MasterProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MasterProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MasterProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MasterProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "DiskEncryptionSetId":
@@ -2850,7 +2929,7 @@ func (profile *NetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile == nil {
 		return nil, nil
 	}
-	result := &NetworkProfile_ARM{}
+	result := &arm.NetworkProfile{}
 
 	// Set property "LoadBalancerProfile":
 	if profile.LoadBalancerProfile != nil {
@@ -2858,7 +2937,7 @@ func (profile *NetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		loadBalancerProfile := *loadBalancerProfile_ARM.(*LoadBalancerProfile_ARM)
+		loadBalancerProfile := *loadBalancerProfile_ARM.(*arm.LoadBalancerProfile)
 		result.LoadBalancerProfile = &loadBalancerProfile
 	}
 
@@ -2866,7 +2945,7 @@ func (profile *NetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile.OutboundType != nil {
 		var temp string
 		temp = string(*profile.OutboundType)
-		outboundType := OutboundType_ARM(temp)
+		outboundType := arm.OutboundType(temp)
 		result.OutboundType = &outboundType
 	}
 
@@ -2880,7 +2959,7 @@ func (profile *NetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile.PreconfiguredNSG != nil {
 		var temp string
 		temp = string(*profile.PreconfiguredNSG)
-		preconfiguredNSG := PreconfiguredNSG_ARM(temp)
+		preconfiguredNSG := arm.PreconfiguredNSG(temp)
 		result.PreconfiguredNSG = &preconfiguredNSG
 	}
 
@@ -2894,14 +2973,14 @@ func (profile *NetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *NetworkProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkProfile_ARM{}
+	return &arm.NetworkProfile{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *NetworkProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkProfile_ARM)
+	typedInput, ok := armInput.(arm.NetworkProfile)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkProfile_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkProfile, got %T", armInput)
 	}
 
 	// Set property "LoadBalancerProfile":
@@ -2955,7 +3034,7 @@ func (profile *NetworkProfile) AssignProperties_From_NetworkProfile(source *stor
 		var loadBalancerProfile LoadBalancerProfile
 		err := loadBalancerProfile.AssignProperties_From_LoadBalancerProfile(source.LoadBalancerProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_LoadBalancerProfile() to populate field LoadBalancerProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_LoadBalancerProfile() to populate field LoadBalancerProfile")
 		}
 		profile.LoadBalancerProfile = &loadBalancerProfile
 	} else {
@@ -3000,7 +3079,7 @@ func (profile *NetworkProfile) AssignProperties_To_NetworkProfile(destination *s
 		var loadBalancerProfile storage.LoadBalancerProfile
 		err := profile.LoadBalancerProfile.AssignProperties_To_LoadBalancerProfile(&loadBalancerProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_LoadBalancerProfile() to populate field LoadBalancerProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_LoadBalancerProfile() to populate field LoadBalancerProfile")
 		}
 		destination.LoadBalancerProfile = &loadBalancerProfile
 	} else {
@@ -3048,7 +3127,7 @@ func (profile *NetworkProfile) Initialize_From_NetworkProfile_STATUS(source *Net
 		var loadBalancerProfile LoadBalancerProfile
 		err := loadBalancerProfile.Initialize_From_LoadBalancerProfile_STATUS(source.LoadBalancerProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_LoadBalancerProfile_STATUS() to populate field LoadBalancerProfile")
+			return eris.Wrap(err, "calling Initialize_From_LoadBalancerProfile_STATUS() to populate field LoadBalancerProfile")
 		}
 		profile.LoadBalancerProfile = &loadBalancerProfile
 	} else {
@@ -3103,14 +3182,14 @@ var _ genruntime.FromARMConverter = &NetworkProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *NetworkProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkProfile_STATUS_ARM{}
+	return &arm.NetworkProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *NetworkProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NetworkProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "LoadBalancerProfile":
@@ -3164,7 +3243,7 @@ func (profile *NetworkProfile_STATUS) AssignProperties_From_NetworkProfile_STATU
 		var loadBalancerProfile LoadBalancerProfile_STATUS
 		err := loadBalancerProfile.AssignProperties_From_LoadBalancerProfile_STATUS(source.LoadBalancerProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_LoadBalancerProfile_STATUS() to populate field LoadBalancerProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_LoadBalancerProfile_STATUS() to populate field LoadBalancerProfile")
 		}
 		profile.LoadBalancerProfile = &loadBalancerProfile
 	} else {
@@ -3209,7 +3288,7 @@ func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(
 		var loadBalancerProfile storage.LoadBalancerProfile_STATUS
 		err := profile.LoadBalancerProfile.AssignProperties_To_LoadBalancerProfile_STATUS(&loadBalancerProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_LoadBalancerProfile_STATUS() to populate field LoadBalancerProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_LoadBalancerProfile_STATUS() to populate field LoadBalancerProfile")
 		}
 		destination.LoadBalancerProfile = &loadBalancerProfile
 	} else {
@@ -3237,6 +3316,110 @@ func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(
 
 	// ServiceCidr
 	destination.ServiceCidr = genruntime.ClonePointerToString(profile.ServiceCidr)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type OpenShiftClusterOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_OpenShiftClusterOperatorSpec populates our OpenShiftClusterOperatorSpec from the provided source OpenShiftClusterOperatorSpec
+func (operator *OpenShiftClusterOperatorSpec) AssignProperties_From_OpenShiftClusterOperatorSpec(source *storage.OpenShiftClusterOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_OpenShiftClusterOperatorSpec populates the provided destination OpenShiftClusterOperatorSpec from our OpenShiftClusterOperatorSpec
+func (operator *OpenShiftClusterOperatorSpec) AssignProperties_To_OpenShiftClusterOperatorSpec(destination *storage.OpenShiftClusterOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3292,7 +3475,7 @@ func (profile *ServicePrincipalProfile) ConvertToARM(resolved genruntime.Convert
 	if profile == nil {
 		return nil, nil
 	}
-	result := &ServicePrincipalProfile_ARM{}
+	result := &arm.ServicePrincipalProfile{}
 
 	// Set property "ClientId":
 	if profile.ClientId != nil {
@@ -3302,7 +3485,7 @@ func (profile *ServicePrincipalProfile) ConvertToARM(resolved genruntime.Convert
 	if profile.ClientIdFromConfig != nil {
 		clientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*profile.ClientIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property ClientId")
+			return nil, eris.Wrap(err, "looking up configmap for property ClientId")
 		}
 		clientId := clientIdValue
 		result.ClientId = &clientId
@@ -3312,7 +3495,7 @@ func (profile *ServicePrincipalProfile) ConvertToARM(resolved genruntime.Convert
 	if profile.ClientSecret != nil {
 		clientSecretSecret, err := resolved.ResolvedSecrets.Lookup(*profile.ClientSecret)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ClientSecret")
+			return nil, eris.Wrap(err, "looking up secret for property ClientSecret")
 		}
 		clientSecret := clientSecretSecret
 		result.ClientSecret = &clientSecret
@@ -3322,14 +3505,14 @@ func (profile *ServicePrincipalProfile) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *ServicePrincipalProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServicePrincipalProfile_ARM{}
+	return &arm.ServicePrincipalProfile{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *ServicePrincipalProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServicePrincipalProfile_ARM)
+	typedInput, ok := armInput.(arm.ServicePrincipalProfile)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServicePrincipalProfile_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServicePrincipalProfile, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -3427,14 +3610,14 @@ var _ genruntime.FromARMConverter = &ServicePrincipalProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *ServicePrincipalProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServicePrincipalProfile_STATUS_ARM{}
+	return &arm.ServicePrincipalProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *ServicePrincipalProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServicePrincipalProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServicePrincipalProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServicePrincipalProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServicePrincipalProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -3501,14 +3684,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUS_ARM{}
+	return &arm.SystemData_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreatedAt":
@@ -3667,7 +3850,7 @@ func (profile *WorkerProfile) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if profile == nil {
 		return nil, nil
 	}
-	result := &WorkerProfile_ARM{}
+	result := &arm.WorkerProfile{}
 
 	// Set property "Count":
 	if profile.Count != nil {
@@ -3695,7 +3878,7 @@ func (profile *WorkerProfile) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if profile.EncryptionAtHost != nil {
 		var temp string
 		temp = string(*profile.EncryptionAtHost)
-		encryptionAtHost := EncryptionAtHost_ARM(temp)
+		encryptionAtHost := arm.EncryptionAtHost(temp)
 		result.EncryptionAtHost = &encryptionAtHost
 	}
 
@@ -3725,14 +3908,14 @@ func (profile *WorkerProfile) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *WorkerProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkerProfile_ARM{}
+	return &arm.WorkerProfile{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *WorkerProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkerProfile_ARM)
+	typedInput, ok := armInput.(arm.WorkerProfile)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkerProfile_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkerProfile, got %T", armInput)
 	}
 
 	// Set property "Count":
@@ -3942,14 +4125,14 @@ var _ genruntime.FromARMConverter = &WorkerProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *WorkerProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkerProfile_STATUS_ARM{}
+	return &arm.WorkerProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *WorkerProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkerProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkerProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkerProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkerProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "Count":
@@ -4147,7 +4330,7 @@ func (profile *LoadBalancerProfile) ConvertToARM(resolved genruntime.ConvertToAR
 	if profile == nil {
 		return nil, nil
 	}
-	result := &LoadBalancerProfile_ARM{}
+	result := &arm.LoadBalancerProfile{}
 
 	// Set property "ManagedOutboundIps":
 	if profile.ManagedOutboundIps != nil {
@@ -4155,7 +4338,7 @@ func (profile *LoadBalancerProfile) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		managedOutboundIps := *managedOutboundIps_ARM.(*ManagedOutboundIPs_ARM)
+		managedOutboundIps := *managedOutboundIps_ARM.(*arm.ManagedOutboundIPs)
 		result.ManagedOutboundIps = &managedOutboundIps
 	}
 	return result, nil
@@ -4163,14 +4346,14 @@ func (profile *LoadBalancerProfile) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *LoadBalancerProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancerProfile_ARM{}
+	return &arm.LoadBalancerProfile{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *LoadBalancerProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancerProfile_ARM)
+	typedInput, ok := armInput.(arm.LoadBalancerProfile)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerProfile_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LoadBalancerProfile, got %T", armInput)
 	}
 
 	// Set property "ManagedOutboundIps":
@@ -4196,7 +4379,7 @@ func (profile *LoadBalancerProfile) AssignProperties_From_LoadBalancerProfile(so
 		var managedOutboundIpsIPS ManagedOutboundIPs
 		err := managedOutboundIpsIPS.AssignProperties_From_ManagedOutboundIPs(source.ManagedOutboundIps)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedOutboundIPs() to populate field ManagedOutboundIps")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedOutboundIPs() to populate field ManagedOutboundIps")
 		}
 		profile.ManagedOutboundIps = &managedOutboundIpsIPS
 	} else {
@@ -4217,7 +4400,7 @@ func (profile *LoadBalancerProfile) AssignProperties_To_LoadBalancerProfile(dest
 		var managedOutboundIpsIPS storage.ManagedOutboundIPs
 		err := profile.ManagedOutboundIps.AssignProperties_To_ManagedOutboundIPs(&managedOutboundIpsIPS)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedOutboundIPs() to populate field ManagedOutboundIps")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedOutboundIPs() to populate field ManagedOutboundIps")
 		}
 		destination.ManagedOutboundIps = &managedOutboundIpsIPS
 	} else {
@@ -4243,7 +4426,7 @@ func (profile *LoadBalancerProfile) Initialize_From_LoadBalancerProfile_STATUS(s
 		var managedOutboundIpsIPS ManagedOutboundIPs
 		err := managedOutboundIpsIPS.Initialize_From_ManagedOutboundIPs_STATUS(source.ManagedOutboundIps)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedOutboundIPs_STATUS() to populate field ManagedOutboundIps")
+			return eris.Wrap(err, "calling Initialize_From_ManagedOutboundIPs_STATUS() to populate field ManagedOutboundIps")
 		}
 		profile.ManagedOutboundIps = &managedOutboundIpsIPS
 	} else {
@@ -4267,14 +4450,14 @@ var _ genruntime.FromARMConverter = &LoadBalancerProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *LoadBalancerProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancerProfile_STATUS_ARM{}
+	return &arm.LoadBalancerProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *LoadBalancerProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancerProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.LoadBalancerProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LoadBalancerProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "EffectiveOutboundIps":
@@ -4314,7 +4497,7 @@ func (profile *LoadBalancerProfile_STATUS) AssignProperties_From_LoadBalancerPro
 			var effectiveOutboundIpsIPS EffectiveOutboundIP_STATUS
 			err := effectiveOutboundIpsIPS.AssignProperties_From_EffectiveOutboundIP_STATUS(&effectiveOutboundIpsIPSItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EffectiveOutboundIP_STATUS() to populate field EffectiveOutboundIps")
+				return eris.Wrap(err, "calling AssignProperties_From_EffectiveOutboundIP_STATUS() to populate field EffectiveOutboundIps")
 			}
 			effectiveOutboundIpsIPSList[effectiveOutboundIpsIPSIndex] = effectiveOutboundIpsIPS
 		}
@@ -4328,7 +4511,7 @@ func (profile *LoadBalancerProfile_STATUS) AssignProperties_From_LoadBalancerPro
 		var managedOutboundIpsIPS ManagedOutboundIPs_STATUS
 		err := managedOutboundIpsIPS.AssignProperties_From_ManagedOutboundIPs_STATUS(source.ManagedOutboundIps)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedOutboundIPs_STATUS() to populate field ManagedOutboundIps")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedOutboundIPs_STATUS() to populate field ManagedOutboundIps")
 		}
 		profile.ManagedOutboundIps = &managedOutboundIpsIPS
 	} else {
@@ -4353,7 +4536,7 @@ func (profile *LoadBalancerProfile_STATUS) AssignProperties_To_LoadBalancerProfi
 			var effectiveOutboundIpsIPS storage.EffectiveOutboundIP_STATUS
 			err := effectiveOutboundIpsIPSItem.AssignProperties_To_EffectiveOutboundIP_STATUS(&effectiveOutboundIpsIPS)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EffectiveOutboundIP_STATUS() to populate field EffectiveOutboundIps")
+				return eris.Wrap(err, "calling AssignProperties_To_EffectiveOutboundIP_STATUS() to populate field EffectiveOutboundIps")
 			}
 			effectiveOutboundIpsIPSList[effectiveOutboundIpsIPSIndex] = effectiveOutboundIpsIPS
 		}
@@ -4367,7 +4550,7 @@ func (profile *LoadBalancerProfile_STATUS) AssignProperties_To_LoadBalancerProfi
 		var managedOutboundIpsIPS storage.ManagedOutboundIPs_STATUS
 		err := profile.ManagedOutboundIps.AssignProperties_To_ManagedOutboundIPs_STATUS(&managedOutboundIpsIPS)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedOutboundIPs_STATUS() to populate field ManagedOutboundIps")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedOutboundIPs_STATUS() to populate field ManagedOutboundIps")
 		}
 		destination.ManagedOutboundIps = &managedOutboundIpsIPS
 	} else {
@@ -4516,14 +4699,14 @@ var _ genruntime.FromARMConverter = &EffectiveOutboundIP_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (outboundIP *EffectiveOutboundIP_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EffectiveOutboundIP_STATUS_ARM{}
+	return &arm.EffectiveOutboundIP_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (outboundIP *EffectiveOutboundIP_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EffectiveOutboundIP_STATUS_ARM)
+	typedInput, ok := armInput.(arm.EffectiveOutboundIP_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EffectiveOutboundIP_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EffectiveOutboundIP_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -4579,7 +4762,7 @@ func (iPs *ManagedOutboundIPs) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if iPs == nil {
 		return nil, nil
 	}
-	result := &ManagedOutboundIPs_ARM{}
+	result := &arm.ManagedOutboundIPs{}
 
 	// Set property "Count":
 	if iPs.Count != nil {
@@ -4591,14 +4774,14 @@ func (iPs *ManagedOutboundIPs) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (iPs *ManagedOutboundIPs) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedOutboundIPs_ARM{}
+	return &arm.ManagedOutboundIPs{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (iPs *ManagedOutboundIPs) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedOutboundIPs_ARM)
+	typedInput, ok := armInput.(arm.ManagedOutboundIPs)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedOutboundIPs_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedOutboundIPs, got %T", armInput)
 	}
 
 	// Set property "Count":
@@ -4661,14 +4844,14 @@ var _ genruntime.FromARMConverter = &ManagedOutboundIPs_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (iPs *ManagedOutboundIPs_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedOutboundIPs_STATUS_ARM{}
+	return &arm.ManagedOutboundIPs_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (iPs *ManagedOutboundIPs_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedOutboundIPs_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedOutboundIPs_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedOutboundIPs_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedOutboundIPs_STATUS, got %T", armInput)
 	}
 
 	// Set property "Count":

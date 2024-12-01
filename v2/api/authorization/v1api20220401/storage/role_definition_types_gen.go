@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -42,6 +45,26 @@ func (definition *RoleDefinition) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (definition *RoleDefinition) SetConditions(conditions conditions.Conditions) {
 	definition.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &RoleDefinition{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (definition *RoleDefinition) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if definition.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return definition.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &RoleDefinition{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (definition *RoleDefinition) SecretDestinationExpressions() []*core.DestinationExpression {
+	if definition.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return definition.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &RoleDefinition{}
@@ -92,6 +115,10 @@ func (definition *RoleDefinition) NewEmptyStatus() genruntime.ConvertibleStatus 
 
 // Owner returns the ResourceReference of the owner
 func (definition *RoleDefinition) Owner() *genruntime.ResourceReference {
+	if definition.Spec.Owner == nil {
+		return nil
+	}
+
 	return definition.Spec.Owner.AsResourceReference()
 }
 
@@ -107,7 +134,7 @@ func (definition *RoleDefinition) SetStatus(status genruntime.ConvertibleStatus)
 	var st RoleDefinition_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	definition.Status = st
@@ -164,7 +191,7 @@ var _ genruntime.ConvertibleSpec = &RoleDefinition_Spec{}
 // ConvertSpecFrom populates our RoleDefinition_Spec from the provided source
 func (definition *RoleDefinition_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == definition {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(definition)
@@ -173,7 +200,7 @@ func (definition *RoleDefinition_Spec) ConvertSpecFrom(source genruntime.Convert
 // ConvertSpecTo populates the provided destination from our RoleDefinition_Spec
 func (definition *RoleDefinition_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == definition {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(definition)
@@ -203,7 +230,7 @@ var _ genruntime.ConvertibleStatus = &RoleDefinition_STATUS{}
 // ConvertStatusFrom populates our RoleDefinition_STATUS from the provided source
 func (definition *RoleDefinition_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == definition {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(definition)
@@ -212,7 +239,7 @@ func (definition *RoleDefinition_STATUS) ConvertStatusFrom(source genruntime.Con
 // ConvertStatusTo populates the provided destination from our RoleDefinition_STATUS
 func (definition *RoleDefinition_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == definition {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(definition)
@@ -241,8 +268,10 @@ type Permission_STATUS struct {
 // Storage version of v1api20220401.RoleDefinitionOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RoleDefinitionOperatorSpec struct {
-	NamingConvention *string                `json:"namingConvention,omitempty"`
-	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	NamingConvention     *string                       `json:"namingConvention,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

@@ -443,163 +443,6 @@ func AddIndependentPropertyGeneratorsForManagedCertificateParameters_STATUS(gens
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Profiles_Secret_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Profiles_Secret_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_Secret_STATUS, Profiles_Secret_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForProfiles_Secret_STATUS runs a test to see if a specific instance of Profiles_Secret_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_Secret_STATUS(subject Profiles_Secret_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Profiles_Secret_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Profiles_Secret_STATUS instances for property testing - lazily instantiated by
-// Profiles_Secret_STATUSGenerator()
-var profiles_Secret_STATUSGenerator gopter.Gen
-
-// Profiles_Secret_STATUSGenerator returns a generator of Profiles_Secret_STATUS instances for property testing.
-// We first initialize profiles_Secret_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Profiles_Secret_STATUSGenerator() gopter.Gen {
-	if profiles_Secret_STATUSGenerator != nil {
-		return profiles_Secret_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_Secret_STATUS(generators)
-	profiles_Secret_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_Secret_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_Secret_STATUS(generators)
-	AddRelatedPropertyGeneratorsForProfiles_Secret_STATUS(generators)
-	profiles_Secret_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_Secret_STATUS{}), generators)
-
-	return profiles_Secret_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfiles_Secret_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_Secret_STATUS(gens map[string]gopter.Gen) {
-	gens["DeploymentStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForProfiles_Secret_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_Secret_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(SecretParameters_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
-func Test_Profiles_Secret_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Profiles_Secret_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_Secret_Spec, Profiles_Secret_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForProfiles_Secret_Spec runs a test to see if a specific instance of Profiles_Secret_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_Secret_Spec(subject Profiles_Secret_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Profiles_Secret_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Profiles_Secret_Spec instances for property testing - lazily instantiated by
-// Profiles_Secret_SpecGenerator()
-var profiles_Secret_SpecGenerator gopter.Gen
-
-// Profiles_Secret_SpecGenerator returns a generator of Profiles_Secret_Spec instances for property testing.
-// We first initialize profiles_Secret_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Profiles_Secret_SpecGenerator() gopter.Gen {
-	if profiles_Secret_SpecGenerator != nil {
-		return profiles_Secret_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_Secret_Spec(generators)
-	profiles_Secret_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_Secret_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_Secret_Spec(generators)
-	AddRelatedPropertyGeneratorsForProfiles_Secret_Spec(generators)
-	profiles_Secret_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_Secret_Spec{}), generators)
-
-	return profiles_Secret_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfiles_Secret_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_Secret_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForProfiles_Secret_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_Secret_Spec(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(SecretParametersGenerator())
-}
-
 func Test_Secret_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -657,8 +500,62 @@ func SecretGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForSecret is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSecret(gens map[string]gopter.Gen) {
-	gens["Spec"] = Profiles_Secret_SpecGenerator()
-	gens["Status"] = Profiles_Secret_STATUSGenerator()
+	gens["Spec"] = Secret_SpecGenerator()
+	gens["Status"] = Secret_STATUSGenerator()
+}
+
+func Test_SecretOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SecretOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSecretOperatorSpec, SecretOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSecretOperatorSpec runs a test to see if a specific instance of SecretOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSecretOperatorSpec(subject SecretOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SecretOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SecretOperatorSpec instances for property testing - lazily instantiated by SecretOperatorSpecGenerator()
+var secretOperatorSpecGenerator gopter.Gen
+
+// SecretOperatorSpecGenerator returns a generator of SecretOperatorSpec instances for property testing.
+func SecretOperatorSpecGenerator() gopter.Gen {
+	if secretOperatorSpecGenerator != nil {
+		return secretOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	secretOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SecretOperatorSpec{}), generators)
+
+	return secretOperatorSpecGenerator
 }
 
 func Test_SecretParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -814,6 +711,162 @@ func AddRelatedPropertyGeneratorsForSecretParameters_STATUS(gens map[string]gopt
 	gens["UrlSigningKey"] = UrlSigningKeyParameters_STATUSGenerator().Map(func(it UrlSigningKeyParameters_STATUS) *UrlSigningKeyParameters_STATUS {
 		return &it
 	}) // generate one case for OneOf type
+}
+
+func Test_Secret_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Secret_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSecret_STATUS, Secret_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSecret_STATUS runs a test to see if a specific instance of Secret_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSecret_STATUS(subject Secret_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Secret_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Secret_STATUS instances for property testing - lazily instantiated by Secret_STATUSGenerator()
+var secret_STATUSGenerator gopter.Gen
+
+// Secret_STATUSGenerator returns a generator of Secret_STATUS instances for property testing.
+// We first initialize secret_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Secret_STATUSGenerator() gopter.Gen {
+	if secret_STATUSGenerator != nil {
+		return secret_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSecret_STATUS(generators)
+	secret_STATUSGenerator = gen.Struct(reflect.TypeOf(Secret_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSecret_STATUS(generators)
+	AddRelatedPropertyGeneratorsForSecret_STATUS(generators)
+	secret_STATUSGenerator = gen.Struct(reflect.TypeOf(Secret_STATUS{}), generators)
+
+	return secret_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSecret_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSecret_STATUS(gens map[string]gopter.Gen) {
+	gens["DeploymentStatus"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForSecret_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSecret_STATUS(gens map[string]gopter.Gen) {
+	gens["Parameters"] = gen.PtrOf(SecretParameters_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Secret_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Secret_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSecret_Spec, Secret_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSecret_Spec runs a test to see if a specific instance of Secret_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSecret_Spec(subject Secret_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Secret_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Secret_Spec instances for property testing - lazily instantiated by Secret_SpecGenerator()
+var secret_SpecGenerator gopter.Gen
+
+// Secret_SpecGenerator returns a generator of Secret_Spec instances for property testing.
+// We first initialize secret_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Secret_SpecGenerator() gopter.Gen {
+	if secret_SpecGenerator != nil {
+		return secret_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSecret_Spec(generators)
+	secret_SpecGenerator = gen.Struct(reflect.TypeOf(Secret_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSecret_Spec(generators)
+	AddRelatedPropertyGeneratorsForSecret_Spec(generators)
+	secret_SpecGenerator = gen.Struct(reflect.TypeOf(Secret_Spec{}), generators)
+
+	return secret_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSecret_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSecret_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["OriginalVersion"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForSecret_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSecret_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(SecretOperatorSpecGenerator())
+	gens["Parameters"] = gen.PtrOf(SecretParametersGenerator())
 }
 
 func Test_UrlSigningKeyParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

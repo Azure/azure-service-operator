@@ -11,7 +11,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"gopkg.in/dnaeon/go-vcr.v3/cassette"
 	"gopkg.in/dnaeon/go-vcr.v3/recorder"
 
@@ -42,7 +42,7 @@ func NewTestRecorder(
 
 	cassetteExists, err := vcr.CassetteFileExists(cassetteName)
 	if err != nil {
-		return nil, errors.Wrapf(err, "checking existence of cassette %s", cassetteName)
+		return nil, eris.Wrapf(err, "checking existence of cassette %s", cassetteName)
 	}
 
 	// Work out whether we are recording or replaying
@@ -54,7 +54,7 @@ func NewTestRecorder(
 
 	r, err := recorder.NewWithOptions(opts)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating recorder")
+		return nil, eris.Wrapf(err, "creating recorder")
 	}
 
 	var credentials azcore.TokenCredential

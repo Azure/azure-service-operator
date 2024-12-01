@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -42,6 +45,26 @@ func (profile *Profile) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (profile *Profile) SetConditions(conditions conditions.Conditions) {
 	profile.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Profile{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (profile *Profile) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if profile.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return profile.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Profile{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (profile *Profile) SecretDestinationExpressions() []*core.DestinationExpression {
+	if profile.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return profile.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Profile{}
@@ -92,6 +115,10 @@ func (profile *Profile) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (profile *Profile) Owner() *genruntime.ResourceReference {
+	if profile.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(profile.Spec)
 	return profile.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -108,7 +135,7 @@ func (profile *Profile) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Profile_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	profile.Status = st
@@ -145,6 +172,7 @@ type Profile_Spec struct {
 	AzureName                    string                  `json:"azureName,omitempty"`
 	Identity                     *ManagedServiceIdentity `json:"identity,omitempty"`
 	Location                     *string                 `json:"location,omitempty"`
+	OperatorSpec                 *ProfileOperatorSpec    `json:"operatorSpec,omitempty"`
 	OriginResponseTimeoutSeconds *int                    `json:"originResponseTimeoutSeconds,omitempty"`
 	OriginalVersion              string                  `json:"originalVersion,omitempty"`
 
@@ -163,7 +191,7 @@ var _ genruntime.ConvertibleSpec = &Profile_Spec{}
 // ConvertSpecFrom populates our Profile_Spec from the provided source
 func (profile *Profile_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == profile {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(profile)
@@ -172,7 +200,7 @@ func (profile *Profile_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 // ConvertSpecTo populates the provided destination from our Profile_Spec
 func (profile *Profile_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == profile {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(profile)
@@ -204,7 +232,7 @@ var _ genruntime.ConvertibleStatus = &Profile_STATUS{}
 // ConvertStatusFrom populates our Profile_STATUS from the provided source
 func (profile *Profile_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == profile {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(profile)
@@ -213,7 +241,7 @@ func (profile *Profile_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 // ConvertStatusTo populates the provided destination from our Profile_STATUS
 func (profile *Profile_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == profile {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(profile)
@@ -235,6 +263,14 @@ type ManagedServiceIdentity_STATUS struct {
 	TenantId               *string                                `json:"tenantId,omitempty"`
 	Type                   *string                                `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
+}
+
+// Storage version of v1api20230501.ProfileOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ProfileOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230501.Sku

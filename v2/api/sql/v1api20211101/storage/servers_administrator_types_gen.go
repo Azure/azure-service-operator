@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type ServersAdministrator struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Administrator_Spec   `json:"spec,omitempty"`
-	Status            Servers_Administrator_STATUS `json:"status,omitempty"`
+	Spec              ServersAdministrator_Spec   `json:"spec,omitempty"`
+	Status            ServersAdministrator_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersAdministrator{}
@@ -42,6 +45,26 @@ func (administrator *ServersAdministrator) GetConditions() conditions.Conditions
 // SetConditions sets the conditions on the resource status
 func (administrator *ServersAdministrator) SetConditions(conditions conditions.Conditions) {
 	administrator.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ServersAdministrator{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (administrator *ServersAdministrator) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return administrator.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersAdministrator{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (administrator *ServersAdministrator) SecretDestinationExpressions() []*core.DestinationExpression {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return administrator.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ServersAdministrator{}
@@ -87,11 +110,15 @@ func (administrator *ServersAdministrator) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (administrator *ServersAdministrator) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_Administrator_STATUS{}
+	return &ServersAdministrator_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (administrator *ServersAdministrator) Owner() *genruntime.ResourceReference {
+	if administrator.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(administrator.Spec)
 	return administrator.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (administrator *ServersAdministrator) Owner() *genruntime.ResourceReference
 // SetStatus sets the status of this resource
 func (administrator *ServersAdministrator) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_Administrator_STATUS); ok {
+	if st, ok := status.(*ServersAdministrator_STATUS); ok {
 		administrator.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_Administrator_STATUS
+	var st ServersAdministrator_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	administrator.Status = st
@@ -138,11 +165,12 @@ type ServersAdministratorList struct {
 	Items           []ServersAdministrator `json:"items"`
 }
 
-// Storage version of v1api20211101.Servers_Administrator_Spec
-type Servers_Administrator_Spec struct {
-	AdministratorType *string `json:"administratorType,omitempty"`
-	Login             *string `json:"login,omitempty"`
-	OriginalVersion   string  `json:"originalVersion,omitempty"`
+// Storage version of v1api20211101.ServersAdministrator_Spec
+type ServersAdministrator_Spec struct {
+	AdministratorType *string                           `json:"administratorType,omitempty"`
+	Login             *string                           `json:"login,omitempty"`
+	OperatorSpec      *ServersAdministratorOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion   string                            `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -156,28 +184,28 @@ type Servers_Administrator_Spec struct {
 	TenantIdFromConfig *genruntime.ConfigMapReference     `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_Administrator_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersAdministrator_Spec{}
 
-// ConvertSpecFrom populates our Servers_Administrator_Spec from the provided source
-func (administrator *Servers_Administrator_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our ServersAdministrator_Spec from the provided source
+func (administrator *ServersAdministrator_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == administrator {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(administrator)
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_Administrator_Spec
-func (administrator *Servers_Administrator_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our ServersAdministrator_Spec
+func (administrator *ServersAdministrator_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == administrator {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(administrator)
 }
 
-// Storage version of v1api20211101.Servers_Administrator_STATUS
-type Servers_Administrator_STATUS struct {
+// Storage version of v1api20211101.ServersAdministrator_STATUS
+type ServersAdministrator_STATUS struct {
 	AdministratorType         *string                `json:"administratorType,omitempty"`
 	AzureADOnlyAuthentication *bool                  `json:"azureADOnlyAuthentication,omitempty"`
 	Conditions                []conditions.Condition `json:"conditions,omitempty"`
@@ -190,24 +218,32 @@ type Servers_Administrator_STATUS struct {
 	Type                      *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_Administrator_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersAdministrator_STATUS{}
 
-// ConvertStatusFrom populates our Servers_Administrator_STATUS from the provided source
-func (administrator *Servers_Administrator_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ServersAdministrator_STATUS from the provided source
+func (administrator *ServersAdministrator_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == administrator {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(administrator)
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_Administrator_STATUS
-func (administrator *Servers_Administrator_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ServersAdministrator_STATUS
+func (administrator *ServersAdministrator_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == administrator {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(administrator)
+}
+
+// Storage version of v1api20211101.ServersAdministratorOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersAdministratorOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

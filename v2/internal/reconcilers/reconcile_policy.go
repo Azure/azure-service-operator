@@ -8,7 +8,7 @@ package reconcilers
 import (
 	"reflect"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
@@ -27,7 +27,7 @@ func ParseReconcilePolicy(policy string) (annotations.ReconcilePolicyValue, erro
 		return annotations.ReconcilePolicyDetachOnDelete, nil
 	default:
 		// Defaulting to manage.
-		return annotations.ReconcilePolicyManage, errors.Errorf("%q is not a known reconcile policy", policy)
+		return annotations.ReconcilePolicyManage, eris.Errorf("%q is not a known reconcile policy", policy)
 	}
 }
 

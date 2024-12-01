@@ -9,8 +9,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -49,10 +51,30 @@ func (account *StorageAccount) SetConditions(conditions conditions.Conditions) {
 	account.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesExporter = &StorageAccount{}
+var _ configmaps.Exporter = &StorageAccount{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (account *StorageAccount) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (account *StorageAccount) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if account.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return account.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &StorageAccount{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (account *StorageAccount) SecretDestinationExpressions() []*core.DestinationExpression {
+	if account.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return account.Spec.OperatorSpec.SecretExpressions
+}
+
+var _ genruntime.KubernetesConfigExporter = &StorageAccount{}
+
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (account *StorageAccount) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(account.Namespace)
 	if account.Spec.OperatorSpec != nil && account.Spec.OperatorSpec.ConfigMaps != nil {
 		if account.Status.PrimaryEndpoints != nil {
@@ -151,6 +173,10 @@ func (account *StorageAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (account *StorageAccount) Owner() *genruntime.ResourceReference {
+	if account.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(account.Spec)
 	return account.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -167,7 +193,7 @@ func (account *StorageAccount) SetStatus(status genruntime.ConvertibleStatus) er
 	var st StorageAccount_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	account.Status = st
@@ -254,7 +280,7 @@ var _ genruntime.ConvertibleSpec = &StorageAccount_Spec{}
 // ConvertSpecFrom populates our StorageAccount_Spec from the provided source
 func (account *StorageAccount_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == account {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(account)
@@ -263,7 +289,7 @@ func (account *StorageAccount_Spec) ConvertSpecFrom(source genruntime.Convertibl
 // ConvertSpecTo populates the provided destination from our StorageAccount_Spec
 func (account *StorageAccount_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == account {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(account)
@@ -330,7 +356,7 @@ var _ genruntime.ConvertibleStatus = &StorageAccount_STATUS{}
 // ConvertStatusFrom populates our StorageAccount_STATUS from the provided source
 func (account *StorageAccount_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == account {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(account)
@@ -339,7 +365,7 @@ func (account *StorageAccount_STATUS) ConvertStatusFrom(source genruntime.Conver
 // ConvertStatusTo populates the provided destination from our StorageAccount_STATUS
 func (account *StorageAccount_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == account {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(account)
@@ -594,9 +620,11 @@ type Sku_STATUS struct {
 // Storage version of v1api20230101.StorageAccountOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type StorageAccountOperatorSpec struct {
-	ConfigMaps  *StorageAccountOperatorConfigMaps `json:"configMaps,omitempty"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Secrets     *StorageAccountOperatorSecrets    `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression     `json:"configMapExpressions,omitempty"`
+	ConfigMaps           *StorageAccountOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag          genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression     `json:"secretExpressions,omitempty"`
+	Secrets              *StorageAccountOperatorSecrets    `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20230101.StorageAccountSkuConversionStatus_STATUS

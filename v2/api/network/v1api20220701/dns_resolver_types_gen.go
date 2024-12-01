@@ -5,11 +5,15 @@ package v1api20220701
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -90,6 +94,26 @@ func (resolver *DnsResolver) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the DnsResolver resource
 func (resolver *DnsResolver) defaultImpl() { resolver.defaultAzureName() }
 
+var _ configmaps.Exporter = &DnsResolver{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (resolver *DnsResolver) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if resolver.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return resolver.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &DnsResolver{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (resolver *DnsResolver) SecretDestinationExpressions() []*core.DestinationExpression {
+	if resolver.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return resolver.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &DnsResolver{}
 
 // InitializeSpec initializes the spec for this resource from the given status
@@ -149,6 +173,10 @@ func (resolver *DnsResolver) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (resolver *DnsResolver) Owner() *genruntime.ResourceReference {
+	if resolver.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(resolver.Spec)
 	return resolver.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -165,7 +193,7 @@ func (resolver *DnsResolver) SetStatus(status genruntime.ConvertibleStatus) erro
 	var st DnsResolver_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	resolver.Status = st
@@ -208,7 +236,7 @@ func (resolver *DnsResolver) ValidateUpdate(old runtime.Object) (admission.Warni
 
 // createValidations validates the creation of the resource
 func (resolver *DnsResolver) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){resolver.validateResourceReferences, resolver.validateOwnerReference}
+	return []func() (admission.Warnings, error){resolver.validateResourceReferences, resolver.validateOwnerReference, resolver.validateSecretDestinations, resolver.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +254,21 @@ func (resolver *DnsResolver) updateValidations() []func(old runtime.Object) (adm
 		func(old runtime.Object) (admission.Warnings, error) {
 			return resolver.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return resolver.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return resolver.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (resolver *DnsResolver) validateConfigMapDestinations() (admission.Warnings, error) {
+	if resolver.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(resolver, nil, resolver.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -241,6 +283,14 @@ func (resolver *DnsResolver) validateResourceReferences() (admission.Warnings, e
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (resolver *DnsResolver) validateSecretDestinations() (admission.Warnings, error) {
+	if resolver.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(resolver, nil, resolver.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -263,7 +313,7 @@ func (resolver *DnsResolver) AssignProperties_From_DnsResolver(source *storage.D
 	var spec DnsResolver_Spec
 	err := spec.AssignProperties_From_DnsResolver_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsResolver_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_DnsResolver_Spec() to populate field Spec")
 	}
 	resolver.Spec = spec
 
@@ -271,7 +321,7 @@ func (resolver *DnsResolver) AssignProperties_From_DnsResolver(source *storage.D
 	var status DnsResolver_STATUS
 	err = status.AssignProperties_From_DnsResolver_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsResolver_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_DnsResolver_STATUS() to populate field Status")
 	}
 	resolver.Status = status
 
@@ -289,7 +339,7 @@ func (resolver *DnsResolver) AssignProperties_To_DnsResolver(destination *storag
 	var spec storage.DnsResolver_Spec
 	err := resolver.Spec.AssignProperties_To_DnsResolver_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsResolver_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_DnsResolver_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -297,7 +347,7 @@ func (resolver *DnsResolver) AssignProperties_To_DnsResolver(destination *storag
 	var status storage.DnsResolver_STATUS
 	err = resolver.Status.AssignProperties_To_DnsResolver_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsResolver_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_DnsResolver_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -333,6 +383,10 @@ type DnsResolver_Spec struct {
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *DnsResolverOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -344,7 +398,7 @@ type DnsResolver_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.
-	VirtualNetwork *DnsresolverSubResource `json:"virtualNetwork,omitempty"`
+	VirtualNetwork *SubResource `json:"virtualNetwork,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DnsResolver_Spec{}
@@ -354,7 +408,7 @@ func (resolver *DnsResolver_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 	if resolver == nil {
 		return nil, nil
 	}
-	result := &DnsResolver_Spec_ARM{}
+	result := &arm.DnsResolver_Spec{}
 
 	// Set property "Location":
 	if resolver.Location != nil {
@@ -367,14 +421,14 @@ func (resolver *DnsResolver_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Properties":
 	if resolver.VirtualNetwork != nil {
-		result.Properties = &DnsResolverProperties_ARM{}
+		result.Properties = &arm.DnsResolverProperties{}
 	}
 	if resolver.VirtualNetwork != nil {
 		virtualNetwork_ARM, err := (*resolver.VirtualNetwork).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		virtualNetwork := *virtualNetwork_ARM.(*DnsresolverSubResource_ARM)
+		virtualNetwork := *virtualNetwork_ARM.(*arm.SubResource)
 		result.Properties.VirtualNetwork = &virtualNetwork
 	}
 
@@ -390,14 +444,14 @@ func (resolver *DnsResolver_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resolver *DnsResolver_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsResolver_Spec_ARM{}
+	return &arm.DnsResolver_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resolver *DnsResolver_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsResolver_Spec_ARM)
+	typedInput, ok := armInput.(arm.DnsResolver_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsResolver_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsResolver_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -408,6 +462,8 @@ func (resolver *DnsResolver_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		location := *typedInput.Location
 		resolver.Location = &location
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	resolver.Owner = &genruntime.KnownResourceReference{
@@ -427,7 +483,7 @@ func (resolver *DnsResolver_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetwork != nil {
-			var virtualNetwork1 DnsresolverSubResource
+			var virtualNetwork1 SubResource
 			err := virtualNetwork1.PopulateFromARM(owner, *typedInput.Properties.VirtualNetwork)
 			if err != nil {
 				return err
@@ -455,13 +511,13 @@ func (resolver *DnsResolver_Spec) ConvertSpecFrom(source genruntime.ConvertibleS
 	src = &storage.DnsResolver_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = resolver.AssignProperties_From_DnsResolver_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -479,13 +535,13 @@ func (resolver *DnsResolver_Spec) ConvertSpecTo(destination genruntime.Convertib
 	dst = &storage.DnsResolver_Spec{}
 	err := resolver.AssignProperties_To_DnsResolver_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -500,6 +556,18 @@ func (resolver *DnsResolver_Spec) AssignProperties_From_DnsResolver_Spec(source 
 	// Location
 	resolver.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DnsResolverOperatorSpec
+		err := operatorSpec.AssignProperties_From_DnsResolverOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DnsResolverOperatorSpec() to populate field OperatorSpec")
+		}
+		resolver.OperatorSpec = &operatorSpec
+	} else {
+		resolver.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -513,10 +581,10 @@ func (resolver *DnsResolver_Spec) AssignProperties_From_DnsResolver_Spec(source 
 
 	// VirtualNetwork
 	if source.VirtualNetwork != nil {
-		var virtualNetwork DnsresolverSubResource
-		err := virtualNetwork.AssignProperties_From_DnsresolverSubResource(source.VirtualNetwork)
+		var virtualNetwork SubResource
+		err := virtualNetwork.AssignProperties_From_SubResource(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DnsresolverSubResource() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualNetwork")
 		}
 		resolver.VirtualNetwork = &virtualNetwork
 	} else {
@@ -538,6 +606,18 @@ func (resolver *DnsResolver_Spec) AssignProperties_To_DnsResolver_Spec(destinati
 	// Location
 	destination.Location = genruntime.ClonePointerToString(resolver.Location)
 
+	// OperatorSpec
+	if resolver.OperatorSpec != nil {
+		var operatorSpec storage.DnsResolverOperatorSpec
+		err := resolver.OperatorSpec.AssignProperties_To_DnsResolverOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DnsResolverOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	destination.OriginalVersion = resolver.OriginalVersion()
 
@@ -554,10 +634,10 @@ func (resolver *DnsResolver_Spec) AssignProperties_To_DnsResolver_Spec(destinati
 
 	// VirtualNetwork
 	if resolver.VirtualNetwork != nil {
-		var virtualNetwork storage.DnsresolverSubResource
-		err := resolver.VirtualNetwork.AssignProperties_To_DnsresolverSubResource(&virtualNetwork)
+		var virtualNetwork storage.SubResource
+		err := resolver.VirtualNetwork.AssignProperties_To_SubResource(&virtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DnsresolverSubResource() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualNetwork")
 		}
 		destination.VirtualNetwork = &virtualNetwork
 	} else {
@@ -586,10 +666,10 @@ func (resolver *DnsResolver_Spec) Initialize_From_DnsResolver_STATUS(source *Dns
 
 	// VirtualNetwork
 	if source.VirtualNetwork != nil {
-		var virtualNetwork DnsresolverSubResource
-		err := virtualNetwork.Initialize_From_DnsresolverSubResource_STATUS(source.VirtualNetwork)
+		var virtualNetwork SubResource
+		err := virtualNetwork.Initialize_From_SubResource_STATUS(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DnsresolverSubResource_STATUS() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		resolver.VirtualNetwork = &virtualNetwork
 	} else {
@@ -647,7 +727,7 @@ type DnsResolver_STATUS struct {
 	Type *string `json:"type,omitempty"`
 
 	// VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.
-	VirtualNetwork *DnsresolverSubResource_STATUS `json:"virtualNetwork,omitempty"`
+	VirtualNetwork *SubResource_STATUS `json:"virtualNetwork,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DnsResolver_STATUS{}
@@ -664,13 +744,13 @@ func (resolver *DnsResolver_STATUS) ConvertStatusFrom(source genruntime.Converti
 	src = &storage.DnsResolver_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = resolver.AssignProperties_From_DnsResolver_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -688,13 +768,13 @@ func (resolver *DnsResolver_STATUS) ConvertStatusTo(destination genruntime.Conve
 	dst = &storage.DnsResolver_STATUS{}
 	err := resolver.AssignProperties_To_DnsResolver_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -704,14 +784,14 @@ var _ genruntime.FromARMConverter = &DnsResolver_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resolver *DnsResolver_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsResolver_STATUS_ARM{}
+	return &arm.DnsResolver_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsResolver_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DnsResolver_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsResolver_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsResolver_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -800,7 +880,7 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetwork != nil {
-			var virtualNetwork1 DnsresolverSubResource_STATUS
+			var virtualNetwork1 SubResource_STATUS
 			err := virtualNetwork1.PopulateFromARM(owner, *typedInput.Properties.VirtualNetwork)
 			if err != nil {
 				return err
@@ -858,7 +938,7 @@ func (resolver *DnsResolver_STATUS) AssignProperties_From_DnsResolver_STATUS(sou
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		resolver.SystemData = &systemDatum
 	} else {
@@ -873,10 +953,10 @@ func (resolver *DnsResolver_STATUS) AssignProperties_From_DnsResolver_STATUS(sou
 
 	// VirtualNetwork
 	if source.VirtualNetwork != nil {
-		var virtualNetwork DnsresolverSubResource_STATUS
-		err := virtualNetwork.AssignProperties_From_DnsresolverSubResource_STATUS(source.VirtualNetwork)
+		var virtualNetwork SubResource_STATUS
+		err := virtualNetwork.AssignProperties_From_SubResource_STATUS(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DnsresolverSubResource_STATUS() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		resolver.VirtualNetwork = &virtualNetwork
 	} else {
@@ -931,7 +1011,7 @@ func (resolver *DnsResolver_STATUS) AssignProperties_To_DnsResolver_STATUS(desti
 		var systemDatum storage.SystemData_STATUS
 		err := resolver.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -946,14 +1026,118 @@ func (resolver *DnsResolver_STATUS) AssignProperties_To_DnsResolver_STATUS(desti
 
 	// VirtualNetwork
 	if resolver.VirtualNetwork != nil {
-		var virtualNetwork storage.DnsresolverSubResource_STATUS
-		err := resolver.VirtualNetwork.AssignProperties_To_DnsresolverSubResource_STATUS(&virtualNetwork)
+		var virtualNetwork storage.SubResource_STATUS
+		err := resolver.VirtualNetwork.AssignProperties_To_SubResource_STATUS(&virtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DnsresolverSubResource_STATUS() to populate field VirtualNetwork")
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		destination.VirtualNetwork = &virtualNetwork
 	} else {
 		destination.VirtualNetwork = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DnsResolverOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_DnsResolverOperatorSpec populates our DnsResolverOperatorSpec from the provided source DnsResolverOperatorSpec
+func (operator *DnsResolverOperatorSpec) AssignProperties_From_DnsResolverOperatorSpec(source *storage.DnsResolverOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DnsResolverOperatorSpec populates the provided destination DnsResolverOperatorSpec from our DnsResolverOperatorSpec
+func (operator *DnsResolverOperatorSpec) AssignProperties_To_DnsResolverOperatorSpec(destination *storage.DnsResolverOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag

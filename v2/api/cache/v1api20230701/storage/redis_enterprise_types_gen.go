@@ -7,7 +7,10 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -43,6 +46,26 @@ func (enterprise *RedisEnterprise) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (enterprise *RedisEnterprise) SetConditions(conditions conditions.Conditions) {
 	enterprise.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &RedisEnterprise{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (enterprise *RedisEnterprise) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if enterprise.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return enterprise.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &RedisEnterprise{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (enterprise *RedisEnterprise) SecretDestinationExpressions() []*core.DestinationExpression {
+	if enterprise.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return enterprise.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &RedisEnterprise{}
@@ -93,6 +116,10 @@ func (enterprise *RedisEnterprise) NewEmptyStatus() genruntime.ConvertibleStatus
 
 // Owner returns the ResourceReference of the owner
 func (enterprise *RedisEnterprise) Owner() *genruntime.ResourceReference {
+	if enterprise.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(enterprise.Spec)
 	return enterprise.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -109,7 +136,7 @@ func (enterprise *RedisEnterprise) SetStatus(status genruntime.ConvertibleStatus
 	var st RedisEnterprise_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	enterprise.Status = st
@@ -149,10 +176,11 @@ const APIVersion_Value = APIVersion("2023-07-01")
 type RedisEnterprise_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName         string  `json:"azureName,omitempty"`
-	Location          *string `json:"location,omitempty"`
-	MinimumTlsVersion *string `json:"minimumTlsVersion,omitempty"`
-	OriginalVersion   string  `json:"originalVersion,omitempty"`
+	AzureName         string                       `json:"azureName,omitempty"`
+	Location          *string                      `json:"location,omitempty"`
+	MinimumTlsVersion *string                      `json:"minimumTlsVersion,omitempty"`
+	OperatorSpec      *RedisEnterpriseOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion   string                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -170,7 +198,7 @@ var _ genruntime.ConvertibleSpec = &RedisEnterprise_Spec{}
 // ConvertSpecFrom populates our RedisEnterprise_Spec from the provided source
 func (enterprise *RedisEnterprise_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == enterprise {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(enterprise)
@@ -179,7 +207,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertSpecFrom(source genruntime.Conver
 // ConvertSpecTo populates the provided destination from our RedisEnterprise_Spec
 func (enterprise *RedisEnterprise_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == enterprise {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(enterprise)
@@ -209,7 +237,7 @@ var _ genruntime.ConvertibleStatus = &RedisEnterprise_STATUS{}
 // ConvertStatusFrom populates our RedisEnterprise_STATUS from the provided source
 func (enterprise *RedisEnterprise_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == enterprise {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(enterprise)
@@ -218,7 +246,7 @@ func (enterprise *RedisEnterprise_STATUS) ConvertStatusFrom(source genruntime.Co
 // ConvertStatusTo populates the provided destination from our RedisEnterprise_STATUS
 func (enterprise *RedisEnterprise_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == enterprise {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(enterprise)
@@ -251,7 +279,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
 		err := augmentedConnection.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -279,12 +307,20 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
 		err := augmentedConnection.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
 	// No error
 	return nil
+}
+
+// Storage version of v1api20230701.RedisEnterpriseOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RedisEnterpriseOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230701.Sku
@@ -325,7 +361,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *storage.Sku) error {
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
 		err := augmentedSku.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -346,7 +382,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 		var family string
 		err := propertyBag.Pull("Family", &family)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'Family' from propertyBag")
+			return eris.Wrap(err, "pulling 'Family' from propertyBag")
 		}
 
 		destination.Family = &family
@@ -369,7 +405,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
 		err := augmentedSku.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -415,7 +451,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *storage.Sku_STAT
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
 		err := augmentedSku.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -436,7 +472,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 		var family string
 		err := propertyBag.Pull("Family", &family)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'Family' from propertyBag")
+			return eris.Wrap(err, "pulling 'Family' from propertyBag")
 		}
 
 		destination.Family = &family
@@ -459,7 +495,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
 		err := augmentedSku.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

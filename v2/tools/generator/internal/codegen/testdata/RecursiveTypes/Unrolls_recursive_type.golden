@@ -6,7 +6,7 @@ package v1api20200101
 import (
 	storage "github.com/Azure/azure-service-operator/testing/test/v1api20200101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json
@@ -23,7 +23,7 @@ func (test *Test) AssignProperties_From_Test(source *storage.Test) error {
 		var error Error
 		err := error.AssignProperties_From_Error(source.Error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Error() to populate field Error")
+			return eris.Wrap(err, "calling AssignProperties_From_Error() to populate field Error")
 		}
 		test.Error = &error
 	} else {
@@ -44,7 +44,7 @@ func (test *Test) AssignProperties_To_Test(destination *storage.Test) error {
 		var error storage.Error
 		err := test.Error.AssignProperties_To_Error(&error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Error() to populate field Error")
+			return eris.Wrap(err, "calling AssignProperties_To_Error() to populate field Error")
 		}
 		destination.Error = &error
 	} else {
@@ -76,7 +76,7 @@ func (error *Error) AssignProperties_From_Error(source *storage.Error) error {
 		var errorLocal Error_Unrolled
 		err := errorLocal.AssignProperties_From_Error_Unrolled(source.Error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Error_Unrolled() to populate field Error")
+			return eris.Wrap(err, "calling AssignProperties_From_Error_Unrolled() to populate field Error")
 		}
 		error.Error = &errorLocal
 	} else {
@@ -100,7 +100,7 @@ func (error *Error) AssignProperties_To_Error(destination *storage.Error) error 
 		var errorLocal storage.Error_Unrolled
 		err := error.Error.AssignProperties_To_Error_Unrolled(&errorLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Error_Unrolled() to populate field Error")
+			return eris.Wrap(err, "calling AssignProperties_To_Error_Unrolled() to populate field Error")
 		}
 		destination.Error = &errorLocal
 	} else {

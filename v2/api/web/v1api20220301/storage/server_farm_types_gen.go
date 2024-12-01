@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type ServerFarm struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Serverfarm_Spec   `json:"spec,omitempty"`
-	Status            Serverfarm_STATUS `json:"status,omitempty"`
+	Spec              ServerFarm_Spec   `json:"spec,omitempty"`
+	Status            ServerFarm_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServerFarm{}
@@ -42,6 +45,26 @@ func (farm *ServerFarm) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (farm *ServerFarm) SetConditions(conditions conditions.Conditions) {
 	farm.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ServerFarm{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (farm *ServerFarm) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if farm.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return farm.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServerFarm{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (farm *ServerFarm) SecretDestinationExpressions() []*core.DestinationExpression {
+	if farm.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return farm.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ServerFarm{}
@@ -87,11 +110,15 @@ func (farm *ServerFarm) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (farm *ServerFarm) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Serverfarm_STATUS{}
+	return &ServerFarm_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (farm *ServerFarm) Owner() *genruntime.ResourceReference {
+	if farm.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(farm.Spec)
 	return farm.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (farm *ServerFarm) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (farm *ServerFarm) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Serverfarm_STATUS); ok {
+	if st, ok := status.(*ServerFarm_STATUS); ok {
 		farm.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Serverfarm_STATUS
+	var st ServerFarm_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	farm.Status = st
@@ -144,8 +171,8 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-03-01")
 
-// Storage version of v1api20220301.Serverfarm_Spec
-type Serverfarm_Spec struct {
+// Storage version of v1api20220301.ServerFarm_Spec
+type ServerFarm_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                 string                     `json:"azureName,omitempty"`
@@ -160,6 +187,7 @@ type Serverfarm_Spec struct {
 	KubeEnvironmentProfile    *KubeEnvironmentProfile    `json:"kubeEnvironmentProfile,omitempty"`
 	Location                  *string                    `json:"location,omitempty"`
 	MaximumElasticWorkerCount *int                       `json:"maximumElasticWorkerCount,omitempty"`
+	OperatorSpec              *ServerFarmOperatorSpec    `json:"operatorSpec,omitempty"`
 	OriginalVersion           string                     `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -179,28 +207,28 @@ type Serverfarm_Spec struct {
 	ZoneRedundant      *bool                              `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Serverfarm_Spec{}
+var _ genruntime.ConvertibleSpec = &ServerFarm_Spec{}
 
-// ConvertSpecFrom populates our Serverfarm_Spec from the provided source
-func (serverfarm *Serverfarm_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == serverfarm {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+// ConvertSpecFrom populates our ServerFarm_Spec from the provided source
+func (farm *ServerFarm_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == farm {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(serverfarm)
+	return source.ConvertSpecTo(farm)
 }
 
-// ConvertSpecTo populates the provided destination from our Serverfarm_Spec
-func (serverfarm *Serverfarm_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == serverfarm {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+// ConvertSpecTo populates the provided destination from our ServerFarm_Spec
+func (farm *ServerFarm_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == farm {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(serverfarm)
+	return destination.ConvertSpecFrom(farm)
 }
 
-// Storage version of v1api20220301.Serverfarm_STATUS
-type Serverfarm_STATUS struct {
+// Storage version of v1api20220301.ServerFarm_STATUS
+type ServerFarm_STATUS struct {
 	Conditions                []conditions.Condition            `json:"conditions,omitempty"`
 	ElasticScaleEnabled       *bool                             `json:"elasticScaleEnabled,omitempty"`
 	ExtendedLocation          *ExtendedLocation_STATUS          `json:"extendedLocation,omitempty"`
@@ -236,24 +264,24 @@ type Serverfarm_STATUS struct {
 	ZoneRedundant             *bool                             `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Serverfarm_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServerFarm_STATUS{}
 
-// ConvertStatusFrom populates our Serverfarm_STATUS from the provided source
-func (serverfarm *Serverfarm_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == serverfarm {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+// ConvertStatusFrom populates our ServerFarm_STATUS from the provided source
+func (farm *ServerFarm_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == farm {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(serverfarm)
+	return source.ConvertStatusTo(farm)
 }
 
-// ConvertStatusTo populates the provided destination from our Serverfarm_STATUS
-func (serverfarm *Serverfarm_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == serverfarm {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+// ConvertStatusTo populates the provided destination from our ServerFarm_STATUS
+func (farm *ServerFarm_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == farm {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(serverfarm)
+	return destination.ConvertStatusFrom(farm)
 }
 
 // Storage version of v1api20220301.ExtendedLocation
@@ -305,6 +333,14 @@ type KubeEnvironmentProfile_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
+}
+
+// Storage version of v1api20220301.ServerFarmOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServerFarmOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20220301.SkuDescription

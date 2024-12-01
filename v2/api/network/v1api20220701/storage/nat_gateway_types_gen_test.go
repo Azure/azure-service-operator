@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_NatGateway_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NatGateway to hub returns original",
+		prop.ForAll(RunResourceConversionTestForNatGateway, NatGatewayGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForNatGateway tests if a specific instance of NatGateway round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForNatGateway(subject NatGateway) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.NatGateway
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual NatGateway
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NatGateway_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NatGateway to NatGateway via AssignProperties_To_NatGateway & AssignProperties_From_NatGateway returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNatGateway, NatGatewayGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNatGateway tests if a specific instance of NatGateway can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNatGateway(subject NatGateway) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NatGateway
+	err := copied.AssignProperties_To_NatGateway(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NatGateway
+	err = actual.AssignProperties_From_NatGateway(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_NatGateway_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -78,6 +164,145 @@ func AddRelatedPropertyGeneratorsForNatGateway(gens map[string]gopter.Gen) {
 	gens["Status"] = NatGateway_STATUSGenerator()
 }
 
+func Test_NatGatewayOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NatGatewayOperatorSpec to NatGatewayOperatorSpec via AssignProperties_To_NatGatewayOperatorSpec & AssignProperties_From_NatGatewayOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNatGatewayOperatorSpec, NatGatewayOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNatGatewayOperatorSpec tests if a specific instance of NatGatewayOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNatGatewayOperatorSpec(subject NatGatewayOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NatGatewayOperatorSpec
+	err := copied.AssignProperties_To_NatGatewayOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NatGatewayOperatorSpec
+	err = actual.AssignProperties_From_NatGatewayOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NatGatewayOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NatGatewayOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNatGatewayOperatorSpec, NatGatewayOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNatGatewayOperatorSpec runs a test to see if a specific instance of NatGatewayOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNatGatewayOperatorSpec(subject NatGatewayOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NatGatewayOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NatGatewayOperatorSpec instances for property testing - lazily instantiated by
+// NatGatewayOperatorSpecGenerator()
+var natGatewayOperatorSpecGenerator gopter.Gen
+
+// NatGatewayOperatorSpecGenerator returns a generator of NatGatewayOperatorSpec instances for property testing.
+func NatGatewayOperatorSpecGenerator() gopter.Gen {
+	if natGatewayOperatorSpecGenerator != nil {
+		return natGatewayOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	natGatewayOperatorSpecGenerator = gen.Struct(reflect.TypeOf(NatGatewayOperatorSpec{}), generators)
+
+	return natGatewayOperatorSpecGenerator
+}
+
+func Test_NatGatewaySku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NatGatewaySku to NatGatewaySku via AssignProperties_To_NatGatewaySku & AssignProperties_From_NatGatewaySku returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNatGatewaySku, NatGatewaySkuGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNatGatewaySku tests if a specific instance of NatGatewaySku can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNatGatewaySku(subject NatGatewaySku) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NatGatewaySku
+	err := copied.AssignProperties_To_NatGatewaySku(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NatGatewaySku
+	err = actual.AssignProperties_From_NatGatewaySku(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NatGatewaySku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -136,6 +361,48 @@ func NatGatewaySkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNatGatewaySku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNatGatewaySku(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_NatGatewaySku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NatGatewaySku_STATUS to NatGatewaySku_STATUS via AssignProperties_To_NatGatewaySku_STATUS & AssignProperties_From_NatGatewaySku_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNatGatewaySku_STATUS, NatGatewaySku_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNatGatewaySku_STATUS tests if a specific instance of NatGatewaySku_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNatGatewaySku_STATUS(subject NatGatewaySku_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NatGatewaySku_STATUS
+	err := copied.AssignProperties_To_NatGatewaySku_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NatGatewaySku_STATUS
+	err = actual.AssignProperties_From_NatGatewaySku_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NatGatewaySku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -197,6 +464,48 @@ func NatGatewaySku_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNatGatewaySku_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNatGatewaySku_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_NatGateway_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NatGateway_STATUS to NatGateway_STATUS via AssignProperties_To_NatGateway_STATUS & AssignProperties_From_NatGateway_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNatGateway_STATUS, NatGateway_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNatGateway_STATUS tests if a specific instance of NatGateway_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNatGateway_STATUS(subject NatGateway_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NatGateway_STATUS
+	err := copied.AssignProperties_To_NatGateway_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NatGateway_STATUS
+	err = actual.AssignProperties_From_NatGateway_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NatGateway_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -281,10 +590,52 @@ func AddIndependentPropertyGeneratorsForNatGateway_STATUS(gens map[string]gopter
 
 // AddRelatedPropertyGeneratorsForNatGateway_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNatGateway_STATUS(gens map[string]gopter.Gen) {
-	gens["PublicIpAddresses"] = gen.SliceOf(ApplicationGatewaySubResource_STATUSGenerator())
-	gens["PublicIpPrefixes"] = gen.SliceOf(ApplicationGatewaySubResource_STATUSGenerator())
+	gens["PublicIpAddresses"] = gen.SliceOf(SubResource_STATUSGenerator())
+	gens["PublicIpPrefixes"] = gen.SliceOf(SubResource_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(NatGatewaySku_STATUSGenerator())
-	gens["Subnets"] = gen.SliceOf(ApplicationGatewaySubResource_STATUSGenerator())
+	gens["Subnets"] = gen.SliceOf(SubResource_STATUSGenerator())
+}
+
+func Test_NatGateway_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NatGateway_Spec to NatGateway_Spec via AssignProperties_To_NatGateway_Spec & AssignProperties_From_NatGateway_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNatGateway_Spec, NatGateway_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNatGateway_Spec tests if a specific instance of NatGateway_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNatGateway_Spec(subject NatGateway_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NatGateway_Spec
+	err := copied.AssignProperties_To_NatGateway_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NatGateway_Spec
+	err = actual.AssignProperties_From_NatGateway_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NatGateway_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -365,7 +716,8 @@ func AddIndependentPropertyGeneratorsForNatGateway_Spec(gens map[string]gopter.G
 
 // AddRelatedPropertyGeneratorsForNatGateway_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNatGateway_Spec(gens map[string]gopter.Gen) {
-	gens["PublicIpAddresses"] = gen.SliceOf(ApplicationGatewaySubResourceGenerator())
-	gens["PublicIpPrefixes"] = gen.SliceOf(ApplicationGatewaySubResourceGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(NatGatewayOperatorSpecGenerator())
+	gens["PublicIpAddresses"] = gen.SliceOf(SubResourceGenerator())
+	gens["PublicIpPrefixes"] = gen.SliceOf(SubResourceGenerator())
 	gens["Sku"] = gen.PtrOf(NatGatewaySkuGenerator())
 }

@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -42,6 +45,26 @@ func (domain *Domain) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (domain *Domain) SetConditions(conditions conditions.Conditions) {
 	domain.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Domain{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (domain *Domain) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if domain.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return domain.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Domain{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (domain *Domain) SecretDestinationExpressions() []*core.DestinationExpression {
+	if domain.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return domain.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Domain{}
@@ -92,6 +115,10 @@ func (domain *Domain) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (domain *Domain) Owner() *genruntime.ResourceReference {
+	if domain.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(domain.Spec)
 	return domain.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -108,7 +135,7 @@ func (domain *Domain) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Domain_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	domain.Status = st
@@ -153,6 +180,7 @@ type Domain_Spec struct {
 	InputSchema        *string             `json:"inputSchema,omitempty"`
 	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
 	Location           *string             `json:"location,omitempty"`
+	OperatorSpec       *DomainOperatorSpec `json:"operatorSpec,omitempty"`
 	OriginalVersion    string              `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -170,7 +198,7 @@ var _ genruntime.ConvertibleSpec = &Domain_Spec{}
 // ConvertSpecFrom populates our Domain_Spec from the provided source
 func (domain *Domain_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == domain {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(domain)
@@ -179,7 +207,7 @@ func (domain *Domain_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 // ConvertSpecTo populates the provided destination from our Domain_Spec
 func (domain *Domain_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == domain {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(domain)
@@ -211,7 +239,7 @@ var _ genruntime.ConvertibleStatus = &Domain_STATUS{}
 // ConvertStatusFrom populates our Domain_STATUS from the provided source
 func (domain *Domain_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == domain {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(domain)
@@ -220,10 +248,18 @@ func (domain *Domain_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 // ConvertStatusTo populates the provided destination from our Domain_STATUS
 func (domain *Domain_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == domain {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(domain)
+}
+
+// Storage version of v1api20200601.DomainOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DomainOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20200601.InboundIpRule

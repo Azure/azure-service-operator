@@ -75,8 +75,8 @@ func NamespacesAuthorizationRuleGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule(gens map[string]gopter.Gen) {
-	gens["Spec"] = Namespaces_AuthorizationRule_SpecGenerator()
-	gens["Status"] = Namespaces_AuthorizationRule_STATUSGenerator()
+	gens["Spec"] = NamespacesAuthorizationRule_SpecGenerator()
+	gens["Status"] = NamespacesAuthorizationRule_STATUSGenerator()
 }
 
 func Test_NamespacesAuthorizationRuleOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -195,20 +195,20 @@ func AddRelatedPropertyGeneratorsForNamespacesAuthorizationRuleOperatorSpec(gens
 	gens["Secrets"] = gen.PtrOf(NamespacesAuthorizationRuleOperatorSecretsGenerator())
 }
 
-func Test_Namespaces_AuthorizationRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NamespacesAuthorizationRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Namespaces_AuthorizationRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespaces_AuthorizationRule_STATUS, Namespaces_AuthorizationRule_STATUSGenerator()))
+		"Round trip of NamespacesAuthorizationRule_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesAuthorizationRule_STATUS, NamespacesAuthorizationRule_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespaces_AuthorizationRule_STATUS runs a test to see if a specific instance of Namespaces_AuthorizationRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespaces_AuthorizationRule_STATUS(subject Namespaces_AuthorizationRule_STATUS) string {
+// RunJSONSerializationTestForNamespacesAuthorizationRule_STATUS runs a test to see if a specific instance of NamespacesAuthorizationRule_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesAuthorizationRule_STATUS(subject NamespacesAuthorizationRule_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -216,7 +216,7 @@ func RunJSONSerializationTestForNamespaces_AuthorizationRule_STATUS(subject Name
 	}
 
 	// Deserialize back into memory
-	var actual Namespaces_AuthorizationRule_STATUS
+	var actual NamespacesAuthorizationRule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -234,34 +234,34 @@ func RunJSONSerializationTestForNamespaces_AuthorizationRule_STATUS(subject Name
 	return ""
 }
 
-// Generator of Namespaces_AuthorizationRule_STATUS instances for property testing - lazily instantiated by
-// Namespaces_AuthorizationRule_STATUSGenerator()
-var namespaces_AuthorizationRule_STATUSGenerator gopter.Gen
+// Generator of NamespacesAuthorizationRule_STATUS instances for property testing - lazily instantiated by
+// NamespacesAuthorizationRule_STATUSGenerator()
+var namespacesAuthorizationRule_STATUSGenerator gopter.Gen
 
-// Namespaces_AuthorizationRule_STATUSGenerator returns a generator of Namespaces_AuthorizationRule_STATUS instances for property testing.
-// We first initialize namespaces_AuthorizationRule_STATUSGenerator with a simplified generator based on the
+// NamespacesAuthorizationRule_STATUSGenerator returns a generator of NamespacesAuthorizationRule_STATUS instances for property testing.
+// We first initialize namespacesAuthorizationRule_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Namespaces_AuthorizationRule_STATUSGenerator() gopter.Gen {
-	if namespaces_AuthorizationRule_STATUSGenerator != nil {
-		return namespaces_AuthorizationRule_STATUSGenerator
+func NamespacesAuthorizationRule_STATUSGenerator() gopter.Gen {
+	if namespacesAuthorizationRule_STATUSGenerator != nil {
+		return namespacesAuthorizationRule_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS(generators)
-	namespaces_AuthorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(Namespaces_AuthorizationRule_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_STATUS(generators)
+	namespacesAuthorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(NamespacesAuthorizationRule_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS(generators)
-	namespaces_AuthorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(Namespaces_AuthorizationRule_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_STATUS(generators)
+	AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_STATUS(generators)
+	namespacesAuthorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(NamespacesAuthorizationRule_STATUS{}), generators)
 
-	return namespaces_AuthorizationRule_STATUSGenerator
+	return namespacesAuthorizationRule_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -269,25 +269,25 @@ func AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS(gens
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
-func Test_Namespaces_AuthorizationRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NamespacesAuthorizationRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Namespaces_AuthorizationRule_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespaces_AuthorizationRule_Spec, Namespaces_AuthorizationRule_SpecGenerator()))
+		"Round trip of NamespacesAuthorizationRule_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesAuthorizationRule_Spec, NamespacesAuthorizationRule_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespaces_AuthorizationRule_Spec runs a test to see if a specific instance of Namespaces_AuthorizationRule_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespaces_AuthorizationRule_Spec(subject Namespaces_AuthorizationRule_Spec) string {
+// RunJSONSerializationTestForNamespacesAuthorizationRule_Spec runs a test to see if a specific instance of NamespacesAuthorizationRule_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesAuthorizationRule_Spec(subject NamespacesAuthorizationRule_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -295,7 +295,7 @@ func RunJSONSerializationTestForNamespaces_AuthorizationRule_Spec(subject Namesp
 	}
 
 	// Deserialize back into memory
-	var actual Namespaces_AuthorizationRule_Spec
+	var actual NamespacesAuthorizationRule_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -313,40 +313,40 @@ func RunJSONSerializationTestForNamespaces_AuthorizationRule_Spec(subject Namesp
 	return ""
 }
 
-// Generator of Namespaces_AuthorizationRule_Spec instances for property testing - lazily instantiated by
-// Namespaces_AuthorizationRule_SpecGenerator()
-var namespaces_AuthorizationRule_SpecGenerator gopter.Gen
+// Generator of NamespacesAuthorizationRule_Spec instances for property testing - lazily instantiated by
+// NamespacesAuthorizationRule_SpecGenerator()
+var namespacesAuthorizationRule_SpecGenerator gopter.Gen
 
-// Namespaces_AuthorizationRule_SpecGenerator returns a generator of Namespaces_AuthorizationRule_Spec instances for property testing.
-// We first initialize namespaces_AuthorizationRule_SpecGenerator with a simplified generator based on the
+// NamespacesAuthorizationRule_SpecGenerator returns a generator of NamespacesAuthorizationRule_Spec instances for property testing.
+// We first initialize namespacesAuthorizationRule_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Namespaces_AuthorizationRule_SpecGenerator() gopter.Gen {
-	if namespaces_AuthorizationRule_SpecGenerator != nil {
-		return namespaces_AuthorizationRule_SpecGenerator
+func NamespacesAuthorizationRule_SpecGenerator() gopter.Gen {
+	if namespacesAuthorizationRule_SpecGenerator != nil {
+		return namespacesAuthorizationRule_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_Spec(generators)
-	namespaces_AuthorizationRule_SpecGenerator = gen.Struct(reflect.TypeOf(Namespaces_AuthorizationRule_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Spec(generators)
+	namespacesAuthorizationRule_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesAuthorizationRule_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_Spec(generators)
-	AddRelatedPropertyGeneratorsForNamespaces_AuthorizationRule_Spec(generators)
-	namespaces_AuthorizationRule_SpecGenerator = gen.Struct(reflect.TypeOf(Namespaces_AuthorizationRule_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Spec(generators)
+	AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_Spec(generators)
+	namespacesAuthorizationRule_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesAuthorizationRule_Spec{}), generators)
 
-	return namespaces_AuthorizationRule_SpecGenerator
+	return namespacesAuthorizationRule_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Rights"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForNamespaces_AuthorizationRule_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespaces_AuthorizationRule_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_Spec(gens map[string]gopter.Gen) {
 	gens["OperatorSpec"] = gen.PtrOf(NamespacesAuthorizationRuleOperatorSpecGenerator())
 }

@@ -9,12 +9,11 @@ import (
 	"context"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
-
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
@@ -33,13 +32,13 @@ func ImplementImportableResourceInterface(
 			// Scan for the resources requiring the ImportableResource interface injected
 			graph, err := GetStateData[*storage.ConversionGraph](state, ConversionGraphInfo)
 			if err != nil {
-				return nil, errors.Wrapf(err, "couldn't find conversion graph")
+				return nil, eris.Wrapf(err, "couldn't find conversion graph")
 			}
 
 			scanner := newSpecInitializationScanner(state.Definitions(), graph, configuration)
 			rsrcs, err := scanner.findResources()
 			if err != nil {
-				return nil, errors.Wrapf(err, "unable to find resources that support import")
+				return nil, eris.Wrapf(err, "unable to find resources that support import")
 			}
 
 			injector := astmodel.NewInterfaceInjector()
@@ -68,7 +67,7 @@ func ImplementImportableResourceInterface(
 			}
 
 			if len(errs) > 0 {
-				return nil, errors.Wrap(
+				return nil, eris.Wrap(
 					kerrors.NewAggregate(errs),
 					"unable to implement ImportableResource interface")
 			}
@@ -90,18 +89,18 @@ func createImportableResourceImplementation(
 ) (*astmodel.InterfaceImplementation, error) {
 	rsrc, ok := astmodel.AsResourceType(def.Type())
 	if !ok {
-		return nil, errors.Errorf("expected %q to be a resource", def.Name())
+		return nil, eris.Errorf("expected %q to be a resource", def.Name())
 	}
 
 	// Find the InterfaceInitialization function on the Spec, so we can call it later
 	specDef, err := defs.ResolveResourceSpecDefinition(rsrc)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to resolve spec for %q", def.Name())
+		return nil, eris.Wrapf(err, "unable to resolve spec for %q", def.Name())
 	}
 
 	spec, ok := astmodel.AsFunctionContainer(specDef.Type())
 	if !ok {
-		return nil, errors.Errorf("expected %q to be a function container", specDef.Name())
+		return nil, eris.Errorf("expected %q to be a function container", specDef.Name())
 	}
 
 	var fnName string
@@ -119,7 +118,7 @@ func createImportableResourceImplementation(
 
 	fn, err := functions.NewInitializeSpecFunction(def, fnName, idFactory)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to create initialization function for %q", def.Name())
+		return nil, eris.Wrapf(err, "unable to create initialization function for %q", def.Name())
 	}
 
 	return astmodel.NewInterfaceImplementation(

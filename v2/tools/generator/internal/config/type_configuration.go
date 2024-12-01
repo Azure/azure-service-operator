@@ -8,7 +8,7 @@ package config
 import (
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"gopkg.in/yaml.v3"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
@@ -43,6 +43,7 @@ type TypeConfiguration struct {
 	RenameTo                 configurable[string]                              // Give this type a different name in the generated code
 	ResourceEmbeddedInParent configurable[string]                              // String specifying resource name of parent
 	SupportedFrom            configurable[string]                              // Label specifying the first ASO release supporting the resource
+	StripDocumentation       configurable[bool]                                // Boolean directing the generator to strip documentation on the resource and all referenced objects. Only supported on resources.
 }
 
 const (
@@ -58,6 +59,7 @@ const (
 	operatorSpecPropertiesTag   = "$operatorSpecProperties"   // A set of additional properties to inject into the operatorSpec of a resource
 	renameTo                    = "$renameTo"                 // String specifying the new name of a type
 	resourceEmbeddedInParentTag = "$resourceEmbeddedInParent" // String specifying resource name of parent
+	stripDocumentationTag       = "$stripDocumentation"       // Boolean directing the generator to strip documentation on the resource and all referenced objects. Only supported on resources.
 	supportedFromTag            = "$supportedFrom"            // Label specifying the first ASO release supporting the resource
 )
 
@@ -86,6 +88,7 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 		OperatorSpecProperties:   makeConfigurable[[]OperatorSpecPropertyConfiguration](operatorSpecPropertiesTag, scope),
 		RenameTo:                 makeConfigurable[string](renameTo, scope),
 		ResourceEmbeddedInParent: makeConfigurable[string](resourceEmbeddedInParentTag, scope),
+		StripDocumentation:       makeConfigurable[bool](stripDocumentationTag, scope),
 		SupportedFrom:            makeConfigurable[string](supportedFromTag, scope),
 	}
 }
@@ -109,7 +112,7 @@ func (tc *TypeConfiguration) visitProperty(
 
 	err := visitor.visitProperty(pc)
 	if err != nil {
-		return errors.Wrapf(err, "configuration of type %s", tc.name)
+		return eris.Wrapf(err, "configuration of type %s", tc.name)
 	}
 
 	return nil
@@ -125,7 +128,7 @@ func (tc *TypeConfiguration) visitProperties(visitor *configurationVisitor) erro
 	}
 
 	// Both errors.Wrapf() and kerrors.NewAggregate() return nil if nothing went wrong
-	return errors.Wrapf(
+	return eris.Wrapf(
 		kerrors.NewAggregate(errs),
 		"type %s",
 		tc.name)
@@ -149,7 +152,7 @@ func (tc *TypeConfiguration) findProperty(property astmodel.PropertyName) *Prope
 // The slice node.Content contains pairs of nodes, first one for an ID, then one for the value.
 func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	if value.Kind != yaml.MappingNode {
-		return errors.New("expected mapping")
+		return eris.New("expected mapping")
 	}
 
 	tc.properties = make(map[string]*PropertyConfiguration)
@@ -172,7 +175,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				if content.Kind == yaml.ScalarNode {
 					val = content.Value
 				} else {
-					return errors.Errorf(
+					return eris.Errorf(
 						"unexpected yam value for %s (line %d col %d)",
 						generatedConfigsTag,
 						content.Line,
@@ -185,7 +188,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				}
 				if idx%2 == 1 {
 					if !strings.HasPrefix(val, "$.") {
-						return errors.Errorf("%s entry %q must begin with $.", generatedConfigsTag, val)
+						return eris.Errorf("%s entry %q must begin with $.", generatedConfigsTag, val)
 					}
 					azureGeneratedConfigs[key] = val
 
@@ -204,7 +207,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			p := NewPropertyConfiguration(lastId)
 			err := c.Decode(p)
 			if err != nil {
-				return errors.Wrapf(err, "decoding yaml for %q", lastId)
+				return eris.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
 			tc.addProperty(lastId, p)
@@ -222,7 +225,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			var export bool
 			err := c.Decode(&export)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", exportTag)
+				return eris.Wrapf(err, "decoding %s", exportTag)
 			}
 
 			tc.Export.Set(export)
@@ -244,7 +247,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				if content.Kind == yaml.ScalarNode {
 					azureGeneratedSecrets = append(azureGeneratedSecrets, content.Value)
 				} else {
-					return errors.Errorf(
+					return eris.Errorf(
 						"unexpected yam value for %s (line %d col %d)",
 						azureGeneratedSecretsTag,
 						content.Line,
@@ -265,7 +268,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				if content.Kind == yaml.ScalarNode {
 					manualAzureGeneratedConfigs = append(manualAzureGeneratedConfigs, content.Value)
 				} else {
-					return errors.Errorf(
+					return eris.Errorf(
 						"unexpected yam value for %s (line %d col %d)",
 						manualConfigsTag,
 						content.Line,
@@ -277,7 +280,19 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
-		// $SupportedFrom
+		// $stripDocumentation
+		if strings.EqualFold(lastId, stripDocumentationTag) && c.Kind == yaml.ScalarNode {
+			var stripDocs bool
+			err := c.Decode(&stripDocs)
+			if err != nil {
+				return eris.Wrapf(err, "decoding %s", stripDocumentationTag)
+			}
+
+			tc.StripDocumentation.Set(stripDocs)
+			continue
+		}
+
+		// $supportedFrom
 		if strings.EqualFold(lastId, supportedFromTag) && c.Kind == yaml.ScalarNode {
 			tc.SupportedFrom.Set(c.Value)
 			continue
@@ -288,7 +303,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			var renameTo string
 			err := c.Decode(&renameTo)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", renameTo)
+				return eris.Wrapf(err, "decoding %s", renameTo)
 			}
 
 			tc.RenameTo.Set(renameTo)
@@ -300,7 +315,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			var resourceEmbeddedInParent string
 			err := c.Decode(&resourceEmbeddedInParent)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", resourceEmbeddedInParentTag)
+				return eris.Wrapf(err, "decoding %s", resourceEmbeddedInParentTag)
 			}
 
 			tc.ResourceEmbeddedInParent.Set(resourceEmbeddedInParent)
@@ -312,7 +327,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			var isResource bool
 			err := c.Decode(&isResource)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", isResourceTag)
+				return eris.Wrapf(err, "decoding %s", isResourceTag)
 			}
 
 			tc.IsResource.Set(isResource)
@@ -324,7 +339,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			var importable bool
 			err := c.Decode(&importable)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", importableTag)
+				return eris.Wrapf(err, "decoding %s", importableTag)
 			}
 
 			tc.Importable.Set(importable)
@@ -336,7 +351,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			var defaultAzureName bool
 			err := c.Decode(&defaultAzureName)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", defaultAzureNameTag)
+				return eris.Wrapf(err, "decoding %s", defaultAzureNameTag)
 			}
 
 			tc.DefaultAzureName.Set(defaultAzureName)
@@ -356,12 +371,12 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 					var property OperatorSpecPropertyConfiguration
 					err := content.Decode(&property)
 					if err != nil {
-						return errors.Wrapf(err, "decoding %s", operatorSpecPropertiesTag)
+						return eris.Wrapf(err, "decoding %s", operatorSpecPropertiesTag)
 					}
 
 					properties = append(properties, property)
 				} else {
-					return errors.Errorf(
+					return eris.Errorf(
 						"unexpected yam value for %s (line %d col %d)",
 						operatorSpecPropertiesTag,
 						content.Line,
@@ -374,8 +389,9 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// No handler for this value, return an error
-		return errors.Errorf(
+		return eris.Errorf(
 			"type configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
+
 	}
 
 	return nil

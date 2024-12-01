@@ -623,6 +623,103 @@ func AddRelatedPropertyGeneratorsForFluxConfiguration(gens map[string]gopter.Gen
 	gens["Status"] = FluxConfiguration_STATUSGenerator()
 }
 
+func Test_FluxConfigurationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FluxConfigurationOperatorSpec to FluxConfigurationOperatorSpec via AssignProperties_To_FluxConfigurationOperatorSpec & AssignProperties_From_FluxConfigurationOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFluxConfigurationOperatorSpec, FluxConfigurationOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFluxConfigurationOperatorSpec tests if a specific instance of FluxConfigurationOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFluxConfigurationOperatorSpec(subject FluxConfigurationOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FluxConfigurationOperatorSpec
+	err := copied.AssignProperties_To_FluxConfigurationOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FluxConfigurationOperatorSpec
+	err = actual.AssignProperties_From_FluxConfigurationOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FluxConfigurationOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FluxConfigurationOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFluxConfigurationOperatorSpec, FluxConfigurationOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFluxConfigurationOperatorSpec runs a test to see if a specific instance of FluxConfigurationOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForFluxConfigurationOperatorSpec(subject FluxConfigurationOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FluxConfigurationOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FluxConfigurationOperatorSpec instances for property testing - lazily instantiated by
+// FluxConfigurationOperatorSpecGenerator()
+var fluxConfigurationOperatorSpecGenerator gopter.Gen
+
+// FluxConfigurationOperatorSpecGenerator returns a generator of FluxConfigurationOperatorSpec instances for property testing.
+func FluxConfigurationOperatorSpecGenerator() gopter.Gen {
+	if fluxConfigurationOperatorSpecGenerator != nil {
+		return fluxConfigurationOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	fluxConfigurationOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FluxConfigurationOperatorSpec{}), generators)
+
+	return fluxConfigurationOperatorSpecGenerator
+}
+
 func Test_FluxConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -901,6 +998,7 @@ func AddRelatedPropertyGeneratorsForFluxConfiguration_Spec(gens map[string]gopte
 	gens["Kustomizations"] = gen.MapOf(
 		gen.AlphaString(),
 		KustomizationDefinitionGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(FluxConfigurationOperatorSpecGenerator())
 }
 
 func Test_GitRepositoryDefinition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

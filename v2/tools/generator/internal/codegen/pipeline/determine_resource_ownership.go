@@ -10,11 +10,11 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 const resourcesPropertyName = astmodel.PropertyName("Resources")
@@ -31,7 +31,7 @@ func DetermineResourceOwnership(
 			determiner := newOwnershipStage(configuration, state.Definitions())
 			defs, err := determiner.assignOwners()
 			if err != nil {
-				return nil, errors.Wrapf(err, "failed to determine resource ownership")
+				return nil, eris.Wrapf(err, "failed to determine resource ownership")
 			}
 
 			return state.WithOverlaidDefinitions(defs), nil
@@ -81,7 +81,7 @@ func (o *ownershipStage) assignOwners() (astmodel.TypeDefinitionSet, error) {
 	for _, def := range resources {
 		resolved, err := o.definitions.ResolveResourceSpecAndStatus(def)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to find resource %s spec and status", def.Name())
+			return nil, eris.Wrapf(err, "unable to find resource %s spec and status", def.Name())
 		}
 
 		childResourceTypeNames := o.findChildren(def)
@@ -90,7 +90,7 @@ func (o *ownershipStage) assignOwners() (astmodel.TypeDefinitionSet, error) {
 		if err != nil {
 			errs = append(
 				errs,
-				errors.Wrapf(err, "failed to update ownership for resource %s", def.Name()))
+				eris.Wrapf(err, "failed to update ownership for resource %s", def.Name()))
 			continue
 		}
 
@@ -103,7 +103,7 @@ func (o *ownershipStage) assignOwners() (astmodel.TypeDefinitionSet, error) {
 			if err != nil {
 				errs = append(
 					errs,
-					errors.Wrapf(err, "failed to remove resources property from resource %s", def.Name()))
+					eris.Wrapf(err, "failed to remove resources property from resource %s", def.Name()))
 				continue
 			}
 
@@ -112,7 +112,7 @@ func (o *ownershipStage) assignOwners() (astmodel.TypeDefinitionSet, error) {
 	}
 
 	if len(errs) > 0 {
-		return nil, errors.Wrapf(
+		return nil, eris.Wrapf(
 			kerrors.NewAggregate(errs),
 			"failed to update ownership for some resources")
 	}
@@ -166,7 +166,7 @@ func (o *ownershipStage) updateChildResourceDefinitionsWithOwner(
 		// Confirm the type really exists
 		childResourceDef, ok := o.definitions[typeName]
 		if !ok {
-			return errors.Errorf("couldn't find child resource type %s", typeName)
+			return eris.Errorf("couldn't find child resource type %s", typeName)
 		}
 
 		// TODO: If it ever arises that we have a resource whose owner doesn't exist in the same API
@@ -181,7 +181,7 @@ func (o *ownershipStage) updateChildResourceDefinitionsWithOwner(
 		// Update the definition of the child resource type to point to its owner
 		childResource, ok := childResourceDef.Type().(*astmodel.ResourceType)
 		if !ok {
-			return errors.Errorf("child resource %s not of type *astmodel.ResourceType, instead %T", typeName, childResourceDef.Type())
+			return eris.Errorf("child resource %s not of type *astmodel.ResourceType, instead %T", typeName, childResourceDef.Type())
 		}
 
 		childResourceDef = childResourceDef.WithType(childResource.WithOwner(owningResourceName))
@@ -202,7 +202,7 @@ func (o *ownershipStage) updateChildResourceDefinitionsWithOwner(
 				}
 			}
 
-			return errors.Wrapf(err, "conflicting child resource already defined for %s [%s]", typeName, childResource.ARMURI())
+			return eris.Wrapf(err, "conflicting child resource already defined for %s [%s]", typeName, childResource.ARMURI())
 		}
 	}
 

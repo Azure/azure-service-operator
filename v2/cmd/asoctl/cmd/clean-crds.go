@@ -6,14 +6,13 @@
 package cmd
 
 import (
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"github.com/spf13/cobra"
 	v1 "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 
 	"github.com/Azure/azure-service-operator/v2/api"
-
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/internal/crd"
 )
 
@@ -29,19 +28,19 @@ func newCleanCRDsCommand() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cfg, err := config.GetConfig()
 			if err != nil {
-				return errors.Wrap(err, "unable to get Kubernetes config")
+				return eris.Wrap(err, "unable to get Kubernetes config")
 			}
 
 			ctx := cmd.Context()
 
 			apiExtClient, err := v1.NewForConfig(cfg)
 			if err != nil {
-				return errors.Wrap(err, "unable to create Kubernetes client")
+				return eris.Wrap(err, "unable to create Kubernetes client")
 			}
 
 			cl, err := client.New(cfg, client.Options{Scheme: api.CreateScheme()})
 			if err != nil {
-				return errors.Wrap(err, "unable to create Kubernetes client")
+				return eris.Wrap(err, "unable to create Kubernetes client")
 			}
 
 			return crd.NewCleaner(

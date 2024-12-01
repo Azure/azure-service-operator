@@ -8,33 +8,35 @@ package customizations
 import (
 	"context"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	mariadb "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
-var _ genruntime.KubernetesExporter = &ServerExtension{}
+var _ genruntime.KubernetesSecretExporter = &ServerExtension{}
 
-func (ext *ServerExtension) ExportKubernetesResources(
+func (ext *ServerExtension) ExportKubernetesSecrets(
 	ctx context.Context,
 	obj genruntime.MetaObject,
+	additionalSecrets set.Set[string],
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
-) ([]client.Object, error) {
+) (*genruntime.KubernetesSecretExportResult, error) {
 	// This has to be the current storage version. It will need to be updated
 	// if the storage version changes.
 	typedObj, ok := obj.(*mariadb.Server)
 	if !ok {
-		return nil, errors.Errorf("cannot run on unknown resource type %T", obj)
+		return nil, eris.Errorf("cannot run on unknown resource type %T", obj)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if
@@ -52,7 +54,10 @@ func (ext *ServerExtension) ExportKubernetesResources(
 		return nil, err
 	}
 
-	return secrets.SliceToClientObjectSlice(secretSlice), nil
+	return &genruntime.KubernetesSecretExportResult{
+		Objs:       secrets.SliceToClientObjectSlice(secretSlice),
+		RawSecrets: nil, // No actual secrets to return so no raw secrets
+	}, nil
 }
 
 func secretsSpecified(obj *mariadb.Server) bool {
@@ -67,7 +72,7 @@ func secretsSpecified(obj *mariadb.Server) bool {
 func secretsToWrite(obj *mariadb.Server) ([]*v1.Secret, error) {
 	operatorSpecSecrets := obj.Spec.OperatorSpec.Secrets
 	if operatorSpecSecrets == nil {
-		return nil, errors.Errorf("unexpected nil OperatorSpec")
+		return nil, nil
 	}
 
 	collector := secrets.NewCollector(obj.Namespace)

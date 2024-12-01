@@ -1289,6 +1289,61 @@ func AddRelatedPropertyGeneratorsForService(gens map[string]gopter.Gen) {
 	gens["Status"] = Service_STATUSGenerator()
 }
 
+func Test_ServiceOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServiceOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServiceOperatorSpec, ServiceOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServiceOperatorSpec runs a test to see if a specific instance of ServiceOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceOperatorSpec(subject ServiceOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServiceOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServiceOperatorSpec instances for property testing - lazily instantiated by
+// ServiceOperatorSpecGenerator()
+var serviceOperatorSpecGenerator gopter.Gen
+
+// ServiceOperatorSpecGenerator returns a generator of ServiceOperatorSpec instances for property testing.
+func ServiceOperatorSpecGenerator() gopter.Gen {
+	if serviceOperatorSpecGenerator != nil {
+		return serviceOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	serviceOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServiceOperatorSpec{}), generators)
+
+	return serviceOperatorSpecGenerator
+}
+
 func Test_Service_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1499,6 +1554,7 @@ func AddRelatedPropertyGeneratorsForService_Spec(gens map[string]gopter.Gen) {
 	gens["Certificates"] = gen.SliceOf(CertificateConfigurationGenerator())
 	gens["HostnameConfigurations"] = gen.SliceOf(HostnameConfigurationGenerator())
 	gens["Identity"] = gen.PtrOf(ApiManagementServiceIdentityGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ServiceOperatorSpecGenerator())
 	gens["Sku"] = gen.PtrOf(ApiManagementServiceSkuPropertiesGenerator())
 	gens["VirtualNetworkConfiguration"] = gen.PtrOf(VirtualNetworkConfigurationGenerator())
 }

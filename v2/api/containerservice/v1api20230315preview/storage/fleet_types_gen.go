@@ -7,7 +7,10 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -43,6 +46,26 @@ func (fleet *Fleet) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (fleet *Fleet) SetConditions(conditions conditions.Conditions) {
 	fleet.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Fleet{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (fleet *Fleet) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if fleet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return fleet.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Fleet{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (fleet *Fleet) SecretDestinationExpressions() []*core.DestinationExpression {
+	if fleet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return fleet.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Fleet{}
@@ -93,6 +116,10 @@ func (fleet *Fleet) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (fleet *Fleet) Owner() *genruntime.ResourceReference {
+	if fleet.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(fleet.Spec)
 	return fleet.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -109,7 +136,7 @@ func (fleet *Fleet) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Fleet_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	fleet.Status = st
@@ -169,7 +196,7 @@ var _ genruntime.ConvertibleSpec = &Fleet_Spec{}
 // ConvertSpecFrom populates our Fleet_Spec from the provided source
 func (fleet *Fleet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == fleet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(fleet)
@@ -178,7 +205,7 @@ func (fleet *Fleet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 // ConvertSpecTo populates the provided destination from our Fleet_Spec
 func (fleet *Fleet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == fleet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(fleet)
@@ -205,7 +232,7 @@ var _ genruntime.ConvertibleStatus = &Fleet_STATUS{}
 // ConvertStatusFrom populates our Fleet_STATUS from the provided source
 func (fleet *Fleet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == fleet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(fleet)
@@ -214,7 +241,7 @@ func (fleet *Fleet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 // ConvertStatusTo populates the provided destination from our Fleet_STATUS
 func (fleet *Fleet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == fleet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(fleet)
@@ -239,8 +266,10 @@ type FleetHubProfile_STATUS struct {
 // Storage version of v1api20230315preview.FleetOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type FleetOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Secrets     *FleetOperatorSecrets  `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	Secrets              *FleetOperatorSecrets         `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20230315preview.SystemData_STATUS
@@ -290,7 +319,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *s
 	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
 		err := augmentedData.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -333,7 +362,7 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
 		err := augmentedData.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

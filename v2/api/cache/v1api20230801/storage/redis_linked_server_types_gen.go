@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,7 +31,7 @@ import (
 type RedisLinkedServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Redis_LinkedServer_Spec   `json:"spec,omitempty"`
+	Spec              RedisLinkedServer_Spec    `json:"spec,omitempty"`
 	Status            Redis_LinkedServer_STATUS `json:"status,omitempty"`
 }
 
@@ -42,6 +45,26 @@ func (server *RedisLinkedServer) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (server *RedisLinkedServer) SetConditions(conditions conditions.Conditions) {
 	server.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &RedisLinkedServer{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (server *RedisLinkedServer) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if server.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return server.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &RedisLinkedServer{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (server *RedisLinkedServer) SecretDestinationExpressions() []*core.DestinationExpression {
+	if server.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return server.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &RedisLinkedServer{}
@@ -92,6 +115,10 @@ func (server *RedisLinkedServer) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (server *RedisLinkedServer) Owner() *genruntime.ResourceReference {
+	if server.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(server.Spec)
 	return server.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -108,7 +135,7 @@ func (server *RedisLinkedServer) SetStatus(status genruntime.ConvertibleStatus) 
 	var st Redis_LinkedServer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	server.Status = st
@@ -138,47 +165,6 @@ type RedisLinkedServerList struct {
 	Items           []RedisLinkedServer `json:"items"`
 }
 
-// Storage version of v1api20230801.Redis_LinkedServer_Spec
-type Redis_LinkedServer_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName                string  `json:"azureName,omitempty"`
-	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// LinkedRedisCacheReference: Fully qualified resourceId of the linked redis cache.
-	LinkedRedisCacheReference *genruntime.ResourceReference `armReference:"LinkedRedisCacheId" json:"linkedRedisCacheReference,omitempty"`
-	OriginalVersion           string                        `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a cache.azure.com/Redis resource
-	Owner       *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ServerRole  *string                            `json:"serverRole,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Redis_LinkedServer_Spec{}
-
-// ConvertSpecFrom populates our Redis_LinkedServer_Spec from the provided source
-func (server *Redis_LinkedServer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == server {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(server)
-}
-
-// ConvertSpecTo populates the provided destination from our Redis_LinkedServer_Spec
-func (server *Redis_LinkedServer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == server {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(server)
-}
-
 // Storage version of v1api20230801.Redis_LinkedServer_STATUS
 type Redis_LinkedServer_STATUS struct {
 	Conditions                   []conditions.Condition `json:"conditions,omitempty"`
@@ -199,7 +185,7 @@ var _ genruntime.ConvertibleStatus = &Redis_LinkedServer_STATUS{}
 // ConvertStatusFrom populates our Redis_LinkedServer_STATUS from the provided source
 func (server *Redis_LinkedServer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == server {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(server)
@@ -208,10 +194,60 @@ func (server *Redis_LinkedServer_STATUS) ConvertStatusFrom(source genruntime.Con
 // ConvertStatusTo populates the provided destination from our Redis_LinkedServer_STATUS
 func (server *Redis_LinkedServer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == server {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(server)
+}
+
+// Storage version of v1api20230801.RedisLinkedServer_Spec
+type RedisLinkedServer_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                string  `json:"azureName,omitempty"`
+	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// LinkedRedisCacheReference: Fully qualified resourceId of the linked redis cache.
+	LinkedRedisCacheReference *genruntime.ResourceReference  `armReference:"LinkedRedisCacheId" json:"linkedRedisCacheReference,omitempty"`
+	OperatorSpec              *RedisLinkedServerOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion           string                         `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cache.azure.com/Redis resource
+	Owner       *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ServerRole  *string                            `json:"serverRole,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &RedisLinkedServer_Spec{}
+
+// ConvertSpecFrom populates our RedisLinkedServer_Spec from the provided source
+func (server *RedisLinkedServer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == server {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(server)
+}
+
+// ConvertSpecTo populates the provided destination from our RedisLinkedServer_Spec
+func (server *RedisLinkedServer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == server {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(server)
+}
+
+// Storage version of v1api20230801.RedisLinkedServerOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RedisLinkedServerOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

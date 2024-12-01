@@ -5,11 +5,15 @@ package v1api20200601
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -90,6 +94,26 @@ func (group *ResourceGroup) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the ResourceGroup resource
 func (group *ResourceGroup) defaultImpl() { group.defaultAzureName() }
 
+var _ configmaps.Exporter = &ResourceGroup{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (group *ResourceGroup) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ResourceGroup{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (group *ResourceGroup) SecretDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &ResourceGroup{}
 
 // InitializeSpec initializes the spec for this resource from the given status
@@ -165,7 +189,7 @@ func (group *ResourceGroup) SetStatus(status genruntime.ConvertibleStatus) error
 	var st ResourceGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	group.Status = st
@@ -218,7 +242,7 @@ func (group *ResourceGroup) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (group *ResourceGroup) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){group.validateResourceReferences}
+	return []func() (admission.Warnings, error){group.validateResourceReferences, group.validateSecretDestinations, group.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -232,7 +256,22 @@ func (group *ResourceGroup) updateValidations() []func(old runtime.Object) (admi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return group.validateResourceReferences()
 		},
-		group.validateWriteOnceProperties}
+		group.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return group.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return group.validateConfigMapDestinations()
+		},
+	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (group *ResourceGroup) validateConfigMapDestinations() (admission.Warnings, error) {
+	if group.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(group, nil, group.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateResourceReferences validates all resource references
@@ -242,6 +281,14 @@ func (group *ResourceGroup) validateResourceReferences() (admission.Warnings, er
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (group *ResourceGroup) validateSecretDestinations() (admission.Warnings, error) {
+	if group.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(group, nil, group.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -264,7 +311,7 @@ func (group *ResourceGroup) AssignProperties_From_ResourceGroup(source *storage.
 	var spec ResourceGroup_Spec
 	err := spec.AssignProperties_From_ResourceGroup_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ResourceGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ResourceGroup_Spec() to populate field Spec")
 	}
 	group.Spec = spec
 
@@ -272,7 +319,7 @@ func (group *ResourceGroup) AssignProperties_From_ResourceGroup(source *storage.
 	var status ResourceGroup_STATUS
 	err = status.AssignProperties_From_ResourceGroup_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ResourceGroup_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ResourceGroup_STATUS() to populate field Status")
 	}
 	group.Status = status
 
@@ -290,7 +337,7 @@ func (group *ResourceGroup) AssignProperties_To_ResourceGroup(destination *stora
 	var spec storage.ResourceGroup_Spec
 	err := group.Spec.AssignProperties_To_ResourceGroup_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ResourceGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ResourceGroup_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -298,7 +345,7 @@ func (group *ResourceGroup) AssignProperties_To_ResourceGroup(destination *stora
 	var status storage.ResourceGroup_STATUS
 	err = group.Status.AssignProperties_To_ResourceGroup_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ResourceGroup_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ResourceGroup_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -345,6 +392,10 @@ type ResourceGroup_Spec struct {
 	// ManagedBy: The ID of the resource that manages this resource group.
 	ManagedBy *string `json:"managedBy,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ResourceGroupOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// Tags: The tags attached to the resource group.
 	Tags map[string]string `json:"tags,omitempty"`
 }
@@ -356,7 +407,7 @@ func (group *ResourceGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if group == nil {
 		return nil, nil
 	}
-	result := &ResourceGroup_Spec_ARM{}
+	result := &arm.ResourceGroup_Spec{}
 
 	// Set property "Location":
 	if group.Location != nil {
@@ -385,14 +436,14 @@ func (group *ResourceGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *ResourceGroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceGroup_Spec_ARM{}
+	return &arm.ResourceGroup_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *ResourceGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceGroup_Spec_ARM)
+	typedInput, ok := armInput.(arm.ResourceGroup_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceGroup_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceGroup_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -409,6 +460,8 @@ func (group *ResourceGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		managedBy := *typedInput.ManagedBy
 		group.ManagedBy = &managedBy
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {
@@ -436,13 +489,13 @@ func (group *ResourceGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 	src = &storage.ResourceGroup_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_ResourceGroup_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -460,13 +513,13 @@ func (group *ResourceGroup_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	dst = &storage.ResourceGroup_Spec{}
 	err := group.AssignProperties_To_ResourceGroup_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -483,6 +536,18 @@ func (group *ResourceGroup_Spec) AssignProperties_From_ResourceGroup_Spec(source
 
 	// ManagedBy
 	group.ManagedBy = genruntime.ClonePointerToString(source.ManagedBy)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ResourceGroupOperatorSpec
+		err := operatorSpec.AssignProperties_From_ResourceGroupOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceGroupOperatorSpec() to populate field OperatorSpec")
+		}
+		group.OperatorSpec = &operatorSpec
+	} else {
+		group.OperatorSpec = nil
+	}
 
 	// Tags
 	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -504,6 +569,18 @@ func (group *ResourceGroup_Spec) AssignProperties_To_ResourceGroup_Spec(destinat
 
 	// ManagedBy
 	destination.ManagedBy = genruntime.ClonePointerToString(group.ManagedBy)
+
+	// OperatorSpec
+	if group.OperatorSpec != nil {
+		var operatorSpec storage.ResourceGroupOperatorSpec
+		err := group.OperatorSpec.AssignProperties_To_ResourceGroupOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceGroupOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = group.OriginalVersion()
@@ -588,13 +665,13 @@ func (group *ResourceGroup_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	src = &storage.ResourceGroup_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_ResourceGroup_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -612,13 +689,13 @@ func (group *ResourceGroup_STATUS) ConvertStatusTo(destination genruntime.Conver
 	dst = &storage.ResourceGroup_STATUS{}
 	err := group.AssignProperties_To_ResourceGroup_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -628,14 +705,14 @@ var _ genruntime.FromARMConverter = &ResourceGroup_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *ResourceGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceGroup_STATUS_ARM{}
+	return &arm.ResourceGroup_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *ResourceGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceGroup_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ResourceGroup_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceGroup_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceGroup_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -716,7 +793,7 @@ func (group *ResourceGroup_STATUS) AssignProperties_From_ResourceGroup_STATUS(so
 		var property ResourceGroupProperties_STATUS
 		err := property.AssignProperties_From_ResourceGroupProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceGroupProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceGroupProperties_STATUS() to populate field Properties")
 		}
 		group.Properties = &property
 	} else {
@@ -758,7 +835,7 @@ func (group *ResourceGroup_STATUS) AssignProperties_To_ResourceGroup_STATUS(dest
 		var property storage.ResourceGroupProperties_STATUS
 		err := group.Properties.AssignProperties_To_ResourceGroupProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceGroupProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceGroupProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -782,6 +859,110 @@ func (group *ResourceGroup_STATUS) AssignProperties_To_ResourceGroup_STATUS(dest
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ResourceGroupOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ResourceGroupOperatorSpec populates our ResourceGroupOperatorSpec from the provided source ResourceGroupOperatorSpec
+func (operator *ResourceGroupOperatorSpec) AssignProperties_From_ResourceGroupOperatorSpec(source *storage.ResourceGroupOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ResourceGroupOperatorSpec populates the provided destination ResourceGroupOperatorSpec from our ResourceGroupOperatorSpec
+func (operator *ResourceGroupOperatorSpec) AssignProperties_To_ResourceGroupOperatorSpec(destination *storage.ResourceGroupOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // The resource group properties.
 type ResourceGroupProperties_STATUS struct {
 	// ProvisioningState: The provisioning state.
@@ -792,14 +973,14 @@ var _ genruntime.FromARMConverter = &ResourceGroupProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *ResourceGroupProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceGroupProperties_STATUS_ARM{}
+	return &arm.ResourceGroupProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *ResourceGroupProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceGroupProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ResourceGroupProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceGroupProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceGroupProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "ProvisioningState":

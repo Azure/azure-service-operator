@@ -646,24 +646,24 @@ func BackupVaultsBackupInstanceGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForBackupVaultsBackupInstance is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBackupVaultsBackupInstance(gens map[string]gopter.Gen) {
-	gens["Spec"] = BackupVaults_BackupInstance_SpecGenerator()
-	gens["Status"] = BackupVaults_BackupInstance_STATUSGenerator()
+	gens["Spec"] = BackupVaultsBackupInstance_SpecGenerator()
+	gens["Status"] = BackupVaultsBackupInstance_STATUSGenerator()
 }
 
-func Test_BackupVaults_BackupInstance_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BackupVaultsBackupInstanceOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of BackupVaults_BackupInstance_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackupVaults_BackupInstance_STATUS, BackupVaults_BackupInstance_STATUSGenerator()))
+		"Round trip of BackupVaultsBackupInstanceOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackupVaultsBackupInstanceOperatorSpec, BackupVaultsBackupInstanceOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBackupVaults_BackupInstance_STATUS runs a test to see if a specific instance of BackupVaults_BackupInstance_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackupVaults_BackupInstance_STATUS(subject BackupVaults_BackupInstance_STATUS) string {
+// RunJSONSerializationTestForBackupVaultsBackupInstanceOperatorSpec runs a test to see if a specific instance of BackupVaultsBackupInstanceOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackupVaultsBackupInstanceOperatorSpec(subject BackupVaultsBackupInstanceOperatorSpec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -671,7 +671,7 @@ func RunJSONSerializationTestForBackupVaults_BackupInstance_STATUS(subject Backu
 	}
 
 	// Deserialize back into memory
-	var actual BackupVaults_BackupInstance_STATUS
+	var actual BackupVaultsBackupInstanceOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -689,34 +689,89 @@ func RunJSONSerializationTestForBackupVaults_BackupInstance_STATUS(subject Backu
 	return ""
 }
 
-// Generator of BackupVaults_BackupInstance_STATUS instances for property testing - lazily instantiated by
-// BackupVaults_BackupInstance_STATUSGenerator()
-var backupVaults_BackupInstance_STATUSGenerator gopter.Gen
+// Generator of BackupVaultsBackupInstanceOperatorSpec instances for property testing - lazily instantiated by
+// BackupVaultsBackupInstanceOperatorSpecGenerator()
+var backupVaultsBackupInstanceOperatorSpecGenerator gopter.Gen
 
-// BackupVaults_BackupInstance_STATUSGenerator returns a generator of BackupVaults_BackupInstance_STATUS instances for property testing.
-// We first initialize backupVaults_BackupInstance_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func BackupVaults_BackupInstance_STATUSGenerator() gopter.Gen {
-	if backupVaults_BackupInstance_STATUSGenerator != nil {
-		return backupVaults_BackupInstance_STATUSGenerator
+// BackupVaultsBackupInstanceOperatorSpecGenerator returns a generator of BackupVaultsBackupInstanceOperatorSpec instances for property testing.
+func BackupVaultsBackupInstanceOperatorSpecGenerator() gopter.Gen {
+	if backupVaultsBackupInstanceOperatorSpecGenerator != nil {
+		return backupVaultsBackupInstanceOperatorSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_STATUS(generators)
-	backupVaults_BackupInstance_STATUSGenerator = gen.Struct(reflect.TypeOf(BackupVaults_BackupInstance_STATUS{}), generators)
+	backupVaultsBackupInstanceOperatorSpecGenerator = gen.Struct(reflect.TypeOf(BackupVaultsBackupInstanceOperatorSpec{}), generators)
+
+	return backupVaultsBackupInstanceOperatorSpecGenerator
+}
+
+func Test_BackupVaultsBackupInstance_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BackupVaultsBackupInstance_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackupVaultsBackupInstance_STATUS, BackupVaultsBackupInstance_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBackupVaultsBackupInstance_STATUS runs a test to see if a specific instance of BackupVaultsBackupInstance_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackupVaultsBackupInstance_STATUS(subject BackupVaultsBackupInstance_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BackupVaultsBackupInstance_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BackupVaultsBackupInstance_STATUS instances for property testing - lazily instantiated by
+// BackupVaultsBackupInstance_STATUSGenerator()
+var backupVaultsBackupInstance_STATUSGenerator gopter.Gen
+
+// BackupVaultsBackupInstance_STATUSGenerator returns a generator of BackupVaultsBackupInstance_STATUS instances for property testing.
+// We first initialize backupVaultsBackupInstance_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func BackupVaultsBackupInstance_STATUSGenerator() gopter.Gen {
+	if backupVaultsBackupInstance_STATUSGenerator != nil {
+		return backupVaultsBackupInstance_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBackupVaultsBackupInstance_STATUS(generators)
+	backupVaultsBackupInstance_STATUSGenerator = gen.Struct(reflect.TypeOf(BackupVaultsBackupInstance_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_STATUS(generators)
-	AddRelatedPropertyGeneratorsForBackupVaults_BackupInstance_STATUS(generators)
-	backupVaults_BackupInstance_STATUSGenerator = gen.Struct(reflect.TypeOf(BackupVaults_BackupInstance_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForBackupVaultsBackupInstance_STATUS(generators)
+	AddRelatedPropertyGeneratorsForBackupVaultsBackupInstance_STATUS(generators)
+	backupVaultsBackupInstance_STATUSGenerator = gen.Struct(reflect.TypeOf(BackupVaultsBackupInstance_STATUS{}), generators)
 
-	return backupVaults_BackupInstance_STATUSGenerator
+	return backupVaultsBackupInstance_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForBackupVaultsBackupInstance_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackupVaultsBackupInstance_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(
@@ -725,26 +780,26 @@ func AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_STATUS(gens 
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForBackupVaults_BackupInstance_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBackupVaults_BackupInstance_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForBackupVaultsBackupInstance_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBackupVaultsBackupInstance_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(BackupInstance_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
-func Test_BackupVaults_BackupInstance_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BackupVaultsBackupInstance_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of BackupVaults_BackupInstance_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackupVaults_BackupInstance_Spec, BackupVaults_BackupInstance_SpecGenerator()))
+		"Round trip of BackupVaultsBackupInstance_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackupVaultsBackupInstance_Spec, BackupVaultsBackupInstance_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBackupVaults_BackupInstance_Spec runs a test to see if a specific instance of BackupVaults_BackupInstance_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackupVaults_BackupInstance_Spec(subject BackupVaults_BackupInstance_Spec) string {
+// RunJSONSerializationTestForBackupVaultsBackupInstance_Spec runs a test to see if a specific instance of BackupVaultsBackupInstance_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackupVaultsBackupInstance_Spec(subject BackupVaultsBackupInstance_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -752,7 +807,7 @@ func RunJSONSerializationTestForBackupVaults_BackupInstance_Spec(subject BackupV
 	}
 
 	// Deserialize back into memory
-	var actual BackupVaults_BackupInstance_Spec
+	var actual BackupVaultsBackupInstance_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -770,34 +825,34 @@ func RunJSONSerializationTestForBackupVaults_BackupInstance_Spec(subject BackupV
 	return ""
 }
 
-// Generator of BackupVaults_BackupInstance_Spec instances for property testing - lazily instantiated by
-// BackupVaults_BackupInstance_SpecGenerator()
-var backupVaults_BackupInstance_SpecGenerator gopter.Gen
+// Generator of BackupVaultsBackupInstance_Spec instances for property testing - lazily instantiated by
+// BackupVaultsBackupInstance_SpecGenerator()
+var backupVaultsBackupInstance_SpecGenerator gopter.Gen
 
-// BackupVaults_BackupInstance_SpecGenerator returns a generator of BackupVaults_BackupInstance_Spec instances for property testing.
-// We first initialize backupVaults_BackupInstance_SpecGenerator with a simplified generator based on the
+// BackupVaultsBackupInstance_SpecGenerator returns a generator of BackupVaultsBackupInstance_Spec instances for property testing.
+// We first initialize backupVaultsBackupInstance_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func BackupVaults_BackupInstance_SpecGenerator() gopter.Gen {
-	if backupVaults_BackupInstance_SpecGenerator != nil {
-		return backupVaults_BackupInstance_SpecGenerator
+func BackupVaultsBackupInstance_SpecGenerator() gopter.Gen {
+	if backupVaultsBackupInstance_SpecGenerator != nil {
+		return backupVaultsBackupInstance_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_Spec(generators)
-	backupVaults_BackupInstance_SpecGenerator = gen.Struct(reflect.TypeOf(BackupVaults_BackupInstance_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForBackupVaultsBackupInstance_Spec(generators)
+	backupVaultsBackupInstance_SpecGenerator = gen.Struct(reflect.TypeOf(BackupVaultsBackupInstance_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_Spec(generators)
-	AddRelatedPropertyGeneratorsForBackupVaults_BackupInstance_Spec(generators)
-	backupVaults_BackupInstance_SpecGenerator = gen.Struct(reflect.TypeOf(BackupVaults_BackupInstance_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForBackupVaultsBackupInstance_Spec(generators)
+	AddRelatedPropertyGeneratorsForBackupVaultsBackupInstance_Spec(generators)
+	backupVaultsBackupInstance_SpecGenerator = gen.Struct(reflect.TypeOf(BackupVaultsBackupInstance_Spec{}), generators)
 
-	return backupVaults_BackupInstance_SpecGenerator
+	return backupVaultsBackupInstance_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForBackupVaultsBackupInstance_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackupVaultsBackupInstance_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(
@@ -805,8 +860,9 @@ func AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_Spec(gens ma
 		gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForBackupVaults_BackupInstance_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBackupVaults_BackupInstance_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForBackupVaultsBackupInstance_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBackupVaultsBackupInstance_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(BackupVaultsBackupInstanceOperatorSpecGenerator())
 	gens["Properties"] = gen.PtrOf(BackupInstanceGenerator())
 }
 

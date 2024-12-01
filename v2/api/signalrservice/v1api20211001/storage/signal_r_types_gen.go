@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -42,6 +45,26 @@ func (signalR *SignalR) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (signalR *SignalR) SetConditions(conditions conditions.Conditions) {
 	signalR.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &SignalR{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (signalR *SignalR) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if signalR.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return signalR.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &SignalR{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (signalR *SignalR) SecretDestinationExpressions() []*core.DestinationExpression {
+	if signalR.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return signalR.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &SignalR{}
@@ -92,6 +115,10 @@ func (signalR *SignalR) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (signalR *SignalR) Owner() *genruntime.ResourceReference {
+	if signalR.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(signalR.Spec)
 	return signalR.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -108,7 +135,7 @@ func (signalR *SignalR) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st SignalR_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	signalR.Status = st
@@ -179,7 +206,7 @@ var _ genruntime.ConvertibleSpec = &SignalR_Spec{}
 // ConvertSpecFrom populates our SignalR_Spec from the provided source
 func (signalR *SignalR_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == signalR {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(signalR)
@@ -188,7 +215,7 @@ func (signalR *SignalR_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 // ConvertSpecTo populates the provided destination from our SignalR_Spec
 func (signalR *SignalR_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == signalR {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(signalR)
@@ -232,7 +259,7 @@ var _ genruntime.ConvertibleStatus = &SignalR_STATUS{}
 // ConvertStatusFrom populates our SignalR_STATUS from the provided source
 func (signalR *SignalR_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == signalR {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(signalR)
@@ -241,7 +268,7 @@ func (signalR *SignalR_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 // ConvertStatusTo populates the provided destination from our SignalR_STATUS
 func (signalR *SignalR_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == signalR {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(signalR)
@@ -380,8 +407,10 @@ type SignalRNetworkACLs_STATUS struct {
 // Storage version of v1api20211001.SignalROperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type SignalROperatorSpec struct {
-	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	Secrets     *SignalROperatorSecrets `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	Secrets              *SignalROperatorSecrets       `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20211001.SignalRTlsSettings

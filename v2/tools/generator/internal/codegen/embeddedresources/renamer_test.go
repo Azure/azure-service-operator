@@ -8,11 +8,12 @@ package embeddedresources
 import (
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
+	. "github.com/onsi/gomega"
+
 	"github.com/go-logr/logr"
 
-	. "github.com/onsi/gomega"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
 var (

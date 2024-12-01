@@ -1,0 +1,1598 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 93
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-rg-yktumu","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "93"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 3d8cf289abba68d3a8233ef006c0a32469708c03f7b5d8ea5ea2803ab133cedf
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu?api-version=2020-06-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu","name":"asotest-rg-yktumu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 50FED519961B4700BF2A54B7379132DE Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:11:48Z'
+        status: 201 Created
+        code: 201
+        duration: 191.986659ms
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu","name":"asotest-rg-yktumu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: A8AB4DEFA72B45858AD0F1F74DC1CE5A Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:11:49Z'
+        status: 200 OK
+        code: 200
+        duration: 101.847332ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao?api-version=2024-03-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 247
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao'' under resource group ''asotest-rg-yktumu'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "247"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 9DC9F44C3F0B428DAF876580B9D2DE1B Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:11:53Z'
+        status: 404 Not Found
+        code: 404
+        duration: 72.967286ms
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 50
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-nsg-glhgao"}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "50"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 5ad112a8eb68c761597b54e3f64675877c1423011426d935d8110a47799220c5
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao?api-version=2024-03-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 4984
+        uncompressed: false
+        body: '{"name":"asotest-nsg-glhgao","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao","etag":"W/\"39ddea86-eee6-44b9-a2e0-00422f294633\"","type":"Microsoft.Network/networkSecurityGroups","location":"westus2","properties":{"provisioningState":"Updating","resourceGuid":"c44f076f-7c38-4050-ade4-128ee42f9fea","securityRules":[],"defaultSecurityRules":[{"name":"AllowVnetInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowVnetInBound","etag":"W/\"39ddea86-eee6-44b9-a2e0-00422f294633\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Updating","description":"Allow inbound traffic from all VMs in VNET","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"VirtualNetwork","destinationAddressPrefix":"VirtualNetwork","access":"Allow","priority":65000,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowAzureLoadBalancerInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowAzureLoadBalancerInBound","etag":"W/\"39ddea86-eee6-44b9-a2e0-00422f294633\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Updating","description":"Allow inbound traffic from azure load balancer","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"AzureLoadBalancer","destinationAddressPrefix":"*","access":"Allow","priority":65001,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"DenyAllInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/DenyAllInBound","etag":"W/\"39ddea86-eee6-44b9-a2e0-00422f294633\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Updating","description":"Deny all inbound traffic","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":65500,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowVnetOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowVnetOutBound","etag":"W/\"39ddea86-eee6-44b9-a2e0-00422f294633\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Updating","description":"Allow outbound traffic from all VMs to all VMs in VNET","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"VirtualNetwork","destinationAddressPrefix":"VirtualNetwork","access":"Allow","priority":65000,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowInternetOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowInternetOutBound","etag":"W/\"39ddea86-eee6-44b9-a2e0-00422f294633\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Updating","description":"Allow outbound traffic from all VMs to Internet","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"Internet","access":"Allow","priority":65001,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"DenyAllOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/DenyAllOutBound","etag":"W/\"39ddea86-eee6-44b9-a2e0-00422f294633\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Updating","description":"Deny all outbound traffic","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":65500,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}]}}'
+        headers:
+            Azure-Asyncnotification:
+                - Enabled
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e17678b8-afe8-4038-91c9-4c27ab0189eb?api-version=2024-03-01&t=638666251138040819&c=MIIHpTCCBo2gAwIBAgITOgM6dTLGpzYZpvPtgQAEAzp1MjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjQwNjI2MDEzMjIxWhcNMjUwNjIxMDEzMjIxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPPPKY5bDN03KptFFhiyLIyn86BlrXYFIZWYXA-hY7_WbLyWN0IxcLIUBW_I-9u-YsXOHk9WPMlUYHIFPgHW7A3FsSGfl9dd6YGapKoSSw0NkTpNXM58R54BBgLp7AhiWzK15D9T-XELNSU4Wq9sEeA5T24kazcgS2MUkzELH0I9dwu7g0dwJIuIJkoJjEzg1b1Q3Ie5HKHHNbjottJn7Q5LBS-9QtQyruuwaNTgSJpCoi4PBKVIOTBYL_Nv1wecmKmfWcT0mnhQE9zjhJTbcoN9hKSvAMqsDHtxWUFZosiw3JKIY0zb59CrVGSuOhfN3qaarwN9EAlXLqc4ZyKpsTkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRk_38CqdKjPVylWUR4uuqhbFGeHTAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAFsx7FtYAzSo98T5ydNFa0ukjPZ6XCQc9zo7ldqy235P_zJAUkaNgCU4EGOzbZJDoMa8mAfhyukL_0GfPeApUaY2e44ZOzoYAkeEuDiwcs-9zoQ1fCyXhn0pCumGFXRilX9KjAPaYTzDvQMEllTy_ZViwTahuKaGtFVamZguBPdaeYC_0oybtTVNQCs8hGnffhNZOMASB-5pFs35MNxsDWTVIQksDee419jqpsbWLkh6rnanILO1O_ihwb-WpvRQByQ5NGpG1-z0MQ6nRpr9wWxUi-DsrVsD38NTMIPc2uei4Ivf6qnGRvOOj0fmsciWuTTEXMaD-5a81mGlzhZc09Q&s=OJNi0pHaMO6MFyjyc01OLiQ2S4uDCkpjHrucqrFG5O75gmu_zK_GIhucz9qNK2D51p3A-VF2A2uTAa9EkWRLRCRKiU4sQwaLk9b6OCeMJGDWACckc06U8HTKQgQfm7ZKOfd_mecTj4Bdo8smA0Lg2hQ_O6VuoydPDt2_f3cUSzn-1Nl9noWND2W1lOMwee_563XtkyZ19V_lOCRHOliIM2M-j61ZSLNpg-w6M8pCeHh27qE1ssg3WSofCkaIUyk1UDG2x-nD9Sg8u5LNOJ0ibjF9wq6re9sgzaHSnFIMBh1Koxu1Z7PZ-SkODB12IacEYnZwZADPXPeDRNdLe115Iw&h=0w9gclLN9N7zMelrz7DrH0iv-CGuoKE30G2A0Z3x9G0
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "4984"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "1"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11998"
+            X-Msedge-Ref:
+                - 'Ref A: 43A92A9559E74768B052ACD433BF03A1 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:11:53Z'
+        status: 201 Created
+        code: 201
+        duration: 455.773463ms
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e17678b8-afe8-4038-91c9-4c27ab0189eb?api-version=2024-03-01&t=638666251138040819&c=MIIHpTCCBo2gAwIBAgITOgM6dTLGpzYZpvPtgQAEAzp1MjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjQwNjI2MDEzMjIxWhcNMjUwNjIxMDEzMjIxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPPPKY5bDN03KptFFhiyLIyn86BlrXYFIZWYXA-hY7_WbLyWN0IxcLIUBW_I-9u-YsXOHk9WPMlUYHIFPgHW7A3FsSGfl9dd6YGapKoSSw0NkTpNXM58R54BBgLp7AhiWzK15D9T-XELNSU4Wq9sEeA5T24kazcgS2MUkzELH0I9dwu7g0dwJIuIJkoJjEzg1b1Q3Ie5HKHHNbjottJn7Q5LBS-9QtQyruuwaNTgSJpCoi4PBKVIOTBYL_Nv1wecmKmfWcT0mnhQE9zjhJTbcoN9hKSvAMqsDHtxWUFZosiw3JKIY0zb59CrVGSuOhfN3qaarwN9EAlXLqc4ZyKpsTkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRk_38CqdKjPVylWUR4uuqhbFGeHTAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAFsx7FtYAzSo98T5ydNFa0ukjPZ6XCQc9zo7ldqy235P_zJAUkaNgCU4EGOzbZJDoMa8mAfhyukL_0GfPeApUaY2e44ZOzoYAkeEuDiwcs-9zoQ1fCyXhn0pCumGFXRilX9KjAPaYTzDvQMEllTy_ZViwTahuKaGtFVamZguBPdaeYC_0oybtTVNQCs8hGnffhNZOMASB-5pFs35MNxsDWTVIQksDee419jqpsbWLkh6rnanILO1O_ihwb-WpvRQByQ5NGpG1-z0MQ6nRpr9wWxUi-DsrVsD38NTMIPc2uei4Ivf6qnGRvOOj0fmsciWuTTEXMaD-5a81mGlzhZc09Q&s=OJNi0pHaMO6MFyjyc01OLiQ2S4uDCkpjHrucqrFG5O75gmu_zK_GIhucz9qNK2D51p3A-VF2A2uTAa9EkWRLRCRKiU4sQwaLk9b6OCeMJGDWACckc06U8HTKQgQfm7ZKOfd_mecTj4Bdo8smA0Lg2hQ_O6VuoydPDt2_f3cUSzn-1Nl9noWND2W1lOMwee_563XtkyZ19V_lOCRHOliIM2M-j61ZSLNpg-w6M8pCeHh27qE1ssg3WSofCkaIUyk1UDG2x-nD9Sg8u5LNOJ0ibjF9wq6re9sgzaHSnFIMBh1Koxu1Z7PZ-SkODB12IacEYnZwZADPXPeDRNdLe115Iw&h=0w9gclLN9N7zMelrz7DrH0iv-CGuoKE30G2A0Z3x9G0
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 22
+        uncompressed: false
+        body: '{"status":"Succeeded"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "22"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: A4786E2BCBB44C61A9CA756BDE57C64A Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:11:56Z'
+        status: 200 OK
+        code: 200
+        duration: 51.769568ms
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao?api-version=2024-03-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 4991
+        uncompressed: false
+        body: '{"name":"asotest-nsg-glhgao","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups","location":"westus2","properties":{"provisioningState":"Succeeded","resourceGuid":"c44f076f-7c38-4050-ade4-128ee42f9fea","securityRules":[],"defaultSecurityRules":[{"name":"AllowVnetInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowVnetInBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow inbound traffic from all VMs in VNET","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"VirtualNetwork","destinationAddressPrefix":"VirtualNetwork","access":"Allow","priority":65000,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowAzureLoadBalancerInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowAzureLoadBalancerInBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow inbound traffic from azure load balancer","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"AzureLoadBalancer","destinationAddressPrefix":"*","access":"Allow","priority":65001,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"DenyAllInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/DenyAllInBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Deny all inbound traffic","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":65500,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowVnetOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowVnetOutBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow outbound traffic from all VMs to all VMs in VNET","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"VirtualNetwork","destinationAddressPrefix":"VirtualNetwork","access":"Allow","priority":65000,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowInternetOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowInternetOutBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow outbound traffic from all VMs to Internet","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"Internet","access":"Allow","priority":65001,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"DenyAllOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/DenyAllOutBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Deny all outbound traffic","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":65500,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "4991"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - W/"704b4dab-377e-433c-b400-6ca00a1fd950"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 624A3A3F395E4EE0B0C12F364A373691 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:11:56Z'
+        status: 200 OK
+        code: 200
+        duration: 40.570662ms
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "2"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao?api-version=2024-03-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 4991
+        uncompressed: false
+        body: '{"name":"asotest-nsg-glhgao","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups","location":"westus2","properties":{"provisioningState":"Succeeded","resourceGuid":"c44f076f-7c38-4050-ade4-128ee42f9fea","securityRules":[],"defaultSecurityRules":[{"name":"AllowVnetInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowVnetInBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow inbound traffic from all VMs in VNET","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"VirtualNetwork","destinationAddressPrefix":"VirtualNetwork","access":"Allow","priority":65000,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowAzureLoadBalancerInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowAzureLoadBalancerInBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow inbound traffic from azure load balancer","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"AzureLoadBalancer","destinationAddressPrefix":"*","access":"Allow","priority":65001,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"DenyAllInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/DenyAllInBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Deny all inbound traffic","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":65500,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowVnetOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowVnetOutBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow outbound traffic from all VMs to all VMs in VNET","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"VirtualNetwork","destinationAddressPrefix":"VirtualNetwork","access":"Allow","priority":65000,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowInternetOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowInternetOutBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow outbound traffic from all VMs to Internet","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"Internet","access":"Allow","priority":65001,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"DenyAllOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/DenyAllOutBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Deny all outbound traffic","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":65500,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "4991"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - W/"704b4dab-377e-433c-b400-6ca00a1fd950"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: C2DF524F2B654EAEB2AF8C8E5AD75C7E Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:11:56Z'
+        status: 200 OK
+        code: 200
+        duration: 56.970724ms
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "3"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao?api-version=2024-03-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 4991
+        uncompressed: false
+        body: '{"name":"asotest-nsg-glhgao","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups","location":"westus2","properties":{"provisioningState":"Succeeded","resourceGuid":"c44f076f-7c38-4050-ade4-128ee42f9fea","securityRules":[],"defaultSecurityRules":[{"name":"AllowVnetInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowVnetInBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow inbound traffic from all VMs in VNET","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"VirtualNetwork","destinationAddressPrefix":"VirtualNetwork","access":"Allow","priority":65000,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowAzureLoadBalancerInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowAzureLoadBalancerInBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow inbound traffic from azure load balancer","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"AzureLoadBalancer","destinationAddressPrefix":"*","access":"Allow","priority":65001,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"DenyAllInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/DenyAllInBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Deny all inbound traffic","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":65500,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowVnetOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowVnetOutBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow outbound traffic from all VMs to all VMs in VNET","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"VirtualNetwork","destinationAddressPrefix":"VirtualNetwork","access":"Allow","priority":65000,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowInternetOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowInternetOutBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow outbound traffic from all VMs to Internet","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"Internet","access":"Allow","priority":65001,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"DenyAllOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/DenyAllOutBound","etag":"W/\"704b4dab-377e-433c-b400-6ca00a1fd950\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Deny all outbound traffic","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":65500,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "4991"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - W/"704b4dab-377e-433c-b400-6ca00a1fd950"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 6952BCA6F5DE4B88B2616C298BBA073D Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:11:57Z'
+        status: 200 OK
+        code: 200
+        duration: 44.977825ms
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 87
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-nsg-glhgao","properties":{},"tags":{"foo":"bar"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "87"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 0413f2cb7a2cb8cc7598d7cf37ece2ae6fc3d5c29c69f70d13dcd03573e0f7f7
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao?api-version=2024-03-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 5012
+        uncompressed: false
+        body: '{"name":"asotest-nsg-glhgao","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao","etag":"W/\"521b7a66-a7cd-454e-89a9-8c7389ecd49f\"","type":"Microsoft.Network/networkSecurityGroups","location":"westus2","tags":{"foo":"bar"},"properties":{"provisioningState":"Succeeded","resourceGuid":"c44f076f-7c38-4050-ade4-128ee42f9fea","securityRules":[],"defaultSecurityRules":[{"name":"AllowVnetInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowVnetInBound","etag":"W/\"521b7a66-a7cd-454e-89a9-8c7389ecd49f\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow inbound traffic from all VMs in VNET","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"VirtualNetwork","destinationAddressPrefix":"VirtualNetwork","access":"Allow","priority":65000,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowAzureLoadBalancerInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowAzureLoadBalancerInBound","etag":"W/\"521b7a66-a7cd-454e-89a9-8c7389ecd49f\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow inbound traffic from azure load balancer","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"AzureLoadBalancer","destinationAddressPrefix":"*","access":"Allow","priority":65001,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"DenyAllInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/DenyAllInBound","etag":"W/\"521b7a66-a7cd-454e-89a9-8c7389ecd49f\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Deny all inbound traffic","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":65500,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowVnetOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowVnetOutBound","etag":"W/\"521b7a66-a7cd-454e-89a9-8c7389ecd49f\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow outbound traffic from all VMs to all VMs in VNET","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"VirtualNetwork","destinationAddressPrefix":"VirtualNetwork","access":"Allow","priority":65000,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowInternetOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowInternetOutBound","etag":"W/\"521b7a66-a7cd-454e-89a9-8c7389ecd49f\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow outbound traffic from all VMs to Internet","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"Internet","access":"Allow","priority":65001,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"DenyAllOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/DenyAllOutBound","etag":"W/\"521b7a66-a7cd-454e-89a9-8c7389ecd49f\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Deny all outbound traffic","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":65500,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}]}}'
+        headers:
+            Azure-Asyncnotification:
+                - Enabled
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/89135e2f-24a6-4f75-8687-14c1692f78bd?api-version=2024-03-01&t=638666251175841704&c=MIIHhzCCBm-gAwIBAgITHgVxvH65_BmPrKxDIgAABXG8fjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwOTI1MTkzNzA4WhcNMjUwMzI0MTkzNzA4WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKlHcl7gn1b6aLS1hLftgvWE8n-Z9liLRsNGgjYfyY_1N6TVDEHJTtctREIaCRDPEC-hePKBe7OS45JIAD6cl5AGU_dQlGd-3bBZeVfAPJFUnC910pwhDca2OXlf4LyB1KSofXaA4xDB6G7cHXRld_URCnol2LHQEGox0vBzaPz30AUB0ZhAatZgqhXy5qnroV3zbEZC3m4qLDSnG8QNEnw8Wv5GpYH_MxK9mgDPwoIObeDBnjtQonKzvItZ8jXwF-wEmcVAnhr6Dvq3rWdBY9616kXvQ7E3eEvGqMn9W_NZTAqlaanfaACfITkIJZkgsSoJGw5USCMC-vzAb1Ms0j0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTELag1gS_F07Xj1us9l4ySYrHYYjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBABJx3Gb3LtjBZ4x70SioNIk8ap3qwt2DMEu9dXEhi28jFB87BBsTCkNeuhGlLzHm7Ykx6xpUjJp4F2_qmJKrQjDH4U0VYT_yc8Ow5mxrFJcewgTXzwmwqXOodok5WWOUVP4Mmdp_O_3je1dVgw4TrdrypIZImBn2jVDrXQ79fFXTR-Td0XMOtWPDwreoMRagD769QW4hlGtVaZCqOAzyomfSc8PhDzKhllbZQrmP-UgiLU14SDsxwq6AHG413ClcJIDGfEsEKwlUyIIAKHDwSdbO41Zs7ZQG5k_eBlGTkr-5Zye8vT7OeGf1_mGZSme6otyTUL_3-6gJ282qCPXoflc&s=BLILPtQfO-uRIMemi_Egl6JeIbt1x6BpaMXR7gALsY7fqzKoE8458eemTUBbGgZNUdwKdADg4mLJtmX6i8Et2nUOY2nbVorcVxAvm9Tq3rA0dEaeVeQll8wuLojPm20lhgoVQtuK_4bJkkYyrtpp5K4MVAKtTD90efNUNIREm9owBu9HyM0fbRNwptaChXHjX4ATYmu5qgHeHC6saUc-aNA1S0jSaYjHNkVu0LXHYXryCgwP39ISe9mZj6InWtwwkxbL1-VCCpzQe9oDYGTfNjWpsTH_TfxKO6Lt8nRdm1wetJRoMYVj3iHiTaqj8ZbZ0tM6iG6g_VRvAVrZb2-rVg&h=XlAx0ck45i1ehSKgK9l2HPMMKlDB6g1x-5dXzXbOi4c
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "5012"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: ADA618BDB9D24C86A45C07A280F6712A Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:11:57Z'
+        status: 200 OK
+        code: 200
+        duration: 294.132453ms
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "4"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao?api-version=2024-03-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 5012
+        uncompressed: false
+        body: '{"name":"asotest-nsg-glhgao","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao","etag":"W/\"521b7a66-a7cd-454e-89a9-8c7389ecd49f\"","type":"Microsoft.Network/networkSecurityGroups","location":"westus2","tags":{"foo":"bar"},"properties":{"provisioningState":"Succeeded","resourceGuid":"c44f076f-7c38-4050-ade4-128ee42f9fea","securityRules":[],"defaultSecurityRules":[{"name":"AllowVnetInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowVnetInBound","etag":"W/\"521b7a66-a7cd-454e-89a9-8c7389ecd49f\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow inbound traffic from all VMs in VNET","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"VirtualNetwork","destinationAddressPrefix":"VirtualNetwork","access":"Allow","priority":65000,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowAzureLoadBalancerInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowAzureLoadBalancerInBound","etag":"W/\"521b7a66-a7cd-454e-89a9-8c7389ecd49f\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow inbound traffic from azure load balancer","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"AzureLoadBalancer","destinationAddressPrefix":"*","access":"Allow","priority":65001,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"DenyAllInBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/DenyAllInBound","etag":"W/\"521b7a66-a7cd-454e-89a9-8c7389ecd49f\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Deny all inbound traffic","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":65500,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowVnetOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowVnetOutBound","etag":"W/\"521b7a66-a7cd-454e-89a9-8c7389ecd49f\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow outbound traffic from all VMs to all VMs in VNET","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"VirtualNetwork","destinationAddressPrefix":"VirtualNetwork","access":"Allow","priority":65000,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"AllowInternetOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/AllowInternetOutBound","etag":"W/\"521b7a66-a7cd-454e-89a9-8c7389ecd49f\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Allow outbound traffic from all VMs to Internet","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"Internet","access":"Allow","priority":65001,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}},{"name":"DenyAllOutBound","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/defaultSecurityRules/DenyAllOutBound","etag":"W/\"521b7a66-a7cd-454e-89a9-8c7389ecd49f\"","type":"Microsoft.Network/networkSecurityGroups/defaultSecurityRules","properties":{"provisioningState":"Succeeded","description":"Deny all outbound traffic","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":65500,"direction":"Outbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "5012"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - W/"521b7a66-a7cd-454e-89a9-8c7389ecd49f"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: C75B7F23058249D7AD4ED172B5D3E3B9 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:11:57Z'
+        status: 200 OK
+        code: 200
+        duration: 77.989951ms
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 307
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"asotest-rule1-dwoaxw","properties":{"access":"Allow","description":"The first rule of networking is don''t talk about networking","destinationAddressPrefix":"*","destinationPortRange":"46-56","direction":"Inbound","priority":123,"protocol":"Tcp","sourceAddressPrefix":"*","sourcePortRange":"23-45"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "307"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 1de0c4be694d76c944f4f51e961458876a3294cb1ec416bda9b3de232126af18
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule1-dwoaxw?api-version=2024-03-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 757
+        uncompressed: false
+        body: '{"name":"asotest-rule1-dwoaxw","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule1-dwoaxw","etag":"W/\"2c334cd1-388d-42d1-9dc7-f5cab310fb48\"","type":"Microsoft.Network/networkSecurityGroups/securityRules","properties":{"provisioningState":"Updating","description":"The first rule of networking is don''t talk about networking","protocol":"Tcp","sourcePortRange":"23-45","destinationPortRange":"46-56","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Allow","priority":123,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}'
+        headers:
+            Azure-Asyncnotification:
+                - Enabled
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/d0a95fb7-f7e9-4638-aa2a-2d783d87b639?api-version=2024-03-01&t=638666254722997424&c=MIIHhzCCBm-gAwIBAgITHgVxvH65_BmPrKxDIgAABXG8fjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwOTI1MTkzNzA4WhcNMjUwMzI0MTkzNzA4WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKlHcl7gn1b6aLS1hLftgvWE8n-Z9liLRsNGgjYfyY_1N6TVDEHJTtctREIaCRDPEC-hePKBe7OS45JIAD6cl5AGU_dQlGd-3bBZeVfAPJFUnC910pwhDca2OXlf4LyB1KSofXaA4xDB6G7cHXRld_URCnol2LHQEGox0vBzaPz30AUB0ZhAatZgqhXy5qnroV3zbEZC3m4qLDSnG8QNEnw8Wv5GpYH_MxK9mgDPwoIObeDBnjtQonKzvItZ8jXwF-wEmcVAnhr6Dvq3rWdBY9616kXvQ7E3eEvGqMn9W_NZTAqlaanfaACfITkIJZkgsSoJGw5USCMC-vzAb1Ms0j0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTELag1gS_F07Xj1us9l4ySYrHYYjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBABJx3Gb3LtjBZ4x70SioNIk8ap3qwt2DMEu9dXEhi28jFB87BBsTCkNeuhGlLzHm7Ykx6xpUjJp4F2_qmJKrQjDH4U0VYT_yc8Ow5mxrFJcewgTXzwmwqXOodok5WWOUVP4Mmdp_O_3je1dVgw4TrdrypIZImBn2jVDrXQ79fFXTR-Td0XMOtWPDwreoMRagD769QW4hlGtVaZCqOAzyomfSc8PhDzKhllbZQrmP-UgiLU14SDsxwq6AHG413ClcJIDGfEsEKwlUyIIAKHDwSdbO41Zs7ZQG5k_eBlGTkr-5Zye8vT7OeGf1_mGZSme6otyTUL_3-6gJ282qCPXoflc&s=LunSCPU8LuKFYu1E-aV9BzeAs8raii8WhfQtldMFgH9EGSe6JPoMfxjzW96iZx7H4ADI56nsh5GJJ32H8-4BYuws5GLCh3xwRUW_m3CDobZtSXMgwvqucY7jy-mHdtJjZ4EDQ9ePLZJoLKnjTpTWMIHPughlYTUL41qJFv6DUQLSY7VlP_T8xIQ8WHwTCcG35weOSYwsEriqruOqcfpkbiu5Ekh1DO4q2odFDIwx28ngK9IX0ur5zsQ0_DaRe_B9kMTlEvyPoV4M-Qt-4NWSeg52ap7WGi__L8yucuVarC3Sly6iL_ue9jDWBQR3BR-9ieL2sP5hmu5JyInK2VN2bw&h=N2qc661KU6sQrjuIvb2rGWzSkuQi4mp-iEhW5Nj_pGI
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "757"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "1"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: B4EC11B05C83492EA5DE5E16070A95C9 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:17:52Z'
+        status: 201 Created
+        code: 201
+        duration: 253.521942ms
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 241
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"asotest-rule2-upnkaz","properties":{"access":"Deny","destinationAddressPrefix":"*","destinationPortRange":"*","direction":"Inbound","priority":124,"protocol":"Tcp","sourceAddressPrefix":"*","sourcePortRanges":["23-45","5000-5100"]}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "241"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 96e2e65b1f9a3fb8680172a7e80c296fbf00963c340f37af99f86c082fd572c6
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule2-upnkaz?api-version=2024-03-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 669
+        uncompressed: false
+        body: '{"name":"asotest-rule2-upnkaz","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule2-upnkaz","etag":"W/\"6c68e01d-cccc-46ef-b479-70bb9f369778\"","type":"Microsoft.Network/networkSecurityGroups/securityRules","properties":{"provisioningState":"Updating","protocol":"Tcp","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":124,"direction":"Inbound","sourcePortRanges":["23-45","5000-5100"],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}'
+        headers:
+            Azure-Asyncnotification:
+                - Enabled
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/80d0dbea-8ba7-4334-942f-f100c1027d3b?api-version=2024-03-01&t=638666254723570553&c=MIIHpTCCBo2gAwIBAgITOgM6dTLGpzYZpvPtgQAEAzp1MjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjQwNjI2MDEzMjIxWhcNMjUwNjIxMDEzMjIxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPPPKY5bDN03KptFFhiyLIyn86BlrXYFIZWYXA-hY7_WbLyWN0IxcLIUBW_I-9u-YsXOHk9WPMlUYHIFPgHW7A3FsSGfl9dd6YGapKoSSw0NkTpNXM58R54BBgLp7AhiWzK15D9T-XELNSU4Wq9sEeA5T24kazcgS2MUkzELH0I9dwu7g0dwJIuIJkoJjEzg1b1Q3Ie5HKHHNbjottJn7Q5LBS-9QtQyruuwaNTgSJpCoi4PBKVIOTBYL_Nv1wecmKmfWcT0mnhQE9zjhJTbcoN9hKSvAMqsDHtxWUFZosiw3JKIY0zb59CrVGSuOhfN3qaarwN9EAlXLqc4ZyKpsTkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRk_38CqdKjPVylWUR4uuqhbFGeHTAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAFsx7FtYAzSo98T5ydNFa0ukjPZ6XCQc9zo7ldqy235P_zJAUkaNgCU4EGOzbZJDoMa8mAfhyukL_0GfPeApUaY2e44ZOzoYAkeEuDiwcs-9zoQ1fCyXhn0pCumGFXRilX9KjAPaYTzDvQMEllTy_ZViwTahuKaGtFVamZguBPdaeYC_0oybtTVNQCs8hGnffhNZOMASB-5pFs35MNxsDWTVIQksDee419jqpsbWLkh6rnanILO1O_ihwb-WpvRQByQ5NGpG1-z0MQ6nRpr9wWxUi-DsrVsD38NTMIPc2uei4Ivf6qnGRvOOj0fmsciWuTTEXMaD-5a81mGlzhZc09Q&s=dppKr8z9I0u-3_a2g_bg7J9sIDSca6wtIiGgb1lFFcW17_oPIRSbA_F4DPYqIM_CZDxslHzKEtMU-XXTtbJ7SJyIjMiE9yH_gLGrMUVus8E_1sh8s7KjcBum2_XoaRxwULTRkMNLj78xGdqw1iIJkLpRrhneO4vanfkuBLi_fArnZdSHX8iYdZHQoUj_VQc0fRKlKVDOdvI0WqK0LHLBP6rCRr4ybVqIddaMcKO0geSRa_NW1dP9S80wbwtRI3pRcSfHdACpxKaPYd53BTuWEwuEBZfS2crJpwGRXuDAV7Ap_TmM5RRwvm4Ec8-wBfK3hYbItYzrpigqfuoHfXxTmA&h=5ZwszS3EjMmO06M5Ul95Rg0jC8LV2kiZCo5shbCbZwI
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "669"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "1"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 4EC379BC65104CCE82E4E9DE50F66538 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:17:52Z'
+        status: 201 Created
+        code: 201
+        duration: 256.750836ms
+    - id: 12
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/d0a95fb7-f7e9-4638-aa2a-2d783d87b639?api-version=2024-03-01&t=638666254722997424&c=MIIHhzCCBm-gAwIBAgITHgVxvH65_BmPrKxDIgAABXG8fjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwOTI1MTkzNzA4WhcNMjUwMzI0MTkzNzA4WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKlHcl7gn1b6aLS1hLftgvWE8n-Z9liLRsNGgjYfyY_1N6TVDEHJTtctREIaCRDPEC-hePKBe7OS45JIAD6cl5AGU_dQlGd-3bBZeVfAPJFUnC910pwhDca2OXlf4LyB1KSofXaA4xDB6G7cHXRld_URCnol2LHQEGox0vBzaPz30AUB0ZhAatZgqhXy5qnroV3zbEZC3m4qLDSnG8QNEnw8Wv5GpYH_MxK9mgDPwoIObeDBnjtQonKzvItZ8jXwF-wEmcVAnhr6Dvq3rWdBY9616kXvQ7E3eEvGqMn9W_NZTAqlaanfaACfITkIJZkgsSoJGw5USCMC-vzAb1Ms0j0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTELag1gS_F07Xj1us9l4ySYrHYYjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBABJx3Gb3LtjBZ4x70SioNIk8ap3qwt2DMEu9dXEhi28jFB87BBsTCkNeuhGlLzHm7Ykx6xpUjJp4F2_qmJKrQjDH4U0VYT_yc8Ow5mxrFJcewgTXzwmwqXOodok5WWOUVP4Mmdp_O_3je1dVgw4TrdrypIZImBn2jVDrXQ79fFXTR-Td0XMOtWPDwreoMRagD769QW4hlGtVaZCqOAzyomfSc8PhDzKhllbZQrmP-UgiLU14SDsxwq6AHG413ClcJIDGfEsEKwlUyIIAKHDwSdbO41Zs7ZQG5k_eBlGTkr-5Zye8vT7OeGf1_mGZSme6otyTUL_3-6gJ282qCPXoflc&s=LunSCPU8LuKFYu1E-aV9BzeAs8raii8WhfQtldMFgH9EGSe6JPoMfxjzW96iZx7H4ADI56nsh5GJJ32H8-4BYuws5GLCh3xwRUW_m3CDobZtSXMgwvqucY7jy-mHdtJjZ4EDQ9ePLZJoLKnjTpTWMIHPughlYTUL41qJFv6DUQLSY7VlP_T8xIQ8WHwTCcG35weOSYwsEriqruOqcfpkbiu5Ekh1DO4q2odFDIwx28ngK9IX0ur5zsQ0_DaRe_B9kMTlEvyPoV4M-Qt-4NWSeg52ap7WGi__L8yucuVarC3Sly6iL_ue9jDWBQR3BR-9ieL2sP5hmu5JyInK2VN2bw&h=N2qc661KU6sQrjuIvb2rGWzSkuQi4mp-iEhW5Nj_pGI
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 22
+        uncompressed: false
+        body: '{"status":"Succeeded"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "22"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 6B516B46FEB84777943506AADEEE8294 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:17:54Z'
+        status: 200 OK
+        code: 200
+        duration: 53.559605ms
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/80d0dbea-8ba7-4334-942f-f100c1027d3b?api-version=2024-03-01&t=638666254723570553&c=MIIHpTCCBo2gAwIBAgITOgM6dTLGpzYZpvPtgQAEAzp1MjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjQwNjI2MDEzMjIxWhcNMjUwNjIxMDEzMjIxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPPPKY5bDN03KptFFhiyLIyn86BlrXYFIZWYXA-hY7_WbLyWN0IxcLIUBW_I-9u-YsXOHk9WPMlUYHIFPgHW7A3FsSGfl9dd6YGapKoSSw0NkTpNXM58R54BBgLp7AhiWzK15D9T-XELNSU4Wq9sEeA5T24kazcgS2MUkzELH0I9dwu7g0dwJIuIJkoJjEzg1b1Q3Ie5HKHHNbjottJn7Q5LBS-9QtQyruuwaNTgSJpCoi4PBKVIOTBYL_Nv1wecmKmfWcT0mnhQE9zjhJTbcoN9hKSvAMqsDHtxWUFZosiw3JKIY0zb59CrVGSuOhfN3qaarwN9EAlXLqc4ZyKpsTkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRk_38CqdKjPVylWUR4uuqhbFGeHTAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAFsx7FtYAzSo98T5ydNFa0ukjPZ6XCQc9zo7ldqy235P_zJAUkaNgCU4EGOzbZJDoMa8mAfhyukL_0GfPeApUaY2e44ZOzoYAkeEuDiwcs-9zoQ1fCyXhn0pCumGFXRilX9KjAPaYTzDvQMEllTy_ZViwTahuKaGtFVamZguBPdaeYC_0oybtTVNQCs8hGnffhNZOMASB-5pFs35MNxsDWTVIQksDee419jqpsbWLkh6rnanILO1O_ihwb-WpvRQByQ5NGpG1-z0MQ6nRpr9wWxUi-DsrVsD38NTMIPc2uei4Ivf6qnGRvOOj0fmsciWuTTEXMaD-5a81mGlzhZc09Q&s=dppKr8z9I0u-3_a2g_bg7J9sIDSca6wtIiGgb1lFFcW17_oPIRSbA_F4DPYqIM_CZDxslHzKEtMU-XXTtbJ7SJyIjMiE9yH_gLGrMUVus8E_1sh8s7KjcBum2_XoaRxwULTRkMNLj78xGdqw1iIJkLpRrhneO4vanfkuBLi_fArnZdSHX8iYdZHQoUj_VQc0fRKlKVDOdvI0WqK0LHLBP6rCRr4ybVqIddaMcKO0geSRa_NW1dP9S80wbwtRI3pRcSfHdACpxKaPYd53BTuWEwuEBZfS2crJpwGRXuDAV7Ap_TmM5RRwvm4Ec8-wBfK3hYbItYzrpigqfuoHfXxTmA&h=5ZwszS3EjMmO06M5Ul95Rg0jC8LV2kiZCo5shbCbZwI
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 22
+        uncompressed: false
+        body: '{"status":"Succeeded"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "22"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 583137AE0672438FBA78D9214C5344BE Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:17:54Z'
+        status: 200 OK
+        code: 200
+        duration: 49.104313ms
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule1-dwoaxw?api-version=2024-03-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 758
+        uncompressed: false
+        body: '{"name":"asotest-rule1-dwoaxw","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule1-dwoaxw","etag":"W/\"79bd4971-86c6-4932-a2ce-8e3f7620c977\"","type":"Microsoft.Network/networkSecurityGroups/securityRules","properties":{"provisioningState":"Succeeded","description":"The first rule of networking is don''t talk about networking","protocol":"Tcp","sourcePortRange":"23-45","destinationPortRange":"46-56","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Allow","priority":123,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "758"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - W/"79bd4971-86c6-4932-a2ce-8e3f7620c977"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 66361E4CD2644AA49D4BF82050E1B427 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:17:54Z'
+        status: 200 OK
+        code: 200
+        duration: 69.053077ms
+    - id: 15
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule2-upnkaz?api-version=2024-03-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 670
+        uncompressed: false
+        body: '{"name":"asotest-rule2-upnkaz","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule2-upnkaz","etag":"W/\"79bd4971-86c6-4932-a2ce-8e3f7620c977\"","type":"Microsoft.Network/networkSecurityGroups/securityRules","properties":{"provisioningState":"Succeeded","protocol":"Tcp","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":124,"direction":"Inbound","sourcePortRanges":["23-45","5000-5100"],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "670"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - W/"79bd4971-86c6-4932-a2ce-8e3f7620c977"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: A57BB81A31954EA4A2FF0838FE9A1366 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:17:54Z'
+        status: 200 OK
+        code: 200
+        duration: 71.405473ms
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule2-upnkaz?api-version=2024-03-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 670
+        uncompressed: false
+        body: '{"name":"asotest-rule2-upnkaz","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule2-upnkaz","etag":"W/\"79bd4971-86c6-4932-a2ce-8e3f7620c977\"","type":"Microsoft.Network/networkSecurityGroups/securityRules","properties":{"provisioningState":"Succeeded","protocol":"Tcp","destinationPortRange":"*","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Deny","priority":124,"direction":"Inbound","sourcePortRanges":["23-45","5000-5100"],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "670"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - W/"79bd4971-86c6-4932-a2ce-8e3f7620c977"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: D5207158403848FCBEA2B8A58E4ABDC7 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:17:54Z'
+        status: 200 OK
+        code: 200
+        duration: 53.643405ms
+    - id: 17
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule1-dwoaxw?api-version=2024-03-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 758
+        uncompressed: false
+        body: '{"name":"asotest-rule1-dwoaxw","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule1-dwoaxw","etag":"W/\"79bd4971-86c6-4932-a2ce-8e3f7620c977\"","type":"Microsoft.Network/networkSecurityGroups/securityRules","properties":{"provisioningState":"Succeeded","description":"The first rule of networking is don''t talk about networking","protocol":"Tcp","sourcePortRange":"23-45","destinationPortRange":"46-56","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Allow","priority":123,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "758"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - W/"79bd4971-86c6-4932-a2ce-8e3f7620c977"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 035E5D88AE61416396089C94D7B48A7A Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:17:54Z'
+        status: 200 OK
+        code: 200
+        duration: 69.831676ms
+    - id: 18
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 307
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"asotest-rule1-dwoaxw","properties":{"access":"Allow","description":"The first rule of networking is don''t talk about networking","destinationAddressPrefix":"*","destinationPortRange":"46-56","direction":"Inbound","priority":100,"protocol":"Tcp","sourceAddressPrefix":"*","sourcePortRange":"23-45"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "307"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 6cb1871c0322746fe5b434f940994d3a98fea8c6ff31f1492f5f7d2b1c700ede
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule1-dwoaxw?api-version=2024-03-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 757
+        uncompressed: false
+        body: '{"name":"asotest-rule1-dwoaxw","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule1-dwoaxw","etag":"W/\"199df529-fa1d-4352-b6e7-42d2e6cbe4c4\"","type":"Microsoft.Network/networkSecurityGroups/securityRules","properties":{"provisioningState":"Updating","description":"The first rule of networking is don''t talk about networking","protocol":"Tcp","sourcePortRange":"23-45","destinationPortRange":"46-56","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Allow","priority":100,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}'
+        headers:
+            Azure-Asyncnotification:
+                - Enabled
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b54ce9b6-ad93-4ce1-b664-fefd3d5ee692?api-version=2024-03-01&t=638666254762964441&c=MIIHpTCCBo2gAwIBAgITOgM6dTLGpzYZpvPtgQAEAzp1MjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjQwNjI2MDEzMjIxWhcNMjUwNjIxMDEzMjIxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPPPKY5bDN03KptFFhiyLIyn86BlrXYFIZWYXA-hY7_WbLyWN0IxcLIUBW_I-9u-YsXOHk9WPMlUYHIFPgHW7A3FsSGfl9dd6YGapKoSSw0NkTpNXM58R54BBgLp7AhiWzK15D9T-XELNSU4Wq9sEeA5T24kazcgS2MUkzELH0I9dwu7g0dwJIuIJkoJjEzg1b1Q3Ie5HKHHNbjottJn7Q5LBS-9QtQyruuwaNTgSJpCoi4PBKVIOTBYL_Nv1wecmKmfWcT0mnhQE9zjhJTbcoN9hKSvAMqsDHtxWUFZosiw3JKIY0zb59CrVGSuOhfN3qaarwN9EAlXLqc4ZyKpsTkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRk_38CqdKjPVylWUR4uuqhbFGeHTAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAFsx7FtYAzSo98T5ydNFa0ukjPZ6XCQc9zo7ldqy235P_zJAUkaNgCU4EGOzbZJDoMa8mAfhyukL_0GfPeApUaY2e44ZOzoYAkeEuDiwcs-9zoQ1fCyXhn0pCumGFXRilX9KjAPaYTzDvQMEllTy_ZViwTahuKaGtFVamZguBPdaeYC_0oybtTVNQCs8hGnffhNZOMASB-5pFs35MNxsDWTVIQksDee419jqpsbWLkh6rnanILO1O_ihwb-WpvRQByQ5NGpG1-z0MQ6nRpr9wWxUi-DsrVsD38NTMIPc2uei4Ivf6qnGRvOOj0fmsciWuTTEXMaD-5a81mGlzhZc09Q&s=tIA-rTUnaJdx_uMHmQx-_SYRAEm0GSSgWwar_YaMuzECXYzdrV0OvfWSiiw87IbuvsRRhRPhcYVDi3bU7RkItrr2TIGSS0XH0iLaDvsaSycYX8JhDifGM3Gw0vFjYEsVOGGMz1Ui-7P7LUxD30VvbGI7G4kqbZloq259Je7r3ZbynS2yqSsJ7aZGVl3iLhEvnYveRUuOX0byDlaVcGrWDd8c2Kuz6U6zPVK7HlHcwlzRbY0WBlRJQXus32NHSOLhkWqAsbWno_9qNdUsuaeis2AdKXpJkSlr6hxUnDLKwFGB2s6EkYe04-oVZIY7erttws9bprlmuAdRfhsn4zcmiQ&h=_xuPcPmIk2FY-Klh__tRAlg3giZpeK2DUxxuSkNiQW0
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "757"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "1"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 4A07B5CFFD4E454BB02BD4A953C16DC0 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:17:56Z'
+        status: 200 OK
+        code: 200
+        duration: 221.353712ms
+    - id: 19
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b54ce9b6-ad93-4ce1-b664-fefd3d5ee692?api-version=2024-03-01&t=638666254762964441&c=MIIHpTCCBo2gAwIBAgITOgM6dTLGpzYZpvPtgQAEAzp1MjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjQwNjI2MDEzMjIxWhcNMjUwNjIxMDEzMjIxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPPPKY5bDN03KptFFhiyLIyn86BlrXYFIZWYXA-hY7_WbLyWN0IxcLIUBW_I-9u-YsXOHk9WPMlUYHIFPgHW7A3FsSGfl9dd6YGapKoSSw0NkTpNXM58R54BBgLp7AhiWzK15D9T-XELNSU4Wq9sEeA5T24kazcgS2MUkzELH0I9dwu7g0dwJIuIJkoJjEzg1b1Q3Ie5HKHHNbjottJn7Q5LBS-9QtQyruuwaNTgSJpCoi4PBKVIOTBYL_Nv1wecmKmfWcT0mnhQE9zjhJTbcoN9hKSvAMqsDHtxWUFZosiw3JKIY0zb59CrVGSuOhfN3qaarwN9EAlXLqc4ZyKpsTkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRk_38CqdKjPVylWUR4uuqhbFGeHTAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAFsx7FtYAzSo98T5ydNFa0ukjPZ6XCQc9zo7ldqy235P_zJAUkaNgCU4EGOzbZJDoMa8mAfhyukL_0GfPeApUaY2e44ZOzoYAkeEuDiwcs-9zoQ1fCyXhn0pCumGFXRilX9KjAPaYTzDvQMEllTy_ZViwTahuKaGtFVamZguBPdaeYC_0oybtTVNQCs8hGnffhNZOMASB-5pFs35MNxsDWTVIQksDee419jqpsbWLkh6rnanILO1O_ihwb-WpvRQByQ5NGpG1-z0MQ6nRpr9wWxUi-DsrVsD38NTMIPc2uei4Ivf6qnGRvOOj0fmsciWuTTEXMaD-5a81mGlzhZc09Q&s=tIA-rTUnaJdx_uMHmQx-_SYRAEm0GSSgWwar_YaMuzECXYzdrV0OvfWSiiw87IbuvsRRhRPhcYVDi3bU7RkItrr2TIGSS0XH0iLaDvsaSycYX8JhDifGM3Gw0vFjYEsVOGGMz1Ui-7P7LUxD30VvbGI7G4kqbZloq259Je7r3ZbynS2yqSsJ7aZGVl3iLhEvnYveRUuOX0byDlaVcGrWDd8c2Kuz6U6zPVK7HlHcwlzRbY0WBlRJQXus32NHSOLhkWqAsbWno_9qNdUsuaeis2AdKXpJkSlr6hxUnDLKwFGB2s6EkYe04-oVZIY7erttws9bprlmuAdRfhsn4zcmiQ&h=_xuPcPmIk2FY-Klh__tRAlg3giZpeK2DUxxuSkNiQW0
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 22
+        uncompressed: false
+        body: '{"status":"Succeeded"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "22"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: 28213079165A4085942E7186E80E0657 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:17:57Z'
+        status: 200 OK
+        code: 200
+        duration: 55.414404ms
+    - id: 20
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "2"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule1-dwoaxw?api-version=2024-03-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 758
+        uncompressed: false
+        body: '{"name":"asotest-rule1-dwoaxw","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule1-dwoaxw","etag":"W/\"503b3a5e-2144-45fc-9988-55dccea91682\"","type":"Microsoft.Network/networkSecurityGroups/securityRules","properties":{"provisioningState":"Succeeded","description":"The first rule of networking is don''t talk about networking","protocol":"Tcp","sourcePortRange":"23-45","destinationPortRange":"46-56","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Allow","priority":100,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "758"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - W/"503b3a5e-2144-45fc-9988-55dccea91682"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 76A88052C0D54506BC551849CE519AC5 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:17:57Z'
+        status: 200 OK
+        code: 200
+        duration: 54.861205ms
+    - id: 21
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "3"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule1-dwoaxw?api-version=2024-03-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 758
+        uncompressed: false
+        body: '{"name":"asotest-rule1-dwoaxw","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule1-dwoaxw","etag":"W/\"503b3a5e-2144-45fc-9988-55dccea91682\"","type":"Microsoft.Network/networkSecurityGroups/securityRules","properties":{"provisioningState":"Succeeded","description":"The first rule of networking is don''t talk about networking","protocol":"Tcp","sourcePortRange":"23-45","destinationPortRange":"46-56","sourceAddressPrefix":"*","destinationAddressPrefix":"*","access":"Allow","priority":100,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "758"
+            Content-Type:
+                - application/json; charset=utf-8
+            Etag:
+                - W/"503b3a5e-2144-45fc-9988-55dccea91682"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 94174BD4A79B45B69B819B7722FB0E4F Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:17:57Z'
+        status: 200 OK
+        code: 200
+        duration: 81.700858ms
+    - id: 22
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao?api-version=2024-03-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Azure-Asyncnotification:
+                - Enabled
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/d45b7c30-2712-42ec-90e9-42ccb27a6099?api-version=2024-03-01&t=638666255496480439&c=MIIHpTCCBo2gAwIBAgITOgM6dTLGpzYZpvPtgQAEAzp1MjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjQwNjI2MDEzMjIxWhcNMjUwNjIxMDEzMjIxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPPPKY5bDN03KptFFhiyLIyn86BlrXYFIZWYXA-hY7_WbLyWN0IxcLIUBW_I-9u-YsXOHk9WPMlUYHIFPgHW7A3FsSGfl9dd6YGapKoSSw0NkTpNXM58R54BBgLp7AhiWzK15D9T-XELNSU4Wq9sEeA5T24kazcgS2MUkzELH0I9dwu7g0dwJIuIJkoJjEzg1b1Q3Ie5HKHHNbjottJn7Q5LBS-9QtQyruuwaNTgSJpCoi4PBKVIOTBYL_Nv1wecmKmfWcT0mnhQE9zjhJTbcoN9hKSvAMqsDHtxWUFZosiw3JKIY0zb59CrVGSuOhfN3qaarwN9EAlXLqc4ZyKpsTkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRk_38CqdKjPVylWUR4uuqhbFGeHTAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAFsx7FtYAzSo98T5ydNFa0ukjPZ6XCQc9zo7ldqy235P_zJAUkaNgCU4EGOzbZJDoMa8mAfhyukL_0GfPeApUaY2e44ZOzoYAkeEuDiwcs-9zoQ1fCyXhn0pCumGFXRilX9KjAPaYTzDvQMEllTy_ZViwTahuKaGtFVamZguBPdaeYC_0oybtTVNQCs8hGnffhNZOMASB-5pFs35MNxsDWTVIQksDee419jqpsbWLkh6rnanILO1O_ihwb-WpvRQByQ5NGpG1-z0MQ6nRpr9wWxUi-DsrVsD38NTMIPc2uei4Ivf6qnGRvOOj0fmsciWuTTEXMaD-5a81mGlzhZc09Q&s=XLxVjs69wRK1yG9hNAIgAyNxF2-OCsoMi3WSlknL5ongS01d0d5O1mjtqQ3mdSAN77OQFDvXlvhkkUPGUnkasB8Acv6wKbpKxT0Hs6fx32x-wWbcuWhAV8d6P_G26M7sqpeirDFDiBq560MjUfR2ps5_FLQRZkQO9gtI2HqXu0mIwEWaJGDRHkwC0kIp32oLMsu_6vKl6So7ebwoA5mvwR0NDSVMBY1hldRluC5e-SI1O-0tB9bm9m0vWd-whWLPw-UJNU6NMk1OxtAI1RntuohN4sW8ClKgAHw9GP5138QbgNwupwhNLQy1GaMjKFj0YxVk75RXOQDql7BW06CM5A&h=1zkMy5CEemLv214T8fNrShZ6mFHPzTw2T5cKea1DW3c
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/d45b7c30-2712-42ec-90e9-42ccb27a6099?api-version=2024-03-01&t=638666255496636605&c=MIIHpTCCBo2gAwIBAgITOgM6dTLGpzYZpvPtgQAEAzp1MjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjQwNjI2MDEzMjIxWhcNMjUwNjIxMDEzMjIxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPPPKY5bDN03KptFFhiyLIyn86BlrXYFIZWYXA-hY7_WbLyWN0IxcLIUBW_I-9u-YsXOHk9WPMlUYHIFPgHW7A3FsSGfl9dd6YGapKoSSw0NkTpNXM58R54BBgLp7AhiWzK15D9T-XELNSU4Wq9sEeA5T24kazcgS2MUkzELH0I9dwu7g0dwJIuIJkoJjEzg1b1Q3Ie5HKHHNbjottJn7Q5LBS-9QtQyruuwaNTgSJpCoi4PBKVIOTBYL_Nv1wecmKmfWcT0mnhQE9zjhJTbcoN9hKSvAMqsDHtxWUFZosiw3JKIY0zb59CrVGSuOhfN3qaarwN9EAlXLqc4ZyKpsTkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRk_38CqdKjPVylWUR4uuqhbFGeHTAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAFsx7FtYAzSo98T5ydNFa0ukjPZ6XCQc9zo7ldqy235P_zJAUkaNgCU4EGOzbZJDoMa8mAfhyukL_0GfPeApUaY2e44ZOzoYAkeEuDiwcs-9zoQ1fCyXhn0pCumGFXRilX9KjAPaYTzDvQMEllTy_ZViwTahuKaGtFVamZguBPdaeYC_0oybtTVNQCs8hGnffhNZOMASB-5pFs35MNxsDWTVIQksDee419jqpsbWLkh6rnanILO1O_ihwb-WpvRQByQ5NGpG1-z0MQ6nRpr9wWxUi-DsrVsD38NTMIPc2uei4Ivf6qnGRvOOj0fmsciWuTTEXMaD-5a81mGlzhZc09Q&s=S3pCZ2bArzFMAz5zzQ-I6qSGhW2NGicSFtRcw8UwMwhzi3JcyFZFVF4C07LPhKRfgx8ObYtctM_CHSIa5H9esbkdIFlnhXGfIlhRjGOtHXZHOQDFLrKm1Z9SusDe1fxT-l8l549GJkcqQI53MvI4uNbiveAQ0yHeWY487C4r2ADBwJMN9gQEmA07P5779-DiGroLd0y6IhK5vpk7stYTn5rztV6seCLDbsir9i-mg8IBAYXG5ybcAHeUxiVyAuhQoZvK1eXmroyFbhGftlIOvJGsTvsSthLJQSkTXta64DAm5w4Z-E3zTaZYVKNo6MdV9nC0rrgkc0E03Z5ots-bRQ&h=kl15yFKDApMfdz5_FpYvuLdFYTDpdsVWaZAimLPOG7s
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "1"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 4F6D86067B154422ADF1A7C76D3632D2 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:19:09Z'
+        status: 202 Accepted
+        code: 202
+        duration: 217.571205ms
+    - id: 23
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/d45b7c30-2712-42ec-90e9-42ccb27a6099?api-version=2024-03-01&t=638666255496480439&c=MIIHpTCCBo2gAwIBAgITOgM6dTLGpzYZpvPtgQAEAzp1MjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjQwNjI2MDEzMjIxWhcNMjUwNjIxMDEzMjIxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPPPKY5bDN03KptFFhiyLIyn86BlrXYFIZWYXA-hY7_WbLyWN0IxcLIUBW_I-9u-YsXOHk9WPMlUYHIFPgHW7A3FsSGfl9dd6YGapKoSSw0NkTpNXM58R54BBgLp7AhiWzK15D9T-XELNSU4Wq9sEeA5T24kazcgS2MUkzELH0I9dwu7g0dwJIuIJkoJjEzg1b1Q3Ie5HKHHNbjottJn7Q5LBS-9QtQyruuwaNTgSJpCoi4PBKVIOTBYL_Nv1wecmKmfWcT0mnhQE9zjhJTbcoN9hKSvAMqsDHtxWUFZosiw3JKIY0zb59CrVGSuOhfN3qaarwN9EAlXLqc4ZyKpsTkCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRk_38CqdKjPVylWUR4uuqhbFGeHTAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAFsx7FtYAzSo98T5ydNFa0ukjPZ6XCQc9zo7ldqy235P_zJAUkaNgCU4EGOzbZJDoMa8mAfhyukL_0GfPeApUaY2e44ZOzoYAkeEuDiwcs-9zoQ1fCyXhn0pCumGFXRilX9KjAPaYTzDvQMEllTy_ZViwTahuKaGtFVamZguBPdaeYC_0oybtTVNQCs8hGnffhNZOMASB-5pFs35MNxsDWTVIQksDee419jqpsbWLkh6rnanILO1O_ihwb-WpvRQByQ5NGpG1-z0MQ6nRpr9wWxUi-DsrVsD38NTMIPc2uei4Ivf6qnGRvOOj0fmsciWuTTEXMaD-5a81mGlzhZc09Q&s=XLxVjs69wRK1yG9hNAIgAyNxF2-OCsoMi3WSlknL5ongS01d0d5O1mjtqQ3mdSAN77OQFDvXlvhkkUPGUnkasB8Acv6wKbpKxT0Hs6fx32x-wWbcuWhAV8d6P_G26M7sqpeirDFDiBq560MjUfR2ps5_FLQRZkQO9gtI2HqXu0mIwEWaJGDRHkwC0kIp32oLMsu_6vKl6So7ebwoA5mvwR0NDSVMBY1hldRluC5e-SI1O-0tB9bm9m0vWd-whWLPw-UJNU6NMk1OxtAI1RntuohN4sW8ClKgAHw9GP5138QbgNwupwhNLQy1GaMjKFj0YxVk75RXOQDql7BW06CM5A&h=1zkMy5CEemLv214T8fNrShZ6mFHPzTw2T5cKea1DW3c
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 22
+        uncompressed: false
+        body: '{"status":"Succeeded"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "22"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 2DC0271782194516AB28154DBC9CA780 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:19:10Z'
+        status: 200 OK
+        code: 200
+        duration: 50.608455ms
+    - id: 24
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "5"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao?api-version=2024-03-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 247
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao'' under resource group ''asotest-rg-yktumu'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "247"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: F1F276F751AE4C9DBCF1E0DF30E9A462 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:19:14Z'
+        status: 404 Not Found
+        code: 404
+        duration: 27.504177ms
+    - id: 25
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu?api-version=2020-06-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRZS1RVTVUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638666255551955376&c=MIIHhzCCBm-gAwIBAgITHgVxvH65_BmPrKxDIgAABXG8fjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwOTI1MTkzNzA4WhcNMjUwMzI0MTkzNzA4WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKlHcl7gn1b6aLS1hLftgvWE8n-Z9liLRsNGgjYfyY_1N6TVDEHJTtctREIaCRDPEC-hePKBe7OS45JIAD6cl5AGU_dQlGd-3bBZeVfAPJFUnC910pwhDca2OXlf4LyB1KSofXaA4xDB6G7cHXRld_URCnol2LHQEGox0vBzaPz30AUB0ZhAatZgqhXy5qnroV3zbEZC3m4qLDSnG8QNEnw8Wv5GpYH_MxK9mgDPwoIObeDBnjtQonKzvItZ8jXwF-wEmcVAnhr6Dvq3rWdBY9616kXvQ7E3eEvGqMn9W_NZTAqlaanfaACfITkIJZkgsSoJGw5USCMC-vzAb1Ms0j0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTELag1gS_F07Xj1us9l4ySYrHYYjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBABJx3Gb3LtjBZ4x70SioNIk8ap3qwt2DMEu9dXEhi28jFB87BBsTCkNeuhGlLzHm7Ykx6xpUjJp4F2_qmJKrQjDH4U0VYT_yc8Ow5mxrFJcewgTXzwmwqXOodok5WWOUVP4Mmdp_O_3je1dVgw4TrdrypIZImBn2jVDrXQ79fFXTR-Td0XMOtWPDwreoMRagD769QW4hlGtVaZCqOAzyomfSc8PhDzKhllbZQrmP-UgiLU14SDsxwq6AHG413ClcJIDGfEsEKwlUyIIAKHDwSdbO41Zs7ZQG5k_eBlGTkr-5Zye8vT7OeGf1_mGZSme6otyTUL_3-6gJ282qCPXoflc&s=DI-k-t5q_deTa-ZsmF6rT1rxduKR6Iue0q0e9dVrnQU1SLNRSm3K4VAwVZbCc8qGHjehCDyajqy5STpSErjbLc8_jtUFlC3-DY1vtyh2AD4U-TJUqgPVdqUTsYa_jvPjd-wBVx-kUQ51LU7ueCpVD1Zh5gGq-DM89h-gQ9Z_wXr-KSN_us-X_VmsyT5lza2tXZPbLldrEVWMpOU5NJ-Nc515okO2YSS43_GJGkSqGaxL4vHLslI-CY4HaMim3dqyt4U5P4erfm7s_NqAKap4_bUVufyEscCE6PovNJa2uvx80Xe2-phw-MFM9Zjhqbp5v016QB5bDAwr9FwkbsZXsQ&h=3SBWN82vtA2ktrwh-SFDMljnGSnqwepbynpm94HkIcY
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: BA4E196EB79B4E08970E3EDDFB477B1A Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:19:14Z'
+        status: 202 Accepted
+        code: 202
+        duration: 239.177201ms
+    - id: 26
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRZS1RVTVUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638666255551955376&c=MIIHhzCCBm-gAwIBAgITHgVxvH65_BmPrKxDIgAABXG8fjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwOTI1MTkzNzA4WhcNMjUwMzI0MTkzNzA4WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKlHcl7gn1b6aLS1hLftgvWE8n-Z9liLRsNGgjYfyY_1N6TVDEHJTtctREIaCRDPEC-hePKBe7OS45JIAD6cl5AGU_dQlGd-3bBZeVfAPJFUnC910pwhDca2OXlf4LyB1KSofXaA4xDB6G7cHXRld_URCnol2LHQEGox0vBzaPz30AUB0ZhAatZgqhXy5qnroV3zbEZC3m4qLDSnG8QNEnw8Wv5GpYH_MxK9mgDPwoIObeDBnjtQonKzvItZ8jXwF-wEmcVAnhr6Dvq3rWdBY9616kXvQ7E3eEvGqMn9W_NZTAqlaanfaACfITkIJZkgsSoJGw5USCMC-vzAb1Ms0j0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTELag1gS_F07Xj1us9l4ySYrHYYjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBABJx3Gb3LtjBZ4x70SioNIk8ap3qwt2DMEu9dXEhi28jFB87BBsTCkNeuhGlLzHm7Ykx6xpUjJp4F2_qmJKrQjDH4U0VYT_yc8Ow5mxrFJcewgTXzwmwqXOodok5WWOUVP4Mmdp_O_3je1dVgw4TrdrypIZImBn2jVDrXQ79fFXTR-Td0XMOtWPDwreoMRagD769QW4hlGtVaZCqOAzyomfSc8PhDzKhllbZQrmP-UgiLU14SDsxwq6AHG413ClcJIDGfEsEKwlUyIIAKHDwSdbO41Zs7ZQG5k_eBlGTkr-5Zye8vT7OeGf1_mGZSme6otyTUL_3-6gJ282qCPXoflc&s=DI-k-t5q_deTa-ZsmF6rT1rxduKR6Iue0q0e9dVrnQU1SLNRSm3K4VAwVZbCc8qGHjehCDyajqy5STpSErjbLc8_jtUFlC3-DY1vtyh2AD4U-TJUqgPVdqUTsYa_jvPjd-wBVx-kUQ51LU7ueCpVD1Zh5gGq-DM89h-gQ9Z_wXr-KSN_us-X_VmsyT5lza2tXZPbLldrEVWMpOU5NJ-Nc515okO2YSS43_GJGkSqGaxL4vHLslI-CY4HaMim3dqyt4U5P4erfm7s_NqAKap4_bUVufyEscCE6PovNJa2uvx80Xe2-phw-MFM9Zjhqbp5v016QB5bDAwr9FwkbsZXsQ&h=3SBWN82vtA2ktrwh-SFDMljnGSnqwepbynpm94HkIcY
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 4221B6CD4878473A87A47437FF653DCC Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:19:30Z'
+        status: 200 OK
+        code: 200
+        duration: 25.947782ms
+    - id: 27
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule2-upnkaz?api-version=2024-03-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 247
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao'' under resource group ''asotest-rg-yktumu'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "247"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 5D0A1794218C40ADBD6ADC9C138EEF8C Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:19:35Z'
+        status: 404 Not Found
+        code: 404
+        duration: 91.953343ms
+    - id: 28
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yktumu/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao/securityRules/asotest-rule1-dwoaxw?api-version=2024-03-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 247
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/networkSecurityGroups/asotest-nsg-glhgao'' under resource group ''asotest-rg-yktumu'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "247"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 3CCDAB579A5347099D775B7BDD3DC915 Ref B: CO6AA3150218053 Ref C: 2024-11-08T01:19:35Z'
+        status: 404 Not Found
+        code: 404
+        duration: 227.224459ms

@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type ServersVirtualNetworkRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_VirtualNetworkRule_Spec   `json:"spec,omitempty"`
-	Status            Servers_VirtualNetworkRule_STATUS `json:"status,omitempty"`
+	Spec              ServersVirtualNetworkRule_Spec   `json:"spec,omitempty"`
+	Status            ServersVirtualNetworkRule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersVirtualNetworkRule{}
@@ -42,6 +45,26 @@ func (rule *ServersVirtualNetworkRule) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (rule *ServersVirtualNetworkRule) SetConditions(conditions conditions.Conditions) {
 	rule.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ServersVirtualNetworkRule{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (rule *ServersVirtualNetworkRule) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersVirtualNetworkRule{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (rule *ServersVirtualNetworkRule) SecretDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ServersVirtualNetworkRule{}
@@ -87,11 +110,15 @@ func (rule *ServersVirtualNetworkRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *ServersVirtualNetworkRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_VirtualNetworkRule_STATUS{}
+	return &ServersVirtualNetworkRule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (rule *ServersVirtualNetworkRule) Owner() *genruntime.ResourceReference {
+	if rule.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
 	return rule.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (rule *ServersVirtualNetworkRule) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (rule *ServersVirtualNetworkRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_VirtualNetworkRule_STATUS); ok {
+	if st, ok := status.(*ServersVirtualNetworkRule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_VirtualNetworkRule_STATUS
+	var st ServersVirtualNetworkRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	rule.Status = st
@@ -138,13 +165,14 @@ type ServersVirtualNetworkRuleList struct {
 	Items           []ServersVirtualNetworkRule `json:"items"`
 }
 
-// Storage version of v1api20211101.Servers_VirtualNetworkRule_Spec
-type Servers_VirtualNetworkRule_Spec struct {
+// Storage version of v1api20211101.ServersVirtualNetworkRule_Spec
+type ServersVirtualNetworkRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                        string `json:"azureName,omitempty"`
-	IgnoreMissingVnetServiceEndpoint *bool  `json:"ignoreMissingVnetServiceEndpoint,omitempty"`
-	OriginalVersion                  string `json:"originalVersion,omitempty"`
+	AzureName                        string                                 `json:"azureName,omitempty"`
+	IgnoreMissingVnetServiceEndpoint *bool                                  `json:"ignoreMissingVnetServiceEndpoint,omitempty"`
+	OperatorSpec                     *ServersVirtualNetworkRuleOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                  string                                 `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -158,28 +186,28 @@ type Servers_VirtualNetworkRule_Spec struct {
 	VirtualNetworkSubnetReference *genruntime.ResourceReference `armReference:"VirtualNetworkSubnetId" json:"virtualNetworkSubnetReference,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_VirtualNetworkRule_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersVirtualNetworkRule_Spec{}
 
-// ConvertSpecFrom populates our Servers_VirtualNetworkRule_Spec from the provided source
-func (rule *Servers_VirtualNetworkRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our ServersVirtualNetworkRule_Spec from the provided source
+func (rule *ServersVirtualNetworkRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(rule)
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_VirtualNetworkRule_Spec
-func (rule *Servers_VirtualNetworkRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our ServersVirtualNetworkRule_Spec
+func (rule *ServersVirtualNetworkRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(rule)
 }
 
-// Storage version of v1api20211101.Servers_VirtualNetworkRule_STATUS
-type Servers_VirtualNetworkRule_STATUS struct {
+// Storage version of v1api20211101.ServersVirtualNetworkRule_STATUS
+type ServersVirtualNetworkRule_STATUS struct {
 	Conditions                       []conditions.Condition `json:"conditions,omitempty"`
 	Id                               *string                `json:"id,omitempty"`
 	IgnoreMissingVnetServiceEndpoint *bool                  `json:"ignoreMissingVnetServiceEndpoint,omitempty"`
@@ -190,24 +218,32 @@ type Servers_VirtualNetworkRule_STATUS struct {
 	VirtualNetworkSubnetId           *string                `json:"virtualNetworkSubnetId,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_VirtualNetworkRule_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersVirtualNetworkRule_STATUS{}
 
-// ConvertStatusFrom populates our Servers_VirtualNetworkRule_STATUS from the provided source
-func (rule *Servers_VirtualNetworkRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ServersVirtualNetworkRule_STATUS from the provided source
+func (rule *ServersVirtualNetworkRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(rule)
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_VirtualNetworkRule_STATUS
-func (rule *Servers_VirtualNetworkRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ServersVirtualNetworkRule_STATUS
+func (rule *ServersVirtualNetworkRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(rule)
+}
+
+// Storage version of v1api20211101.ServersVirtualNetworkRuleOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersVirtualNetworkRuleOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

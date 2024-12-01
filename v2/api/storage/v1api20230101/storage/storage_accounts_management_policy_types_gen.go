@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type StorageAccountsManagementPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_ManagementPolicy_Spec   `json:"spec,omitempty"`
-	Status            StorageAccounts_ManagementPolicy_STATUS `json:"status,omitempty"`
+	Spec              StorageAccountsManagementPolicy_Spec   `json:"spec,omitempty"`
+	Status            StorageAccountsManagementPolicy_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsManagementPolicy{}
@@ -42,6 +45,26 @@ func (policy *StorageAccountsManagementPolicy) GetConditions() conditions.Condit
 // SetConditions sets the conditions on the resource status
 func (policy *StorageAccountsManagementPolicy) SetConditions(conditions conditions.Conditions) {
 	policy.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &StorageAccountsManagementPolicy{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (policy *StorageAccountsManagementPolicy) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &StorageAccountsManagementPolicy{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (policy *StorageAccountsManagementPolicy) SecretDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsManagementPolicy{}
@@ -87,11 +110,15 @@ func (policy *StorageAccountsManagementPolicy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *StorageAccountsManagementPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &StorageAccounts_ManagementPolicy_STATUS{}
+	return &StorageAccountsManagementPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (policy *StorageAccountsManagementPolicy) Owner() *genruntime.ResourceReference {
+	if policy.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
 	return policy.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (policy *StorageAccountsManagementPolicy) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (policy *StorageAccountsManagementPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*StorageAccounts_ManagementPolicy_STATUS); ok {
+	if st, ok := status.(*StorageAccountsManagementPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st StorageAccounts_ManagementPolicy_STATUS
+	var st StorageAccountsManagementPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	policy.Status = st
@@ -138,9 +165,10 @@ type StorageAccountsManagementPolicyList struct {
 	Items           []StorageAccountsManagementPolicy `json:"items"`
 }
 
-// Storage version of v1api20230101.StorageAccounts_ManagementPolicy_Spec
-type StorageAccounts_ManagementPolicy_Spec struct {
-	OriginalVersion string `json:"originalVersion,omitempty"`
+// Storage version of v1api20230101.StorageAccountsManagementPolicy_Spec
+type StorageAccountsManagementPolicy_Spec struct {
+	OperatorSpec    *StorageAccountsManagementPolicyOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -151,28 +179,28 @@ type StorageAccounts_ManagementPolicy_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccounts_ManagementPolicy_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsManagementPolicy_Spec{}
 
-// ConvertSpecFrom populates our StorageAccounts_ManagementPolicy_Spec from the provided source
-func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our StorageAccountsManagementPolicy_Spec from the provided source
+func (policy *StorageAccountsManagementPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(policy)
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccounts_ManagementPolicy_Spec
-func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our StorageAccountsManagementPolicy_Spec
+func (policy *StorageAccountsManagementPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(policy)
 }
 
-// Storage version of v1api20230101.StorageAccounts_ManagementPolicy_STATUS
-type StorageAccounts_ManagementPolicy_STATUS struct {
+// Storage version of v1api20230101.StorageAccountsManagementPolicy_STATUS
+type StorageAccountsManagementPolicy_STATUS struct {
 	Conditions       []conditions.Condition         `json:"conditions,omitempty"`
 	Id               *string                        `json:"id,omitempty"`
 	LastModifiedTime *string                        `json:"lastModifiedTime,omitempty"`
@@ -182,21 +210,21 @@ type StorageAccounts_ManagementPolicy_STATUS struct {
 	Type             *string                        `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &StorageAccounts_ManagementPolicy_STATUS{}
+var _ genruntime.ConvertibleStatus = &StorageAccountsManagementPolicy_STATUS{}
 
-// ConvertStatusFrom populates our StorageAccounts_ManagementPolicy_STATUS from the provided source
-func (policy *StorageAccounts_ManagementPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our StorageAccountsManagementPolicy_STATUS from the provided source
+func (policy *StorageAccountsManagementPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(policy)
 }
 
-// ConvertStatusTo populates the provided destination from our StorageAccounts_ManagementPolicy_STATUS
-func (policy *StorageAccounts_ManagementPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our StorageAccountsManagementPolicy_STATUS
+func (policy *StorageAccountsManagementPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(policy)
@@ -216,6 +244,14 @@ type ManagementPolicySchema struct {
 type ManagementPolicySchema_STATUS struct {
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Rules       []ManagementPolicyRule_STATUS `json:"rules,omitempty"`
+}
+
+// Storage version of v1api20230101.StorageAccountsManagementPolicyOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type StorageAccountsManagementPolicyOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230101.ManagementPolicyRule

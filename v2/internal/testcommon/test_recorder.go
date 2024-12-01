@@ -7,7 +7,7 @@ package testcommon
 
 import (
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
@@ -30,7 +30,7 @@ func createTestRecorder(
 	// If a cassette file exists in the old format, use the old player
 	v1Exists, err := v1.CassetteFileExists(cassetteName)
 	if err != nil {
-		return nil, errors.Wrapf(err, "checking existence of cassette %s", cassetteName)
+		return nil, eris.Wrapf(err, "checking existence of cassette %s", cassetteName)
 	}
 
 	if v1Exists {

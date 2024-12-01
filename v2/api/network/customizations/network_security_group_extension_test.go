@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
@@ -18,7 +18,7 @@ func Test_FuzzySetNetworkSecurityGroupsSecurityRules(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	nsg := &network.NetworkSecurityGroup_Spec_ARM{
+	nsg := &arm.NetworkSecurityGroup_Spec{
 		Location: to.Ptr("westus"),
 		Name:     "my-nsg",
 	}

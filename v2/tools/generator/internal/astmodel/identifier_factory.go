@@ -11,9 +11,10 @@ import (
 	"sync"
 	"unicode"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 // \W is all non-word characters (https://golang.org/pkg/regexp/syntax/)
@@ -293,11 +294,9 @@ func createReservedWords() map[string]string {
 
 // createForbiddenReceiverSuffixes creates a case-sensitive list of words we don't want to use as receiver names
 func createForbiddenReceiverSuffixes() set.Set[string] {
-	// If/when Status or Spec are all capitals, ARM isn't separated as a different word
 	status := strings.TrimPrefix(StatusSuffix, "_")
 	spec := strings.TrimPrefix(SpecSuffix, "_")
-	arm := strings.TrimPrefix(ARMSuffix, "_")
-	return set.Make(status, spec, arm, status+arm, spec+arm)
+	return set.Make(status, spec)
 }
 
 func (factory *identifierFactory) CreateGroupName(group string) string {

@@ -9,8 +9,9 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/jackc/pgx/v5/stdlib" // the pgx lib
 	. "github.com/onsi/gomega"
+
+	_ "github.com/jackc/pgx/v5/stdlib" // the pgx lib
 	v1 "k8s.io/api/core/v1"
 
 	postgresqlv1 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
@@ -381,7 +382,7 @@ func newPostgreSQLServerOpenFirewallRule(tc *testcommon.KubePerTestContext, flex
 	// because there's no data in the database anyway
 	firewallRule := &postgresql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
-		Spec: postgresql.FlexibleServers_FirewallRule_Spec{
+		Spec: postgresql.FlexibleServersFirewallRule_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
 			StartIpAddress: to.Ptr("0.0.0.0"),
 			EndIpAddress:   to.Ptr("255.255.255.255"),

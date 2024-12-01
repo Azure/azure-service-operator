@@ -5,11 +5,15 @@ package v1api20201101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -49,22 +53,36 @@ var _ conversion.Convertible = &NetworkSecurityGroup{}
 
 // ConvertFrom populates our NetworkSecurityGroup from the provided hub NetworkSecurityGroup
 func (group *NetworkSecurityGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NetworkSecurityGroup)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20201101/storage/NetworkSecurityGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NetworkSecurityGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignProperties_From_NetworkSecurityGroup(source)
+	err = group.AssignProperties_From_NetworkSecurityGroup(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NetworkSecurityGroup from our NetworkSecurityGroup
 func (group *NetworkSecurityGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NetworkSecurityGroup)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20201101/storage/NetworkSecurityGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NetworkSecurityGroup
+	err := group.AssignProperties_To_NetworkSecurityGroup(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignProperties_To_NetworkSecurityGroup(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20201101-networksecuritygroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networksecuritygroups,verbs=create;update,versions=v1api20201101,name=default.v1api20201101.networksecuritygroups.network.azure.com,admissionReviewVersions=v1
@@ -90,15 +108,24 @@ func (group *NetworkSecurityGroup) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the NetworkSecurityGroup resource
 func (group *NetworkSecurityGroup) defaultImpl() { group.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &NetworkSecurityGroup{}
+var _ configmaps.Exporter = &NetworkSecurityGroup{}
 
-// InitializeSpec initializes the spec for this resource from the given status
-func (group *NetworkSecurityGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
-		return group.Spec.Initialize_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(s)
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (group *NetworkSecurityGroup) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
 	}
+	return group.Spec.OperatorSpec.ConfigMapExpressions
+}
 
-	return fmt.Errorf("expected Status of type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded but received %T instead", status)
+var _ secrets.Exporter = &NetworkSecurityGroup{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (group *NetworkSecurityGroup) SecretDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &NetworkSecurityGroup{}
@@ -149,6 +176,10 @@ func (group *NetworkSecurityGroup) NewEmptyStatus() genruntime.ConvertibleStatus
 
 // Owner returns the ResourceReference of the owner
 func (group *NetworkSecurityGroup) Owner() *genruntime.ResourceReference {
+	if group.Spec.Owner == nil {
+		return nil
+	}
+
 	ownerGroup, ownerKind := genruntime.LookupOwnerGroupKind(group.Spec)
 	return group.Spec.Owner.AsResourceReference(ownerGroup, ownerKind)
 }
@@ -165,7 +196,7 @@ func (group *NetworkSecurityGroup) SetStatus(status genruntime.ConvertibleStatus
 	var st NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	group.Status = st
@@ -208,7 +239,7 @@ func (group *NetworkSecurityGroup) ValidateUpdate(old runtime.Object) (admission
 
 // createValidations validates the creation of the resource
 func (group *NetworkSecurityGroup) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){group.validateResourceReferences, group.validateOwnerReference}
+	return []func() (admission.Warnings, error){group.validateResourceReferences, group.validateOwnerReference, group.validateSecretDestinations, group.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +257,21 @@ func (group *NetworkSecurityGroup) updateValidations() []func(old runtime.Object
 		func(old runtime.Object) (admission.Warnings, error) {
 			return group.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return group.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return group.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (group *NetworkSecurityGroup) validateConfigMapDestinations() (admission.Warnings, error) {
+	if group.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(group, nil, group.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -241,6 +286,14 @@ func (group *NetworkSecurityGroup) validateResourceReferences() (admission.Warni
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (group *NetworkSecurityGroup) validateSecretDestinations() (admission.Warnings, error) {
+	if group.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(group, nil, group.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -263,7 +316,7 @@ func (group *NetworkSecurityGroup) AssignProperties_From_NetworkSecurityGroup(so
 	var spec NetworkSecurityGroup_Spec
 	err := spec.AssignProperties_From_NetworkSecurityGroup_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroup_Spec() to populate field Spec")
 	}
 	group.Spec = spec
 
@@ -271,7 +324,7 @@ func (group *NetworkSecurityGroup) AssignProperties_From_NetworkSecurityGroup(so
 	var status NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 	err = status.AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded() to populate field Status")
 	}
 	group.Status = status
 
@@ -289,7 +342,7 @@ func (group *NetworkSecurityGroup) AssignProperties_To_NetworkSecurityGroup(dest
 	var spec storage.NetworkSecurityGroup_Spec
 	err := group.Spec.AssignProperties_To_NetworkSecurityGroup_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroup_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -297,7 +350,7 @@ func (group *NetworkSecurityGroup) AssignProperties_To_NetworkSecurityGroup(dest
 	var status storage.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 	err = group.Status.AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded() to populate field Status")
 	}
 	destination.Status = status
 
@@ -332,6 +385,10 @@ type NetworkSecurityGroup_Spec struct {
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *NetworkSecurityGroupOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -349,7 +406,7 @@ func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.Convert
 	if group == nil {
 		return nil, nil
 	}
-	result := &NetworkSecurityGroup_Spec_ARM{}
+	result := &arm.NetworkSecurityGroup_Spec{}
 
 	// Set property "Location":
 	if group.Location != nil {
@@ -374,14 +431,14 @@ func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *NetworkSecurityGroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkSecurityGroup_Spec_ARM{}
+	return &arm.NetworkSecurityGroup_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *NetworkSecurityGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkSecurityGroup_Spec_ARM)
+	typedInput, ok := armInput.(arm.NetworkSecurityGroup_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroup_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkSecurityGroup_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -392,6 +449,8 @@ func (group *NetworkSecurityGroup_Spec) PopulateFromARM(owner genruntime.Arbitra
 		location := *typedInput.Location
 		group.Location = &location
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	group.Owner = &genruntime.KnownResourceReference{
@@ -425,13 +484,13 @@ func (group *NetworkSecurityGroup_Spec) ConvertSpecFrom(source genruntime.Conver
 	src = &storage.NetworkSecurityGroup_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_NetworkSecurityGroup_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -449,13 +508,13 @@ func (group *NetworkSecurityGroup_Spec) ConvertSpecTo(destination genruntime.Con
 	dst = &storage.NetworkSecurityGroup_Spec{}
 	err := group.AssignProperties_To_NetworkSecurityGroup_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -469,6 +528,18 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_From_NetworkSecurityGro
 
 	// Location
 	group.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec NetworkSecurityGroupOperatorSpec
+		err := operatorSpec.AssignProperties_From_NetworkSecurityGroupOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroupOperatorSpec() to populate field OperatorSpec")
+		}
+		group.OperatorSpec = &operatorSpec
+	} else {
+		group.OperatorSpec = nil
+	}
 
 	// Owner
 	if source.Owner != nil {
@@ -496,6 +567,18 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_To_NetworkSecurityGroup
 	// Location
 	destination.Location = genruntime.ClonePointerToString(group.Location)
 
+	// OperatorSpec
+	if group.OperatorSpec != nil {
+		var operatorSpec storage.NetworkSecurityGroupOperatorSpec
+		err := group.OperatorSpec.AssignProperties_To_NetworkSecurityGroupOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroupOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	destination.OriginalVersion = group.OriginalVersion()
 
@@ -516,19 +599,6 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_To_NetworkSecurityGroup
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded populates our NetworkSecurityGroup_Spec from the provided source NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
-func (group *NetworkSecurityGroup_Spec) Initialize_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(source *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error {
-
-	// Location
-	group.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Tags
-	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -598,13 +668,13 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 	src = &storage.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = embedded.AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -622,13 +692,13 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 	dst = &storage.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
 	err := embedded.AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -638,14 +708,14 @@ var _ genruntime.FromARMConverter = &NetworkSecurityGroup_STATUS_NetworkSecurity
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM{}
+	return &arm.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -779,7 +849,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			var defaultSecurityRule SecurityRule_STATUS
 			err := defaultSecurityRule.AssignProperties_From_SecurityRule_STATUS(&defaultSecurityRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SecurityRule_STATUS() to populate field DefaultSecurityRules")
+				return eris.Wrap(err, "calling AssignProperties_From_SecurityRule_STATUS() to populate field DefaultSecurityRules")
 			}
 			defaultSecurityRuleList[defaultSecurityRuleIndex] = defaultSecurityRule
 		}
@@ -800,7 +870,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			var flowLog FlowLog_STATUS
 			err := flowLog.AssignProperties_From_FlowLog_STATUS(&flowLogItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_FlowLog_STATUS() to populate field FlowLogs")
+				return eris.Wrap(err, "calling AssignProperties_From_FlowLog_STATUS() to populate field FlowLogs")
 			}
 			flowLogList[flowLogIndex] = flowLog
 		}
@@ -827,7 +897,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			var networkInterface NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 			err := networkInterface.AssignProperties_From_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&networkInterfaceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded() to populate field NetworkInterfaces")
+				return eris.Wrap(err, "calling AssignProperties_From_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -857,7 +927,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			var subnet Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 			err := subnet.AssignProperties_From_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&subnetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded() to populate field Subnets")
+				return eris.Wrap(err, "calling AssignProperties_From_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded() to populate field Subnets")
 			}
 			subnetList[subnetIndex] = subnet
 		}
@@ -893,7 +963,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			var defaultSecurityRule storage.SecurityRule_STATUS
 			err := defaultSecurityRuleItem.AssignProperties_To_SecurityRule_STATUS(&defaultSecurityRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SecurityRule_STATUS() to populate field DefaultSecurityRules")
+				return eris.Wrap(err, "calling AssignProperties_To_SecurityRule_STATUS() to populate field DefaultSecurityRules")
 			}
 			defaultSecurityRuleList[defaultSecurityRuleIndex] = defaultSecurityRule
 		}
@@ -914,7 +984,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			var flowLog storage.FlowLog_STATUS
 			err := flowLogItem.AssignProperties_To_FlowLog_STATUS(&flowLog)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_FlowLog_STATUS() to populate field FlowLogs")
+				return eris.Wrap(err, "calling AssignProperties_To_FlowLog_STATUS() to populate field FlowLogs")
 			}
 			flowLogList[flowLogIndex] = flowLog
 		}
@@ -941,7 +1011,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			var networkInterface storage.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 			err := networkInterfaceItem.AssignProperties_To_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&networkInterface)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded() to populate field NetworkInterfaces")
+				return eris.Wrap(err, "calling AssignProperties_To_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -970,7 +1040,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 			var subnet storage.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 			err := subnetItem.AssignProperties_To_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&subnet)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded() to populate field Subnets")
+				return eris.Wrap(err, "calling AssignProperties_To_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded() to populate field Subnets")
 			}
 			subnetList[subnetIndex] = subnet
 		}
@@ -1006,14 +1076,14 @@ var _ genruntime.FromARMConverter = &FlowLog_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (flowLog *FlowLog_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlowLog_STATUS_ARM{}
+	return &arm.FlowLog_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (flowLog *FlowLog_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlowLog_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FlowLog_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlowLog_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FlowLog_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1065,14 +1135,14 @@ var _ genruntime.FromARMConverter = &NetworkInterface_STATUS_NetworkSecurityGrou
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM{}
+	return &arm.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1114,6 +1184,110 @@ func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NetworkSecurityGroupOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_NetworkSecurityGroupOperatorSpec populates our NetworkSecurityGroupOperatorSpec from the provided source NetworkSecurityGroupOperatorSpec
+func (operator *NetworkSecurityGroupOperatorSpec) AssignProperties_From_NetworkSecurityGroupOperatorSpec(source *storage.NetworkSecurityGroupOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NetworkSecurityGroupOperatorSpec populates the provided destination NetworkSecurityGroupOperatorSpec from our NetworkSecurityGroupOperatorSpec
+func (operator *NetworkSecurityGroupOperatorSpec) AssignProperties_To_NetworkSecurityGroupOperatorSpec(destination *storage.NetworkSecurityGroupOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Network security rule.
 type SecurityRule_STATUS struct {
 	// Id: Resource ID.
@@ -1124,14 +1298,14 @@ var _ genruntime.FromARMConverter = &SecurityRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *SecurityRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityRule_STATUS_ARM{}
+	return &arm.SecurityRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *SecurityRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SecurityRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1183,14 +1357,14 @@ var _ genruntime.FromARMConverter = &Subnet_STATUS_NetworkSecurityGroup_SubResou
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM{}
+	return &arm.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":

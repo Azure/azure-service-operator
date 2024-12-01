@@ -10,23 +10,23 @@ import (
 	"os"
 	"testing"
 
-	_ "github.com/go-sql-driver/mysql" // sql drive link
 	. "github.com/onsi/gomega"
-	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
-	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
-	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	_ "github.com/go-sql-driver/mysql" // sql drive link
+	"github.com/rotisserie/eris"
 
 	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
 	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	mysqlutil "github.com/Azure/azure-service-operator/v2/internal/util/mysql"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 const (
@@ -89,7 +89,7 @@ func Test_MySQL_AADUser(t *testing.T) {
 
 	admin := &mysql20220101.FlexibleServersAdministrator{
 		ObjectMeta: tc.MakeObjectMeta("aadadmin"),
-		Spec: mysql20220101.FlexibleServers_Administrator_Spec{
+		Spec: mysql20220101.FlexibleServersAdministrator_Spec{
 			Owner:             testcommon.AsOwner(server),
 			AdministratorType: to.Ptr(mysql20220101.AdministratorProperties_AdministratorType_ActiveDirectory),
 			Login:             to.Ptr(identityName),
@@ -406,12 +406,12 @@ func MySQL_AADUserAndGroup_CRUD(
 func readEnv() (string, string, error) {
 	identityName := os.Getenv(AzureManagedIdentityNameVar)
 	if identityName == "" {
-		return "", "", errors.Errorf("required environment variable %q was not supplied", AzureManagedIdentityNameVar)
+		return "", "", eris.Errorf("required environment variable %q was not supplied", AzureManagedIdentityNameVar)
 	}
 
 	identityResourceGroup := os.Getenv(AzureManagedIdentityResourceGroupVar)
 	if identityResourceGroup == "" {
-		return "", "", errors.Errorf("required environment variable %q was not supplied", AzureManagedIdentityResourceGroupVar)
+		return "", "", eris.Errorf("required environment variable %q was not supplied", AzureManagedIdentityResourceGroupVar)
 	}
 
 	return identityName, identityResourceGroup, nil

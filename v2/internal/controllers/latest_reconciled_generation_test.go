@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -52,7 +53,7 @@ func Test_Latest_Reconciled_Generation_Reconciles_AllEvents(t *testing.T) {
 
 	agentPool := &aks.ManagedClustersAgentPool{
 		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),
-		Spec: aks.ManagedClusters_AgentPool_Spec{
+		Spec: aks.ManagedClustersAgentPool_Spec{
 			Owner:               testcommon.AsOwner(cluster),
 			Count:               to.Ptr(1),
 			VmSize:              to.Ptr("Standard_DS2_v2"),

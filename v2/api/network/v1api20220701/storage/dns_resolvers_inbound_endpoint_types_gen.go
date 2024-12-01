@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type DnsResolversInboundEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DnsResolvers_InboundEndpoint_Spec   `json:"spec,omitempty"`
-	Status            DnsResolvers_InboundEndpoint_STATUS `json:"status,omitempty"`
+	Spec              DnsResolversInboundEndpoint_Spec   `json:"spec,omitempty"`
+	Status            DnsResolversInboundEndpoint_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DnsResolversInboundEndpoint{}
@@ -42,6 +45,26 @@ func (endpoint *DnsResolversInboundEndpoint) GetConditions() conditions.Conditio
 // SetConditions sets the conditions on the resource status
 func (endpoint *DnsResolversInboundEndpoint) SetConditions(conditions conditions.Conditions) {
 	endpoint.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &DnsResolversInboundEndpoint{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (endpoint *DnsResolversInboundEndpoint) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if endpoint.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return endpoint.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &DnsResolversInboundEndpoint{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (endpoint *DnsResolversInboundEndpoint) SecretDestinationExpressions() []*core.DestinationExpression {
+	if endpoint.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return endpoint.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &DnsResolversInboundEndpoint{}
@@ -87,11 +110,15 @@ func (endpoint *DnsResolversInboundEndpoint) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (endpoint *DnsResolversInboundEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DnsResolvers_InboundEndpoint_STATUS{}
+	return &DnsResolversInboundEndpoint_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (endpoint *DnsResolversInboundEndpoint) Owner() *genruntime.ResourceReference {
+	if endpoint.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(endpoint.Spec)
 	return endpoint.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (endpoint *DnsResolversInboundEndpoint) Owner() *genruntime.ResourceReferen
 // SetStatus sets the status of this resource
 func (endpoint *DnsResolversInboundEndpoint) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DnsResolvers_InboundEndpoint_STATUS); ok {
+	if st, ok := status.(*DnsResolversInboundEndpoint_STATUS); ok {
 		endpoint.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DnsResolvers_InboundEndpoint_STATUS
+	var st DnsResolversInboundEndpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	endpoint.Status = st
@@ -138,14 +165,15 @@ type DnsResolversInboundEndpointList struct {
 	Items           []DnsResolversInboundEndpoint `json:"items"`
 }
 
-// Storage version of v1api20220701.DnsResolvers_InboundEndpoint_Spec
-type DnsResolvers_InboundEndpoint_Spec struct {
+// Storage version of v1api20220701.DnsResolversInboundEndpoint_Spec
+type DnsResolversInboundEndpoint_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName        string            `json:"azureName,omitempty"`
-	IpConfigurations []IpConfiguration `json:"ipConfigurations,omitempty"`
-	Location         *string           `json:"location,omitempty"`
-	OriginalVersion  string            `json:"originalVersion,omitempty"`
+	AzureName        string                                   `json:"azureName,omitempty"`
+	IpConfigurations []IpConfiguration                        `json:"ipConfigurations,omitempty"`
+	Location         *string                                  `json:"location,omitempty"`
+	OperatorSpec     *DnsResolversInboundEndpointOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion  string                                   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -156,28 +184,28 @@ type DnsResolvers_InboundEndpoint_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DnsResolvers_InboundEndpoint_Spec{}
+var _ genruntime.ConvertibleSpec = &DnsResolversInboundEndpoint_Spec{}
 
-// ConvertSpecFrom populates our DnsResolvers_InboundEndpoint_Spec from the provided source
-func (endpoint *DnsResolvers_InboundEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our DnsResolversInboundEndpoint_Spec from the provided source
+func (endpoint *DnsResolversInboundEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == endpoint {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(endpoint)
 }
 
-// ConvertSpecTo populates the provided destination from our DnsResolvers_InboundEndpoint_Spec
-func (endpoint *DnsResolvers_InboundEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our DnsResolversInboundEndpoint_Spec
+func (endpoint *DnsResolversInboundEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == endpoint {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(endpoint)
 }
 
-// Storage version of v1api20220701.DnsResolvers_InboundEndpoint_STATUS
-type DnsResolvers_InboundEndpoint_STATUS struct {
+// Storage version of v1api20220701.DnsResolversInboundEndpoint_STATUS
+type DnsResolversInboundEndpoint_STATUS struct {
 	Conditions        []conditions.Condition   `json:"conditions,omitempty"`
 	Etag              *string                  `json:"etag,omitempty"`
 	Id                *string                  `json:"id,omitempty"`
@@ -192,42 +220,50 @@ type DnsResolvers_InboundEndpoint_STATUS struct {
 	Type              *string                  `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DnsResolvers_InboundEndpoint_STATUS{}
+var _ genruntime.ConvertibleStatus = &DnsResolversInboundEndpoint_STATUS{}
 
-// ConvertStatusFrom populates our DnsResolvers_InboundEndpoint_STATUS from the provided source
-func (endpoint *DnsResolvers_InboundEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our DnsResolversInboundEndpoint_STATUS from the provided source
+func (endpoint *DnsResolversInboundEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == endpoint {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(endpoint)
 }
 
-// ConvertStatusTo populates the provided destination from our DnsResolvers_InboundEndpoint_STATUS
-func (endpoint *DnsResolvers_InboundEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our DnsResolversInboundEndpoint_STATUS
+func (endpoint *DnsResolversInboundEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == endpoint {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(endpoint)
 }
 
+// Storage version of v1api20220701.DnsResolversInboundEndpointOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DnsResolversInboundEndpointOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
 // Storage version of v1api20220701.IpConfiguration
 // IP configuration.
 type IpConfiguration struct {
-	PrivateIpAddress          *string                 `json:"privateIpAddress,omitempty"`
-	PrivateIpAllocationMethod *string                 `json:"privateIpAllocationMethod,omitempty"`
-	PropertyBag               genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	Subnet                    *DnsresolverSubResource `json:"subnet,omitempty"`
+	PrivateIpAddress          *string                `json:"privateIpAddress,omitempty"`
+	PrivateIpAllocationMethod *string                `json:"privateIpAllocationMethod,omitempty"`
+	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Subnet                    *SubResource           `json:"subnet,omitempty"`
 }
 
 // Storage version of v1api20220701.IpConfiguration_STATUS
 // IP configuration.
 type IpConfiguration_STATUS struct {
-	PrivateIpAddress          *string                        `json:"privateIpAddress,omitempty"`
-	PrivateIpAllocationMethod *string                        `json:"privateIpAllocationMethod,omitempty"`
-	PropertyBag               genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	Subnet                    *DnsresolverSubResource_STATUS `json:"subnet,omitempty"`
+	PrivateIpAddress          *string                `json:"privateIpAddress,omitempty"`
+	PrivateIpAllocationMethod *string                `json:"privateIpAllocationMethod,omitempty"`
+	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Subnet                    *SubResource_STATUS    `json:"subnet,omitempty"`
 }
 
 func init() {

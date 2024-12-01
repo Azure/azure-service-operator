@@ -12,7 +12,10 @@ import (
 	v20240302s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -69,6 +72,26 @@ func (disk *Disk) ConvertTo(hub conversion.Hub) error {
 	return disk.AssignProperties_To_Disk(destination)
 }
 
+var _ configmaps.Exporter = &Disk{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (disk *Disk) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if disk.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return disk.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Disk{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (disk *Disk) SecretDestinationExpressions() []*core.DestinationExpression {
+	if disk.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return disk.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.KubernetesResource = &Disk{}
 
 // AzureName returns the Azure name of the resource
@@ -117,6 +140,10 @@ func (disk *Disk) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (disk *Disk) Owner() *genruntime.ResourceReference {
+	if disk.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(disk.Spec)
 	return disk.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -133,7 +160,7 @@ func (disk *Disk) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Disk_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	disk.Status = st
@@ -150,7 +177,7 @@ func (disk *Disk) AssignProperties_From_Disk(source *v20240302s.Disk) error {
 	var spec Disk_Spec
 	err := spec.AssignProperties_From_Disk_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Disk_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Disk_Spec() to populate field Spec")
 	}
 	disk.Spec = spec
 
@@ -158,7 +185,7 @@ func (disk *Disk) AssignProperties_From_Disk(source *v20240302s.Disk) error {
 	var status Disk_STATUS
 	err = status.AssignProperties_From_Disk_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Disk_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Disk_STATUS() to populate field Status")
 	}
 	disk.Status = status
 
@@ -167,7 +194,7 @@ func (disk *Disk) AssignProperties_From_Disk(source *v20240302s.Disk) error {
 	if augmentedDisk, ok := diskAsAny.(augmentConversionForDisk); ok {
 		err := augmentedDisk.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -185,7 +212,7 @@ func (disk *Disk) AssignProperties_To_Disk(destination *v20240302s.Disk) error {
 	var spec v20240302s.Disk_Spec
 	err := disk.Spec.AssignProperties_To_Disk_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Disk_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Disk_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -193,7 +220,7 @@ func (disk *Disk) AssignProperties_To_Disk(destination *v20240302s.Disk) error {
 	var status v20240302s.Disk_STATUS
 	err = disk.Status.AssignProperties_To_Disk_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Disk_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Disk_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -202,7 +229,7 @@ func (disk *Disk) AssignProperties_To_Disk(destination *v20240302s.Disk) error {
 	if augmentedDisk, ok := diskAsAny.(augmentConversionForDisk); ok {
 		err := augmentedDisk.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -263,6 +290,7 @@ type Disk_Spec struct {
 	Location                     *string                       `json:"location,omitempty"`
 	MaxShares                    *int                          `json:"maxShares,omitempty"`
 	NetworkAccessPolicy          *string                       `json:"networkAccessPolicy,omitempty"`
+	OperatorSpec                 *DiskOperatorSpec             `json:"operatorSpec,omitempty"`
 	OriginalVersion              string                        `json:"originalVersion,omitempty"`
 	OsType                       *string                       `json:"osType,omitempty"`
 
@@ -293,13 +321,13 @@ func (disk *Disk_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error 
 	src = &v20240302s.Disk_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = disk.AssignProperties_From_Disk_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -317,13 +345,13 @@ func (disk *Disk_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) err
 	dst = &v20240302s.Disk_Spec{}
 	err := disk.AssignProperties_To_Disk_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -357,7 +385,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *v20240302s.Disk_S
 		var creationDatum CreationData
 		err := creationDatum.AssignProperties_From_CreationData(source.CreationData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CreationData() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_From_CreationData() to populate field CreationData")
 		}
 		disk.CreationData = &creationDatum
 	} else {
@@ -399,7 +427,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *v20240302s.Disk_S
 		var encryption Encryption
 		err := encryption.AssignProperties_From_Encryption(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Encryption() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_Encryption() to populate field Encryption")
 		}
 		disk.Encryption = &encryption
 	} else {
@@ -411,7 +439,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *v20240302s.Disk_S
 		var encryptionSettingsCollection EncryptionSettingsCollection
 		err := encryptionSettingsCollection.AssignProperties_From_EncryptionSettingsCollection(source.EncryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
 		}
 		disk.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -423,22 +451,22 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *v20240302s.Disk_S
 		var extendedLocationStash v20220301s.ExtendedLocation
 		err := extendedLocationStash.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
 		}
 		var extendedLocationStashLocal v20210701s.ExtendedLocation
 		err = extendedLocationStashLocal.AssignProperties_From_ExtendedLocation(&extendedLocationStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocationStash")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocationStash")
 		}
 		var extendedLocationStashCopy v20201201s.ExtendedLocation
 		err = extendedLocationStashCopy.AssignProperties_From_ExtendedLocation(&extendedLocationStashLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocationStash")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocationStash")
 		}
 		var extendedLocation ExtendedLocation
 		err = extendedLocation.AssignProperties_From_ExtendedLocation(&extendedLocationStashCopy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation from ExtendedLocationStash")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation from ExtendedLocationStash")
 		}
 		disk.ExtendedLocation = &extendedLocation
 	} else {
@@ -456,6 +484,18 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *v20240302s.Disk_S
 
 	// NetworkAccessPolicy
 	disk.NetworkAccessPolicy = genruntime.ClonePointerToString(source.NetworkAccessPolicy)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DiskOperatorSpec
+		err := operatorSpec.AssignProperties_From_DiskOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DiskOperatorSpec() to populate field OperatorSpec")
+		}
+		disk.OperatorSpec = &operatorSpec
+	} else {
+		disk.OperatorSpec = nil
+	}
 
 	// OptimizedForFrequentAttach
 	if source.OptimizedForFrequentAttach != nil {
@@ -490,7 +530,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *v20240302s.Disk_S
 		var purchasePlan PurchasePlan
 		err := purchasePlan.AssignProperties_From_PurchasePlan(source.PurchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PurchasePlan() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_From_PurchasePlan() to populate field PurchasePlan")
 		}
 		disk.PurchasePlan = &purchasePlan
 	} else {
@@ -509,7 +549,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *v20240302s.Disk_S
 		var sku DiskSku
 		err := sku.AssignProperties_From_DiskSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskSku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskSku() to populate field Sku")
 		}
 		disk.Sku = &sku
 	} else {
@@ -551,7 +591,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *v20240302s.Disk_S
 	if augmentedDisk, ok := diskAsAny.(augmentConversionForDisk_Spec); ok {
 		err := augmentedDisk.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -580,7 +620,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 		var completionPercent float64
 		err := propertyBag.Pull("CompletionPercent", &completionPercent)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'CompletionPercent' from propertyBag")
+			return eris.Wrap(err, "pulling 'CompletionPercent' from propertyBag")
 		}
 
 		destination.CompletionPercent = &completionPercent
@@ -593,7 +633,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 		var creationDatum v20240302s.CreationData
 		err := disk.CreationData.AssignProperties_To_CreationData(&creationDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CreationData() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_To_CreationData() to populate field CreationData")
 		}
 		destination.CreationData = &creationDatum
 	} else {
@@ -605,7 +645,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 		var dataAccessAuthMode string
 		err := propertyBag.Pull("DataAccessAuthMode", &dataAccessAuthMode)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'DataAccessAuthMode' from propertyBag")
+			return eris.Wrap(err, "pulling 'DataAccessAuthMode' from propertyBag")
 		}
 
 		destination.DataAccessAuthMode = &dataAccessAuthMode
@@ -641,7 +681,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 		var encryption v20240302s.Encryption
 		err := disk.Encryption.AssignProperties_To_Encryption(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Encryption() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_Encryption() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -653,7 +693,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 		var encryptionSettingsCollection v20240302s.EncryptionSettingsCollection
 		err := disk.EncryptionSettingsCollection.AssignProperties_To_EncryptionSettingsCollection(&encryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
 		}
 		destination.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -665,22 +705,22 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 		var extendedLocationStash v20201201s.ExtendedLocation
 		err := disk.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocationStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
 		}
 		var extendedLocationStashLocal v20210701s.ExtendedLocation
 		err = extendedLocationStash.AssignProperties_To_ExtendedLocation(&extendedLocationStashLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocationStash")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocationStash")
 		}
 		var extendedLocationStashCopy v20220301s.ExtendedLocation
 		err = extendedLocationStashLocal.AssignProperties_To_ExtendedLocation(&extendedLocationStashCopy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocationStash")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocationStash")
 		}
 		var extendedLocation v20240302s.ExtendedLocation
 		err = extendedLocationStashCopy.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation from ExtendedLocationStash")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation from ExtendedLocationStash")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -699,12 +739,24 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 	// NetworkAccessPolicy
 	destination.NetworkAccessPolicy = genruntime.ClonePointerToString(disk.NetworkAccessPolicy)
 
+	// OperatorSpec
+	if disk.OperatorSpec != nil {
+		var operatorSpec v20240302s.DiskOperatorSpec
+		err := disk.OperatorSpec.AssignProperties_To_DiskOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DiskOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// OptimizedForFrequentAttach
 	if propertyBag.Contains("OptimizedForFrequentAttach") {
 		var optimizedForFrequentAttach bool
 		err := propertyBag.Pull("OptimizedForFrequentAttach", &optimizedForFrequentAttach)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'OptimizedForFrequentAttach' from propertyBag")
+			return eris.Wrap(err, "pulling 'OptimizedForFrequentAttach' from propertyBag")
 		}
 
 		destination.OptimizedForFrequentAttach = &optimizedForFrequentAttach
@@ -731,7 +783,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 		var publicNetworkAccess string
 		err := propertyBag.Pull("PublicNetworkAccess", &publicNetworkAccess)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
+			return eris.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
 		}
 
 		destination.PublicNetworkAccess = &publicNetworkAccess
@@ -744,7 +796,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 		var purchasePlan v20240302s.PurchasePlan
 		err := disk.PurchasePlan.AssignProperties_To_PurchasePlan(&purchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PurchasePlan() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_To_PurchasePlan() to populate field PurchasePlan")
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
@@ -756,7 +808,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 		var securityProfile v20240302s.DiskSecurityProfile
 		err := propertyBag.Pull("SecurityProfile", &securityProfile)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'SecurityProfile' from propertyBag")
+			return eris.Wrap(err, "pulling 'SecurityProfile' from propertyBag")
 		}
 
 		destination.SecurityProfile = &securityProfile
@@ -769,7 +821,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 		var sku v20240302s.DiskSku
 		err := disk.Sku.AssignProperties_To_DiskSku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskSku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskSku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -781,7 +833,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 		var supportedCapability v20240302s.SupportedCapabilities
 		err := propertyBag.Pull("SupportedCapabilities", &supportedCapability)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'SupportedCapabilities' from propertyBag")
+			return eris.Wrap(err, "pulling 'SupportedCapabilities' from propertyBag")
 		}
 
 		destination.SupportedCapabilities = &supportedCapability
@@ -794,7 +846,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 		var supportsHibernation bool
 		err := propertyBag.Pull("SupportsHibernation", &supportsHibernation)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'SupportsHibernation' from propertyBag")
+			return eris.Wrap(err, "pulling 'SupportsHibernation' from propertyBag")
 		}
 
 		destination.SupportsHibernation = &supportsHibernation
@@ -823,7 +875,7 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 	if augmentedDisk, ok := diskAsAny.(augmentConversionForDisk_Spec); ok {
 		err := augmentedDisk.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -884,13 +936,13 @@ func (disk *Disk_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) 
 	src = &v20240302s.Disk_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = disk.AssignProperties_From_Disk_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -908,13 +960,13 @@ func (disk *Disk_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatu
 	dst = &v20240302s.Disk_STATUS{}
 	err := disk.AssignProperties_To_Disk_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -955,7 +1007,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *v20240302s.Di
 		var creationDatum CreationData_STATUS
 		err := creationDatum.AssignProperties_From_CreationData_STATUS(source.CreationData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CreationData_STATUS() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_From_CreationData_STATUS() to populate field CreationData")
 		}
 		disk.CreationData = &creationDatum
 	} else {
@@ -998,7 +1050,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *v20240302s.Di
 		var encryption Encryption_STATUS
 		err := encryption.AssignProperties_From_Encryption_STATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Encryption_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_Encryption_STATUS() to populate field Encryption")
 		}
 		disk.Encryption = &encryption
 	} else {
@@ -1010,7 +1062,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *v20240302s.Di
 		var encryptionSettingsCollection EncryptionSettingsCollection_STATUS
 		err := encryptionSettingsCollection.AssignProperties_From_EncryptionSettingsCollection_STATUS(source.EncryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
 		}
 		disk.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -1022,22 +1074,22 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *v20240302s.Di
 		var extendedLocationSTATUSStash v20220301s.ExtendedLocation_STATUS
 		err := extendedLocationSTATUSStash.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
 		}
 		var extendedLocationSTATUSStashLocal v20210701s.ExtendedLocation_STATUS
 		err = extendedLocationSTATUSStashLocal.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocationSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
 		}
 		var extendedLocationSTATUSStashCopy v20201201s.ExtendedLocation_STATUS
 		err = extendedLocationSTATUSStashCopy.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocationSTATUSStashLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
 		}
 		var extendedLocation ExtendedLocation_STATUS
 		err = extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocationSTATUSStashCopy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
 		}
 		disk.ExtendedLocation = &extendedLocation
 	} else {
@@ -1107,7 +1159,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *v20240302s.Di
 		var purchasePlan PurchasePlan_STATUS
 		err := purchasePlan.AssignProperties_From_PurchasePlan_STATUS(source.PurchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PurchasePlan_STATUS() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_From_PurchasePlan_STATUS() to populate field PurchasePlan")
 		}
 		disk.PurchasePlan = &purchasePlan
 	} else {
@@ -1130,7 +1182,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *v20240302s.Di
 			var shareInfo ShareInfoElement_STATUS
 			err := shareInfo.AssignProperties_From_ShareInfoElement_STATUS(&shareInfoItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ShareInfoElement_STATUS() to populate field ShareInfo")
+				return eris.Wrap(err, "calling AssignProperties_From_ShareInfoElement_STATUS() to populate field ShareInfo")
 			}
 			shareInfoList[shareInfoIndex] = shareInfo
 		}
@@ -1144,7 +1196,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *v20240302s.Di
 		var sku DiskSku_STATUS
 		err := sku.AssignProperties_From_DiskSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskSku_STATUS() to populate field Sku")
 		}
 		disk.Sku = &sku
 	} else {
@@ -1195,7 +1247,7 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *v20240302s.Di
 	if augmentedDisk, ok := diskAsAny.(augmentConversionForDisk_STATUS); ok {
 		err := augmentedDisk.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1221,7 +1273,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var burstingEnabledTime string
 		err := propertyBag.Pull("BurstingEnabledTime", &burstingEnabledTime)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'BurstingEnabledTime' from propertyBag")
+			return eris.Wrap(err, "pulling 'BurstingEnabledTime' from propertyBag")
 		}
 
 		destination.BurstingEnabledTime = &burstingEnabledTime
@@ -1234,7 +1286,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var completionPercent float64
 		err := propertyBag.Pull("CompletionPercent", &completionPercent)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'CompletionPercent' from propertyBag")
+			return eris.Wrap(err, "pulling 'CompletionPercent' from propertyBag")
 		}
 
 		destination.CompletionPercent = &completionPercent
@@ -1250,7 +1302,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var creationDatum v20240302s.CreationData_STATUS
 		err := disk.CreationData.AssignProperties_To_CreationData_STATUS(&creationDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CreationData_STATUS() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_To_CreationData_STATUS() to populate field CreationData")
 		}
 		destination.CreationData = &creationDatum
 	} else {
@@ -1262,7 +1314,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var dataAccessAuthMode string
 		err := propertyBag.Pull("DataAccessAuthMode", &dataAccessAuthMode)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'DataAccessAuthMode' from propertyBag")
+			return eris.Wrap(err, "pulling 'DataAccessAuthMode' from propertyBag")
 		}
 
 		destination.DataAccessAuthMode = &dataAccessAuthMode
@@ -1299,7 +1351,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var encryption v20240302s.Encryption_STATUS
 		err := disk.Encryption.AssignProperties_To_Encryption_STATUS(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Encryption_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_Encryption_STATUS() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1311,7 +1363,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var encryptionSettingsCollection v20240302s.EncryptionSettingsCollection_STATUS
 		err := disk.EncryptionSettingsCollection.AssignProperties_To_EncryptionSettingsCollection_STATUS(&encryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
 		}
 		destination.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -1323,22 +1375,22 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var extendedLocationSTATUSStash v20201201s.ExtendedLocation_STATUS
 		err := disk.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocationSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
 		}
 		var extendedLocationSTATUSStashLocal v20210701s.ExtendedLocation_STATUS
 		err = extendedLocationSTATUSStash.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocationSTATUSStashLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
 		}
 		var extendedLocationSTATUSStashCopy v20220301s.ExtendedLocation_STATUS
 		err = extendedLocationSTATUSStashLocal.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocationSTATUSStashCopy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
 		}
 		var extendedLocation v20240302s.ExtendedLocation_STATUS
 		err = extendedLocationSTATUSStashCopy.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1356,7 +1408,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var lastOwnershipUpdateTime string
 		err := propertyBag.Pull("LastOwnershipUpdateTime", &lastOwnershipUpdateTime)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'LastOwnershipUpdateTime' from propertyBag")
+			return eris.Wrap(err, "pulling 'LastOwnershipUpdateTime' from propertyBag")
 		}
 
 		destination.LastOwnershipUpdateTime = &lastOwnershipUpdateTime
@@ -1387,7 +1439,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var optimizedForFrequentAttach bool
 		err := propertyBag.Pull("OptimizedForFrequentAttach", &optimizedForFrequentAttach)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'OptimizedForFrequentAttach' from propertyBag")
+			return eris.Wrap(err, "pulling 'OptimizedForFrequentAttach' from propertyBag")
 		}
 
 		destination.OptimizedForFrequentAttach = &optimizedForFrequentAttach
@@ -1403,7 +1455,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var propertyUpdatesInProgress v20240302s.PropertyUpdatesInProgress_STATUS
 		err := propertyBag.Pull("PropertyUpdatesInProgress", &propertyUpdatesInProgress)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'PropertyUpdatesInProgress' from propertyBag")
+			return eris.Wrap(err, "pulling 'PropertyUpdatesInProgress' from propertyBag")
 		}
 
 		destination.PropertyUpdatesInProgress = &propertyUpdatesInProgress
@@ -1419,7 +1471,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var publicNetworkAccess string
 		err := propertyBag.Pull("PublicNetworkAccess", &publicNetworkAccess)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
+			return eris.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
 		}
 
 		destination.PublicNetworkAccess = &publicNetworkAccess
@@ -1432,7 +1484,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var purchasePlan v20240302s.PurchasePlan_STATUS
 		err := disk.PurchasePlan.AssignProperties_To_PurchasePlan_STATUS(&purchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PurchasePlan_STATUS() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_To_PurchasePlan_STATUS() to populate field PurchasePlan")
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
@@ -1444,7 +1496,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var securityProfile v20240302s.DiskSecurityProfile_STATUS
 		err := propertyBag.Pull("SecurityProfile", &securityProfile)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'SecurityProfile' from propertyBag")
+			return eris.Wrap(err, "pulling 'SecurityProfile' from propertyBag")
 		}
 
 		destination.SecurityProfile = &securityProfile
@@ -1461,7 +1513,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 			var shareInfo v20240302s.ShareInfoElement_STATUS
 			err := shareInfoItem.AssignProperties_To_ShareInfoElement_STATUS(&shareInfo)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ShareInfoElement_STATUS() to populate field ShareInfo")
+				return eris.Wrap(err, "calling AssignProperties_To_ShareInfoElement_STATUS() to populate field ShareInfo")
 			}
 			shareInfoList[shareInfoIndex] = shareInfo
 		}
@@ -1475,7 +1527,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var sku v20240302s.DiskSku_STATUS
 		err := disk.Sku.AssignProperties_To_DiskSku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskSku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1487,7 +1539,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var supportedCapability v20240302s.SupportedCapabilities_STATUS
 		err := propertyBag.Pull("SupportedCapabilities", &supportedCapability)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'SupportedCapabilities' from propertyBag")
+			return eris.Wrap(err, "pulling 'SupportedCapabilities' from propertyBag")
 		}
 
 		destination.SupportedCapabilities = &supportedCapability
@@ -1500,7 +1552,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 		var supportsHibernation bool
 		err := propertyBag.Pull("SupportsHibernation", &supportsHibernation)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'SupportsHibernation' from propertyBag")
+			return eris.Wrap(err, "pulling 'SupportsHibernation' from propertyBag")
 		}
 
 		destination.SupportsHibernation = &supportsHibernation
@@ -1538,7 +1590,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20240302s
 	if augmentedDisk, ok := diskAsAny.(augmentConversionForDisk_STATUS); ok {
 		err := augmentedDisk.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1592,7 +1644,7 @@ func (data *CreationData) AssignProperties_From_CreationData(source *v20240302s.
 		var galleryImageReference ImageDiskReference
 		err := galleryImageReference.AssignProperties_From_ImageDiskReference(source.GalleryImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ImageDiskReference() to populate field GalleryImageReference")
+			return eris.Wrap(err, "calling AssignProperties_From_ImageDiskReference() to populate field GalleryImageReference")
 		}
 		data.GalleryImageReference = &galleryImageReference
 	} else {
@@ -1604,7 +1656,7 @@ func (data *CreationData) AssignProperties_From_CreationData(source *v20240302s.
 		var imageReference ImageDiskReference
 		err := imageReference.AssignProperties_From_ImageDiskReference(source.ImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ImageDiskReference() to populate field ImageReference")
+			return eris.Wrap(err, "calling AssignProperties_From_ImageDiskReference() to populate field ImageReference")
 		}
 		data.ImageReference = &imageReference
 	} else {
@@ -1664,7 +1716,7 @@ func (data *CreationData) AssignProperties_From_CreationData(source *v20240302s.
 	if augmentedData, ok := dataAsAny.(augmentConversionForCreationData); ok {
 		err := augmentedData.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1685,7 +1737,7 @@ func (data *CreationData) AssignProperties_To_CreationData(destination *v2024030
 		var elasticSanResourceReference genruntime.ResourceReference
 		err := propertyBag.Pull("ElasticSanResourceReference", &elasticSanResourceReference)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'ElasticSanResourceReference' from propertyBag")
+			return eris.Wrap(err, "pulling 'ElasticSanResourceReference' from propertyBag")
 		}
 
 		destination.ElasticSanResourceReference = &elasticSanResourceReference
@@ -1698,7 +1750,7 @@ func (data *CreationData) AssignProperties_To_CreationData(destination *v2024030
 		var galleryImageReference v20240302s.ImageDiskReference
 		err := data.GalleryImageReference.AssignProperties_To_ImageDiskReference(&galleryImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ImageDiskReference() to populate field GalleryImageReference")
+			return eris.Wrap(err, "calling AssignProperties_To_ImageDiskReference() to populate field GalleryImageReference")
 		}
 		destination.GalleryImageReference = &galleryImageReference
 	} else {
@@ -1710,7 +1762,7 @@ func (data *CreationData) AssignProperties_To_CreationData(destination *v2024030
 		var imageReference v20240302s.ImageDiskReference
 		err := data.ImageReference.AssignProperties_To_ImageDiskReference(&imageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ImageDiskReference() to populate field ImageReference")
+			return eris.Wrap(err, "calling AssignProperties_To_ImageDiskReference() to populate field ImageReference")
 		}
 		destination.ImageReference = &imageReference
 	} else {
@@ -1725,7 +1777,7 @@ func (data *CreationData) AssignProperties_To_CreationData(destination *v2024030
 		var performancePlus bool
 		err := propertyBag.Pull("PerformancePlus", &performancePlus)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'PerformancePlus' from propertyBag")
+			return eris.Wrap(err, "pulling 'PerformancePlus' from propertyBag")
 		}
 
 		destination.PerformancePlus = &performancePlus
@@ -1738,7 +1790,7 @@ func (data *CreationData) AssignProperties_To_CreationData(destination *v2024030
 		var provisionedBandwidthCopySpeed string
 		err := propertyBag.Pull("ProvisionedBandwidthCopySpeed", &provisionedBandwidthCopySpeed)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'ProvisionedBandwidthCopySpeed' from propertyBag")
+			return eris.Wrap(err, "pulling 'ProvisionedBandwidthCopySpeed' from propertyBag")
 		}
 
 		destination.ProvisionedBandwidthCopySpeed = &provisionedBandwidthCopySpeed
@@ -1751,7 +1803,7 @@ func (data *CreationData) AssignProperties_To_CreationData(destination *v2024030
 		var securityDataUri string
 		err := propertyBag.Pull("SecurityDataUri", &securityDataUri)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'SecurityDataUri' from propertyBag")
+			return eris.Wrap(err, "pulling 'SecurityDataUri' from propertyBag")
 		}
 
 		destination.SecurityDataUri = &securityDataUri
@@ -1788,7 +1840,7 @@ func (data *CreationData) AssignProperties_To_CreationData(destination *v2024030
 	if augmentedData, ok := dataAsAny.(augmentConversionForCreationData); ok {
 		err := augmentedData.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1831,7 +1883,7 @@ func (data *CreationData_STATUS) AssignProperties_From_CreationData_STATUS(sourc
 		var galleryImageReference ImageDiskReference_STATUS
 		err := galleryImageReference.AssignProperties_From_ImageDiskReference_STATUS(source.GalleryImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ImageDiskReference_STATUS() to populate field GalleryImageReference")
+			return eris.Wrap(err, "calling AssignProperties_From_ImageDiskReference_STATUS() to populate field GalleryImageReference")
 		}
 		data.GalleryImageReference = &galleryImageReference
 	} else {
@@ -1843,7 +1895,7 @@ func (data *CreationData_STATUS) AssignProperties_From_CreationData_STATUS(sourc
 		var imageReference ImageDiskReference_STATUS
 		err := imageReference.AssignProperties_From_ImageDiskReference_STATUS(source.ImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ImageDiskReference_STATUS() to populate field ImageReference")
+			return eris.Wrap(err, "calling AssignProperties_From_ImageDiskReference_STATUS() to populate field ImageReference")
 		}
 		data.ImageReference = &imageReference
 	} else {
@@ -1901,7 +1953,7 @@ func (data *CreationData_STATUS) AssignProperties_From_CreationData_STATUS(sourc
 	if augmentedData, ok := dataAsAny.(augmentConversionForCreationData_STATUS); ok {
 		err := augmentedData.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1922,7 +1974,7 @@ func (data *CreationData_STATUS) AssignProperties_To_CreationData_STATUS(destina
 		var elasticSanResourceId string
 		err := propertyBag.Pull("ElasticSanResourceId", &elasticSanResourceId)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'ElasticSanResourceId' from propertyBag")
+			return eris.Wrap(err, "pulling 'ElasticSanResourceId' from propertyBag")
 		}
 
 		destination.ElasticSanResourceId = &elasticSanResourceId
@@ -1935,7 +1987,7 @@ func (data *CreationData_STATUS) AssignProperties_To_CreationData_STATUS(destina
 		var galleryImageReference v20240302s.ImageDiskReference_STATUS
 		err := data.GalleryImageReference.AssignProperties_To_ImageDiskReference_STATUS(&galleryImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ImageDiskReference_STATUS() to populate field GalleryImageReference")
+			return eris.Wrap(err, "calling AssignProperties_To_ImageDiskReference_STATUS() to populate field GalleryImageReference")
 		}
 		destination.GalleryImageReference = &galleryImageReference
 	} else {
@@ -1947,7 +1999,7 @@ func (data *CreationData_STATUS) AssignProperties_To_CreationData_STATUS(destina
 		var imageReference v20240302s.ImageDiskReference_STATUS
 		err := data.ImageReference.AssignProperties_To_ImageDiskReference_STATUS(&imageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ImageDiskReference_STATUS() to populate field ImageReference")
+			return eris.Wrap(err, "calling AssignProperties_To_ImageDiskReference_STATUS() to populate field ImageReference")
 		}
 		destination.ImageReference = &imageReference
 	} else {
@@ -1962,7 +2014,7 @@ func (data *CreationData_STATUS) AssignProperties_To_CreationData_STATUS(destina
 		var performancePlus bool
 		err := propertyBag.Pull("PerformancePlus", &performancePlus)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'PerformancePlus' from propertyBag")
+			return eris.Wrap(err, "pulling 'PerformancePlus' from propertyBag")
 		}
 
 		destination.PerformancePlus = &performancePlus
@@ -1975,7 +2027,7 @@ func (data *CreationData_STATUS) AssignProperties_To_CreationData_STATUS(destina
 		var provisionedBandwidthCopySpeed string
 		err := propertyBag.Pull("ProvisionedBandwidthCopySpeed", &provisionedBandwidthCopySpeed)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'ProvisionedBandwidthCopySpeed' from propertyBag")
+			return eris.Wrap(err, "pulling 'ProvisionedBandwidthCopySpeed' from propertyBag")
 		}
 
 		destination.ProvisionedBandwidthCopySpeed = &provisionedBandwidthCopySpeed
@@ -1988,7 +2040,7 @@ func (data *CreationData_STATUS) AssignProperties_To_CreationData_STATUS(destina
 		var securityDataUri string
 		err := propertyBag.Pull("SecurityDataUri", &securityDataUri)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'SecurityDataUri' from propertyBag")
+			return eris.Wrap(err, "pulling 'SecurityDataUri' from propertyBag")
 		}
 
 		destination.SecurityDataUri = &securityDataUri
@@ -2023,7 +2075,137 @@ func (data *CreationData_STATUS) AssignProperties_To_CreationData_STATUS(destina
 	if augmentedData, ok := dataAsAny.(augmentConversionForCreationData_STATUS); ok {
 		err := augmentedData.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1api20200930.DiskOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DiskOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_DiskOperatorSpec populates our DiskOperatorSpec from the provided source DiskOperatorSpec
+func (operator *DiskOperatorSpec) AssignProperties_From_DiskOperatorSpec(source *v20240302s.DiskOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDiskOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForDiskOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DiskOperatorSpec populates the provided destination DiskOperatorSpec from our DiskOperatorSpec
+func (operator *DiskOperatorSpec) AssignProperties_To_DiskOperatorSpec(destination *v20240302s.DiskOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDiskOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForDiskOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2058,7 +2240,7 @@ func (diskSku *DiskSku) AssignProperties_From_DiskSku(source *v20240302s.DiskSku
 	if augmentedDiskSku, ok := diskSkuAsAny.(augmentConversionForDiskSku); ok {
 		err := augmentedDiskSku.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2086,7 +2268,7 @@ func (diskSku *DiskSku) AssignProperties_To_DiskSku(destination *v20240302s.Disk
 	if augmentedDiskSku, ok := diskSkuAsAny.(augmentConversionForDiskSku); ok {
 		err := augmentedDiskSku.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2125,7 +2307,7 @@ func (diskSku *DiskSku_STATUS) AssignProperties_From_DiskSku_STATUS(source *v202
 	if augmentedDiskSku, ok := diskSkuAsAny.(augmentConversionForDiskSku_STATUS); ok {
 		err := augmentedDiskSku.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2156,7 +2338,7 @@ func (diskSku *DiskSku_STATUS) AssignProperties_To_DiskSku_STATUS(destination *v
 	if augmentedDiskSku, ok := diskSkuAsAny.(augmentConversionForDiskSku_STATUS); ok {
 		err := augmentedDiskSku.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2201,7 +2383,7 @@ func (encryption *Encryption) AssignProperties_From_Encryption(source *v20240302
 	if augmentedEncryption, ok := encryptionAsAny.(augmentConversionForEncryption); ok {
 		err := augmentedEncryption.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2237,7 +2419,7 @@ func (encryption *Encryption) AssignProperties_To_Encryption(destination *v20240
 	if augmentedEncryption, ok := encryptionAsAny.(augmentConversionForEncryption); ok {
 		err := augmentedEncryption.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2276,7 +2458,7 @@ func (encryption *Encryption_STATUS) AssignProperties_From_Encryption_STATUS(sou
 	if augmentedEncryption, ok := encryptionAsAny.(augmentConversionForEncryption_STATUS); ok {
 		err := augmentedEncryption.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2307,7 +2489,7 @@ func (encryption *Encryption_STATUS) AssignProperties_To_Encryption_STATUS(desti
 	if augmentedEncryption, ok := encryptionAsAny.(augmentConversionForEncryption_STATUS); ok {
 		err := augmentedEncryption.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2346,7 +2528,7 @@ func (collection *EncryptionSettingsCollection) AssignProperties_From_Encryption
 			var encryptionSetting EncryptionSettingsElement
 			err := encryptionSetting.AssignProperties_From_EncryptionSettingsElement(&encryptionSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EncryptionSettingsElement() to populate field EncryptionSettings")
+				return eris.Wrap(err, "calling AssignProperties_From_EncryptionSettingsElement() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -2370,7 +2552,7 @@ func (collection *EncryptionSettingsCollection) AssignProperties_From_Encryption
 	if augmentedCollection, ok := collectionAsAny.(augmentConversionForEncryptionSettingsCollection); ok {
 		err := augmentedCollection.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2400,7 +2582,7 @@ func (collection *EncryptionSettingsCollection) AssignProperties_To_EncryptionSe
 			var encryptionSetting v20240302s.EncryptionSettingsElement
 			err := encryptionSettingItem.AssignProperties_To_EncryptionSettingsElement(&encryptionSetting)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EncryptionSettingsElement() to populate field EncryptionSettings")
+				return eris.Wrap(err, "calling AssignProperties_To_EncryptionSettingsElement() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -2424,7 +2606,7 @@ func (collection *EncryptionSettingsCollection) AssignProperties_To_EncryptionSe
 	if augmentedCollection, ok := collectionAsAny.(augmentConversionForEncryptionSettingsCollection); ok {
 		err := augmentedCollection.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2463,7 +2645,7 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignProperties_From_Enc
 			var encryptionSetting EncryptionSettingsElement_STATUS
 			err := encryptionSetting.AssignProperties_From_EncryptionSettingsElement_STATUS(&encryptionSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EncryptionSettingsElement_STATUS() to populate field EncryptionSettings")
+				return eris.Wrap(err, "calling AssignProperties_From_EncryptionSettingsElement_STATUS() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -2487,7 +2669,7 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignProperties_From_Enc
 	if augmentedCollection, ok := collectionAsAny.(augmentConversionForEncryptionSettingsCollection_STATUS); ok {
 		err := augmentedCollection.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2517,7 +2699,7 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignProperties_To_Encry
 			var encryptionSetting v20240302s.EncryptionSettingsElement_STATUS
 			err := encryptionSettingItem.AssignProperties_To_EncryptionSettingsElement_STATUS(&encryptionSetting)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EncryptionSettingsElement_STATUS() to populate field EncryptionSettings")
+				return eris.Wrap(err, "calling AssignProperties_To_EncryptionSettingsElement_STATUS() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -2541,7 +2723,7 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignProperties_To_Encry
 	if augmentedCollection, ok := collectionAsAny.(augmentConversionForEncryptionSettingsCollection_STATUS); ok {
 		err := augmentedCollection.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2580,7 +2762,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation); ok {
 		err := augmentedLocation.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2611,7 +2793,7 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation); ok {
 		err := augmentedLocation.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2650,7 +2832,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation_STATUS); ok {
 		err := augmentedLocation.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2681,7 +2863,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation_STATUS); ok {
 		err := augmentedLocation.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2728,7 +2910,7 @@ func (plan *PurchasePlan) AssignProperties_From_PurchasePlan(source *v20240302s.
 	if augmentedPlan, ok := planAsAny.(augmentConversionForPurchasePlan); ok {
 		err := augmentedPlan.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2765,7 +2947,7 @@ func (plan *PurchasePlan) AssignProperties_To_PurchasePlan(destination *v2024030
 	if augmentedPlan, ok := planAsAny.(augmentConversionForPurchasePlan); ok {
 		err := augmentedPlan.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2812,7 +2994,7 @@ func (plan *PurchasePlan_STATUS) AssignProperties_From_PurchasePlan_STATUS(sourc
 	if augmentedPlan, ok := planAsAny.(augmentConversionForPurchasePlan_STATUS); ok {
 		err := augmentedPlan.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2849,7 +3031,7 @@ func (plan *PurchasePlan_STATUS) AssignProperties_To_PurchasePlan_STATUS(destina
 	if augmentedPlan, ok := planAsAny.(augmentConversionForPurchasePlan_STATUS); ok {
 		err := augmentedPlan.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2883,7 +3065,7 @@ func (element *ShareInfoElement_STATUS) AssignProperties_From_ShareInfoElement_S
 	if augmentedElement, ok := elementAsAny.(augmentConversionForShareInfoElement_STATUS); ok {
 		err := augmentedElement.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2911,7 +3093,7 @@ func (element *ShareInfoElement_STATUS) AssignProperties_To_ShareInfoElement_STA
 	if augmentedElement, ok := elementAsAny.(augmentConversionForShareInfoElement_STATUS); ok {
 		err := augmentedElement.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2927,6 +3109,11 @@ type augmentConversionForCreationData interface {
 type augmentConversionForCreationData_STATUS interface {
 	AssignPropertiesFrom(src *v20240302s.CreationData_STATUS) error
 	AssignPropertiesTo(dst *v20240302s.CreationData_STATUS) error
+}
+
+type augmentConversionForDiskOperatorSpec interface {
+	AssignPropertiesFrom(src *v20240302s.DiskOperatorSpec) error
+	AssignPropertiesTo(dst *v20240302s.DiskOperatorSpec) error
 }
 
 type augmentConversionForDiskSku interface {
@@ -3002,7 +3189,7 @@ func (element *EncryptionSettingsElement) AssignProperties_From_EncryptionSettin
 		var diskEncryptionKey KeyVaultAndSecretReference
 		err := diskEncryptionKey.AssignProperties_From_KeyVaultAndSecretReference(source.DiskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultAndSecretReference() to populate field DiskEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultAndSecretReference() to populate field DiskEncryptionKey")
 		}
 		element.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -3014,7 +3201,7 @@ func (element *EncryptionSettingsElement) AssignProperties_From_EncryptionSettin
 		var keyEncryptionKey KeyVaultAndKeyReference
 		err := keyEncryptionKey.AssignProperties_From_KeyVaultAndKeyReference(source.KeyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultAndKeyReference() to populate field KeyEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultAndKeyReference() to populate field KeyEncryptionKey")
 		}
 		element.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -3033,7 +3220,7 @@ func (element *EncryptionSettingsElement) AssignProperties_From_EncryptionSettin
 	if augmentedElement, ok := elementAsAny.(augmentConversionForEncryptionSettingsElement); ok {
 		err := augmentedElement.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3051,7 +3238,7 @@ func (element *EncryptionSettingsElement) AssignProperties_To_EncryptionSettings
 		var diskEncryptionKey v20240302s.KeyVaultAndSecretReference
 		err := element.DiskEncryptionKey.AssignProperties_To_KeyVaultAndSecretReference(&diskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultAndSecretReference() to populate field DiskEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultAndSecretReference() to populate field DiskEncryptionKey")
 		}
 		destination.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -3063,7 +3250,7 @@ func (element *EncryptionSettingsElement) AssignProperties_To_EncryptionSettings
 		var keyEncryptionKey v20240302s.KeyVaultAndKeyReference
 		err := element.KeyEncryptionKey.AssignProperties_To_KeyVaultAndKeyReference(&keyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultAndKeyReference() to populate field KeyEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultAndKeyReference() to populate field KeyEncryptionKey")
 		}
 		destination.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -3082,7 +3269,7 @@ func (element *EncryptionSettingsElement) AssignProperties_To_EncryptionSettings
 	if augmentedElement, ok := elementAsAny.(augmentConversionForEncryptionSettingsElement); ok {
 		err := augmentedElement.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3108,7 +3295,7 @@ func (element *EncryptionSettingsElement_STATUS) AssignProperties_From_Encryptio
 		var diskEncryptionKey KeyVaultAndSecretReference_STATUS
 		err := diskEncryptionKey.AssignProperties_From_KeyVaultAndSecretReference_STATUS(source.DiskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultAndSecretReference_STATUS() to populate field DiskEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultAndSecretReference_STATUS() to populate field DiskEncryptionKey")
 		}
 		element.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -3120,7 +3307,7 @@ func (element *EncryptionSettingsElement_STATUS) AssignProperties_From_Encryptio
 		var keyEncryptionKey KeyVaultAndKeyReference_STATUS
 		err := keyEncryptionKey.AssignProperties_From_KeyVaultAndKeyReference_STATUS(source.KeyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultAndKeyReference_STATUS() to populate field KeyEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultAndKeyReference_STATUS() to populate field KeyEncryptionKey")
 		}
 		element.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -3139,7 +3326,7 @@ func (element *EncryptionSettingsElement_STATUS) AssignProperties_From_Encryptio
 	if augmentedElement, ok := elementAsAny.(augmentConversionForEncryptionSettingsElement_STATUS); ok {
 		err := augmentedElement.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3157,7 +3344,7 @@ func (element *EncryptionSettingsElement_STATUS) AssignProperties_To_EncryptionS
 		var diskEncryptionKey v20240302s.KeyVaultAndSecretReference_STATUS
 		err := element.DiskEncryptionKey.AssignProperties_To_KeyVaultAndSecretReference_STATUS(&diskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultAndSecretReference_STATUS() to populate field DiskEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultAndSecretReference_STATUS() to populate field DiskEncryptionKey")
 		}
 		destination.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -3169,7 +3356,7 @@ func (element *EncryptionSettingsElement_STATUS) AssignProperties_To_EncryptionS
 		var keyEncryptionKey v20240302s.KeyVaultAndKeyReference_STATUS
 		err := element.KeyEncryptionKey.AssignProperties_To_KeyVaultAndKeyReference_STATUS(&keyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultAndKeyReference_STATUS() to populate field KeyEncryptionKey")
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultAndKeyReference_STATUS() to populate field KeyEncryptionKey")
 		}
 		destination.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -3188,7 +3375,7 @@ func (element *EncryptionSettingsElement_STATUS) AssignProperties_To_EncryptionS
 	if augmentedElement, ok := elementAsAny.(augmentConversionForEncryptionSettingsElement_STATUS); ok {
 		err := augmentedElement.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3249,7 +3436,7 @@ func (reference *ImageDiskReference) AssignProperties_From_ImageDiskReference(so
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForImageDiskReference); ok {
 		err := augmentedReference.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3267,7 +3454,7 @@ func (reference *ImageDiskReference) AssignProperties_To_ImageDiskReference(dest
 		var communityGalleryImageId string
 		err := propertyBag.Pull("CommunityGalleryImageId", &communityGalleryImageId)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'CommunityGalleryImageId' from propertyBag")
+			return eris.Wrap(err, "pulling 'CommunityGalleryImageId' from propertyBag")
 		}
 
 		destination.CommunityGalleryImageId = &communityGalleryImageId
@@ -3291,7 +3478,7 @@ func (reference *ImageDiskReference) AssignProperties_To_ImageDiskReference(dest
 		var sharedGalleryImageId string
 		err := propertyBag.Pull("SharedGalleryImageId", &sharedGalleryImageId)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'SharedGalleryImageId' from propertyBag")
+			return eris.Wrap(err, "pulling 'SharedGalleryImageId' from propertyBag")
 		}
 
 		destination.SharedGalleryImageId = &sharedGalleryImageId
@@ -3311,7 +3498,7 @@ func (reference *ImageDiskReference) AssignProperties_To_ImageDiskReference(dest
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForImageDiskReference); ok {
 		err := augmentedReference.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3364,7 +3551,7 @@ func (reference *ImageDiskReference_STATUS) AssignProperties_From_ImageDiskRefer
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForImageDiskReference_STATUS); ok {
 		err := augmentedReference.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3382,7 +3569,7 @@ func (reference *ImageDiskReference_STATUS) AssignProperties_To_ImageDiskReferen
 		var communityGalleryImageId string
 		err := propertyBag.Pull("CommunityGalleryImageId", &communityGalleryImageId)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'CommunityGalleryImageId' from propertyBag")
+			return eris.Wrap(err, "pulling 'CommunityGalleryImageId' from propertyBag")
 		}
 
 		destination.CommunityGalleryImageId = &communityGalleryImageId
@@ -3401,7 +3588,7 @@ func (reference *ImageDiskReference_STATUS) AssignProperties_To_ImageDiskReferen
 		var sharedGalleryImageId string
 		err := propertyBag.Pull("SharedGalleryImageId", &sharedGalleryImageId)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'SharedGalleryImageId' from propertyBag")
+			return eris.Wrap(err, "pulling 'SharedGalleryImageId' from propertyBag")
 		}
 
 		destination.SharedGalleryImageId = &sharedGalleryImageId
@@ -3421,7 +3608,7 @@ func (reference *ImageDiskReference_STATUS) AssignProperties_To_ImageDiskReferen
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForImageDiskReference_STATUS); ok {
 		err := augmentedReference.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3470,12 +3657,12 @@ func (reference *KeyVaultAndKeyReference) AssignProperties_From_KeyVaultAndKeyRe
 		var sourceVaultStash v20220702s.SourceVault
 		err := sourceVaultStash.AssignProperties_From_SourceVault(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SourceVault() to populate field SourceVaultStash from SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_From_SourceVault() to populate field SourceVaultStash from SourceVault")
 		}
 		var sourceVault SourceVault
 		err = sourceVault.AssignProperties_From_SourceVault(&sourceVaultStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SourceVault() to populate field SourceVault from SourceVaultStash")
+			return eris.Wrap(err, "calling AssignProperties_From_SourceVault() to populate field SourceVault from SourceVaultStash")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -3494,7 +3681,7 @@ func (reference *KeyVaultAndKeyReference) AssignProperties_From_KeyVaultAndKeyRe
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultAndKeyReference); ok {
 		err := augmentedReference.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3515,12 +3702,12 @@ func (reference *KeyVaultAndKeyReference) AssignProperties_To_KeyVaultAndKeyRefe
 		var sourceVaultStash v20220702s.SourceVault
 		err := reference.SourceVault.AssignProperties_To_SourceVault(&sourceVaultStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVaultStash from SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVaultStash from SourceVault")
 		}
 		var sourceVault v20240302s.SourceVault
 		err = sourceVaultStash.AssignProperties_To_SourceVault(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVault from SourceVaultStash")
+			return eris.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVault from SourceVaultStash")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -3539,7 +3726,7 @@ func (reference *KeyVaultAndKeyReference) AssignProperties_To_KeyVaultAndKeyRefe
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultAndKeyReference); ok {
 		err := augmentedReference.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3568,12 +3755,12 @@ func (reference *KeyVaultAndKeyReference_STATUS) AssignProperties_From_KeyVaultA
 		var sourceVaultSTATUSStash v20220702s.SourceVault_STATUS
 		err := sourceVaultSTATUSStash.AssignProperties_From_SourceVault_STATUS(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SourceVault_STATUS() to populate field SourceVault_STATUSStash from SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_From_SourceVault_STATUS() to populate field SourceVault_STATUSStash from SourceVault")
 		}
 		var sourceVault SourceVault_STATUS
 		err = sourceVault.AssignProperties_From_SourceVault_STATUS(&sourceVaultSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SourceVault_STATUS() to populate field SourceVault from SourceVault_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_From_SourceVault_STATUS() to populate field SourceVault from SourceVault_STATUSStash")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -3592,7 +3779,7 @@ func (reference *KeyVaultAndKeyReference_STATUS) AssignProperties_From_KeyVaultA
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultAndKeyReference_STATUS); ok {
 		err := augmentedReference.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3613,12 +3800,12 @@ func (reference *KeyVaultAndKeyReference_STATUS) AssignProperties_To_KeyVaultAnd
 		var sourceVaultSTATUSStash v20220702s.SourceVault_STATUS
 		err := reference.SourceVault.AssignProperties_To_SourceVault_STATUS(&sourceVaultSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault_STATUSStash from SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault_STATUSStash from SourceVault")
 		}
 		var sourceVault v20240302s.SourceVault_STATUS
 		err = sourceVaultSTATUSStash.AssignProperties_To_SourceVault_STATUS(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault from SourceVault_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault from SourceVault_STATUSStash")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -3637,7 +3824,7 @@ func (reference *KeyVaultAndKeyReference_STATUS) AssignProperties_To_KeyVaultAnd
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultAndKeyReference_STATUS); ok {
 		err := augmentedReference.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3666,12 +3853,12 @@ func (reference *KeyVaultAndSecretReference) AssignProperties_From_KeyVaultAndSe
 		var sourceVaultStash v20220702s.SourceVault
 		err := sourceVaultStash.AssignProperties_From_SourceVault(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SourceVault() to populate field SourceVaultStash from SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_From_SourceVault() to populate field SourceVaultStash from SourceVault")
 		}
 		var sourceVault SourceVault
 		err = sourceVault.AssignProperties_From_SourceVault(&sourceVaultStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SourceVault() to populate field SourceVault from SourceVaultStash")
+			return eris.Wrap(err, "calling AssignProperties_From_SourceVault() to populate field SourceVault from SourceVaultStash")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -3690,7 +3877,7 @@ func (reference *KeyVaultAndSecretReference) AssignProperties_From_KeyVaultAndSe
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultAndSecretReference); ok {
 		err := augmentedReference.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3711,12 +3898,12 @@ func (reference *KeyVaultAndSecretReference) AssignProperties_To_KeyVaultAndSecr
 		var sourceVaultStash v20220702s.SourceVault
 		err := reference.SourceVault.AssignProperties_To_SourceVault(&sourceVaultStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVaultStash from SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVaultStash from SourceVault")
 		}
 		var sourceVault v20240302s.SourceVault
 		err = sourceVaultStash.AssignProperties_To_SourceVault(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVault from SourceVaultStash")
+			return eris.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVault from SourceVaultStash")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -3735,7 +3922,7 @@ func (reference *KeyVaultAndSecretReference) AssignProperties_To_KeyVaultAndSecr
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultAndSecretReference); ok {
 		err := augmentedReference.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3764,12 +3951,12 @@ func (reference *KeyVaultAndSecretReference_STATUS) AssignProperties_From_KeyVau
 		var sourceVaultSTATUSStash v20220702s.SourceVault_STATUS
 		err := sourceVaultSTATUSStash.AssignProperties_From_SourceVault_STATUS(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SourceVault_STATUS() to populate field SourceVault_STATUSStash from SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_From_SourceVault_STATUS() to populate field SourceVault_STATUSStash from SourceVault")
 		}
 		var sourceVault SourceVault_STATUS
 		err = sourceVault.AssignProperties_From_SourceVault_STATUS(&sourceVaultSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SourceVault_STATUS() to populate field SourceVault from SourceVault_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_From_SourceVault_STATUS() to populate field SourceVault from SourceVault_STATUSStash")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -3788,7 +3975,7 @@ func (reference *KeyVaultAndSecretReference_STATUS) AssignProperties_From_KeyVau
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultAndSecretReference_STATUS); ok {
 		err := augmentedReference.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3809,12 +3996,12 @@ func (reference *KeyVaultAndSecretReference_STATUS) AssignProperties_To_KeyVault
 		var sourceVaultSTATUSStash v20220702s.SourceVault_STATUS
 		err := reference.SourceVault.AssignProperties_To_SourceVault_STATUS(&sourceVaultSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault_STATUSStash from SourceVault")
+			return eris.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault_STATUSStash from SourceVault")
 		}
 		var sourceVault v20240302s.SourceVault_STATUS
 		err = sourceVaultSTATUSStash.AssignProperties_To_SourceVault_STATUS(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault from SourceVault_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault from SourceVault_STATUSStash")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -3833,7 +4020,7 @@ func (reference *KeyVaultAndSecretReference_STATUS) AssignProperties_To_KeyVault
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultAndSecretReference_STATUS); ok {
 		err := augmentedReference.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3896,7 +4083,7 @@ func (vault *SourceVault) AssignProperties_From_SourceVault(source *v20220702s.S
 	if augmentedVault, ok := vaultAsAny.(augmentConversionForSourceVault); ok {
 		err := augmentedVault.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3929,7 +4116,7 @@ func (vault *SourceVault) AssignProperties_To_SourceVault(destination *v20220702
 	if augmentedVault, ok := vaultAsAny.(augmentConversionForSourceVault); ok {
 		err := augmentedVault.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3965,7 +4152,7 @@ func (vault *SourceVault_STATUS) AssignProperties_From_SourceVault_STATUS(source
 	if augmentedVault, ok := vaultAsAny.(augmentConversionForSourceVault_STATUS); ok {
 		err := augmentedVault.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3993,7 +4180,7 @@ func (vault *SourceVault_STATUS) AssignProperties_To_SourceVault_STATUS(destinat
 	if augmentedVault, ok := vaultAsAny.(augmentConversionForSourceVault_STATUS); ok {
 		err := augmentedVault.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

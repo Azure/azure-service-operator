@@ -6,7 +6,7 @@
 +import (
 +	v20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
 +	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-+	"github.com/pkg/errors"
++	"github.com/rotisserie/eris"
 +)
 +
  type Person_STATUS struct {
@@ -26,13 +26,13 @@
 +	src = &v20211231.Person_STATUS{}
 +	err := src.ConvertStatusFrom(source)
 +	if err != nil {
-+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
++		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 +	}
 +
 +	// Update our instance from src
 +	err = person.AssignProperties_From_Person_STATUS(src)
 +	if err != nil {
-+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
++		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 +	}
 +
 +	return nil
@@ -50,13 +50,13 @@
 +	dst = &v20211231.Person_STATUS{}
 +	err := person.AssignProperties_To_Person_STATUS(dst)
 +	if err != nil {
-+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
++		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 +	}
 +
 +	// Update dst from our instance
 +	err = dst.ConvertStatusTo(destination)
 +	if err != nil {
-+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
++		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 +	}
 +
 +	return nil

@@ -5,12 +5,15 @@ package v1api20210601
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -92,6 +95,26 @@ func (workspace *Workspace) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Workspace resource
 func (workspace *Workspace) defaultImpl() { workspace.defaultAzureName() }
 
+var _ configmaps.Exporter = &Workspace{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (workspace *Workspace) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if workspace.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return workspace.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Workspace{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (workspace *Workspace) SecretDestinationExpressions() []*core.DestinationExpression {
+	if workspace.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return workspace.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &Workspace{}
 
 // InitializeSpec initializes the spec for this resource from the given status
@@ -151,6 +174,10 @@ func (workspace *Workspace) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (workspace *Workspace) Owner() *genruntime.ResourceReference {
+	if workspace.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(workspace.Spec)
 	return workspace.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -167,7 +194,7 @@ func (workspace *Workspace) SetStatus(status genruntime.ConvertibleStatus) error
 	var st Workspace_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	workspace.Status = st
@@ -210,7 +237,7 @@ func (workspace *Workspace) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (workspace *Workspace) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){workspace.validateResourceReferences, workspace.validateOwnerReference, workspace.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){workspace.validateResourceReferences, workspace.validateOwnerReference, workspace.validateSecretDestinations, workspace.validateConfigMapDestinations, workspace.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -229,9 +256,23 @@ func (workspace *Workspace) updateValidations() []func(old runtime.Object) (admi
 			return workspace.validateOwnerReference()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
+			return workspace.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return workspace.validateConfigMapDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return workspace.validateOptionalConfigMapReferences()
 		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (workspace *Workspace) validateConfigMapDestinations() (admission.Warnings, error) {
+	if workspace.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(workspace, nil, workspace.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
@@ -257,6 +298,14 @@ func (workspace *Workspace) validateResourceReferences() (admission.Warnings, er
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (workspace *Workspace) validateSecretDestinations() (admission.Warnings, error) {
+	if workspace.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(workspace, nil, workspace.Spec.OperatorSpec.SecretExpressions)
+}
+
 // validateWriteOnceProperties validates all WriteOnce properties
 func (workspace *Workspace) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*Workspace)
@@ -277,7 +326,7 @@ func (workspace *Workspace) AssignProperties_From_Workspace(source *storage.Work
 	var spec Workspace_Spec
 	err := spec.AssignProperties_From_Workspace_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspace_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Workspace_Spec() to populate field Spec")
 	}
 	workspace.Spec = spec
 
@@ -285,7 +334,7 @@ func (workspace *Workspace) AssignProperties_From_Workspace(source *storage.Work
 	var status Workspace_STATUS
 	err = status.AssignProperties_From_Workspace_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspace_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Workspace_STATUS() to populate field Status")
 	}
 	workspace.Status = status
 
@@ -303,7 +352,7 @@ func (workspace *Workspace) AssignProperties_To_Workspace(destination *storage.W
 	var spec storage.Workspace_Spec
 	err := workspace.Spec.AssignProperties_To_Workspace_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspace_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Workspace_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -311,7 +360,7 @@ func (workspace *Workspace) AssignProperties_To_Workspace(destination *storage.W
 	var status storage.Workspace_STATUS
 	err = workspace.Status.AssignProperties_To_Workspace_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspace_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Workspace_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -379,6 +428,10 @@ type Workspace_Spec struct {
 	// ManagedVirtualNetworkSettings: Managed Virtual Network Settings
 	ManagedVirtualNetworkSettings *ManagedVirtualNetworkSettings `json:"managedVirtualNetworkSettings,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *WorkspaceOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -417,7 +470,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if workspace == nil {
 		return nil, nil
 	}
-	result := &Workspace_Spec_ARM{}
+	result := &arm.Workspace_Spec{}
 
 	// Set property "Identity":
 	if workspace.Identity != nil {
@@ -425,7 +478,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*ManagedIdentity_ARM)
+		identity := *identity_ARM.(*arm.ManagedIdentity)
 		result.Identity = &identity
 	}
 
@@ -453,7 +506,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		workspace.TrustedServiceBypassEnabled != nil ||
 		workspace.VirtualNetworkProfile != nil ||
 		workspace.WorkspaceRepositoryConfiguration != nil {
-		result.Properties = &WorkspaceProperties_ARM{}
+		result.Properties = &arm.WorkspaceProperties{}
 	}
 	if workspace.AzureADOnlyAuthentication != nil {
 		azureADOnlyAuthentication := *workspace.AzureADOnlyAuthentication
@@ -464,7 +517,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		cspWorkspaceAdminProperties := *cspWorkspaceAdminProperties_ARM.(*CspWorkspaceAdminProperties_ARM)
+		cspWorkspaceAdminProperties := *cspWorkspaceAdminProperties_ARM.(*arm.CspWorkspaceAdminProperties)
 		result.Properties.CspWorkspaceAdminProperties = &cspWorkspaceAdminProperties
 	}
 	if workspace.DefaultDataLakeStorage != nil {
@@ -472,7 +525,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		defaultDataLakeStorage := *defaultDataLakeStorage_ARM.(*DataLakeStorageAccountDetails_ARM)
+		defaultDataLakeStorage := *defaultDataLakeStorage_ARM.(*arm.DataLakeStorageAccountDetails)
 		result.Properties.DefaultDataLakeStorage = &defaultDataLakeStorage
 	}
 	if workspace.Encryption != nil {
@@ -480,7 +533,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		encryption := *encryption_ARM.(*EncryptionDetails_ARM)
+		encryption := *encryption_ARM.(*arm.EncryptionDetails)
 		result.Properties.Encryption = &encryption
 	}
 	if workspace.ManagedResourceGroupName != nil {
@@ -496,13 +549,13 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		managedVirtualNetworkSettings := *managedVirtualNetworkSettings_ARM.(*ManagedVirtualNetworkSettings_ARM)
+		managedVirtualNetworkSettings := *managedVirtualNetworkSettings_ARM.(*arm.ManagedVirtualNetworkSettings)
 		result.Properties.ManagedVirtualNetworkSettings = &managedVirtualNetworkSettings
 	}
 	if workspace.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*workspace.PublicNetworkAccess)
-		publicNetworkAccess := WorkspaceProperties_PublicNetworkAccess_ARM(temp)
+		publicNetworkAccess := arm.WorkspaceProperties_PublicNetworkAccess(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if workspace.PurviewConfiguration != nil {
@@ -510,7 +563,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		purviewConfiguration := *purviewConfiguration_ARM.(*PurviewConfiguration_ARM)
+		purviewConfiguration := *purviewConfiguration_ARM.(*arm.PurviewConfiguration)
 		result.Properties.PurviewConfiguration = &purviewConfiguration
 	}
 	if workspace.SqlAdministratorLogin != nil {
@@ -520,7 +573,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if workspace.SqlAdministratorLoginPassword != nil {
 		sqlAdministratorLoginPasswordSecret, err := resolved.ResolvedSecrets.Lookup(*workspace.SqlAdministratorLoginPassword)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property SqlAdministratorLoginPassword")
+			return nil, eris.Wrap(err, "looking up secret for property SqlAdministratorLoginPassword")
 		}
 		sqlAdministratorLoginPassword := sqlAdministratorLoginPasswordSecret
 		result.Properties.SqlAdministratorLoginPassword = &sqlAdministratorLoginPassword
@@ -534,7 +587,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		virtualNetworkProfile := *virtualNetworkProfile_ARM.(*VirtualNetworkProfile_ARM)
+		virtualNetworkProfile := *virtualNetworkProfile_ARM.(*arm.VirtualNetworkProfile)
 		result.Properties.VirtualNetworkProfile = &virtualNetworkProfile
 	}
 	if workspace.WorkspaceRepositoryConfiguration != nil {
@@ -542,7 +595,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		workspaceRepositoryConfiguration := *workspaceRepositoryConfiguration_ARM.(*WorkspaceRepositoryConfiguration_ARM)
+		workspaceRepositoryConfiguration := *workspaceRepositoryConfiguration_ARM.(*arm.WorkspaceRepositoryConfiguration)
 		result.Properties.WorkspaceRepositoryConfiguration = &workspaceRepositoryConfiguration
 	}
 
@@ -558,14 +611,14 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (workspace *Workspace_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspace_Spec_ARM{}
+	return &arm.Workspace_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspace_Spec_ARM)
+	typedInput, ok := armInput.(arm.Workspace_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Workspace_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureADOnlyAuthentication":
@@ -670,6 +723,8 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 			workspace.ManagedVirtualNetworkSettings = &managedVirtualNetworkSettings
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	workspace.Owner = &genruntime.KnownResourceReference{
@@ -776,13 +831,13 @@ func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 	src = &storage.Workspace_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = workspace.AssignProperties_From_Workspace_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -800,13 +855,13 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	dst = &storage.Workspace_Spec{}
 	err := workspace.AssignProperties_To_Workspace_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -831,7 +886,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var cspWorkspaceAdminProperty CspWorkspaceAdminProperties
 		err := cspWorkspaceAdminProperty.AssignProperties_From_CspWorkspaceAdminProperties(source.CspWorkspaceAdminProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CspWorkspaceAdminProperties() to populate field CspWorkspaceAdminProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_CspWorkspaceAdminProperties() to populate field CspWorkspaceAdminProperties")
 		}
 		workspace.CspWorkspaceAdminProperties = &cspWorkspaceAdminProperty
 	} else {
@@ -843,7 +898,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var defaultDataLakeStorage DataLakeStorageAccountDetails
 		err := defaultDataLakeStorage.AssignProperties_From_DataLakeStorageAccountDetails(source.DefaultDataLakeStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataLakeStorageAccountDetails() to populate field DefaultDataLakeStorage")
+			return eris.Wrap(err, "calling AssignProperties_From_DataLakeStorageAccountDetails() to populate field DefaultDataLakeStorage")
 		}
 		workspace.DefaultDataLakeStorage = &defaultDataLakeStorage
 	} else {
@@ -855,7 +910,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var encryption EncryptionDetails
 		err := encryption.AssignProperties_From_EncryptionDetails(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionDetails() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionDetails() to populate field Encryption")
 		}
 		workspace.Encryption = &encryption
 	} else {
@@ -867,7 +922,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var identity ManagedIdentity
 		err := identity.AssignProperties_From_ManagedIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
 		}
 		workspace.Identity = &identity
 	} else {
@@ -888,11 +943,23 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var managedVirtualNetworkSetting ManagedVirtualNetworkSettings
 		err := managedVirtualNetworkSetting.AssignProperties_From_ManagedVirtualNetworkSettings(source.ManagedVirtualNetworkSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedVirtualNetworkSettings() to populate field ManagedVirtualNetworkSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedVirtualNetworkSettings() to populate field ManagedVirtualNetworkSettings")
 		}
 		workspace.ManagedVirtualNetworkSettings = &managedVirtualNetworkSetting
 	} else {
 		workspace.ManagedVirtualNetworkSettings = nil
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec WorkspaceOperatorSpec
+		err := operatorSpec.AssignProperties_From_WorkspaceOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceOperatorSpec() to populate field OperatorSpec")
+		}
+		workspace.OperatorSpec = &operatorSpec
+	} else {
+		workspace.OperatorSpec = nil
 	}
 
 	// Owner
@@ -917,7 +984,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var purviewConfiguration PurviewConfiguration
 		err := purviewConfiguration.AssignProperties_From_PurviewConfiguration(source.PurviewConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PurviewConfiguration() to populate field PurviewConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_PurviewConfiguration() to populate field PurviewConfiguration")
 		}
 		workspace.PurviewConfiguration = &purviewConfiguration
 	} else {
@@ -951,7 +1018,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var virtualNetworkProfile VirtualNetworkProfile
 		err := virtualNetworkProfile.AssignProperties_From_VirtualNetworkProfile(source.VirtualNetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkProfile() to populate field VirtualNetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualNetworkProfile() to populate field VirtualNetworkProfile")
 		}
 		workspace.VirtualNetworkProfile = &virtualNetworkProfile
 	} else {
@@ -963,7 +1030,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var workspaceRepositoryConfiguration WorkspaceRepositoryConfiguration
 		err := workspaceRepositoryConfiguration.AssignProperties_From_WorkspaceRepositoryConfiguration(source.WorkspaceRepositoryConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceRepositoryConfiguration() to populate field WorkspaceRepositoryConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceRepositoryConfiguration() to populate field WorkspaceRepositoryConfiguration")
 		}
 		workspace.WorkspaceRepositoryConfiguration = &workspaceRepositoryConfiguration
 	} else {
@@ -995,7 +1062,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var cspWorkspaceAdminProperty storage.CspWorkspaceAdminProperties
 		err := workspace.CspWorkspaceAdminProperties.AssignProperties_To_CspWorkspaceAdminProperties(&cspWorkspaceAdminProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CspWorkspaceAdminProperties() to populate field CspWorkspaceAdminProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_CspWorkspaceAdminProperties() to populate field CspWorkspaceAdminProperties")
 		}
 		destination.CspWorkspaceAdminProperties = &cspWorkspaceAdminProperty
 	} else {
@@ -1007,7 +1074,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var defaultDataLakeStorage storage.DataLakeStorageAccountDetails
 		err := workspace.DefaultDataLakeStorage.AssignProperties_To_DataLakeStorageAccountDetails(&defaultDataLakeStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataLakeStorageAccountDetails() to populate field DefaultDataLakeStorage")
+			return eris.Wrap(err, "calling AssignProperties_To_DataLakeStorageAccountDetails() to populate field DefaultDataLakeStorage")
 		}
 		destination.DefaultDataLakeStorage = &defaultDataLakeStorage
 	} else {
@@ -1019,7 +1086,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var encryption storage.EncryptionDetails
 		err := workspace.Encryption.AssignProperties_To_EncryptionDetails(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionDetails() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionDetails() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1031,7 +1098,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var identity storage.ManagedIdentity
 		err := workspace.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1052,11 +1119,23 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var managedVirtualNetworkSetting storage.ManagedVirtualNetworkSettings
 		err := workspace.ManagedVirtualNetworkSettings.AssignProperties_To_ManagedVirtualNetworkSettings(&managedVirtualNetworkSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedVirtualNetworkSettings() to populate field ManagedVirtualNetworkSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedVirtualNetworkSettings() to populate field ManagedVirtualNetworkSettings")
 		}
 		destination.ManagedVirtualNetworkSettings = &managedVirtualNetworkSetting
 	} else {
 		destination.ManagedVirtualNetworkSettings = nil
+	}
+
+	// OperatorSpec
+	if workspace.OperatorSpec != nil {
+		var operatorSpec storage.WorkspaceOperatorSpec
+		err := workspace.OperatorSpec.AssignProperties_To_WorkspaceOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -1083,7 +1162,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var purviewConfiguration storage.PurviewConfiguration
 		err := workspace.PurviewConfiguration.AssignProperties_To_PurviewConfiguration(&purviewConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PurviewConfiguration() to populate field PurviewConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_PurviewConfiguration() to populate field PurviewConfiguration")
 		}
 		destination.PurviewConfiguration = &purviewConfiguration
 	} else {
@@ -1117,7 +1196,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var virtualNetworkProfile storage.VirtualNetworkProfile
 		err := workspace.VirtualNetworkProfile.AssignProperties_To_VirtualNetworkProfile(&virtualNetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkProfile() to populate field VirtualNetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualNetworkProfile() to populate field VirtualNetworkProfile")
 		}
 		destination.VirtualNetworkProfile = &virtualNetworkProfile
 	} else {
@@ -1129,7 +1208,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var workspaceRepositoryConfiguration storage.WorkspaceRepositoryConfiguration
 		err := workspace.WorkspaceRepositoryConfiguration.AssignProperties_To_WorkspaceRepositoryConfiguration(&workspaceRepositoryConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceRepositoryConfiguration() to populate field WorkspaceRepositoryConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceRepositoryConfiguration() to populate field WorkspaceRepositoryConfiguration")
 		}
 		destination.WorkspaceRepositoryConfiguration = &workspaceRepositoryConfiguration
 	} else {
@@ -1163,7 +1242,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var cspWorkspaceAdminProperty CspWorkspaceAdminProperties
 		err := cspWorkspaceAdminProperty.Initialize_From_CspWorkspaceAdminProperties_STATUS(source.CspWorkspaceAdminProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CspWorkspaceAdminProperties_STATUS() to populate field CspWorkspaceAdminProperties")
+			return eris.Wrap(err, "calling Initialize_From_CspWorkspaceAdminProperties_STATUS() to populate field CspWorkspaceAdminProperties")
 		}
 		workspace.CspWorkspaceAdminProperties = &cspWorkspaceAdminProperty
 	} else {
@@ -1175,7 +1254,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var defaultDataLakeStorage DataLakeStorageAccountDetails
 		err := defaultDataLakeStorage.Initialize_From_DataLakeStorageAccountDetails_STATUS(source.DefaultDataLakeStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataLakeStorageAccountDetails_STATUS() to populate field DefaultDataLakeStorage")
+			return eris.Wrap(err, "calling Initialize_From_DataLakeStorageAccountDetails_STATUS() to populate field DefaultDataLakeStorage")
 		}
 		workspace.DefaultDataLakeStorage = &defaultDataLakeStorage
 	} else {
@@ -1187,7 +1266,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var encryption EncryptionDetails
 		err := encryption.Initialize_From_EncryptionDetails_STATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EncryptionDetails_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling Initialize_From_EncryptionDetails_STATUS() to populate field Encryption")
 		}
 		workspace.Encryption = &encryption
 	} else {
@@ -1199,7 +1278,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var identity ManagedIdentity
 		err := identity.Initialize_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		workspace.Identity = &identity
 	} else {
@@ -1220,7 +1299,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var managedVirtualNetworkSetting ManagedVirtualNetworkSettings
 		err := managedVirtualNetworkSetting.Initialize_From_ManagedVirtualNetworkSettings_STATUS(source.ManagedVirtualNetworkSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedVirtualNetworkSettings_STATUS() to populate field ManagedVirtualNetworkSettings")
+			return eris.Wrap(err, "calling Initialize_From_ManagedVirtualNetworkSettings_STATUS() to populate field ManagedVirtualNetworkSettings")
 		}
 		workspace.ManagedVirtualNetworkSettings = &managedVirtualNetworkSetting
 	} else {
@@ -1240,7 +1319,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var purviewConfiguration PurviewConfiguration
 		err := purviewConfiguration.Initialize_From_PurviewConfiguration_STATUS(source.PurviewConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PurviewConfiguration_STATUS() to populate field PurviewConfiguration")
+			return eris.Wrap(err, "calling Initialize_From_PurviewConfiguration_STATUS() to populate field PurviewConfiguration")
 		}
 		workspace.PurviewConfiguration = &purviewConfiguration
 	} else {
@@ -1266,7 +1345,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var virtualNetworkProfile VirtualNetworkProfile
 		err := virtualNetworkProfile.Initialize_From_VirtualNetworkProfile_STATUS(source.VirtualNetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualNetworkProfile_STATUS() to populate field VirtualNetworkProfile")
+			return eris.Wrap(err, "calling Initialize_From_VirtualNetworkProfile_STATUS() to populate field VirtualNetworkProfile")
 		}
 		workspace.VirtualNetworkProfile = &virtualNetworkProfile
 	} else {
@@ -1278,7 +1357,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var workspaceRepositoryConfiguration WorkspaceRepositoryConfiguration
 		err := workspaceRepositoryConfiguration.Initialize_From_WorkspaceRepositoryConfiguration_STATUS(source.WorkspaceRepositoryConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceRepositoryConfiguration_STATUS() to populate field WorkspaceRepositoryConfiguration")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceRepositoryConfiguration_STATUS() to populate field WorkspaceRepositoryConfiguration")
 		}
 		workspace.WorkspaceRepositoryConfiguration = &workspaceRepositoryConfiguration
 	} else {
@@ -1399,13 +1478,13 @@ func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	src = &storage.Workspace_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = workspace.AssignProperties_From_Workspace_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1423,13 +1502,13 @@ func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.Conver
 	dst = &storage.Workspace_STATUS{}
 	err := workspace.AssignProperties_To_Workspace_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1439,14 +1518,14 @@ var _ genruntime.FromARMConverter = &Workspace_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (workspace *Workspace_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspace_STATUS_ARM{}
+	return &arm.Workspace_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspace_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Workspace_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Workspace_STATUS, got %T", armInput)
 	}
 
 	// Set property "AdlaResourceId":
@@ -1750,7 +1829,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var cspWorkspaceAdminProperty CspWorkspaceAdminProperties_STATUS
 		err := cspWorkspaceAdminProperty.AssignProperties_From_CspWorkspaceAdminProperties_STATUS(source.CspWorkspaceAdminProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CspWorkspaceAdminProperties_STATUS() to populate field CspWorkspaceAdminProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_CspWorkspaceAdminProperties_STATUS() to populate field CspWorkspaceAdminProperties")
 		}
 		workspace.CspWorkspaceAdminProperties = &cspWorkspaceAdminProperty
 	} else {
@@ -1762,7 +1841,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var defaultDataLakeStorage DataLakeStorageAccountDetails_STATUS
 		err := defaultDataLakeStorage.AssignProperties_From_DataLakeStorageAccountDetails_STATUS(source.DefaultDataLakeStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataLakeStorageAccountDetails_STATUS() to populate field DefaultDataLakeStorage")
+			return eris.Wrap(err, "calling AssignProperties_From_DataLakeStorageAccountDetails_STATUS() to populate field DefaultDataLakeStorage")
 		}
 		workspace.DefaultDataLakeStorage = &defaultDataLakeStorage
 	} else {
@@ -1774,7 +1853,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var encryption EncryptionDetails_STATUS
 		err := encryption.AssignProperties_From_EncryptionDetails_STATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionDetails_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionDetails_STATUS() to populate field Encryption")
 		}
 		workspace.Encryption = &encryption
 	} else {
@@ -1802,7 +1881,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var identity ManagedIdentity_STATUS
 		err := identity.AssignProperties_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		workspace.Identity = &identity
 	} else {
@@ -1823,7 +1902,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var managedVirtualNetworkSetting ManagedVirtualNetworkSettings_STATUS
 		err := managedVirtualNetworkSetting.AssignProperties_From_ManagedVirtualNetworkSettings_STATUS(source.ManagedVirtualNetworkSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedVirtualNetworkSettings_STATUS() to populate field ManagedVirtualNetworkSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedVirtualNetworkSettings_STATUS() to populate field ManagedVirtualNetworkSettings")
 		}
 		workspace.ManagedVirtualNetworkSettings = &managedVirtualNetworkSetting
 	} else {
@@ -1842,7 +1921,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1868,7 +1947,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var purviewConfiguration PurviewConfiguration_STATUS
 		err := purviewConfiguration.AssignProperties_From_PurviewConfiguration_STATUS(source.PurviewConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PurviewConfiguration_STATUS() to populate field PurviewConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_PurviewConfiguration_STATUS() to populate field PurviewConfiguration")
 		}
 		workspace.PurviewConfiguration = &purviewConfiguration
 	} else {
@@ -1910,7 +1989,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var virtualNetworkProfile VirtualNetworkProfile_STATUS
 		err := virtualNetworkProfile.AssignProperties_From_VirtualNetworkProfile_STATUS(source.VirtualNetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkProfile_STATUS() to populate field VirtualNetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualNetworkProfile_STATUS() to populate field VirtualNetworkProfile")
 		}
 		workspace.VirtualNetworkProfile = &virtualNetworkProfile
 	} else {
@@ -1922,7 +2001,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var workspaceRepositoryConfiguration WorkspaceRepositoryConfiguration_STATUS
 		err := workspaceRepositoryConfiguration.AssignProperties_From_WorkspaceRepositoryConfiguration_STATUS(source.WorkspaceRepositoryConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceRepositoryConfiguration_STATUS() to populate field WorkspaceRepositoryConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceRepositoryConfiguration_STATUS() to populate field WorkspaceRepositoryConfiguration")
 		}
 		workspace.WorkspaceRepositoryConfiguration = &workspaceRepositoryConfiguration
 	} else {
@@ -1963,7 +2042,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var cspWorkspaceAdminProperty storage.CspWorkspaceAdminProperties_STATUS
 		err := workspace.CspWorkspaceAdminProperties.AssignProperties_To_CspWorkspaceAdminProperties_STATUS(&cspWorkspaceAdminProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CspWorkspaceAdminProperties_STATUS() to populate field CspWorkspaceAdminProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_CspWorkspaceAdminProperties_STATUS() to populate field CspWorkspaceAdminProperties")
 		}
 		destination.CspWorkspaceAdminProperties = &cspWorkspaceAdminProperty
 	} else {
@@ -1975,7 +2054,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var defaultDataLakeStorage storage.DataLakeStorageAccountDetails_STATUS
 		err := workspace.DefaultDataLakeStorage.AssignProperties_To_DataLakeStorageAccountDetails_STATUS(&defaultDataLakeStorage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataLakeStorageAccountDetails_STATUS() to populate field DefaultDataLakeStorage")
+			return eris.Wrap(err, "calling AssignProperties_To_DataLakeStorageAccountDetails_STATUS() to populate field DefaultDataLakeStorage")
 		}
 		destination.DefaultDataLakeStorage = &defaultDataLakeStorage
 	} else {
@@ -1987,7 +2066,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var encryption storage.EncryptionDetails_STATUS
 		err := workspace.Encryption.AssignProperties_To_EncryptionDetails_STATUS(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionDetails_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionDetails_STATUS() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -2015,7 +2094,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var identity storage.ManagedIdentity_STATUS
 		err := workspace.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -2036,7 +2115,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var managedVirtualNetworkSetting storage.ManagedVirtualNetworkSettings_STATUS
 		err := workspace.ManagedVirtualNetworkSettings.AssignProperties_To_ManagedVirtualNetworkSettings_STATUS(&managedVirtualNetworkSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedVirtualNetworkSettings_STATUS() to populate field ManagedVirtualNetworkSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedVirtualNetworkSettings_STATUS() to populate field ManagedVirtualNetworkSettings")
 		}
 		destination.ManagedVirtualNetworkSettings = &managedVirtualNetworkSetting
 	} else {
@@ -2055,7 +2134,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -2080,7 +2159,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var purviewConfiguration storage.PurviewConfiguration_STATUS
 		err := workspace.PurviewConfiguration.AssignProperties_To_PurviewConfiguration_STATUS(&purviewConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PurviewConfiguration_STATUS() to populate field PurviewConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_PurviewConfiguration_STATUS() to populate field PurviewConfiguration")
 		}
 		destination.PurviewConfiguration = &purviewConfiguration
 	} else {
@@ -2122,7 +2201,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var virtualNetworkProfile storage.VirtualNetworkProfile_STATUS
 		err := workspace.VirtualNetworkProfile.AssignProperties_To_VirtualNetworkProfile_STATUS(&virtualNetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkProfile_STATUS() to populate field VirtualNetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualNetworkProfile_STATUS() to populate field VirtualNetworkProfile")
 		}
 		destination.VirtualNetworkProfile = &virtualNetworkProfile
 	} else {
@@ -2134,7 +2213,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var workspaceRepositoryConfiguration storage.WorkspaceRepositoryConfiguration_STATUS
 		err := workspace.WorkspaceRepositoryConfiguration.AssignProperties_To_WorkspaceRepositoryConfiguration_STATUS(&workspaceRepositoryConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceRepositoryConfiguration_STATUS() to populate field WorkspaceRepositoryConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceRepositoryConfiguration_STATUS() to populate field WorkspaceRepositoryConfiguration")
 		}
 		destination.WorkspaceRepositoryConfiguration = &workspaceRepositoryConfiguration
 	} else {
@@ -2168,7 +2247,7 @@ func (properties *CspWorkspaceAdminProperties) ConvertToARM(resolved genruntime.
 	if properties == nil {
 		return nil, nil
 	}
-	result := &CspWorkspaceAdminProperties_ARM{}
+	result := &arm.CspWorkspaceAdminProperties{}
 
 	// Set property "InitialWorkspaceAdminObjectId":
 	if properties.InitialWorkspaceAdminObjectId != nil {
@@ -2180,14 +2259,14 @@ func (properties *CspWorkspaceAdminProperties) ConvertToARM(resolved genruntime.
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *CspWorkspaceAdminProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CspWorkspaceAdminProperties_ARM{}
+	return &arm.CspWorkspaceAdminProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *CspWorkspaceAdminProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CspWorkspaceAdminProperties_ARM)
+	typedInput, ok := armInput.(arm.CspWorkspaceAdminProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CspWorkspaceAdminProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CspWorkspaceAdminProperties, got %T", armInput)
 	}
 
 	// Set property "InitialWorkspaceAdminObjectId":
@@ -2249,14 +2328,14 @@ var _ genruntime.FromARMConverter = &CspWorkspaceAdminProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *CspWorkspaceAdminProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CspWorkspaceAdminProperties_STATUS_ARM{}
+	return &arm.CspWorkspaceAdminProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *CspWorkspaceAdminProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CspWorkspaceAdminProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CspWorkspaceAdminProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CspWorkspaceAdminProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CspWorkspaceAdminProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "InitialWorkspaceAdminObjectId":
@@ -2323,7 +2402,7 @@ func (details *DataLakeStorageAccountDetails) ConvertToARM(resolved genruntime.C
 	if details == nil {
 		return nil, nil
 	}
-	result := &DataLakeStorageAccountDetails_ARM{}
+	result := &arm.DataLakeStorageAccountDetails{}
 
 	// Set property "AccountUrl":
 	if details.AccountUrl != nil {
@@ -2333,7 +2412,7 @@ func (details *DataLakeStorageAccountDetails) ConvertToARM(resolved genruntime.C
 	if details.AccountUrlFromConfig != nil {
 		accountUrlValue, err := resolved.ResolvedConfigMaps.Lookup(*details.AccountUrlFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property AccountUrl")
+			return nil, eris.Wrap(err, "looking up configmap for property AccountUrl")
 		}
 		accountUrl := accountUrlValue
 		result.AccountUrl = &accountUrl
@@ -2365,14 +2444,14 @@ func (details *DataLakeStorageAccountDetails) ConvertToARM(resolved genruntime.C
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (details *DataLakeStorageAccountDetails) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DataLakeStorageAccountDetails_ARM{}
+	return &arm.DataLakeStorageAccountDetails{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (details *DataLakeStorageAccountDetails) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DataLakeStorageAccountDetails_ARM)
+	typedInput, ok := armInput.(arm.DataLakeStorageAccountDetails)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataLakeStorageAccountDetails_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DataLakeStorageAccountDetails, got %T", armInput)
 	}
 
 	// Set property "AccountUrl":
@@ -2532,14 +2611,14 @@ var _ genruntime.FromARMConverter = &DataLakeStorageAccountDetails_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (details *DataLakeStorageAccountDetails_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DataLakeStorageAccountDetails_STATUS_ARM{}
+	return &arm.DataLakeStorageAccountDetails_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (details *DataLakeStorageAccountDetails_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DataLakeStorageAccountDetails_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DataLakeStorageAccountDetails_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataLakeStorageAccountDetails_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DataLakeStorageAccountDetails_STATUS, got %T", armInput)
 	}
 
 	// Set property "AccountUrl":
@@ -2640,7 +2719,7 @@ func (details *EncryptionDetails) ConvertToARM(resolved genruntime.ConvertToARMR
 	if details == nil {
 		return nil, nil
 	}
-	result := &EncryptionDetails_ARM{}
+	result := &arm.EncryptionDetails{}
 
 	// Set property "Cmk":
 	if details.Cmk != nil {
@@ -2648,7 +2727,7 @@ func (details *EncryptionDetails) ConvertToARM(resolved genruntime.ConvertToARMR
 		if err != nil {
 			return nil, err
 		}
-		cmk := *cmk_ARM.(*CustomerManagedKeyDetails_ARM)
+		cmk := *cmk_ARM.(*arm.CustomerManagedKeyDetails)
 		result.Cmk = &cmk
 	}
 	return result, nil
@@ -2656,14 +2735,14 @@ func (details *EncryptionDetails) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (details *EncryptionDetails) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EncryptionDetails_ARM{}
+	return &arm.EncryptionDetails{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (details *EncryptionDetails) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EncryptionDetails_ARM)
+	typedInput, ok := armInput.(arm.EncryptionDetails)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionDetails_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EncryptionDetails, got %T", armInput)
 	}
 
 	// Set property "Cmk":
@@ -2689,7 +2768,7 @@ func (details *EncryptionDetails) AssignProperties_From_EncryptionDetails(source
 		var cmk CustomerManagedKeyDetails
 		err := cmk.AssignProperties_From_CustomerManagedKeyDetails(source.Cmk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomerManagedKeyDetails() to populate field Cmk")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomerManagedKeyDetails() to populate field Cmk")
 		}
 		details.Cmk = &cmk
 	} else {
@@ -2710,7 +2789,7 @@ func (details *EncryptionDetails) AssignProperties_To_EncryptionDetails(destinat
 		var cmk storage.CustomerManagedKeyDetails
 		err := details.Cmk.AssignProperties_To_CustomerManagedKeyDetails(&cmk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomerManagedKeyDetails() to populate field Cmk")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomerManagedKeyDetails() to populate field Cmk")
 		}
 		destination.Cmk = &cmk
 	} else {
@@ -2736,7 +2815,7 @@ func (details *EncryptionDetails) Initialize_From_EncryptionDetails_STATUS(sourc
 		var cmk CustomerManagedKeyDetails
 		err := cmk.Initialize_From_CustomerManagedKeyDetails_STATUS(source.Cmk)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CustomerManagedKeyDetails_STATUS() to populate field Cmk")
+			return eris.Wrap(err, "calling Initialize_From_CustomerManagedKeyDetails_STATUS() to populate field Cmk")
 		}
 		details.Cmk = &cmk
 	} else {
@@ -2760,14 +2839,14 @@ var _ genruntime.FromARMConverter = &EncryptionDetails_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (details *EncryptionDetails_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EncryptionDetails_STATUS_ARM{}
+	return &arm.EncryptionDetails_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (details *EncryptionDetails_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EncryptionDetails_STATUS_ARM)
+	typedInput, ok := armInput.(arm.EncryptionDetails_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionDetails_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EncryptionDetails_STATUS, got %T", armInput)
 	}
 
 	// Set property "Cmk":
@@ -2799,7 +2878,7 @@ func (details *EncryptionDetails_STATUS) AssignProperties_From_EncryptionDetails
 		var cmk CustomerManagedKeyDetails_STATUS
 		err := cmk.AssignProperties_From_CustomerManagedKeyDetails_STATUS(source.Cmk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomerManagedKeyDetails_STATUS() to populate field Cmk")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomerManagedKeyDetails_STATUS() to populate field Cmk")
 		}
 		details.Cmk = &cmk
 	} else {
@@ -2828,7 +2907,7 @@ func (details *EncryptionDetails_STATUS) AssignProperties_To_EncryptionDetails_S
 		var cmk storage.CustomerManagedKeyDetails_STATUS
 		err := details.Cmk.AssignProperties_To_CustomerManagedKeyDetails_STATUS(&cmk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomerManagedKeyDetails_STATUS() to populate field Cmk")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomerManagedKeyDetails_STATUS() to populate field Cmk")
 		}
 		destination.Cmk = &cmk
 	} else {
@@ -2870,39 +2949,39 @@ func (identity *ManagedIdentity) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if identity == nil {
 		return nil, nil
 	}
-	result := &ManagedIdentity_ARM{}
+	result := &arm.ManagedIdentity{}
 
 	// Set property "Type":
 	if identity.Type != nil {
 		var temp string
 		temp = string(*identity.Type)
-		typeVar := ManagedIdentity_Type_ARM(temp)
+		typeVar := arm.ManagedIdentity_Type(temp)
 		result.Type = &typeVar
 	}
 
 	// Set property "UserAssignedIdentities":
-	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
+	result.UserAssignedIdentities = make(map[string]arm.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
 		if err != nil {
 			return nil, err
 		}
 		key := identARMID
-		result.UserAssignedIdentities[key] = UserAssignedIdentityDetails_ARM{}
+		result.UserAssignedIdentities[key] = arm.UserAssignedIdentityDetails{}
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ManagedIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedIdentity_ARM{}
+	return &arm.ManagedIdentity{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ManagedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedIdentity_ARM)
+	typedInput, ok := armInput.(arm.ManagedIdentity)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentity_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedIdentity, got %T", armInput)
 	}
 
 	// Set property "Type":
@@ -2940,7 +3019,7 @@ func (identity *ManagedIdentity) AssignProperties_From_ManagedIdentity(source *s
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -2975,7 +3054,7 @@ func (identity *ManagedIdentity) AssignProperties_To_ManagedIdentity(destination
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -3041,14 +3120,14 @@ var _ genruntime.FromARMConverter = &ManagedIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ManagedIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedIdentity_STATUS_ARM{}
+	return &arm.ManagedIdentity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ManagedIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedIdentity_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedIdentity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentity_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedIdentity_STATUS, got %T", armInput)
 	}
 
 	// Set property "PrincipalId":
@@ -3115,7 +3194,7 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_From_ManagedIdentity_ST
 			var userAssignedIdentity UserAssignedManagedIdentity_STATUS
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedManagedIdentity_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedManagedIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedManagedIdentity_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -3156,7 +3235,7 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_To_ManagedIdentity_STAT
 			var userAssignedIdentity storage.UserAssignedManagedIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedManagedIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedManagedIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedManagedIdentity_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -3195,7 +3274,7 @@ func (settings *ManagedVirtualNetworkSettings) ConvertToARM(resolved genruntime.
 	if settings == nil {
 		return nil, nil
 	}
-	result := &ManagedVirtualNetworkSettings_ARM{}
+	result := &arm.ManagedVirtualNetworkSettings{}
 
 	// Set property "AllowedAadTenantIdsForLinking":
 	for _, item := range settings.AllowedAadTenantIdsForLinking {
@@ -3218,14 +3297,14 @@ func (settings *ManagedVirtualNetworkSettings) ConvertToARM(resolved genruntime.
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *ManagedVirtualNetworkSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedVirtualNetworkSettings_ARM{}
+	return &arm.ManagedVirtualNetworkSettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *ManagedVirtualNetworkSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedVirtualNetworkSettings_ARM)
+	typedInput, ok := armInput.(arm.ManagedVirtualNetworkSettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedVirtualNetworkSettings_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedVirtualNetworkSettings, got %T", armInput)
 	}
 
 	// Set property "AllowedAadTenantIdsForLinking":
@@ -3352,14 +3431,14 @@ var _ genruntime.FromARMConverter = &ManagedVirtualNetworkSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *ManagedVirtualNetworkSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedVirtualNetworkSettings_STATUS_ARM{}
+	return &arm.ManagedVirtualNetworkSettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *ManagedVirtualNetworkSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedVirtualNetworkSettings_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedVirtualNetworkSettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedVirtualNetworkSettings_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedVirtualNetworkSettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "AllowedAadTenantIdsForLinking":
@@ -3455,14 +3534,14 @@ var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (connection *PrivateEndpointConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUS_ARM{}
+	return &arm.PrivateEndpointConnection_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateEndpointConnection_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateEndpointConnection_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -3517,7 +3596,7 @@ func (configuration *PurviewConfiguration) ConvertToARM(resolved genruntime.Conv
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &PurviewConfiguration_ARM{}
+	result := &arm.PurviewConfiguration{}
 
 	// Set property "PurviewResourceId":
 	if configuration.PurviewResourceReference != nil {
@@ -3533,14 +3612,14 @@ func (configuration *PurviewConfiguration) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *PurviewConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PurviewConfiguration_ARM{}
+	return &arm.PurviewConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *PurviewConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(PurviewConfiguration_ARM)
+	_, ok := armInput.(arm.PurviewConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PurviewConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PurviewConfiguration, got %T", armInput)
 	}
 
 	// no assignment for property "PurviewResourceReference"
@@ -3613,14 +3692,14 @@ var _ genruntime.FromARMConverter = &PurviewConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *PurviewConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PurviewConfiguration_STATUS_ARM{}
+	return &arm.PurviewConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *PurviewConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PurviewConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PurviewConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PurviewConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PurviewConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "PurviewResourceId":
@@ -3675,7 +3754,7 @@ func (profile *VirtualNetworkProfile) ConvertToARM(resolved genruntime.ConvertTo
 	if profile == nil {
 		return nil, nil
 	}
-	result := &VirtualNetworkProfile_ARM{}
+	result := &arm.VirtualNetworkProfile{}
 
 	// Set property "ComputeSubnetId":
 	if profile.ComputeSubnetId != nil {
@@ -3687,14 +3766,14 @@ func (profile *VirtualNetworkProfile) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *VirtualNetworkProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualNetworkProfile_ARM{}
+	return &arm.VirtualNetworkProfile{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *VirtualNetworkProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualNetworkProfile_ARM)
+	typedInput, ok := armInput.(arm.VirtualNetworkProfile)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkProfile_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualNetworkProfile, got %T", armInput)
 	}
 
 	// Set property "ComputeSubnetId":
@@ -3756,14 +3835,14 @@ var _ genruntime.FromARMConverter = &VirtualNetworkProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *VirtualNetworkProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualNetworkProfile_STATUS_ARM{}
+	return &arm.VirtualNetworkProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *VirtualNetworkProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualNetworkProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.VirtualNetworkProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualNetworkProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "ComputeSubnetId":
@@ -3793,6 +3872,110 @@ func (profile *VirtualNetworkProfile_STATUS) AssignProperties_To_VirtualNetworkP
 
 	// ComputeSubnetId
 	destination.ComputeSubnetId = genruntime.ClonePointerToString(profile.ComputeSubnetId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WorkspaceOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_WorkspaceOperatorSpec populates our WorkspaceOperatorSpec from the provided source WorkspaceOperatorSpec
+func (operator *WorkspaceOperatorSpec) AssignProperties_From_WorkspaceOperatorSpec(source *storage.WorkspaceOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WorkspaceOperatorSpec populates the provided destination WorkspaceOperatorSpec from our WorkspaceOperatorSpec
+func (operator *WorkspaceOperatorSpec) AssignProperties_To_WorkspaceOperatorSpec(destination *storage.WorkspaceOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3870,7 +4053,7 @@ func (configuration *WorkspaceRepositoryConfiguration) ConvertToARM(resolved gen
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &WorkspaceRepositoryConfiguration_ARM{}
+	result := &arm.WorkspaceRepositoryConfiguration{}
 
 	// Set property "AccountName":
 	if configuration.AccountName != nil {
@@ -3930,14 +4113,14 @@ func (configuration *WorkspaceRepositoryConfiguration) ConvertToARM(resolved gen
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *WorkspaceRepositoryConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceRepositoryConfiguration_ARM{}
+	return &arm.WorkspaceRepositoryConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *WorkspaceRepositoryConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceRepositoryConfiguration_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceRepositoryConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceRepositoryConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceRepositoryConfiguration, got %T", armInput)
 	}
 
 	// Set property "AccountName":
@@ -4158,14 +4341,14 @@ var _ genruntime.FromARMConverter = &WorkspaceRepositoryConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *WorkspaceRepositoryConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceRepositoryConfiguration_STATUS_ARM{}
+	return &arm.WorkspaceRepositoryConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *WorkspaceRepositoryConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceRepositoryConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceRepositoryConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceRepositoryConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceRepositoryConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "AccountName":
@@ -4319,7 +4502,7 @@ func (details *CustomerManagedKeyDetails) ConvertToARM(resolved genruntime.Conve
 	if details == nil {
 		return nil, nil
 	}
-	result := &CustomerManagedKeyDetails_ARM{}
+	result := &arm.CustomerManagedKeyDetails{}
 
 	// Set property "KekIdentity":
 	if details.KekIdentity != nil {
@@ -4327,7 +4510,7 @@ func (details *CustomerManagedKeyDetails) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		kekIdentity := *kekIdentity_ARM.(*KekIdentityProperties_ARM)
+		kekIdentity := *kekIdentity_ARM.(*arm.KekIdentityProperties)
 		result.KekIdentity = &kekIdentity
 	}
 
@@ -4337,7 +4520,7 @@ func (details *CustomerManagedKeyDetails) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		key := *key_ARM.(*WorkspaceKeyDetails_ARM)
+		key := *key_ARM.(*arm.WorkspaceKeyDetails)
 		result.Key = &key
 	}
 	return result, nil
@@ -4345,14 +4528,14 @@ func (details *CustomerManagedKeyDetails) ConvertToARM(resolved genruntime.Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (details *CustomerManagedKeyDetails) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomerManagedKeyDetails_ARM{}
+	return &arm.CustomerManagedKeyDetails{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (details *CustomerManagedKeyDetails) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomerManagedKeyDetails_ARM)
+	typedInput, ok := armInput.(arm.CustomerManagedKeyDetails)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomerManagedKeyDetails_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CustomerManagedKeyDetails, got %T", armInput)
 	}
 
 	// Set property "KekIdentity":
@@ -4389,7 +4572,7 @@ func (details *CustomerManagedKeyDetails) AssignProperties_From_CustomerManagedK
 		var kekIdentity KekIdentityProperties
 		err := kekIdentity.AssignProperties_From_KekIdentityProperties(source.KekIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KekIdentityProperties() to populate field KekIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_KekIdentityProperties() to populate field KekIdentity")
 		}
 		details.KekIdentity = &kekIdentity
 	} else {
@@ -4401,7 +4584,7 @@ func (details *CustomerManagedKeyDetails) AssignProperties_From_CustomerManagedK
 		var key WorkspaceKeyDetails
 		err := key.AssignProperties_From_WorkspaceKeyDetails(source.Key)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceKeyDetails() to populate field Key")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceKeyDetails() to populate field Key")
 		}
 		details.Key = &key
 	} else {
@@ -4422,7 +4605,7 @@ func (details *CustomerManagedKeyDetails) AssignProperties_To_CustomerManagedKey
 		var kekIdentity storage.KekIdentityProperties
 		err := details.KekIdentity.AssignProperties_To_KekIdentityProperties(&kekIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KekIdentityProperties() to populate field KekIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_KekIdentityProperties() to populate field KekIdentity")
 		}
 		destination.KekIdentity = &kekIdentity
 	} else {
@@ -4434,7 +4617,7 @@ func (details *CustomerManagedKeyDetails) AssignProperties_To_CustomerManagedKey
 		var key storage.WorkspaceKeyDetails
 		err := details.Key.AssignProperties_To_WorkspaceKeyDetails(&key)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceKeyDetails() to populate field Key")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceKeyDetails() to populate field Key")
 		}
 		destination.Key = &key
 	} else {
@@ -4460,7 +4643,7 @@ func (details *CustomerManagedKeyDetails) Initialize_From_CustomerManagedKeyDeta
 		var kekIdentity KekIdentityProperties
 		err := kekIdentity.Initialize_From_KekIdentityProperties_STATUS(source.KekIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KekIdentityProperties_STATUS() to populate field KekIdentity")
+			return eris.Wrap(err, "calling Initialize_From_KekIdentityProperties_STATUS() to populate field KekIdentity")
 		}
 		details.KekIdentity = &kekIdentity
 	} else {
@@ -4472,7 +4655,7 @@ func (details *CustomerManagedKeyDetails) Initialize_From_CustomerManagedKeyDeta
 		var key WorkspaceKeyDetails
 		err := key.Initialize_From_WorkspaceKeyDetails_STATUS(source.Key)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceKeyDetails_STATUS() to populate field Key")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceKeyDetails_STATUS() to populate field Key")
 		}
 		details.Key = &key
 	} else {
@@ -4499,14 +4682,14 @@ var _ genruntime.FromARMConverter = &CustomerManagedKeyDetails_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (details *CustomerManagedKeyDetails_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomerManagedKeyDetails_STATUS_ARM{}
+	return &arm.CustomerManagedKeyDetails_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (details *CustomerManagedKeyDetails_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomerManagedKeyDetails_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CustomerManagedKeyDetails_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomerManagedKeyDetails_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CustomerManagedKeyDetails_STATUS, got %T", armInput)
 	}
 
 	// Set property "KekIdentity":
@@ -4549,7 +4732,7 @@ func (details *CustomerManagedKeyDetails_STATUS) AssignProperties_From_CustomerM
 		var kekIdentity KekIdentityProperties_STATUS
 		err := kekIdentity.AssignProperties_From_KekIdentityProperties_STATUS(source.KekIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KekIdentityProperties_STATUS() to populate field KekIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_KekIdentityProperties_STATUS() to populate field KekIdentity")
 		}
 		details.KekIdentity = &kekIdentity
 	} else {
@@ -4561,7 +4744,7 @@ func (details *CustomerManagedKeyDetails_STATUS) AssignProperties_From_CustomerM
 		var key WorkspaceKeyDetails_STATUS
 		err := key.AssignProperties_From_WorkspaceKeyDetails_STATUS(source.Key)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceKeyDetails_STATUS() to populate field Key")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceKeyDetails_STATUS() to populate field Key")
 		}
 		details.Key = &key
 	} else {
@@ -4585,7 +4768,7 @@ func (details *CustomerManagedKeyDetails_STATUS) AssignProperties_To_CustomerMan
 		var kekIdentity storage.KekIdentityProperties_STATUS
 		err := details.KekIdentity.AssignProperties_To_KekIdentityProperties_STATUS(&kekIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KekIdentityProperties_STATUS() to populate field KekIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_KekIdentityProperties_STATUS() to populate field KekIdentity")
 		}
 		destination.KekIdentity = &kekIdentity
 	} else {
@@ -4597,7 +4780,7 @@ func (details *CustomerManagedKeyDetails_STATUS) AssignProperties_To_CustomerMan
 		var key storage.WorkspaceKeyDetails_STATUS
 		err := details.Key.AssignProperties_To_WorkspaceKeyDetails_STATUS(&key)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceKeyDetails_STATUS() to populate field Key")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceKeyDetails_STATUS() to populate field Key")
 		}
 		destination.Key = &key
 	} else {
@@ -4696,14 +4879,14 @@ var _ genruntime.FromARMConverter = &UserAssignedManagedIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *UserAssignedManagedIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedManagedIdentity_STATUS_ARM{}
+	return &arm.UserAssignedManagedIdentity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *UserAssignedManagedIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAssignedManagedIdentity_STATUS_ARM)
+	typedInput, ok := armInput.(arm.UserAssignedManagedIdentity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedManagedIdentity_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserAssignedManagedIdentity_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -4773,7 +4956,7 @@ func (properties *KekIdentityProperties) ConvertToARM(resolved genruntime.Conver
 	if properties == nil {
 		return nil, nil
 	}
-	result := &KekIdentityProperties_ARM{}
+	result := &arm.KekIdentityProperties{}
 
 	// Set property "UseSystemAssignedIdentity":
 	if properties.UseSystemAssignedIdentity != nil {
@@ -4795,14 +4978,14 @@ func (properties *KekIdentityProperties) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *KekIdentityProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KekIdentityProperties_ARM{}
+	return &arm.KekIdentityProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *KekIdentityProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KekIdentityProperties_ARM)
+	typedInput, ok := armInput.(arm.KekIdentityProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KekIdentityProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.KekIdentityProperties, got %T", armInput)
 	}
 
 	// Set property "UseSystemAssignedIdentity":
@@ -4900,14 +5083,14 @@ var _ genruntime.FromARMConverter = &KekIdentityProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *KekIdentityProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KekIdentityProperties_STATUS_ARM{}
+	return &arm.KekIdentityProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *KekIdentityProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KekIdentityProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.KekIdentityProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KekIdentityProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.KekIdentityProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "UseSystemAssignedIdentity":
@@ -4987,7 +5170,7 @@ func (details *WorkspaceKeyDetails) ConvertToARM(resolved genruntime.ConvertToAR
 	if details == nil {
 		return nil, nil
 	}
-	result := &WorkspaceKeyDetails_ARM{}
+	result := &arm.WorkspaceKeyDetails{}
 
 	// Set property "KeyVaultUrl":
 	if details.KeyVaultUrl != nil {
@@ -5005,14 +5188,14 @@ func (details *WorkspaceKeyDetails) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (details *WorkspaceKeyDetails) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceKeyDetails_ARM{}
+	return &arm.WorkspaceKeyDetails{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (details *WorkspaceKeyDetails) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceKeyDetails_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceKeyDetails)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceKeyDetails_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceKeyDetails, got %T", armInput)
 	}
 
 	// Set property "KeyVaultUrl":
@@ -5092,14 +5275,14 @@ var _ genruntime.FromARMConverter = &WorkspaceKeyDetails_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (details *WorkspaceKeyDetails_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceKeyDetails_STATUS_ARM{}
+	return &arm.WorkspaceKeyDetails_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (details *WorkspaceKeyDetails_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceKeyDetails_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceKeyDetails_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceKeyDetails_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceKeyDetails_STATUS, got %T", armInput)
 	}
 
 	// Set property "KeyVaultUrl":

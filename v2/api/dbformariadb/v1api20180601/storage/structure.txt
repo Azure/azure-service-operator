@@ -5,8 +5,12 @@ APIVersion: Enum (1 value)
 └── "2018-06-01"
 Configuration: Resource
 ├── Owner: dbformariadb/v1api20180601.Server
-├── Spec: Object (6 properties)
+├── Spec: Object (7 properties)
 │   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -26,10 +30,14 @@ Configuration: Resource
     └── Value: *string
 Database: Resource
 ├── Owner: dbformariadb/v1api20180601.Server
-├── Spec: Object (6 properties)
+├── Spec: Object (7 properties)
 │   ├── AzureName: string
 │   ├── Charset: *string
 │   ├── Collation: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
@@ -46,8 +54,10 @@ Server: Resource
 ├── Spec: Object (9 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (2 properties)
 │   │       ├── FullyQualifiedDomainName: *genruntime.SecretDestination
 │   │       └── PropertyBag: genruntime.PropertyBag

@@ -14,17 +14,19 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"runtime/debug"
 	"strings"
 	"sync"
 	"time"
 
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/sync/semaphore"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/record"
+	"k8s.io/klog/v2/textlogger"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -37,9 +39,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
+	"github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
+	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
@@ -53,7 +57,7 @@ func getRoot() (string, error) {
 	cmd := exec.Command("git", "rev-parse", "--show-toplevel")
 	out, err := cmd.Output()
 	if err != nil {
-		return "", errors.Wrapf(err, "failed to get root directory")
+		return "", eris.Wrapf(err, "failed to get root directory")
 	}
 
 	return strings.TrimSpace(string(out)), nil
@@ -88,18 +92,17 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		Scheme: scheme,
 	}
 
-	// Switch logger below if we want controller-runtime logs in the tests.
+	logger := textlogger.NewLogger(textlogger.NewConfig(textlogger.Verbosity(logging.Debug)))
+
+	// TODO: Uncomment the below if we want controller-runtime logs in the tests.
 	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
-	// import (ctrl "sigs.k8s.io/controller-runtime")
-	// cfg := textlogger.NewConfig(textlogger.Verbosity(Debug)) // Use verbose logging in tests
-	// log := textlogger.NewLogger(cfg)
-	// ctrl.SetLogger(log)
+	// ctrl.SetLogger(logger)
 	ctrl.SetLogger(logr.Discard())
 
 	log.Println("Starting envtest")
 	kubeConfig, err := environment.Start()
 	if err != nil {
-		return nil, errors.Wrapf(err, "starting envtest environment")
+		return nil, eris.Wrapf(err, "starting envtest environment")
 	}
 
 	stopEnvironment := func() {
@@ -157,17 +160,8 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	})
 	if err != nil {
 		stopEnvironment()
-		return nil, errors.Wrapf(err, "creating controller-runtime manager")
+		return nil, eris.Wrapf(err, "creating controller-runtime manager")
 	}
-
-	// TODO: Uncomment the below if we want controller-runtime logs in the tests.
-	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
-	//
-	// import (ctrl "sigs.k8s.io/controller-runtime")
-	// cfg := textlogger.NewConfig(textlogger.Verbosity(Debug)) // Use verbose logging in tests
-	// log := textlogger.NewLogger(cfg)
-	// ctrl.SetLogger(log)
-	ctrl.SetLogger(logr.Discard())
 
 	loggerFactory := func(obj metav1.Object) logr.Logger {
 		result := namespaceResources.Lookup(obj.GetNamespace())
@@ -192,6 +186,15 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	testIndexer := NewIndexer(mgr.GetScheme())
 	indexer := kubeclient.NewAndIndexer(mgr.GetFieldIndexer(), testIndexer)
 	kubeClient := kubeclient.NewClient(NewClient(mgr.GetClient(), testIndexer))
+	expressionEvaluator, err := asocel.NewExpressionEvaluator(asocel.Log(logger))
+	// Note that we don't start expressionEvaluator here because we're in a test context and turning cache eviction
+	// on is probably overkill.
+	if err != nil {
+		return nil, eris.Wrapf(err, "creating expression evaluator")
+	}
+
+	// This means a single evaluator will be used for all envtests. For the purposes of testing that's probably OK...
+	asocel.RegisterEvaluator(expressionEvaluator)
 
 	credentialProviderWrapper := &credentialProviderWrapper{namespaceResources: namespaceResources}
 
@@ -225,6 +228,14 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 				return ctrl.Log
 			},
 		},
+		// Specified here because usually controller-runtime logging would detect panics and log them for us
+		// but in the case of envtest we disable those logs because they're too verbose.
+		PanicHandler: func() {
+			if e := recover(); e != nil {
+				stack := debug.Stack()
+				log.Printf("panic: %s\nstack:%s\n", e, stack)
+			}
+		},
 		RequeueIntervalCalculator: interval.NewCalculator(
 			interval.CalculatorParameters{
 				//nolint:gosec // do not want cryptographic randomness here
@@ -245,6 +256,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			credentialProviderWrapper,
 			kubeClient,
 			positiveConditions,
+			expressionEvaluator,
 			options)
 		if err != nil {
 			return nil, err
@@ -259,7 +271,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			options)
 		if err != nil {
 			stopEnvironment()
-			return nil, errors.Wrapf(err, "registering reconcilers")
+			return nil, eris.Wrapf(err, "registering reconcilers")
 		}
 	}
 
@@ -267,7 +279,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		err = generic.RegisterWebhooks(mgr, controllers.GetKnownTypes())
 		if err != nil {
 			stopEnvironment()
-			return nil, errors.Wrapf(err, "registering webhooks")
+			return nil, eris.Wrapf(err, "registering webhooks")
 		}
 	}
 
@@ -293,7 +305,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			}
 
 			if time.Now().After(timeoutAt) {
-				err = errors.Wrap(err, "timed out waiting for webhook server to start")
+				err = eris.Wrap(err, "timed out waiting for webhook server to start")
 				panic(err.Error())
 			}
 
@@ -416,7 +428,7 @@ func (set *sharedEnvTests) getEnvTestForConfig(ctx context.Context, cfg testConf
 	// nolint: contextcheck // 2022-09 @unrepentantgeek Seems to be a false positive
 	newEnvTest, err := createSharedEnvTest(cfg, set.namespaceResources)
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to create shared envtest environment")
+		return nil, eris.Wrap(err, "unable to create shared envtest environment")
 	}
 
 	set.envtests[envTestKey] = newEnvTest

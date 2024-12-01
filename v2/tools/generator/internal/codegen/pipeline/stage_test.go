@@ -10,7 +10,8 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	"github.com/pkg/errors"
+
+	"github.com/rotisserie/eris"
 )
 
 // RunTestPipeline is used to run a sequence of stages as a part of a unit test
@@ -20,7 +21,7 @@ func RunTestPipeline(state *State, stages ...*Stage) (*State, error) {
 	for _, stage := range stages {
 		s, err := stage.Run(context.TODO(), resultState)
 		if err != nil {
-			return nil, errors.Wrapf(err, "running stage %q", stage.id)
+			return nil, eris.Wrapf(err, "running stage %q", stage.id)
 		}
 
 		resultState = s

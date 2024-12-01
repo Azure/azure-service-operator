@@ -5,7 +5,8 @@ package v1api20201101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForBgpSettings(subject BgpSettings) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BgpSettings
+	var other v20201101s.BgpSettings
 	err := copied.AssignProperties_To_BgpSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -153,7 +154,7 @@ func RunPropertyAssignmentTestForBgpSettings_STATUS(subject BgpSettings_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BgpSettings_STATUS
+	var other v20201101s.BgpSettings_STATUS
 	err := copied.AssignProperties_To_BgpSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -271,7 +272,7 @@ func RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress(subject IPConf
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IPConfigurationBgpPeeringAddress
+	var other v20201101s.IPConfigurationBgpPeeringAddress
 	err := copied.AssignProperties_To_IPConfigurationBgpPeeringAddress(&other)
 	if err != nil {
 		return err.Error()
@@ -375,7 +376,7 @@ func RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IPConfigurationBgpPeeringAddress_STATUS
+	var other v20201101s.IPConfigurationBgpPeeringAddress_STATUS
 	err := copied.AssignProperties_To_IPConfigurationBgpPeeringAddress_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -481,7 +482,7 @@ func RunPropertyAssignmentTestForIpsecPolicy(subject IpsecPolicy) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IpsecPolicy
+	var other v20201101s.IpsecPolicy
 	err := copied.AssignProperties_To_IpsecPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -635,7 +636,7 @@ func RunPropertyAssignmentTestForIpsecPolicy_STATUS(subject IpsecPolicy_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IpsecPolicy_STATUS
+	var other v20201101s.IpsecPolicy_STATUS
 	err := copied.AssignProperties_To_IpsecPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -789,7 +790,7 @@ func RunPropertyAssignmentTestForRadiusServer(subject RadiusServer) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RadiusServer
+	var other v20201101s.RadiusServer
 	err := copied.AssignProperties_To_RadiusServer(&other)
 	if err != nil {
 		return err.Error()
@@ -893,7 +894,7 @@ func RunPropertyAssignmentTestForRadiusServer_STATUS(subject RadiusServer_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RadiusServer_STATUS
+	var other v20201101s.RadiusServer_STATUS
 	err := copied.AssignProperties_To_RadiusServer_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -999,7 +1000,7 @@ func RunResourceConversionTestForVirtualNetworkGateway(subject VirtualNetworkGat
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.VirtualNetworkGateway
+	var hub v20240301s.VirtualNetworkGateway
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -1041,7 +1042,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGateway(subject VirtualNetworkGat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworkGateway
+	var other v20201101s.VirtualNetworkGateway
 	err := copied.AssignProperties_To_VirtualNetworkGateway(&other)
 	if err != nil {
 		return err.Error()
@@ -1145,7 +1146,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfiguration(subject Vi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworkGatewayIPConfiguration
+	var other v20201101s.VirtualNetworkGatewayIPConfiguration
 	err := copied.AssignProperties_To_VirtualNetworkGatewayIPConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -1264,7 +1265,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfiguration_STATUS(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworkGatewayIPConfiguration_STATUS
+	var other v20201101s.VirtualNetworkGatewayIPConfiguration_STATUS
 	err := copied.AssignProperties_To_VirtualNetworkGatewayIPConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1374,6 +1375,103 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_STATUS(
 	gens["Subnet"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
+func Test_VirtualNetworkGatewayOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworkGatewayOperatorSpec to VirtualNetworkGatewayOperatorSpec via AssignProperties_To_VirtualNetworkGatewayOperatorSpec & AssignProperties_From_VirtualNetworkGatewayOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGatewayOperatorSpec, VirtualNetworkGatewayOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworkGatewayOperatorSpec tests if a specific instance of VirtualNetworkGatewayOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkGatewayOperatorSpec(subject VirtualNetworkGatewayOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20201101s.VirtualNetworkGatewayOperatorSpec
+	err := copied.AssignProperties_To_VirtualNetworkGatewayOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworkGatewayOperatorSpec
+	err = actual.AssignProperties_From_VirtualNetworkGatewayOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualNetworkGatewayOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualNetworkGatewayOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewayOperatorSpec, VirtualNetworkGatewayOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualNetworkGatewayOperatorSpec runs a test to see if a specific instance of VirtualNetworkGatewayOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGatewayOperatorSpec(subject VirtualNetworkGatewayOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualNetworkGatewayOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualNetworkGatewayOperatorSpec instances for property testing - lazily instantiated by
+// VirtualNetworkGatewayOperatorSpecGenerator()
+var virtualNetworkGatewayOperatorSpecGenerator gopter.Gen
+
+// VirtualNetworkGatewayOperatorSpecGenerator returns a generator of VirtualNetworkGatewayOperatorSpec instances for property testing.
+func VirtualNetworkGatewayOperatorSpecGenerator() gopter.Gen {
+	if virtualNetworkGatewayOperatorSpecGenerator != nil {
+		return virtualNetworkGatewayOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	virtualNetworkGatewayOperatorSpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewayOperatorSpec{}), generators)
+
+	return virtualNetworkGatewayOperatorSpecGenerator
+}
+
 func Test_VirtualNetworkGatewaySku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1391,7 +1489,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaySku(subject VirtualNetwork
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworkGatewaySku
+	var other v20201101s.VirtualNetworkGatewaySku
 	err := copied.AssignProperties_To_VirtualNetworkGatewaySku(&other)
 	if err != nil {
 		return err.Error()
@@ -1529,7 +1627,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaySku_STATUS(subject Virtual
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworkGatewaySku_STATUS
+	var other v20201101s.VirtualNetworkGatewaySku_STATUS
 	err := copied.AssignProperties_To_VirtualNetworkGatewaySku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1668,7 +1766,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGateway_STATUS(subject VirtualNet
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworkGateway_STATUS
+	var other v20201101s.VirtualNetworkGateway_STATUS
 	err := copied.AssignProperties_To_VirtualNetworkGateway_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1813,7 +1911,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGateway_Spec(subject VirtualNetwo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworkGateway_Spec
+	var other v20201101s.VirtualNetworkGateway_Spec
 	err := copied.AssignProperties_To_VirtualNetworkGateway_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1926,6 +2024,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGateway_Spec(gens map[string]g
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["GatewayDefaultSite"] = gen.PtrOf(SubResourceGenerator())
 	gens["IpConfigurations"] = gen.SliceOf(VirtualNetworkGatewayIPConfigurationGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(VirtualNetworkGatewayOperatorSpecGenerator())
 	gens["Sku"] = gen.PtrOf(VirtualNetworkGatewaySkuGenerator())
 	gens["VpnClientConfiguration"] = gen.PtrOf(VpnClientConfigurationGenerator())
 }
@@ -1947,7 +2046,7 @@ func RunPropertyAssignmentTestForVpnClientConfiguration(subject VpnClientConfigu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VpnClientConfiguration
+	var other v20201101s.VpnClientConfiguration
 	err := copied.AssignProperties_To_VpnClientConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -2074,7 +2173,7 @@ func RunPropertyAssignmentTestForVpnClientConfiguration_STATUS(subject VpnClient
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VpnClientConfiguration_STATUS
+	var other v20201101s.VpnClientConfiguration_STATUS
 	err := copied.AssignProperties_To_VpnClientConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2201,7 +2300,7 @@ func RunPropertyAssignmentTestForVpnClientRevokedCertificate(subject VpnClientRe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VpnClientRevokedCertificate
+	var other v20201101s.VpnClientRevokedCertificate
 	err := copied.AssignProperties_To_VpnClientRevokedCertificate(&other)
 	if err != nil {
 		return err.Error()
@@ -2305,7 +2404,7 @@ func RunPropertyAssignmentTestForVpnClientRevokedCertificate_STATUS(subject VpnC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VpnClientRevokedCertificate_STATUS
+	var other v20201101s.VpnClientRevokedCertificate_STATUS
 	err := copied.AssignProperties_To_VpnClientRevokedCertificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2416,7 +2515,7 @@ func RunPropertyAssignmentTestForVpnClientRootCertificate(subject VpnClientRootC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VpnClientRootCertificate
+	var other v20201101s.VpnClientRootCertificate
 	err := copied.AssignProperties_To_VpnClientRootCertificate(&other)
 	if err != nil {
 		return err.Error()
@@ -2520,7 +2619,7 @@ func RunPropertyAssignmentTestForVpnClientRootCertificate_STATUS(subject VpnClie
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VpnClientRootCertificate_STATUS
+	var other v20201101s.VpnClientRootCertificate_STATUS
 	err := copied.AssignProperties_To_VpnClientRootCertificate_STATUS(&other)
 	if err != nil {
 		return err.Error()

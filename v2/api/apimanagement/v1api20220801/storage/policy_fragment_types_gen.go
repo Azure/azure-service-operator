@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type PolicyFragment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_PolicyFragment_Spec   `json:"spec,omitempty"`
-	Status            Service_PolicyFragment_STATUS `json:"status,omitempty"`
+	Spec              PolicyFragment_Spec   `json:"spec,omitempty"`
+	Status            PolicyFragment_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &PolicyFragment{}
@@ -42,6 +45,26 @@ func (fragment *PolicyFragment) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (fragment *PolicyFragment) SetConditions(conditions conditions.Conditions) {
 	fragment.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &PolicyFragment{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (fragment *PolicyFragment) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if fragment.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return fragment.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &PolicyFragment{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (fragment *PolicyFragment) SecretDestinationExpressions() []*core.DestinationExpression {
+	if fragment.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return fragment.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &PolicyFragment{}
@@ -88,11 +111,15 @@ func (fragment *PolicyFragment) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (fragment *PolicyFragment) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_PolicyFragment_STATUS{}
+	return &PolicyFragment_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (fragment *PolicyFragment) Owner() *genruntime.ResourceReference {
+	if fragment.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(fragment.Spec)
 	return fragment.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -100,16 +127,16 @@ func (fragment *PolicyFragment) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (fragment *PolicyFragment) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_PolicyFragment_STATUS); ok {
+	if st, ok := status.(*PolicyFragment_STATUS); ok {
 		fragment.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_PolicyFragment_STATUS
+	var st PolicyFragment_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	fragment.Status = st
@@ -139,14 +166,15 @@ type PolicyFragmentList struct {
 	Items           []PolicyFragment `json:"items"`
 }
 
-// Storage version of v1api20220801.Service_PolicyFragment_Spec
-type Service_PolicyFragment_Spec struct {
+// Storage version of v1api20220801.PolicyFragment_Spec
+type PolicyFragment_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Description     *string `json:"description,omitempty"`
-	Format          *string `json:"format,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string                      `json:"azureName,omitempty"`
+	Description     *string                     `json:"description,omitempty"`
+	Format          *string                     `json:"format,omitempty"`
+	OperatorSpec    *PolicyFragmentOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                      `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -157,28 +185,28 @@ type Service_PolicyFragment_Spec struct {
 	Value       *string                            `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Service_PolicyFragment_Spec{}
+var _ genruntime.ConvertibleSpec = &PolicyFragment_Spec{}
 
-// ConvertSpecFrom populates our Service_PolicyFragment_Spec from the provided source
-func (fragment *Service_PolicyFragment_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our PolicyFragment_Spec from the provided source
+func (fragment *PolicyFragment_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == fragment {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(fragment)
 }
 
-// ConvertSpecTo populates the provided destination from our Service_PolicyFragment_Spec
-func (fragment *Service_PolicyFragment_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our PolicyFragment_Spec
+func (fragment *PolicyFragment_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == fragment {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(fragment)
 }
 
-// Storage version of v1api20220801.Service_PolicyFragment_STATUS
-type Service_PolicyFragment_STATUS struct {
+// Storage version of v1api20220801.PolicyFragment_STATUS
+type PolicyFragment_STATUS struct {
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Description *string                `json:"description,omitempty"`
 	Format      *string                `json:"format,omitempty"`
@@ -189,24 +217,32 @@ type Service_PolicyFragment_STATUS struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_PolicyFragment_STATUS{}
+var _ genruntime.ConvertibleStatus = &PolicyFragment_STATUS{}
 
-// ConvertStatusFrom populates our Service_PolicyFragment_STATUS from the provided source
-func (fragment *Service_PolicyFragment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our PolicyFragment_STATUS from the provided source
+func (fragment *PolicyFragment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == fragment {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(fragment)
 }
 
-// ConvertStatusTo populates the provided destination from our Service_PolicyFragment_STATUS
-func (fragment *Service_PolicyFragment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our PolicyFragment_STATUS
+func (fragment *PolicyFragment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == fragment {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(fragment)
+}
+
+// Storage version of v1api20220801.PolicyFragmentOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type PolicyFragmentOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

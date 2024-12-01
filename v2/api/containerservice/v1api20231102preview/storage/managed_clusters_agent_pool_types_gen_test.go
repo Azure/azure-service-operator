@@ -5,7 +5,9 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
+	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
+	v20231001sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage/compat"
+	v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -279,7 +281,7 @@ func RunPropertyAssignmentTestForAgentPoolNetworkProfile(subject AgentPoolNetwor
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AgentPoolNetworkProfile
+	var other v20231001s.AgentPoolNetworkProfile
 	err := copied.AssignProperties_To_AgentPoolNetworkProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -383,7 +385,7 @@ func RunPropertyAssignmentTestForAgentPoolNetworkProfile_STATUS(subject AgentPoo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AgentPoolNetworkProfile_STATUS
+	var other v20231001s.AgentPoolNetworkProfile_STATUS
 	err := copied.AssignProperties_To_AgentPoolNetworkProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -484,6 +486,48 @@ func AddRelatedPropertyGeneratorsForAgentPoolNetworkProfile_STATUS(gens map[stri
 	gens["NodePublicIPTags"] = gen.SliceOf(IPTag_STATUSGenerator())
 }
 
+func Test_AgentPoolSecurityProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AgentPoolSecurityProfile to AgentPoolSecurityProfile via AssignProperties_To_AgentPoolSecurityProfile & AssignProperties_From_AgentPoolSecurityProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAgentPoolSecurityProfile, AgentPoolSecurityProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAgentPoolSecurityProfile tests if a specific instance of AgentPoolSecurityProfile can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForAgentPoolSecurityProfile(subject AgentPoolSecurityProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001sc.AgentPoolSecurityProfile
+	err := copied.AssignProperties_To_AgentPoolSecurityProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AgentPoolSecurityProfile
+	err = actual.AssignProperties_From_AgentPoolSecurityProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AgentPoolSecurityProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -545,6 +589,48 @@ func AddIndependentPropertyGeneratorsForAgentPoolSecurityProfile(gens map[string
 	gens["EnableSecureBoot"] = gen.PtrOf(gen.Bool())
 	gens["EnableVTPM"] = gen.PtrOf(gen.Bool())
 	gens["SshAccess"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AgentPoolSecurityProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AgentPoolSecurityProfile_STATUS to AgentPoolSecurityProfile_STATUS via AssignProperties_To_AgentPoolSecurityProfile_STATUS & AssignProperties_From_AgentPoolSecurityProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAgentPoolSecurityProfile_STATUS, AgentPoolSecurityProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAgentPoolSecurityProfile_STATUS tests if a specific instance of AgentPoolSecurityProfile_STATUS can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForAgentPoolSecurityProfile_STATUS(subject AgentPoolSecurityProfile_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001sc.AgentPoolSecurityProfile_STATUS
+	err := copied.AssignProperties_To_AgentPoolSecurityProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AgentPoolSecurityProfile_STATUS
+	err = actual.AssignProperties_From_AgentPoolSecurityProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AgentPoolSecurityProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -627,7 +713,7 @@ func RunPropertyAssignmentTestForAgentPoolUpgradeSettings(subject AgentPoolUpgra
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AgentPoolUpgradeSettings
+	var other v20231001s.AgentPoolUpgradeSettings
 	err := copied.AssignProperties_To_AgentPoolUpgradeSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -732,7 +818,7 @@ func RunPropertyAssignmentTestForAgentPoolUpgradeSettings_STATUS(subject AgentPo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AgentPoolUpgradeSettings_STATUS
+	var other v20231001s.AgentPoolUpgradeSettings_STATUS
 	err := copied.AssignProperties_To_AgentPoolUpgradeSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -820,6 +906,48 @@ func AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettings_STATUS(gens map
 	gens["NodeSoakDurationInMinutes"] = gen.PtrOf(gen.Int())
 }
 
+func Test_AgentPoolWindowsProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AgentPoolWindowsProfile to AgentPoolWindowsProfile via AssignProperties_To_AgentPoolWindowsProfile & AssignProperties_From_AgentPoolWindowsProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAgentPoolWindowsProfile, AgentPoolWindowsProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAgentPoolWindowsProfile tests if a specific instance of AgentPoolWindowsProfile can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAgentPoolWindowsProfile(subject AgentPoolWindowsProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20240901s.AgentPoolWindowsProfile
+	err := copied.AssignProperties_To_AgentPoolWindowsProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AgentPoolWindowsProfile
+	err = actual.AssignProperties_From_AgentPoolWindowsProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AgentPoolWindowsProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -879,6 +1007,48 @@ func AgentPoolWindowsProfileGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAgentPoolWindowsProfile is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAgentPoolWindowsProfile(gens map[string]gopter.Gen) {
 	gens["DisableOutboundNat"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_AgentPoolWindowsProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AgentPoolWindowsProfile_STATUS to AgentPoolWindowsProfile_STATUS via AssignProperties_To_AgentPoolWindowsProfile_STATUS & AssignProperties_From_AgentPoolWindowsProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAgentPoolWindowsProfile_STATUS, AgentPoolWindowsProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAgentPoolWindowsProfile_STATUS tests if a specific instance of AgentPoolWindowsProfile_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAgentPoolWindowsProfile_STATUS(subject AgentPoolWindowsProfile_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20240901s.AgentPoolWindowsProfile_STATUS
+	err := copied.AssignProperties_To_AgentPoolWindowsProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AgentPoolWindowsProfile_STATUS
+	err = actual.AssignProperties_From_AgentPoolWindowsProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AgentPoolWindowsProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -959,7 +1129,7 @@ func RunPropertyAssignmentTestForIPTag(subject IPTag) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IPTag
+	var other v20231001s.IPTag
 	err := copied.AssignProperties_To_IPTag(&other)
 	if err != nil {
 		return err.Error()
@@ -1062,7 +1232,7 @@ func RunPropertyAssignmentTestForIPTag_STATUS(subject IPTag_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IPTag_STATUS
+	var other v20231001s.IPTag_STATUS
 	err := copied.AssignProperties_To_IPTag_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1165,7 +1335,7 @@ func RunPropertyAssignmentTestForKubeletConfig(subject KubeletConfig) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KubeletConfig
+	var other v20231001s.KubeletConfig
 	err := copied.AssignProperties_To_KubeletConfig(&other)
 	if err != nil {
 		return err.Error()
@@ -1277,7 +1447,7 @@ func RunPropertyAssignmentTestForKubeletConfig_STATUS(subject KubeletConfig_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KubeletConfig_STATUS
+	var other v20231001s.KubeletConfig_STATUS
 	err := copied.AssignProperties_To_KubeletConfig_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1390,7 +1560,7 @@ func RunPropertyAssignmentTestForLinuxOSConfig(subject LinuxOSConfig) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LinuxOSConfig
+	var other v20231001s.LinuxOSConfig
 	err := copied.AssignProperties_To_LinuxOSConfig(&other)
 	if err != nil {
 		return err.Error()
@@ -1508,7 +1678,7 @@ func RunPropertyAssignmentTestForLinuxOSConfig_STATUS(subject LinuxOSConfig_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LinuxOSConfig_STATUS
+	var other v20231001s.LinuxOSConfig_STATUS
 	err := copied.AssignProperties_To_LinuxOSConfig_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1628,7 +1798,7 @@ func RunResourceConversionTestForManagedClustersAgentPool(subject ManagedCluster
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ManagedClustersAgentPool
+	var hub v20240901s.ManagedClustersAgentPool
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -1670,7 +1840,7 @@ func RunPropertyAssignmentTestForManagedClustersAgentPool(subject ManagedCluster
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedClustersAgentPool
+	var other v20231001s.ManagedClustersAgentPool
 	err := copied.AssignProperties_To_ManagedClustersAgentPool(&other)
 	if err != nil {
 		return err.Error()
@@ -1753,36 +1923,36 @@ func ManagedClustersAgentPoolGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForManagedClustersAgentPool is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClustersAgentPool(gens map[string]gopter.Gen) {
-	gens["Spec"] = ManagedClusters_AgentPool_SpecGenerator()
-	gens["Status"] = ManagedClusters_AgentPool_STATUSGenerator()
+	gens["Spec"] = ManagedClustersAgentPool_SpecGenerator()
+	gens["Status"] = ManagedClustersAgentPool_STATUSGenerator()
 }
 
-func Test_ManagedClusters_AgentPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ManagedClustersAgentPoolOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ManagedClusters_AgentPool_STATUS to ManagedClusters_AgentPool_STATUS via AssignProperties_To_ManagedClusters_AgentPool_STATUS & AssignProperties_From_ManagedClusters_AgentPool_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedClusters_AgentPool_STATUS, ManagedClusters_AgentPool_STATUSGenerator()))
+		"Round trip from ManagedClustersAgentPoolOperatorSpec to ManagedClustersAgentPoolOperatorSpec via AssignProperties_To_ManagedClustersAgentPoolOperatorSpec & AssignProperties_From_ManagedClustersAgentPoolOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClustersAgentPoolOperatorSpec, ManagedClustersAgentPoolOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusters_AgentPool_STATUS tests if a specific instance of ManagedClusters_AgentPool_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedClusters_AgentPool_STATUS(subject ManagedClusters_AgentPool_STATUS) string {
+// RunPropertyAssignmentTestForManagedClustersAgentPoolOperatorSpec tests if a specific instance of ManagedClustersAgentPoolOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedClustersAgentPoolOperatorSpec(subject ManagedClustersAgentPoolOperatorSpec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedClusters_AgentPool_STATUS
-	err := copied.AssignProperties_To_ManagedClusters_AgentPool_STATUS(&other)
+	var other v20231001s.ManagedClustersAgentPoolOperatorSpec
+	err := copied.AssignProperties_To_ManagedClustersAgentPoolOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedClusters_AgentPool_STATUS
-	err = actual.AssignProperties_From_ManagedClusters_AgentPool_STATUS(&other)
+	var actual ManagedClustersAgentPoolOperatorSpec
+	err = actual.AssignProperties_From_ManagedClustersAgentPoolOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1799,20 +1969,20 @@ func RunPropertyAssignmentTestForManagedClusters_AgentPool_STATUS(subject Manage
 	return ""
 }
 
-func Test_ManagedClusters_AgentPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClustersAgentPoolOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusters_AgentPool_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusters_AgentPool_STATUS, ManagedClusters_AgentPool_STATUSGenerator()))
+		"Round trip of ManagedClustersAgentPoolOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClustersAgentPoolOperatorSpec, ManagedClustersAgentPoolOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusters_AgentPool_STATUS runs a test to see if a specific instance of ManagedClusters_AgentPool_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusters_AgentPool_STATUS(subject ManagedClusters_AgentPool_STATUS) string {
+// RunJSONSerializationTestForManagedClustersAgentPoolOperatorSpec runs a test to see if a specific instance of ManagedClustersAgentPoolOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClustersAgentPoolOperatorSpec(subject ManagedClustersAgentPoolOperatorSpec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1820,7 +1990,7 @@ func RunJSONSerializationTestForManagedClusters_AgentPool_STATUS(subject Managed
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusters_AgentPool_STATUS
+	var actual ManagedClustersAgentPoolOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1838,25 +2008,122 @@ func RunJSONSerializationTestForManagedClusters_AgentPool_STATUS(subject Managed
 	return ""
 }
 
-// Generator of ManagedClusters_AgentPool_STATUS instances for property testing - lazily instantiated by
-// ManagedClusters_AgentPool_STATUSGenerator()
-var managedClusters_AgentPool_STATUSGenerator gopter.Gen
+// Generator of ManagedClustersAgentPoolOperatorSpec instances for property testing - lazily instantiated by
+// ManagedClustersAgentPoolOperatorSpecGenerator()
+var managedClustersAgentPoolOperatorSpecGenerator gopter.Gen
 
-// ManagedClusters_AgentPool_STATUSGenerator returns a generator of ManagedClusters_AgentPool_STATUS instances for property testing.
-func ManagedClusters_AgentPool_STATUSGenerator() gopter.Gen {
-	if managedClusters_AgentPool_STATUSGenerator != nil {
-		return managedClusters_AgentPool_STATUSGenerator
+// ManagedClustersAgentPoolOperatorSpecGenerator returns a generator of ManagedClustersAgentPoolOperatorSpec instances for property testing.
+func ManagedClustersAgentPoolOperatorSpecGenerator() gopter.Gen {
+	if managedClustersAgentPoolOperatorSpecGenerator != nil {
+		return managedClustersAgentPoolOperatorSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS(generators)
-	managedClusters_AgentPool_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_AgentPool_STATUS{}), generators)
+	managedClustersAgentPoolOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClustersAgentPoolOperatorSpec{}), generators)
 
-	return managedClusters_AgentPool_STATUSGenerator
+	return managedClustersAgentPoolOperatorSpecGenerator
 }
 
-// AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS(gens map[string]gopter.Gen) {
+func Test_ManagedClustersAgentPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClustersAgentPool_STATUS to ManagedClustersAgentPool_STATUS via AssignProperties_To_ManagedClustersAgentPool_STATUS & AssignProperties_From_ManagedClustersAgentPool_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClustersAgentPool_STATUS, ManagedClustersAgentPool_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedClustersAgentPool_STATUS tests if a specific instance of ManagedClustersAgentPool_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedClustersAgentPool_STATUS(subject ManagedClustersAgentPool_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001s.ManagedClustersAgentPool_STATUS
+	err := copied.AssignProperties_To_ManagedClustersAgentPool_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedClustersAgentPool_STATUS
+	err = actual.AssignProperties_From_ManagedClustersAgentPool_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ManagedClustersAgentPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClustersAgentPool_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClustersAgentPool_STATUS, ManagedClustersAgentPool_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClustersAgentPool_STATUS runs a test to see if a specific instance of ManagedClustersAgentPool_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClustersAgentPool_STATUS(subject ManagedClustersAgentPool_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClustersAgentPool_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClustersAgentPool_STATUS instances for property testing - lazily instantiated by
+// ManagedClustersAgentPool_STATUSGenerator()
+var managedClustersAgentPool_STATUSGenerator gopter.Gen
+
+// ManagedClustersAgentPool_STATUSGenerator returns a generator of ManagedClustersAgentPool_STATUS instances for property testing.
+func ManagedClustersAgentPool_STATUSGenerator() gopter.Gen {
+	if managedClustersAgentPool_STATUSGenerator != nil {
+		return managedClustersAgentPool_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForManagedClustersAgentPool_STATUS(generators)
+	managedClustersAgentPool_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedClustersAgentPool_STATUS{}), generators)
+
+	return managedClustersAgentPool_STATUSGenerator
+}
+
+// AddRelatedPropertyGeneratorsForManagedClustersAgentPool_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClustersAgentPool_STATUS(gens map[string]gopter.Gen) {
 	gens["ArtifactStreamingProfile"] = gen.PtrOf(AgentPoolArtifactStreamingProfile_STATUSGenerator())
 	gens["CreationData"] = gen.PtrOf(CreationData_STATUSGenerator())
 	gens["GpuProfile"] = gen.PtrOf(AgentPoolGPUProfile_STATUSGenerator())
@@ -1871,32 +2138,32 @@ func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS(gens map[st
 	gens["WindowsProfile"] = gen.PtrOf(AgentPoolWindowsProfile_STATUSGenerator())
 }
 
-func Test_ManagedClusters_AgentPool_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ManagedClustersAgentPool_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ManagedClusters_AgentPool_Spec to ManagedClusters_AgentPool_Spec via AssignProperties_To_ManagedClusters_AgentPool_Spec & AssignProperties_From_ManagedClusters_AgentPool_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedClusters_AgentPool_Spec, ManagedClusters_AgentPool_SpecGenerator()))
+		"Round trip from ManagedClustersAgentPool_Spec to ManagedClustersAgentPool_Spec via AssignProperties_To_ManagedClustersAgentPool_Spec & AssignProperties_From_ManagedClustersAgentPool_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClustersAgentPool_Spec, ManagedClustersAgentPool_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusters_AgentPool_Spec tests if a specific instance of ManagedClusters_AgentPool_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedClusters_AgentPool_Spec(subject ManagedClusters_AgentPool_Spec) string {
+// RunPropertyAssignmentTestForManagedClustersAgentPool_Spec tests if a specific instance of ManagedClustersAgentPool_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedClustersAgentPool_Spec(subject ManagedClustersAgentPool_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedClusters_AgentPool_Spec
-	err := copied.AssignProperties_To_ManagedClusters_AgentPool_Spec(&other)
+	var other v20231001s.ManagedClustersAgentPool_Spec
+	err := copied.AssignProperties_To_ManagedClustersAgentPool_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedClusters_AgentPool_Spec
-	err = actual.AssignProperties_From_ManagedClusters_AgentPool_Spec(&other)
+	var actual ManagedClustersAgentPool_Spec
+	err = actual.AssignProperties_From_ManagedClustersAgentPool_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1913,20 +2180,20 @@ func RunPropertyAssignmentTestForManagedClusters_AgentPool_Spec(subject ManagedC
 	return ""
 }
 
-func Test_ManagedClusters_AgentPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClustersAgentPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusters_AgentPool_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusters_AgentPool_Spec, ManagedClusters_AgentPool_SpecGenerator()))
+		"Round trip of ManagedClustersAgentPool_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClustersAgentPool_Spec, ManagedClustersAgentPool_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusters_AgentPool_Spec runs a test to see if a specific instance of ManagedClusters_AgentPool_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusters_AgentPool_Spec(subject ManagedClusters_AgentPool_Spec) string {
+// RunJSONSerializationTestForManagedClustersAgentPool_Spec runs a test to see if a specific instance of ManagedClustersAgentPool_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClustersAgentPool_Spec(subject ManagedClustersAgentPool_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1934,7 +2201,7 @@ func RunJSONSerializationTestForManagedClusters_AgentPool_Spec(subject ManagedCl
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusters_AgentPool_Spec
+	var actual ManagedClustersAgentPool_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1952,31 +2219,32 @@ func RunJSONSerializationTestForManagedClusters_AgentPool_Spec(subject ManagedCl
 	return ""
 }
 
-// Generator of ManagedClusters_AgentPool_Spec instances for property testing - lazily instantiated by
-// ManagedClusters_AgentPool_SpecGenerator()
-var managedClusters_AgentPool_SpecGenerator gopter.Gen
+// Generator of ManagedClustersAgentPool_Spec instances for property testing - lazily instantiated by
+// ManagedClustersAgentPool_SpecGenerator()
+var managedClustersAgentPool_SpecGenerator gopter.Gen
 
-// ManagedClusters_AgentPool_SpecGenerator returns a generator of ManagedClusters_AgentPool_Spec instances for property testing.
-func ManagedClusters_AgentPool_SpecGenerator() gopter.Gen {
-	if managedClusters_AgentPool_SpecGenerator != nil {
-		return managedClusters_AgentPool_SpecGenerator
+// ManagedClustersAgentPool_SpecGenerator returns a generator of ManagedClustersAgentPool_Spec instances for property testing.
+func ManagedClustersAgentPool_SpecGenerator() gopter.Gen {
+	if managedClustersAgentPool_SpecGenerator != nil {
+		return managedClustersAgentPool_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_Spec(generators)
-	managedClusters_AgentPool_SpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_AgentPool_Spec{}), generators)
+	AddRelatedPropertyGeneratorsForManagedClustersAgentPool_Spec(generators)
+	managedClustersAgentPool_SpecGenerator = gen.Struct(reflect.TypeOf(ManagedClustersAgentPool_Spec{}), generators)
 
-	return managedClusters_AgentPool_SpecGenerator
+	return managedClustersAgentPool_SpecGenerator
 }
 
-// AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForManagedClustersAgentPool_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClustersAgentPool_Spec(gens map[string]gopter.Gen) {
 	gens["ArtifactStreamingProfile"] = gen.PtrOf(AgentPoolArtifactStreamingProfileGenerator())
 	gens["CreationData"] = gen.PtrOf(CreationDataGenerator())
 	gens["GpuProfile"] = gen.PtrOf(AgentPoolGPUProfileGenerator())
 	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigGenerator())
 	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigGenerator())
 	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfileGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ManagedClustersAgentPoolOperatorSpecGenerator())
 	gens["PowerState"] = gen.PtrOf(PowerStateGenerator())
 	gens["SecurityProfile"] = gen.PtrOf(AgentPoolSecurityProfileGenerator())
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsGenerator())
@@ -2125,7 +2393,7 @@ func RunPropertyAssignmentTestForPortRange(subject PortRange) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PortRange
+	var other v20231001s.PortRange
 	err := copied.AssignProperties_To_PortRange(&other)
 	if err != nil {
 		return err.Error()
@@ -2229,7 +2497,7 @@ func RunPropertyAssignmentTestForPortRange_STATUS(subject PortRange_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PortRange_STATUS
+	var other v20231001s.PortRange_STATUS
 	err := copied.AssignProperties_To_PortRange_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2333,7 +2601,7 @@ func RunPropertyAssignmentTestForPowerState(subject PowerState) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PowerState
+	var other v20231001s.PowerState
 	err := copied.AssignProperties_To_PowerState(&other)
 	if err != nil {
 		return err.Error()
@@ -2556,7 +2824,7 @@ func RunPropertyAssignmentTestForSysctlConfig(subject SysctlConfig) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SysctlConfig
+	var other v20231001s.SysctlConfig
 	err := copied.AssignProperties_To_SysctlConfig(&other)
 	if err != nil {
 		return err.Error()
@@ -2685,7 +2953,7 @@ func RunPropertyAssignmentTestForSysctlConfig_STATUS(subject SysctlConfig_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SysctlConfig_STATUS
+	var other v20231001s.SysctlConfig_STATUS
 	err := copied.AssignProperties_To_SysctlConfig_STATUS(&other)
 	if err != nil {
 		return err.Error()

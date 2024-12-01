@@ -2016,6 +2016,103 @@ func AddRelatedPropertyGeneratorsForRegistry(gens map[string]gopter.Gen) {
 	gens["Status"] = Registry_STATUSGenerator()
 }
 
+func Test_RegistryOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RegistryOperatorSpec to RegistryOperatorSpec via AssignProperties_To_RegistryOperatorSpec & AssignProperties_From_RegistryOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRegistryOperatorSpec, RegistryOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRegistryOperatorSpec tests if a specific instance of RegistryOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRegistryOperatorSpec(subject RegistryOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RegistryOperatorSpec
+	err := copied.AssignProperties_To_RegistryOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RegistryOperatorSpec
+	err = actual.AssignProperties_From_RegistryOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RegistryOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RegistryOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRegistryOperatorSpec, RegistryOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRegistryOperatorSpec runs a test to see if a specific instance of RegistryOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRegistryOperatorSpec(subject RegistryOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RegistryOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RegistryOperatorSpec instances for property testing - lazily instantiated by
+// RegistryOperatorSpecGenerator()
+var registryOperatorSpecGenerator gopter.Gen
+
+// RegistryOperatorSpecGenerator returns a generator of RegistryOperatorSpec instances for property testing.
+func RegistryOperatorSpecGenerator() gopter.Gen {
+	if registryOperatorSpecGenerator != nil {
+		return registryOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	registryOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RegistryOperatorSpec{}), generators)
+
+	return registryOperatorSpecGenerator
+}
+
 func Test_Registry_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2285,6 +2382,7 @@ func AddRelatedPropertyGeneratorsForRegistry_Spec(gens map[string]gopter.Gen) {
 	gens["Encryption"] = gen.PtrOf(EncryptionPropertyGenerator())
 	gens["Identity"] = gen.PtrOf(IdentityPropertiesGenerator())
 	gens["NetworkRuleSet"] = gen.PtrOf(NetworkRuleSetGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(RegistryOperatorSpecGenerator())
 	gens["Policies"] = gen.PtrOf(PoliciesGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
 }

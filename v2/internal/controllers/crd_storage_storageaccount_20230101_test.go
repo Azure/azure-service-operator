@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -84,7 +85,7 @@ func Test_Storage_StorageAccount_20230101_CRUD(t *testing.T) {
 func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
-		Spec: storage.StorageAccounts_BlobService_Spec{
+		Spec: storage.StorageAccountsBlobService_Spec{
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
@@ -104,7 +105,7 @@ func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storage
 func StorageAccount_BlobServices_Container_CRUD(tc *testcommon.KubePerTestContext, blobService *storage.StorageAccountsBlobService) {
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMeta("container"),
-		Spec: storage.StorageAccounts_BlobServices_Container_Spec{
+		Spec: storage.StorageAccountsBlobServicesContainer_Spec{
 			Owner: testcommon.AsOwner(blobService),
 		},
 	}
@@ -116,7 +117,7 @@ func StorageAccount_BlobServices_Container_CRUD(tc *testcommon.KubePerTestContex
 func StorageAccount_QueueServices_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
 	queueService := &storage.StorageAccountsQueueService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
-		Spec: storage.StorageAccounts_QueueService_Spec{
+		Spec: storage.StorageAccountsQueueService_Spec{
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
@@ -137,7 +138,7 @@ func StorageAccount_QueueServices_CRUD(tc *testcommon.KubePerTestContext, storag
 func StorageAccount_QueueServices_Queue_CRUD(tc *testcommon.KubePerTestContext, queueService *storage.StorageAccountsQueueService) {
 	queue := &storage.StorageAccountsQueueServicesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
-		Spec: storage.StorageAccounts_QueueServices_Queue_Spec{
+		Spec: storage.StorageAccountsQueueServicesQueue_Spec{
 			Owner: testcommon.AsOwner(queueService),
 		},
 	}
@@ -149,7 +150,7 @@ func StorageAccount_QueueServices_Queue_CRUD(tc *testcommon.KubePerTestContext, 
 func StorageAccount_TableServices_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
 	tableService := &storage.StorageAccountsTableService{
 		ObjectMeta: tc.MakeObjectMeta("tableservice"),
-		Spec: storage.StorageAccounts_TableService_Spec{
+		Spec: storage.StorageAccountsTableService_Spec{
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
@@ -169,7 +170,7 @@ func StorageAccount_TableServices_CRUD(tc *testcommon.KubePerTestContext, storag
 func StorageAccount_TableServices_Table_CRUD(tc *testcommon.KubePerTestContext, tableService *storage.StorageAccountsTableService) {
 	table := &storage.StorageAccountsTableServicesTable{
 		ObjectMeta: tc.MakeObjectMetaWithName("testtable"),
-		Spec: storage.StorageAccounts_TableServices_Table_Spec{
+		Spec: storage.StorageAccountsTableServicesTable_Spec{
 			Owner: testcommon.AsOwner(tableService),
 		},
 	}
@@ -181,7 +182,7 @@ func StorageAccount_TableServices_Table_CRUD(tc *testcommon.KubePerTestContext, 
 func StorageAccount_FileServices_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
 	fileService := &storage.StorageAccountsFileService{
 		ObjectMeta: tc.MakeObjectMeta("fileservice"),
-		Spec: storage.StorageAccounts_FileService_Spec{
+		Spec: storage.StorageAccountsFileService_Spec{
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
@@ -201,7 +202,7 @@ func StorageAccount_FileServices_CRUD(tc *testcommon.KubePerTestContext, storage
 func StorageAccount_FileServices_Share_CRUD(tc *testcommon.KubePerTestContext, fileService *storage.StorageAccountsFileService) {
 	share := &storage.StorageAccountsFileServicesShare{
 		ObjectMeta: tc.MakeObjectMeta("container"),
-		Spec: storage.StorageAccounts_FileServices_Share_Spec{
+		Spec: storage.StorageAccountsFileServicesShare_Spec{
 			Owner: testcommon.AsOwner(fileService),
 		},
 	}
@@ -342,7 +343,7 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 
 	managementPolicy := &storage.StorageAccountsManagementPolicy{
 		ObjectMeta: tc.MakeObjectMeta("policy"),
-		Spec: storage.StorageAccounts_ManagementPolicy_Spec{
+		Spec: storage.StorageAccountsManagementPolicy_Spec{
 			Owner: testcommon.AsOwner(blobService),
 			Policy: &storage.ManagementPolicySchema{
 				Rules: []storage.ManagementPolicyRule{

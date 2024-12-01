@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -24,12 +24,9 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 		PruneResourcesWithLifecycleOwnedByParentStageID,
 		"Prune embedded resources whose lifecycle is owned by the parent.",
 		func(ctx context.Context, state *State) (*State, error) {
-			result := make(astmodel.TypeDefinitionSet)
-
 			// A previous stage may have used these flags, but we want to make sure we're using them too so reset
 			// the consumed bit
-			err := configuration.ObjectModelConfiguration.ResourceLifecycleOwnedByParent.MarkUnconsumed()
-			if err != nil {
+			if err := configuration.ObjectModelConfiguration.ResourceLifecycleOwnedByParent.MarkUnconsumed(); err != nil {
 				return nil, err
 			}
 
@@ -44,21 +41,35 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 				if def.Name().Name() == "VirtualNetwork" {
 					subnetName := def.Name().WithName("VirtualNetworksSubnet")
 					if !state.Definitions().Contains(subnetName) {
-						return nil, errors.Errorf("Couldn't find subnet type matching %s. VirtualNetwork and VirtualNetworksSubnet must always be exported together", def.Name())
+						return nil, eris.Errorf("Couldn't find subnet type matching %s. VirtualNetwork and VirtualNetworksSubnet must always be exported together", def.Name())
 					}
 				}
 			}
 
-			for _, def := range state.Definitions() {
-				var updatedDef astmodel.TypeDefinition
-				updatedDef, err = pruner.visitor.VisitDefinition(def, def.Name())
-				if err != nil {
-					return nil, errors.Wrapf(err, "failed to visit definition %s", def.Name())
+			updatedDefs := make(astmodel.TypeDefinitionSet)
+			for name, def := range state.Definitions() {
+				if astmodel.IsARMPackageReference(name.InternalPackageReference()) {
+					// Skip ARM types
+					continue
 				}
-				result.Add(updatedDef)
+
+				if _, ok := astmodel.AsObjectType(def.Type()); !ok {
+					// Skip non-object types
+					continue
+				}
+
+				updatedDef, err := pruner.visitor.VisitDefinition(def, def.Name())
+				if err != nil {
+					return nil, eris.Wrapf(err, "failed to visit definition %s", def.Name())
+				}
+
+				updatedDefs.Add(updatedDef)
 			}
 
-			result, err = flagPrunedEmptyProperties(result, pruner.emptyPrunedProperties)
+			// Need a full set of definitions, so we pull in everything we haven't touched.
+			updatedDefs = state.Definitions().OverlayWith(updatedDefs)
+
+			prunedDefs, err := flagPrunedEmptyProperties(updatedDefs, pruner.emptyPrunedProperties)
 			if err != nil {
 				return nil, err
 			}
@@ -68,7 +79,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 				return nil, err
 			}
 
-			return state.WithDefinitions(result), nil
+			return state.WithDefinitions(prunedDefs), nil
 		})
 
 	stage.RequiresPrerequisiteStages(CreateARMTypesStageID)
@@ -86,10 +97,11 @@ func flagPrunedEmptyProperties(
 	emptyPrunedPropertiesArm := astmodel.NewInternalTypeNameSet()
 	for emptyPrunedProp := range emptyPrunedProps {
 		// we need to add the noConversion tag on ARM type for the empty pruned property to relax the validation for convertToARM function.
-		armDef, err := GetARMTypeDefinition(defs, emptyPrunedProp)
-		if err != nil {
-			return nil, err
+		armDef, ok := LookupARMTypeDefinition(emptyPrunedProp, defs)
+		if !ok {
+			return nil, eris.Errorf("couldn't find ARM definition for %s", emptyPrunedProp)
 		}
+
 		emptyPrunedPropertiesArm.Add(armDef.Name())
 	}
 
@@ -107,7 +119,9 @@ type misbehavingEmbeddedTypePruner struct {
 	visitor               astmodel.TypeVisitor[astmodel.InternalTypeName]
 }
 
-func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) *misbehavingEmbeddedTypePruner {
+func newMisbehavingEmbeddedTypeVisitor(
+	configuration *config.Configuration,
+) *misbehavingEmbeddedTypePruner {
 	pruner := &misbehavingEmbeddedTypePruner{
 		configuration:         configuration,
 		emptyPrunedProperties: astmodel.NewInternalTypeNameSet(),

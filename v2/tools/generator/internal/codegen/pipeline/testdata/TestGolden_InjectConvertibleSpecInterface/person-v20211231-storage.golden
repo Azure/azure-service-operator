@@ -5,7 +5,7 @@ package storage
 
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -38,7 +38,7 @@ var _ genruntime.ConvertibleSpec = &Person_Spec{}
 // ConvertSpecFrom populates our Person_Spec from the provided source
 func (person *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == person {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(person)
@@ -47,7 +47,7 @@ func (person *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 // ConvertSpecTo populates the provided destination from our Person_Spec
 func (person *Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == person {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(person)

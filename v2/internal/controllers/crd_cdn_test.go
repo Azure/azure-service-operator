@@ -59,7 +59,7 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 func Endpoint_CRUD(tc *testcommon.KubePerTestContext, profile *cdn.Profile) {
 	endpoint := &cdn.ProfilesEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("cdn-endpoint"),
-		Spec: cdn.Profiles_Endpoint_Spec{
+		Spec: cdn.ProfilesEndpoint_Spec{
 			Owner:                  testcommon.AsOwner(profile),
 			Location:               to.Ptr("Global"),
 			IsCompressionEnabled:   to.Ptr(true),

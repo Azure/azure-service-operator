@@ -9,8 +9,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -49,10 +51,30 @@ func (server *FlexibleServer) SetConditions(conditions conditions.Conditions) {
 	server.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesExporter = &FlexibleServer{}
+var _ configmaps.Exporter = &FlexibleServer{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (server *FlexibleServer) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (server *FlexibleServer) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if server.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return server.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FlexibleServer{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (server *FlexibleServer) SecretDestinationExpressions() []*core.DestinationExpression {
+	if server.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return server.Spec.OperatorSpec.SecretExpressions
+}
+
+var _ genruntime.KubernetesConfigExporter = &FlexibleServer{}
+
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (server *FlexibleServer) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(server.Namespace)
 	if server.Spec.OperatorSpec != nil && server.Spec.OperatorSpec.ConfigMaps != nil {
 		if server.Status.FullyQualifiedDomainName != nil {
@@ -114,6 +136,10 @@ func (server *FlexibleServer) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (server *FlexibleServer) Owner() *genruntime.ResourceReference {
+	if server.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(server.Spec)
 	return server.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -130,7 +156,7 @@ func (server *FlexibleServer) SetStatus(status genruntime.ConvertibleStatus) err
 	var st FlexibleServer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	server.Status = st
@@ -210,7 +236,7 @@ var _ genruntime.ConvertibleSpec = &FlexibleServer_Spec{}
 // ConvertSpecFrom populates our FlexibleServer_Spec from the provided source
 func (server *FlexibleServer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == server {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(server)
@@ -219,7 +245,7 @@ func (server *FlexibleServer_Spec) ConvertSpecFrom(source genruntime.Convertible
 // ConvertSpecTo populates the provided destination from our FlexibleServer_Spec
 func (server *FlexibleServer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == server {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(server)
@@ -262,7 +288,7 @@ var _ genruntime.ConvertibleStatus = &FlexibleServer_STATUS{}
 // ConvertStatusFrom populates our FlexibleServer_STATUS from the provided source
 func (server *FlexibleServer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == server {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(server)
@@ -271,7 +297,7 @@ func (server *FlexibleServer_STATUS) ConvertStatusFrom(source genruntime.Convert
 // ConvertStatusTo populates the provided destination from our FlexibleServer_STATUS
 func (server *FlexibleServer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == server {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(server)
@@ -337,9 +363,11 @@ type DataEncryption_STATUS struct {
 // Storage version of v1api20221201.FlexibleServerOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type FlexibleServerOperatorSpec struct {
-	ConfigMaps  *FlexibleServerOperatorConfigMaps `json:"configMaps,omitempty"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Secrets     *FlexibleServerOperatorSecrets    `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression     `json:"configMapExpressions,omitempty"`
+	ConfigMaps           *FlexibleServerOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag          genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression     `json:"secretExpressions,omitempty"`
+	Secrets              *FlexibleServerOperatorSecrets    `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20221201.HighAvailability

@@ -8,11 +8,10 @@ package pipeline
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
-
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 )
 
 // MarkLatestStorageVariantAsHubVersionID is the unique identifier for this pipeline stage
@@ -27,7 +26,7 @@ func MarkLatestStorageVariantAsHubVersion() *Stage {
 		func(ctx context.Context, state *State) (*State, error) {
 			var graph *storage.ConversionGraph
 			if g, err := GetStateData[*storage.ConversionGraph](state, ConversionGraphInfo); err != nil {
-				return nil, errors.Wrapf(err, "couldn't find conversion graph")
+				return nil, eris.Wrapf(err, "couldn't find conversion graph")
 			} else {
 				graph = g
 			}
@@ -37,7 +36,7 @@ func MarkLatestStorageVariantAsHubVersion() *Stage {
 					rsrc := astmodel.MustBeResourceType(def.Type())
 					hub, err := graph.FindHub(def.Name(), state.Definitions())
 					if err != nil {
-						return nil, errors.Wrapf(err, "finding hub type for %s", def.Name())
+						return nil, eris.Wrapf(err, "finding hub type for %s", def.Name())
 					}
 
 					if astmodel.TypeEquals(def.Name(), hub) {
@@ -50,7 +49,7 @@ func MarkLatestStorageVariantAsHubVersion() *Stage {
 					return nil, nil
 				})
 			if err != nil {
-				return nil, errors.Wrap(err, "marking storage versions")
+				return nil, eris.Wrap(err, "marking storage versions")
 			}
 
 			return state.WithOverlaidDefinitions(updatedDefs), nil

@@ -8,36 +8,36 @@ package customizations
 import (
 	"context"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus"
-	v1 "k8s.io/api/core/v1"
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
-	"sigs.k8s.io/controller-runtime/pkg/client"
+	"github.com/rotisserie/eris"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
-// Ensure that NamespacesAuthorizationRuleExtension implements the KubernetesExporter interface
-var _ genruntime.KubernetesExporter = &NamespacesAuthorizationRuleExtension{}
+var _ genruntime.KubernetesSecretExporter = &NamespacesAuthorizationRuleExtension{}
 
-// ExportKubernetesResources implements genruntime.KubernetesExporter
-func (*NamespacesAuthorizationRuleExtension) ExportKubernetesResources(
+func (ext *NamespacesAuthorizationRuleExtension) ExportKubernetesSecrets(
 	ctx context.Context,
 	obj genruntime.MetaObject,
+	additionalSecrets set.Set[string],
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
-) ([]client.Object, error) {
+) (*genruntime.KubernetesSecretExportResult, error) {
 	// Make sure we're working with the current hub version of the resource
 	// This will need to be updated if the hub version changes
 	rule, ok := obj.(*servicebus.NamespacesAuthorizationRule)
 	if !ok {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"cannot run on unknown resource type %T, expected *servicebus.NamespacesAuthorizationRule",
 			obj)
 	}
@@ -46,8 +46,9 @@ func (*NamespacesAuthorizationRuleExtension) ExportKubernetesResources(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = rule
 
-	hasSecrets := authorizationRuleSecretsSpecified(rule)
-	if !hasSecrets {
+	primarySecrets := authorizationRuleSecretsSpecified(rule)
+	requestedSecrets := set.Union(primarySecrets, additionalSecrets)
+	if len(requestedSecrets) == 0 {
 		log.V(Debug).Info("No secrets retrieval to perform as operatorSpec is empty")
 		return nil, nil
 	}
@@ -64,14 +65,14 @@ func (*NamespacesAuthorizationRuleExtension) ExportKubernetesResources(
 	// connection each time through
 	clientFactory, err := armservicebus.NewClientFactory(subscription, armClient.Creds(), armClient.ClientOptions())
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to create ARM servicebus client factory")
+		return nil, eris.Wrapf(err, "failed to create ARM servicebus client factory")
 	}
 
 	client := clientFactory.NewNamespacesClient()
 	options := armservicebus.NamespacesClientListKeysOptions{}
 	response, err := client.ListKeys(ctx, id.ResourceGroupName, namespaceID.Name, rule.Name, &options)
 	if err != nil {
-		return nil, errors.Wrapf(
+		return nil, eris.Wrapf(
 			err,
 			"failed to retrieve keys for authorization rule %q",
 			rule.Name)
@@ -79,27 +80,55 @@ func (*NamespacesAuthorizationRuleExtension) ExportKubernetesResources(
 
 	ruleSecrets, err := authorizationRuleSecretsToWrite(rule, response)
 	if err != nil {
-		return nil, errors.Wrapf(
+		return nil, eris.Wrapf(
 			err,
 			"failed to create secrets for authorization rule %q",
 			rule.Name)
 	}
 
-	return secrets.SliceToClientObjectSlice(ruleSecrets), nil
+	resolvedSecrets := map[string]string{}
+	if to.Value(response.PrimaryKey) != "" {
+		resolvedSecrets[primaryKey] = to.Value(response.PrimaryKey)
+	}
+	if to.Value(response.PrimaryConnectionString) != "" {
+		resolvedSecrets[primaryConnectionString] = to.Value(response.PrimaryConnectionString)
+	}
+	if to.Value(response.SecondaryKey) != "" {
+		resolvedSecrets[secondaryKey] = to.Value(response.SecondaryKey)
+	}
+	if to.Value(response.SecondaryConnectionString) != "" {
+		resolvedSecrets[secondaryConnectionString] = to.Value(response.SecondaryConnectionString)
+	}
+
+	return &genruntime.KubernetesSecretExportResult{
+		Objs:       secrets.SliceToClientObjectSlice(ruleSecrets),
+		RawSecrets: secrets.SelectSecrets(additionalSecrets, resolvedSecrets),
+	}, nil
 }
 
-func authorizationRuleSecretsSpecified(rule *servicebus.NamespacesAuthorizationRule) bool {
+func authorizationRuleSecretsSpecified(rule *servicebus.NamespacesAuthorizationRule) set.Set[string] {
 	if rule.Spec.OperatorSpec == nil ||
 		rule.Spec.OperatorSpec.Secrets == nil {
-		return false
+		return nil
 	}
 
 	secrets := rule.Spec.OperatorSpec.Secrets
 
-	return secrets.PrimaryKey != nil ||
-		secrets.PrimaryConnectionString != nil ||
-		secrets.SecondaryKey != nil ||
-		secrets.SecondaryConnectionString != nil
+	result := make(set.Set[string])
+	if secrets.PrimaryKey != nil {
+		result.Add(primaryKey)
+	}
+	if secrets.PrimaryConnectionString != nil {
+		result.Add(primaryConnectionString)
+	}
+	if secrets.SecondaryKey != nil {
+		result.Add(secondaryKey)
+	}
+	if secrets.SecondaryConnectionString != nil {
+		result.Add(secondaryConnectionString)
+	}
+
+	return result
 }
 
 func authorizationRuleSecretsToWrite(
@@ -108,7 +137,7 @@ func authorizationRuleSecretsToWrite(
 ) ([]*v1.Secret, error) {
 	if rule.Spec.OperatorSpec == nil ||
 		rule.Spec.OperatorSpec.Secrets == nil {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"authorization rule %q has no secrets specified",
 			rule.Name)
 	}

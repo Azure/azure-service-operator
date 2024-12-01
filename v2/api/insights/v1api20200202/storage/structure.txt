@@ -18,12 +18,14 @@ Component: Resource
 │   ├── IngestionMode: *string
 │   ├── Kind: *string
 │   ├── Location: *string
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── ConfigMaps: *Object (3 properties)
 │   │   │   ├── ConnectionString: *genruntime.ConfigMapDestination
 │   │   │   ├── InstrumentationKey: *genruntime.ConfigMapDestination
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag

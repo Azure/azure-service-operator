@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -42,6 +45,26 @@ func (vault *Vault) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (vault *Vault) SetConditions(conditions conditions.Conditions) {
 	vault.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Vault{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (vault *Vault) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if vault.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return vault.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Vault{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (vault *Vault) SecretDestinationExpressions() []*core.DestinationExpression {
+	if vault.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return vault.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Vault{}
@@ -92,6 +115,10 @@ func (vault *Vault) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (vault *Vault) Owner() *genruntime.ResourceReference {
+	if vault.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(vault.Spec)
 	return vault.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -108,7 +135,7 @@ func (vault *Vault) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Vault_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	vault.Status = st
@@ -148,9 +175,10 @@ const APIVersion_Value = APIVersion("2023-07-01")
 type Vault_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string             `json:"azureName,omitempty"`
+	Location        *string            `json:"location,omitempty"`
+	OperatorSpec    *VaultOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -167,7 +195,7 @@ var _ genruntime.ConvertibleSpec = &Vault_Spec{}
 // ConvertSpecFrom populates our Vault_Spec from the provided source
 func (vault *Vault_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == vault {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(vault)
@@ -176,7 +204,7 @@ func (vault *Vault_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 // ConvertSpecTo populates the provided destination from our Vault_Spec
 func (vault *Vault_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == vault {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(vault)
@@ -201,7 +229,7 @@ var _ genruntime.ConvertibleStatus = &Vault_STATUS{}
 // ConvertStatusFrom populates our Vault_STATUS from the provided source
 func (vault *Vault_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == vault {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(vault)
@@ -210,7 +238,7 @@ func (vault *Vault_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 // ConvertStatusTo populates the provided destination from our Vault_STATUS
 func (vault *Vault_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == vault {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(vault)
@@ -226,6 +254,14 @@ type SystemData_STATUS struct {
 	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20230701.VaultOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type VaultOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230701.VaultProperties

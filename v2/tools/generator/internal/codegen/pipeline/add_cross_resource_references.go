@@ -10,7 +10,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -41,7 +41,7 @@ func TransformCrossResourceReferences(configuration *config.Configuration, idFac
 
 				t, err := visitor.Visit(def.Type(), def.Name())
 				if err != nil {
-					return nil, errors.Wrapf(err, "visiting %q", def.Name())
+					return nil, eris.Wrapf(err, "visiting %q", def.Name())
 				}
 
 				updatedDefs.Add(def.WithType(t))
@@ -49,7 +49,7 @@ func TransformCrossResourceReferences(configuration *config.Configuration, idFac
 
 			resultDefs, err := stripARMIDPrimitiveTypes(updatedDefs)
 			if err != nil {
-				return nil, errors.Wrap(err, "failed to strip ARM ID primitive types")
+				return nil, eris.Wrap(err, "failed to strip ARM ID primitive types")
 			}
 
 			return state.WithDefinitions(resultDefs), nil
@@ -135,7 +135,7 @@ func (v *ARMIDToGenruntimeReferenceTypeVisitor) renamePropertiesWithARMIDReferen
 
 	ot, ok := result.(*astmodel.ObjectType)
 	if !ok {
-		return nil, errors.Errorf("result for visitObjectType of %s was not expected ObjectType, instead %T", ctx, result)
+		return nil, eris.Errorf("result for visitObjectType of %s was not expected ObjectType, instead %T", ctx, result)
 	}
 
 	// Now, check if any properties have been updated and if they have change their names to match
@@ -144,7 +144,7 @@ func (v *ARMIDToGenruntimeReferenceTypeVisitor) renamePropertiesWithARMIDReferen
 	ot.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		origProp, ok := it.Property(prop.PropertyName())
 		if !ok {
-			errs = append(errs, errors.Errorf("expected to find property %q on %s", prop.PropertyName(), ctx))
+			errs = append(errs, eris.Errorf("expected to find property %q on %s", prop.PropertyName(), ctx))
 			return
 		}
 
@@ -184,7 +184,7 @@ func (v *ARMIDToGenruntimeReferenceTypeVisitor) stripValidationForResourceRefere
 	// If they aren't equal, just return the element
 	validated, ok := result.(*astmodel.ValidatedType)
 	if !ok {
-		return nil, errors.Errorf("expected IdentityVisitOfValidatedType to return a ValidatedType, but it instead returned %T", result)
+		return nil, eris.Errorf("expected IdentityVisitOfValidatedType to return a ValidatedType, but it instead returned %T", result)
 	}
 	return validated.ElementType(), nil
 }

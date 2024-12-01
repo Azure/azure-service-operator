@@ -6,14 +6,17 @@ package v1api20181130
 import (
 	"context"
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -59,12 +62,12 @@ func (identity *UserAssignedIdentity) ConvertFrom(hub conversion.Hub) error {
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = identity.AssignProperties_From_UserAssignedIdentity(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to identity")
+		return eris.Wrap(err, "converting from source to identity")
 	}
 
 	return nil
@@ -76,11 +79,11 @@ func (identity *UserAssignedIdentity) ConvertTo(hub conversion.Hub) error {
 	var destination storage.UserAssignedIdentity
 	err := identity.AssignProperties_To_UserAssignedIdentity(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from identity")
+		return eris.Wrap(err, "converting to destination from identity")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -109,10 +112,30 @@ func (identity *UserAssignedIdentity) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the UserAssignedIdentity resource
 func (identity *UserAssignedIdentity) defaultImpl() { identity.defaultAzureName() }
 
-var _ genruntime.KubernetesExporter = &UserAssignedIdentity{}
+var _ configmaps.Exporter = &UserAssignedIdentity{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (identity *UserAssignedIdentity) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (identity *UserAssignedIdentity) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if identity.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return identity.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &UserAssignedIdentity{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (identity *UserAssignedIdentity) SecretDestinationExpressions() []*core.DestinationExpression {
+	if identity.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return identity.Spec.OperatorSpec.SecretExpressions
+}
+
+var _ genruntime.KubernetesConfigExporter = &UserAssignedIdentity{}
+
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (identity *UserAssignedIdentity) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(identity.Namespace)
 	if identity.Spec.OperatorSpec != nil && identity.Spec.OperatorSpec.ConfigMaps != nil {
 		if identity.Status.ClientId != nil {
@@ -184,6 +207,10 @@ func (identity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleSta
 
 // Owner returns the ResourceReference of the owner
 func (identity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
+	if identity.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(identity.Spec)
 	return identity.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -200,7 +227,7 @@ func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleSta
 	var st UserAssignedIdentity_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	identity.Status = st
@@ -243,7 +270,7 @@ func (identity *UserAssignedIdentity) ValidateUpdate(old runtime.Object) (admiss
 
 // createValidations validates the creation of the resource
 func (identity *UserAssignedIdentity) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){identity.validateResourceReferences, identity.validateOwnerReference, identity.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){identity.validateResourceReferences, identity.validateOwnerReference, identity.validateSecretDestinations, identity.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -262,6 +289,9 @@ func (identity *UserAssignedIdentity) updateValidations() []func(old runtime.Obj
 			return identity.validateOwnerReference()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
+			return identity.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return identity.validateConfigMapDestinations()
 		},
 	}
@@ -272,15 +302,15 @@ func (identity *UserAssignedIdentity) validateConfigMapDestinations() (admission
 	if identity.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	if identity.Spec.OperatorSpec.ConfigMaps == nil {
-		return nil, nil
+	var toValidate []*genruntime.ConfigMapDestination
+	if identity.Spec.OperatorSpec.ConfigMaps != nil {
+		toValidate = []*genruntime.ConfigMapDestination{
+			identity.Spec.OperatorSpec.ConfigMaps.ClientId,
+			identity.Spec.OperatorSpec.ConfigMaps.PrincipalId,
+			identity.Spec.OperatorSpec.ConfigMaps.TenantId,
+		}
 	}
-	toValidate := []*genruntime.ConfigMapDestination{
-		identity.Spec.OperatorSpec.ConfigMaps.ClientId,
-		identity.Spec.OperatorSpec.ConfigMaps.PrincipalId,
-		identity.Spec.OperatorSpec.ConfigMaps.TenantId,
-	}
-	return configmaps.ValidateDestinations(toValidate)
+	return configmaps.ValidateDestinations(identity, toValidate, identity.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -295,6 +325,14 @@ func (identity *UserAssignedIdentity) validateResourceReferences() (admission.Wa
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (identity *UserAssignedIdentity) validateSecretDestinations() (admission.Warnings, error) {
+	if identity.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(identity, nil, identity.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -317,7 +355,7 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 	var spec UserAssignedIdentity_Spec
 	err := spec.AssignProperties_From_UserAssignedIdentity_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_Spec() to populate field Spec")
 	}
 	identity.Spec = spec
 
@@ -325,7 +363,7 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 	var status UserAssignedIdentity_STATUS
 	err = status.AssignProperties_From_UserAssignedIdentity_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Status")
 	}
 	identity.Status = status
 
@@ -343,7 +381,7 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 	var spec storage.UserAssignedIdentity_Spec
 	err := identity.Spec.AssignProperties_To_UserAssignedIdentity_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -351,7 +389,7 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 	var status storage.UserAssignedIdentity_STATUS
 	err = identity.Status.AssignProperties_To_UserAssignedIdentity_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -413,7 +451,7 @@ func (identity *UserAssignedIdentity_Spec) ConvertToARM(resolved genruntime.Conv
 	if identity == nil {
 		return nil, nil
 	}
-	result := &UserAssignedIdentity_Spec_ARM{}
+	result := &arm.UserAssignedIdentity_Spec{}
 
 	// Set property "Location":
 	if identity.Location != nil {
@@ -436,14 +474,14 @@ func (identity *UserAssignedIdentity_Spec) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *UserAssignedIdentity_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedIdentity_Spec_ARM{}
+	return &arm.UserAssignedIdentity_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *UserAssignedIdentity_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAssignedIdentity_Spec_ARM)
+	typedInput, ok := armInput.(arm.UserAssignedIdentity_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserAssignedIdentity_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -489,13 +527,13 @@ func (identity *UserAssignedIdentity_Spec) ConvertSpecFrom(source genruntime.Con
 	src = &storage.UserAssignedIdentity_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = identity.AssignProperties_From_UserAssignedIdentity_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -513,13 +551,13 @@ func (identity *UserAssignedIdentity_Spec) ConvertSpecTo(destination genruntime.
 	dst = &storage.UserAssignedIdentity_Spec{}
 	err := identity.AssignProperties_To_UserAssignedIdentity_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -539,7 +577,7 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_From_UserAssignedIde
 		var operatorSpec UserAssignedIdentityOperatorSpec
 		err := operatorSpec.AssignProperties_From_UserAssignedIdentityOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorSpec() to populate field OperatorSpec")
 		}
 		identity.OperatorSpec = &operatorSpec
 	} else {
@@ -577,7 +615,7 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_To_UserAssignedIdent
 		var operatorSpec storage.UserAssignedIdentityOperatorSpec
 		err := identity.OperatorSpec.AssignProperties_To_UserAssignedIdentityOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -663,13 +701,13 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusFrom(source genruntime
 	src = &storage.UserAssignedIdentity_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = identity.AssignProperties_From_UserAssignedIdentity_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -687,13 +725,13 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genrunt
 	dst = &storage.UserAssignedIdentity_STATUS{}
 	err := identity.AssignProperties_To_UserAssignedIdentity_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -703,14 +741,14 @@ var _ genruntime.FromARMConverter = &UserAssignedIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *UserAssignedIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedIdentity_STATUS_ARM{}
+	return &arm.UserAssignedIdentity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAssignedIdentity_STATUS_ARM)
+	typedInput, ok := armInput.(arm.UserAssignedIdentity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserAssignedIdentity_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -857,23 +895,65 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type UserAssignedIdentityOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
 	// ConfigMaps: configures where to place operator written ConfigMaps.
 	ConfigMaps *UserAssignedIdentityOperatorConfigMaps `json:"configMaps,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // AssignProperties_From_UserAssignedIdentityOperatorSpec populates our UserAssignedIdentityOperatorSpec from the provided source UserAssignedIdentityOperatorSpec
 func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssignedIdentityOperatorSpec(source *storage.UserAssignedIdentityOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
 
 	// ConfigMaps
 	if source.ConfigMaps != nil {
 		var configMap UserAssignedIdentityOperatorConfigMaps
 		err := configMap.AssignProperties_From_UserAssignedIdentityOperatorConfigMaps(source.ConfigMaps)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		operator.ConfigMaps = &configMap
 	} else {
 		operator.ConfigMaps = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
 	}
 
 	// No error
@@ -885,16 +965,52 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_To_UserAssign
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
 	// ConfigMaps
 	if operator.ConfigMaps != nil {
 		var configMap storage.UserAssignedIdentityOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_UserAssignedIdentityOperatorConfigMaps(&configMap)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		destination.ConfigMaps = &configMap
 	} else {
 		destination.ConfigMaps = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag

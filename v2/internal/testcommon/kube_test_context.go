@@ -8,10 +8,9 @@ package testcommon
 import (
 	"context"
 
+	"github.com/rotisserie/eris"
 	"k8s.io/client-go/rest"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-
-	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -41,7 +40,7 @@ func NewKubeContext(
 	} else {
 		cbtc, err = createRealKubeContext()
 		if err != nil {
-			return KubeGlobalContext{}, errors.Wrap(err, "unable to create real Kube context")
+			return KubeGlobalContext{}, eris.Wrap(err, "unable to create real Kube context")
 		}
 	}
 

@@ -12,7 +12,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
@@ -157,15 +157,15 @@ func (ref ResourceReference) String() string {
 // Validate validates the ResourceReference to ensure that it is structurally valid.
 func (ref ResourceReference) Validate() (admission.Warnings, error) {
 	if ref.ARMID == "" && ref.Name == "" && ref.Group == "" && ref.Kind == "" {
-		return nil, errors.Errorf("at least one of ['ARMID'] or ['Group', 'Kind', 'Namespace', 'Name'] must be set for ResourceReference")
+		return nil, eris.Errorf("at least one of ['ARMID'] or ['Group', 'Kind', 'Namespace', 'Name'] must be set for ResourceReference")
 	}
 
 	if ref.ARMID != "" && !ref.IsDirectARMReference() {
-		return nil, errors.Errorf("the 'ARMID' field is mutually exclusive with 'Group', 'Kind', 'Namespace', and 'Name' for ResourceReference: %s", ref.String())
+		return nil, eris.Errorf("the 'ARMID' field is mutually exclusive with 'Group', 'Kind', 'Namespace', and 'Name' for ResourceReference: %s", ref.String())
 	}
 
 	if ref.ARMID == "" && !ref.IsKubernetesReference() {
-		return nil, errors.Errorf("when referencing a Kubernetes resource, 'Group', 'Kind', 'Namespace', and 'Name' must all be specified for ResourceReference: %s", ref.String())
+		return nil, eris.Errorf("when referencing a Kubernetes resource, 'Group', 'Kind', 'Namespace', and 'Name' must all be specified for ResourceReference: %s", ref.String())
 	}
 
 	return nil, nil
@@ -273,14 +273,14 @@ func VerifyResourceOwnerARMID(resource ARMMetaObject) error {
 	// Ensure that the ARM ID actually has a suffix containing the resource types we expect
 	if len(expectedResourceTypesIncludedInARMID) > 0 {
 		if !strings.EqualFold(armID.ResourceType.Namespace, provider) {
-			return errors.Errorf(
+			return eris.Errorf(
 				"expected owner ARM ID to be from provider %q, but was %q",
 				provider,
 				armID.ResourceType.Namespace)
 		}
 		expectedARMIDType := strings.Join(expectedResourceTypesIncludedInARMID, "/")
 		if !strings.EqualFold(armID.ResourceType.Type, expectedARMIDType) {
-			return errors.Errorf(
+			return eris.Errorf(
 				"expected owner ARM ID to be of type %q, but was %q",
 				fmt.Sprintf("%s/%s", provider, expectedARMIDType),
 				armID.ResourceType.String())
@@ -288,7 +288,7 @@ func VerifyResourceOwnerARMID(resource ARMMetaObject) error {
 	} else if len(expectedResourceTypesIncludedInARMID) == 0 {
 		scope := resource.GetResourceScope()
 		if scope == ResourceScopeResourceGroup && armID.ResourceType.String() != "Microsoft.Resources/resourceGroups" {
-			return errors.Errorf(
+			return eris.Errorf(
 				"expected owner ARM ID to be for a resource group, but was %q",
 				armID.ResourceType.String())
 		}

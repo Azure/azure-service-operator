@@ -5,11 +5,15 @@ package v1api20230501preview
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -29,8 +33,8 @@ import (
 type Backend struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_Backend_Spec   `json:"spec,omitempty"`
-	Status            Service_Backend_STATUS `json:"status,omitempty"`
+	Spec              Backend_Spec   `json:"spec,omitempty"`
+	Status            Backend_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Backend{}
@@ -54,12 +58,12 @@ func (backend *Backend) ConvertFrom(hub conversion.Hub) error {
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = backend.AssignProperties_From_Backend(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to backend")
+		return eris.Wrap(err, "converting from source to backend")
 	}
 
 	return nil
@@ -71,11 +75,11 @@ func (backend *Backend) ConvertTo(hub conversion.Hub) error {
 	var destination storage.Backend
 	err := backend.AssignProperties_To_Backend(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from backend")
+		return eris.Wrap(err, "converting to destination from backend")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -103,6 +107,26 @@ func (backend *Backend) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Backend resource
 func (backend *Backend) defaultImpl() { backend.defaultAzureName() }
+
+var _ configmaps.Exporter = &Backend{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (backend *Backend) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if backend.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return backend.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Backend{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (backend *Backend) SecretDestinationExpressions() []*core.DestinationExpression {
+	if backend.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return backend.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &Backend{}
 
@@ -148,11 +172,15 @@ func (backend *Backend) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (backend *Backend) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_Backend_STATUS{}
+	return &Backend_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (backend *Backend) Owner() *genruntime.ResourceReference {
+	if backend.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(backend.Spec)
 	return backend.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -160,16 +188,16 @@ func (backend *Backend) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (backend *Backend) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_Backend_STATUS); ok {
+	if st, ok := status.(*Backend_STATUS); ok {
 		backend.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_Backend_STATUS
+	var st Backend_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	backend.Status = st
@@ -212,7 +240,7 @@ func (backend *Backend) ValidateUpdate(old runtime.Object) (admission.Warnings, 
 
 // createValidations validates the creation of the resource
 func (backend *Backend) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){backend.validateResourceReferences, backend.validateOwnerReference}
+	return []func() (admission.Warnings, error){backend.validateResourceReferences, backend.validateOwnerReference, backend.validateSecretDestinations, backend.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -230,7 +258,21 @@ func (backend *Backend) updateValidations() []func(old runtime.Object) (admissio
 		func(old runtime.Object) (admission.Warnings, error) {
 			return backend.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return backend.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return backend.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (backend *Backend) validateConfigMapDestinations() (admission.Warnings, error) {
+	if backend.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(backend, nil, backend.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -245,6 +287,14 @@ func (backend *Backend) validateResourceReferences() (admission.Warnings, error)
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (backend *Backend) validateSecretDestinations() (admission.Warnings, error) {
+	if backend.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(backend, nil, backend.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -264,18 +314,18 @@ func (backend *Backend) AssignProperties_From_Backend(source *storage.Backend) e
 	backend.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Service_Backend_Spec
-	err := spec.AssignProperties_From_Service_Backend_Spec(&source.Spec)
+	var spec Backend_Spec
+	err := spec.AssignProperties_From_Backend_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_Backend_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Backend_Spec() to populate field Spec")
 	}
 	backend.Spec = spec
 
 	// Status
-	var status Service_Backend_STATUS
-	err = status.AssignProperties_From_Service_Backend_STATUS(&source.Status)
+	var status Backend_STATUS
+	err = status.AssignProperties_From_Backend_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_Backend_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Backend_STATUS() to populate field Status")
 	}
 	backend.Status = status
 
@@ -290,18 +340,18 @@ func (backend *Backend) AssignProperties_To_Backend(destination *storage.Backend
 	destination.ObjectMeta = *backend.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Service_Backend_Spec
-	err := backend.Spec.AssignProperties_To_Service_Backend_Spec(&spec)
+	var spec storage.Backend_Spec
+	err := backend.Spec.AssignProperties_To_Backend_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_Backend_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Backend_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Service_Backend_STATUS
-	err = backend.Status.AssignProperties_To_Service_Backend_STATUS(&status)
+	var status storage.Backend_STATUS
+	err = backend.Status.AssignProperties_To_Backend_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_Backend_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Backend_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -328,7 +378,7 @@ type BackendList struct {
 	Items           []Backend `json:"items"`
 }
 
-type Service_Backend_Spec struct {
+type Backend_Spec struct {
 	// +kubebuilder:validation:MaxLength=80
 	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -345,6 +395,10 @@ type Service_Backend_Spec struct {
 	// +kubebuilder:validation:MinLength=1
 	// Description: Backend Description.
 	Description *string `json:"description,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *BackendOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -387,14 +441,14 @@ type Service_Backend_Spec struct {
 	Url *string `json:"url,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Service_Backend_Spec{}
+var _ genruntime.ARMTransformer = &Backend_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (backend *Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if backend == nil {
 		return nil, nil
 	}
-	result := &Service_Backend_Spec_ARM{}
+	result := &arm.Backend_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -412,14 +466,14 @@ func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		backend.Tls != nil ||
 		backend.Type != nil ||
 		backend.Url != nil {
-		result.Properties = &BackendContractProperties_ARM{}
+		result.Properties = &arm.BackendContractProperties{}
 	}
 	if backend.CircuitBreaker != nil {
 		circuitBreaker_ARM, err := (*backend.CircuitBreaker).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		circuitBreaker := *circuitBreaker_ARM.(*BackendCircuitBreaker_ARM)
+		circuitBreaker := *circuitBreaker_ARM.(*arm.BackendCircuitBreaker)
 		result.Properties.CircuitBreaker = &circuitBreaker
 	}
 	if backend.Credentials != nil {
@@ -427,7 +481,7 @@ func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		credentials := *credentials_ARM.(*BackendCredentialsContract_ARM)
+		credentials := *credentials_ARM.(*arm.BackendCredentialsContract)
 		result.Properties.Credentials = &credentials
 	}
 	if backend.Description != nil {
@@ -439,7 +493,7 @@ func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		pool := *pool_ARM.(*BackendPool_ARM)
+		pool := *pool_ARM.(*arm.BackendPool)
 		result.Properties.Pool = &pool
 	}
 	if backend.Properties != nil {
@@ -447,13 +501,13 @@ func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*BackendProperties_ARM)
+		properties := *properties_ARM.(*arm.BackendProperties)
 		result.Properties.Properties = &properties
 	}
 	if backend.Protocol != nil {
 		var temp string
 		temp = string(*backend.Protocol)
-		protocol := BackendContractProperties_Protocol_ARM(temp)
+		protocol := arm.BackendContractProperties_Protocol(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if backend.Proxy != nil {
@@ -461,7 +515,7 @@ func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		proxy := *proxy_ARM.(*BackendProxyContract_ARM)
+		proxy := *proxy_ARM.(*arm.BackendProxyContract)
 		result.Properties.Proxy = &proxy
 	}
 	if backend.ResourceReference != nil {
@@ -481,13 +535,13 @@ func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		tls := *tls_ARM.(*BackendTlsProperties_ARM)
+		tls := *tls_ARM.(*arm.BackendTlsProperties)
 		result.Properties.Tls = &tls
 	}
 	if backend.Type != nil {
 		var temp string
 		temp = string(*backend.Type)
-		typeVar := BackendContractProperties_Type_ARM(temp)
+		typeVar := arm.BackendContractProperties_Type(temp)
 		result.Properties.Type = &typeVar
 	}
 	if backend.Url != nil {
@@ -498,15 +552,15 @@ func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToA
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (backend *Service_Backend_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Service_Backend_Spec_ARM{}
+func (backend *Backend_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.Backend_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (backend *Service_Backend_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Service_Backend_Spec_ARM)
+func (backend *Backend_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.Backend_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Service_Backend_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Backend_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -548,6 +602,8 @@ func (backend *Service_Backend_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 			backend.Description = &description
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	backend.Owner = &genruntime.KnownResourceReference{
@@ -657,58 +713,58 @@ func (backend *Service_Backend_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Service_Backend_Spec{}
+var _ genruntime.ConvertibleSpec = &Backend_Spec{}
 
-// ConvertSpecFrom populates our Service_Backend_Spec from the provided source
-func (backend *Service_Backend_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Service_Backend_Spec)
+// ConvertSpecFrom populates our Backend_Spec from the provided source
+func (backend *Backend_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.Backend_Spec)
 	if ok {
 		// Populate our instance from source
-		return backend.AssignProperties_From_Service_Backend_Spec(src)
+		return backend.AssignProperties_From_Backend_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_Backend_Spec{}
+	src = &storage.Backend_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = backend.AssignProperties_From_Service_Backend_Spec(src)
+	err = backend.AssignProperties_From_Backend_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Service_Backend_Spec
-func (backend *Service_Backend_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Service_Backend_Spec)
+// ConvertSpecTo populates the provided destination from our Backend_Spec
+func (backend *Backend_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.Backend_Spec)
 	if ok {
 		// Populate destination from our instance
-		return backend.AssignProperties_To_Service_Backend_Spec(dst)
+		return backend.AssignProperties_To_Backend_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_Backend_Spec{}
-	err := backend.AssignProperties_To_Service_Backend_Spec(dst)
+	dst = &storage.Backend_Spec{}
+	err := backend.AssignProperties_To_Backend_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_Service_Backend_Spec populates our Service_Backend_Spec from the provided source Service_Backend_Spec
-func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(source *storage.Service_Backend_Spec) error {
+// AssignProperties_From_Backend_Spec populates our Backend_Spec from the provided source Backend_Spec
+func (backend *Backend_Spec) AssignProperties_From_Backend_Spec(source *storage.Backend_Spec) error {
 
 	// AzureName
 	backend.AzureName = source.AzureName
@@ -718,7 +774,7 @@ func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(
 		var circuitBreaker BackendCircuitBreaker
 		err := circuitBreaker.AssignProperties_From_BackendCircuitBreaker(source.CircuitBreaker)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendCircuitBreaker() to populate field CircuitBreaker")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendCircuitBreaker() to populate field CircuitBreaker")
 		}
 		backend.CircuitBreaker = &circuitBreaker
 	} else {
@@ -730,7 +786,7 @@ func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(
 		var credential BackendCredentialsContract
 		err := credential.AssignProperties_From_BackendCredentialsContract(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendCredentialsContract() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendCredentialsContract() to populate field Credentials")
 		}
 		backend.Credentials = &credential
 	} else {
@@ -743,6 +799,18 @@ func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(
 		backend.Description = &description
 	} else {
 		backend.Description = nil
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec BackendOperatorSpec
+		err := operatorSpec.AssignProperties_From_BackendOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_BackendOperatorSpec() to populate field OperatorSpec")
+		}
+		backend.OperatorSpec = &operatorSpec
+	} else {
+		backend.OperatorSpec = nil
 	}
 
 	// Owner
@@ -758,7 +826,7 @@ func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(
 		var pool BackendPool
 		err := pool.AssignProperties_From_BackendPool(source.Pool)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendPool() to populate field Pool")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendPool() to populate field Pool")
 		}
 		backend.Pool = &pool
 	} else {
@@ -770,7 +838,7 @@ func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(
 		var property BackendProperties
 		err := property.AssignProperties_From_BackendProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendProperties() to populate field Properties")
 		}
 		backend.Properties = &property
 	} else {
@@ -791,7 +859,7 @@ func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(
 		var proxy BackendProxyContract
 		err := proxy.AssignProperties_From_BackendProxyContract(source.Proxy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendProxyContract() to populate field Proxy")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendProxyContract() to populate field Proxy")
 		}
 		backend.Proxy = &proxy
 	} else {
@@ -819,7 +887,7 @@ func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(
 		var tl BackendTlsProperties
 		err := tl.AssignProperties_From_BackendTlsProperties(source.Tls)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendTlsProperties() to populate field Tls")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendTlsProperties() to populate field Tls")
 		}
 		backend.Tls = &tl
 	} else {
@@ -847,8 +915,8 @@ func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(
 	return nil
 }
 
-// AssignProperties_To_Service_Backend_Spec populates the provided destination Service_Backend_Spec from our Service_Backend_Spec
-func (backend *Service_Backend_Spec) AssignProperties_To_Service_Backend_Spec(destination *storage.Service_Backend_Spec) error {
+// AssignProperties_To_Backend_Spec populates the provided destination Backend_Spec from our Backend_Spec
+func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *storage.Backend_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -860,7 +928,7 @@ func (backend *Service_Backend_Spec) AssignProperties_To_Service_Backend_Spec(de
 		var circuitBreaker storage.BackendCircuitBreaker
 		err := backend.CircuitBreaker.AssignProperties_To_BackendCircuitBreaker(&circuitBreaker)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendCircuitBreaker() to populate field CircuitBreaker")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendCircuitBreaker() to populate field CircuitBreaker")
 		}
 		destination.CircuitBreaker = &circuitBreaker
 	} else {
@@ -872,7 +940,7 @@ func (backend *Service_Backend_Spec) AssignProperties_To_Service_Backend_Spec(de
 		var credential storage.BackendCredentialsContract
 		err := backend.Credentials.AssignProperties_To_BackendCredentialsContract(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendCredentialsContract() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendCredentialsContract() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -885,6 +953,18 @@ func (backend *Service_Backend_Spec) AssignProperties_To_Service_Backend_Spec(de
 		destination.Description = &description
 	} else {
 		destination.Description = nil
+	}
+
+	// OperatorSpec
+	if backend.OperatorSpec != nil {
+		var operatorSpec storage.BackendOperatorSpec
+		err := backend.OperatorSpec.AssignProperties_To_BackendOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_BackendOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -903,7 +983,7 @@ func (backend *Service_Backend_Spec) AssignProperties_To_Service_Backend_Spec(de
 		var pool storage.BackendPool
 		err := backend.Pool.AssignProperties_To_BackendPool(&pool)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendPool() to populate field Pool")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendPool() to populate field Pool")
 		}
 		destination.Pool = &pool
 	} else {
@@ -915,7 +995,7 @@ func (backend *Service_Backend_Spec) AssignProperties_To_Service_Backend_Spec(de
 		var property storage.BackendProperties
 		err := backend.Properties.AssignProperties_To_BackendProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -935,7 +1015,7 @@ func (backend *Service_Backend_Spec) AssignProperties_To_Service_Backend_Spec(de
 		var proxy storage.BackendProxyContract
 		err := backend.Proxy.AssignProperties_To_BackendProxyContract(&proxy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendProxyContract() to populate field Proxy")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendProxyContract() to populate field Proxy")
 		}
 		destination.Proxy = &proxy
 	} else {
@@ -963,7 +1043,7 @@ func (backend *Service_Backend_Spec) AssignProperties_To_Service_Backend_Spec(de
 		var tl storage.BackendTlsProperties
 		err := backend.Tls.AssignProperties_To_BackendTlsProperties(&tl)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendTlsProperties() to populate field Tls")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendTlsProperties() to populate field Tls")
 		}
 		destination.Tls = &tl
 	} else {
@@ -998,14 +1078,14 @@ func (backend *Service_Backend_Spec) AssignProperties_To_Service_Backend_Spec(de
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (backend *Service_Backend_Spec) OriginalVersion() string {
+func (backend *Backend_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (backend *Service_Backend_Spec) SetAzureName(azureName string) { backend.AzureName = azureName }
+func (backend *Backend_Spec) SetAzureName(azureName string) { backend.AzureName = azureName }
 
-type Service_Backend_STATUS struct {
+type Backend_STATUS struct {
 	// CircuitBreaker: Backend Circuit Breaker Configuration
 	CircuitBreaker *BackendCircuitBreaker_STATUS `json:"circuitBreaker,omitempty"`
 
@@ -1057,68 +1137,68 @@ type Service_Backend_STATUS struct {
 	Url *string `json:"url,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_Backend_STATUS{}
+var _ genruntime.ConvertibleStatus = &Backend_STATUS{}
 
-// ConvertStatusFrom populates our Service_Backend_STATUS from the provided source
-func (backend *Service_Backend_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Service_Backend_STATUS)
+// ConvertStatusFrom populates our Backend_STATUS from the provided source
+func (backend *Backend_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.Backend_STATUS)
 	if ok {
 		// Populate our instance from source
-		return backend.AssignProperties_From_Service_Backend_STATUS(src)
+		return backend.AssignProperties_From_Backend_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_Backend_STATUS{}
+	src = &storage.Backend_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = backend.AssignProperties_From_Service_Backend_STATUS(src)
+	err = backend.AssignProperties_From_Backend_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Service_Backend_STATUS
-func (backend *Service_Backend_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Service_Backend_STATUS)
+// ConvertStatusTo populates the provided destination from our Backend_STATUS
+func (backend *Backend_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.Backend_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return backend.AssignProperties_To_Service_Backend_STATUS(dst)
+		return backend.AssignProperties_To_Backend_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_Backend_STATUS{}
-	err := backend.AssignProperties_To_Service_Backend_STATUS(dst)
+	dst = &storage.Backend_STATUS{}
+	err := backend.AssignProperties_To_Backend_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Service_Backend_STATUS{}
+var _ genruntime.FromARMConverter = &Backend_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (backend *Service_Backend_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Service_Backend_STATUS_ARM{}
+func (backend *Backend_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.Backend_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (backend *Service_Backend_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Service_Backend_STATUS_ARM)
+func (backend *Backend_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.Backend_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Service_Backend_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Backend_STATUS, got %T", armInput)
 	}
 
 	// Set property "CircuitBreaker":
@@ -1287,15 +1367,15 @@ func (backend *Service_Backend_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignProperties_From_Service_Backend_STATUS populates our Service_Backend_STATUS from the provided source Service_Backend_STATUS
-func (backend *Service_Backend_STATUS) AssignProperties_From_Service_Backend_STATUS(source *storage.Service_Backend_STATUS) error {
+// AssignProperties_From_Backend_STATUS populates our Backend_STATUS from the provided source Backend_STATUS
+func (backend *Backend_STATUS) AssignProperties_From_Backend_STATUS(source *storage.Backend_STATUS) error {
 
 	// CircuitBreaker
 	if source.CircuitBreaker != nil {
 		var circuitBreaker BackendCircuitBreaker_STATUS
 		err := circuitBreaker.AssignProperties_From_BackendCircuitBreaker_STATUS(source.CircuitBreaker)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendCircuitBreaker_STATUS() to populate field CircuitBreaker")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendCircuitBreaker_STATUS() to populate field CircuitBreaker")
 		}
 		backend.CircuitBreaker = &circuitBreaker
 	} else {
@@ -1310,7 +1390,7 @@ func (backend *Service_Backend_STATUS) AssignProperties_From_Service_Backend_STA
 		var credential BackendCredentialsContract_STATUS
 		err := credential.AssignProperties_From_BackendCredentialsContract_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendCredentialsContract_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendCredentialsContract_STATUS() to populate field Credentials")
 		}
 		backend.Credentials = &credential
 	} else {
@@ -1331,7 +1411,7 @@ func (backend *Service_Backend_STATUS) AssignProperties_From_Service_Backend_STA
 		var pool BackendPool_STATUS
 		err := pool.AssignProperties_From_BackendPool_STATUS(source.Pool)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendPool_STATUS() to populate field Pool")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendPool_STATUS() to populate field Pool")
 		}
 		backend.Pool = &pool
 	} else {
@@ -1343,7 +1423,7 @@ func (backend *Service_Backend_STATUS) AssignProperties_From_Service_Backend_STA
 		var property BackendProperties_STATUS
 		err := property.AssignProperties_From_BackendProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendProperties_STATUS() to populate field Properties")
 		}
 		backend.Properties = &property
 	} else {
@@ -1373,7 +1453,7 @@ func (backend *Service_Backend_STATUS) AssignProperties_From_Service_Backend_STA
 		var proxy BackendProxyContract_STATUS
 		err := proxy.AssignProperties_From_BackendProxyContract_STATUS(source.Proxy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendProxyContract_STATUS() to populate field Proxy")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendProxyContract_STATUS() to populate field Proxy")
 		}
 		backend.Proxy = &proxy
 	} else {
@@ -1391,7 +1471,7 @@ func (backend *Service_Backend_STATUS) AssignProperties_From_Service_Backend_STA
 		var tl BackendTlsProperties_STATUS
 		err := tl.AssignProperties_From_BackendTlsProperties_STATUS(source.Tls)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendTlsProperties_STATUS() to populate field Tls")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendTlsProperties_STATUS() to populate field Tls")
 		}
 		backend.Tls = &tl
 	} else {
@@ -1408,8 +1488,8 @@ func (backend *Service_Backend_STATUS) AssignProperties_From_Service_Backend_STA
 	return nil
 }
 
-// AssignProperties_To_Service_Backend_STATUS populates the provided destination Service_Backend_STATUS from our Service_Backend_STATUS
-func (backend *Service_Backend_STATUS) AssignProperties_To_Service_Backend_STATUS(destination *storage.Service_Backend_STATUS) error {
+// AssignProperties_To_Backend_STATUS populates the provided destination Backend_STATUS from our Backend_STATUS
+func (backend *Backend_STATUS) AssignProperties_To_Backend_STATUS(destination *storage.Backend_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1418,7 +1498,7 @@ func (backend *Service_Backend_STATUS) AssignProperties_To_Service_Backend_STATU
 		var circuitBreaker storage.BackendCircuitBreaker_STATUS
 		err := backend.CircuitBreaker.AssignProperties_To_BackendCircuitBreaker_STATUS(&circuitBreaker)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendCircuitBreaker_STATUS() to populate field CircuitBreaker")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendCircuitBreaker_STATUS() to populate field CircuitBreaker")
 		}
 		destination.CircuitBreaker = &circuitBreaker
 	} else {
@@ -1433,7 +1513,7 @@ func (backend *Service_Backend_STATUS) AssignProperties_To_Service_Backend_STATU
 		var credential storage.BackendCredentialsContract_STATUS
 		err := backend.Credentials.AssignProperties_To_BackendCredentialsContract_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendCredentialsContract_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendCredentialsContract_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -1454,7 +1534,7 @@ func (backend *Service_Backend_STATUS) AssignProperties_To_Service_Backend_STATU
 		var pool storage.BackendPool_STATUS
 		err := backend.Pool.AssignProperties_To_BackendPool_STATUS(&pool)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendPool_STATUS() to populate field Pool")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendPool_STATUS() to populate field Pool")
 		}
 		destination.Pool = &pool
 	} else {
@@ -1466,7 +1546,7 @@ func (backend *Service_Backend_STATUS) AssignProperties_To_Service_Backend_STATU
 		var property storage.BackendProperties_STATUS
 		err := backend.Properties.AssignProperties_To_BackendProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -1494,7 +1574,7 @@ func (backend *Service_Backend_STATUS) AssignProperties_To_Service_Backend_STATU
 		var proxy storage.BackendProxyContract_STATUS
 		err := backend.Proxy.AssignProperties_To_BackendProxyContract_STATUS(&proxy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendProxyContract_STATUS() to populate field Proxy")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendProxyContract_STATUS() to populate field Proxy")
 		}
 		destination.Proxy = &proxy
 	} else {
@@ -1512,7 +1592,7 @@ func (backend *Service_Backend_STATUS) AssignProperties_To_Service_Backend_STATU
 		var tl storage.BackendTlsProperties_STATUS
 		err := backend.Tls.AssignProperties_To_BackendTlsProperties_STATUS(&tl)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendTlsProperties_STATUS() to populate field Tls")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendTlsProperties_STATUS() to populate field Tls")
 		}
 		destination.Tls = &tl
 	} else {
@@ -1550,7 +1630,7 @@ func (breaker *BackendCircuitBreaker) ConvertToARM(resolved genruntime.ConvertTo
 	if breaker == nil {
 		return nil, nil
 	}
-	result := &BackendCircuitBreaker_ARM{}
+	result := &arm.BackendCircuitBreaker{}
 
 	// Set property "Rules":
 	for _, item := range breaker.Rules {
@@ -1558,21 +1638,21 @@ func (breaker *BackendCircuitBreaker) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		result.Rules = append(result.Rules, *item_ARM.(*CircuitBreakerRule_ARM))
+		result.Rules = append(result.Rules, *item_ARM.(*arm.CircuitBreakerRule))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (breaker *BackendCircuitBreaker) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendCircuitBreaker_ARM{}
+	return &arm.BackendCircuitBreaker{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (breaker *BackendCircuitBreaker) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendCircuitBreaker_ARM)
+	typedInput, ok := armInput.(arm.BackendCircuitBreaker)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendCircuitBreaker_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendCircuitBreaker, got %T", armInput)
 	}
 
 	// Set property "Rules":
@@ -1601,7 +1681,7 @@ func (breaker *BackendCircuitBreaker) AssignProperties_From_BackendCircuitBreake
 			var rule CircuitBreakerRule
 			err := rule.AssignProperties_From_CircuitBreakerRule(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_CircuitBreakerRule() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_From_CircuitBreakerRule() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1628,7 +1708,7 @@ func (breaker *BackendCircuitBreaker) AssignProperties_To_BackendCircuitBreaker(
 			var rule storage.CircuitBreakerRule
 			err := ruleItem.AssignProperties_To_CircuitBreakerRule(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_CircuitBreakerRule() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_To_CircuitBreakerRule() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1658,14 +1738,14 @@ var _ genruntime.FromARMConverter = &BackendCircuitBreaker_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (breaker *BackendCircuitBreaker_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendCircuitBreaker_STATUS_ARM{}
+	return &arm.BackendCircuitBreaker_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (breaker *BackendCircuitBreaker_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendCircuitBreaker_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendCircuitBreaker_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendCircuitBreaker_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendCircuitBreaker_STATUS, got %T", armInput)
 	}
 
 	// Set property "Rules":
@@ -1694,7 +1774,7 @@ func (breaker *BackendCircuitBreaker_STATUS) AssignProperties_From_BackendCircui
 			var rule CircuitBreakerRule_STATUS
 			err := rule.AssignProperties_From_CircuitBreakerRule_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_CircuitBreakerRule_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_From_CircuitBreakerRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1721,7 +1801,7 @@ func (breaker *BackendCircuitBreaker_STATUS) AssignProperties_To_BackendCircuitB
 			var rule storage.CircuitBreakerRule_STATUS
 			err := ruleItem.AssignProperties_To_CircuitBreakerRule_STATUS(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_CircuitBreakerRule_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_To_CircuitBreakerRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1822,7 +1902,7 @@ func (contract *BackendCredentialsContract) ConvertToARM(resolved genruntime.Con
 	if contract == nil {
 		return nil, nil
 	}
-	result := &BackendCredentialsContract_ARM{}
+	result := &arm.BackendCredentialsContract{}
 
 	// Set property "Authorization":
 	if contract.Authorization != nil {
@@ -1830,7 +1910,7 @@ func (contract *BackendCredentialsContract) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		authorization := *authorization_ARM.(*BackendAuthorizationHeaderCredentials_ARM)
+		authorization := *authorization_ARM.(*arm.BackendAuthorizationHeaderCredentials)
 		result.Authorization = &authorization
 	}
 
@@ -1872,14 +1952,14 @@ func (contract *BackendCredentialsContract) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *BackendCredentialsContract) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendCredentialsContract_ARM{}
+	return &arm.BackendCredentialsContract{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *BackendCredentialsContract) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendCredentialsContract_ARM)
+	typedInput, ok := armInput.(arm.BackendCredentialsContract)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendCredentialsContract_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendCredentialsContract, got %T", armInput)
 	}
 
 	// Set property "Authorization":
@@ -1939,7 +2019,7 @@ func (contract *BackendCredentialsContract) AssignProperties_From_BackendCredent
 		var authorization BackendAuthorizationHeaderCredentials
 		err := authorization.AssignProperties_From_BackendAuthorizationHeaderCredentials(source.Authorization)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendAuthorizationHeaderCredentials() to populate field Authorization")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendAuthorizationHeaderCredentials() to populate field Authorization")
 		}
 		contract.Authorization = &authorization
 	} else {
@@ -2012,7 +2092,7 @@ func (contract *BackendCredentialsContract) AssignProperties_To_BackendCredentia
 		var authorization storage.BackendAuthorizationHeaderCredentials
 		err := contract.Authorization.AssignProperties_To_BackendAuthorizationHeaderCredentials(&authorization)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendAuthorizationHeaderCredentials() to populate field Authorization")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendAuthorizationHeaderCredentials() to populate field Authorization")
 		}
 		destination.Authorization = &authorization
 	} else {
@@ -2104,14 +2184,14 @@ var _ genruntime.FromARMConverter = &BackendCredentialsContract_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *BackendCredentialsContract_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendCredentialsContract_STATUS_ARM{}
+	return &arm.BackendCredentialsContract_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *BackendCredentialsContract_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendCredentialsContract_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendCredentialsContract_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendCredentialsContract_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendCredentialsContract_STATUS, got %T", armInput)
 	}
 
 	// Set property "Authorization":
@@ -2171,7 +2251,7 @@ func (contract *BackendCredentialsContract_STATUS) AssignProperties_From_Backend
 		var authorization BackendAuthorizationHeaderCredentials_STATUS
 		err := authorization.AssignProperties_From_BackendAuthorizationHeaderCredentials_STATUS(source.Authorization)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendAuthorizationHeaderCredentials_STATUS() to populate field Authorization")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendAuthorizationHeaderCredentials_STATUS() to populate field Authorization")
 		}
 		contract.Authorization = &authorization
 	} else {
@@ -2224,7 +2304,7 @@ func (contract *BackendCredentialsContract_STATUS) AssignProperties_To_BackendCr
 		var authorization storage.BackendAuthorizationHeaderCredentials_STATUS
 		err := contract.Authorization.AssignProperties_To_BackendAuthorizationHeaderCredentials_STATUS(&authorization)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendAuthorizationHeaderCredentials_STATUS() to populate field Authorization")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendAuthorizationHeaderCredentials_STATUS() to populate field Authorization")
 		}
 		destination.Authorization = &authorization
 	} else {
@@ -2274,6 +2354,110 @@ func (contract *BackendCredentialsContract_STATUS) AssignProperties_To_BackendCr
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type BackendOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_BackendOperatorSpec populates our BackendOperatorSpec from the provided source BackendOperatorSpec
+func (operator *BackendOperatorSpec) AssignProperties_From_BackendOperatorSpec(source *storage.BackendOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackendOperatorSpec populates the provided destination BackendOperatorSpec from our BackendOperatorSpec
+func (operator *BackendOperatorSpec) AssignProperties_To_BackendOperatorSpec(destination *storage.BackendOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Backend pool information
 type BackendPool struct {
 	// +kubebuilder:validation:MinItems=1
@@ -2288,7 +2472,7 @@ func (pool *BackendPool) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if pool == nil {
 		return nil, nil
 	}
-	result := &BackendPool_ARM{}
+	result := &arm.BackendPool{}
 
 	// Set property "Services":
 	for _, item := range pool.Services {
@@ -2296,21 +2480,21 @@ func (pool *BackendPool) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		result.Services = append(result.Services, *item_ARM.(*BackendPoolItem_ARM))
+		result.Services = append(result.Services, *item_ARM.(*arm.BackendPoolItem))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pool *BackendPool) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendPool_ARM{}
+	return &arm.BackendPool{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *BackendPool) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendPool_ARM)
+	typedInput, ok := armInput.(arm.BackendPool)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendPool_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendPool, got %T", armInput)
 	}
 
 	// Set property "Services":
@@ -2339,7 +2523,7 @@ func (pool *BackendPool) AssignProperties_From_BackendPool(source *storage.Backe
 			var service BackendPoolItem
 			err := service.AssignProperties_From_BackendPoolItem(&serviceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BackendPoolItem() to populate field Services")
+				return eris.Wrap(err, "calling AssignProperties_From_BackendPoolItem() to populate field Services")
 			}
 			serviceList[serviceIndex] = service
 		}
@@ -2366,7 +2550,7 @@ func (pool *BackendPool) AssignProperties_To_BackendPool(destination *storage.Ba
 			var service storage.BackendPoolItem
 			err := serviceItem.AssignProperties_To_BackendPoolItem(&service)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BackendPoolItem() to populate field Services")
+				return eris.Wrap(err, "calling AssignProperties_To_BackendPoolItem() to populate field Services")
 			}
 			serviceList[serviceIndex] = service
 		}
@@ -2396,14 +2580,14 @@ var _ genruntime.FromARMConverter = &BackendPool_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pool *BackendPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendPool_STATUS_ARM{}
+	return &arm.BackendPool_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *BackendPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendPool_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendPool_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendPool_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendPool_STATUS, got %T", armInput)
 	}
 
 	// Set property "Services":
@@ -2432,7 +2616,7 @@ func (pool *BackendPool_STATUS) AssignProperties_From_BackendPool_STATUS(source 
 			var service BackendPoolItem_STATUS
 			err := service.AssignProperties_From_BackendPoolItem_STATUS(&serviceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BackendPoolItem_STATUS() to populate field Services")
+				return eris.Wrap(err, "calling AssignProperties_From_BackendPoolItem_STATUS() to populate field Services")
 			}
 			serviceList[serviceIndex] = service
 		}
@@ -2459,7 +2643,7 @@ func (pool *BackendPool_STATUS) AssignProperties_To_BackendPool_STATUS(destinati
 			var service storage.BackendPoolItem_STATUS
 			err := serviceItem.AssignProperties_To_BackendPoolItem_STATUS(&service)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BackendPoolItem_STATUS() to populate field Services")
+				return eris.Wrap(err, "calling AssignProperties_To_BackendPoolItem_STATUS() to populate field Services")
 			}
 			serviceList[serviceIndex] = service
 		}
@@ -2492,7 +2676,7 @@ func (properties *BackendProperties) ConvertToARM(resolved genruntime.ConvertToA
 	if properties == nil {
 		return nil, nil
 	}
-	result := &BackendProperties_ARM{}
+	result := &arm.BackendProperties{}
 
 	// Set property "ServiceFabricCluster":
 	if properties.ServiceFabricCluster != nil {
@@ -2500,7 +2684,7 @@ func (properties *BackendProperties) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		serviceFabricCluster := *serviceFabricCluster_ARM.(*BackendServiceFabricClusterProperties_ARM)
+		serviceFabricCluster := *serviceFabricCluster_ARM.(*arm.BackendServiceFabricClusterProperties)
 		result.ServiceFabricCluster = &serviceFabricCluster
 	}
 	return result, nil
@@ -2508,14 +2692,14 @@ func (properties *BackendProperties) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *BackendProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendProperties_ARM{}
+	return &arm.BackendProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *BackendProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendProperties_ARM)
+	typedInput, ok := armInput.(arm.BackendProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendProperties, got %T", armInput)
 	}
 
 	// Set property "ServiceFabricCluster":
@@ -2541,7 +2725,7 @@ func (properties *BackendProperties) AssignProperties_From_BackendProperties(sou
 		var serviceFabricCluster BackendServiceFabricClusterProperties
 		err := serviceFabricCluster.AssignProperties_From_BackendServiceFabricClusterProperties(source.ServiceFabricCluster)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendServiceFabricClusterProperties() to populate field ServiceFabricCluster")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendServiceFabricClusterProperties() to populate field ServiceFabricCluster")
 		}
 		properties.ServiceFabricCluster = &serviceFabricCluster
 	} else {
@@ -2562,7 +2746,7 @@ func (properties *BackendProperties) AssignProperties_To_BackendProperties(desti
 		var serviceFabricCluster storage.BackendServiceFabricClusterProperties
 		err := properties.ServiceFabricCluster.AssignProperties_To_BackendServiceFabricClusterProperties(&serviceFabricCluster)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendServiceFabricClusterProperties() to populate field ServiceFabricCluster")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendServiceFabricClusterProperties() to populate field ServiceFabricCluster")
 		}
 		destination.ServiceFabricCluster = &serviceFabricCluster
 	} else {
@@ -2590,14 +2774,14 @@ var _ genruntime.FromARMConverter = &BackendProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *BackendProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendProperties_STATUS_ARM{}
+	return &arm.BackendProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *BackendProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "ServiceFabricCluster":
@@ -2623,7 +2807,7 @@ func (properties *BackendProperties_STATUS) AssignProperties_From_BackendPropert
 		var serviceFabricCluster BackendServiceFabricClusterProperties_STATUS
 		err := serviceFabricCluster.AssignProperties_From_BackendServiceFabricClusterProperties_STATUS(source.ServiceFabricCluster)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BackendServiceFabricClusterProperties_STATUS() to populate field ServiceFabricCluster")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendServiceFabricClusterProperties_STATUS() to populate field ServiceFabricCluster")
 		}
 		properties.ServiceFabricCluster = &serviceFabricCluster
 	} else {
@@ -2644,7 +2828,7 @@ func (properties *BackendProperties_STATUS) AssignProperties_To_BackendPropertie
 		var serviceFabricCluster storage.BackendServiceFabricClusterProperties_STATUS
 		err := properties.ServiceFabricCluster.AssignProperties_To_BackendServiceFabricClusterProperties_STATUS(&serviceFabricCluster)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BackendServiceFabricClusterProperties_STATUS() to populate field ServiceFabricCluster")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendServiceFabricClusterProperties_STATUS() to populate field ServiceFabricCluster")
 		}
 		destination.ServiceFabricCluster = &serviceFabricCluster
 	} else {
@@ -2685,13 +2869,13 @@ func (contract *BackendProxyContract) ConvertToARM(resolved genruntime.ConvertTo
 	if contract == nil {
 		return nil, nil
 	}
-	result := &BackendProxyContract_ARM{}
+	result := &arm.BackendProxyContract{}
 
 	// Set property "Password":
 	if contract.Password != nil {
 		passwordSecret, err := resolved.ResolvedSecrets.Lookup(*contract.Password)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Password")
+			return nil, eris.Wrap(err, "looking up secret for property Password")
 		}
 		password := passwordSecret
 		result.Password = &password
@@ -2713,14 +2897,14 @@ func (contract *BackendProxyContract) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *BackendProxyContract) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendProxyContract_ARM{}
+	return &arm.BackendProxyContract{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *BackendProxyContract) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendProxyContract_ARM)
+	typedInput, ok := armInput.(arm.BackendProxyContract)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendProxyContract_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendProxyContract, got %T", armInput)
 	}
 
 	// no assignment for property "Password"
@@ -2816,14 +3000,14 @@ var _ genruntime.FromARMConverter = &BackendProxyContract_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *BackendProxyContract_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendProxyContract_STATUS_ARM{}
+	return &arm.BackendProxyContract_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *BackendProxyContract_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendProxyContract_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendProxyContract_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendProxyContract_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendProxyContract_STATUS, got %T", armInput)
 	}
 
 	// Set property "Url":
@@ -2895,7 +3079,7 @@ func (properties *BackendTlsProperties) ConvertToARM(resolved genruntime.Convert
 	if properties == nil {
 		return nil, nil
 	}
-	result := &BackendTlsProperties_ARM{}
+	result := &arm.BackendTlsProperties{}
 
 	// Set property "ValidateCertificateChain":
 	if properties.ValidateCertificateChain != nil {
@@ -2913,14 +3097,14 @@ func (properties *BackendTlsProperties) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *BackendTlsProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendTlsProperties_ARM{}
+	return &arm.BackendTlsProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *BackendTlsProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendTlsProperties_ARM)
+	typedInput, ok := armInput.(arm.BackendTlsProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendTlsProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendTlsProperties, got %T", armInput)
 	}
 
 	// Set property "ValidateCertificateChain":
@@ -3009,14 +3193,14 @@ var _ genruntime.FromARMConverter = &BackendTlsProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *BackendTlsProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendTlsProperties_STATUS_ARM{}
+	return &arm.BackendTlsProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *BackendTlsProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendTlsProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendTlsProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendTlsProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendTlsProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "ValidateCertificateChain":
@@ -3112,7 +3296,7 @@ func (credentials *BackendAuthorizationHeaderCredentials) ConvertToARM(resolved 
 	if credentials == nil {
 		return nil, nil
 	}
-	result := &BackendAuthorizationHeaderCredentials_ARM{}
+	result := &arm.BackendAuthorizationHeaderCredentials{}
 
 	// Set property "Parameter":
 	if credentials.Parameter != nil {
@@ -3130,14 +3314,14 @@ func (credentials *BackendAuthorizationHeaderCredentials) ConvertToARM(resolved 
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (credentials *BackendAuthorizationHeaderCredentials) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendAuthorizationHeaderCredentials_ARM{}
+	return &arm.BackendAuthorizationHeaderCredentials{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (credentials *BackendAuthorizationHeaderCredentials) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendAuthorizationHeaderCredentials_ARM)
+	typedInput, ok := armInput.(arm.BackendAuthorizationHeaderCredentials)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAuthorizationHeaderCredentials_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendAuthorizationHeaderCredentials, got %T", armInput)
 	}
 
 	// Set property "Parameter":
@@ -3224,14 +3408,14 @@ var _ genruntime.FromARMConverter = &BackendAuthorizationHeaderCredentials_STATU
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (credentials *BackendAuthorizationHeaderCredentials_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendAuthorizationHeaderCredentials_STATUS_ARM{}
+	return &arm.BackendAuthorizationHeaderCredentials_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (credentials *BackendAuthorizationHeaderCredentials_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendAuthorizationHeaderCredentials_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendAuthorizationHeaderCredentials_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAuthorizationHeaderCredentials_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendAuthorizationHeaderCredentials_STATUS, got %T", armInput)
 	}
 
 	// Set property "Parameter":
@@ -3299,7 +3483,7 @@ func (item *BackendPoolItem) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if item == nil {
 		return nil, nil
 	}
-	result := &BackendPoolItem_ARM{}
+	result := &arm.BackendPoolItem{}
 
 	// Set property "Id":
 	if item.Reference != nil {
@@ -3315,14 +3499,14 @@ func (item *BackendPoolItem) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (item *BackendPoolItem) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendPoolItem_ARM{}
+	return &arm.BackendPoolItem{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (item *BackendPoolItem) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(BackendPoolItem_ARM)
+	_, ok := armInput.(arm.BackendPoolItem)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendPoolItem_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendPoolItem, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -3381,14 +3565,14 @@ var _ genruntime.FromARMConverter = &BackendPoolItem_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (item *BackendPoolItem_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendPoolItem_STATUS_ARM{}
+	return &arm.BackendPoolItem_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (item *BackendPoolItem_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendPoolItem_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendPoolItem_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendPoolItem_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendPoolItem_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -3460,7 +3644,7 @@ func (properties *BackendServiceFabricClusterProperties) ConvertToARM(resolved g
 	if properties == nil {
 		return nil, nil
 	}
-	result := &BackendServiceFabricClusterProperties_ARM{}
+	result := &arm.BackendServiceFabricClusterProperties{}
 
 	// Set property "ClientCertificateId":
 	if properties.ClientCertificateId != nil {
@@ -3496,21 +3680,21 @@ func (properties *BackendServiceFabricClusterProperties) ConvertToARM(resolved g
 		if err != nil {
 			return nil, err
 		}
-		result.ServerX509Names = append(result.ServerX509Names, *item_ARM.(*X509CertificateName_ARM))
+		result.ServerX509Names = append(result.ServerX509Names, *item_ARM.(*arm.X509CertificateName))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *BackendServiceFabricClusterProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendServiceFabricClusterProperties_ARM{}
+	return &arm.BackendServiceFabricClusterProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *BackendServiceFabricClusterProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendServiceFabricClusterProperties_ARM)
+	typedInput, ok := armInput.(arm.BackendServiceFabricClusterProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendServiceFabricClusterProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendServiceFabricClusterProperties, got %T", armInput)
 	}
 
 	// Set property "ClientCertificateId":
@@ -3582,7 +3766,7 @@ func (properties *BackendServiceFabricClusterProperties) AssignProperties_From_B
 			var serverX509Name X509CertificateName
 			err := serverX509Name.AssignProperties_From_X509CertificateName(&serverX509NameItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_X509CertificateName() to populate field ServerX509Names")
+				return eris.Wrap(err, "calling AssignProperties_From_X509CertificateName() to populate field ServerX509Names")
 			}
 			serverX509NameList[serverX509NameIndex] = serverX509Name
 		}
@@ -3624,7 +3808,7 @@ func (properties *BackendServiceFabricClusterProperties) AssignProperties_To_Bac
 			var serverX509Name storage.X509CertificateName
 			err := serverX509NameItem.AssignProperties_To_X509CertificateName(&serverX509Name)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_X509CertificateName() to populate field ServerX509Names")
+				return eris.Wrap(err, "calling AssignProperties_To_X509CertificateName() to populate field ServerX509Names")
 			}
 			serverX509NameList[serverX509NameIndex] = serverX509Name
 		}
@@ -3670,14 +3854,14 @@ var _ genruntime.FromARMConverter = &BackendServiceFabricClusterProperties_STATU
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *BackendServiceFabricClusterProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendServiceFabricClusterProperties_STATUS_ARM{}
+	return &arm.BackendServiceFabricClusterProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *BackendServiceFabricClusterProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendServiceFabricClusterProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendServiceFabricClusterProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendServiceFabricClusterProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendServiceFabricClusterProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientCertificateId":
@@ -3749,7 +3933,7 @@ func (properties *BackendServiceFabricClusterProperties_STATUS) AssignProperties
 			var serverX509Name X509CertificateName_STATUS
 			err := serverX509Name.AssignProperties_From_X509CertificateName_STATUS(&serverX509NameItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_X509CertificateName_STATUS() to populate field ServerX509Names")
+				return eris.Wrap(err, "calling AssignProperties_From_X509CertificateName_STATUS() to populate field ServerX509Names")
 			}
 			serverX509NameList[serverX509NameIndex] = serverX509Name
 		}
@@ -3791,7 +3975,7 @@ func (properties *BackendServiceFabricClusterProperties_STATUS) AssignProperties
 			var serverX509Name storage.X509CertificateName_STATUS
 			err := serverX509NameItem.AssignProperties_To_X509CertificateName_STATUS(&serverX509Name)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_X509CertificateName_STATUS() to populate field ServerX509Names")
+				return eris.Wrap(err, "calling AssignProperties_To_X509CertificateName_STATUS() to populate field ServerX509Names")
 			}
 			serverX509NameList[serverX509NameIndex] = serverX509Name
 		}
@@ -3830,7 +4014,7 @@ func (rule *CircuitBreakerRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if rule == nil {
 		return nil, nil
 	}
-	result := &CircuitBreakerRule_ARM{}
+	result := &arm.CircuitBreakerRule{}
 
 	// Set property "FailureCondition":
 	if rule.FailureCondition != nil {
@@ -3838,7 +4022,7 @@ func (rule *CircuitBreakerRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 		if err != nil {
 			return nil, err
 		}
-		failureCondition := *failureCondition_ARM.(*CircuitBreakerFailureCondition_ARM)
+		failureCondition := *failureCondition_ARM.(*arm.CircuitBreakerFailureCondition)
 		result.FailureCondition = &failureCondition
 	}
 
@@ -3858,14 +4042,14 @@ func (rule *CircuitBreakerRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *CircuitBreakerRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CircuitBreakerRule_ARM{}
+	return &arm.CircuitBreakerRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *CircuitBreakerRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CircuitBreakerRule_ARM)
+	typedInput, ok := armInput.(arm.CircuitBreakerRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CircuitBreakerRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CircuitBreakerRule, got %T", armInput)
 	}
 
 	// Set property "FailureCondition":
@@ -3903,7 +4087,7 @@ func (rule *CircuitBreakerRule) AssignProperties_From_CircuitBreakerRule(source 
 		var failureCondition CircuitBreakerFailureCondition
 		err := failureCondition.AssignProperties_From_CircuitBreakerFailureCondition(source.FailureCondition)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CircuitBreakerFailureCondition() to populate field FailureCondition")
+			return eris.Wrap(err, "calling AssignProperties_From_CircuitBreakerFailureCondition() to populate field FailureCondition")
 		}
 		rule.FailureCondition = &failureCondition
 	} else {
@@ -3930,7 +4114,7 @@ func (rule *CircuitBreakerRule) AssignProperties_To_CircuitBreakerRule(destinati
 		var failureCondition storage.CircuitBreakerFailureCondition
 		err := rule.FailureCondition.AssignProperties_To_CircuitBreakerFailureCondition(&failureCondition)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CircuitBreakerFailureCondition() to populate field FailureCondition")
+			return eris.Wrap(err, "calling AssignProperties_To_CircuitBreakerFailureCondition() to populate field FailureCondition")
 		}
 		destination.FailureCondition = &failureCondition
 	} else {
@@ -3970,14 +4154,14 @@ var _ genruntime.FromARMConverter = &CircuitBreakerRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *CircuitBreakerRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CircuitBreakerRule_STATUS_ARM{}
+	return &arm.CircuitBreakerRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *CircuitBreakerRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CircuitBreakerRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CircuitBreakerRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CircuitBreakerRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CircuitBreakerRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "FailureCondition":
@@ -4015,7 +4199,7 @@ func (rule *CircuitBreakerRule_STATUS) AssignProperties_From_CircuitBreakerRule_
 		var failureCondition CircuitBreakerFailureCondition_STATUS
 		err := failureCondition.AssignProperties_From_CircuitBreakerFailureCondition_STATUS(source.FailureCondition)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CircuitBreakerFailureCondition_STATUS() to populate field FailureCondition")
+			return eris.Wrap(err, "calling AssignProperties_From_CircuitBreakerFailureCondition_STATUS() to populate field FailureCondition")
 		}
 		rule.FailureCondition = &failureCondition
 	} else {
@@ -4042,7 +4226,7 @@ func (rule *CircuitBreakerRule_STATUS) AssignProperties_To_CircuitBreakerRule_ST
 		var failureCondition storage.CircuitBreakerFailureCondition_STATUS
 		err := rule.FailureCondition.AssignProperties_To_CircuitBreakerFailureCondition_STATUS(&failureCondition)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CircuitBreakerFailureCondition_STATUS() to populate field FailureCondition")
+			return eris.Wrap(err, "calling AssignProperties_To_CircuitBreakerFailureCondition_STATUS() to populate field FailureCondition")
 		}
 		destination.FailureCondition = &failureCondition
 	} else {
@@ -4093,7 +4277,7 @@ func (condition *CircuitBreakerFailureCondition) ConvertToARM(resolved genruntim
 	if condition == nil {
 		return nil, nil
 	}
-	result := &CircuitBreakerFailureCondition_ARM{}
+	result := &arm.CircuitBreakerFailureCondition{}
 
 	// Set property "Count":
 	if condition.Count != nil {
@@ -4124,21 +4308,21 @@ func (condition *CircuitBreakerFailureCondition) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		result.StatusCodeRanges = append(result.StatusCodeRanges, *item_ARM.(*FailureStatusCodeRange_ARM))
+		result.StatusCodeRanges = append(result.StatusCodeRanges, *item_ARM.(*arm.FailureStatusCodeRange))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (condition *CircuitBreakerFailureCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CircuitBreakerFailureCondition_ARM{}
+	return &arm.CircuitBreakerFailureCondition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (condition *CircuitBreakerFailureCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CircuitBreakerFailureCondition_ARM)
+	typedInput, ok := armInput.(arm.CircuitBreakerFailureCondition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CircuitBreakerFailureCondition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CircuitBreakerFailureCondition, got %T", armInput)
 	}
 
 	// Set property "Count":
@@ -4212,7 +4396,7 @@ func (condition *CircuitBreakerFailureCondition) AssignProperties_From_CircuitBr
 			var statusCodeRange FailureStatusCodeRange
 			err := statusCodeRange.AssignProperties_From_FailureStatusCodeRange(&statusCodeRangeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_FailureStatusCodeRange() to populate field StatusCodeRanges")
+				return eris.Wrap(err, "calling AssignProperties_From_FailureStatusCodeRange() to populate field StatusCodeRanges")
 			}
 			statusCodeRangeList[statusCodeRangeIndex] = statusCodeRange
 		}
@@ -4261,7 +4445,7 @@ func (condition *CircuitBreakerFailureCondition) AssignProperties_To_CircuitBrea
 			var statusCodeRange storage.FailureStatusCodeRange
 			err := statusCodeRangeItem.AssignProperties_To_FailureStatusCodeRange(&statusCodeRange)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_FailureStatusCodeRange() to populate field StatusCodeRanges")
+				return eris.Wrap(err, "calling AssignProperties_To_FailureStatusCodeRange() to populate field StatusCodeRanges")
 			}
 			statusCodeRangeList[statusCodeRangeIndex] = statusCodeRange
 		}
@@ -4305,14 +4489,14 @@ var _ genruntime.FromARMConverter = &CircuitBreakerFailureCondition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (condition *CircuitBreakerFailureCondition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CircuitBreakerFailureCondition_STATUS_ARM{}
+	return &arm.CircuitBreakerFailureCondition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (condition *CircuitBreakerFailureCondition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CircuitBreakerFailureCondition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CircuitBreakerFailureCondition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CircuitBreakerFailureCondition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CircuitBreakerFailureCondition_STATUS, got %T", armInput)
 	}
 
 	// Set property "Count":
@@ -4386,7 +4570,7 @@ func (condition *CircuitBreakerFailureCondition_STATUS) AssignProperties_From_Ci
 			var statusCodeRange FailureStatusCodeRange_STATUS
 			err := statusCodeRange.AssignProperties_From_FailureStatusCodeRange_STATUS(&statusCodeRangeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_FailureStatusCodeRange_STATUS() to populate field StatusCodeRanges")
+				return eris.Wrap(err, "calling AssignProperties_From_FailureStatusCodeRange_STATUS() to populate field StatusCodeRanges")
 			}
 			statusCodeRangeList[statusCodeRangeIndex] = statusCodeRange
 		}
@@ -4435,7 +4619,7 @@ func (condition *CircuitBreakerFailureCondition_STATUS) AssignProperties_To_Circ
 			var statusCodeRange storage.FailureStatusCodeRange_STATUS
 			err := statusCodeRangeItem.AssignProperties_To_FailureStatusCodeRange_STATUS(&statusCodeRange)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_FailureStatusCodeRange_STATUS() to populate field StatusCodeRanges")
+				return eris.Wrap(err, "calling AssignProperties_To_FailureStatusCodeRange_STATUS() to populate field StatusCodeRanges")
 			}
 			statusCodeRangeList[statusCodeRangeIndex] = statusCodeRange
 		}
@@ -4471,7 +4655,7 @@ func (name *X509CertificateName) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if name == nil {
 		return nil, nil
 	}
-	result := &X509CertificateName_ARM{}
+	result := &arm.X509CertificateName{}
 
 	// Set property "IssuerCertificateThumbprint":
 	if name.IssuerCertificateThumbprint != nil {
@@ -4489,14 +4673,14 @@ func (name *X509CertificateName) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (name *X509CertificateName) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &X509CertificateName_ARM{}
+	return &arm.X509CertificateName{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (name *X509CertificateName) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(X509CertificateName_ARM)
+	typedInput, ok := armInput.(arm.X509CertificateName)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected X509CertificateName_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.X509CertificateName, got %T", armInput)
 	}
 
 	// Set property "IssuerCertificateThumbprint":
@@ -4563,14 +4747,14 @@ var _ genruntime.FromARMConverter = &X509CertificateName_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (name *X509CertificateName_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &X509CertificateName_STATUS_ARM{}
+	return &arm.X509CertificateName_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (name *X509CertificateName_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(X509CertificateName_STATUS_ARM)
+	typedInput, ok := armInput.(arm.X509CertificateName_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected X509CertificateName_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.X509CertificateName_STATUS, got %T", armInput)
 	}
 
 	// Set property "IssuerCertificateThumbprint":
@@ -4650,7 +4834,7 @@ func (codeRange *FailureStatusCodeRange) ConvertToARM(resolved genruntime.Conver
 	if codeRange == nil {
 		return nil, nil
 	}
-	result := &FailureStatusCodeRange_ARM{}
+	result := &arm.FailureStatusCodeRange{}
 
 	// Set property "Max":
 	if codeRange.Max != nil {
@@ -4668,14 +4852,14 @@ func (codeRange *FailureStatusCodeRange) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (codeRange *FailureStatusCodeRange) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FailureStatusCodeRange_ARM{}
+	return &arm.FailureStatusCodeRange{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (codeRange *FailureStatusCodeRange) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FailureStatusCodeRange_ARM)
+	typedInput, ok := armInput.(arm.FailureStatusCodeRange)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FailureStatusCodeRange_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FailureStatusCodeRange, got %T", armInput)
 	}
 
 	// Set property "Max":
@@ -4766,14 +4950,14 @@ var _ genruntime.FromARMConverter = &FailureStatusCodeRange_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (codeRange *FailureStatusCodeRange_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FailureStatusCodeRange_STATUS_ARM{}
+	return &arm.FailureStatusCodeRange_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (codeRange *FailureStatusCodeRange_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FailureStatusCodeRange_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FailureStatusCodeRange_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FailureStatusCodeRange_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FailureStatusCodeRange_STATUS, got %T", armInput)
 	}
 
 	// Set property "Max":

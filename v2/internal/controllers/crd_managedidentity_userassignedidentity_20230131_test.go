@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -70,7 +71,7 @@ func Test_ManagedIdentity_UserAssignedIdentity_20230131_CRUD(t *testing.T) {
 func FederatedIdentityCredentials_20230131_CRUD(tc *testcommon.KubePerTestContext, umi *managedidentity.UserAssignedIdentity) {
 	fic := &managedidentity.FederatedIdentityCredential{
 		ObjectMeta: tc.MakeObjectMeta("fic"),
-		Spec: managedidentity.UserAssignedIdentities_FederatedIdentityCredential_Spec{
+		Spec: managedidentity.FederatedIdentityCredential_Spec{
 			Owner: testcommon.AsOwner(umi),
 			// For Workload Identity, Audiences should always be "api://AzureADTokenExchange"
 			Audiences: []string{

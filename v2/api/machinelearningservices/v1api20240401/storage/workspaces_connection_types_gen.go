@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -23,13 +26,13 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240401.WorkspacesConnection
 // Generator information:
-// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/machineLearningServices.json
+// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/workspaceRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}
 type WorkspacesConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Workspaces_Connection_Spec   `json:"spec,omitempty"`
-	Status            Workspaces_Connection_STATUS `json:"status,omitempty"`
+	Spec              WorkspacesConnection_Spec   `json:"spec,omitempty"`
+	Status            WorkspacesConnection_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WorkspacesConnection{}
@@ -42,6 +45,26 @@ func (connection *WorkspacesConnection) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (connection *WorkspacesConnection) SetConditions(conditions conditions.Conditions) {
 	connection.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &WorkspacesConnection{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (connection *WorkspacesConnection) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if connection.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return connection.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &WorkspacesConnection{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (connection *WorkspacesConnection) SecretDestinationExpressions() []*core.DestinationExpression {
+	if connection.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return connection.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &WorkspacesConnection{}
@@ -87,11 +110,15 @@ func (connection *WorkspacesConnection) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (connection *WorkspacesConnection) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Workspaces_Connection_STATUS{}
+	return &WorkspacesConnection_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (connection *WorkspacesConnection) Owner() *genruntime.ResourceReference {
+	if connection.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(connection.Spec)
 	return connection.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (connection *WorkspacesConnection) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (connection *WorkspacesConnection) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Workspaces_Connection_STATUS); ok {
+	if st, ok := status.(*WorkspacesConnection_STATUS); ok {
 		connection.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Workspaces_Connection_STATUS
+	var st WorkspacesConnection_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	connection.Status = st
@@ -130,7 +157,7 @@ func (connection *WorkspacesConnection) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20240401.WorkspacesConnection
 // Generator information:
-// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/machineLearningServices.json
+// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/workspaceRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}
 type WorkspacesConnectionList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -138,12 +165,13 @@ type WorkspacesConnectionList struct {
 	Items           []WorkspacesConnection `json:"items"`
 }
 
-// Storage version of v1api20240401.Workspaces_Connection_Spec
-type Workspaces_Connection_Spec struct {
+// Storage version of v1api20240401.WorkspacesConnection_Spec
+type WorkspacesConnection_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string `json:"azureName,omitempty"`
-	OriginalVersion string `json:"originalVersion,omitempty"`
+	AzureName       string                            `json:"azureName,omitempty"`
+	OperatorSpec    *WorkspacesConnectionOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                            `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -154,28 +182,28 @@ type Workspaces_Connection_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Workspaces_Connection_Spec{}
+var _ genruntime.ConvertibleSpec = &WorkspacesConnection_Spec{}
 
-// ConvertSpecFrom populates our Workspaces_Connection_Spec from the provided source
-func (connection *Workspaces_Connection_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our WorkspacesConnection_Spec from the provided source
+func (connection *WorkspacesConnection_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == connection {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(connection)
 }
 
-// ConvertSpecTo populates the provided destination from our Workspaces_Connection_Spec
-func (connection *Workspaces_Connection_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our WorkspacesConnection_Spec
+func (connection *WorkspacesConnection_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == connection {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(connection)
 }
 
-// Storage version of v1api20240401.Workspaces_Connection_STATUS
-type Workspaces_Connection_STATUS struct {
+// Storage version of v1api20240401.WorkspacesConnection_STATUS
+type WorkspacesConnection_STATUS struct {
 	Conditions  []conditions.Condition                  `json:"conditions,omitempty"`
 	Id          *string                                 `json:"id,omitempty"`
 	Name        *string                                 `json:"name,omitempty"`
@@ -185,21 +213,21 @@ type Workspaces_Connection_STATUS struct {
 	Type        *string                                 `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Workspaces_Connection_STATUS{}
+var _ genruntime.ConvertibleStatus = &WorkspacesConnection_STATUS{}
 
-// ConvertStatusFrom populates our Workspaces_Connection_STATUS from the provided source
-func (connection *Workspaces_Connection_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our WorkspacesConnection_STATUS from the provided source
+func (connection *WorkspacesConnection_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == connection {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(connection)
 }
 
-// ConvertStatusTo populates the provided destination from our Workspaces_Connection_STATUS
-func (connection *Workspaces_Connection_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our WorkspacesConnection_STATUS
+func (connection *WorkspacesConnection_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == connection {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(connection)
@@ -237,6 +265,14 @@ type WorkspaceConnectionPropertiesV2_STATUS struct {
 	SAS              *SASAuthTypeWorkspaceConnectionProperties_STATUS              `json:"sas,omitempty"`
 	ServicePrincipal *ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS `json:"servicePrincipal,omitempty"`
 	UsernamePassword *UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS `json:"usernamePassword,omitempty"`
+}
+
+// Storage version of v1api20240401.WorkspacesConnectionOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WorkspacesConnectionOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20240401.AADAuthTypeWorkspaceConnectionProperties

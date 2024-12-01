@@ -5,11 +5,15 @@ package v1api20210601
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -90,6 +94,26 @@ func (workspace *Workspace) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Workspace resource
 func (workspace *Workspace) defaultImpl() { workspace.defaultAzureName() }
 
+var _ configmaps.Exporter = &Workspace{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (workspace *Workspace) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if workspace.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return workspace.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Workspace{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (workspace *Workspace) SecretDestinationExpressions() []*core.DestinationExpression {
+	if workspace.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return workspace.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &Workspace{}
 
 // InitializeSpec initializes the spec for this resource from the given status
@@ -149,6 +173,10 @@ func (workspace *Workspace) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (workspace *Workspace) Owner() *genruntime.ResourceReference {
+	if workspace.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(workspace.Spec)
 	return workspace.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -165,7 +193,7 @@ func (workspace *Workspace) SetStatus(status genruntime.ConvertibleStatus) error
 	var st Workspace_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	workspace.Status = st
@@ -208,7 +236,7 @@ func (workspace *Workspace) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (workspace *Workspace) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){workspace.validateResourceReferences, workspace.validateOwnerReference}
+	return []func() (admission.Warnings, error){workspace.validateResourceReferences, workspace.validateOwnerReference, workspace.validateSecretDestinations, workspace.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +254,21 @@ func (workspace *Workspace) updateValidations() []func(old runtime.Object) (admi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return workspace.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return workspace.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return workspace.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (workspace *Workspace) validateConfigMapDestinations() (admission.Warnings, error) {
+	if workspace.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(workspace, nil, workspace.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -241,6 +283,14 @@ func (workspace *Workspace) validateResourceReferences() (admission.Warnings, er
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (workspace *Workspace) validateSecretDestinations() (admission.Warnings, error) {
+	if workspace.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(workspace, nil, workspace.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -263,7 +313,7 @@ func (workspace *Workspace) AssignProperties_From_Workspace(source *storage.Work
 	var spec Workspace_Spec
 	err := spec.AssignProperties_From_Workspace_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspace_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Workspace_Spec() to populate field Spec")
 	}
 	workspace.Spec = spec
 
@@ -271,7 +321,7 @@ func (workspace *Workspace) AssignProperties_From_Workspace(source *storage.Work
 	var status Workspace_STATUS
 	err = status.AssignProperties_From_Workspace_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspace_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Workspace_STATUS() to populate field Status")
 	}
 	workspace.Status = status
 
@@ -289,7 +339,7 @@ func (workspace *Workspace) AssignProperties_To_Workspace(destination *storage.W
 	var spec storage.Workspace_Spec
 	err := workspace.Spec.AssignProperties_To_Workspace_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspace_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Workspace_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -297,7 +347,7 @@ func (workspace *Workspace) AssignProperties_To_Workspace(destination *storage.W
 	var status storage.Workspace_STATUS
 	err = workspace.Status.AssignProperties_To_Workspace_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspace_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Workspace_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -350,6 +400,10 @@ type Workspace_Spec struct {
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *WorkspaceOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -386,7 +440,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if workspace == nil {
 		return nil, nil
 	}
-	result := &Workspace_Spec_ARM{}
+	result := &arm.Workspace_Spec{}
 
 	// Set property "Etag":
 	if workspace.Etag != nil {
@@ -412,14 +466,14 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		workspace.RetentionInDays != nil ||
 		workspace.Sku != nil ||
 		workspace.WorkspaceCapping != nil {
-		result.Properties = &WorkspaceProperties_ARM{}
+		result.Properties = &arm.WorkspaceProperties{}
 	}
 	if workspace.Features != nil {
 		features_ARM, err := (*workspace.Features).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		features := *features_ARM.(*WorkspaceFeatures_ARM)
+		features := *features_ARM.(*arm.WorkspaceFeatures)
 		result.Properties.Features = &features
 	}
 	if workspace.ForceCmkForQuery != nil {
@@ -429,19 +483,19 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if workspace.ProvisioningState != nil {
 		var temp string
 		temp = string(*workspace.ProvisioningState)
-		provisioningState := WorkspaceProperties_ProvisioningState_ARM(temp)
+		provisioningState := arm.WorkspaceProperties_ProvisioningState(temp)
 		result.Properties.ProvisioningState = &provisioningState
 	}
 	if workspace.PublicNetworkAccessForIngestion != nil {
 		var temp string
 		temp = string(*workspace.PublicNetworkAccessForIngestion)
-		publicNetworkAccessForIngestion := PublicNetworkAccessType_ARM(temp)
+		publicNetworkAccessForIngestion := arm.PublicNetworkAccessType(temp)
 		result.Properties.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	}
 	if workspace.PublicNetworkAccessForQuery != nil {
 		var temp string
 		temp = string(*workspace.PublicNetworkAccessForQuery)
-		publicNetworkAccessForQuery := PublicNetworkAccessType_ARM(temp)
+		publicNetworkAccessForQuery := arm.PublicNetworkAccessType(temp)
 		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	}
 	if workspace.RetentionInDays != nil {
@@ -453,7 +507,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*WorkspaceSku_ARM)
+		sku := *sku_ARM.(*arm.WorkspaceSku)
 		result.Properties.Sku = &sku
 	}
 	if workspace.WorkspaceCapping != nil {
@@ -461,7 +515,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		workspaceCapping := *workspaceCapping_ARM.(*WorkspaceCapping_ARM)
+		workspaceCapping := *workspaceCapping_ARM.(*arm.WorkspaceCapping)
 		result.Properties.WorkspaceCapping = &workspaceCapping
 	}
 
@@ -477,14 +531,14 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (workspace *Workspace_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspace_Spec_ARM{}
+	return &arm.Workspace_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspace_Spec_ARM)
+	typedInput, ok := armInput.(arm.Workspace_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Workspace_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -524,6 +578,8 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		location := *typedInput.Location
 		workspace.Location = &location
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	workspace.Owner = &genruntime.KnownResourceReference{
@@ -627,13 +683,13 @@ func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 	src = &storage.Workspace_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = workspace.AssignProperties_From_Workspace_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -651,13 +707,13 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	dst = &storage.Workspace_Spec{}
 	err := workspace.AssignProperties_To_Workspace_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -677,7 +733,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var feature WorkspaceFeatures
 		err := feature.AssignProperties_From_WorkspaceFeatures(source.Features)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceFeatures() to populate field Features")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceFeatures() to populate field Features")
 		}
 		workspace.Features = &feature
 	} else {
@@ -694,6 +750,18 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 
 	// Location
 	workspace.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec WorkspaceOperatorSpec
+		err := operatorSpec.AssignProperties_From_WorkspaceOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceOperatorSpec() to populate field OperatorSpec")
+		}
+		workspace.OperatorSpec = &operatorSpec
+	} else {
+		workspace.OperatorSpec = nil
+	}
 
 	// Owner
 	if source.Owner != nil {
@@ -738,7 +806,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var sku WorkspaceSku
 		err := sku.AssignProperties_From_WorkspaceSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceSku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceSku() to populate field Sku")
 		}
 		workspace.Sku = &sku
 	} else {
@@ -753,7 +821,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *st
 		var workspaceCapping WorkspaceCapping
 		err := workspaceCapping.AssignProperties_From_WorkspaceCapping(source.WorkspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceCapping() to populate field WorkspaceCapping")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceCapping() to populate field WorkspaceCapping")
 		}
 		workspace.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -780,7 +848,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var feature storage.WorkspaceFeatures
 		err := workspace.Features.AssignProperties_To_WorkspaceFeatures(&feature)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceFeatures() to populate field Features")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceFeatures() to populate field Features")
 		}
 		destination.Features = &feature
 	} else {
@@ -797,6 +865,18 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(workspace.Location)
+
+	// OperatorSpec
+	if workspace.OperatorSpec != nil {
+		var operatorSpec storage.WorkspaceOperatorSpec
+		err := workspace.OperatorSpec.AssignProperties_To_WorkspaceOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = workspace.OriginalVersion()
@@ -841,7 +921,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var sku storage.WorkspaceSku
 		err := workspace.Sku.AssignProperties_To_WorkspaceSku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceSku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceSku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -856,7 +936,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		var workspaceCapping storage.WorkspaceCapping
 		err := workspace.WorkspaceCapping.AssignProperties_To_WorkspaceCapping(&workspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceCapping() to populate field WorkspaceCapping")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceCapping() to populate field WorkspaceCapping")
 		}
 		destination.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -885,7 +965,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var feature WorkspaceFeatures
 		err := feature.Initialize_From_WorkspaceFeatures_STATUS(source.Features)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceFeatures_STATUS() to populate field Features")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceFeatures_STATUS() to populate field Features")
 		}
 		workspace.Features = &feature
 	} else {
@@ -935,7 +1015,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var sku WorkspaceSku
 		err := sku.Initialize_From_WorkspaceSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceSku_STATUS() to populate field Sku")
 		}
 		workspace.Sku = &sku
 	} else {
@@ -950,7 +1030,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 		var workspaceCapping WorkspaceCapping
 		err := workspaceCapping.Initialize_From_WorkspaceCapping_STATUS(source.WorkspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
 		}
 		workspace.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -1045,13 +1125,13 @@ func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	src = &storage.Workspace_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = workspace.AssignProperties_From_Workspace_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1069,13 +1149,13 @@ func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.Conver
 	dst = &storage.Workspace_STATUS{}
 	err := workspace.AssignProperties_To_Workspace_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1085,14 +1165,14 @@ var _ genruntime.FromARMConverter = &Workspace_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (workspace *Workspace_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspace_STATUS_ARM{}
+	return &arm.Workspace_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspace_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Workspace_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Workspace_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1292,7 +1372,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var feature WorkspaceFeatures_STATUS
 		err := feature.AssignProperties_From_WorkspaceFeatures_STATUS(source.Features)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceFeatures_STATUS() to populate field Features")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceFeatures_STATUS() to populate field Features")
 		}
 		workspace.Features = &feature
 	} else {
@@ -1328,7 +1408,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 			var privateLinkScopedResource PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResource.AssignProperties_From_PrivateLinkScopedResource_STATUS(&privateLinkScopedResourceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -1372,7 +1452,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var sku WorkspaceSku_STATUS
 		err := sku.AssignProperties_From_WorkspaceSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceSku_STATUS() to populate field Sku")
 		}
 		workspace.Sku = &sku
 	} else {
@@ -1390,7 +1470,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		var workspaceCapping WorkspaceCapping_STATUS
 		err := workspaceCapping.AssignProperties_From_WorkspaceCapping_STATUS(source.WorkspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
 		}
 		workspace.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -1423,7 +1503,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var feature storage.WorkspaceFeatures_STATUS
 		err := workspace.Features.AssignProperties_To_WorkspaceFeatures_STATUS(&feature)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceFeatures_STATUS() to populate field Features")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceFeatures_STATUS() to populate field Features")
 		}
 		destination.Features = &feature
 	} else {
@@ -1459,7 +1539,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 			var privateLinkScopedResource storage.PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResourceItem.AssignProperties_To_PrivateLinkScopedResource_STATUS(&privateLinkScopedResource)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -1500,7 +1580,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var sku storage.WorkspaceSku_STATUS
 		err := workspace.Sku.AssignProperties_To_WorkspaceSku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceSku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1518,7 +1598,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		var workspaceCapping storage.WorkspaceCapping_STATUS
 		err := workspace.WorkspaceCapping.AssignProperties_To_WorkspaceCapping_STATUS(&workspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
 		}
 		destination.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -1549,14 +1629,14 @@ var _ genruntime.FromARMConverter = &PrivateLinkScopedResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *PrivateLinkScopedResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkScopedResource_STATUS_ARM{}
+	return &arm.PrivateLinkScopedResource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *PrivateLinkScopedResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkScopedResource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateLinkScopedResource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkScopedResource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateLinkScopedResource_STATUS, got %T", armInput)
 	}
 
 	// Set property "ResourceId":
@@ -1652,7 +1732,7 @@ func (capping *WorkspaceCapping) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if capping == nil {
 		return nil, nil
 	}
-	result := &WorkspaceCapping_ARM{}
+	result := &arm.WorkspaceCapping{}
 
 	// Set property "DailyQuotaGb":
 	if capping.DailyQuotaGb != nil {
@@ -1664,14 +1744,14 @@ func (capping *WorkspaceCapping) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (capping *WorkspaceCapping) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceCapping_ARM{}
+	return &arm.WorkspaceCapping{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (capping *WorkspaceCapping) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceCapping_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceCapping)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceCapping_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceCapping, got %T", armInput)
 	}
 
 	// Set property "DailyQuotaGb":
@@ -1754,14 +1834,14 @@ var _ genruntime.FromARMConverter = &WorkspaceCapping_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (capping *WorkspaceCapping_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceCapping_STATUS_ARM{}
+	return &arm.WorkspaceCapping_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (capping *WorkspaceCapping_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceCapping_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceCapping_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceCapping_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceCapping_STATUS, got %T", armInput)
 	}
 
 	// Set property "DailyQuotaGb":
@@ -1875,7 +1955,7 @@ func (features *WorkspaceFeatures) ConvertToARM(resolved genruntime.ConvertToARM
 	if features == nil {
 		return nil, nil
 	}
-	result := &WorkspaceFeatures_ARM{}
+	result := &arm.WorkspaceFeatures{}
 
 	// Set property "ClusterResourceId":
 	if features.ClusterResourceReference != nil {
@@ -1915,14 +1995,14 @@ func (features *WorkspaceFeatures) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (features *WorkspaceFeatures) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceFeatures_ARM{}
+	return &arm.WorkspaceFeatures{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (features *WorkspaceFeatures) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceFeatures_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceFeatures)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceFeatures_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceFeatures, got %T", armInput)
 	}
 
 	// no assignment for property "ClusterResourceReference"
@@ -2127,14 +2207,14 @@ var _ genruntime.FromARMConverter = &WorkspaceFeatures_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (features *WorkspaceFeatures_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceFeatures_STATUS_ARM{}
+	return &arm.WorkspaceFeatures_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (features *WorkspaceFeatures_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceFeatures_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceFeatures_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceFeatures_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceFeatures_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClusterResourceId":
@@ -2264,6 +2344,110 @@ func (features *WorkspaceFeatures_STATUS) AssignProperties_To_WorkspaceFeatures_
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WorkspaceOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_WorkspaceOperatorSpec populates our WorkspaceOperatorSpec from the provided source WorkspaceOperatorSpec
+func (operator *WorkspaceOperatorSpec) AssignProperties_From_WorkspaceOperatorSpec(source *storage.WorkspaceOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WorkspaceOperatorSpec populates the provided destination WorkspaceOperatorSpec from our WorkspaceOperatorSpec
+func (operator *WorkspaceOperatorSpec) AssignProperties_To_WorkspaceOperatorSpec(destination *storage.WorkspaceOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // +kubebuilder:validation:Enum={"Canceled","Creating","Deleting","Failed","ProvisioningAccount","Succeeded","Updating"}
 type WorkspaceProperties_ProvisioningState string
 
@@ -2329,13 +2513,13 @@ func (workspaceSku *WorkspaceSku) ConvertToARM(resolved genruntime.ConvertToARMR
 	if workspaceSku == nil {
 		return nil, nil
 	}
-	result := &WorkspaceSku_ARM{}
+	result := &arm.WorkspaceSku{}
 
 	// Set property "CapacityReservationLevel":
 	if workspaceSku.CapacityReservationLevel != nil {
 		var temp int
 		temp = int(*workspaceSku.CapacityReservationLevel)
-		capacityReservationLevel := WorkspaceSku_CapacityReservationLevel_ARM(temp)
+		capacityReservationLevel := arm.WorkspaceSku_CapacityReservationLevel(temp)
 		result.CapacityReservationLevel = &capacityReservationLevel
 	}
 
@@ -2343,7 +2527,7 @@ func (workspaceSku *WorkspaceSku) ConvertToARM(resolved genruntime.ConvertToARMR
 	if workspaceSku.Name != nil {
 		var temp string
 		temp = string(*workspaceSku.Name)
-		name := WorkspaceSku_Name_ARM(temp)
+		name := arm.WorkspaceSku_Name(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -2351,14 +2535,14 @@ func (workspaceSku *WorkspaceSku) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (workspaceSku *WorkspaceSku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceSku_ARM{}
+	return &arm.WorkspaceSku{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (workspaceSku *WorkspaceSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceSku_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceSku)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceSku_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceSku, got %T", armInput)
 	}
 
 	// Set property "CapacityReservationLevel":
@@ -2477,14 +2661,14 @@ var _ genruntime.FromARMConverter = &WorkspaceSku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (workspaceSku *WorkspaceSku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceSku_STATUS_ARM{}
+	return &arm.WorkspaceSku_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (workspaceSku *WorkspaceSku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceSku_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceSku_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceSku_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceSku_STATUS, got %T", armInput)
 	}
 
 	// Set property "CapacityReservationLevel":

@@ -7,7 +7,10 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -43,6 +46,26 @@ func (rule *ScheduledQueryRule) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (rule *ScheduledQueryRule) SetConditions(conditions conditions.Conditions) {
 	rule.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ScheduledQueryRule{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (rule *ScheduledQueryRule) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ScheduledQueryRule{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (rule *ScheduledQueryRule) SecretDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ScheduledQueryRule{}
@@ -93,6 +116,10 @@ func (rule *ScheduledQueryRule) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (rule *ScheduledQueryRule) Owner() *genruntime.ResourceReference {
+	if rule.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
 	return rule.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -109,7 +136,7 @@ func (rule *ScheduledQueryRule) SetStatus(status genruntime.ConvertibleStatus) e
 	var st ScheduledQueryRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	rule.Status = st
@@ -152,18 +179,19 @@ type ScheduledQueryRule_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                             string                      `json:"azureName,omitempty"`
-	CheckWorkspaceAlertsStorageConfigured *bool                       `json:"checkWorkspaceAlertsStorageConfigured,omitempty"`
-	Criteria                              *ScheduledQueryRuleCriteria `json:"criteria,omitempty"`
-	Description                           *string                     `json:"description,omitempty"`
-	DisplayName                           *string                     `json:"displayName,omitempty"`
-	Enabled                               *bool                       `json:"enabled,omitempty"`
-	EvaluationFrequency                   *string                     `json:"evaluationFrequency,omitempty"`
-	Kind                                  *string                     `json:"kind,omitempty"`
-	Location                              *string                     `json:"location,omitempty"`
-	MuteActionsDuration                   *string                     `json:"muteActionsDuration,omitempty"`
-	OriginalVersion                       string                      `json:"originalVersion,omitempty"`
-	OverrideQueryTimeRange                *string                     `json:"overrideQueryTimeRange,omitempty"`
+	AzureName                             string                          `json:"azureName,omitempty"`
+	CheckWorkspaceAlertsStorageConfigured *bool                           `json:"checkWorkspaceAlertsStorageConfigured,omitempty"`
+	Criteria                              *ScheduledQueryRuleCriteria     `json:"criteria,omitempty"`
+	Description                           *string                         `json:"description,omitempty"`
+	DisplayName                           *string                         `json:"displayName,omitempty"`
+	Enabled                               *bool                           `json:"enabled,omitempty"`
+	EvaluationFrequency                   *string                         `json:"evaluationFrequency,omitempty"`
+	Kind                                  *string                         `json:"kind,omitempty"`
+	Location                              *string                         `json:"location,omitempty"`
+	MuteActionsDuration                   *string                         `json:"muteActionsDuration,omitempty"`
+	OperatorSpec                          *ScheduledQueryRuleOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                       string                          `json:"originalVersion,omitempty"`
+	OverrideQueryTimeRange                *string                         `json:"overrideQueryTimeRange,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -184,7 +212,7 @@ var _ genruntime.ConvertibleSpec = &ScheduledQueryRule_Spec{}
 // ConvertSpecFrom populates our ScheduledQueryRule_Spec from the provided source
 func (rule *ScheduledQueryRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(rule)
@@ -193,7 +221,7 @@ func (rule *ScheduledQueryRule_Spec) ConvertSpecFrom(source genruntime.Convertib
 // ConvertSpecTo populates the provided destination from our ScheduledQueryRule_Spec
 func (rule *ScheduledQueryRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(rule)
@@ -236,7 +264,7 @@ var _ genruntime.ConvertibleStatus = &ScheduledQueryRule_STATUS{}
 // ConvertStatusFrom populates our ScheduledQueryRule_STATUS from the provided source
 func (rule *ScheduledQueryRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(rule)
@@ -245,7 +273,7 @@ func (rule *ScheduledQueryRule_STATUS) ConvertStatusFrom(source genruntime.Conve
 // ConvertStatusTo populates the provided destination from our ScheduledQueryRule_STATUS
 func (rule *ScheduledQueryRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(rule)
@@ -279,6 +307,14 @@ type ScheduledQueryRuleCriteria struct {
 type ScheduledQueryRuleCriteria_STATUS struct {
 	AllOf       []Condition_STATUS     `json:"allOf,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20220615.ScheduledQueryRuleOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ScheduledQueryRuleOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20220615.SystemData_STATUS
@@ -328,7 +364,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *s
 	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
 		err := augmentedData.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -371,7 +407,7 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
 		err := augmentedData.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

@@ -11,7 +11,7 @@ import (
 	"os"
 	"sort"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -131,7 +131,7 @@ func (tcr *TypeCatalogReport) WriteTo(writer io.Writer) error {
 
 		err := rpt.SaveTo(writer)
 		if err != nil {
-			return errors.Wrapf(err, "failed to create type catalog report for %s", pkg.PackagePath())
+			return eris.Wrapf(err, "failed to create type catalog report for %s", pkg.PackagePath())
 		}
 	}
 

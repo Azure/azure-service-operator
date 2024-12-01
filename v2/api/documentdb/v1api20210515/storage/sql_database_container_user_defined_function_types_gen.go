@@ -8,7 +8,10 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -27,8 +30,8 @@ import (
 type SqlDatabaseContainerUserDefinedFunction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS `json:"status,omitempty"`
+	Spec              SqlDatabaseContainerUserDefinedFunction_Spec   `json:"spec,omitempty"`
+	Status            SqlDatabaseContainerUserDefinedFunction_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerUserDefinedFunction{}
@@ -63,6 +66,26 @@ func (function *SqlDatabaseContainerUserDefinedFunction) ConvertTo(hub conversio
 	}
 
 	return function.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction(destination)
+}
+
+var _ configmaps.Exporter = &SqlDatabaseContainerUserDefinedFunction{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (function *SqlDatabaseContainerUserDefinedFunction) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if function.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return function.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &SqlDatabaseContainerUserDefinedFunction{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (function *SqlDatabaseContainerUserDefinedFunction) SecretDestinationExpressions() []*core.DestinationExpression {
+	if function.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return function.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerUserDefinedFunction{}
@@ -108,11 +131,15 @@ func (function *SqlDatabaseContainerUserDefinedFunction) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (function *SqlDatabaseContainerUserDefinedFunction) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS{}
+	return &SqlDatabaseContainerUserDefinedFunction_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (function *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.ResourceReference {
+	if function.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(function.Spec)
 	return function.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -120,16 +147,16 @@ func (function *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.Res
 // SetStatus sets the status of this resource
 func (function *SqlDatabaseContainerUserDefinedFunction) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS); ok {
+	if st, ok := status.(*SqlDatabaseContainerUserDefinedFunction_STATUS); ok {
 		function.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
+	var st SqlDatabaseContainerUserDefinedFunction_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	function.Status = st
@@ -143,18 +170,18 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignProperties_From_S
 	function.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
-	err := spec.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(&source.Spec)
+	var spec SqlDatabaseContainerUserDefinedFunction_Spec
+	err := spec.AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_Spec() to populate field Spec")
 	}
 	function.Spec = spec
 
 	// Status
-	var status DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
-	err = status.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(&source.Status)
+	var status SqlDatabaseContainerUserDefinedFunction_STATUS
+	err = status.AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_STATUS() to populate field Status")
 	}
 	function.Status = status
 
@@ -163,7 +190,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignProperties_From_S
 	if augmentedFunction, ok := functionAsAny.(augmentConversionForSqlDatabaseContainerUserDefinedFunction); ok {
 		err := augmentedFunction.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -178,18 +205,18 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignProperties_To_Sql
 	destination.ObjectMeta = *function.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
-	err := function.Spec.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(&spec)
+	var spec storage.SqlDatabaseContainerUserDefinedFunction_Spec
+	err := function.Spec.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
-	err = function.Status.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(&status)
+	var status storage.SqlDatabaseContainerUserDefinedFunction_STATUS
+	err = function.Status.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -198,7 +225,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignProperties_To_Sql
 	if augmentedFunction, ok := functionAsAny.(augmentConversionForSqlDatabaseContainerUserDefinedFunction); ok {
 		err := augmentedFunction.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -231,14 +258,15 @@ type augmentConversionForSqlDatabaseContainerUserDefinedFunction interface {
 	AssignPropertiesTo(dst *storage.SqlDatabaseContainerUserDefinedFunction) error
 }
 
-// Storage version of v1api20210515.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
-type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec struct {
+// Storage version of v1api20210515.SqlDatabaseContainerUserDefinedFunction_Spec
+type SqlDatabaseContainerUserDefinedFunction_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string               `json:"azureName,omitempty"`
-	Location        *string              `json:"location,omitempty"`
-	Options         *CreateUpdateOptions `json:"options,omitempty"`
-	OriginalVersion string               `json:"originalVersion,omitempty"`
+	AzureName       string                                               `json:"azureName,omitempty"`
+	Location        *string                                              `json:"location,omitempty"`
+	OperatorSpec    *SqlDatabaseContainerUserDefinedFunctionOperatorSpec `json:"operatorSpec,omitempty"`
+	Options         *CreateUpdateOptions                                 `json:"options,omitempty"`
+	OriginalVersion string                                               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -250,58 +278,58 @@ type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec{}
+var _ genruntime.ConvertibleSpec = &SqlDatabaseContainerUserDefinedFunction_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec from the provided source
-func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec)
+// ConvertSpecFrom populates our SqlDatabaseContainerUserDefinedFunction_Spec from the provided source
+func (function *SqlDatabaseContainerUserDefinedFunction_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.SqlDatabaseContainerUserDefinedFunction_Spec)
 	if ok {
 		// Populate our instance from source
-		return function.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(src)
+		return function.AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec{}
+	src = &storage.SqlDatabaseContainerUserDefinedFunction_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = function.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(src)
+	err = function.AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
-func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec)
+// ConvertSpecTo populates the provided destination from our SqlDatabaseContainerUserDefinedFunction_Spec
+func (function *SqlDatabaseContainerUserDefinedFunction_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.SqlDatabaseContainerUserDefinedFunction_Spec)
 	if ok {
 		// Populate destination from our instance
-		return function.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(dst)
+		return function.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec{}
-	err := function.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(dst)
+	dst = &storage.SqlDatabaseContainerUserDefinedFunction_Spec{}
+	err := function.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec populates our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec from the provided source DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
-func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(source *storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) error {
+// AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_Spec populates our SqlDatabaseContainerUserDefinedFunction_Spec from the provided source SqlDatabaseContainerUserDefinedFunction_Spec
+func (function *SqlDatabaseContainerUserDefinedFunction_Spec) AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_Spec(source *storage.SqlDatabaseContainerUserDefinedFunction_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -311,12 +339,24 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 	// Location
 	function.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+		err := operatorSpec.AssignProperties_From_SqlDatabaseContainerUserDefinedFunctionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerUserDefinedFunctionOperatorSpec() to populate field OperatorSpec")
+		}
+		function.OperatorSpec = &operatorSpec
+	} else {
+		function.OperatorSpec = nil
+	}
+
 	// Options
 	if source.Options != nil {
 		var option CreateUpdateOptions
 		err := option.AssignProperties_From_CreateUpdateOptions(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
+			return eris.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
 		}
 		function.Options = &option
 	} else {
@@ -339,7 +379,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 		var resource SqlUserDefinedFunctionResource
 		err := resource.AssignProperties_From_SqlUserDefinedFunctionResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlUserDefinedFunctionResource() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_From_SqlUserDefinedFunctionResource() to populate field Resource")
 		}
 		function.Resource = &resource
 	} else {
@@ -356,12 +396,12 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 		function.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSqlDatabaseContainerUserDefinedFunction_Spec interface (if implemented) to customize the conversion
 	var functionAsAny any = function
-	if augmentedFunction, ok := functionAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec); ok {
+	if augmentedFunction, ok := functionAsAny.(augmentConversionForSqlDatabaseContainerUserDefinedFunction_Spec); ok {
 		err := augmentedFunction.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -369,8 +409,8 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec populates the provided destination DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec from our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
-func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(destination *storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) error {
+// AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_Spec populates the provided destination SqlDatabaseContainerUserDefinedFunction_Spec from our SqlDatabaseContainerUserDefinedFunction_Spec
+func (function *SqlDatabaseContainerUserDefinedFunction_Spec) AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_Spec(destination *storage.SqlDatabaseContainerUserDefinedFunction_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(function.PropertyBag)
 
@@ -380,12 +420,24 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 	// Location
 	destination.Location = genruntime.ClonePointerToString(function.Location)
 
+	// OperatorSpec
+	if function.OperatorSpec != nil {
+		var operatorSpec storage.SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+		err := function.OperatorSpec.AssignProperties_To_SqlDatabaseContainerUserDefinedFunctionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerUserDefinedFunctionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// Options
 	if function.Options != nil {
 		var option storage.CreateUpdateOptions
 		err := function.Options.AssignProperties_To_CreateUpdateOptions(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
+			return eris.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -408,7 +460,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 		var resource storage.SqlUserDefinedFunctionResource
 		err := function.Resource.AssignProperties_To_SqlUserDefinedFunctionResource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlUserDefinedFunctionResource() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_To_SqlUserDefinedFunctionResource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -425,12 +477,12 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSqlDatabaseContainerUserDefinedFunction_Spec interface (if implemented) to customize the conversion
 	var functionAsAny any = function
-	if augmentedFunction, ok := functionAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec); ok {
+	if augmentedFunction, ok := functionAsAny.(augmentConversionForSqlDatabaseContainerUserDefinedFunction_Spec); ok {
 		err := augmentedFunction.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -438,8 +490,8 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 	return nil
 }
 
-// Storage version of v1api20210515.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
-type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS struct {
+// Storage version of v1api20210515.SqlDatabaseContainerUserDefinedFunction_STATUS
+type SqlDatabaseContainerUserDefinedFunction_STATUS struct {
 	Conditions  []conditions.Condition                               `json:"conditions,omitempty"`
 	Id          *string                                              `json:"id,omitempty"`
 	Location    *string                                              `json:"location,omitempty"`
@@ -450,58 +502,58 @@ type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS struct 
 	Type        *string                                              `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS{}
+var _ genruntime.ConvertibleStatus = &SqlDatabaseContainerUserDefinedFunction_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS from the provided source
-func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS)
+// ConvertStatusFrom populates our SqlDatabaseContainerUserDefinedFunction_STATUS from the provided source
+func (function *SqlDatabaseContainerUserDefinedFunction_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.SqlDatabaseContainerUserDefinedFunction_STATUS)
 	if ok {
 		// Populate our instance from source
-		return function.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(src)
+		return function.AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS{}
+	src = &storage.SqlDatabaseContainerUserDefinedFunction_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = function.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(src)
+	err = function.AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
-func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS)
+// ConvertStatusTo populates the provided destination from our SqlDatabaseContainerUserDefinedFunction_STATUS
+func (function *SqlDatabaseContainerUserDefinedFunction_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.SqlDatabaseContainerUserDefinedFunction_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return function.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(dst)
+		return function.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS{}
-	err := function.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(dst)
+	dst = &storage.SqlDatabaseContainerUserDefinedFunction_STATUS{}
+	err := function.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS populates our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS from the provided source DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
-func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(source *storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) error {
+// AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_STATUS populates our SqlDatabaseContainerUserDefinedFunction_STATUS from the provided source SqlDatabaseContainerUserDefinedFunction_STATUS
+func (function *SqlDatabaseContainerUserDefinedFunction_STATUS) AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_STATUS(source *storage.SqlDatabaseContainerUserDefinedFunction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -522,7 +574,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STA
 		var resource SqlUserDefinedFunctionGetProperties_Resource_STATUS
 		err := resource.AssignProperties_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		function.Resource = &resource
 	} else {
@@ -542,12 +594,12 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STA
 		function.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSqlDatabaseContainerUserDefinedFunction_STATUS interface (if implemented) to customize the conversion
 	var functionAsAny any = function
-	if augmentedFunction, ok := functionAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS); ok {
+	if augmentedFunction, ok := functionAsAny.(augmentConversionForSqlDatabaseContainerUserDefinedFunction_STATUS); ok {
 		err := augmentedFunction.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -555,8 +607,8 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STA
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS populates the provided destination DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS from our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
-func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(destination *storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) error {
+// AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_STATUS populates the provided destination SqlDatabaseContainerUserDefinedFunction_STATUS from our SqlDatabaseContainerUserDefinedFunction_STATUS
+func (function *SqlDatabaseContainerUserDefinedFunction_STATUS) AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_STATUS(destination *storage.SqlDatabaseContainerUserDefinedFunction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(function.PropertyBag)
 
@@ -577,7 +629,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STA
 		var resource storage.SqlUserDefinedFunctionGetProperties_Resource_STATUS
 		err := function.Resource.AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -597,12 +649,12 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STA
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSqlDatabaseContainerUserDefinedFunction_STATUS interface (if implemented) to customize the conversion
 	var functionAsAny any = function
-	if augmentedFunction, ok := functionAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS); ok {
+	if augmentedFunction, ok := functionAsAny.(augmentConversionForSqlDatabaseContainerUserDefinedFunction_STATUS); ok {
 		err := augmentedFunction.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -610,14 +662,144 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STA
 	return nil
 }
 
-type augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec interface {
-	AssignPropertiesFrom(src *storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) error
-	AssignPropertiesTo(dst *storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) error
+type augmentConversionForSqlDatabaseContainerUserDefinedFunction_Spec interface {
+	AssignPropertiesFrom(src *storage.SqlDatabaseContainerUserDefinedFunction_Spec) error
+	AssignPropertiesTo(dst *storage.SqlDatabaseContainerUserDefinedFunction_Spec) error
 }
 
-type augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS interface {
-	AssignPropertiesFrom(src *storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) error
-	AssignPropertiesTo(dst *storage.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) error
+type augmentConversionForSqlDatabaseContainerUserDefinedFunction_STATUS interface {
+	AssignPropertiesFrom(src *storage.SqlDatabaseContainerUserDefinedFunction_STATUS) error
+	AssignPropertiesTo(dst *storage.SqlDatabaseContainerUserDefinedFunction_STATUS) error
+}
+
+// Storage version of v1api20210515.SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SqlDatabaseContainerUserDefinedFunctionOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_SqlDatabaseContainerUserDefinedFunctionOperatorSpec populates our SqlDatabaseContainerUserDefinedFunctionOperatorSpec from the provided source SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+func (operator *SqlDatabaseContainerUserDefinedFunctionOperatorSpec) AssignProperties_From_SqlDatabaseContainerUserDefinedFunctionOperatorSpec(source *storage.SqlDatabaseContainerUserDefinedFunctionOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSqlDatabaseContainerUserDefinedFunctionOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSqlDatabaseContainerUserDefinedFunctionOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SqlDatabaseContainerUserDefinedFunctionOperatorSpec populates the provided destination SqlDatabaseContainerUserDefinedFunctionOperatorSpec from our SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+func (operator *SqlDatabaseContainerUserDefinedFunctionOperatorSpec) AssignProperties_To_SqlDatabaseContainerUserDefinedFunctionOperatorSpec(destination *storage.SqlDatabaseContainerUserDefinedFunctionOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSqlDatabaseContainerUserDefinedFunctionOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSqlDatabaseContainerUserDefinedFunctionOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210515.SqlUserDefinedFunctionGetProperties_Resource_STATUS
@@ -667,7 +849,7 @@ func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) AssignPrope
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlUserDefinedFunctionGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -712,7 +894,7 @@ func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) AssignPrope
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlUserDefinedFunctionGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -751,7 +933,7 @@ func (resource *SqlUserDefinedFunctionResource) AssignProperties_From_SqlUserDef
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlUserDefinedFunctionResource); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -782,12 +964,17 @@ func (resource *SqlUserDefinedFunctionResource) AssignProperties_To_SqlUserDefin
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlUserDefinedFunctionResource); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
 	// No error
 	return nil
+}
+
+type augmentConversionForSqlDatabaseContainerUserDefinedFunctionOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.SqlDatabaseContainerUserDefinedFunctionOperatorSpec) error
+	AssignPropertiesTo(dst *storage.SqlDatabaseContainerUserDefinedFunctionOperatorSpec) error
 }
 
 type augmentConversionForSqlUserDefinedFunctionGetProperties_Resource_STATUS interface {

@@ -6,7 +6,7 @@ package vcurrent
 import (
 	vnext "github.com/Azure/azure-service-operator/testing/verification/vnext"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 type Person struct {
@@ -23,7 +23,7 @@ func (person *Person) AssignProperties_From_Person(source *vnext.Person) error {
 		var role Release
 		err := propertyBag.Pull("Role", &role)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'Role' from propertyBag")
+			return eris.Wrap(err, "pulling 'Role' from propertyBag")
 		}
 
 		person.Role = role

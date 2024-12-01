@@ -1155,6 +1155,103 @@ func AddRelatedPropertyGeneratorsForContainerGroupIdentity_STATUS(gens map[strin
 		UserAssignedIdentities_STATUSGenerator())
 }
 
+func Test_ContainerGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ContainerGroupOperatorSpec to ContainerGroupOperatorSpec via AssignProperties_To_ContainerGroupOperatorSpec & AssignProperties_From_ContainerGroupOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForContainerGroupOperatorSpec, ContainerGroupOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForContainerGroupOperatorSpec tests if a specific instance of ContainerGroupOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForContainerGroupOperatorSpec(subject ContainerGroupOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ContainerGroupOperatorSpec
+	err := copied.AssignProperties_To_ContainerGroupOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ContainerGroupOperatorSpec
+	err = actual.AssignProperties_From_ContainerGroupOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ContainerGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ContainerGroupOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerGroupOperatorSpec, ContainerGroupOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForContainerGroupOperatorSpec runs a test to see if a specific instance of ContainerGroupOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerGroupOperatorSpec(subject ContainerGroupOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ContainerGroupOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ContainerGroupOperatorSpec instances for property testing - lazily instantiated by
+// ContainerGroupOperatorSpecGenerator()
+var containerGroupOperatorSpecGenerator gopter.Gen
+
+// ContainerGroupOperatorSpecGenerator returns a generator of ContainerGroupOperatorSpec instances for property testing.
+func ContainerGroupOperatorSpecGenerator() gopter.Gen {
+	if containerGroupOperatorSpecGenerator != nil {
+		return containerGroupOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	containerGroupOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ContainerGroupOperatorSpec{}), generators)
+
+	return containerGroupOperatorSpecGenerator
+}
+
 func Test_ContainerGroupSubnetId_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1747,6 +1844,7 @@ func AddRelatedPropertyGeneratorsForContainerGroup_Spec(gens map[string]gopter.G
 	gens["ImageRegistryCredentials"] = gen.SliceOf(ImageRegistryCredentialGenerator())
 	gens["InitContainers"] = gen.SliceOf(InitContainerDefinitionGenerator())
 	gens["IpAddress"] = gen.PtrOf(IpAddressGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ContainerGroupOperatorSpecGenerator())
 	gens["SubnetIds"] = gen.SliceOf(ContainerGroupSubnetIdGenerator())
 	gens["Volumes"] = gen.SliceOf(VolumeGenerator())
 }

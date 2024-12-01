@@ -9,7 +9,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -37,18 +37,15 @@ func ApplyARMConversionInterface(idFactory astmodel.IdentifierFactory, config *c
 		})
 }
 
-// GetARMTypeDefinition gets the ARM type definition for a given Kubernetes type name.
-// If no matching definition can be found an error is returned.
-func GetARMTypeDefinition(
-	defs astmodel.TypeDefinitionSet,
+// LookupARMTypeDefinition gets the ARM type definition for a given Kubernetes type name.
+// Returns the definition and true if found; otherwise returns an empty definition and false.
+func LookupARMTypeDefinition(
 	name astmodel.InternalTypeName,
-) (astmodel.TypeDefinition, error) {
-	armDefinition, ok := defs[astmodel.CreateARMTypeName(name)]
-	if !ok {
-		return astmodel.TypeDefinition{}, errors.Errorf("couldn't find ARM definition matching kube name %q", name)
-	}
-
-	return armDefinition, nil
+	defs astmodel.TypeDefinitionSet,
+) (astmodel.TypeDefinition, bool) {
+	armName := astmodel.CreateARMTypeName(name)
+	armDefinition, ok := defs[armName]
+	return armDefinition, ok
 }
 
 type armConversionApplier struct {
@@ -70,7 +67,7 @@ func (c *armConversionApplier) transformResourceSpecs() (astmodel.TypeDefinition
 	for _, td := range resources {
 		resource, ok := astmodel.AsResourceType(td.Type())
 		if !ok {
-			return nil, errors.Errorf("%q was not a resource, instead %T", td.Name(), td.Type())
+			return nil, eris.Errorf("%q was not a resource, instead %T", td.Name(), td.Type())
 		}
 
 		specDefinition, err := c.transformSpec(resource)
@@ -78,9 +75,9 @@ func (c *armConversionApplier) transformResourceSpecs() (astmodel.TypeDefinition
 			return nil, err
 		}
 
-		armSpecDefinition, err := GetARMTypeDefinition(c.definitions, specDefinition.Name())
-		if err != nil {
-			return nil, err
+		armSpecDefinition, ok := LookupARMTypeDefinition(specDefinition.Name(), c.definitions)
+		if !ok {
+			return nil, eris.Errorf("couldn't find ARM definition for spec %s", specDefinition.Name())
 		}
 
 		specDefinition, err = c.addARMConversionInterface(specDefinition, armSpecDefinition, armconversion.TypeKindSpec)
@@ -111,9 +108,9 @@ func (c *armConversionApplier) transformResourceStatuses() (astmodel.TypeDefinit
 			continue
 		}
 
-		armStatusDefinition, err := GetARMTypeDefinition(c.definitions, td.Name())
-		if err != nil {
-			return nil, err
+		armStatusDefinition, ok := LookupARMTypeDefinition(td.Name(), c.definitions)
+		if !ok {
+			return nil, eris.Errorf("couldn't find ARM definition for status %s", td.Name())
 		}
 
 		statusDefinition, err := c.addARMConversionInterface(td, armStatusDefinition, armconversion.TypeKindStatus)
@@ -159,14 +156,14 @@ func (c *armConversionApplier) transformTypes() (astmodel.TypeDefinitionSet, err
 			continue
 		}
 
-		armDefinition, err := GetARMTypeDefinition(c.definitions, td.Name())
-		if err != nil {
-			return nil, err
+		armDefinition, ok := LookupARMTypeDefinition(td.Name(), c.definitions)
+		if !ok {
+			return nil, eris.Errorf("couldn't find ARM definition for %s", td.Name())
 		}
 
 		modifiedDef, err := c.addARMConversionInterface(td, armDefinition, armconversion.TypeKindOrdinary)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to add ARM conversion interface to %q", td.Name())
+			return nil, eris.Wrapf(err, "failed to add ARM conversion interface to %q", td.Name())
 		}
 
 		result.Add(modifiedDef)
@@ -217,7 +214,7 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 
 	kubernetesDef, err := resourceSpecDef.ApplyObjectTransformations(remapProperties, injectOwnerProperty)
 	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "remapping properties of Kubernetes definition")
+		return astmodel.TypeDefinition{}, eris.Wrapf(err, "remapping properties of Kubernetes definition")
 	}
 
 	return kubernetesDef, nil
@@ -231,7 +228,7 @@ func (c *armConversionApplier) addARMConversionInterface(
 	objectType, ok := astmodel.AsObjectType(armDef.Type())
 	emptyDef := astmodel.TypeDefinition{}
 	if !ok {
-		return emptyDef, errors.Errorf("ARM definition %q did not define an object type", armDef.Name())
+		return emptyDef, eris.Errorf("ARM definition %q did not define an object type", armDef.Name())
 	}
 
 	addInterfaceHandler := func(t *astmodel.ObjectType) (astmodel.Type, error) {
@@ -248,7 +245,7 @@ func (c *armConversionApplier) addARMConversionInterface(
 	if err != nil {
 		emptyDef := astmodel.TypeDefinition{}
 		return emptyDef,
-			errors.Errorf("failed to add ARM conversion interface to Kubenetes object definition %s", armDef.Name())
+			eris.Errorf("failed to add ARM conversion interface to Kubenetes object definition %s", armDef.Name())
 	}
 
 	return result, nil

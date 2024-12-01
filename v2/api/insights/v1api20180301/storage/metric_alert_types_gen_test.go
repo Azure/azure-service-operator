@@ -797,6 +797,61 @@ func AddRelatedPropertyGeneratorsForMetricAlertMultipleResourceMultipleMetricCri
 	gens["AllOf"] = gen.SliceOf(MultiMetricCriteria_STATUSGenerator())
 }
 
+func Test_MetricAlertOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MetricAlertOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMetricAlertOperatorSpec, MetricAlertOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMetricAlertOperatorSpec runs a test to see if a specific instance of MetricAlertOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForMetricAlertOperatorSpec(subject MetricAlertOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MetricAlertOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MetricAlertOperatorSpec instances for property testing - lazily instantiated by
+// MetricAlertOperatorSpecGenerator()
+var metricAlertOperatorSpecGenerator gopter.Gen
+
+// MetricAlertOperatorSpecGenerator returns a generator of MetricAlertOperatorSpec instances for property testing.
+func MetricAlertOperatorSpecGenerator() gopter.Gen {
+	if metricAlertOperatorSpecGenerator != nil {
+		return metricAlertOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	metricAlertOperatorSpecGenerator = gen.Struct(reflect.TypeOf(MetricAlertOperatorSpec{}), generators)
+
+	return metricAlertOperatorSpecGenerator
+}
+
 func Test_MetricAlertSingleResourceMultipleMetricCriteria_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1125,6 +1180,7 @@ func AddIndependentPropertyGeneratorsForMetricAlert_Spec(gens map[string]gopter.
 func AddRelatedPropertyGeneratorsForMetricAlert_Spec(gens map[string]gopter.Gen) {
 	gens["Actions"] = gen.SliceOf(MetricAlertActionGenerator())
 	gens["Criteria"] = gen.PtrOf(MetricAlertCriteriaGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(MetricAlertOperatorSpecGenerator())
 }
 
 func Test_MetricCriteria_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

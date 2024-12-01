@@ -9,7 +9,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -50,7 +50,7 @@ func RepairSkippingProperties() *Stage {
 		func(ctx context.Context, state *State) (*State, error) {
 			var graph *storage.ConversionGraph
 			if g, err := GetStateData[*storage.ConversionGraph](state, ConversionGraphInfo); err != nil {
-				return nil, errors.Wrapf(err, "couldn't find conversion graph")
+				return nil, eris.Wrapf(err, "couldn't find conversion graph")
 			} else {
 				graph = g
 			}
@@ -123,7 +123,7 @@ func (repairer *skippingPropertyRepairer) AddProperties(
 
 	err := kerrors.NewAggregate(errs)
 	if err != nil {
-		return errors.Wrapf(err, "adding properties from %s", name)
+		return eris.Wrapf(err, "adding properties from %s", name)
 	}
 
 	return nil
@@ -136,7 +136,7 @@ func (repairer *skippingPropertyRepairer) AddProperty(
 ) error {
 	ref := astmodel.MakePropertyReference(name, property.PropertyName())
 	if err := repairer.establishPropertyChain(ref); err != nil {
-		return errors.Wrapf(err, "adding property %s", property.PropertyName())
+		return eris.Wrapf(err, "adding property %s", property.PropertyName())
 	}
 
 	repairer.propertyObserved(ref)
@@ -156,12 +156,18 @@ func (repairer *skippingPropertyRepairer) RepairSkippedProperties() (astmodel.Ty
 			continue
 		}
 
-		// If the repair added any new types (mostly it won't), include them in the result
-		result.AddTypes(defs)
+		// If the repair added any new types (mostly it won't), include them in the result.
+		// Duplicates are allowed as long as they are structurally identical, as the same type
+		// may be reached from multiple chains in a given API version.
+		err = result.AddTypesAllowDuplicates(defs)
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
 	}
 
 	if len(errs) > 0 {
-		return nil, errors.Wrapf(
+		return nil, eris.Wrapf(
 			kerrors.NewAggregate(errs),
 			"failed to repair skipping properties")
 	}
@@ -186,7 +192,7 @@ func (repairer *skippingPropertyRepairer) establishPropertyChain(ref astmodel.Pr
 func (repairer *skippingPropertyRepairer) createPropertyChain(ref astmodel.PropertyReference) error {
 	next, err := repairer.conversionGraph.FindNextProperty(ref, repairer.definitions)
 	if err != nil {
-		return errors.Wrapf(err, "creating property chain link from %s", ref.String())
+		return eris.Wrapf(err, "creating property chain link from %s", ref.String())
 	}
 
 	repairer.addLink(ref, next)
@@ -269,7 +275,7 @@ func (repairer *skippingPropertyRepairer) repairChain(
 	// Find all the type definitions referenced by this definition (e.g. nested types)
 	defs, err := astmodel.FindConnectedDefinitions(repairer.definitions, astmodel.MakeTypeDefinitionSetFromDefinitions(def))
 	if err != nil {
-		return nil, errors.Wrapf(
+		return nil, eris.Wrapf(
 			err,
 			"failed to find connected definitions from %s",
 			tn)
@@ -283,7 +289,7 @@ func (repairer *skippingPropertyRepairer) repairChain(
 		})
 	newDefs, err := renamer.RenameAll(defs)
 	if err != nil {
-		return nil, errors.Wrapf(
+		return nil, eris.Wrapf(
 			err,
 			"failed to rename definitions from %s",
 			tn)

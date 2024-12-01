@@ -10,7 +10,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -87,6 +90,26 @@ func (resource *FakeResource) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the FakeResource resource
 func (resource *FakeResource) defaultImpl() { resource.defaultAzureName() }
 
+var _ configmaps.Exporter = &FakeResource{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (resource *FakeResource) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if resource.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return resource.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FakeResource{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (resource *FakeResource) SecretDestinationExpressions() []*core.DestinationExpression {
+	if resource.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return resource.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.KubernetesResource = &FakeResource{}
 
 // AzureName returns the Azure name of the resource
@@ -125,6 +148,10 @@ func (resource *FakeResource) GetType() string {
 
 // Owner returns the ResourceReference of the owner
 func (resource *FakeResource) Owner() *genruntime.ResourceReference {
+	if resource.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(resource.Spec)
 	return resource.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -165,7 +192,7 @@ func (resource *FakeResource) ValidateUpdate(old runtime.Object) (admission.Warn
 
 // createValidations validates the creation of the resource
 func (resource *FakeResource) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){resource.validateResourceReferences, resource.validateOwnerReference}
+	return []func() (admission.Warnings, error){resource.validateResourceReferences, resource.validateOwnerReference, resource.validateSecretDestinations, resource.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -183,7 +210,21 @@ func (resource *FakeResource) updateValidations() []func(old runtime.Object) (ad
 		func(old runtime.Object) (admission.Warnings, error) {
 			return resource.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return resource.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return resource.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (resource *FakeResource) validateConfigMapDestinations() (admission.Warnings, error) {
+	if resource.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(resource, nil, resource.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -198,6 +239,14 @@ func (resource *FakeResource) validateResourceReferences() (admission.Warnings, 
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (resource *FakeResource) validateSecretDestinations() (admission.Warnings, error) {
+	if resource.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(resource, nil, resource.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -220,7 +269,7 @@ func (resource *FakeResource) AssignProperties_From_FakeResource(source *storage
 	var spec FakeResource_Spec
 	err := spec.AssignProperties_From_FakeResource_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FakeResource_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_FakeResource_Spec() to populate field Spec")
 	}
 	resource.Spec = spec
 
@@ -238,7 +287,7 @@ func (resource *FakeResource) AssignProperties_To_FakeResource(destination *stor
 	var spec storage.FakeResource_Spec
 	err := resource.Spec.AssignProperties_To_FakeResource_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FakeResource_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_FakeResource_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,6 +331,10 @@ type FakeResource_Spec struct {
 	// +kubebuilder:validation:Required
 	// Foo: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 	Foo *Foo `json:"foo,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *FakeResourceOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// OptionalFoo: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 	OptionalFoo *Foo `json:"optionalFoo,omitempty"`
@@ -387,6 +440,8 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		resource.Foo = &foo
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "OptionalFoo":
 	if typedInput.OptionalFoo != nil {
 		var optionalFoo1 Foo
@@ -427,13 +482,13 @@ func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.Convertible
 	src = &storage.FakeResource_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = resource.AssignProperties_From_FakeResource_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -451,13 +506,13 @@ func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.Converti
 	dst = &storage.FakeResource_Spec{}
 	err := resource.AssignProperties_To_FakeResource_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -491,11 +546,23 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 		var foo Foo
 		err := foo.AssignProperties_From_Foo(source.Foo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field Foo")
+			return eris.Wrap(err, "calling AssignProperties_From_Foo() to populate field Foo")
 		}
 		resource.Foo = &foo
 	} else {
 		resource.Foo = nil
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec FakeResourceOperatorSpec
+		err := operatorSpec.AssignProperties_From_FakeResourceOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_FakeResourceOperatorSpec() to populate field OperatorSpec")
+		}
+		resource.OperatorSpec = &operatorSpec
+	} else {
+		resource.OperatorSpec = nil
 	}
 
 	// OptionalFoo
@@ -503,7 +570,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 		var optionalFoo Foo
 		err := optionalFoo.AssignProperties_From_Foo(source.OptionalFoo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field OptionalFoo")
+			return eris.Wrap(err, "calling AssignProperties_From_Foo() to populate field OptionalFoo")
 		}
 		resource.OptionalFoo = &optionalFoo
 	} else {
@@ -555,11 +622,23 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 		var foo storage.Foo
 		err := resource.Foo.AssignProperties_To_Foo(&foo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field Foo")
+			return eris.Wrap(err, "calling AssignProperties_To_Foo() to populate field Foo")
 		}
 		destination.Foo = &foo
 	} else {
 		destination.Foo = nil
+	}
+
+	// OperatorSpec
+	if resource.OperatorSpec != nil {
+		var operatorSpec storage.FakeResourceOperatorSpec
+		err := resource.OperatorSpec.AssignProperties_To_FakeResourceOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_FakeResourceOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OptionalFoo
@@ -567,7 +646,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 		var optionalFoo storage.Foo
 		err := resource.OptionalFoo.AssignProperties_To_Foo(&optionalFoo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field OptionalFoo")
+			return eris.Wrap(err, "calling AssignProperties_To_Foo() to populate field OptionalFoo")
 		}
 		destination.OptionalFoo = &optionalFoo
 	} else {
@@ -709,6 +788,110 @@ const FakeResource_Type_Spec_MicrosoftAzureFakeResource = FakeResource_Type_Spec
 // Mapping from string to FakeResource_Type_Spec
 var fakeResource_Type_Spec_Values = map[string]FakeResource_Type_Spec{
 	"microsoft.azure/fakeresource": FakeResource_Type_Spec_MicrosoftAzureFakeResource,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FakeResourceOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_FakeResourceOperatorSpec populates our FakeResourceOperatorSpec from the provided source FakeResourceOperatorSpec
+func (operator *FakeResourceOperatorSpec) AssignProperties_From_FakeResourceOperatorSpec(source *storage.FakeResourceOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FakeResourceOperatorSpec populates the provided destination FakeResourceOperatorSpec from our FakeResourceOperatorSpec
+func (operator *FakeResourceOperatorSpec) AssignProperties_To_FakeResourceOperatorSpec(destination *storage.FakeResourceOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo

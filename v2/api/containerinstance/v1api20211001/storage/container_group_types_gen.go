@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,6 +46,26 @@ func (group *ContainerGroup) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (group *ContainerGroup) SetConditions(conditions conditions.Conditions) {
 	group.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ContainerGroup{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (group *ContainerGroup) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ContainerGroup{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (group *ContainerGroup) SecretDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ContainerGroup{}
@@ -93,6 +116,10 @@ func (group *ContainerGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (group *ContainerGroup) Owner() *genruntime.ResourceReference {
+	if group.Spec.Owner == nil {
+		return nil
+	}
+
 	ownerGroup, ownerKind := genruntime.LookupOwnerGroupKind(group.Spec)
 	return group.Spec.Owner.AsResourceReference(ownerGroup, ownerKind)
 }
@@ -109,7 +136,7 @@ func (group *ContainerGroup) SetStatus(status genruntime.ConvertibleStatus) erro
 	var st ContainerGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	group.Status = st
@@ -149,18 +176,19 @@ const APIVersion_Value = APIVersion("2021-10-01")
 type ContainerGroup_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                string                     `json:"azureName,omitempty"`
-	Containers               []Container                `json:"containers,omitempty"`
-	Diagnostics              *ContainerGroupDiagnostics `json:"diagnostics,omitempty"`
-	DnsConfig                *DnsConfiguration          `json:"dnsConfig,omitempty"`
-	EncryptionProperties     *EncryptionProperties      `json:"encryptionProperties,omitempty"`
-	Identity                 *ContainerGroupIdentity    `json:"identity,omitempty"`
-	ImageRegistryCredentials []ImageRegistryCredential  `json:"imageRegistryCredentials,omitempty"`
-	InitContainers           []InitContainerDefinition  `json:"initContainers,omitempty"`
-	IpAddress                *IpAddress                 `json:"ipAddress,omitempty"`
-	Location                 *string                    `json:"location,omitempty"`
-	OriginalVersion          string                     `json:"originalVersion,omitempty"`
-	OsType                   *string                    `json:"osType,omitempty"`
+	AzureName                string                      `json:"azureName,omitempty"`
+	Containers               []Container                 `json:"containers,omitempty"`
+	Diagnostics              *ContainerGroupDiagnostics  `json:"diagnostics,omitempty"`
+	DnsConfig                *DnsConfiguration           `json:"dnsConfig,omitempty"`
+	EncryptionProperties     *EncryptionProperties       `json:"encryptionProperties,omitempty"`
+	Identity                 *ContainerGroupIdentity     `json:"identity,omitempty"`
+	ImageRegistryCredentials []ImageRegistryCredential   `json:"imageRegistryCredentials,omitempty"`
+	InitContainers           []InitContainerDefinition   `json:"initContainers,omitempty"`
+	IpAddress                *IpAddress                  `json:"ipAddress,omitempty"`
+	Location                 *string                     `json:"location,omitempty"`
+	OperatorSpec             *ContainerGroupOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion          string                      `json:"originalVersion,omitempty"`
+	OsType                   *string                     `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -181,7 +209,7 @@ var _ genruntime.ConvertibleSpec = &ContainerGroup_Spec{}
 // ConvertSpecFrom populates our ContainerGroup_Spec from the provided source
 func (group *ContainerGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == group {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(group)
@@ -190,7 +218,7 @@ func (group *ContainerGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleS
 // ConvertSpecTo populates the provided destination from our ContainerGroup_Spec
 func (group *ContainerGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == group {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(group)
@@ -229,7 +257,7 @@ var _ genruntime.ConvertibleStatus = &ContainerGroup_STATUS{}
 // ConvertStatusFrom populates our ContainerGroup_STATUS from the provided source
 func (group *ContainerGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == group {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(group)
@@ -238,7 +266,7 @@ func (group *ContainerGroup_STATUS) ConvertStatusFrom(source genruntime.Converti
 // ConvertStatusTo populates the provided destination from our ContainerGroup_STATUS
 func (group *ContainerGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == group {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(group)
@@ -312,6 +340,14 @@ type ContainerGroupIdentity_STATUS struct {
 	TenantId               *string                                  `json:"tenantId,omitempty"`
 	Type                   *string                                  `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
+}
+
+// Storage version of v1api20211001.ContainerGroupOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ContainerGroupOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20211001.ContainerGroupSubnetId

@@ -16,7 +16,7 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/yaml"
@@ -207,7 +207,7 @@ func (t *SamplesTester) getObjectFromFile(path string) (client.Object, error) {
 	decoder.DisallowUnknownFields()
 	err = decoder.Decode(obj)
 	if err != nil {
-		return nil, errors.Wrapf(err, "while decoding %s", path)
+		return nil, eris.Wrapf(err, "while decoding %s", path)
 	}
 
 	return obj, nil
@@ -301,9 +301,9 @@ func setOwnersName(sample genruntime.ARMMetaObject, ownerName string) genruntime
 	return sample
 }
 
-func IsFolderExcluded(path string, exclusions []string) bool {
-	for _, exclusion := range exclusions {
-		if strings.Contains(path, "/"+exclusion+"/") {
+func PathContains(path string, matches []string) bool {
+	for _, match := range matches {
+		if strings.Contains(path, match) {
 			return true
 		}
 	}
@@ -335,7 +335,7 @@ func (t *SamplesTester) updateFieldsForTest(obj genruntime.ARMMetaObject) error 
 
 	err := visitor.Visit(obj, t.rgName)
 	if err != nil {
-		return errors.Wrapf(err, "updating fields for test")
+		return eris.Wrapf(err, "updating fields for test")
 	}
 
 	return nil
@@ -414,7 +414,7 @@ func (t *SamplesTester) visitResourceReference(_ *reflecthelpers.ReflectVisitor,
 	if reference.ARMID != "" {
 		armIDField := it.FieldByName("ARMID")
 		if !armIDField.CanSet() {
-			return errors.New("cannot set 'ARMID' field of 'genruntime.ResourceReference'")
+			return eris.New("cannot set 'ARMID' field of 'genruntime.ResourceReference'")
 		}
 
 		armIDString := armIDField.String()
@@ -428,7 +428,7 @@ func (t *SamplesTester) visitResourceReference(_ *reflecthelpers.ReflectVisitor,
 		// TODO: floating around. If that happens we may need to update this logic to be a bit more discerning.
 		nameField := it.FieldByName("Name")
 		if !nameField.CanSet() {
-			return errors.New("cannot set 'Name' field of 'genruntime.ResourceReference'")
+			return eris.New("cannot set 'Name' field of 'genruntime.ResourceReference'")
 		}
 
 		nameField.SetString(ownersName)

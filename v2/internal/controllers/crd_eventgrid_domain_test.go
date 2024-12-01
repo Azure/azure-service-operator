@@ -56,7 +56,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	queueServices := &storage.StorageAccountsQueueService{
 		ObjectMeta: tc.MakeObjectMeta("dest-queues"),
-		Spec: storage.StorageAccounts_QueueService_Spec{
+		Spec: storage.StorageAccountsQueueService_Spec{
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
@@ -65,7 +65,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	queue := &storage.StorageAccountsQueueServicesQueue{
 		ObjectMeta: tc.MakeObjectMeta("dest-queue"),
-		Spec: storage.StorageAccounts_QueueServices_Queue_Spec{
+		Spec: storage.StorageAccountsQueueServicesQueue_Spec{
 			Owner: testcommon.AsOwner(queueServices),
 		},
 	}
@@ -103,7 +103,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 func DomainTopicAndSubscription_CRUD(tc *testcommon.KubePerTestContext, queue *storage.StorageAccountsQueueServicesQueue, domain *eventgrid.Domain, acctReference *genruntime.ResourceReference) {
 	topic := &eventgrid.DomainsTopic{
 		ObjectMeta: tc.MakeObjectMeta("topic"),
-		Spec: eventgrid.Domains_Topic_Spec{
+		Spec: eventgrid.DomainsTopic_Spec{
 			Owner: testcommon.AsOwner(domain),
 		},
 	}

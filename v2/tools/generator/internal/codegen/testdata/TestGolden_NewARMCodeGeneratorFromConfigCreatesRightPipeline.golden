@@ -31,6 +31,7 @@ verifyNoErroredTypes                                         Verify there are no
 stripUnreferenced                                            Strip unreferenced types
 replaceAnyTypeWithJSON                                       Replace properties using interface{} with arbitrary JSON
 improvePropertyDescriptions                                  Improve property descriptions by copying from the corresponding type
+stripDocumentation                                           Strip descriptions for CRDs that have the $stripDocumentation flag set
 fixOptionalCollectionAliases                                 Replace types which are optional aliases to collections with just the collection alias
 applyCrossResourceReferencesFromConfig            azure      Replace cross-resource references in the config with astmodel.ARMID
 transformCrossResourceReferences                  azure      Replace cross-resource references with genruntime.ResourceReference
@@ -46,6 +47,7 @@ applyKubernetesResourceInterface                  azure      Add the KubernetesR
 flattenProperties                                            Apply flattening to properties marked for flattening
 stripUnreferenced                                            Strip unreferenced types
 renameProperties                                             Rename properties
+overrideDescriptions                                         Applies the configured description overrides
 addStatusConditions                               azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
 addOperatorSpec                                   azure      Adds the property 'OperatorSpec' to all Spec types that require it
 addKubernetesExporter                             azure      Adds the KubernetesExporter interface to resources that need it

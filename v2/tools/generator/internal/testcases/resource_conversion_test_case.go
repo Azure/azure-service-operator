@@ -10,7 +10,7 @@ import (
 	"go/token"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -44,7 +44,7 @@ func NewResourceConversionTestCase(
 
 	conversionImplementation, ok := resourceType.FindInterface(astmodel.ConvertibleInterface)
 	if !ok {
-		return nil, errors.Errorf("expected %s to implement conversions.Convertible including ConvertTo() and ConvertFrom()", name)
+		return nil, eris.Errorf("expected %s to implement conversions.Convertible including ConvertTo() and ConvertFrom()", name)
 	}
 
 	// Find ConvertTo and ConvertFrom functions from the implementation
@@ -60,15 +60,15 @@ func NewResourceConversionTestCase(
 
 	// Fail fast if something goes wrong
 	if result.fromFn == nil {
-		return nil, errors.Errorf("expected to find function ConvertFrom() on %s", name)
+		return nil, eris.Errorf("expected to find function ConvertFrom() on %s", name)
 	}
 
 	if result.toFn == nil {
-		return nil, errors.Errorf("expected to find function ConvertTo() on %s", name)
+		return nil, eris.Errorf("expected to find function ConvertTo() on %s", name)
 	}
 
 	if !astmodel.TypeEquals(result.fromFn.Hub(), result.toFn.Hub()) {
-		return nil, errors.Errorf(
+		return nil, eris.Errorf(
 			"expected ConvertFrom(%s) and ConvertTo(%s) on %s to have the same parameter type",
 			result.fromFn.Hub(),
 			result.toFn.Hub(),
@@ -126,7 +126,7 @@ func (tc *ResourceConversionTestCase) AsFuncs(
 	testRunner := tc.createTestRunner(codeGenerationContext)
 	testMethod, err := tc.createTestMethod(receiver, codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating test method for %s", tc.subject.Name())
+		return nil, eris.Wrapf(err, "creating test method for %s", tc.subject.Name())
 	}
 
 	return []dst.Decl{
@@ -296,7 +296,7 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 	// var hub OtherType
 	hubExpr, err := tc.toFn.Hub().AsTypeExpr(codegenContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", tc.toFn.Hub())
+		return nil, eris.Wrapf(err, "creating type expression for %s", tc.toFn.Hub())
 	}
 
 	declareOther := astbuilder.LocalVariableDeclaration(
@@ -321,7 +321,7 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 	// var result OurType
 	subjectExpr, err := subject.AsTypeExpr(codegenContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", subject)
+		return nil, eris.Wrapf(err, "creating type expression for %s", subject)
 	}
 
 	declareResult := astbuilder.LocalVariableDeclaration(
@@ -405,7 +405,7 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 
 	subjectExpr, err = tc.subject.AsTypeExpr(codegenContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", tc.subject)
+		return nil, eris.Wrapf(err, "creating type expression for %s", tc.subject)
 	}
 
 	fn.AddParameter("subject", subjectExpr)

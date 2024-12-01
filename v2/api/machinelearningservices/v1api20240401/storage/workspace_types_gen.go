@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -23,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240401.Workspace
 // Generator information:
-// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/machineLearningServices.json
+// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/workspaceRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -42,6 +45,26 @@ func (workspace *Workspace) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (workspace *Workspace) SetConditions(conditions conditions.Conditions) {
 	workspace.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Workspace{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (workspace *Workspace) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if workspace.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return workspace.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Workspace{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (workspace *Workspace) SecretDestinationExpressions() []*core.DestinationExpression {
+	if workspace.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return workspace.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Workspace{}
@@ -92,6 +115,10 @@ func (workspace *Workspace) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (workspace *Workspace) Owner() *genruntime.ResourceReference {
+	if workspace.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(workspace.Spec)
 	return workspace.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -108,7 +135,7 @@ func (workspace *Workspace) SetStatus(status genruntime.ConvertibleStatus) error
 	var st Workspace_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	workspace.Status = st
@@ -130,19 +157,13 @@ func (workspace *Workspace) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20240401.Workspace
 // Generator information:
-// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/machineLearningServices.json
+// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/workspaceRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}
 type WorkspaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Workspace `json:"items"`
 }
-
-// Storage version of v1api20240401.APIVersion
-// +kubebuilder:validation:Enum={"2024-04-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2024-04-01")
 
 // Storage version of v1api20240401.Workspace_Spec
 type Workspace_Spec struct {
@@ -206,7 +227,7 @@ var _ genruntime.ConvertibleSpec = &Workspace_Spec{}
 // ConvertSpecFrom populates our Workspace_Spec from the provided source
 func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == workspace {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(workspace)
@@ -215,7 +236,7 @@ func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 // ConvertSpecTo populates the provided destination from our Workspace_Spec
 func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == workspace {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(workspace)
@@ -274,7 +295,7 @@ var _ genruntime.ConvertibleStatus = &Workspace_STATUS{}
 // ConvertStatusFrom populates our Workspace_STATUS from the provided source
 func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == workspace {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(workspace)
@@ -283,7 +304,7 @@ func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.Convertib
 // ConvertStatusTo populates the provided destination from our Workspace_STATUS
 func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == workspace {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(workspace)
@@ -339,24 +360,6 @@ type ManagedNetworkSettings_STATUS struct {
 	OutboundRules map[string]OutboundRule_STATUS        `json:"outboundRules,omitempty"`
 	PropertyBag   genruntime.PropertyBag                `json:"$propertyBag,omitempty"`
 	Status        *ManagedNetworkProvisionStatus_STATUS `json:"status,omitempty"`
-}
-
-// Storage version of v1api20240401.ManagedServiceIdentity
-// Managed service identity (system assigned and/or user assigned identities)
-type ManagedServiceIdentity struct {
-	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Type                   *string                       `json:"type,omitempty"`
-	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
-}
-
-// Storage version of v1api20240401.ManagedServiceIdentity_STATUS
-// Managed service identity (system assigned and/or user assigned identities)
-type ManagedServiceIdentity_STATUS struct {
-	PrincipalId            *string                                `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
-	TenantId               *string                                `json:"tenantId,omitempty"`
-	Type                   *string                                `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20240401.NotebookResourceInfo_STATUS
@@ -425,40 +428,6 @@ type SharedPrivateLinkResource_STATUS struct {
 	Status                *string                `json:"status,omitempty"`
 }
 
-// Storage version of v1api20240401.Sku
-// The resource model definition representing SKU
-type Sku struct {
-	Capacity    *int                   `json:"capacity,omitempty"`
-	Family      *string                `json:"family,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Size        *string                `json:"size,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
-}
-
-// Storage version of v1api20240401.Sku_STATUS
-// The resource model definition representing SKU
-type Sku_STATUS struct {
-	Capacity    *int                   `json:"capacity,omitempty"`
-	Family      *string                `json:"family,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Size        *string                `json:"size,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
-}
-
-// Storage version of v1api20240401.SystemData_STATUS
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData_STATUS struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1api20240401.WorkspaceHubConfig
 // WorkspaceHub's configuration object.
 type WorkspaceHubConfig struct {
@@ -478,8 +447,10 @@ type WorkspaceHubConfig_STATUS struct {
 // Storage version of v1api20240401.WorkspaceOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type WorkspaceOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	Secrets     *WorkspaceOperatorSecrets `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	Secrets              *WorkspaceOperatorSecrets     `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20240401.ComputeRuntimeDto
@@ -582,21 +553,6 @@ type OutboundRule_STATUS struct {
 	PrivateEndpoint *PrivateEndpointOutboundRule_STATUS `json:"privateEndpoint,omitempty"`
 	PropertyBag     genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 	ServiceTag      *ServiceTagOutboundRule_STATUS      `json:"serviceTag,omitempty"`
-}
-
-// Storage version of v1api20240401.UserAssignedIdentity_STATUS
-// User assigned identity properties
-type UserAssignedIdentity_STATUS struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20240401.UserAssignedIdentityDetails
-// Information about the user assigned identity for the resource
-type UserAssignedIdentityDetails struct {
-	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // Storage version of v1api20240401.WorkspaceOperatorSecrets

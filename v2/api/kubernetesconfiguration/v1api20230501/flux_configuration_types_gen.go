@@ -5,12 +5,15 @@ package v1api20230501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -91,6 +94,26 @@ func (configuration *FluxConfiguration) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the FluxConfiguration resource
 func (configuration *FluxConfiguration) defaultImpl() { configuration.defaultAzureName() }
 
+var _ configmaps.Exporter = &FluxConfiguration{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (configuration *FluxConfiguration) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return configuration.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FluxConfiguration{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (configuration *FluxConfiguration) SecretDestinationExpressions() []*core.DestinationExpression {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return configuration.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &FluxConfiguration{}
 
 // InitializeSpec initializes the spec for this resource from the given status
@@ -150,6 +173,10 @@ func (configuration *FluxConfiguration) NewEmptyStatus() genruntime.ConvertibleS
 
 // Owner returns the ResourceReference of the owner
 func (configuration *FluxConfiguration) Owner() *genruntime.ResourceReference {
+	if configuration.Spec.Owner == nil {
+		return nil
+	}
+
 	return configuration.Spec.Owner.AsResourceReference()
 }
 
@@ -165,7 +192,7 @@ func (configuration *FluxConfiguration) SetStatus(status genruntime.ConvertibleS
 	var st FluxConfiguration_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	configuration.Status = st
@@ -208,7 +235,7 @@ func (configuration *FluxConfiguration) ValidateUpdate(old runtime.Object) (admi
 
 // createValidations validates the creation of the resource
 func (configuration *FluxConfiguration) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){configuration.validateResourceReferences, configuration.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){configuration.validateResourceReferences, configuration.validateSecretDestinations, configuration.validateConfigMapDestinations, configuration.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -224,9 +251,23 @@ func (configuration *FluxConfiguration) updateValidations() []func(old runtime.O
 		},
 		configuration.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return configuration.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return configuration.validateConfigMapDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return configuration.validateOptionalConfigMapReferences()
 		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (configuration *FluxConfiguration) validateConfigMapDestinations() (admission.Warnings, error) {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(configuration, nil, configuration.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
@@ -245,6 +286,14 @@ func (configuration *FluxConfiguration) validateResourceReferences() (admission.
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (configuration *FluxConfiguration) validateSecretDestinations() (admission.Warnings, error) {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(configuration, nil, configuration.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -267,7 +316,7 @@ func (configuration *FluxConfiguration) AssignProperties_From_FluxConfiguration(
 	var spec FluxConfiguration_Spec
 	err := spec.AssignProperties_From_FluxConfiguration_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FluxConfiguration_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_FluxConfiguration_Spec() to populate field Spec")
 	}
 	configuration.Spec = spec
 
@@ -275,7 +324,7 @@ func (configuration *FluxConfiguration) AssignProperties_From_FluxConfiguration(
 	var status FluxConfiguration_STATUS
 	err = status.AssignProperties_From_FluxConfiguration_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FluxConfiguration_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_FluxConfiguration_STATUS() to populate field Status")
 	}
 	configuration.Status = status
 
@@ -293,7 +342,7 @@ func (configuration *FluxConfiguration) AssignProperties_To_FluxConfiguration(de
 	var spec storage.FluxConfiguration_Spec
 	err := configuration.Spec.AssignProperties_To_FluxConfiguration_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FluxConfiguration_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_FluxConfiguration_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -301,7 +350,7 @@ func (configuration *FluxConfiguration) AssignProperties_To_FluxConfiguration(de
 	var status storage.FluxConfiguration_STATUS
 	err = configuration.Status.AssignProperties_To_FluxConfiguration_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FluxConfiguration_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_FluxConfiguration_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -352,6 +401,10 @@ type FluxConfiguration_Spec struct {
 	// hyphen and period only.
 	Namespace *string `json:"namespace,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *FluxConfigurationOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
@@ -381,7 +434,7 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &FluxConfiguration_Spec_ARM{}
+	result := &arm.FluxConfiguration_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -398,14 +451,14 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 		configuration.SourceKind != nil ||
 		configuration.Suspend != nil ||
 		configuration.WaitForReconciliation != nil {
-		result.Properties = &FluxConfiguration_Properties_Spec_ARM{}
+		result.Properties = &arm.FluxConfiguration_Properties_Spec{}
 	}
 	if configuration.AzureBlob != nil {
 		azureBlob_ARM, err := (*configuration.AzureBlob).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		azureBlob := *azureBlob_ARM.(*AzureBlobDefinition_ARM)
+		azureBlob := *azureBlob_ARM.(*arm.AzureBlobDefinition)
 		result.Properties.AzureBlob = &azureBlob
 	}
 	if configuration.Bucket != nil {
@@ -413,14 +466,14 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		bucket := *bucket_ARM.(*BucketDefinition_ARM)
+		bucket := *bucket_ARM.(*arm.BucketDefinition)
 		result.Properties.Bucket = &bucket
 	}
 	if configuration.ConfigurationProtectedSettings != nil {
 		var temp map[string]string
 		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*configuration.ConfigurationProtectedSettings)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property temp")
+			return nil, eris.Wrap(err, "looking up secret for property temp")
 		}
 		temp = tempSecret
 		result.Properties.ConfigurationProtectedSettings = temp
@@ -430,17 +483,17 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		gitRepository := *gitRepository_ARM.(*GitRepositoryDefinition_ARM)
+		gitRepository := *gitRepository_ARM.(*arm.GitRepositoryDefinition)
 		result.Properties.GitRepository = &gitRepository
 	}
 	if configuration.Kustomizations != nil {
-		result.Properties.Kustomizations = make(map[string]KustomizationDefinition_ARM, len(configuration.Kustomizations))
+		result.Properties.Kustomizations = make(map[string]arm.KustomizationDefinition, len(configuration.Kustomizations))
 		for key, value := range configuration.Kustomizations {
 			value_ARM, err := value.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			result.Properties.Kustomizations[key] = *value_ARM.(*KustomizationDefinition_ARM)
+			result.Properties.Kustomizations[key] = *value_ARM.(*arm.KustomizationDefinition)
 		}
 	}
 	if configuration.Namespace != nil {
@@ -454,13 +507,13 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 	if configuration.Scope != nil {
 		var temp string
 		temp = string(*configuration.Scope)
-		scope := ScopeDefinition_ARM(temp)
+		scope := arm.ScopeDefinition(temp)
 		result.Properties.Scope = &scope
 	}
 	if configuration.SourceKind != nil {
 		var temp string
 		temp = string(*configuration.SourceKind)
-		sourceKind := SourceKindDefinition_ARM(temp)
+		sourceKind := arm.SourceKindDefinition(temp)
 		result.Properties.SourceKind = &sourceKind
 	}
 	if configuration.Suspend != nil {
@@ -476,14 +529,14 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *FluxConfiguration_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FluxConfiguration_Spec_ARM{}
+	return &arm.FluxConfiguration_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *FluxConfiguration_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FluxConfiguration_Spec_ARM)
+	typedInput, ok := armInput.(arm.FluxConfiguration_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FluxConfiguration_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FluxConfiguration_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureBlob":
@@ -558,6 +611,8 @@ func (configuration *FluxConfiguration_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	configuration.Owner = &owner
 
@@ -628,13 +683,13 @@ func (configuration *FluxConfiguration_Spec) ConvertSpecFrom(source genruntime.C
 	src = &storage.FluxConfiguration_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = configuration.AssignProperties_From_FluxConfiguration_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -652,13 +707,13 @@ func (configuration *FluxConfiguration_Spec) ConvertSpecTo(destination genruntim
 	dst = &storage.FluxConfiguration_Spec{}
 	err := configuration.AssignProperties_To_FluxConfiguration_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -672,7 +727,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_From_FluxConfigura
 		var azureBlob AzureBlobDefinition
 		err := azureBlob.AssignProperties_From_AzureBlobDefinition(source.AzureBlob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AzureBlobDefinition() to populate field AzureBlob")
+			return eris.Wrap(err, "calling AssignProperties_From_AzureBlobDefinition() to populate field AzureBlob")
 		}
 		configuration.AzureBlob = &azureBlob
 	} else {
@@ -687,7 +742,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_From_FluxConfigura
 		var bucket BucketDefinition
 		err := bucket.AssignProperties_From_BucketDefinition(source.Bucket)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BucketDefinition() to populate field Bucket")
+			return eris.Wrap(err, "calling AssignProperties_From_BucketDefinition() to populate field Bucket")
 		}
 		configuration.Bucket = &bucket
 	} else {
@@ -707,7 +762,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_From_FluxConfigura
 		var gitRepository GitRepositoryDefinition
 		err := gitRepository.AssignProperties_From_GitRepositoryDefinition(source.GitRepository)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_GitRepositoryDefinition() to populate field GitRepository")
+			return eris.Wrap(err, "calling AssignProperties_From_GitRepositoryDefinition() to populate field GitRepository")
 		}
 		configuration.GitRepository = &gitRepository
 	} else {
@@ -723,7 +778,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_From_FluxConfigura
 			var kustomization KustomizationDefinition
 			err := kustomization.AssignProperties_From_KustomizationDefinition(&kustomizationValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_KustomizationDefinition() to populate field Kustomizations")
+				return eris.Wrap(err, "calling AssignProperties_From_KustomizationDefinition() to populate field Kustomizations")
 			}
 			kustomizationMap[kustomizationKey] = kustomization
 		}
@@ -734,6 +789,18 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_From_FluxConfigura
 
 	// Namespace
 	configuration.Namespace = genruntime.ClonePointerToString(source.Namespace)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec FluxConfigurationOperatorSpec
+		err := operatorSpec.AssignProperties_From_FluxConfigurationOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_FluxConfigurationOperatorSpec() to populate field OperatorSpec")
+		}
+		configuration.OperatorSpec = &operatorSpec
+	} else {
+		configuration.OperatorSpec = nil
+	}
 
 	// Owner
 	if source.Owner != nil {
@@ -794,7 +861,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_To_FluxConfigurati
 		var azureBlob storage.AzureBlobDefinition
 		err := configuration.AzureBlob.AssignProperties_To_AzureBlobDefinition(&azureBlob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AzureBlobDefinition() to populate field AzureBlob")
+			return eris.Wrap(err, "calling AssignProperties_To_AzureBlobDefinition() to populate field AzureBlob")
 		}
 		destination.AzureBlob = &azureBlob
 	} else {
@@ -809,7 +876,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_To_FluxConfigurati
 		var bucket storage.BucketDefinition
 		err := configuration.Bucket.AssignProperties_To_BucketDefinition(&bucket)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BucketDefinition() to populate field Bucket")
+			return eris.Wrap(err, "calling AssignProperties_To_BucketDefinition() to populate field Bucket")
 		}
 		destination.Bucket = &bucket
 	} else {
@@ -829,7 +896,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_To_FluxConfigurati
 		var gitRepository storage.GitRepositoryDefinition
 		err := configuration.GitRepository.AssignProperties_To_GitRepositoryDefinition(&gitRepository)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_GitRepositoryDefinition() to populate field GitRepository")
+			return eris.Wrap(err, "calling AssignProperties_To_GitRepositoryDefinition() to populate field GitRepository")
 		}
 		destination.GitRepository = &gitRepository
 	} else {
@@ -845,7 +912,7 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_To_FluxConfigurati
 			var kustomization storage.KustomizationDefinition
 			err := kustomizationValue.AssignProperties_To_KustomizationDefinition(&kustomization)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_KustomizationDefinition() to populate field Kustomizations")
+				return eris.Wrap(err, "calling AssignProperties_To_KustomizationDefinition() to populate field Kustomizations")
 			}
 			kustomizationMap[kustomizationKey] = kustomization
 		}
@@ -856,6 +923,18 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_To_FluxConfigurati
 
 	// Namespace
 	destination.Namespace = genruntime.ClonePointerToString(configuration.Namespace)
+
+	// OperatorSpec
+	if configuration.OperatorSpec != nil {
+		var operatorSpec storage.FluxConfigurationOperatorSpec
+		err := configuration.OperatorSpec.AssignProperties_To_FluxConfigurationOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_FluxConfigurationOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = configuration.OriginalVersion()
@@ -922,7 +1001,7 @@ func (configuration *FluxConfiguration_Spec) Initialize_From_FluxConfiguration_S
 		var azureBlob AzureBlobDefinition
 		err := azureBlob.Initialize_From_AzureBlobDefinition_STATUS(source.AzureBlob)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AzureBlobDefinition_STATUS() to populate field AzureBlob")
+			return eris.Wrap(err, "calling Initialize_From_AzureBlobDefinition_STATUS() to populate field AzureBlob")
 		}
 		configuration.AzureBlob = &azureBlob
 	} else {
@@ -934,7 +1013,7 @@ func (configuration *FluxConfiguration_Spec) Initialize_From_FluxConfiguration_S
 		var bucket BucketDefinition
 		err := bucket.Initialize_From_BucketDefinition_STATUS(source.Bucket)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BucketDefinition_STATUS() to populate field Bucket")
+			return eris.Wrap(err, "calling Initialize_From_BucketDefinition_STATUS() to populate field Bucket")
 		}
 		configuration.Bucket = &bucket
 	} else {
@@ -946,7 +1025,7 @@ func (configuration *FluxConfiguration_Spec) Initialize_From_FluxConfiguration_S
 		var gitRepository GitRepositoryDefinition
 		err := gitRepository.Initialize_From_GitRepositoryDefinition_STATUS(source.GitRepository)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_GitRepositoryDefinition_STATUS() to populate field GitRepository")
+			return eris.Wrap(err, "calling Initialize_From_GitRepositoryDefinition_STATUS() to populate field GitRepository")
 		}
 		configuration.GitRepository = &gitRepository
 	} else {
@@ -962,7 +1041,7 @@ func (configuration *FluxConfiguration_Spec) Initialize_From_FluxConfiguration_S
 			var kustomization KustomizationDefinition
 			err := kustomization.Initialize_From_KustomizationDefinition_STATUS(&kustomizationValue)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_KustomizationDefinition_STATUS() to populate field Kustomizations")
+				return eris.Wrap(err, "calling Initialize_From_KustomizationDefinition_STATUS() to populate field Kustomizations")
 			}
 			kustomizationMap[kustomizationKey] = kustomization
 		}
@@ -1114,13 +1193,13 @@ func (configuration *FluxConfiguration_STATUS) ConvertStatusFrom(source genrunti
 	src = &storage.FluxConfiguration_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = configuration.AssignProperties_From_FluxConfiguration_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1138,13 +1217,13 @@ func (configuration *FluxConfiguration_STATUS) ConvertStatusTo(destination genru
 	dst = &storage.FluxConfiguration_STATUS{}
 	err := configuration.AssignProperties_To_FluxConfiguration_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1154,14 +1233,14 @@ var _ genruntime.FromARMConverter = &FluxConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *FluxConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FluxConfiguration_STATUS_ARM{}
+	return &arm.FluxConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *FluxConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FluxConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FluxConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FluxConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FluxConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "AzureBlob":
@@ -1403,7 +1482,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_From_FluxConfigu
 		var azureBlob AzureBlobDefinition_STATUS
 		err := azureBlob.AssignProperties_From_AzureBlobDefinition_STATUS(source.AzureBlob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AzureBlobDefinition_STATUS() to populate field AzureBlob")
+			return eris.Wrap(err, "calling AssignProperties_From_AzureBlobDefinition_STATUS() to populate field AzureBlob")
 		}
 		configuration.AzureBlob = &azureBlob
 	} else {
@@ -1415,7 +1494,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_From_FluxConfigu
 		var bucket BucketDefinition_STATUS
 		err := bucket.AssignProperties_From_BucketDefinition_STATUS(source.Bucket)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BucketDefinition_STATUS() to populate field Bucket")
+			return eris.Wrap(err, "calling AssignProperties_From_BucketDefinition_STATUS() to populate field Bucket")
 		}
 		configuration.Bucket = &bucket
 	} else {
@@ -1445,7 +1524,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_From_FluxConfigu
 		var gitRepository GitRepositoryDefinition_STATUS
 		err := gitRepository.AssignProperties_From_GitRepositoryDefinition_STATUS(source.GitRepository)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_GitRepositoryDefinition_STATUS() to populate field GitRepository")
+			return eris.Wrap(err, "calling AssignProperties_From_GitRepositoryDefinition_STATUS() to populate field GitRepository")
 		}
 		configuration.GitRepository = &gitRepository
 	} else {
@@ -1464,7 +1543,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_From_FluxConfigu
 			var kustomization KustomizationDefinition_STATUS
 			err := kustomization.AssignProperties_From_KustomizationDefinition_STATUS(&kustomizationValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_KustomizationDefinition_STATUS() to populate field Kustomizations")
+				return eris.Wrap(err, "calling AssignProperties_From_KustomizationDefinition_STATUS() to populate field Kustomizations")
 			}
 			kustomizationMap[kustomizationKey] = kustomization
 		}
@@ -1530,7 +1609,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_From_FluxConfigu
 			var status ObjectStatusDefinition_STATUS
 			err := status.AssignProperties_From_ObjectStatusDefinition_STATUS(&statusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ObjectStatusDefinition_STATUS() to populate field Statuses")
+				return eris.Wrap(err, "calling AssignProperties_From_ObjectStatusDefinition_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -1572,7 +1651,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_To_FluxConfigura
 		var azureBlob storage.AzureBlobDefinition_STATUS
 		err := configuration.AzureBlob.AssignProperties_To_AzureBlobDefinition_STATUS(&azureBlob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AzureBlobDefinition_STATUS() to populate field AzureBlob")
+			return eris.Wrap(err, "calling AssignProperties_To_AzureBlobDefinition_STATUS() to populate field AzureBlob")
 		}
 		destination.AzureBlob = &azureBlob
 	} else {
@@ -1584,7 +1663,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_To_FluxConfigura
 		var bucket storage.BucketDefinition_STATUS
 		err := configuration.Bucket.AssignProperties_To_BucketDefinition_STATUS(&bucket)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BucketDefinition_STATUS() to populate field Bucket")
+			return eris.Wrap(err, "calling AssignProperties_To_BucketDefinition_STATUS() to populate field Bucket")
 		}
 		destination.Bucket = &bucket
 	} else {
@@ -1613,7 +1692,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_To_FluxConfigura
 		var gitRepository storage.GitRepositoryDefinition_STATUS
 		err := configuration.GitRepository.AssignProperties_To_GitRepositoryDefinition_STATUS(&gitRepository)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_GitRepositoryDefinition_STATUS() to populate field GitRepository")
+			return eris.Wrap(err, "calling AssignProperties_To_GitRepositoryDefinition_STATUS() to populate field GitRepository")
 		}
 		destination.GitRepository = &gitRepository
 	} else {
@@ -1632,7 +1711,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_To_FluxConfigura
 			var kustomization storage.KustomizationDefinition_STATUS
 			err := kustomizationValue.AssignProperties_To_KustomizationDefinition_STATUS(&kustomization)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_KustomizationDefinition_STATUS() to populate field Kustomizations")
+				return eris.Wrap(err, "calling AssignProperties_To_KustomizationDefinition_STATUS() to populate field Kustomizations")
 			}
 			kustomizationMap[kustomizationKey] = kustomization
 		}
@@ -1695,7 +1774,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_To_FluxConfigura
 			var status storage.ObjectStatusDefinition_STATUS
 			err := statusItem.AssignProperties_To_ObjectStatusDefinition_STATUS(&status)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ObjectStatusDefinition_STATUS() to populate field Statuses")
+				return eris.Wrap(err, "calling AssignProperties_To_ObjectStatusDefinition_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -1772,13 +1851,13 @@ func (definition *AzureBlobDefinition) ConvertToARM(resolved genruntime.ConvertT
 	if definition == nil {
 		return nil, nil
 	}
-	result := &AzureBlobDefinition_ARM{}
+	result := &arm.AzureBlobDefinition{}
 
 	// Set property "AccountKey":
 	if definition.AccountKey != nil {
 		accountKeySecret, err := resolved.ResolvedSecrets.Lookup(*definition.AccountKey)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property AccountKey")
+			return nil, eris.Wrap(err, "looking up secret for property AccountKey")
 		}
 		accountKey := accountKeySecret
 		result.AccountKey = &accountKey
@@ -1802,7 +1881,7 @@ func (definition *AzureBlobDefinition) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		managedIdentity := *managedIdentity_ARM.(*ManagedIdentityDefinition_ARM)
+		managedIdentity := *managedIdentity_ARM.(*arm.ManagedIdentityDefinition)
 		result.ManagedIdentity = &managedIdentity
 	}
 
@@ -1810,7 +1889,7 @@ func (definition *AzureBlobDefinition) ConvertToARM(resolved genruntime.ConvertT
 	if definition.SasToken != nil {
 		sasTokenSecret, err := resolved.ResolvedSecrets.Lookup(*definition.SasToken)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property SasToken")
+			return nil, eris.Wrap(err, "looking up secret for property SasToken")
 		}
 		sasToken := sasTokenSecret
 		result.SasToken = &sasToken
@@ -1822,7 +1901,7 @@ func (definition *AzureBlobDefinition) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		servicePrincipal := *servicePrincipal_ARM.(*ServicePrincipalDefinition_ARM)
+		servicePrincipal := *servicePrincipal_ARM.(*arm.ServicePrincipalDefinition)
 		result.ServicePrincipal = &servicePrincipal
 	}
 
@@ -1848,14 +1927,14 @@ func (definition *AzureBlobDefinition) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *AzureBlobDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AzureBlobDefinition_ARM{}
+	return &arm.AzureBlobDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *AzureBlobDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AzureBlobDefinition_ARM)
+	typedInput, ok := armInput.(arm.AzureBlobDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureBlobDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AzureBlobDefinition, got %T", armInput)
 	}
 
 	// no assignment for property "AccountKey"
@@ -1940,7 +2019,7 @@ func (definition *AzureBlobDefinition) AssignProperties_From_AzureBlobDefinition
 		var managedIdentity ManagedIdentityDefinition
 		err := managedIdentity.AssignProperties_From_ManagedIdentityDefinition(source.ManagedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentityDefinition() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentityDefinition() to populate field ManagedIdentity")
 		}
 		definition.ManagedIdentity = &managedIdentity
 	} else {
@@ -1960,7 +2039,7 @@ func (definition *AzureBlobDefinition) AssignProperties_From_AzureBlobDefinition
 		var servicePrincipal ServicePrincipalDefinition
 		err := servicePrincipal.AssignProperties_From_ServicePrincipalDefinition(source.ServicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServicePrincipalDefinition() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_From_ServicePrincipalDefinition() to populate field ServicePrincipal")
 		}
 		definition.ServicePrincipal = &servicePrincipal
 	} else {
@@ -2004,7 +2083,7 @@ func (definition *AzureBlobDefinition) AssignProperties_To_AzureBlobDefinition(d
 		var managedIdentity storage.ManagedIdentityDefinition
 		err := definition.ManagedIdentity.AssignProperties_To_ManagedIdentityDefinition(&managedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentityDefinition() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentityDefinition() to populate field ManagedIdentity")
 		}
 		destination.ManagedIdentity = &managedIdentity
 	} else {
@@ -2024,7 +2103,7 @@ func (definition *AzureBlobDefinition) AssignProperties_To_AzureBlobDefinition(d
 		var servicePrincipal storage.ServicePrincipalDefinition
 		err := definition.ServicePrincipal.AssignProperties_To_ServicePrincipalDefinition(&servicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServicePrincipalDefinition() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_To_ServicePrincipalDefinition() to populate field ServicePrincipal")
 		}
 		destination.ServicePrincipal = &servicePrincipal
 	} else {
@@ -2065,7 +2144,7 @@ func (definition *AzureBlobDefinition) Initialize_From_AzureBlobDefinition_STATU
 		var managedIdentity ManagedIdentityDefinition
 		err := managedIdentity.Initialize_From_ManagedIdentityDefinition_STATUS(source.ManagedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentityDefinition_STATUS() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentityDefinition_STATUS() to populate field ManagedIdentity")
 		}
 		definition.ManagedIdentity = &managedIdentity
 	} else {
@@ -2077,7 +2156,7 @@ func (definition *AzureBlobDefinition) Initialize_From_AzureBlobDefinition_STATU
 		var servicePrincipal ServicePrincipalDefinition
 		err := servicePrincipal.Initialize_From_ServicePrincipalDefinition_STATUS(source.ServicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ServicePrincipalDefinition_STATUS() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling Initialize_From_ServicePrincipalDefinition_STATUS() to populate field ServicePrincipal")
 		}
 		definition.ServicePrincipal = &servicePrincipal
 	} else {
@@ -2126,14 +2205,14 @@ var _ genruntime.FromARMConverter = &AzureBlobDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *AzureBlobDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AzureBlobDefinition_STATUS_ARM{}
+	return &arm.AzureBlobDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *AzureBlobDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AzureBlobDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AzureBlobDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureBlobDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AzureBlobDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "ContainerName":
@@ -2206,7 +2285,7 @@ func (definition *AzureBlobDefinition_STATUS) AssignProperties_From_AzureBlobDef
 		var managedIdentity ManagedIdentityDefinition_STATUS
 		err := managedIdentity.AssignProperties_From_ManagedIdentityDefinition_STATUS(source.ManagedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentityDefinition_STATUS() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentityDefinition_STATUS() to populate field ManagedIdentity")
 		}
 		definition.ManagedIdentity = &managedIdentity
 	} else {
@@ -2218,7 +2297,7 @@ func (definition *AzureBlobDefinition_STATUS) AssignProperties_From_AzureBlobDef
 		var servicePrincipal ServicePrincipalDefinition_STATUS
 		err := servicePrincipal.AssignProperties_From_ServicePrincipalDefinition_STATUS(source.ServicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServicePrincipalDefinition_STATUS() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_From_ServicePrincipalDefinition_STATUS() to populate field ServicePrincipal")
 		}
 		definition.ServicePrincipal = &servicePrincipal
 	} else {
@@ -2254,7 +2333,7 @@ func (definition *AzureBlobDefinition_STATUS) AssignProperties_To_AzureBlobDefin
 		var managedIdentity storage.ManagedIdentityDefinition_STATUS
 		err := definition.ManagedIdentity.AssignProperties_To_ManagedIdentityDefinition_STATUS(&managedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentityDefinition_STATUS() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentityDefinition_STATUS() to populate field ManagedIdentity")
 		}
 		destination.ManagedIdentity = &managedIdentity
 	} else {
@@ -2266,7 +2345,7 @@ func (definition *AzureBlobDefinition_STATUS) AssignProperties_To_AzureBlobDefin
 		var servicePrincipal storage.ServicePrincipalDefinition_STATUS
 		err := definition.ServicePrincipal.AssignProperties_To_ServicePrincipalDefinition_STATUS(&servicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServicePrincipalDefinition_STATUS() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_To_ServicePrincipalDefinition_STATUS() to populate field ServicePrincipal")
 		}
 		destination.ServicePrincipal = &servicePrincipal
 	} else {
@@ -2325,13 +2404,13 @@ func (definition *BucketDefinition) ConvertToARM(resolved genruntime.ConvertToAR
 	if definition == nil {
 		return nil, nil
 	}
-	result := &BucketDefinition_ARM{}
+	result := &arm.BucketDefinition{}
 
 	// Set property "AccessKey":
 	if definition.AccessKey != nil {
 		accessKeySecret, err := resolved.ResolvedSecrets.Lookup(*definition.AccessKey)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property AccessKey")
+			return nil, eris.Wrap(err, "looking up secret for property AccessKey")
 		}
 		accessKey := accessKeySecret
 		result.AccessKey = &accessKey
@@ -2377,14 +2456,14 @@ func (definition *BucketDefinition) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *BucketDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BucketDefinition_ARM{}
+	return &arm.BucketDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *BucketDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BucketDefinition_ARM)
+	typedInput, ok := armInput.(arm.BucketDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BucketDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BucketDefinition, got %T", armInput)
 	}
 
 	// no assignment for property "AccessKey"
@@ -2570,14 +2649,14 @@ var _ genruntime.FromARMConverter = &BucketDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *BucketDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BucketDefinition_STATUS_ARM{}
+	return &arm.BucketDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *BucketDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BucketDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BucketDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BucketDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BucketDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "BucketName":
@@ -2709,6 +2788,110 @@ var fluxComplianceStateDefinition_STATUS_Values = map[string]FluxComplianceState
 	"unknown":       FluxComplianceStateDefinition_STATUS_Unknown,
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FluxConfigurationOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_FluxConfigurationOperatorSpec populates our FluxConfigurationOperatorSpec from the provided source FluxConfigurationOperatorSpec
+func (operator *FluxConfigurationOperatorSpec) AssignProperties_From_FluxConfigurationOperatorSpec(source *storage.FluxConfigurationOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FluxConfigurationOperatorSpec populates the provided destination FluxConfigurationOperatorSpec from our FluxConfigurationOperatorSpec
+func (operator *FluxConfigurationOperatorSpec) AssignProperties_To_FluxConfigurationOperatorSpec(destination *storage.FluxConfigurationOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Parameters to reconcile to the GitRepository source kind type.
 type GitRepositoryDefinition struct {
 	// HttpsCACert: Base64-encoded HTTPS certificate authority contents used to access git private git repositories over HTTPS
@@ -2745,13 +2928,13 @@ func (definition *GitRepositoryDefinition) ConvertToARM(resolved genruntime.Conv
 	if definition == nil {
 		return nil, nil
 	}
-	result := &GitRepositoryDefinition_ARM{}
+	result := &arm.GitRepositoryDefinition{}
 
 	// Set property "HttpsCACert":
 	if definition.HttpsCACert != nil {
 		httpsCACertSecret, err := resolved.ResolvedSecrets.Lookup(*definition.HttpsCACert)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property HttpsCACert")
+			return nil, eris.Wrap(err, "looking up secret for property HttpsCACert")
 		}
 		httpsCACert := httpsCACertSecret
 		result.HttpsCACert = &httpsCACert
@@ -2775,7 +2958,7 @@ func (definition *GitRepositoryDefinition) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		repositoryRef := *repositoryRef_ARM.(*RepositoryRefDefinition_ARM)
+		repositoryRef := *repositoryRef_ARM.(*arm.RepositoryRefDefinition)
 		result.RepositoryRef = &repositoryRef
 	}
 
@@ -2807,14 +2990,14 @@ func (definition *GitRepositoryDefinition) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *GitRepositoryDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &GitRepositoryDefinition_ARM{}
+	return &arm.GitRepositoryDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *GitRepositoryDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(GitRepositoryDefinition_ARM)
+	typedInput, ok := armInput.(arm.GitRepositoryDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GitRepositoryDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.GitRepositoryDefinition, got %T", armInput)
 	}
 
 	// no assignment for property "HttpsCACert"
@@ -2892,7 +3075,7 @@ func (definition *GitRepositoryDefinition) AssignProperties_From_GitRepositoryDe
 		var repositoryRef RepositoryRefDefinition
 		err := repositoryRef.AssignProperties_From_RepositoryRefDefinition(source.RepositoryRef)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RepositoryRefDefinition() to populate field RepositoryRef")
+			return eris.Wrap(err, "calling AssignProperties_From_RepositoryRefDefinition() to populate field RepositoryRef")
 		}
 		definition.RepositoryRef = &repositoryRef
 	} else {
@@ -2939,7 +3122,7 @@ func (definition *GitRepositoryDefinition) AssignProperties_To_GitRepositoryDefi
 		var repositoryRef storage.RepositoryRefDefinition
 		err := definition.RepositoryRef.AssignProperties_To_RepositoryRefDefinition(&repositoryRef)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RepositoryRefDefinition() to populate field RepositoryRef")
+			return eris.Wrap(err, "calling AssignProperties_To_RepositoryRefDefinition() to populate field RepositoryRef")
 		}
 		destination.RepositoryRef = &repositoryRef
 	} else {
@@ -2983,7 +3166,7 @@ func (definition *GitRepositoryDefinition) Initialize_From_GitRepositoryDefiniti
 		var repositoryRef RepositoryRefDefinition
 		err := repositoryRef.Initialize_From_RepositoryRefDefinition_STATUS(source.RepositoryRef)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RepositoryRefDefinition_STATUS() to populate field RepositoryRef")
+			return eris.Wrap(err, "calling Initialize_From_RepositoryRefDefinition_STATUS() to populate field RepositoryRef")
 		}
 		definition.RepositoryRef = &repositoryRef
 	} else {
@@ -3036,14 +3219,14 @@ var _ genruntime.FromARMConverter = &GitRepositoryDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *GitRepositoryDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &GitRepositoryDefinition_STATUS_ARM{}
+	return &arm.GitRepositoryDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *GitRepositoryDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(GitRepositoryDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.GitRepositoryDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GitRepositoryDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.GitRepositoryDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "HttpsUser":
@@ -3111,7 +3294,7 @@ func (definition *GitRepositoryDefinition_STATUS) AssignProperties_From_GitRepos
 		var repositoryRef RepositoryRefDefinition_STATUS
 		err := repositoryRef.AssignProperties_From_RepositoryRefDefinition_STATUS(source.RepositoryRef)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RepositoryRefDefinition_STATUS() to populate field RepositoryRef")
+			return eris.Wrap(err, "calling AssignProperties_From_RepositoryRefDefinition_STATUS() to populate field RepositoryRef")
 		}
 		definition.RepositoryRef = &repositoryRef
 	} else {
@@ -3150,7 +3333,7 @@ func (definition *GitRepositoryDefinition_STATUS) AssignProperties_To_GitReposit
 		var repositoryRef storage.RepositoryRefDefinition_STATUS
 		err := definition.RepositoryRef.AssignProperties_To_RepositoryRefDefinition_STATUS(&repositoryRef)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RepositoryRefDefinition_STATUS() to populate field RepositoryRef")
+			return eris.Wrap(err, "calling AssignProperties_To_RepositoryRefDefinition_STATUS() to populate field RepositoryRef")
 		}
 		destination.RepositoryRef = &repositoryRef
 	} else {
@@ -3220,7 +3403,7 @@ func (definition *KustomizationDefinition) ConvertToARM(resolved genruntime.Conv
 	if definition == nil {
 		return nil, nil
 	}
-	result := &KustomizationDefinition_ARM{}
+	result := &arm.KustomizationDefinition{}
 
 	// Set property "DependsOn":
 	for _, item := range definition.DependsOn {
@@ -3245,7 +3428,7 @@ func (definition *KustomizationDefinition) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		postBuild := *postBuild_ARM.(*PostBuildDefinition_ARM)
+		postBuild := *postBuild_ARM.(*arm.PostBuildDefinition)
 		result.PostBuild = &postBuild
 	}
 
@@ -3283,14 +3466,14 @@ func (definition *KustomizationDefinition) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *KustomizationDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KustomizationDefinition_ARM{}
+	return &arm.KustomizationDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *KustomizationDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KustomizationDefinition_ARM)
+	typedInput, ok := armInput.(arm.KustomizationDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KustomizationDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.KustomizationDefinition, got %T", armInput)
 	}
 
 	// Set property "DependsOn":
@@ -3377,7 +3560,7 @@ func (definition *KustomizationDefinition) AssignProperties_From_KustomizationDe
 		var postBuild PostBuildDefinition
 		err := postBuild.AssignProperties_From_PostBuildDefinition(source.PostBuild)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PostBuildDefinition() to populate field PostBuild")
+			return eris.Wrap(err, "calling AssignProperties_From_PostBuildDefinition() to populate field PostBuild")
 		}
 		definition.PostBuild = &postBuild
 	} else {
@@ -3437,7 +3620,7 @@ func (definition *KustomizationDefinition) AssignProperties_To_KustomizationDefi
 		var postBuild storage.PostBuildDefinition
 		err := definition.PostBuild.AssignProperties_To_PostBuildDefinition(&postBuild)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PostBuildDefinition() to populate field PostBuild")
+			return eris.Wrap(err, "calling AssignProperties_To_PostBuildDefinition() to populate field PostBuild")
 		}
 		destination.PostBuild = &postBuild
 	} else {
@@ -3502,7 +3685,7 @@ func (definition *KustomizationDefinition) Initialize_From_KustomizationDefiniti
 		var postBuild PostBuildDefinition
 		err := postBuild.Initialize_From_PostBuildDefinition_STATUS(source.PostBuild)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PostBuildDefinition_STATUS() to populate field PostBuild")
+			return eris.Wrap(err, "calling Initialize_From_PostBuildDefinition_STATUS() to populate field PostBuild")
 		}
 		definition.PostBuild = &postBuild
 	} else {
@@ -3578,14 +3761,14 @@ var _ genruntime.FromARMConverter = &KustomizationDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *KustomizationDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KustomizationDefinition_STATUS_ARM{}
+	return &arm.KustomizationDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *KustomizationDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KustomizationDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.KustomizationDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KustomizationDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.KustomizationDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "DependsOn":
@@ -3681,7 +3864,7 @@ func (definition *KustomizationDefinition_STATUS) AssignProperties_From_Kustomiz
 		var postBuild PostBuildDefinition_STATUS
 		err := postBuild.AssignProperties_From_PostBuildDefinition_STATUS(source.PostBuild)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PostBuildDefinition_STATUS() to populate field PostBuild")
+			return eris.Wrap(err, "calling AssignProperties_From_PostBuildDefinition_STATUS() to populate field PostBuild")
 		}
 		definition.PostBuild = &postBuild
 	} else {
@@ -3744,7 +3927,7 @@ func (definition *KustomizationDefinition_STATUS) AssignProperties_To_Kustomizat
 		var postBuild storage.PostBuildDefinition_STATUS
 		err := definition.PostBuild.AssignProperties_To_PostBuildDefinition_STATUS(&postBuild)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PostBuildDefinition_STATUS() to populate field PostBuild")
+			return eris.Wrap(err, "calling AssignProperties_To_PostBuildDefinition_STATUS() to populate field PostBuild")
 		}
 		destination.PostBuild = &postBuild
 	} else {
@@ -3816,14 +3999,14 @@ var _ genruntime.FromARMConverter = &ObjectStatusDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ObjectStatusDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ObjectStatusDefinition_STATUS_ARM{}
+	return &arm.ObjectStatusDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ObjectStatusDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ObjectStatusDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ObjectStatusDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ObjectStatusDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ObjectStatusDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "AppliedBy":
@@ -3896,7 +4079,7 @@ func (definition *ObjectStatusDefinition_STATUS) AssignProperties_From_ObjectSta
 		var appliedBy ObjectReferenceDefinition_STATUS
 		err := appliedBy.AssignProperties_From_ObjectReferenceDefinition_STATUS(source.AppliedBy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ObjectReferenceDefinition_STATUS() to populate field AppliedBy")
+			return eris.Wrap(err, "calling AssignProperties_From_ObjectReferenceDefinition_STATUS() to populate field AppliedBy")
 		}
 		definition.AppliedBy = &appliedBy
 	} else {
@@ -3917,7 +4100,7 @@ func (definition *ObjectStatusDefinition_STATUS) AssignProperties_From_ObjectSta
 		var helmReleaseProperty HelmReleasePropertiesDefinition_STATUS
 		err := helmReleaseProperty.AssignProperties_From_HelmReleasePropertiesDefinition_STATUS(source.HelmReleaseProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HelmReleasePropertiesDefinition_STATUS() to populate field HelmReleaseProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_HelmReleasePropertiesDefinition_STATUS() to populate field HelmReleaseProperties")
 		}
 		definition.HelmReleaseProperties = &helmReleaseProperty
 	} else {
@@ -3942,7 +4125,7 @@ func (definition *ObjectStatusDefinition_STATUS) AssignProperties_From_ObjectSta
 			var statusCondition ObjectStatusConditionDefinition_STATUS
 			err := statusCondition.AssignProperties_From_ObjectStatusConditionDefinition_STATUS(&statusConditionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ObjectStatusConditionDefinition_STATUS() to populate field StatusConditions")
+				return eris.Wrap(err, "calling AssignProperties_From_ObjectStatusConditionDefinition_STATUS() to populate field StatusConditions")
 			}
 			statusConditionList[statusConditionIndex] = statusCondition
 		}
@@ -3965,7 +4148,7 @@ func (definition *ObjectStatusDefinition_STATUS) AssignProperties_To_ObjectStatu
 		var appliedBy storage.ObjectReferenceDefinition_STATUS
 		err := definition.AppliedBy.AssignProperties_To_ObjectReferenceDefinition_STATUS(&appliedBy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ObjectReferenceDefinition_STATUS() to populate field AppliedBy")
+			return eris.Wrap(err, "calling AssignProperties_To_ObjectReferenceDefinition_STATUS() to populate field AppliedBy")
 		}
 		destination.AppliedBy = &appliedBy
 	} else {
@@ -3985,7 +4168,7 @@ func (definition *ObjectStatusDefinition_STATUS) AssignProperties_To_ObjectStatu
 		var helmReleaseProperty storage.HelmReleasePropertiesDefinition_STATUS
 		err := definition.HelmReleaseProperties.AssignProperties_To_HelmReleasePropertiesDefinition_STATUS(&helmReleaseProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HelmReleasePropertiesDefinition_STATUS() to populate field HelmReleaseProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_HelmReleasePropertiesDefinition_STATUS() to populate field HelmReleaseProperties")
 		}
 		destination.HelmReleaseProperties = &helmReleaseProperty
 	} else {
@@ -4010,7 +4193,7 @@ func (definition *ObjectStatusDefinition_STATUS) AssignProperties_To_ObjectStatu
 			var statusCondition storage.ObjectStatusConditionDefinition_STATUS
 			err := statusConditionItem.AssignProperties_To_ObjectStatusConditionDefinition_STATUS(&statusCondition)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ObjectStatusConditionDefinition_STATUS() to populate field StatusConditions")
+				return eris.Wrap(err, "calling AssignProperties_To_ObjectStatusConditionDefinition_STATUS() to populate field StatusConditions")
 			}
 			statusConditionList[statusConditionIndex] = statusCondition
 		}
@@ -4114,14 +4297,14 @@ var _ genruntime.FromARMConverter = &HelmReleasePropertiesDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *HelmReleasePropertiesDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HelmReleasePropertiesDefinition_STATUS_ARM{}
+	return &arm.HelmReleasePropertiesDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *HelmReleasePropertiesDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HelmReleasePropertiesDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.HelmReleasePropertiesDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HelmReleasePropertiesDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.HelmReleasePropertiesDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "FailureCount":
@@ -4174,7 +4357,7 @@ func (definition *HelmReleasePropertiesDefinition_STATUS) AssignProperties_From_
 		var helmChartRef ObjectReferenceDefinition_STATUS
 		err := helmChartRef.AssignProperties_From_ObjectReferenceDefinition_STATUS(source.HelmChartRef)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ObjectReferenceDefinition_STATUS() to populate field HelmChartRef")
+			return eris.Wrap(err, "calling AssignProperties_From_ObjectReferenceDefinition_STATUS() to populate field HelmChartRef")
 		}
 		definition.HelmChartRef = &helmChartRef
 	} else {
@@ -4207,7 +4390,7 @@ func (definition *HelmReleasePropertiesDefinition_STATUS) AssignProperties_To_He
 		var helmChartRef storage.ObjectReferenceDefinition_STATUS
 		err := definition.HelmChartRef.AssignProperties_To_ObjectReferenceDefinition_STATUS(&helmChartRef)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ObjectReferenceDefinition_STATUS() to populate field HelmChartRef")
+			return eris.Wrap(err, "calling AssignProperties_To_ObjectReferenceDefinition_STATUS() to populate field HelmChartRef")
 		}
 		destination.HelmChartRef = &helmChartRef
 	} else {
@@ -4247,7 +4430,7 @@ func (definition *ManagedIdentityDefinition) ConvertToARM(resolved genruntime.Co
 	if definition == nil {
 		return nil, nil
 	}
-	result := &ManagedIdentityDefinition_ARM{}
+	result := &arm.ManagedIdentityDefinition{}
 
 	// Set property "ClientId":
 	if definition.ClientId != nil {
@@ -4259,14 +4442,14 @@ func (definition *ManagedIdentityDefinition) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ManagedIdentityDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedIdentityDefinition_ARM{}
+	return &arm.ManagedIdentityDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ManagedIdentityDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedIdentityDefinition_ARM)
+	typedInput, ok := armInput.(arm.ManagedIdentityDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentityDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedIdentityDefinition, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -4328,14 +4511,14 @@ var _ genruntime.FromARMConverter = &ManagedIdentityDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ManagedIdentityDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedIdentityDefinition_STATUS_ARM{}
+	return &arm.ManagedIdentityDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ManagedIdentityDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedIdentityDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedIdentityDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentityDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedIdentityDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -4390,14 +4573,14 @@ var _ genruntime.FromARMConverter = &ObjectReferenceDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ObjectReferenceDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ObjectReferenceDefinition_STATUS_ARM{}
+	return &arm.ObjectReferenceDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ObjectReferenceDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ObjectReferenceDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ObjectReferenceDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ObjectReferenceDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ObjectReferenceDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -4473,14 +4656,14 @@ var _ genruntime.FromARMConverter = &ObjectStatusConditionDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ObjectStatusConditionDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ObjectStatusConditionDefinition_STATUS_ARM{}
+	return &arm.ObjectStatusConditionDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ObjectStatusConditionDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ObjectStatusConditionDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ObjectStatusConditionDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ObjectStatusConditionDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ObjectStatusConditionDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "LastTransitionTime":
@@ -4586,7 +4769,7 @@ func (definition *PostBuildDefinition) ConvertToARM(resolved genruntime.ConvertT
 	if definition == nil {
 		return nil, nil
 	}
-	result := &PostBuildDefinition_ARM{}
+	result := &arm.PostBuildDefinition{}
 
 	// Set property "Substitute":
 	if definition.Substitute != nil {
@@ -4602,21 +4785,21 @@ func (definition *PostBuildDefinition) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.SubstituteFrom = append(result.SubstituteFrom, *item_ARM.(*SubstituteFromDefinition_ARM))
+		result.SubstituteFrom = append(result.SubstituteFrom, *item_ARM.(*arm.SubstituteFromDefinition))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *PostBuildDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PostBuildDefinition_ARM{}
+	return &arm.PostBuildDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *PostBuildDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PostBuildDefinition_ARM)
+	typedInput, ok := armInput.(arm.PostBuildDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PostBuildDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PostBuildDefinition, got %T", armInput)
 	}
 
 	// Set property "Substitute":
@@ -4656,7 +4839,7 @@ func (definition *PostBuildDefinition) AssignProperties_From_PostBuildDefinition
 			var substituteFrom SubstituteFromDefinition
 			err := substituteFrom.AssignProperties_From_SubstituteFromDefinition(&substituteFromItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubstituteFromDefinition() to populate field SubstituteFrom")
+				return eris.Wrap(err, "calling AssignProperties_From_SubstituteFromDefinition() to populate field SubstituteFrom")
 			}
 			substituteFromList[substituteFromIndex] = substituteFrom
 		}
@@ -4686,7 +4869,7 @@ func (definition *PostBuildDefinition) AssignProperties_To_PostBuildDefinition(d
 			var substituteFrom storage.SubstituteFromDefinition
 			err := substituteFromItem.AssignProperties_To_SubstituteFromDefinition(&substituteFrom)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubstituteFromDefinition() to populate field SubstituteFrom")
+				return eris.Wrap(err, "calling AssignProperties_To_SubstituteFromDefinition() to populate field SubstituteFrom")
 			}
 			substituteFromList[substituteFromIndex] = substituteFrom
 		}
@@ -4721,7 +4904,7 @@ func (definition *PostBuildDefinition) Initialize_From_PostBuildDefinition_STATU
 			var substituteFrom SubstituteFromDefinition
 			err := substituteFrom.Initialize_From_SubstituteFromDefinition_STATUS(&substituteFromItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SubstituteFromDefinition_STATUS() to populate field SubstituteFrom")
+				return eris.Wrap(err, "calling Initialize_From_SubstituteFromDefinition_STATUS() to populate field SubstituteFrom")
 			}
 			substituteFromList[substituteFromIndex] = substituteFrom
 		}
@@ -4747,14 +4930,14 @@ var _ genruntime.FromARMConverter = &PostBuildDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *PostBuildDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PostBuildDefinition_STATUS_ARM{}
+	return &arm.PostBuildDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *PostBuildDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PostBuildDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PostBuildDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PostBuildDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PostBuildDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "Substitute":
@@ -4794,7 +4977,7 @@ func (definition *PostBuildDefinition_STATUS) AssignProperties_From_PostBuildDef
 			var substituteFrom SubstituteFromDefinition_STATUS
 			err := substituteFrom.AssignProperties_From_SubstituteFromDefinition_STATUS(&substituteFromItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubstituteFromDefinition_STATUS() to populate field SubstituteFrom")
+				return eris.Wrap(err, "calling AssignProperties_From_SubstituteFromDefinition_STATUS() to populate field SubstituteFrom")
 			}
 			substituteFromList[substituteFromIndex] = substituteFrom
 		}
@@ -4824,7 +5007,7 @@ func (definition *PostBuildDefinition_STATUS) AssignProperties_To_PostBuildDefin
 			var substituteFrom storage.SubstituteFromDefinition_STATUS
 			err := substituteFromItem.AssignProperties_To_SubstituteFromDefinition_STATUS(&substituteFrom)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubstituteFromDefinition_STATUS() to populate field SubstituteFrom")
+				return eris.Wrap(err, "calling AssignProperties_To_SubstituteFromDefinition_STATUS() to populate field SubstituteFrom")
 			}
 			substituteFromList[substituteFromIndex] = substituteFrom
 		}
@@ -4867,7 +5050,7 @@ func (definition *RepositoryRefDefinition) ConvertToARM(resolved genruntime.Conv
 	if definition == nil {
 		return nil, nil
 	}
-	result := &RepositoryRefDefinition_ARM{}
+	result := &arm.RepositoryRefDefinition{}
 
 	// Set property "Branch":
 	if definition.Branch != nil {
@@ -4897,14 +5080,14 @@ func (definition *RepositoryRefDefinition) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *RepositoryRefDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RepositoryRefDefinition_ARM{}
+	return &arm.RepositoryRefDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *RepositoryRefDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RepositoryRefDefinition_ARM)
+	typedInput, ok := armInput.(arm.RepositoryRefDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RepositoryRefDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RepositoryRefDefinition, got %T", armInput)
 	}
 
 	// Set property "Branch":
@@ -5021,14 +5204,14 @@ var _ genruntime.FromARMConverter = &RepositoryRefDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *RepositoryRefDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RepositoryRefDefinition_STATUS_ARM{}
+	return &arm.RepositoryRefDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *RepositoryRefDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RepositoryRefDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RepositoryRefDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RepositoryRefDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RepositoryRefDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "Branch":
@@ -5141,13 +5324,13 @@ func (definition *ServicePrincipalDefinition) ConvertToARM(resolved genruntime.C
 	if definition == nil {
 		return nil, nil
 	}
-	result := &ServicePrincipalDefinition_ARM{}
+	result := &arm.ServicePrincipalDefinition{}
 
 	// Set property "ClientCertificate":
 	if definition.ClientCertificate != nil {
 		clientCertificateSecret, err := resolved.ResolvedSecrets.Lookup(*definition.ClientCertificate)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ClientCertificate")
+			return nil, eris.Wrap(err, "looking up secret for property ClientCertificate")
 		}
 		clientCertificate := clientCertificateSecret
 		result.ClientCertificate = &clientCertificate
@@ -5157,7 +5340,7 @@ func (definition *ServicePrincipalDefinition) ConvertToARM(resolved genruntime.C
 	if definition.ClientCertificatePassword != nil {
 		clientCertificatePasswordSecret, err := resolved.ResolvedSecrets.Lookup(*definition.ClientCertificatePassword)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ClientCertificatePassword")
+			return nil, eris.Wrap(err, "looking up secret for property ClientCertificatePassword")
 		}
 		clientCertificatePassword := clientCertificatePasswordSecret
 		result.ClientCertificatePassword = &clientCertificatePassword
@@ -5177,7 +5360,7 @@ func (definition *ServicePrincipalDefinition) ConvertToARM(resolved genruntime.C
 	if definition.ClientIdFromConfig != nil {
 		clientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*definition.ClientIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property ClientId")
+			return nil, eris.Wrap(err, "looking up configmap for property ClientId")
 		}
 		clientId := clientIdValue
 		result.ClientId = &clientId
@@ -5187,7 +5370,7 @@ func (definition *ServicePrincipalDefinition) ConvertToARM(resolved genruntime.C
 	if definition.ClientSecret != nil {
 		clientSecretSecret, err := resolved.ResolvedSecrets.Lookup(*definition.ClientSecret)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ClientSecret")
+			return nil, eris.Wrap(err, "looking up secret for property ClientSecret")
 		}
 		clientSecret := clientSecretSecret
 		result.ClientSecret = &clientSecret
@@ -5201,7 +5384,7 @@ func (definition *ServicePrincipalDefinition) ConvertToARM(resolved genruntime.C
 	if definition.TenantIdFromConfig != nil {
 		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*definition.TenantIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+			return nil, eris.Wrap(err, "looking up configmap for property TenantId")
 		}
 		tenantId := tenantIdValue
 		result.TenantId = &tenantId
@@ -5211,14 +5394,14 @@ func (definition *ServicePrincipalDefinition) ConvertToARM(resolved genruntime.C
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ServicePrincipalDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServicePrincipalDefinition_ARM{}
+	return &arm.ServicePrincipalDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ServicePrincipalDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServicePrincipalDefinition_ARM)
+	typedInput, ok := armInput.(arm.ServicePrincipalDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServicePrincipalDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServicePrincipalDefinition, got %T", armInput)
 	}
 
 	// no assignment for property "ClientCertificate"
@@ -5422,14 +5605,14 @@ var _ genruntime.FromARMConverter = &ServicePrincipalDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ServicePrincipalDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServicePrincipalDefinition_STATUS_ARM{}
+	return &arm.ServicePrincipalDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ServicePrincipalDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServicePrincipalDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServicePrincipalDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServicePrincipalDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServicePrincipalDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientCertificateSendChain":
@@ -5524,7 +5707,7 @@ func (definition *SubstituteFromDefinition) ConvertToARM(resolved genruntime.Con
 	if definition == nil {
 		return nil, nil
 	}
-	result := &SubstituteFromDefinition_ARM{}
+	result := &arm.SubstituteFromDefinition{}
 
 	// Set property "Kind":
 	if definition.Kind != nil {
@@ -5548,14 +5731,14 @@ func (definition *SubstituteFromDefinition) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *SubstituteFromDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubstituteFromDefinition_ARM{}
+	return &arm.SubstituteFromDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *SubstituteFromDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubstituteFromDefinition_ARM)
+	typedInput, ok := armInput.(arm.SubstituteFromDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubstituteFromDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubstituteFromDefinition, got %T", armInput)
 	}
 
 	// Set property "Kind":
@@ -5668,14 +5851,14 @@ var _ genruntime.FromARMConverter = &SubstituteFromDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *SubstituteFromDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubstituteFromDefinition_STATUS_ARM{}
+	return &arm.SubstituteFromDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *SubstituteFromDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubstituteFromDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SubstituteFromDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubstituteFromDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubstituteFromDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "Kind":

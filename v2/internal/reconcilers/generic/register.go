@@ -9,8 +9,10 @@ import (
 	"context"
 	"fmt"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/conversion"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -21,7 +23,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -36,6 +37,8 @@ type Options struct {
 	RequeueIntervalCalculator interval.Calculator
 	Config                    config.Values
 	LoggerFactory             func(obj metav1.Object) logr.Logger
+
+	PanicHandler func()
 }
 
 func RegisterWebhooks(mgr ctrl.Manager, objs []client.Object) error {
@@ -53,7 +56,7 @@ func RegisterWebhooks(mgr ctrl.Manager, objs []client.Object) error {
 func registerWebhook(mgr ctrl.Manager, obj client.Object) error {
 	_, err := conversion.EnforcePtr(obj)
 	if err != nil {
-		return errors.Wrap(err, "obj was expected to be ptr but was not")
+		return eris.Wrap(err, "obj was expected to be ptr but was not")
 	}
 
 	return ctrl.NewWebhookManagedBy(mgr).For(obj).Complete()
@@ -73,7 +76,7 @@ func RegisterAll(
 			options.LogConstructor(nil).V(Info).Info("Registering indexer for type", "type", fmt.Sprintf("%T", obj.Obj), "key", indexer.Key)
 			err := fieldIndexer.IndexField(context.Background(), obj.Obj, indexer.Key, indexer.Func)
 			if err != nil {
-				return errors.Wrapf(err, "failed to register indexer for %T, Key: %q", obj.Obj, indexer.Key)
+				return eris.Wrapf(err, "failed to register indexer for %T, Key: %q", obj.Obj, indexer.Key)
 			}
 		}
 	}
@@ -100,7 +103,7 @@ func register(
 	// Use the provided GVK to construct a new runtime object of the desired concrete type.
 	gvk, err := apiutil.GVKForObject(info.Obj, mgr.GetScheme())
 	if err != nil {
-		return errors.Wrapf(err, "creating GVK for obj %T", info)
+		return eris.Wrapf(err, "creating GVK for obj %T", info)
 	}
 
 	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {
@@ -126,6 +129,7 @@ func register(
 		GVK:                       gvk,
 		PositiveConditions:        positiveConditions,
 		RequeueIntervalCalculator: options.RequeueIntervalCalculator,
+		PanicHandler:              options.PanicHandler,
 	}
 
 	builder := ctrl.NewControllerManagedBy(mgr).
@@ -139,7 +143,7 @@ func register(
 
 	err = builder.Complete(reconciler)
 	if err != nil {
-		return errors.Wrap(err, "unable to build controllers / reconciler")
+		return eris.Wrap(err, "unable to build controllers / reconciler")
 	}
 
 	return nil

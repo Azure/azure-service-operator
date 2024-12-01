@@ -8,11 +8,11 @@ We target a new release of ASO approximately every two months, though this may v
 
 Our current release plan:
 
-| Version                                                                |       Estimated Release |
-|------------------------------------------------------------------------|------------------------:|
-| [2.10.0](https://github.com/Azure/azure-service-operator/milestone/29) |        Mid October 2024 |
-| [2.11.0](https://github.com/Azure/azure-service-operator/milestone/30) | Early/Mid December 2024 |
-| [2.12.0](https://github.com/Azure/azure-service-operator/milestone/31) |  Mid/Late February 2025 |
+| Version                                                                | Estimated Release |
+|------------------------------------------------------------------------|------------------:|
+| [2.11.0](https://github.com/Azure/azure-service-operator/milestone/30) | Mid November 2024 |
+| [2.12.0](https://github.com/Azure/azure-service-operator/milestone/31) | Mid February 2025 |
+| [2.13.0](https://github.com/Azure/azure-service-operator/milestone/32) |    Mid April 2025 |
 
 Where linked, versions go to a list of feature and bugs that are planned to be included in that release.
 
@@ -30,18 +30,19 @@ We publish an [experimental release](https://github.com/Azure/azure-service-oper
 
 Prior GA releases of ASO v2:
 
-| Version                                                                      |     Release Date |     |
-|------------------------------------------------------------------------------|-----------------:|-----|
-| [2.9.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.9.0) |   22 August 2024 |     |
-| [2.8.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.8.0) |     25 June 2024 |     |
-| [2.7.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.7.0) |    25 April 2024 |     |
-| [2.6.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.6.0) | 23 February 2024 |     |
-| [2.5.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.5.0) |  7 December 2023 | (1) |
-| [2.4.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.4.0) | 14 November 2023 |     |
-| [2.3.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.3.0) | 5 September 2023 |     |
-| [2.2.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.2.0) |     21 July 2023 |     |
-| [2.1.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.1.0) |      2 June 2023 |     |
-| [2.0.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.0.0) |    15 April 2023 |     |
+| Version                                                                        |     Release Date |     |
+|--------------------------------------------------------------------------------|-----------------:|-----|
+| [2.10.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.10.0) |  22 October 2024 |     |
+| [2.9.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.9.0)   |   22 August 2024 |     |
+| [2.8.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.8.0)   |     25 June 2024 |     |
+| [2.7.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.7.0)   |    25 April 2024 |     |
+| [2.6.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.6.0)   | 23 February 2024 |     |
+| [2.5.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.5.0)   |  7 December 2023 | (1) |
+| [2.4.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.4.0)   | 14 November 2023 |     |
+| [2.3.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.3.0)   | 5 September 2023 |     |
+| [2.2.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.2.0)   |     21 July 2023 |     |
+| [2.1.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.1.0)   |      2 June 2023 |     |
+| [2.0.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.0.0)   |    15 April 2023 |     |
 
 (1) v2.5.0 had an abbreviated release cycle to get key items out before the 2023/2024 holiday season
 

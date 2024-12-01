@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,6 +46,26 @@ func (scaleSet *VirtualMachineScaleSet) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (scaleSet *VirtualMachineScaleSet) SetConditions(conditions conditions.Conditions) {
 	scaleSet.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &VirtualMachineScaleSet{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (scaleSet *VirtualMachineScaleSet) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if scaleSet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return scaleSet.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &VirtualMachineScaleSet{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (scaleSet *VirtualMachineScaleSet) SecretDestinationExpressions() []*core.DestinationExpression {
+	if scaleSet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return scaleSet.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &VirtualMachineScaleSet{}
@@ -93,6 +116,10 @@ func (scaleSet *VirtualMachineScaleSet) NewEmptyStatus() genruntime.ConvertibleS
 
 // Owner returns the ResourceReference of the owner
 func (scaleSet *VirtualMachineScaleSet) Owner() *genruntime.ResourceReference {
+	if scaleSet.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(scaleSet.Spec)
 	return scaleSet.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -109,7 +136,7 @@ func (scaleSet *VirtualMachineScaleSet) SetStatus(status genruntime.ConvertibleS
 	var st VirtualMachineScaleSet_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	scaleSet.Status = st
@@ -146,15 +173,16 @@ type VirtualMachineScaleSet_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                              string                          `json:"azureName,omitempty"`
-	DoNotRunExtensionsOnOverprovisionedVMs *bool                           `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
-	ExtendedLocation                       *ExtendedLocation               `json:"extendedLocation,omitempty"`
-	HostGroup                              *SubResource                    `json:"hostGroup,omitempty"`
-	Identity                               *VirtualMachineScaleSetIdentity `json:"identity,omitempty"`
-	Location                               *string                         `json:"location,omitempty"`
-	OrchestrationMode                      *string                         `json:"orchestrationMode,omitempty"`
-	OriginalVersion                        string                          `json:"originalVersion,omitempty"`
-	Overprovision                          *bool                           `json:"overprovision,omitempty"`
+	AzureName                              string                              `json:"azureName,omitempty"`
+	DoNotRunExtensionsOnOverprovisionedVMs *bool                               `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
+	ExtendedLocation                       *ExtendedLocation                   `json:"extendedLocation,omitempty"`
+	HostGroup                              *SubResource                        `json:"hostGroup,omitempty"`
+	Identity                               *VirtualMachineScaleSetIdentity     `json:"identity,omitempty"`
+	Location                               *string                             `json:"location,omitempty"`
+	OperatorSpec                           *VirtualMachineScaleSetOperatorSpec `json:"operatorSpec,omitempty"`
+	OrchestrationMode                      *string                             `json:"orchestrationMode,omitempty"`
+	OriginalVersion                        string                              `json:"originalVersion,omitempty"`
+	Overprovision                          *bool                               `json:"overprovision,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -181,7 +209,7 @@ var _ genruntime.ConvertibleSpec = &VirtualMachineScaleSet_Spec{}
 // ConvertSpecFrom populates our VirtualMachineScaleSet_Spec from the provided source
 func (scaleSet *VirtualMachineScaleSet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == scaleSet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(scaleSet)
@@ -190,7 +218,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertSpecFrom(source genruntime.C
 // ConvertSpecTo populates the provided destination from our VirtualMachineScaleSet_Spec
 func (scaleSet *VirtualMachineScaleSet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == scaleSet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(scaleSet)
@@ -235,7 +263,7 @@ var _ genruntime.ConvertibleStatus = &VirtualMachineScaleSet_STATUS{}
 // ConvertStatusFrom populates our VirtualMachineScaleSet_STATUS from the provided source
 func (scaleSet *VirtualMachineScaleSet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == scaleSet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(scaleSet)
@@ -244,7 +272,7 @@ func (scaleSet *VirtualMachineScaleSet_STATUS) ConvertStatusFrom(source genrunti
 // ConvertStatusTo populates the provided destination from our VirtualMachineScaleSet_STATUS
 func (scaleSet *VirtualMachineScaleSet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == scaleSet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(scaleSet)
@@ -360,6 +388,14 @@ type VirtualMachineScaleSetIdentity_STATUS struct {
 	TenantId               *string                                                                 `json:"tenantId,omitempty"`
 	Type                   *string                                                                 `json:"type,omitempty"`
 	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
+}
+
+// Storage version of v1api20220301.VirtualMachineScaleSetOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type VirtualMachineScaleSetOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20220301.VirtualMachineScaleSetVMProfile

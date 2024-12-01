@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -42,6 +45,26 @@ func (registry *Registry) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (registry *Registry) SetConditions(conditions conditions.Conditions) {
 	registry.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Registry{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (registry *Registry) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if registry.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return registry.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Registry{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (registry *Registry) SecretDestinationExpressions() []*core.DestinationExpression {
+	if registry.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return registry.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Registry{}
@@ -92,6 +115,10 @@ func (registry *Registry) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (registry *Registry) Owner() *genruntime.ResourceReference {
+	if registry.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(registry.Spec)
 	return registry.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -108,7 +135,7 @@ func (registry *Registry) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Registry_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	registry.Status = st
@@ -150,14 +177,15 @@ type Registry_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                string              `json:"azureName,omitempty"`
-	DataEndpointEnabled      *bool               `json:"dataEndpointEnabled,omitempty"`
-	Encryption               *EncryptionProperty `json:"encryption,omitempty"`
-	Identity                 *IdentityProperties `json:"identity,omitempty"`
-	Location                 *string             `json:"location,omitempty"`
-	NetworkRuleBypassOptions *string             `json:"networkRuleBypassOptions,omitempty"`
-	NetworkRuleSet           *NetworkRuleSet     `json:"networkRuleSet,omitempty"`
-	OriginalVersion          string              `json:"originalVersion,omitempty"`
+	AzureName                string                `json:"azureName,omitempty"`
+	DataEndpointEnabled      *bool                 `json:"dataEndpointEnabled,omitempty"`
+	Encryption               *EncryptionProperty   `json:"encryption,omitempty"`
+	Identity                 *IdentityProperties   `json:"identity,omitempty"`
+	Location                 *string               `json:"location,omitempty"`
+	NetworkRuleBypassOptions *string               `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleSet           *NetworkRuleSet       `json:"networkRuleSet,omitempty"`
+	OperatorSpec             *RegistryOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion          string                `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -177,7 +205,7 @@ var _ genruntime.ConvertibleSpec = &Registry_Spec{}
 // ConvertSpecFrom populates our Registry_Spec from the provided source
 func (registry *Registry_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == registry {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(registry)
@@ -186,7 +214,7 @@ func (registry *Registry_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 // ConvertSpecTo populates the provided destination from our Registry_Spec
 func (registry *Registry_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == registry {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(registry)
@@ -226,7 +254,7 @@ var _ genruntime.ConvertibleStatus = &Registry_STATUS{}
 // ConvertStatusFrom populates our Registry_STATUS from the provided source
 func (registry *Registry_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == registry {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(registry)
@@ -235,7 +263,7 @@ func (registry *Registry_STATUS) ConvertStatusFrom(source genruntime.Convertible
 // ConvertStatusTo populates the provided destination from our Registry_STATUS
 func (registry *Registry_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == registry {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(registry)
@@ -316,6 +344,14 @@ type Policies_STATUS struct {
 type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20210901.RegistryOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RegistryOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20210901.Sku

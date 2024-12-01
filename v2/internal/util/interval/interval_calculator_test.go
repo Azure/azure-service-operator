@@ -11,7 +11,8 @@ import (
 	"time"
 
 	. "github.com/onsi/gomega"
-	"github.com/pkg/errors"
+
+	"github.com/rotisserie/eris"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -135,7 +136,7 @@ func Test_Error_ReturnedAsIs(t *testing.T) {
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
-	inputErr := errors.New("An error")
+	inputErr := eris.New("An error")
 	result, err := calc.NextInterval(req, ctrl.Result{}, inputErr)
 	g.Expect(err).To(Equal(inputErr))
 	g.Expect(result).To(Equal(ctrl.Result{}))
@@ -156,7 +157,7 @@ func Test_ErrorFollowedBySuccess_ClearsFailureTracking(t *testing.T) {
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
-	inputErr := errors.New("An error")
+	inputErr := eris.New("An error")
 	result, err := calc.NextInterval(req, ctrl.Result{}, inputErr)
 	g.Expect(err).To(Equal(inputErr))
 	g.Expect(result).To(Equal(ctrl.Result{}))
@@ -181,7 +182,7 @@ func Test_ReadyConditionErrorWithErrorSeverity_ReturnsSuccess(t *testing.T) {
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
-	inputErr := conditions.NewReadyConditionImpactingError(errors.New("problem"), conditions.ConditionSeverityError, conditions.ReasonFailed)
+	inputErr := conditions.NewReadyConditionImpactingError(eris.New("problem"), conditions.ConditionSeverityError, conditions.ReasonFailed)
 	result, err := calc.NextInterval(req, ctrl.Result{}, inputErr)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result).To(Equal(ctrl.Result{}))
@@ -203,7 +204,7 @@ func Test_ReadyConditionErrorWithSlowBackoff_UsesSlowBackoff(t *testing.T) {
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
 	inputErr := conditions.NewReadyConditionImpactingError(
-		errors.New("problem"),
+		eris.New("problem"),
 		conditions.ConditionSeverityWarning,
 		conditions.Reason{Name: "Abc", RetryClassification: conditions.RetrySlow})
 
@@ -239,7 +240,7 @@ func Test_ReadyConditionErrorWithFastBackoff_UsesFastBackoff(t *testing.T) {
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
 	inputErr := conditions.NewReadyConditionImpactingError(
-		errors.New("problem"),
+		eris.New("problem"),
 		conditions.ConditionSeverityWarning,
 		conditions.Reason{Name: "Abc", RetryClassification: conditions.RetryFast})
 

@@ -75,24 +75,24 @@ func ServersVirtualNetworkRuleGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForServersVirtualNetworkRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServersVirtualNetworkRule(gens map[string]gopter.Gen) {
-	gens["Spec"] = Servers_VirtualNetworkRule_SpecGenerator()
-	gens["Status"] = Servers_VirtualNetworkRule_STATUSGenerator()
+	gens["Spec"] = ServersVirtualNetworkRule_SpecGenerator()
+	gens["Status"] = ServersVirtualNetworkRule_STATUSGenerator()
 }
 
-func Test_Servers_VirtualNetworkRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersVirtualNetworkRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_VirtualNetworkRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_VirtualNetworkRule_STATUS, Servers_VirtualNetworkRule_STATUSGenerator()))
+		"Round trip of ServersVirtualNetworkRuleOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersVirtualNetworkRuleOperatorSpec, ServersVirtualNetworkRuleOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_VirtualNetworkRule_STATUS runs a test to see if a specific instance of Servers_VirtualNetworkRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_VirtualNetworkRule_STATUS(subject Servers_VirtualNetworkRule_STATUS) string {
+// RunJSONSerializationTestForServersVirtualNetworkRuleOperatorSpec runs a test to see if a specific instance of ServersVirtualNetworkRuleOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersVirtualNetworkRuleOperatorSpec(subject ServersVirtualNetworkRuleOperatorSpec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -100,7 +100,7 @@ func RunJSONSerializationTestForServers_VirtualNetworkRule_STATUS(subject Server
 	}
 
 	// Deserialize back into memory
-	var actual Servers_VirtualNetworkRule_STATUS
+	var actual ServersVirtualNetworkRuleOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -118,25 +118,80 @@ func RunJSONSerializationTestForServers_VirtualNetworkRule_STATUS(subject Server
 	return ""
 }
 
-// Generator of Servers_VirtualNetworkRule_STATUS instances for property testing - lazily instantiated by
-// Servers_VirtualNetworkRule_STATUSGenerator()
-var servers_VirtualNetworkRule_STATUSGenerator gopter.Gen
+// Generator of ServersVirtualNetworkRuleOperatorSpec instances for property testing - lazily instantiated by
+// ServersVirtualNetworkRuleOperatorSpecGenerator()
+var serversVirtualNetworkRuleOperatorSpecGenerator gopter.Gen
 
-// Servers_VirtualNetworkRule_STATUSGenerator returns a generator of Servers_VirtualNetworkRule_STATUS instances for property testing.
-func Servers_VirtualNetworkRule_STATUSGenerator() gopter.Gen {
-	if servers_VirtualNetworkRule_STATUSGenerator != nil {
-		return servers_VirtualNetworkRule_STATUSGenerator
+// ServersVirtualNetworkRuleOperatorSpecGenerator returns a generator of ServersVirtualNetworkRuleOperatorSpec instances for property testing.
+func ServersVirtualNetworkRuleOperatorSpecGenerator() gopter.Gen {
+	if serversVirtualNetworkRuleOperatorSpecGenerator != nil {
+		return serversVirtualNetworkRuleOperatorSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_VirtualNetworkRule_STATUS(generators)
-	servers_VirtualNetworkRule_STATUSGenerator = gen.Struct(reflect.TypeOf(Servers_VirtualNetworkRule_STATUS{}), generators)
+	serversVirtualNetworkRuleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServersVirtualNetworkRuleOperatorSpec{}), generators)
 
-	return servers_VirtualNetworkRule_STATUSGenerator
+	return serversVirtualNetworkRuleOperatorSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_VirtualNetworkRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_VirtualNetworkRule_STATUS(gens map[string]gopter.Gen) {
+func Test_ServersVirtualNetworkRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServersVirtualNetworkRule_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersVirtualNetworkRule_STATUS, ServersVirtualNetworkRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServersVirtualNetworkRule_STATUS runs a test to see if a specific instance of ServersVirtualNetworkRule_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersVirtualNetworkRule_STATUS(subject ServersVirtualNetworkRule_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServersVirtualNetworkRule_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServersVirtualNetworkRule_STATUS instances for property testing - lazily instantiated by
+// ServersVirtualNetworkRule_STATUSGenerator()
+var serversVirtualNetworkRule_STATUSGenerator gopter.Gen
+
+// ServersVirtualNetworkRule_STATUSGenerator returns a generator of ServersVirtualNetworkRule_STATUS instances for property testing.
+func ServersVirtualNetworkRule_STATUSGenerator() gopter.Gen {
+	if serversVirtualNetworkRule_STATUSGenerator != nil {
+		return serversVirtualNetworkRule_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServersVirtualNetworkRule_STATUS(generators)
+	serversVirtualNetworkRule_STATUSGenerator = gen.Struct(reflect.TypeOf(ServersVirtualNetworkRule_STATUS{}), generators)
+
+	return serversVirtualNetworkRule_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServersVirtualNetworkRule_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersVirtualNetworkRule_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IgnoreMissingVnetServiceEndpoint"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -145,20 +200,20 @@ func AddIndependentPropertyGeneratorsForServers_VirtualNetworkRule_STATUS(gens m
 	gens["VirtualNetworkSubnetId"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Servers_VirtualNetworkRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersVirtualNetworkRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_VirtualNetworkRule_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_VirtualNetworkRule_Spec, Servers_VirtualNetworkRule_SpecGenerator()))
+		"Round trip of ServersVirtualNetworkRule_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersVirtualNetworkRule_Spec, ServersVirtualNetworkRule_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_VirtualNetworkRule_Spec runs a test to see if a specific instance of Servers_VirtualNetworkRule_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_VirtualNetworkRule_Spec(subject Servers_VirtualNetworkRule_Spec) string {
+// RunJSONSerializationTestForServersVirtualNetworkRule_Spec runs a test to see if a specific instance of ServersVirtualNetworkRule_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersVirtualNetworkRule_Spec(subject ServersVirtualNetworkRule_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -166,7 +221,7 @@ func RunJSONSerializationTestForServers_VirtualNetworkRule_Spec(subject Servers_
 	}
 
 	// Deserialize back into memory
-	var actual Servers_VirtualNetworkRule_Spec
+	var actual ServersVirtualNetworkRule_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -184,26 +239,40 @@ func RunJSONSerializationTestForServers_VirtualNetworkRule_Spec(subject Servers_
 	return ""
 }
 
-// Generator of Servers_VirtualNetworkRule_Spec instances for property testing - lazily instantiated by
-// Servers_VirtualNetworkRule_SpecGenerator()
-var servers_VirtualNetworkRule_SpecGenerator gopter.Gen
+// Generator of ServersVirtualNetworkRule_Spec instances for property testing - lazily instantiated by
+// ServersVirtualNetworkRule_SpecGenerator()
+var serversVirtualNetworkRule_SpecGenerator gopter.Gen
 
-// Servers_VirtualNetworkRule_SpecGenerator returns a generator of Servers_VirtualNetworkRule_Spec instances for property testing.
-func Servers_VirtualNetworkRule_SpecGenerator() gopter.Gen {
-	if servers_VirtualNetworkRule_SpecGenerator != nil {
-		return servers_VirtualNetworkRule_SpecGenerator
+// ServersVirtualNetworkRule_SpecGenerator returns a generator of ServersVirtualNetworkRule_Spec instances for property testing.
+// We first initialize serversVirtualNetworkRule_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServersVirtualNetworkRule_SpecGenerator() gopter.Gen {
+	if serversVirtualNetworkRule_SpecGenerator != nil {
+		return serversVirtualNetworkRule_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_VirtualNetworkRule_Spec(generators)
-	servers_VirtualNetworkRule_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_VirtualNetworkRule_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForServersVirtualNetworkRule_Spec(generators)
+	serversVirtualNetworkRule_SpecGenerator = gen.Struct(reflect.TypeOf(ServersVirtualNetworkRule_Spec{}), generators)
 
-	return servers_VirtualNetworkRule_SpecGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServersVirtualNetworkRule_Spec(generators)
+	AddRelatedPropertyGeneratorsForServersVirtualNetworkRule_Spec(generators)
+	serversVirtualNetworkRule_SpecGenerator = gen.Struct(reflect.TypeOf(ServersVirtualNetworkRule_Spec{}), generators)
+
+	return serversVirtualNetworkRule_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_VirtualNetworkRule_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_VirtualNetworkRule_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServersVirtualNetworkRule_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersVirtualNetworkRule_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["IgnoreMissingVnetServiceEndpoint"] = gen.PtrOf(gen.Bool())
 	gens["OriginalVersion"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForServersVirtualNetworkRule_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServersVirtualNetworkRule_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(ServersVirtualNetworkRuleOperatorSpecGenerator())
 }

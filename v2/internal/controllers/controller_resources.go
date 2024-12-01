@@ -13,8 +13,10 @@ import (
 	"strings"
 	"time"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/conversion"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -30,7 +32,6 @@ import (
 	postgresqlv1 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
 	azuresqlv1 "github.com/Azure/azure-service-operator/v2/api/sql/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	azuresqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/azuresql"
@@ -39,6 +40,7 @@ import (
 	postgresqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/postgresql"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -55,10 +57,18 @@ func GetKnownStorageTypes(
 	credentialProvider identity.CredentialProvider,
 	kubeClient kubeclient.Client,
 	positiveConditions *conditions.PositiveConditionBuilder,
+	expressionEvaluator asocel.ExpressionEvaluator,
 	options generic.Options,
 ) ([]*registration.StorageType, error) {
 	resourceResolver := resolver.NewResolver(kubeClient)
-	knownStorageTypes, err := getGeneratedStorageTypes(schemer, armConnectionFactory, kubeClient, resourceResolver, positiveConditions, options)
+	knownStorageTypes, err := getGeneratedStorageTypes(
+		schemer,
+		armConnectionFactory,
+		kubeClient,
+		resourceResolver,
+		positiveConditions,
+		expressionEvaluator,
+		options)
 	if err != nil {
 		return nil, err
 	}
@@ -157,19 +167,20 @@ func getGeneratedStorageTypes(
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
+	expressionEvaluator asocel.ExpressionEvaluator,
 	options generic.Options,
 ) ([]*registration.StorageType, error) {
 	knownStorageTypes := getKnownStorageTypes()
 
 	err := resourceResolver.IndexStorageTypes(schemer.GetScheme(), knownStorageTypes)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed add storage types to resource resolver")
+		return nil, eris.Wrap(err, "failed add storage types to resource resolver")
 	}
 
 	var extensions map[schema.GroupVersionKind]genruntime.ResourceExtension
 	extensions, err = GetResourceExtensions(schemer.GetScheme())
 	if err != nil {
-		return nil, errors.Wrap(err, "failed getting extensions")
+		return nil, eris.Wrap(err, "failed getting extensions")
 	}
 
 	for _, t := range knownStorageTypes {
@@ -177,7 +188,7 @@ func getGeneratedStorageTypes(
 		var gvk schema.GroupVersionKind
 		gvk, err = apiutil.GVKForObject(t.Obj, schemer.GetScheme())
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating GVK for obj %T", t.Obj)
+			return nil, eris.Wrapf(err, "creating GVK for obj %T", t.Obj)
 		}
 		extension := extensions[gvk]
 
@@ -186,6 +197,7 @@ func getGeneratedStorageTypes(
 			kubeClient,
 			resourceResolver,
 			positiveConditions,
+			expressionEvaluator,
 			options,
 			extension,
 			t)
@@ -199,6 +211,7 @@ func augmentWithARMReconciler(
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
+	expressionEvaluator asocel.ExpressionEvaluator,
 	options generic.Options,
 	extension genruntime.ResourceExtension,
 	t *registration.StorageType,
@@ -208,6 +221,7 @@ func augmentWithARMReconciler(
 		kubeClient,
 		resourceResolver,
 		positiveConditions,
+		expressionEvaluator,
 		options.Config,
 		extension)
 }
@@ -228,7 +242,7 @@ func makeStandardPredicate() predicate.Predicate {
 func augmentWithControllerName(t *registration.StorageType) error {
 	controllerName, err := getControllerName(t.Obj)
 	if err != nil {
-		return errors.Wrapf(err, "failed to get controller name for obj %T", t.Obj)
+		return eris.Wrapf(err, "failed to get controller name for obj %T", t.Obj)
 	}
 
 	t.Name = controllerName
@@ -241,14 +255,14 @@ var groupRegex = regexp.MustCompile(`.*/v2/api/([a-zA-Z0-9.]+)/`)
 func getControllerName(obj client.Object) (string, error) {
 	v, err := conversion.EnforcePtr(obj)
 	if err != nil {
-		return "", errors.Wrap(err, "t.Obj was expected to be ptr but was not")
+		return "", eris.Wrap(err, "t.Obj was expected to be ptr but was not")
 	}
 
 	typ := v.Type()
 	pkgPath := typ.PkgPath()
 	matches := groupRegex.FindStringSubmatch(pkgPath)
 	if len(matches) == 0 {
-		return "", errors.Errorf("couldn't parse package path %s", pkgPath)
+		return "", eris.Errorf("couldn't parse package path %s", pkgPath)
 	}
 	group := strings.Replace(matches[1], ".", "", -1) // elide . for groups like network.frontdoor
 	name := fmt.Sprintf("%s_%s", group, strings.ToLower(typ.Name()))
@@ -275,7 +289,6 @@ func CreateScheme() *runtime.Scheme {
 	_ = mysqlv1.AddToScheme(scheme)
 	_ = postgresqlv1.AddToScheme(scheme)
 	_ = azuresqlv1.AddToScheme(scheme)
-	scheme.AllKnownTypes()
 	return scheme
 }
 
@@ -289,7 +302,7 @@ func GetResourceExtensions(scheme *runtime.Scheme) (map[schema.GroupVersionKind]
 			// Make sure the type casting goes well, and we can extract the GVK successfully.
 			resourceObj, ok := resource.(runtime.Object)
 			if !ok {
-				err := errors.Errorf("unexpected resource type for resource '%s', found '%T'", resource.AzureName(), resource)
+				err := eris.Errorf("unexpected resource type for resource '%s', found '%T'", resource.AzureName(), resource)
 				return nil, err
 			}
 

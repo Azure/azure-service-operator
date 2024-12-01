@@ -11,7 +11,7 @@ import (
 
 	"github.com/dave/dst"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -30,7 +30,7 @@ func AddKubernetesResourceInterfaceImpls(
 ) (astmodel.TypeDefinitionSet, error) {
 	resolved, err := definitions.ResolveResourceSpecAndStatus(resourceDef)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to resolve resource %s", resourceDef.Name())
+		return nil, eris.Wrapf(err, "unable to resolve resource %s", resourceDef.Name())
 	}
 
 	specDef := resolved.SpecDef
@@ -41,13 +41,13 @@ func AddKubernetesResourceInterfaceImpls(
 		ownerProperty := idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported)
 		_, ok := resolved.SpecType.Property(ownerProperty)
 		if !ok {
-			return nil, errors.Errorf("resource spec doesn't have %q property", ownerProperty)
+			return nil, eris.Errorf("resource spec doesn't have %q property", ownerProperty)
 		}
 	}
 
 	azureNameProp, ok := resolved.SpecType.Property(astmodel.AzureNameProperty)
 	if !ok {
-		return nil, errors.Errorf("resource spec doesn't have %q property", astmodel.AzureNameProperty)
+		return nil, eris.Errorf("resource spec doesn't have %q property", astmodel.AzureNameProperty)
 	}
 
 	nameFns, err := createAzureNameFunctionHandlersForType(azureNameProp.PropertyType(), definitions, log)
@@ -62,7 +62,7 @@ func AddKubernetesResourceInterfaceImpls(
 		var updated astmodel.TypeDefinition
 		updated, err = remover.Remove(resolved.SpecDef, astmodel.AzureNameProperty)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to remove AzureName property from resource %s", resourceDef.Name())
+			return nil, eris.Wrapf(err, "failed to remove AzureName property from resource %s", resourceDef.Name())
 		}
 
 		specDef = updated
@@ -116,7 +116,7 @@ func AddKubernetesResourceInterfaceImpls(
 				"Unable to create NewEmptyStatus() for resource %s (expected Status to be a TypeName but had %T)",
 				resourceDef.Name(),
 				r.StatusType())
-			return nil, errors.New(msg)
+			return nil, eris.New(msg)
 		}
 
 		emptyStatusFunction := functions.NewEmptyStatusFunction(status, idFactory)
@@ -131,7 +131,7 @@ func AddKubernetesResourceInterfaceImpls(
 	interfaceInjector := astmodel.NewInterfaceInjector()
 	updatedResource, err := interfaceInjector.Inject(resolved.ResourceDef, kubernetesResourceImplementation)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to inject KubernetesResource interface into resource %s", resourceDef.Name())
+		return nil, eris.Wrapf(err, "failed to inject KubernetesResource interface into resource %s", resourceDef.Name())
 	}
 
 	if nameFns.setNameFunction != nil {
@@ -143,7 +143,7 @@ func AddKubernetesResourceInterfaceImpls(
 
 		updated, err := functionInjector.Inject(specDef, setFn)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to inject SetAzureName function into resource %s", resourceDef.Name())
+			return nil, eris.Wrapf(err, "failed to inject SetAzureName function into resource %s", resourceDef.Name())
 		}
 
 		specDef = updated
@@ -171,7 +171,7 @@ func createAzureNameFunctionHandlersForType(
 	case *astmodel.ValidatedType:
 		if !astmodel.TypeEquals(azureNamePropType.ElementType(), astmodel.StringType) {
 			return createAzureNameFunctionsForTypeResult{},
-				errors.Errorf("unable to handle non-string validated definitions in AzureName property")
+				eris.Errorf("unable to handle non-string validated definitions in AzureName property")
 		}
 
 		validations := azureNamePropType.Validations().(astmodel.StringValidations)
@@ -205,13 +205,13 @@ func createAzureNameFunctionHandlersForType(
 		resolvedPropType, err := definitions.FullyResolve(azureNamePropType)
 		if err != nil {
 			return createAzureNameFunctionsForTypeResult{},
-				errors.Wrapf(err, "unable to resolve type of resource Name property: %s", azureNamePropType.String())
+				eris.Wrapf(err, "unable to resolve type of resource Name property: %s", azureNamePropType.String())
 		}
 
 		if t, ok := resolvedPropType.(*astmodel.EnumType); ok {
 			if !astmodel.TypeEquals(t.BaseType(), astmodel.StringType) {
 				return createAzureNameFunctionsForTypeResult{},
-					errors.Errorf("unable to handle non-string enum base type in Name property")
+					eris.Errorf("unable to handle non-string enum base type in Name property")
 			}
 
 			options := t.Options()
@@ -234,12 +234,12 @@ func createAzureNameFunctionHandlersForType(
 		}
 
 		return createAzureNameFunctionsForTypeResult{},
-			errors.Errorf("unable to produce AzureName()/SetAzureName() for Name property with type %s", resolvedPropType.String())
+			eris.Errorf("unable to produce AzureName()/SetAzureName() for Name property with type %s", resolvedPropType.String())
 
 	case *astmodel.PrimitiveType:
 		if !astmodel.TypeEquals(azureNamePropType, astmodel.StringType) {
 			return createAzureNameFunctionsForTypeResult{},
-				errors.Errorf("cannot use type %s as type of AzureName property", azureNamePropType.String())
+				eris.Errorf("cannot use type %s as type of AzureName property", azureNamePropType.String())
 		}
 
 		return createAzureNameFunctionsForTypeResult{
@@ -249,7 +249,7 @@ func createAzureNameFunctionHandlersForType(
 
 	default:
 		return createAzureNameFunctionsForTypeResult{},
-			errors.Errorf("unsupported type for AzureName property: %s", azureNamePropType.String())
+			eris.Errorf("unsupported type for AzureName property: %s", azureNamePropType.String())
 	}
 }
 
@@ -271,7 +271,7 @@ func getEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFuncti
 		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 		receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrap(err, "creating receiver type expression")
+			return nil, eris.Wrap(err, "creating receiver type expression")
 		}
 
 		fn := &astbuilder.FuncDetails{
@@ -301,7 +301,7 @@ func setEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFuncti
 		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 		receiverTypeExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrap(err, "creating receiver type expression")
+			return nil, eris.Wrap(err, "creating receiver type expression")
 		}
 
 		azureNameProp := astbuilder.Selector(dst.NewIdent(receiverIdent), astmodel.AzureNameProperty)
@@ -343,7 +343,7 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 		receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrap(err, "creating receiver type expression")
+			return nil, eris.Wrap(err, "creating receiver type expression")
 		}
 
 		fn := &astbuilder.FuncDetails{
@@ -384,7 +384,7 @@ func getOwnerFunction(
 	receiverType := astmodel.NewOptionalType(receiver)
 	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	specSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")
@@ -396,7 +396,7 @@ func getOwnerFunction(
 	}
 	resourceReferenceTypeExpr, err := astmodel.ResourceReferenceType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating resource reference type expression")
+		return nil, eris.Wrap(err, "creating resource reference type expression")
 	}
 
 	fn.AddReturn(astbuilder.Dereference(resourceReferenceTypeExpr))
@@ -409,26 +409,33 @@ func getOwnerFunction(
 	}
 
 	owner := astbuilder.Selector(specSelector, astmodel.OwnerProperty)
+	nilOwnerCheck := astbuilder.IfNil(owner, astbuilder.Returns(astbuilder.Nil()))
+	nilOwnerCheck.Decs.After = dst.EmptyLine
 
 	switch r.Resource().Scope() {
 	case astmodel.ResourceScopeResourceGroup:
 		fn.AddComments("returns the ResourceReference of the owner")
 		fn.AddStatements(
+			nilOwnerCheck,
 			lookupGroupAndKindStmt(groupLocal, kindLocal, specSelector),
 			astbuilder.Returns(createResourceReferenceWithGroupKind(dst.NewIdent(groupLocal), dst.NewIdent(kindLocal), owner)))
+
 	case astmodel.ResourceScopeExtension:
 		fn.AddComments("returns the ResourceReference of the owner")
-
 		fn.AddStatements(
+			nilOwnerCheck,
 			astbuilder.Returns(createResourceReference(owner)))
+
 	case astmodel.ResourceScopeTenant:
 		// Tenant resources never have an owner, just return nil
 		fn.AddComments("returns nil as Tenant scoped resources never have an owner")
 		fn.AddStatements(astbuilder.Returns(astbuilder.Nil()))
+
 	case astmodel.ResourceScopeLocation:
 		// Location resources never have an owner, just return nil
 		fn.AddComments("returns nil as Location scoped resources never have an owner")
 		fn.AddStatements(astbuilder.Returns(astbuilder.Nil()))
+
 	default:
 		panic(fmt.Sprintf("unknown resource kind: %s", r.Resource().Scope()))
 	}
@@ -451,7 +458,7 @@ func getResourceScopeFunction(
 	receiverType := astmodel.NewOptionalType(receiver)
 	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	var resourceScope string
@@ -481,7 +488,7 @@ func getResourceScopeFunction(
 	fn.AddComments("returns the scope of the resource")
 	resourceScopeTypeExpr, err := astmodel.ResourceScopeType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating resource scope type expression")
+		return nil, eris.Wrap(err, "creating resource scope type expression")
 	}
 
 	fn.AddReturn(resourceScopeTypeExpr)
@@ -508,7 +515,7 @@ func getSupportedOperationsFunction(
 	receiverType := astmodel.NewOptionalType(receiver)
 	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	genruntimePackage := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
@@ -533,7 +540,7 @@ func getSupportedOperationsFunction(
 
 	resourceOperationTypeExpr, err := astmodel.ResourceOperationType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating resource operation type expression")
+		return nil, eris.Wrap(err, "creating resource operation type expression")
 	}
 
 	sliceBuilder := astbuilder.NewSliceLiteralBuilder(resourceOperationTypeExpr, true)
@@ -554,7 +561,7 @@ func getSupportedOperationsFunction(
 	fn.AddComments("returns the operations supported by the resource")
 	resourceOperationTypeArrayExpr, err := astmodel.ResourceOperationTypeArray.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating resource operation type array expression")
+		return nil, eris.Wrap(err, "creating resource operation type array expression")
 	}
 
 	fn.AddReturn(resourceOperationTypeArrayExpr)
@@ -607,7 +614,7 @@ func setStringAzureNameFunction(
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverTypeExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	fn := &astbuilder.FuncDetails{
@@ -638,7 +645,7 @@ func getStringAzureNameFunction(
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverTypeExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	fn := &astbuilder.FuncDetails{

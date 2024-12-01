@@ -28,8 +28,8 @@
 | Domain_STATUS                                                    | v1api20200601 |
 | Domain_Spec                                                      | v1api20200601 |
 | DomainsTopic                                                     | v1api20200601 |
-| Domains_Topic_STATUS                                             | v1api20200601 |
-| Domains_Topic_Spec                                               | v1api20200601 |
+| DomainsTopic_STATUS                                              | v1api20200601 |
+| DomainsTopic_Spec                                                | v1api20200601 |
 | EventHubEventSubscriptionDestination                             | v1api20200601 |
 | EventHubEventSubscriptionDestinationProperties                   | v1api20200601 |
 | EventHubEventSubscriptionDestinationProperties_STATUS            | v1api20200601 |

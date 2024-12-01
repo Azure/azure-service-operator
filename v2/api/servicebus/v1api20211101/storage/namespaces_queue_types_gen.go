@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Queue_Spec   `json:"spec,omitempty"`
-	Status            Namespaces_Queue_STATUS `json:"status,omitempty"`
+	Spec              NamespacesQueue_Spec   `json:"spec,omitempty"`
+	Status            NamespacesQueue_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesQueue{}
@@ -42,6 +45,26 @@ func (queue *NamespacesQueue) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (queue *NamespacesQueue) SetConditions(conditions conditions.Conditions) {
 	queue.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &NamespacesQueue{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (queue *NamespacesQueue) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if queue.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return queue.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &NamespacesQueue{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (queue *NamespacesQueue) SecretDestinationExpressions() []*core.DestinationExpression {
+	if queue.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return queue.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &NamespacesQueue{}
@@ -87,11 +110,15 @@ func (queue *NamespacesQueue) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (queue *NamespacesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Namespaces_Queue_STATUS{}
+	return &NamespacesQueue_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (queue *NamespacesQueue) Owner() *genruntime.ResourceReference {
+	if queue.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(queue.Spec)
 	return queue.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (queue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (queue *NamespacesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Namespaces_Queue_STATUS); ok {
+	if st, ok := status.(*NamespacesQueue_STATUS); ok {
 		queue.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Namespaces_Queue_STATUS
+	var st NamespacesQueue_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	queue.Status = st
@@ -138,26 +165,27 @@ type NamespacesQueueList struct {
 	Items           []NamespacesQueue `json:"items"`
 }
 
-// Storage version of v1api20211101.Namespaces_Queue_Spec
-type Namespaces_Queue_Spec struct {
+// Storage version of v1api20211101.NamespacesQueue_Spec
+type NamespacesQueue_Spec struct {
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                           string  `json:"azureName,omitempty"`
-	DeadLetteringOnMessageExpiration    *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
-	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
-	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
-	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
-	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
-	ForwardDeadLetteredMessagesTo       *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
-	ForwardTo                           *string `json:"forwardTo,omitempty"`
-	LockDuration                        *string `json:"lockDuration,omitempty"`
-	MaxDeliveryCount                    *int    `json:"maxDeliveryCount,omitempty"`
-	MaxMessageSizeInKilobytes           *int    `json:"maxMessageSizeInKilobytes,omitempty"`
-	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
-	OriginalVersion                     string  `json:"originalVersion,omitempty"`
+	AzureName                           string                       `json:"azureName,omitempty"`
+	DeadLetteringOnMessageExpiration    *bool                        `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive            *string                      `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow *string                      `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations             *bool                        `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool                        `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool                        `json:"enablePartitioning,omitempty"`
+	ForwardDeadLetteredMessagesTo       *string                      `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                           *string                      `json:"forwardTo,omitempty"`
+	LockDuration                        *string                      `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                    *int                         `json:"maxDeliveryCount,omitempty"`
+	MaxMessageSizeInKilobytes           *int                         `json:"maxMessageSizeInKilobytes,omitempty"`
+	MaxSizeInMegabytes                  *int                         `json:"maxSizeInMegabytes,omitempty"`
+	OperatorSpec                        *NamespacesQueueOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                     string                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -169,28 +197,28 @@ type Namespaces_Queue_Spec struct {
 	RequiresSession            *bool                              `json:"requiresSession,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Namespaces_Queue_Spec{}
+var _ genruntime.ConvertibleSpec = &NamespacesQueue_Spec{}
 
-// ConvertSpecFrom populates our Namespaces_Queue_Spec from the provided source
-func (queue *Namespaces_Queue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our NamespacesQueue_Spec from the provided source
+func (queue *NamespacesQueue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == queue {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(queue)
 }
 
-// ConvertSpecTo populates the provided destination from our Namespaces_Queue_Spec
-func (queue *Namespaces_Queue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our NamespacesQueue_Spec
+func (queue *NamespacesQueue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == queue {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(queue)
 }
 
-// Storage version of v1api20211101.Namespaces_Queue_STATUS
-type Namespaces_Queue_STATUS struct {
+// Storage version of v1api20211101.NamespacesQueue_STATUS
+type NamespacesQueue_STATUS struct {
 	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`
 	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
@@ -222,21 +250,21 @@ type Namespaces_Queue_STATUS struct {
 	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Namespaces_Queue_STATUS{}
+var _ genruntime.ConvertibleStatus = &NamespacesQueue_STATUS{}
 
-// ConvertStatusFrom populates our Namespaces_Queue_STATUS from the provided source
-func (queue *Namespaces_Queue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our NamespacesQueue_STATUS from the provided source
+func (queue *NamespacesQueue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == queue {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(queue)
 }
 
-// ConvertStatusTo populates the provided destination from our Namespaces_Queue_STATUS
-func (queue *Namespaces_Queue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our NamespacesQueue_STATUS
+func (queue *NamespacesQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == queue {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(queue)
@@ -251,6 +279,14 @@ type MessageCountDetails_STATUS struct {
 	ScheduledMessageCount          *int                   `json:"scheduledMessageCount,omitempty"`
 	TransferDeadLetterMessageCount *int                   `json:"transferDeadLetterMessageCount,omitempty"`
 	TransferMessageCount           *int                   `json:"transferMessageCount,omitempty"`
+}
+
+// Storage version of v1api20211101.NamespacesQueueOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespacesQueueOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

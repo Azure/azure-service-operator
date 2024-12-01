@@ -79,6 +79,61 @@ func AddRelatedPropertyGeneratorsForDnsForwardingRuleset(gens map[string]gopter.
 	gens["Status"] = DnsForwardingRuleset_STATUSGenerator()
 }
 
+func Test_DnsForwardingRulesetOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsForwardingRulesetOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsForwardingRulesetOperatorSpec, DnsForwardingRulesetOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsForwardingRulesetOperatorSpec runs a test to see if a specific instance of DnsForwardingRulesetOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsForwardingRulesetOperatorSpec(subject DnsForwardingRulesetOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsForwardingRulesetOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsForwardingRulesetOperatorSpec instances for property testing - lazily instantiated by
+// DnsForwardingRulesetOperatorSpecGenerator()
+var dnsForwardingRulesetOperatorSpecGenerator gopter.Gen
+
+// DnsForwardingRulesetOperatorSpecGenerator returns a generator of DnsForwardingRulesetOperatorSpec instances for property testing.
+func DnsForwardingRulesetOperatorSpecGenerator() gopter.Gen {
+	if dnsForwardingRulesetOperatorSpecGenerator != nil {
+		return dnsForwardingRulesetOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	dnsForwardingRulesetOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DnsForwardingRulesetOperatorSpec{}), generators)
+
+	return dnsForwardingRulesetOperatorSpecGenerator
+}
+
 func Test_DnsForwardingRuleset_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -160,7 +215,7 @@ func AddIndependentPropertyGeneratorsForDnsForwardingRuleset_STATUS(gens map[str
 
 // AddRelatedPropertyGeneratorsForDnsForwardingRuleset_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDnsForwardingRuleset_STATUS(gens map[string]gopter.Gen) {
-	gens["DnsResolverOutboundEndpoints"] = gen.SliceOf(DnsresolverSubResource_STATUSGenerator())
+	gens["DnsResolverOutboundEndpoints"] = gen.SliceOf(SubResource_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
@@ -241,121 +296,6 @@ func AddIndependentPropertyGeneratorsForDnsForwardingRuleset_Spec(gens map[strin
 
 // AddRelatedPropertyGeneratorsForDnsForwardingRuleset_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDnsForwardingRuleset_Spec(gens map[string]gopter.Gen) {
-	gens["DnsResolverOutboundEndpoints"] = gen.SliceOf(DnsresolverSubResourceGenerator())
-}
-
-func Test_DnsresolverSubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DnsresolverSubResource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsresolverSubResource, DnsresolverSubResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDnsresolverSubResource runs a test to see if a specific instance of DnsresolverSubResource round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsresolverSubResource(subject DnsresolverSubResource) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DnsresolverSubResource
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DnsresolverSubResource instances for property testing - lazily instantiated by
-// DnsresolverSubResourceGenerator()
-var dnsresolverSubResourceGenerator gopter.Gen
-
-// DnsresolverSubResourceGenerator returns a generator of DnsresolverSubResource instances for property testing.
-func DnsresolverSubResourceGenerator() gopter.Gen {
-	if dnsresolverSubResourceGenerator != nil {
-		return dnsresolverSubResourceGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	dnsresolverSubResourceGenerator = gen.Struct(reflect.TypeOf(DnsresolverSubResource{}), generators)
-
-	return dnsresolverSubResourceGenerator
-}
-
-func Test_DnsresolverSubResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DnsresolverSubResource_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsresolverSubResource_STATUS, DnsresolverSubResource_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDnsresolverSubResource_STATUS runs a test to see if a specific instance of DnsresolverSubResource_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsresolverSubResource_STATUS(subject DnsresolverSubResource_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DnsresolverSubResource_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DnsresolverSubResource_STATUS instances for property testing - lazily instantiated by
-// DnsresolverSubResource_STATUSGenerator()
-var dnsresolverSubResource_STATUSGenerator gopter.Gen
-
-// DnsresolverSubResource_STATUSGenerator returns a generator of DnsresolverSubResource_STATUS instances for property testing.
-func DnsresolverSubResource_STATUSGenerator() gopter.Gen {
-	if dnsresolverSubResource_STATUSGenerator != nil {
-		return dnsresolverSubResource_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsresolverSubResource_STATUS(generators)
-	dnsresolverSubResource_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsresolverSubResource_STATUS{}), generators)
-
-	return dnsresolverSubResource_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDnsresolverSubResource_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsresolverSubResource_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["DnsResolverOutboundEndpoints"] = gen.SliceOf(SubResourceGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(DnsForwardingRulesetOperatorSpecGenerator())
 }

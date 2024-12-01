@@ -8,13 +8,13 @@ package functions
 import (
 	"testing"
 
+	. "github.com/onsi/gomega"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
-
-	. "github.com/onsi/gomega"
 )
 
 type StorageConversionPropertyTestCase struct {

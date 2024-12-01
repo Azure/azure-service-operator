@@ -8,8 +8,7 @@ package astmodel
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
-
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
@@ -95,12 +94,12 @@ func (tv *TypeVisitor[C]) VisitInternalTypeName(name InternalTypeName, ctx C) (I
 
 	t, err := tv.visitInternalTypeName(tv, name, ctx)
 	if err != nil {
-		return InternalTypeName{}, errors.Wrapf(err, "visit of InternalTypeName %q failed", name)
+		return InternalTypeName{}, eris.Wrapf(err, "visit of InternalTypeName %q failed", name)
 	}
 
 	n, ok := t.(InternalTypeName)
 	if !ok {
-		return InternalTypeName{}, errors.Errorf("expected visit of InternalTypeName %q to return InternalTypeName, not %T", name, t)
+		return InternalTypeName{}, eris.Errorf("expected visit of InternalTypeName %q to return InternalTypeName, not %T", name, t)
 	}
 
 	return n, nil
@@ -112,7 +111,7 @@ func (tv *TypeVisitor[C]) VisitDefinition(td TypeDefinition, ctx C) (TypeDefinit
 	name := td.Name()
 	visitedName, err := tv.VisitInternalTypeName(name, ctx)
 	if err != nil {
-		return TypeDefinition{}, errors.Wrapf(
+		return TypeDefinition{}, eris.Wrapf(
 			err,
 			"visit of %s/%s failed",
 			name.InternalPackageReference().FolderPath(),
@@ -121,7 +120,7 @@ func (tv *TypeVisitor[C]) VisitDefinition(td TypeDefinition, ctx C) (TypeDefinit
 
 	visitedType, err := tv.Visit(td.Type(), ctx)
 	if err != nil {
-		return TypeDefinition{}, errors.Wrapf(
+		return TypeDefinition{}, eris.Wrapf(
 			err,
 			"visit of type of %s/%s failed",
 			name.InternalPackageReference().FolderPath(),
@@ -159,7 +158,7 @@ func IdentityVisitOfTypeName[C any](_ *TypeVisitor[C], it TypeName, _ C) (Type, 
 func IdentityVisitOfArrayType[C any](this *TypeVisitor[C], it *ArrayType, ctx C) (Type, error) {
 	newElement, err := this.Visit(it.element, ctx)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to visit type of array")
+		return nil, eris.Wrap(err, "failed to visit type of array")
 	}
 
 	return it.WithElement(newElement), nil
@@ -354,12 +353,12 @@ func orderedIdentityVisitOfObjectTypeWithPerPropertyContext[C any](
 func IdentityVisitOfMapType[C any](this *TypeVisitor[C], it *MapType, ctx C) (Type, error) {
 	visitedKey, err := this.Visit(it.key, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit map key type %q", it.key)
+		return nil, eris.Wrapf(err, "failed to visit map key type %q", it.key)
 	}
 
 	visitedValue, err := this.Visit(it.value, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit map value type %q", it.value)
+		return nil, eris.Wrapf(err, "failed to visit map value type %q", it.value)
 	}
 
 	return it.WithKeyType(visitedKey).WithValueType(visitedValue), nil
@@ -374,7 +373,7 @@ func IdentityVisitOfEnumType[C any](_ *TypeVisitor[C], it *EnumType, _ C) (Type,
 func IdentityVisitOfOptionalType[C any](this *TypeVisitor[C], it *OptionalType, ctx C) (Type, error) {
 	visitedElement, err := this.Visit(it.element, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit optional element type %q", it.element)
+		return nil, eris.Wrapf(err, "failed to visit optional element type %q", it.element)
 	}
 
 	return it.WithElement(visitedElement), nil
@@ -383,12 +382,12 @@ func IdentityVisitOfOptionalType[C any](this *TypeVisitor[C], it *OptionalType, 
 func IdentityVisitOfResourceType[C any](this *TypeVisitor[C], it *ResourceType, ctx C) (Type, error) {
 	visitedSpec, err := this.Visit(it.spec, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit resource spec type %q", it.spec)
+		return nil, eris.Wrapf(err, "failed to visit resource spec type %q", it.spec)
 	}
 
 	visitedStatus, err := this.Visit(it.status, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit resource status type %q", it.status)
+		return nil, eris.Wrapf(err, "failed to visit resource status type %q", it.status)
 	}
 
 	changedAPIVersionName := false
@@ -396,7 +395,7 @@ func IdentityVisitOfResourceType[C any](this *TypeVisitor[C], it *ResourceType, 
 		originalAPIVersionTypeName := it.APIVersionTypeName()
 		newAPIVersion, err := this.VisitInternalTypeName(originalAPIVersionTypeName, ctx)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to visit resource API version name %q", originalAPIVersionTypeName)
+			return nil, eris.Wrapf(err, "failed to visit resource API version name %q", originalAPIVersionTypeName)
 		}
 
 		if !TypeEquals(originalAPIVersionTypeName, newAPIVersion) {
@@ -427,7 +426,7 @@ func IdentityVisitOfOneOfType[C any](this *TypeVisitor[C], it *OneOfType, ctx C)
 
 		obj, ok := newObj.(*ObjectType)
 		if !ok {
-			return nil, errors.Errorf("expected to visit oneof property object to result in object type, instead got %T", newObj)
+			return nil, eris.Errorf("expected to visit oneof property object to result in object type, instead got %T", newObj)
 		}
 
 		result = result.WithAdditionalPropertyObject(obj)
@@ -437,7 +436,7 @@ func IdentityVisitOfOneOfType[C any](this *TypeVisitor[C], it *OneOfType, ctx C)
 	err := it.Types().ForEachError(func(oneOf Type, _ int) error {
 		newType, err := this.Visit(oneOf, ctx)
 		if err != nil {
-			return errors.Wrapf(err, "failed to visit oneOf")
+			return eris.Wrapf(err, "failed to visit oneOf")
 		}
 
 		newTypes = append(newTypes, newType)
@@ -455,7 +454,7 @@ func IdentityVisitOfAllOfType[C any](this *TypeVisitor[C], it *AllOfType, ctx C)
 	err := it.Types().ForEachError(func(allOf Type, _ int) error {
 		newType, err := this.Visit(allOf, ctx)
 		if err != nil {
-			return errors.Wrapf(err, "failed to visit allOf")
+			return eris.Wrapf(err, "failed to visit allOf")
 		}
 
 		newTypes = append(newTypes, newType)
@@ -497,7 +496,7 @@ func typeSlicesFastEqual(t1 []Type, t2 []Type) bool {
 func IdentityVisitOfFlaggedType[C any](this *TypeVisitor[C], ft *FlaggedType, ctx C) (Type, error) {
 	nt, err := this.Visit(ft.element, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit flagged type %q", ft.element)
+		return nil, eris.Wrapf(err, "failed to visit flagged type %q", ft.element)
 	}
 
 	if nt == ft.element {
@@ -510,7 +509,7 @@ func IdentityVisitOfFlaggedType[C any](this *TypeVisitor[C], ft *FlaggedType, ct
 func IdentityVisitOfValidatedType[C any](this *TypeVisitor[C], v *ValidatedType, ctx C) (Type, error) {
 	nt, err := this.Visit(v.element, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit validated type %q", v.element)
+		return nil, eris.Wrapf(err, "failed to visit validated type %q", v.element)
 	}
 
 	if nt == v.element {
@@ -523,7 +522,7 @@ func IdentityVisitOfValidatedType[C any](this *TypeVisitor[C], v *ValidatedType,
 func IdentityVisitOfErroredType[C any](this *TypeVisitor[C], e *ErroredType, ctx C) (Type, error) {
 	nt, err := this.Visit(e.inner, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit errored type %q", e.inner)
+		return nil, eris.Wrapf(err, "failed to visit errored type %q", e.inner)
 	}
 
 	if nt == e.inner {

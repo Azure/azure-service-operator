@@ -28,7 +28,7 @@ func Test_Networking_TrafficManagerProfile(t *testing.T) {
 	configKey := "fqdn"
 	tmp := &network.TrafficManagerProfile{
 		ObjectMeta: tc.MakeObjectMeta("profile"),
-		Spec: network.Trafficmanagerprofile_Spec{
+		Spec: network.TrafficManagerProfile_Spec{
 			DnsConfig: &network.DnsConfig{
 				RelativeName: to.Ptr("aso-test"),
 			},
@@ -96,7 +96,7 @@ func Test_Networking_TrafficManagerProfile(t *testing.T) {
 func Networking_TrafficManagerProfiles_NestedEndpoint(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, tmp *network.TrafficManagerProfile) {
 	nestedTmp := &network.TrafficManagerProfile{
 		ObjectMeta: tc.MakeObjectMeta("profile"),
-		Spec: network.Trafficmanagerprofile_Spec{
+		Spec: network.TrafficManagerProfile_Spec{
 			DnsConfig: &network.DnsConfig{
 				RelativeName: to.Ptr("nested-test"),
 			},
@@ -115,7 +115,7 @@ func Networking_TrafficManagerProfiles_NestedEndpoint(tc *testcommon.KubePerTest
 
 	endpoint := &network.TrafficManagerProfilesNestedEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("nested-ep"),
-		Spec: network.Trafficmanagerprofiles_NestedEndpoint_Spec{
+		Spec: network.TrafficManagerProfilesNestedEndpoint_Spec{
 			EndpointLocation:        tc.AzureRegion,
 			Owner:                   testcommon.AsOwner(tmp),
 			TargetResourceReference: tc.MakeReferenceFromResource(nestedTmp),
@@ -129,7 +129,7 @@ func Networking_TrafficManagerProfiles_NestedEndpoint(tc *testcommon.KubePerTest
 func Networking_TrafficManagerProfiles_ExternalEndpoint(tc *testcommon.KubePerTestContext, tmp *network.TrafficManagerProfile) {
 	endpoint := &network.TrafficManagerProfilesExternalEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("external-ep"),
-		Spec: network.Trafficmanagerprofiles_ExternalEndpoint_Spec{
+		Spec: network.TrafficManagerProfilesExternalEndpoint_Spec{
 			AlwaysServe:      to.Ptr(network.EndpointProperties_AlwaysServe_Enabled),
 			EndpointLocation: tc.AzureRegion,
 			Owner:            testcommon.AsOwner(tmp),
@@ -142,7 +142,7 @@ func Networking_TrafficManagerProfiles_ExternalEndpoint(tc *testcommon.KubePerTe
 }
 
 func Networking_TrafficManagerProfiles_AzureEndpoint(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, tmp *network.TrafficManagerProfile) {
-	publicIp := newPublicIp(tc, testcommon.AsOwner(rg))
+	publicIp := newPublicIP20201101(tc, testcommon.AsOwner(rg))
 	publicIp.Spec.DnsSettings = &network2020.PublicIPAddressDnsSettings{
 		DomainNameLabel: to.Ptr("mydemoapp"),
 	}
@@ -150,7 +150,7 @@ func Networking_TrafficManagerProfiles_AzureEndpoint(tc *testcommon.KubePerTestC
 
 	endpoint := &network.TrafficManagerProfilesAzureEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("azure-ep"),
-		Spec: network.Trafficmanagerprofiles_AzureEndpoint_Spec{
+		Spec: network.TrafficManagerProfilesAzureEndpoint_Spec{
 			AlwaysServe:             to.Ptr(network.EndpointProperties_AlwaysServe_Enabled),
 			Owner:                   testcommon.AsOwner(tmp),
 			TargetResourceReference: tc.MakeReferenceFromResource(publicIp),

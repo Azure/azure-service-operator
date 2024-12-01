@@ -24,7 +24,7 @@ func Test_Networking_DnsResolver_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	vnet := newVNet(tc, testcommon.AsOwner(rg), []string{"10.0.0.0/8"})
+	vnet := newVNet20201101(tc, testcommon.AsOwner(rg), []string{"10.0.0.0/8"})
 
 	resolver := newDnsResolver(tc, rg, vnet)
 
@@ -66,17 +66,17 @@ func Test_Networking_DnsResolver_CRUD(t *testing.T) {
 }
 
 func DnsResolver_InboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolver *network.DnsResolver, vnet *v1api20201101.VirtualNetwork) {
-	subnet := newSubnet(tc, vnet, "10.0.0.0/24")
+	subnet := newSubnet20201101(tc, vnet, "10.0.0.0/24")
 	tc.CreateResourceAndWait(subnet)
 	defer tc.DeleteResourceAndWait(subnet)
 
 	inbound := &network.DnsResolversInboundEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("inbound"),
-		Spec: network.DnsResolvers_InboundEndpoint_Spec{
+		Spec: network.DnsResolversInboundEndpoint_Spec{
 			IpConfigurations: []network.IpConfiguration{
 				{
 					PrivateIpAllocationMethod: to.Ptr(network.IpConfiguration_PrivateIpAllocationMethod_Dynamic),
-					Subnet:                    &network.DnsresolverSubResource{Reference: tc.MakeReferenceFromResource(subnet)},
+					Subnet:                    &network.SubResource{Reference: tc.MakeReferenceFromResource(subnet)},
 				},
 			},
 			Location: tc.AzureRegion,
@@ -105,7 +105,7 @@ func DnsResolver_InboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolve
 }
 
 func DnsResolver_OutboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolver *network.DnsResolver, vnet *v1api20201101.VirtualNetwork) {
-	subnet := newSubnet(tc, vnet, "10.225.0.0/28")
+	subnet := newSubnet20201101(tc, vnet, "10.225.0.0/28")
 	tc.CreateResourceAndWait(subnet)
 	defer tc.DeleteResourceAndWait(subnet)
 
@@ -134,8 +134,8 @@ func DnsResolver_OutboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolv
 func newDnsResolversOutboundEndpoint(tc *testcommon.KubePerTestContext, resolver *network.DnsResolver, subnet *v1api20201101.VirtualNetworksSubnet) *network.DnsResolversOutboundEndpoint {
 	outbound := &network.DnsResolversOutboundEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("outbound"),
-		Spec: network.DnsResolvers_OutboundEndpoint_Spec{
-			Subnet:   &network.DnsresolverSubResource{Reference: tc.MakeReferenceFromResource(subnet)},
+		Spec: network.DnsResolversOutboundEndpoint_Spec{
+			Subnet:   &network.SubResource{Reference: tc.MakeReferenceFromResource(subnet)},
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(resolver),
 		},
@@ -149,7 +149,7 @@ func newDnsResolver(tc *testcommon.KubePerTestContext, rg *resources.ResourceGro
 		Spec: network.DnsResolver_Spec{
 			Location:       tc.AzureRegion,
 			Owner:          testcommon.AsOwner(rg),
-			VirtualNetwork: &network.DnsresolverSubResource{Reference: tc.MakeReferenceFromResource(vnet)},
+			VirtualNetwork: &network.SubResource{Reference: tc.MakeReferenceFromResource(vnet)},
 		},
 	}
 	return resolver

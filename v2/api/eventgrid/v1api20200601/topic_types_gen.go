@@ -6,15 +6,17 @@ package v1api20200601
 import (
 	"context"
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -96,6 +98,26 @@ func (topic *Topic) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Topic resource
 func (topic *Topic) defaultImpl() { topic.defaultAzureName() }
 
+var _ configmaps.Exporter = &Topic{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (topic *Topic) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if topic.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return topic.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Topic{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (topic *Topic) SecretDestinationExpressions() []*core.DestinationExpression {
+	if topic.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return topic.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &Topic{}
 
 // InitializeSpec initializes the spec for this resource from the given status
@@ -107,10 +129,10 @@ func (topic *Topic) InitializeSpec(status genruntime.ConvertibleStatus) error {
 	return fmt.Errorf("expected Status of type Topic_STATUS but received %T instead", status)
 }
 
-var _ genruntime.KubernetesExporter = &Topic{}
+var _ genruntime.KubernetesConfigExporter = &Topic{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (topic *Topic) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (topic *Topic) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(topic.Namespace)
 	if topic.Spec.OperatorSpec != nil && topic.Spec.OperatorSpec.ConfigMaps != nil {
 		if topic.Status.Endpoint != nil {
@@ -172,6 +194,10 @@ func (topic *Topic) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (topic *Topic) Owner() *genruntime.ResourceReference {
+	if topic.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(topic.Spec)
 	return topic.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -188,7 +214,7 @@ func (topic *Topic) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Topic_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	topic.Status = st
@@ -263,13 +289,13 @@ func (topic *Topic) validateConfigMapDestinations() (admission.Warnings, error) 
 	if topic.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	if topic.Spec.OperatorSpec.ConfigMaps == nil {
-		return nil, nil
+	var toValidate []*genruntime.ConfigMapDestination
+	if topic.Spec.OperatorSpec.ConfigMaps != nil {
+		toValidate = []*genruntime.ConfigMapDestination{
+			topic.Spec.OperatorSpec.ConfigMaps.Endpoint,
+		}
 	}
-	toValidate := []*genruntime.ConfigMapDestination{
-		topic.Spec.OperatorSpec.ConfigMaps.Endpoint,
-	}
-	return configmaps.ValidateDestinations(toValidate)
+	return configmaps.ValidateDestinations(topic, toValidate, topic.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -291,14 +317,14 @@ func (topic *Topic) validateSecretDestinations() (admission.Warnings, error) {
 	if topic.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	if topic.Spec.OperatorSpec.Secrets == nil {
-		return nil, nil
+	var toValidate []*genruntime.SecretDestination
+	if topic.Spec.OperatorSpec.Secrets != nil {
+		toValidate = []*genruntime.SecretDestination{
+			topic.Spec.OperatorSpec.Secrets.Key1,
+			topic.Spec.OperatorSpec.Secrets.Key2,
+		}
 	}
-	toValidate := []*genruntime.SecretDestination{
-		topic.Spec.OperatorSpec.Secrets.Key1,
-		topic.Spec.OperatorSpec.Secrets.Key2,
-	}
-	return secrets.ValidateDestinations(toValidate)
+	return secrets.ValidateDestinations(topic, toValidate, topic.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -321,7 +347,7 @@ func (topic *Topic) AssignProperties_From_Topic(source *storage.Topic) error {
 	var spec Topic_Spec
 	err := spec.AssignProperties_From_Topic_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Topic_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Topic_Spec() to populate field Spec")
 	}
 	topic.Spec = spec
 
@@ -329,7 +355,7 @@ func (topic *Topic) AssignProperties_From_Topic(source *storage.Topic) error {
 	var status Topic_STATUS
 	err = status.AssignProperties_From_Topic_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Topic_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Topic_STATUS() to populate field Status")
 	}
 	topic.Status = status
 
@@ -347,7 +373,7 @@ func (topic *Topic) AssignProperties_To_Topic(destination *storage.Topic) error 
 	var spec storage.Topic_Spec
 	err := topic.Spec.AssignProperties_To_Topic_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Topic_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Topic_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -355,7 +381,7 @@ func (topic *Topic) AssignProperties_To_Topic(destination *storage.Topic) error 
 	var status storage.Topic_STATUS
 	err = topic.Status.AssignProperties_To_Topic_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Topic_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Topic_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -428,7 +454,7 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if topic == nil {
 		return nil, nil
 	}
-	result := &Topic_Spec_ARM{}
+	result := &arm.Topic_Spec{}
 
 	// Set property "Location":
 	if topic.Location != nil {
@@ -444,19 +470,19 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		topic.InputSchema != nil ||
 		topic.InputSchemaMapping != nil ||
 		topic.PublicNetworkAccess != nil {
-		result.Properties = &TopicProperties_ARM{}
+		result.Properties = &arm.TopicProperties{}
 	}
 	for _, item := range topic.InboundIpRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.InboundIpRules = append(result.Properties.InboundIpRules, *item_ARM.(*InboundIpRule_ARM))
+		result.Properties.InboundIpRules = append(result.Properties.InboundIpRules, *item_ARM.(*arm.InboundIpRule))
 	}
 	if topic.InputSchema != nil {
 		var temp string
 		temp = string(*topic.InputSchema)
-		inputSchema := TopicProperties_InputSchema_ARM(temp)
+		inputSchema := arm.TopicProperties_InputSchema(temp)
 		result.Properties.InputSchema = &inputSchema
 	}
 	if topic.InputSchemaMapping != nil {
@@ -464,13 +490,13 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		inputSchemaMapping := *inputSchemaMapping_ARM.(*InputSchemaMapping_ARM)
+		inputSchemaMapping := *inputSchemaMapping_ARM.(*arm.InputSchemaMapping)
 		result.Properties.InputSchemaMapping = &inputSchemaMapping
 	}
 	if topic.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*topic.PublicNetworkAccess)
-		publicNetworkAccess := TopicProperties_PublicNetworkAccess_ARM(temp)
+		publicNetworkAccess := arm.TopicProperties_PublicNetworkAccess(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -486,14 +512,14 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (topic *Topic_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Topic_Spec_ARM{}
+	return &arm.Topic_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Topic_Spec_ARM)
+	typedInput, ok := armInput.(arm.Topic_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Topic_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Topic_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -588,13 +614,13 @@ func (topic *Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 	src = &storage.Topic_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = topic.AssignProperties_From_Topic_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -612,13 +638,13 @@ func (topic *Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	dst = &storage.Topic_Spec{}
 	err := topic.AssignProperties_To_Topic_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -639,7 +665,7 @@ func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *storage.Topic_
 			var inboundIpRule InboundIpRule
 			err := inboundIpRule.AssignProperties_From_InboundIpRule(&inboundIpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_InboundIpRule() to populate field InboundIpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_InboundIpRule() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -662,7 +688,7 @@ func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *storage.Topic_
 		var inputSchemaMapping InputSchemaMapping
 		err := inputSchemaMapping.AssignProperties_From_InputSchemaMapping(source.InputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_InputSchemaMapping() to populate field InputSchemaMapping")
+			return eris.Wrap(err, "calling AssignProperties_From_InputSchemaMapping() to populate field InputSchemaMapping")
 		}
 		topic.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -677,7 +703,7 @@ func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *storage.Topic_
 		var operatorSpec TopicOperatorSpec
 		err := operatorSpec.AssignProperties_From_TopicOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TopicOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_TopicOperatorSpec() to populate field OperatorSpec")
 		}
 		topic.OperatorSpec = &operatorSpec
 	} else {
@@ -725,7 +751,7 @@ func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *storage.Top
 			var inboundIpRule storage.InboundIpRule
 			err := inboundIpRuleItem.AssignProperties_To_InboundIpRule(&inboundIpRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_InboundIpRule() to populate field InboundIpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_InboundIpRule() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -747,7 +773,7 @@ func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *storage.Top
 		var inputSchemaMapping storage.InputSchemaMapping
 		err := topic.InputSchemaMapping.AssignProperties_To_InputSchemaMapping(&inputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_InputSchemaMapping() to populate field InputSchemaMapping")
+			return eris.Wrap(err, "calling AssignProperties_To_InputSchemaMapping() to populate field InputSchemaMapping")
 		}
 		destination.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -762,7 +788,7 @@ func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *storage.Top
 		var operatorSpec storage.TopicOperatorSpec
 		err := topic.OperatorSpec.AssignProperties_To_TopicOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TopicOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_TopicOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -814,7 +840,7 @@ func (topic *Topic_Spec) Initialize_From_Topic_STATUS(source *Topic_STATUS) erro
 			var inboundIpRule InboundIpRule
 			err := inboundIpRule.Initialize_From_InboundIpRule_STATUS(&inboundIpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_InboundIpRule_STATUS() to populate field InboundIpRules")
+				return eris.Wrap(err, "calling Initialize_From_InboundIpRule_STATUS() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -836,7 +862,7 @@ func (topic *Topic_Spec) Initialize_From_Topic_STATUS(source *Topic_STATUS) erro
 		var inputSchemaMapping InputSchemaMapping
 		err := inputSchemaMapping.Initialize_From_InputSchemaMapping_STATUS(source.InputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
+			return eris.Wrap(err, "calling Initialize_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
 		}
 		topic.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -933,13 +959,13 @@ func (topic *Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	src = &storage.Topic_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = topic.AssignProperties_From_Topic_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -957,13 +983,13 @@ func (topic *Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	dst = &storage.Topic_STATUS{}
 	err := topic.AssignProperties_To_Topic_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -973,14 +999,14 @@ var _ genruntime.FromARMConverter = &Topic_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (topic *Topic_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Topic_STATUS_ARM{}
+	return &arm.Topic_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Topic_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Topic_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Topic_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Topic_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1144,7 +1170,7 @@ func (topic *Topic_STATUS) AssignProperties_From_Topic_STATUS(source *storage.To
 			var inboundIpRule InboundIpRule_STATUS
 			err := inboundIpRule.AssignProperties_From_InboundIpRule_STATUS(&inboundIpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_InboundIpRule_STATUS() to populate field InboundIpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_InboundIpRule_STATUS() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -1167,7 +1193,7 @@ func (topic *Topic_STATUS) AssignProperties_From_Topic_STATUS(source *storage.To
 		var inputSchemaMapping InputSchemaMapping_STATUS
 		err := inputSchemaMapping.AssignProperties_From_InputSchemaMapping_STATUS(source.InputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
+			return eris.Wrap(err, "calling AssignProperties_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
 		}
 		topic.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -1192,7 +1218,7 @@ func (topic *Topic_STATUS) AssignProperties_From_Topic_STATUS(source *storage.To
 			var privateEndpointConnection PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1224,7 +1250,7 @@ func (topic *Topic_STATUS) AssignProperties_From_Topic_STATUS(source *storage.To
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		topic.SystemData = &systemDatum
 	} else {
@@ -1264,7 +1290,7 @@ func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *storage
 			var inboundIpRule storage.InboundIpRule_STATUS
 			err := inboundIpRuleItem.AssignProperties_To_InboundIpRule_STATUS(&inboundIpRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_InboundIpRule_STATUS() to populate field InboundIpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_InboundIpRule_STATUS() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -1286,7 +1312,7 @@ func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *storage
 		var inputSchemaMapping storage.InputSchemaMapping_STATUS
 		err := topic.InputSchemaMapping.AssignProperties_To_InputSchemaMapping_STATUS(&inputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
+			return eris.Wrap(err, "calling AssignProperties_To_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
 		}
 		destination.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -1311,7 +1337,7 @@ func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *storage
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1341,7 +1367,7 @@ func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *storage
 		var systemDatum storage.SystemData_STATUS
 		err := topic.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1374,14 +1400,14 @@ var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS_Topic_SubR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_ARM{}
+	return &arm.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1425,8 +1451,14 @@ func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) Assi
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type TopicOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
 	// ConfigMaps: configures where to place operator written ConfigMaps.
 	ConfigMaps *TopicOperatorConfigMaps `json:"configMaps,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 
 	// Secrets: configures where to place Azure generated secrets.
 	Secrets *TopicOperatorSecrets `json:"secrets,omitempty"`
@@ -1435,16 +1467,52 @@ type TopicOperatorSpec struct {
 // AssignProperties_From_TopicOperatorSpec populates our TopicOperatorSpec from the provided source TopicOperatorSpec
 func (operator *TopicOperatorSpec) AssignProperties_From_TopicOperatorSpec(source *storage.TopicOperatorSpec) error {
 
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
 	// ConfigMaps
 	if source.ConfigMaps != nil {
 		var configMap TopicOperatorConfigMaps
 		err := configMap.AssignProperties_From_TopicOperatorConfigMaps(source.ConfigMaps)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TopicOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_From_TopicOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		operator.ConfigMaps = &configMap
 	} else {
 		operator.ConfigMaps = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
 	}
 
 	// Secrets
@@ -1452,7 +1520,7 @@ func (operator *TopicOperatorSpec) AssignProperties_From_TopicOperatorSpec(sourc
 		var secret TopicOperatorSecrets
 		err := secret.AssignProperties_From_TopicOperatorSecrets(source.Secrets)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TopicOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_From_TopicOperatorSecrets() to populate field Secrets")
 		}
 		operator.Secrets = &secret
 	} else {
@@ -1468,16 +1536,52 @@ func (operator *TopicOperatorSpec) AssignProperties_To_TopicOperatorSpec(destina
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
 	// ConfigMaps
 	if operator.ConfigMaps != nil {
 		var configMap storage.TopicOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_TopicOperatorConfigMaps(&configMap)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TopicOperatorConfigMaps() to populate field ConfigMaps")
+			return eris.Wrap(err, "calling AssignProperties_To_TopicOperatorConfigMaps() to populate field ConfigMaps")
 		}
 		destination.ConfigMaps = &configMap
 	} else {
 		destination.ConfigMaps = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Secrets
@@ -1485,7 +1589,7 @@ func (operator *TopicOperatorSpec) AssignProperties_To_TopicOperatorSpec(destina
 		var secret storage.TopicOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_TopicOperatorSecrets(&secret)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TopicOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_To_TopicOperatorSecrets() to populate field Secrets")
 		}
 		destination.Secrets = &secret
 	} else {

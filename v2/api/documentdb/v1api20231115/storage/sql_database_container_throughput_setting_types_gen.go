@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type SqlDatabaseContainerThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS `json:"status,omitempty"`
+	Spec              SqlDatabaseContainerThroughputSetting_Spec   `json:"spec,omitempty"`
+	Status            SqlDatabaseContainerThroughputSetting_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerThroughputSetting{}
@@ -42,6 +45,26 @@ func (setting *SqlDatabaseContainerThroughputSetting) GetConditions() conditions
 // SetConditions sets the conditions on the resource status
 func (setting *SqlDatabaseContainerThroughputSetting) SetConditions(conditions conditions.Conditions) {
 	setting.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &SqlDatabaseContainerThroughputSetting{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (setting *SqlDatabaseContainerThroughputSetting) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &SqlDatabaseContainerThroughputSetting{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (setting *SqlDatabaseContainerThroughputSetting) SecretDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerThroughputSetting{}
@@ -86,11 +109,15 @@ func (setting *SqlDatabaseContainerThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *SqlDatabaseContainerThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS{}
+	return &SqlDatabaseContainerThroughputSetting_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (setting *SqlDatabaseContainerThroughputSetting) Owner() *genruntime.ResourceReference {
+	if setting.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
 	return setting.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -98,16 +125,16 @@ func (setting *SqlDatabaseContainerThroughputSetting) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (setting *SqlDatabaseContainerThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS); ok {
+	if st, ok := status.(*SqlDatabaseContainerThroughputSetting_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS
+	var st SqlDatabaseContainerThroughputSetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	setting.Status = st
@@ -137,10 +164,11 @@ type SqlDatabaseContainerThroughputSettingList struct {
 	Items           []SqlDatabaseContainerThroughputSetting `json:"items"`
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec
-type DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec struct {
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+// Storage version of v1api20231115.SqlDatabaseContainerThroughputSetting_Spec
+type SqlDatabaseContainerThroughputSetting_Spec struct {
+	Location        *string                                            `json:"location,omitempty"`
+	OperatorSpec    *SqlDatabaseContainerThroughputSettingOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -152,28 +180,28 @@ type DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec{}
+var _ genruntime.ConvertibleSpec = &SqlDatabaseContainerThroughputSetting_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec from the provided source
-func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our SqlDatabaseContainerThroughputSetting_Spec from the provided source
+func (setting *SqlDatabaseContainerThroughputSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == setting {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(setting)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec
-func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our SqlDatabaseContainerThroughputSetting_Spec
+func (setting *SqlDatabaseContainerThroughputSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == setting {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(setting)
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS
-type DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS struct {
+// Storage version of v1api20231115.SqlDatabaseContainerThroughputSetting_STATUS
+type SqlDatabaseContainerThroughputSetting_STATUS struct {
 	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
 	Id          *string                                          `json:"id,omitempty"`
 	Location    *string                                          `json:"location,omitempty"`
@@ -184,24 +212,32 @@ type DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS struct {
 	Type        *string                                          `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS{}
+var _ genruntime.ConvertibleStatus = &SqlDatabaseContainerThroughputSetting_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS from the provided source
-func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our SqlDatabaseContainerThroughputSetting_STATUS from the provided source
+func (setting *SqlDatabaseContainerThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == setting {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(setting)
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS
-func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our SqlDatabaseContainerThroughputSetting_STATUS
+func (setting *SqlDatabaseContainerThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == setting {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(setting)
+}
+
+// Storage version of v1api20231115.SqlDatabaseContainerThroughputSettingOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SqlDatabaseContainerThroughputSettingOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

@@ -7,8 +7,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
+
+	"github.com/go-logr/logr"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
@@ -113,7 +114,7 @@ func testSetup(t *testing.T) *testData {
 	logger := testcommon.NewTestLogger(t)
 	cfg := config.Values{}
 
-	crdManager := crdmanagement.NewManager(logger, kubeClient)
+	crdManager := crdmanagement.NewManager(logger, kubeClient, nil)
 
 	return &testData{
 		cfg:        cfg,
@@ -135,6 +136,7 @@ func (t *testData) getKnownStorageTypes() ([]*registration.StorageType, error) {
 		},
 		nil, // Not used for this test
 		t.kubeClient,
+		nil, // Not used for this test
 		nil, // Not used for this test
 		generic.Options{})
 }

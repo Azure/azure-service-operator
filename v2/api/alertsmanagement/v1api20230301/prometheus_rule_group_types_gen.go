@@ -5,11 +5,15 @@ package v1api20230301
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -90,6 +94,26 @@ func (group *PrometheusRuleGroup) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the PrometheusRuleGroup resource
 func (group *PrometheusRuleGroup) defaultImpl() { group.defaultAzureName() }
 
+var _ configmaps.Exporter = &PrometheusRuleGroup{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (group *PrometheusRuleGroup) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &PrometheusRuleGroup{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (group *PrometheusRuleGroup) SecretDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &PrometheusRuleGroup{}
 
 // InitializeSpec initializes the spec for this resource from the given status
@@ -149,6 +173,10 @@ func (group *PrometheusRuleGroup) NewEmptyStatus() genruntime.ConvertibleStatus 
 
 // Owner returns the ResourceReference of the owner
 func (group *PrometheusRuleGroup) Owner() *genruntime.ResourceReference {
+	if group.Spec.Owner == nil {
+		return nil
+	}
+
 	ownerGroup, ownerKind := genruntime.LookupOwnerGroupKind(group.Spec)
 	return group.Spec.Owner.AsResourceReference(ownerGroup, ownerKind)
 }
@@ -165,7 +193,7 @@ func (group *PrometheusRuleGroup) SetStatus(status genruntime.ConvertibleStatus)
 	var st PrometheusRuleGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	group.Status = st
@@ -208,7 +236,7 @@ func (group *PrometheusRuleGroup) ValidateUpdate(old runtime.Object) (admission.
 
 // createValidations validates the creation of the resource
 func (group *PrometheusRuleGroup) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){group.validateResourceReferences, group.validateOwnerReference}
+	return []func() (admission.Warnings, error){group.validateResourceReferences, group.validateOwnerReference, group.validateSecretDestinations, group.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +254,21 @@ func (group *PrometheusRuleGroup) updateValidations() []func(old runtime.Object)
 		func(old runtime.Object) (admission.Warnings, error) {
 			return group.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return group.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return group.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (group *PrometheusRuleGroup) validateConfigMapDestinations() (admission.Warnings, error) {
+	if group.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(group, nil, group.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -241,6 +283,14 @@ func (group *PrometheusRuleGroup) validateResourceReferences() (admission.Warnin
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (group *PrometheusRuleGroup) validateSecretDestinations() (admission.Warnings, error) {
+	if group.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(group, nil, group.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -263,7 +313,7 @@ func (group *PrometheusRuleGroup) AssignProperties_From_PrometheusRuleGroup(sour
 	var spec PrometheusRuleGroup_Spec
 	err := spec.AssignProperties_From_PrometheusRuleGroup_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PrometheusRuleGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_PrometheusRuleGroup_Spec() to populate field Spec")
 	}
 	group.Spec = spec
 
@@ -271,7 +321,7 @@ func (group *PrometheusRuleGroup) AssignProperties_From_PrometheusRuleGroup(sour
 	var status PrometheusRuleGroup_STATUS
 	err = status.AssignProperties_From_PrometheusRuleGroup_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PrometheusRuleGroup_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_PrometheusRuleGroup_STATUS() to populate field Status")
 	}
 	group.Status = status
 
@@ -289,7 +339,7 @@ func (group *PrometheusRuleGroup) AssignProperties_To_PrometheusRuleGroup(destin
 	var spec storage.PrometheusRuleGroup_Spec
 	err := group.Spec.AssignProperties_To_PrometheusRuleGroup_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PrometheusRuleGroup_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_PrometheusRuleGroup_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -297,7 +347,7 @@ func (group *PrometheusRuleGroup) AssignProperties_To_PrometheusRuleGroup(destin
 	var status storage.PrometheusRuleGroup_STATUS
 	err = group.Status.AssignProperties_To_PrometheusRuleGroup_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PrometheusRuleGroup_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_PrometheusRuleGroup_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -352,6 +402,10 @@ type PrometheusRuleGroup_Spec struct {
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *PrometheusRuleGroupOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -378,7 +432,7 @@ func (group *PrometheusRuleGroup_Spec) ConvertToARM(resolved genruntime.ConvertT
 	if group == nil {
 		return nil, nil
 	}
-	result := &PrometheusRuleGroup_Spec_ARM{}
+	result := &arm.PrometheusRuleGroup_Spec{}
 
 	// Set property "Location":
 	if group.Location != nil {
@@ -396,7 +450,7 @@ func (group *PrometheusRuleGroup_Spec) ConvertToARM(resolved genruntime.ConvertT
 		group.Interval != nil ||
 		group.Rules != nil ||
 		group.ScopesReferences != nil {
-		result.Properties = &PrometheusRuleGroupProperties_ARM{}
+		result.Properties = &arm.PrometheusRuleGroupProperties{}
 	}
 	if group.ClusterName != nil {
 		clusterName := *group.ClusterName
@@ -419,7 +473,7 @@ func (group *PrometheusRuleGroup_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Rules = append(result.Properties.Rules, *item_ARM.(*PrometheusRule_ARM))
+		result.Properties.Rules = append(result.Properties.Rules, *item_ARM.(*arm.PrometheusRule))
 	}
 	for _, item := range group.ScopesReferences {
 		itemARMID, err := resolved.ResolvedReferences.Lookup(item)
@@ -441,14 +495,14 @@ func (group *PrometheusRuleGroup_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *PrometheusRuleGroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRuleGroup_Spec_ARM{}
+	return &arm.PrometheusRuleGroup_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *PrometheusRuleGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRuleGroup_Spec_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRuleGroup_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRuleGroup_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRuleGroup_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -495,6 +549,8 @@ func (group *PrometheusRuleGroup_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		location := *typedInput.Location
 		group.Location = &location
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	group.Owner = &genruntime.KnownResourceReference{
@@ -543,13 +599,13 @@ func (group *PrometheusRuleGroup_Spec) ConvertSpecFrom(source genruntime.Convert
 	src = &storage.PrometheusRuleGroup_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_PrometheusRuleGroup_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -567,13 +623,13 @@ func (group *PrometheusRuleGroup_Spec) ConvertSpecTo(destination genruntime.Conv
 	dst = &storage.PrometheusRuleGroup_Spec{}
 	err := group.AssignProperties_To_PrometheusRuleGroup_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -605,6 +661,18 @@ func (group *PrometheusRuleGroup_Spec) AssignProperties_From_PrometheusRuleGroup
 	// Location
 	group.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec PrometheusRuleGroupOperatorSpec
+		err := operatorSpec.AssignProperties_From_PrometheusRuleGroupOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_PrometheusRuleGroupOperatorSpec() to populate field OperatorSpec")
+		}
+		group.OperatorSpec = &operatorSpec
+	} else {
+		group.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -622,7 +690,7 @@ func (group *PrometheusRuleGroup_Spec) AssignProperties_From_PrometheusRuleGroup
 			var rule PrometheusRule
 			err := rule.AssignProperties_From_PrometheusRule(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrometheusRule() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_From_PrometheusRule() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -679,6 +747,18 @@ func (group *PrometheusRuleGroup_Spec) AssignProperties_To_PrometheusRuleGroup_S
 	// Location
 	destination.Location = genruntime.ClonePointerToString(group.Location)
 
+	// OperatorSpec
+	if group.OperatorSpec != nil {
+		var operatorSpec storage.PrometheusRuleGroupOperatorSpec
+		err := group.OperatorSpec.AssignProperties_To_PrometheusRuleGroupOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_PrometheusRuleGroupOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	destination.OriginalVersion = group.OriginalVersion()
 
@@ -699,7 +779,7 @@ func (group *PrometheusRuleGroup_Spec) AssignProperties_To_PrometheusRuleGroup_S
 			var rule storage.PrometheusRule
 			err := ruleItem.AssignProperties_To_PrometheusRule(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrometheusRule() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_To_PrometheusRule() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -767,7 +847,7 @@ func (group *PrometheusRuleGroup_Spec) Initialize_From_PrometheusRuleGroup_STATU
 			var rule PrometheusRule
 			err := rule.Initialize_From_PrometheusRule_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_PrometheusRule_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling Initialize_From_PrometheusRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -849,13 +929,13 @@ func (group *PrometheusRuleGroup_STATUS) ConvertStatusFrom(source genruntime.Con
 	src = &storage.PrometheusRuleGroup_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = group.AssignProperties_From_PrometheusRuleGroup_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -873,13 +953,13 @@ func (group *PrometheusRuleGroup_STATUS) ConvertStatusTo(destination genruntime.
 	dst = &storage.PrometheusRuleGroup_STATUS{}
 	err := group.AssignProperties_To_PrometheusRuleGroup_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -889,14 +969,14 @@ var _ genruntime.FromARMConverter = &PrometheusRuleGroup_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *PrometheusRuleGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRuleGroup_STATUS_ARM{}
+	return &arm.PrometheusRuleGroup_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *PrometheusRuleGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRuleGroup_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRuleGroup_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRuleGroup_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRuleGroup_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClusterName":
@@ -1046,7 +1126,7 @@ func (group *PrometheusRuleGroup_STATUS) AssignProperties_From_PrometheusRuleGro
 			var rule PrometheusRule_STATUS
 			err := rule.AssignProperties_From_PrometheusRule_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrometheusRule_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_From_PrometheusRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1063,7 +1143,7 @@ func (group *PrometheusRuleGroup_STATUS) AssignProperties_From_PrometheusRuleGro
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		group.SystemData = &systemDatum
 	} else {
@@ -1123,7 +1203,7 @@ func (group *PrometheusRuleGroup_STATUS) AssignProperties_To_PrometheusRuleGroup
 			var rule storage.PrometheusRule_STATUS
 			err := ruleItem.AssignProperties_To_PrometheusRule_STATUS(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrometheusRule_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_To_PrometheusRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1140,7 +1220,7 @@ func (group *PrometheusRuleGroup_STATUS) AssignProperties_To_PrometheusRuleGroup
 		var systemDatum storage.SystemData_STATUS
 		err := group.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1208,7 +1288,7 @@ func (rule *PrometheusRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if rule == nil {
 		return nil, nil
 	}
-	result := &PrometheusRule_ARM{}
+	result := &arm.PrometheusRule{}
 
 	// Set property "Actions":
 	for _, item := range rule.Actions {
@@ -1216,7 +1296,7 @@ func (rule *PrometheusRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		if err != nil {
 			return nil, err
 		}
-		result.Actions = append(result.Actions, *item_ARM.(*PrometheusRuleGroupAction_ARM))
+		result.Actions = append(result.Actions, *item_ARM.(*arm.PrometheusRuleGroupAction))
 	}
 
 	// Set property "Alert":
@@ -1271,7 +1351,7 @@ func (rule *PrometheusRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		if err != nil {
 			return nil, err
 		}
-		resolveConfiguration := *resolveConfiguration_ARM.(*PrometheusRuleResolveConfiguration_ARM)
+		resolveConfiguration := *resolveConfiguration_ARM.(*arm.PrometheusRuleResolveConfiguration)
 		result.ResolveConfiguration = &resolveConfiguration
 	}
 
@@ -1285,14 +1365,14 @@ func (rule *PrometheusRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *PrometheusRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRule_ARM{}
+	return &arm.PrometheusRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *PrometheusRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRule_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRule, got %T", armInput)
 	}
 
 	// Set property "Actions":
@@ -1384,7 +1464,7 @@ func (rule *PrometheusRule) AssignProperties_From_PrometheusRule(source *storage
 			var action PrometheusRuleGroupAction
 			err := action.AssignProperties_From_PrometheusRuleGroupAction(&actionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrometheusRuleGroupAction() to populate field Actions")
+				return eris.Wrap(err, "calling AssignProperties_From_PrometheusRuleGroupAction() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -1424,7 +1504,7 @@ func (rule *PrometheusRule) AssignProperties_From_PrometheusRule(source *storage
 		var resolveConfiguration PrometheusRuleResolveConfiguration
 		err := resolveConfiguration.AssignProperties_From_PrometheusRuleResolveConfiguration(source.ResolveConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrometheusRuleResolveConfiguration() to populate field ResolveConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_PrometheusRuleResolveConfiguration() to populate field ResolveConfiguration")
 		}
 		rule.ResolveConfiguration = &resolveConfiguration
 	} else {
@@ -1452,7 +1532,7 @@ func (rule *PrometheusRule) AssignProperties_To_PrometheusRule(destination *stor
 			var action storage.PrometheusRuleGroupAction
 			err := actionItem.AssignProperties_To_PrometheusRuleGroupAction(&action)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrometheusRuleGroupAction() to populate field Actions")
+				return eris.Wrap(err, "calling AssignProperties_To_PrometheusRuleGroupAction() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -1492,7 +1572,7 @@ func (rule *PrometheusRule) AssignProperties_To_PrometheusRule(destination *stor
 		var resolveConfiguration storage.PrometheusRuleResolveConfiguration
 		err := rule.ResolveConfiguration.AssignProperties_To_PrometheusRuleResolveConfiguration(&resolveConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrometheusRuleResolveConfiguration() to populate field ResolveConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_PrometheusRuleResolveConfiguration() to populate field ResolveConfiguration")
 		}
 		destination.ResolveConfiguration = &resolveConfiguration
 	} else {
@@ -1525,7 +1605,7 @@ func (rule *PrometheusRule) Initialize_From_PrometheusRule_STATUS(source *Promet
 			var action PrometheusRuleGroupAction
 			err := action.Initialize_From_PrometheusRuleGroupAction_STATUS(&actionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_PrometheusRuleGroupAction_STATUS() to populate field Actions")
+				return eris.Wrap(err, "calling Initialize_From_PrometheusRuleGroupAction_STATUS() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -1565,7 +1645,7 @@ func (rule *PrometheusRule) Initialize_From_PrometheusRule_STATUS(source *Promet
 		var resolveConfiguration PrometheusRuleResolveConfiguration
 		err := resolveConfiguration.Initialize_From_PrometheusRuleResolveConfiguration_STATUS(source.ResolveConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PrometheusRuleResolveConfiguration_STATUS() to populate field ResolveConfiguration")
+			return eris.Wrap(err, "calling Initialize_From_PrometheusRuleResolveConfiguration_STATUS() to populate field ResolveConfiguration")
 		}
 		rule.ResolveConfiguration = &resolveConfiguration
 	} else {
@@ -1619,14 +1699,14 @@ var _ genruntime.FromARMConverter = &PrometheusRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *PrometheusRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRule_STATUS_ARM{}
+	return &arm.PrometheusRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *PrometheusRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "Actions":
@@ -1718,7 +1798,7 @@ func (rule *PrometheusRule_STATUS) AssignProperties_From_PrometheusRule_STATUS(s
 			var action PrometheusRuleGroupAction_STATUS
 			err := action.AssignProperties_From_PrometheusRuleGroupAction_STATUS(&actionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrometheusRuleGroupAction_STATUS() to populate field Actions")
+				return eris.Wrap(err, "calling AssignProperties_From_PrometheusRuleGroupAction_STATUS() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -1758,7 +1838,7 @@ func (rule *PrometheusRule_STATUS) AssignProperties_From_PrometheusRule_STATUS(s
 		var resolveConfiguration PrometheusRuleResolveConfiguration_STATUS
 		err := resolveConfiguration.AssignProperties_From_PrometheusRuleResolveConfiguration_STATUS(source.ResolveConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrometheusRuleResolveConfiguration_STATUS() to populate field ResolveConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_PrometheusRuleResolveConfiguration_STATUS() to populate field ResolveConfiguration")
 		}
 		rule.ResolveConfiguration = &resolveConfiguration
 	} else {
@@ -1786,7 +1866,7 @@ func (rule *PrometheusRule_STATUS) AssignProperties_To_PrometheusRule_STATUS(des
 			var action storage.PrometheusRuleGroupAction_STATUS
 			err := actionItem.AssignProperties_To_PrometheusRuleGroupAction_STATUS(&action)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrometheusRuleGroupAction_STATUS() to populate field Actions")
+				return eris.Wrap(err, "calling AssignProperties_To_PrometheusRuleGroupAction_STATUS() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -1826,7 +1906,7 @@ func (rule *PrometheusRule_STATUS) AssignProperties_To_PrometheusRule_STATUS(des
 		var resolveConfiguration storage.PrometheusRuleResolveConfiguration_STATUS
 		err := rule.ResolveConfiguration.AssignProperties_To_PrometheusRuleResolveConfiguration_STATUS(&resolveConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrometheusRuleResolveConfiguration_STATUS() to populate field ResolveConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_PrometheusRuleResolveConfiguration_STATUS() to populate field ResolveConfiguration")
 		}
 		destination.ResolveConfiguration = &resolveConfiguration
 	} else {
@@ -1835,6 +1915,110 @@ func (rule *PrometheusRule_STATUS) AssignProperties_To_PrometheusRule_STATUS(des
 
 	// Severity
 	destination.Severity = genruntime.ClonePointerToInt(rule.Severity)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type PrometheusRuleGroupOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_PrometheusRuleGroupOperatorSpec populates our PrometheusRuleGroupOperatorSpec from the provided source PrometheusRuleGroupOperatorSpec
+func (operator *PrometheusRuleGroupOperatorSpec) AssignProperties_From_PrometheusRuleGroupOperatorSpec(source *storage.PrometheusRuleGroupOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PrometheusRuleGroupOperatorSpec populates the provided destination PrometheusRuleGroupOperatorSpec from our PrometheusRuleGroupOperatorSpec
+func (operator *PrometheusRuleGroupOperatorSpec) AssignProperties_To_PrometheusRuleGroupOperatorSpec(destination *storage.PrometheusRuleGroupOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1872,14 +2056,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUS_ARM{}
+	return &arm.SystemData_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreatedAt":
@@ -2023,7 +2207,7 @@ func (action *PrometheusRuleGroupAction) ConvertToARM(resolved genruntime.Conver
 	if action == nil {
 		return nil, nil
 	}
-	result := &PrometheusRuleGroupAction_ARM{}
+	result := &arm.PrometheusRuleGroupAction{}
 
 	// Set property "ActionGroupId":
 	if action.ActionGroupReference != nil {
@@ -2047,14 +2231,14 @@ func (action *PrometheusRuleGroupAction) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (action *PrometheusRuleGroupAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRuleGroupAction_ARM{}
+	return &arm.PrometheusRuleGroupAction{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (action *PrometheusRuleGroupAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRuleGroupAction_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRuleGroupAction)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRuleGroupAction_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRuleGroupAction, got %T", armInput)
 	}
 
 	// no assignment for property "ActionGroupReference"
@@ -2147,14 +2331,14 @@ var _ genruntime.FromARMConverter = &PrometheusRuleGroupAction_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (action *PrometheusRuleGroupAction_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRuleGroupAction_STATUS_ARM{}
+	return &arm.PrometheusRuleGroupAction_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (action *PrometheusRuleGroupAction_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRuleGroupAction_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRuleGroupAction_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRuleGroupAction_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRuleGroupAction_STATUS, got %T", armInput)
 	}
 
 	// Set property "ActionGroupId":
@@ -2226,7 +2410,7 @@ func (configuration *PrometheusRuleResolveConfiguration) ConvertToARM(resolved g
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &PrometheusRuleResolveConfiguration_ARM{}
+	result := &arm.PrometheusRuleResolveConfiguration{}
 
 	// Set property "AutoResolved":
 	if configuration.AutoResolved != nil {
@@ -2244,14 +2428,14 @@ func (configuration *PrometheusRuleResolveConfiguration) ConvertToARM(resolved g
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *PrometheusRuleResolveConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRuleResolveConfiguration_ARM{}
+	return &arm.PrometheusRuleResolveConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *PrometheusRuleResolveConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRuleResolveConfiguration_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRuleResolveConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRuleResolveConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRuleResolveConfiguration, got %T", armInput)
 	}
 
 	// Set property "AutoResolved":
@@ -2346,14 +2530,14 @@ var _ genruntime.FromARMConverter = &PrometheusRuleResolveConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *PrometheusRuleResolveConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRuleResolveConfiguration_STATUS_ARM{}
+	return &arm.PrometheusRuleResolveConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *PrometheusRuleResolveConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRuleResolveConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRuleResolveConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRuleResolveConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRuleResolveConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "AutoResolved":

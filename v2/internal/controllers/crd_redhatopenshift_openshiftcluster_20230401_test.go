@@ -10,12 +10,12 @@ import (
 	"os"
 	"testing"
 
-	"github.com/google/uuid"
 	. "github.com/onsi/gomega"
+
+	"github.com/google/uuid"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	aro "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122"
-
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
@@ -52,10 +52,10 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 		},
 	}
 
-	vnet := newVNet(tc, testcommon.AsOwner(rg), []string{"10.100.0.0/15"})
-	masterSubnet := newSubnet(tc, vnet, "10.100.76.0/24")
+	vnet := newVNet20201101(tc, testcommon.AsOwner(rg), []string{"10.100.0.0/15"})
+	masterSubnet := newSubnet20201101(tc, vnet, "10.100.76.0/24")
 	masterSubnet.Spec.ServiceEndpoints = serviceEndpoints
-	workerSubnet := newSubnet(tc, vnet, "10.100.70.0/23")
+	workerSubnet := newSubnet20201101(tc, vnet, "10.100.70.0/23")
 	workerSubnet.Spec.ServiceEndpoints = serviceEndpoints
 
 	contributorRoleId := fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription)

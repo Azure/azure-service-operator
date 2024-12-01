@@ -7,7 +7,10 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -26,8 +29,8 @@ import (
 type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_BlobService_Spec   `json:"spec,omitempty"`
-	Status            StorageAccounts_BlobService_STATUS `json:"status,omitempty"`
+	Spec              StorageAccountsBlobService_Spec   `json:"spec,omitempty"`
+	Status            StorageAccountsBlobService_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobService{}
@@ -51,12 +54,12 @@ func (service *StorageAccountsBlobService) ConvertFrom(hub conversion.Hub) error
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = service.AssignProperties_From_StorageAccountsBlobService(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to service")
+		return eris.Wrap(err, "converting from source to service")
 	}
 
 	return nil
@@ -68,14 +71,34 @@ func (service *StorageAccountsBlobService) ConvertTo(hub conversion.Hub) error {
 	var destination storage.StorageAccountsBlobService
 	err := service.AssignProperties_To_StorageAccountsBlobService(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from service")
+		return eris.Wrap(err, "converting to destination from service")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
+}
+
+var _ configmaps.Exporter = &StorageAccountsBlobService{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (service *StorageAccountsBlobService) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if service.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return service.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &StorageAccountsBlobService{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (service *StorageAccountsBlobService) SecretDestinationExpressions() []*core.DestinationExpression {
+	if service.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return service.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobService{}
@@ -120,11 +143,15 @@ func (service *StorageAccountsBlobService) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (service *StorageAccountsBlobService) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &StorageAccounts_BlobService_STATUS{}
+	return &StorageAccountsBlobService_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (service *StorageAccountsBlobService) Owner() *genruntime.ResourceReference {
+	if service.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(service.Spec)
 	return service.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -132,16 +159,16 @@ func (service *StorageAccountsBlobService) Owner() *genruntime.ResourceReference
 // SetStatus sets the status of this resource
 func (service *StorageAccountsBlobService) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*StorageAccounts_BlobService_STATUS); ok {
+	if st, ok := status.(*StorageAccountsBlobService_STATUS); ok {
 		service.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st StorageAccounts_BlobService_STATUS
+	var st StorageAccountsBlobService_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	service.Status = st
@@ -155,18 +182,18 @@ func (service *StorageAccountsBlobService) AssignProperties_From_StorageAccounts
 	service.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec StorageAccounts_BlobService_Spec
-	err := spec.AssignProperties_From_StorageAccounts_BlobService_Spec(&source.Spec)
+	var spec StorageAccountsBlobService_Spec
+	err := spec.AssignProperties_From_StorageAccountsBlobService_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_BlobService_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsBlobService_Spec() to populate field Spec")
 	}
 	service.Spec = spec
 
 	// Status
-	var status StorageAccounts_BlobService_STATUS
-	err = status.AssignProperties_From_StorageAccounts_BlobService_STATUS(&source.Status)
+	var status StorageAccountsBlobService_STATUS
+	err = status.AssignProperties_From_StorageAccountsBlobService_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_BlobService_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsBlobService_STATUS() to populate field Status")
 	}
 	service.Status = status
 
@@ -175,7 +202,7 @@ func (service *StorageAccountsBlobService) AssignProperties_From_StorageAccounts
 	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsBlobService); ok {
 		err := augmentedService.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -190,18 +217,18 @@ func (service *StorageAccountsBlobService) AssignProperties_To_StorageAccountsBl
 	destination.ObjectMeta = *service.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.StorageAccounts_BlobService_Spec
-	err := service.Spec.AssignProperties_To_StorageAccounts_BlobService_Spec(&spec)
+	var spec storage.StorageAccountsBlobService_Spec
+	err := service.Spec.AssignProperties_To_StorageAccountsBlobService_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_BlobService_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsBlobService_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.StorageAccounts_BlobService_STATUS
-	err = service.Status.AssignProperties_To_StorageAccounts_BlobService_STATUS(&status)
+	var status storage.StorageAccountsBlobService_STATUS
+	err = service.Status.AssignProperties_To_StorageAccountsBlobService_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_BlobService_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsBlobService_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -210,7 +237,7 @@ func (service *StorageAccountsBlobService) AssignProperties_To_StorageAccountsBl
 	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsBlobService); ok {
 		err := augmentedService.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -243,17 +270,18 @@ type augmentConversionForStorageAccountsBlobService interface {
 	AssignPropertiesTo(dst *storage.StorageAccountsBlobService) error
 }
 
-// Storage version of v1api20210401.StorageAccounts_BlobService_Spec
-type StorageAccounts_BlobService_Spec struct {
-	AutomaticSnapshotPolicyEnabled *bool                         `json:"automaticSnapshotPolicyEnabled,omitempty"`
-	ChangeFeed                     *ChangeFeed                   `json:"changeFeed,omitempty"`
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy        `json:"containerDeleteRetentionPolicy,omitempty"`
-	Cors                           *CorsRules                    `json:"cors,omitempty"`
-	DefaultServiceVersion          *string                       `json:"defaultServiceVersion,omitempty"`
-	DeleteRetentionPolicy          *DeleteRetentionPolicy        `json:"deleteRetentionPolicy,omitempty"`
-	IsVersioningEnabled            *bool                         `json:"isVersioningEnabled,omitempty"`
-	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy `json:"lastAccessTimeTrackingPolicy,omitempty"`
-	OriginalVersion                string                        `json:"originalVersion,omitempty"`
+// Storage version of v1api20210401.StorageAccountsBlobService_Spec
+type StorageAccountsBlobService_Spec struct {
+	AutomaticSnapshotPolicyEnabled *bool                                   `json:"automaticSnapshotPolicyEnabled,omitempty"`
+	ChangeFeed                     *ChangeFeed                             `json:"changeFeed,omitempty"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy                  `json:"containerDeleteRetentionPolicy,omitempty"`
+	Cors                           *CorsRules                              `json:"cors,omitempty"`
+	DefaultServiceVersion          *string                                 `json:"defaultServiceVersion,omitempty"`
+	DeleteRetentionPolicy          *DeleteRetentionPolicy                  `json:"deleteRetentionPolicy,omitempty"`
+	IsVersioningEnabled            *bool                                   `json:"isVersioningEnabled,omitempty"`
+	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy           `json:"lastAccessTimeTrackingPolicy,omitempty"`
+	OperatorSpec                   *StorageAccountsBlobServiceOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                string                                  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -264,58 +292,58 @@ type StorageAccounts_BlobService_Spec struct {
 	RestorePolicy *RestorePolicyProperties           `json:"restorePolicy,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccounts_BlobService_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsBlobService_Spec{}
 
-// ConvertSpecFrom populates our StorageAccounts_BlobService_Spec from the provided source
-func (service *StorageAccounts_BlobService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.StorageAccounts_BlobService_Spec)
+// ConvertSpecFrom populates our StorageAccountsBlobService_Spec from the provided source
+func (service *StorageAccountsBlobService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.StorageAccountsBlobService_Spec)
 	if ok {
 		// Populate our instance from source
-		return service.AssignProperties_From_StorageAccounts_BlobService_Spec(src)
+		return service.AssignProperties_From_StorageAccountsBlobService_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.StorageAccounts_BlobService_Spec{}
+	src = &storage.StorageAccountsBlobService_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = service.AssignProperties_From_StorageAccounts_BlobService_Spec(src)
+	err = service.AssignProperties_From_StorageAccountsBlobService_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccounts_BlobService_Spec
-func (service *StorageAccounts_BlobService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.StorageAccounts_BlobService_Spec)
+// ConvertSpecTo populates the provided destination from our StorageAccountsBlobService_Spec
+func (service *StorageAccountsBlobService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.StorageAccountsBlobService_Spec)
 	if ok {
 		// Populate destination from our instance
-		return service.AssignProperties_To_StorageAccounts_BlobService_Spec(dst)
+		return service.AssignProperties_To_StorageAccountsBlobService_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.StorageAccounts_BlobService_Spec{}
-	err := service.AssignProperties_To_StorageAccounts_BlobService_Spec(dst)
+	dst = &storage.StorageAccountsBlobService_Spec{}
+	err := service.AssignProperties_To_StorageAccountsBlobService_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_StorageAccounts_BlobService_Spec populates our StorageAccounts_BlobService_Spec from the provided source StorageAccounts_BlobService_Spec
-func (service *StorageAccounts_BlobService_Spec) AssignProperties_From_StorageAccounts_BlobService_Spec(source *storage.StorageAccounts_BlobService_Spec) error {
+// AssignProperties_From_StorageAccountsBlobService_Spec populates our StorageAccountsBlobService_Spec from the provided source StorageAccountsBlobService_Spec
+func (service *StorageAccountsBlobService_Spec) AssignProperties_From_StorageAccountsBlobService_Spec(source *storage.StorageAccountsBlobService_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -332,7 +360,7 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_From_StorageAc
 		var changeFeed ChangeFeed
 		err := changeFeed.AssignProperties_From_ChangeFeed(source.ChangeFeed)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ChangeFeed() to populate field ChangeFeed")
+			return eris.Wrap(err, "calling AssignProperties_From_ChangeFeed() to populate field ChangeFeed")
 		}
 		service.ChangeFeed = &changeFeed
 	} else {
@@ -344,7 +372,7 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_From_StorageAc
 		var containerDeleteRetentionPolicy DeleteRetentionPolicy
 		err := containerDeleteRetentionPolicy.AssignProperties_From_DeleteRetentionPolicy(source.ContainerDeleteRetentionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy() to populate field ContainerDeleteRetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy() to populate field ContainerDeleteRetentionPolicy")
 		}
 		service.ContainerDeleteRetentionPolicy = &containerDeleteRetentionPolicy
 	} else {
@@ -356,7 +384,7 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_From_StorageAc
 		var cor CorsRules
 		err := cor.AssignProperties_From_CorsRules(source.Cors)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CorsRules() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_From_CorsRules() to populate field Cors")
 		}
 		service.Cors = &cor
 	} else {
@@ -371,7 +399,7 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_From_StorageAc
 		var deleteRetentionPolicy DeleteRetentionPolicy
 		err := deleteRetentionPolicy.AssignProperties_From_DeleteRetentionPolicy(source.DeleteRetentionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy() to populate field DeleteRetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy() to populate field DeleteRetentionPolicy")
 		}
 		service.DeleteRetentionPolicy = &deleteRetentionPolicy
 	} else {
@@ -391,11 +419,23 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_From_StorageAc
 		var lastAccessTimeTrackingPolicy LastAccessTimeTrackingPolicy
 		err := lastAccessTimeTrackingPolicy.AssignProperties_From_LastAccessTimeTrackingPolicy(source.LastAccessTimeTrackingPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_LastAccessTimeTrackingPolicy() to populate field LastAccessTimeTrackingPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_LastAccessTimeTrackingPolicy() to populate field LastAccessTimeTrackingPolicy")
 		}
 		service.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
 	} else {
 		service.LastAccessTimeTrackingPolicy = nil
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec StorageAccountsBlobServiceOperatorSpec
+		err := operatorSpec.AssignProperties_From_StorageAccountsBlobServiceOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_StorageAccountsBlobServiceOperatorSpec() to populate field OperatorSpec")
+		}
+		service.OperatorSpec = &operatorSpec
+	} else {
+		service.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -414,7 +454,7 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_From_StorageAc
 		var restorePolicy RestorePolicyProperties
 		err := restorePolicy.AssignProperties_From_RestorePolicyProperties(source.RestorePolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RestorePolicyProperties() to populate field RestorePolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_RestorePolicyProperties() to populate field RestorePolicy")
 		}
 		service.RestorePolicy = &restorePolicy
 	} else {
@@ -428,12 +468,12 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_From_StorageAc
 		service.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForStorageAccounts_BlobService_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForStorageAccountsBlobService_Spec interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
-	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_BlobService_Spec); ok {
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsBlobService_Spec); ok {
 		err := augmentedService.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -441,8 +481,8 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_From_StorageAc
 	return nil
 }
 
-// AssignProperties_To_StorageAccounts_BlobService_Spec populates the provided destination StorageAccounts_BlobService_Spec from our StorageAccounts_BlobService_Spec
-func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAccounts_BlobService_Spec(destination *storage.StorageAccounts_BlobService_Spec) error {
+// AssignProperties_To_StorageAccountsBlobService_Spec populates the provided destination StorageAccountsBlobService_Spec from our StorageAccountsBlobService_Spec
+func (service *StorageAccountsBlobService_Spec) AssignProperties_To_StorageAccountsBlobService_Spec(destination *storage.StorageAccountsBlobService_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(service.PropertyBag)
 
@@ -459,7 +499,7 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAcco
 		var changeFeed storage.ChangeFeed
 		err := service.ChangeFeed.AssignProperties_To_ChangeFeed(&changeFeed)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ChangeFeed() to populate field ChangeFeed")
+			return eris.Wrap(err, "calling AssignProperties_To_ChangeFeed() to populate field ChangeFeed")
 		}
 		destination.ChangeFeed = &changeFeed
 	} else {
@@ -471,7 +511,7 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAcco
 		var containerDeleteRetentionPolicy storage.DeleteRetentionPolicy
 		err := service.ContainerDeleteRetentionPolicy.AssignProperties_To_DeleteRetentionPolicy(&containerDeleteRetentionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy() to populate field ContainerDeleteRetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy() to populate field ContainerDeleteRetentionPolicy")
 		}
 		destination.ContainerDeleteRetentionPolicy = &containerDeleteRetentionPolicy
 	} else {
@@ -483,7 +523,7 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAcco
 		var cor storage.CorsRules
 		err := service.Cors.AssignProperties_To_CorsRules(&cor)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CorsRules() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_To_CorsRules() to populate field Cors")
 		}
 		destination.Cors = &cor
 	} else {
@@ -498,7 +538,7 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAcco
 		var deleteRetentionPolicy storage.DeleteRetentionPolicy
 		err := service.DeleteRetentionPolicy.AssignProperties_To_DeleteRetentionPolicy(&deleteRetentionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy() to populate field DeleteRetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy() to populate field DeleteRetentionPolicy")
 		}
 		destination.DeleteRetentionPolicy = &deleteRetentionPolicy
 	} else {
@@ -518,11 +558,23 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAcco
 		var lastAccessTimeTrackingPolicy storage.LastAccessTimeTrackingPolicy
 		err := service.LastAccessTimeTrackingPolicy.AssignProperties_To_LastAccessTimeTrackingPolicy(&lastAccessTimeTrackingPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_LastAccessTimeTrackingPolicy() to populate field LastAccessTimeTrackingPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_LastAccessTimeTrackingPolicy() to populate field LastAccessTimeTrackingPolicy")
 		}
 		destination.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
 	} else {
 		destination.LastAccessTimeTrackingPolicy = nil
+	}
+
+	// OperatorSpec
+	if service.OperatorSpec != nil {
+		var operatorSpec storage.StorageAccountsBlobServiceOperatorSpec
+		err := service.OperatorSpec.AssignProperties_To_StorageAccountsBlobServiceOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsBlobServiceOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -541,7 +593,7 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAcco
 		var restorePolicy storage.RestorePolicyProperties
 		err := service.RestorePolicy.AssignProperties_To_RestorePolicyProperties(&restorePolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RestorePolicyProperties() to populate field RestorePolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_RestorePolicyProperties() to populate field RestorePolicy")
 		}
 		destination.RestorePolicy = &restorePolicy
 	} else {
@@ -555,12 +607,12 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAcco
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForStorageAccounts_BlobService_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForStorageAccountsBlobService_Spec interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
-	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_BlobService_Spec); ok {
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsBlobService_Spec); ok {
 		err := augmentedService.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -568,8 +620,8 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAcco
 	return nil
 }
 
-// Storage version of v1api20210401.StorageAccounts_BlobService_STATUS
-type StorageAccounts_BlobService_STATUS struct {
+// Storage version of v1api20210401.StorageAccountsBlobService_STATUS
+type StorageAccountsBlobService_STATUS struct {
 	AutomaticSnapshotPolicyEnabled *bool                                `json:"automaticSnapshotPolicyEnabled,omitempty"`
 	ChangeFeed                     *ChangeFeed_STATUS                   `json:"changeFeed,omitempty"`
 	Conditions                     []conditions.Condition               `json:"conditions,omitempty"`
@@ -587,58 +639,58 @@ type StorageAccounts_BlobService_STATUS struct {
 	Type                           *string                              `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &StorageAccounts_BlobService_STATUS{}
+var _ genruntime.ConvertibleStatus = &StorageAccountsBlobService_STATUS{}
 
-// ConvertStatusFrom populates our StorageAccounts_BlobService_STATUS from the provided source
-func (service *StorageAccounts_BlobService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.StorageAccounts_BlobService_STATUS)
+// ConvertStatusFrom populates our StorageAccountsBlobService_STATUS from the provided source
+func (service *StorageAccountsBlobService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.StorageAccountsBlobService_STATUS)
 	if ok {
 		// Populate our instance from source
-		return service.AssignProperties_From_StorageAccounts_BlobService_STATUS(src)
+		return service.AssignProperties_From_StorageAccountsBlobService_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.StorageAccounts_BlobService_STATUS{}
+	src = &storage.StorageAccountsBlobService_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = service.AssignProperties_From_StorageAccounts_BlobService_STATUS(src)
+	err = service.AssignProperties_From_StorageAccountsBlobService_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our StorageAccounts_BlobService_STATUS
-func (service *StorageAccounts_BlobService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.StorageAccounts_BlobService_STATUS)
+// ConvertStatusTo populates the provided destination from our StorageAccountsBlobService_STATUS
+func (service *StorageAccountsBlobService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.StorageAccountsBlobService_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return service.AssignProperties_To_StorageAccounts_BlobService_STATUS(dst)
+		return service.AssignProperties_To_StorageAccountsBlobService_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.StorageAccounts_BlobService_STATUS{}
-	err := service.AssignProperties_To_StorageAccounts_BlobService_STATUS(dst)
+	dst = &storage.StorageAccountsBlobService_STATUS{}
+	err := service.AssignProperties_To_StorageAccountsBlobService_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_StorageAccounts_BlobService_STATUS populates our StorageAccounts_BlobService_STATUS from the provided source StorageAccounts_BlobService_STATUS
-func (service *StorageAccounts_BlobService_STATUS) AssignProperties_From_StorageAccounts_BlobService_STATUS(source *storage.StorageAccounts_BlobService_STATUS) error {
+// AssignProperties_From_StorageAccountsBlobService_STATUS populates our StorageAccountsBlobService_STATUS from the provided source StorageAccountsBlobService_STATUS
+func (service *StorageAccountsBlobService_STATUS) AssignProperties_From_StorageAccountsBlobService_STATUS(source *storage.StorageAccountsBlobService_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -655,7 +707,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_From_Storage
 		var changeFeed ChangeFeed_STATUS
 		err := changeFeed.AssignProperties_From_ChangeFeed_STATUS(source.ChangeFeed)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ChangeFeed_STATUS() to populate field ChangeFeed")
+			return eris.Wrap(err, "calling AssignProperties_From_ChangeFeed_STATUS() to populate field ChangeFeed")
 		}
 		service.ChangeFeed = &changeFeed
 	} else {
@@ -670,7 +722,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_From_Storage
 		var containerDeleteRetentionPolicy DeleteRetentionPolicy_STATUS
 		err := containerDeleteRetentionPolicy.AssignProperties_From_DeleteRetentionPolicy_STATUS(source.ContainerDeleteRetentionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy_STATUS() to populate field ContainerDeleteRetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy_STATUS() to populate field ContainerDeleteRetentionPolicy")
 		}
 		service.ContainerDeleteRetentionPolicy = &containerDeleteRetentionPolicy
 	} else {
@@ -682,7 +734,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_From_Storage
 		var cor CorsRules_STATUS
 		err := cor.AssignProperties_From_CorsRules_STATUS(source.Cors)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CorsRules_STATUS() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_From_CorsRules_STATUS() to populate field Cors")
 		}
 		service.Cors = &cor
 	} else {
@@ -697,7 +749,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_From_Storage
 		var deleteRetentionPolicy DeleteRetentionPolicy_STATUS
 		err := deleteRetentionPolicy.AssignProperties_From_DeleteRetentionPolicy_STATUS(source.DeleteRetentionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy_STATUS() to populate field DeleteRetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy_STATUS() to populate field DeleteRetentionPolicy")
 		}
 		service.DeleteRetentionPolicy = &deleteRetentionPolicy
 	} else {
@@ -720,7 +772,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_From_Storage
 		var lastAccessTimeTrackingPolicy LastAccessTimeTrackingPolicy_STATUS
 		err := lastAccessTimeTrackingPolicy.AssignProperties_From_LastAccessTimeTrackingPolicy_STATUS(source.LastAccessTimeTrackingPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_LastAccessTimeTrackingPolicy_STATUS() to populate field LastAccessTimeTrackingPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_LastAccessTimeTrackingPolicy_STATUS() to populate field LastAccessTimeTrackingPolicy")
 		}
 		service.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
 	} else {
@@ -735,7 +787,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_From_Storage
 		var restorePolicy RestorePolicyProperties_STATUS
 		err := restorePolicy.AssignProperties_From_RestorePolicyProperties_STATUS(source.RestorePolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RestorePolicyProperties_STATUS() to populate field RestorePolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_RestorePolicyProperties_STATUS() to populate field RestorePolicy")
 		}
 		service.RestorePolicy = &restorePolicy
 	} else {
@@ -747,7 +799,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_From_Storage
 		var sku Sku_STATUS
 		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		service.Sku = &sku
 	} else {
@@ -764,12 +816,12 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_From_Storage
 		service.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForStorageAccounts_BlobService_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForStorageAccountsBlobService_STATUS interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
-	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_BlobService_STATUS); ok {
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsBlobService_STATUS); ok {
 		err := augmentedService.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -777,8 +829,8 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_From_Storage
 	return nil
 }
 
-// AssignProperties_To_StorageAccounts_BlobService_STATUS populates the provided destination StorageAccounts_BlobService_STATUS from our StorageAccounts_BlobService_STATUS
-func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAccounts_BlobService_STATUS(destination *storage.StorageAccounts_BlobService_STATUS) error {
+// AssignProperties_To_StorageAccountsBlobService_STATUS populates the provided destination StorageAccountsBlobService_STATUS from our StorageAccountsBlobService_STATUS
+func (service *StorageAccountsBlobService_STATUS) AssignProperties_To_StorageAccountsBlobService_STATUS(destination *storage.StorageAccountsBlobService_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(service.PropertyBag)
 
@@ -795,7 +847,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAc
 		var changeFeed storage.ChangeFeed_STATUS
 		err := service.ChangeFeed.AssignProperties_To_ChangeFeed_STATUS(&changeFeed)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ChangeFeed_STATUS() to populate field ChangeFeed")
+			return eris.Wrap(err, "calling AssignProperties_To_ChangeFeed_STATUS() to populate field ChangeFeed")
 		}
 		destination.ChangeFeed = &changeFeed
 	} else {
@@ -810,7 +862,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAc
 		var containerDeleteRetentionPolicy storage.DeleteRetentionPolicy_STATUS
 		err := service.ContainerDeleteRetentionPolicy.AssignProperties_To_DeleteRetentionPolicy_STATUS(&containerDeleteRetentionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy_STATUS() to populate field ContainerDeleteRetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy_STATUS() to populate field ContainerDeleteRetentionPolicy")
 		}
 		destination.ContainerDeleteRetentionPolicy = &containerDeleteRetentionPolicy
 	} else {
@@ -822,7 +874,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAc
 		var cor storage.CorsRules_STATUS
 		err := service.Cors.AssignProperties_To_CorsRules_STATUS(&cor)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CorsRules_STATUS() to populate field Cors")
+			return eris.Wrap(err, "calling AssignProperties_To_CorsRules_STATUS() to populate field Cors")
 		}
 		destination.Cors = &cor
 	} else {
@@ -837,7 +889,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAc
 		var deleteRetentionPolicy storage.DeleteRetentionPolicy_STATUS
 		err := service.DeleteRetentionPolicy.AssignProperties_To_DeleteRetentionPolicy_STATUS(&deleteRetentionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy_STATUS() to populate field DeleteRetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy_STATUS() to populate field DeleteRetentionPolicy")
 		}
 		destination.DeleteRetentionPolicy = &deleteRetentionPolicy
 	} else {
@@ -860,7 +912,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAc
 		var lastAccessTimeTrackingPolicy storage.LastAccessTimeTrackingPolicy_STATUS
 		err := service.LastAccessTimeTrackingPolicy.AssignProperties_To_LastAccessTimeTrackingPolicy_STATUS(&lastAccessTimeTrackingPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_LastAccessTimeTrackingPolicy_STATUS() to populate field LastAccessTimeTrackingPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_LastAccessTimeTrackingPolicy_STATUS() to populate field LastAccessTimeTrackingPolicy")
 		}
 		destination.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
 	} else {
@@ -875,7 +927,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAc
 		var restorePolicy storage.RestorePolicyProperties_STATUS
 		err := service.RestorePolicy.AssignProperties_To_RestorePolicyProperties_STATUS(&restorePolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RestorePolicyProperties_STATUS() to populate field RestorePolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_RestorePolicyProperties_STATUS() to populate field RestorePolicy")
 		}
 		destination.RestorePolicy = &restorePolicy
 	} else {
@@ -887,7 +939,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAc
 		var sku storage.Sku_STATUS
 		err := service.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -904,12 +956,12 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAc
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForStorageAccounts_BlobService_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForStorageAccountsBlobService_STATUS interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
-	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_BlobService_STATUS); ok {
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsBlobService_STATUS); ok {
 		err := augmentedService.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -917,14 +969,14 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAc
 	return nil
 }
 
-type augmentConversionForStorageAccounts_BlobService_Spec interface {
-	AssignPropertiesFrom(src *storage.StorageAccounts_BlobService_Spec) error
-	AssignPropertiesTo(dst *storage.StorageAccounts_BlobService_Spec) error
+type augmentConversionForStorageAccountsBlobService_Spec interface {
+	AssignPropertiesFrom(src *storage.StorageAccountsBlobService_Spec) error
+	AssignPropertiesTo(dst *storage.StorageAccountsBlobService_Spec) error
 }
 
-type augmentConversionForStorageAccounts_BlobService_STATUS interface {
-	AssignPropertiesFrom(src *storage.StorageAccounts_BlobService_STATUS) error
-	AssignPropertiesTo(dst *storage.StorageAccounts_BlobService_STATUS) error
+type augmentConversionForStorageAccountsBlobService_STATUS interface {
+	AssignPropertiesFrom(src *storage.StorageAccountsBlobService_STATUS) error
+	AssignPropertiesTo(dst *storage.StorageAccountsBlobService_STATUS) error
 }
 
 // Storage version of v1api20210401.ChangeFeed
@@ -963,7 +1015,7 @@ func (feed *ChangeFeed) AssignProperties_From_ChangeFeed(source *storage.ChangeF
 	if augmentedFeed, ok := feedAsAny.(augmentConversionForChangeFeed); ok {
 		err := augmentedFeed.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -999,7 +1051,7 @@ func (feed *ChangeFeed) AssignProperties_To_ChangeFeed(destination *storage.Chan
 	if augmentedFeed, ok := feedAsAny.(augmentConversionForChangeFeed); ok {
 		err := augmentedFeed.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1043,7 +1095,7 @@ func (feed *ChangeFeed_STATUS) AssignProperties_From_ChangeFeed_STATUS(source *s
 	if augmentedFeed, ok := feedAsAny.(augmentConversionForChangeFeed_STATUS); ok {
 		err := augmentedFeed.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1079,7 +1131,7 @@ func (feed *ChangeFeed_STATUS) AssignProperties_To_ChangeFeed_STATUS(destination
 	if augmentedFeed, ok := feedAsAny.(augmentConversionForChangeFeed_STATUS); ok {
 		err := augmentedFeed.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1108,7 +1160,7 @@ func (rules *CorsRules) AssignProperties_From_CorsRules(source *storage.CorsRule
 			var corsRule CorsRule
 			err := corsRule.AssignProperties_From_CorsRule(&corsRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_CorsRule() to populate field CorsRules")
+				return eris.Wrap(err, "calling AssignProperties_From_CorsRule() to populate field CorsRules")
 			}
 			corsRuleList[corsRuleIndex] = corsRule
 		}
@@ -1129,7 +1181,7 @@ func (rules *CorsRules) AssignProperties_From_CorsRules(source *storage.CorsRule
 	if augmentedRules, ok := rulesAsAny.(augmentConversionForCorsRules); ok {
 		err := augmentedRules.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1151,7 +1203,7 @@ func (rules *CorsRules) AssignProperties_To_CorsRules(destination *storage.CorsR
 			var corsRule storage.CorsRule
 			err := corsRuleItem.AssignProperties_To_CorsRule(&corsRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_CorsRule() to populate field CorsRules")
+				return eris.Wrap(err, "calling AssignProperties_To_CorsRule() to populate field CorsRules")
 			}
 			corsRuleList[corsRuleIndex] = corsRule
 		}
@@ -1172,7 +1224,7 @@ func (rules *CorsRules) AssignProperties_To_CorsRules(destination *storage.CorsR
 	if augmentedRules, ok := rulesAsAny.(augmentConversionForCorsRules); ok {
 		err := augmentedRules.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1201,7 +1253,7 @@ func (rules *CorsRules_STATUS) AssignProperties_From_CorsRules_STATUS(source *st
 			var corsRule CorsRule_STATUS
 			err := corsRule.AssignProperties_From_CorsRule_STATUS(&corsRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_CorsRule_STATUS() to populate field CorsRules")
+				return eris.Wrap(err, "calling AssignProperties_From_CorsRule_STATUS() to populate field CorsRules")
 			}
 			corsRuleList[corsRuleIndex] = corsRule
 		}
@@ -1222,7 +1274,7 @@ func (rules *CorsRules_STATUS) AssignProperties_From_CorsRules_STATUS(source *st
 	if augmentedRules, ok := rulesAsAny.(augmentConversionForCorsRules_STATUS); ok {
 		err := augmentedRules.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1244,7 +1296,7 @@ func (rules *CorsRules_STATUS) AssignProperties_To_CorsRules_STATUS(destination 
 			var corsRule storage.CorsRule_STATUS
 			err := corsRuleItem.AssignProperties_To_CorsRule_STATUS(&corsRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_CorsRule_STATUS() to populate field CorsRules")
+				return eris.Wrap(err, "calling AssignProperties_To_CorsRule_STATUS() to populate field CorsRules")
 			}
 			corsRuleList[corsRuleIndex] = corsRule
 		}
@@ -1265,7 +1317,7 @@ func (rules *CorsRules_STATUS) AssignProperties_To_CorsRules_STATUS(destination 
 	if augmentedRules, ok := rulesAsAny.(augmentConversionForCorsRules_STATUS); ok {
 		err := augmentedRules.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1316,7 +1368,7 @@ func (policy *DeleteRetentionPolicy) AssignProperties_From_DeleteRetentionPolicy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForDeleteRetentionPolicy); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1334,7 +1386,7 @@ func (policy *DeleteRetentionPolicy) AssignProperties_To_DeleteRetentionPolicy(d
 		var allowPermanentDelete bool
 		err := propertyBag.Pull("AllowPermanentDelete", &allowPermanentDelete)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'AllowPermanentDelete' from propertyBag")
+			return eris.Wrap(err, "pulling 'AllowPermanentDelete' from propertyBag")
 		}
 
 		destination.AllowPermanentDelete = &allowPermanentDelete
@@ -1365,7 +1417,7 @@ func (policy *DeleteRetentionPolicy) AssignProperties_To_DeleteRetentionPolicy(d
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForDeleteRetentionPolicy); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1416,7 +1468,7 @@ func (policy *DeleteRetentionPolicy_STATUS) AssignProperties_From_DeleteRetentio
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForDeleteRetentionPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1434,7 +1486,7 @@ func (policy *DeleteRetentionPolicy_STATUS) AssignProperties_To_DeleteRetentionP
 		var allowPermanentDelete bool
 		err := propertyBag.Pull("AllowPermanentDelete", &allowPermanentDelete)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'AllowPermanentDelete' from propertyBag")
+			return eris.Wrap(err, "pulling 'AllowPermanentDelete' from propertyBag")
 		}
 
 		destination.AllowPermanentDelete = &allowPermanentDelete
@@ -1465,7 +1517,7 @@ func (policy *DeleteRetentionPolicy_STATUS) AssignProperties_To_DeleteRetentionP
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForDeleteRetentionPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1517,7 +1569,7 @@ func (policy *LastAccessTimeTrackingPolicy) AssignProperties_From_LastAccessTime
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForLastAccessTimeTrackingPolicy); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1559,7 +1611,7 @@ func (policy *LastAccessTimeTrackingPolicy) AssignProperties_To_LastAccessTimeTr
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForLastAccessTimeTrackingPolicy); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1611,7 +1663,7 @@ func (policy *LastAccessTimeTrackingPolicy_STATUS) AssignProperties_From_LastAcc
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForLastAccessTimeTrackingPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1653,7 +1705,7 @@ func (policy *LastAccessTimeTrackingPolicy_STATUS) AssignProperties_To_LastAcces
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForLastAccessTimeTrackingPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1697,7 +1749,7 @@ func (properties *RestorePolicyProperties) AssignProperties_From_RestorePolicyPr
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForRestorePolicyProperties); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1733,7 +1785,7 @@ func (properties *RestorePolicyProperties) AssignProperties_To_RestorePolicyProp
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForRestorePolicyProperties); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1785,7 +1837,7 @@ func (properties *RestorePolicyProperties_STATUS) AssignProperties_From_RestoreP
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForRestorePolicyProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1827,7 +1879,137 @@ func (properties *RestorePolicyProperties_STATUS) AssignProperties_To_RestorePol
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForRestorePolicyProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1api20210401.StorageAccountsBlobServiceOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type StorageAccountsBlobServiceOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_StorageAccountsBlobServiceOperatorSpec populates our StorageAccountsBlobServiceOperatorSpec from the provided source StorageAccountsBlobServiceOperatorSpec
+func (operator *StorageAccountsBlobServiceOperatorSpec) AssignProperties_From_StorageAccountsBlobServiceOperatorSpec(source *storage.StorageAccountsBlobServiceOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccountsBlobServiceOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForStorageAccountsBlobServiceOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccountsBlobServiceOperatorSpec populates the provided destination StorageAccountsBlobServiceOperatorSpec from our StorageAccountsBlobServiceOperatorSpec
+func (operator *StorageAccountsBlobServiceOperatorSpec) AssignProperties_To_StorageAccountsBlobServiceOperatorSpec(destination *storage.StorageAccountsBlobServiceOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccountsBlobServiceOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForStorageAccountsBlobServiceOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1885,6 +2067,11 @@ type augmentConversionForRestorePolicyProperties_STATUS interface {
 	AssignPropertiesTo(dst *storage.RestorePolicyProperties_STATUS) error
 }
 
+type augmentConversionForStorageAccountsBlobServiceOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.StorageAccountsBlobServiceOperatorSpec) error
+	AssignPropertiesTo(dst *storage.StorageAccountsBlobServiceOperatorSpec) error
+}
+
 // Storage version of v1api20210401.CorsRule
 // Specifies a CORS rule for the Blob service.
 type CorsRule struct {
@@ -1928,7 +2115,7 @@ func (rule *CorsRule) AssignProperties_From_CorsRule(source *storage.CorsRule) e
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForCorsRule); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1968,7 +2155,7 @@ func (rule *CorsRule) AssignProperties_To_CorsRule(destination *storage.CorsRule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForCorsRule); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2019,7 +2206,7 @@ func (rule *CorsRule_STATUS) AssignProperties_From_CorsRule_STATUS(source *stora
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForCorsRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2059,7 +2246,7 @@ func (rule *CorsRule_STATUS) AssignProperties_To_CorsRule_STATUS(destination *st
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForCorsRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

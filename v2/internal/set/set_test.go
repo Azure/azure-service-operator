@@ -104,11 +104,33 @@ func TestSet_Where_GivenPredicate_ReturnsSetOfMatchingItems(t *testing.T) {
 	g.Expect(evenSet).To(Equal(Make(2, 4)))
 }
 
-func TestSet_Except_GivenSetOfVues_ReturnsRemainingValues(t *testing.T) {
+func TestSet_Except_GivenSetOfValues_ReturnsRemainingValues(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	set := Make(1, 2, 3, 4, 5)
 	remainingSet := set.Except(Make(2, 4))
 	g.Expect(remainingSet).To(Equal(Make(1, 3, 5)))
+}
+
+func TestSet_Union_ReturnsUnionOfTwoSets(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	set := Make(1, 2, 3, 4, 5)
+	set2 := Make(5, 6, 7, 8, 9, 10)
+
+	g.Expect(Union(set, set2)).To(Equal(Make(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)))
+}
+
+func TestSet_Union_ReturnsUnionOfFourSets(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	set := Make(1, 2, 3, 4, 5)
+	set2 := Make(5, 6, 7, 8, 9, 10)
+	set3 := Make(5, 8, 1, 11, 15, 2)
+	set4 := Make(12, 2, 2, 13, 7, 14)
+
+	g.Expect(Union(set, set2, set3, set4)).To(Equal(Make(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)))
 }

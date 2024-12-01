@@ -4,11 +4,15 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
+	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
+	v20231001sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage/compat"
+	v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -27,8 +31,8 @@ import (
 type ManagedClustersAgentPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ManagedClusters_AgentPool_Spec   `json:"spec,omitempty"`
-	Status            ManagedClusters_AgentPool_STATUS `json:"status,omitempty"`
+	Spec              ManagedClustersAgentPool_Spec   `json:"spec,omitempty"`
+	Status            ManagedClustersAgentPool_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ManagedClustersAgentPool{}
@@ -47,22 +51,56 @@ var _ conversion.Convertible = &ManagedClustersAgentPool{}
 
 // ConvertFrom populates our ManagedClustersAgentPool from the provided hub ManagedClustersAgentPool
 func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ManagedClustersAgentPool)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20231001/storage/ManagedClustersAgentPool but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20231001s.ManagedClustersAgentPool
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return pool.AssignProperties_From_ManagedClustersAgentPool(source)
+	err = pool.AssignProperties_From_ManagedClustersAgentPool(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to pool")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ManagedClustersAgentPool from our ManagedClustersAgentPool
 func (pool *ManagedClustersAgentPool) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ManagedClustersAgentPool)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20231001/storage/ManagedClustersAgentPool but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20231001s.ManagedClustersAgentPool
+	err := pool.AssignProperties_To_ManagedClustersAgentPool(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from pool")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return pool.AssignProperties_To_ManagedClustersAgentPool(destination)
+	return nil
+}
+
+var _ configmaps.Exporter = &ManagedClustersAgentPool{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (pool *ManagedClustersAgentPool) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if pool.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return pool.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ManagedClustersAgentPool{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (pool *ManagedClustersAgentPool) SecretDestinationExpressions() []*core.DestinationExpression {
+	if pool.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return pool.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ManagedClustersAgentPool{}
@@ -108,11 +146,15 @@ func (pool *ManagedClustersAgentPool) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (pool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ManagedClusters_AgentPool_STATUS{}
+	return &ManagedClustersAgentPool_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
+	if pool.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(pool.Spec)
 	return pool.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -120,16 +162,16 @@ func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (pool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ManagedClusters_AgentPool_STATUS); ok {
+	if st, ok := status.(*ManagedClustersAgentPool_STATUS); ok {
 		pool.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ManagedClusters_AgentPool_STATUS
+	var st ManagedClustersAgentPool_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	pool.Status = st
@@ -137,24 +179,24 @@ func (pool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleSta
 }
 
 // AssignProperties_From_ManagedClustersAgentPool populates our ManagedClustersAgentPool from the provided source ManagedClustersAgentPool
-func (pool *ManagedClustersAgentPool) AssignProperties_From_ManagedClustersAgentPool(source *storage.ManagedClustersAgentPool) error {
+func (pool *ManagedClustersAgentPool) AssignProperties_From_ManagedClustersAgentPool(source *v20231001s.ManagedClustersAgentPool) error {
 
 	// ObjectMeta
 	pool.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec ManagedClusters_AgentPool_Spec
-	err := spec.AssignProperties_From_ManagedClusters_AgentPool_Spec(&source.Spec)
+	var spec ManagedClustersAgentPool_Spec
+	err := spec.AssignProperties_From_ManagedClustersAgentPool_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ManagedClusters_AgentPool_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ManagedClustersAgentPool_Spec() to populate field Spec")
 	}
 	pool.Spec = spec
 
 	// Status
-	var status ManagedClusters_AgentPool_STATUS
-	err = status.AssignProperties_From_ManagedClusters_AgentPool_STATUS(&source.Status)
+	var status ManagedClustersAgentPool_STATUS
+	err = status.AssignProperties_From_ManagedClustersAgentPool_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ManagedClusters_AgentPool_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ManagedClustersAgentPool_STATUS() to populate field Status")
 	}
 	pool.Status = status
 
@@ -163,7 +205,7 @@ func (pool *ManagedClustersAgentPool) AssignProperties_From_ManagedClustersAgent
 	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClustersAgentPool); ok {
 		err := augmentedPool.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -172,24 +214,24 @@ func (pool *ManagedClustersAgentPool) AssignProperties_From_ManagedClustersAgent
 }
 
 // AssignProperties_To_ManagedClustersAgentPool populates the provided destination ManagedClustersAgentPool from our ManagedClustersAgentPool
-func (pool *ManagedClustersAgentPool) AssignProperties_To_ManagedClustersAgentPool(destination *storage.ManagedClustersAgentPool) error {
+func (pool *ManagedClustersAgentPool) AssignProperties_To_ManagedClustersAgentPool(destination *v20231001s.ManagedClustersAgentPool) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *pool.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.ManagedClusters_AgentPool_Spec
-	err := pool.Spec.AssignProperties_To_ManagedClusters_AgentPool_Spec(&spec)
+	var spec v20231001s.ManagedClustersAgentPool_Spec
+	err := pool.Spec.AssignProperties_To_ManagedClustersAgentPool_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ManagedClusters_AgentPool_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ManagedClustersAgentPool_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.ManagedClusters_AgentPool_STATUS
-	err = pool.Status.AssignProperties_To_ManagedClusters_AgentPool_STATUS(&status)
+	var status v20231001s.ManagedClustersAgentPool_STATUS
+	err = pool.Status.AssignProperties_To_ManagedClustersAgentPool_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ManagedClusters_AgentPool_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ManagedClustersAgentPool_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -198,7 +240,7 @@ func (pool *ManagedClustersAgentPool) AssignProperties_To_ManagedClustersAgentPo
 	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClustersAgentPool); ok {
 		err := augmentedPool.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -227,12 +269,12 @@ type ManagedClustersAgentPoolList struct {
 }
 
 type augmentConversionForManagedClustersAgentPool interface {
-	AssignPropertiesFrom(src *storage.ManagedClustersAgentPool) error
-	AssignPropertiesTo(dst *storage.ManagedClustersAgentPool) error
+	AssignPropertiesFrom(src *v20231001s.ManagedClustersAgentPool) error
+	AssignPropertiesTo(dst *v20231001s.ManagedClustersAgentPool) error
 }
 
-// Storage version of v1api20231102preview.ManagedClusters_AgentPool_Spec
-type ManagedClusters_AgentPool_Spec struct {
+// Storage version of v1api20231102preview.ManagedClustersAgentPool_Spec
+type ManagedClustersAgentPool_Spec struct {
 	ArtifactStreamingProfile *AgentPoolArtifactStreamingProfile `json:"artifactStreamingProfile,omitempty"`
 	AvailabilityZones        []string                           `json:"availabilityZones,omitempty"`
 
@@ -271,14 +313,15 @@ type ManagedClusters_AgentPool_Spec struct {
 
 	// NodePublicIPPrefixReference: This is of the form:
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
-	NodePublicIPPrefixReference *genruntime.ResourceReference `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixReference,omitempty"`
-	NodeTaints                  []string                      `json:"nodeTaints,omitempty" serializationType:"explicitEmptyCollection"`
-	OrchestratorVersion         *string                       `json:"orchestratorVersion,omitempty"`
-	OriginalVersion             string                        `json:"originalVersion,omitempty"`
-	OsDiskSizeGB                *int                          `json:"osDiskSizeGB,omitempty"`
-	OsDiskType                  *string                       `json:"osDiskType,omitempty"`
-	OsSKU                       *string                       `json:"osSKU,omitempty"`
-	OsType                      *string                       `json:"osType,omitempty"`
+	NodePublicIPPrefixReference *genruntime.ResourceReference         `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixReference,omitempty"`
+	NodeTaints                  []string                              `json:"nodeTaints,omitempty" serializationType:"explicitEmptyCollection"`
+	OperatorSpec                *ManagedClustersAgentPoolOperatorSpec `json:"operatorSpec,omitempty"`
+	OrchestratorVersion         *string                               `json:"orchestratorVersion,omitempty"`
+	OriginalVersion             string                                `json:"originalVersion,omitempty"`
+	OsDiskSizeGB                *int                                  `json:"osDiskSizeGB,omitempty"`
+	OsDiskType                  *string                               `json:"osDiskType,omitempty"`
+	OsSKU                       *string                               `json:"osSKU,omitempty"`
+	OsType                      *string                               `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -315,58 +358,58 @@ type ManagedClusters_AgentPool_Spec struct {
 	WorkloadRuntime     *string                       `json:"workloadRuntime,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &ManagedClusters_AgentPool_Spec{}
+var _ genruntime.ConvertibleSpec = &ManagedClustersAgentPool_Spec{}
 
-// ConvertSpecFrom populates our ManagedClusters_AgentPool_Spec from the provided source
-func (pool *ManagedClusters_AgentPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.ManagedClusters_AgentPool_Spec)
+// ConvertSpecFrom populates our ManagedClustersAgentPool_Spec from the provided source
+func (pool *ManagedClustersAgentPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20231001s.ManagedClustersAgentPool_Spec)
 	if ok {
 		// Populate our instance from source
-		return pool.AssignProperties_From_ManagedClusters_AgentPool_Spec(src)
+		return pool.AssignProperties_From_ManagedClustersAgentPool_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.ManagedClusters_AgentPool_Spec{}
+	src = &v20231001s.ManagedClustersAgentPool_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = pool.AssignProperties_From_ManagedClusters_AgentPool_Spec(src)
+	err = pool.AssignProperties_From_ManagedClustersAgentPool_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our ManagedClusters_AgentPool_Spec
-func (pool *ManagedClusters_AgentPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.ManagedClusters_AgentPool_Spec)
+// ConvertSpecTo populates the provided destination from our ManagedClustersAgentPool_Spec
+func (pool *ManagedClustersAgentPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20231001s.ManagedClustersAgentPool_Spec)
 	if ok {
 		// Populate destination from our instance
-		return pool.AssignProperties_To_ManagedClusters_AgentPool_Spec(dst)
+		return pool.AssignProperties_To_ManagedClustersAgentPool_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.ManagedClusters_AgentPool_Spec{}
-	err := pool.AssignProperties_To_ManagedClusters_AgentPool_Spec(dst)
+	dst = &v20231001s.ManagedClustersAgentPool_Spec{}
+	err := pool.AssignProperties_To_ManagedClustersAgentPool_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_ManagedClusters_AgentPool_Spec populates our ManagedClusters_AgentPool_Spec from the provided source ManagedClusters_AgentPool_Spec
-func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedClusters_AgentPool_Spec(source *storage.ManagedClusters_AgentPool_Spec) error {
+// AssignProperties_From_ManagedClustersAgentPool_Spec populates our ManagedClustersAgentPool_Spec from the provided source ManagedClustersAgentPool_Spec
+func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClustersAgentPool_Spec(source *v20231001s.ManagedClustersAgentPool_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -375,7 +418,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var artifactStreamingProfile AgentPoolArtifactStreamingProfile
 		err := propertyBag.Pull("ArtifactStreamingProfile", &artifactStreamingProfile)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'ArtifactStreamingProfile' from propertyBag")
+			return eris.Wrap(err, "pulling 'ArtifactStreamingProfile' from propertyBag")
 		}
 
 		pool.ArtifactStreamingProfile = &artifactStreamingProfile
@@ -405,7 +448,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var creationDatum CreationData
 		err := creationDatum.AssignProperties_From_CreationData(source.CreationData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CreationData() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_From_CreationData() to populate field CreationData")
 		}
 		pool.CreationData = &creationDatum
 	} else {
@@ -425,7 +468,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var enableCustomCATrust bool
 		err := propertyBag.Pull("EnableCustomCATrust", &enableCustomCATrust)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'EnableCustomCATrust' from propertyBag")
+			return eris.Wrap(err, "pulling 'EnableCustomCATrust' from propertyBag")
 		}
 
 		pool.EnableCustomCATrust = &enableCustomCATrust
@@ -473,7 +516,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var gpuProfile AgentPoolGPUProfile
 		err := propertyBag.Pull("GpuProfile", &gpuProfile)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'GpuProfile' from propertyBag")
+			return eris.Wrap(err, "pulling 'GpuProfile' from propertyBag")
 		}
 
 		pool.GpuProfile = &gpuProfile
@@ -494,7 +537,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var kubeletConfig KubeletConfig
 		err := kubeletConfig.AssignProperties_From_KubeletConfig(source.KubeletConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KubeletConfig() to populate field KubeletConfig")
+			return eris.Wrap(err, "calling AssignProperties_From_KubeletConfig() to populate field KubeletConfig")
 		}
 		pool.KubeletConfig = &kubeletConfig
 	} else {
@@ -509,7 +552,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var linuxOSConfig LinuxOSConfig
 		err := linuxOSConfig.AssignProperties_From_LinuxOSConfig(source.LinuxOSConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_LinuxOSConfig() to populate field LinuxOSConfig")
+			return eris.Wrap(err, "calling AssignProperties_From_LinuxOSConfig() to populate field LinuxOSConfig")
 		}
 		pool.LinuxOSConfig = &linuxOSConfig
 	} else {
@@ -527,7 +570,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var messageOfTheDay string
 		err := propertyBag.Pull("MessageOfTheDay", &messageOfTheDay)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'MessageOfTheDay' from propertyBag")
+			return eris.Wrap(err, "pulling 'MessageOfTheDay' from propertyBag")
 		}
 
 		pool.MessageOfTheDay = &messageOfTheDay
@@ -546,7 +589,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var networkProfile AgentPoolNetworkProfile
 		err := networkProfile.AssignProperties_From_AgentPoolNetworkProfile(source.NetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AgentPoolNetworkProfile() to populate field NetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_AgentPoolNetworkProfile() to populate field NetworkProfile")
 		}
 		pool.NetworkProfile = &networkProfile
 	} else {
@@ -558,7 +601,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var nodeInitializationTaint []string
 		err := propertyBag.Pull("NodeInitializationTaints", &nodeInitializationTaint)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'NodeInitializationTaints' from propertyBag")
+			return eris.Wrap(err, "pulling 'NodeInitializationTaints' from propertyBag")
 		}
 
 		pool.NodeInitializationTaints = nodeInitializationTaint
@@ -579,6 +622,18 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 
 	// NodeTaints
 	pool.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ManagedClustersAgentPoolOperatorSpec
+		err := operatorSpec.AssignProperties_From_ManagedClustersAgentPoolOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedClustersAgentPoolOperatorSpec() to populate field OperatorSpec")
+		}
+		pool.OperatorSpec = &operatorSpec
+	} else {
+		pool.OperatorSpec = nil
+	}
 
 	// OrchestratorVersion
 	pool.OrchestratorVersion = genruntime.ClonePointerToString(source.OrchestratorVersion)
@@ -619,7 +674,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var powerState PowerState
 		err := powerState.AssignProperties_From_PowerState(source.PowerState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PowerState() to populate field PowerState")
+			return eris.Wrap(err, "calling AssignProperties_From_PowerState() to populate field PowerState")
 		}
 		pool.PowerState = &powerState
 	} else {
@@ -648,7 +703,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var securityProfile AgentPoolSecurityProfile
 		err := propertyBag.Pull("SecurityProfile", &securityProfile)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'SecurityProfile' from propertyBag")
+			return eris.Wrap(err, "pulling 'SecurityProfile' from propertyBag")
 		}
 
 		pool.SecurityProfile = &securityProfile
@@ -675,7 +730,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var upgradeSetting AgentPoolUpgradeSettings
 		err := upgradeSetting.AssignProperties_From_AgentPoolUpgradeSettings(source.UpgradeSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AgentPoolUpgradeSettings() to populate field UpgradeSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_AgentPoolUpgradeSettings() to populate field UpgradeSettings")
 		}
 		pool.UpgradeSettings = &upgradeSetting
 	} else {
@@ -687,7 +742,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var virtualMachineNodesStatus []VirtualMachineNodes
 		err := propertyBag.Pull("VirtualMachineNodesStatus", &virtualMachineNodesStatus)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'VirtualMachineNodesStatus' from propertyBag")
+			return eris.Wrap(err, "pulling 'VirtualMachineNodesStatus' from propertyBag")
 		}
 
 		pool.VirtualMachineNodesStatus = virtualMachineNodesStatus
@@ -700,7 +755,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var virtualMachinesProfile VirtualMachinesProfile
 		err := propertyBag.Pull("VirtualMachinesProfile", &virtualMachinesProfile)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'VirtualMachinesProfile' from propertyBag")
+			return eris.Wrap(err, "pulling 'VirtualMachinesProfile' from propertyBag")
 		}
 
 		pool.VirtualMachinesProfile = &virtualMachinesProfile
@@ -724,7 +779,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		var windowsProfile AgentPoolWindowsProfile
 		err := propertyBag.Pull("WindowsProfile", &windowsProfile)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'WindowsProfile' from propertyBag")
+			return eris.Wrap(err, "pulling 'WindowsProfile' from propertyBag")
 		}
 
 		pool.WindowsProfile = &windowsProfile
@@ -742,12 +797,12 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		pool.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForManagedClusters_AgentPool_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForManagedClustersAgentPool_Spec interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
-	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClusters_AgentPool_Spec); ok {
+	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClustersAgentPool_Spec); ok {
 		err := augmentedPool.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -755,8 +810,8 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 	return nil
 }
 
-// AssignProperties_To_ManagedClusters_AgentPool_Spec populates the provided destination ManagedClusters_AgentPool_Spec from our ManagedClusters_AgentPool_Spec
-func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_AgentPool_Spec(destination *storage.ManagedClusters_AgentPool_Spec) error {
+// AssignProperties_To_ManagedClustersAgentPool_Spec populates the provided destination ManagedClustersAgentPool_Spec from our ManagedClustersAgentPool_Spec
+func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAgentPool_Spec(destination *v20231001s.ManagedClustersAgentPool_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
 
@@ -786,10 +841,10 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 
 	// CreationData
 	if pool.CreationData != nil {
-		var creationDatum storage.CreationData
+		var creationDatum v20231001s.CreationData
 		err := pool.CreationData.AssignProperties_To_CreationData(&creationDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CreationData() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_To_CreationData() to populate field CreationData")
 		}
 		destination.CreationData = &creationDatum
 	} else {
@@ -863,10 +918,10 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 
 	// KubeletConfig
 	if pool.KubeletConfig != nil {
-		var kubeletConfig storage.KubeletConfig
+		var kubeletConfig v20231001s.KubeletConfig
 		err := pool.KubeletConfig.AssignProperties_To_KubeletConfig(&kubeletConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KubeletConfig() to populate field KubeletConfig")
+			return eris.Wrap(err, "calling AssignProperties_To_KubeletConfig() to populate field KubeletConfig")
 		}
 		destination.KubeletConfig = &kubeletConfig
 	} else {
@@ -878,10 +933,10 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 
 	// LinuxOSConfig
 	if pool.LinuxOSConfig != nil {
-		var linuxOSConfig storage.LinuxOSConfig
+		var linuxOSConfig v20231001s.LinuxOSConfig
 		err := pool.LinuxOSConfig.AssignProperties_To_LinuxOSConfig(&linuxOSConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_LinuxOSConfig() to populate field LinuxOSConfig")
+			return eris.Wrap(err, "calling AssignProperties_To_LinuxOSConfig() to populate field LinuxOSConfig")
 		}
 		destination.LinuxOSConfig = &linuxOSConfig
 	} else {
@@ -909,10 +964,10 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 
 	// NetworkProfile
 	if pool.NetworkProfile != nil {
-		var networkProfile storage.AgentPoolNetworkProfile
+		var networkProfile v20231001s.AgentPoolNetworkProfile
 		err := pool.NetworkProfile.AssignProperties_To_AgentPoolNetworkProfile(&networkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolNetworkProfile() to populate field NetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_AgentPoolNetworkProfile() to populate field NetworkProfile")
 		}
 		destination.NetworkProfile = &networkProfile
 	} else {
@@ -939,6 +994,18 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 
 	// NodeTaints
 	destination.NodeTaints = genruntime.CloneSliceOfString(pool.NodeTaints)
+
+	// OperatorSpec
+	if pool.OperatorSpec != nil {
+		var operatorSpec v20231001s.ManagedClustersAgentPoolOperatorSpec
+		err := pool.OperatorSpec.AssignProperties_To_ManagedClustersAgentPoolOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedClustersAgentPoolOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OrchestratorVersion
 	destination.OrchestratorVersion = genruntime.ClonePointerToString(pool.OrchestratorVersion)
@@ -976,10 +1043,10 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 
 	// PowerState
 	if pool.PowerState != nil {
-		var powerState storage.PowerState
+		var powerState v20231001s.PowerState
 		err := pool.PowerState.AssignProperties_To_PowerState(&powerState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PowerState() to populate field PowerState")
+			return eris.Wrap(err, "calling AssignProperties_To_PowerState() to populate field PowerState")
 		}
 		destination.PowerState = &powerState
 	} else {
@@ -1026,10 +1093,10 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 
 	// UpgradeSettings
 	if pool.UpgradeSettings != nil {
-		var upgradeSetting storage.AgentPoolUpgradeSettings
+		var upgradeSetting v20231001s.AgentPoolUpgradeSettings
 		err := pool.UpgradeSettings.AssignProperties_To_AgentPoolUpgradeSettings(&upgradeSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolUpgradeSettings() to populate field UpgradeSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_AgentPoolUpgradeSettings() to populate field UpgradeSettings")
 		}
 		destination.UpgradeSettings = &upgradeSetting
 	} else {
@@ -1078,12 +1145,12 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForManagedClusters_AgentPool_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForManagedClustersAgentPool_Spec interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
-	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClusters_AgentPool_Spec); ok {
+	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClustersAgentPool_Spec); ok {
 		err := augmentedPool.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1091,8 +1158,8 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 	return nil
 }
 
-// Storage version of v1api20231102preview.ManagedClusters_AgentPool_STATUS
-type ManagedClusters_AgentPool_STATUS struct {
+// Storage version of v1api20231102preview.ManagedClustersAgentPool_STATUS
+type ManagedClustersAgentPool_STATUS struct {
 	ArtifactStreamingProfile   *AgentPoolArtifactStreamingProfile_STATUS `json:"artifactStreamingProfile,omitempty"`
 	AvailabilityZones          []string                                  `json:"availabilityZones,omitempty"`
 	CapacityReservationGroupID *string                                   `json:"capacityReservationGroupID,omitempty"`
@@ -1152,58 +1219,58 @@ type ManagedClusters_AgentPool_STATUS struct {
 	WorkloadRuntime            *string                                   `json:"workloadRuntime,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ManagedClusters_AgentPool_STATUS{}
+var _ genruntime.ConvertibleStatus = &ManagedClustersAgentPool_STATUS{}
 
-// ConvertStatusFrom populates our ManagedClusters_AgentPool_STATUS from the provided source
-func (pool *ManagedClusters_AgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.ManagedClusters_AgentPool_STATUS)
+// ConvertStatusFrom populates our ManagedClustersAgentPool_STATUS from the provided source
+func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20231001s.ManagedClustersAgentPool_STATUS)
 	if ok {
 		// Populate our instance from source
-		return pool.AssignProperties_From_ManagedClusters_AgentPool_STATUS(src)
+		return pool.AssignProperties_From_ManagedClustersAgentPool_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.ManagedClusters_AgentPool_STATUS{}
+	src = &v20231001s.ManagedClustersAgentPool_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = pool.AssignProperties_From_ManagedClusters_AgentPool_STATUS(src)
+	err = pool.AssignProperties_From_ManagedClustersAgentPool_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our ManagedClusters_AgentPool_STATUS
-func (pool *ManagedClusters_AgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.ManagedClusters_AgentPool_STATUS)
+// ConvertStatusTo populates the provided destination from our ManagedClustersAgentPool_STATUS
+func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20231001s.ManagedClustersAgentPool_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return pool.AssignProperties_To_ManagedClusters_AgentPool_STATUS(dst)
+		return pool.AssignProperties_To_ManagedClustersAgentPool_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.ManagedClusters_AgentPool_STATUS{}
-	err := pool.AssignProperties_To_ManagedClusters_AgentPool_STATUS(dst)
+	dst = &v20231001s.ManagedClustersAgentPool_STATUS{}
+	err := pool.AssignProperties_To_ManagedClustersAgentPool_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_ManagedClusters_AgentPool_STATUS populates our ManagedClusters_AgentPool_STATUS from the provided source ManagedClusters_AgentPool_STATUS
-func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClusters_AgentPool_STATUS(source *storage.ManagedClusters_AgentPool_STATUS) error {
+// AssignProperties_From_ManagedClustersAgentPool_STATUS populates our ManagedClustersAgentPool_STATUS from the provided source ManagedClustersAgentPool_STATUS
+func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedClustersAgentPool_STATUS(source *v20231001s.ManagedClustersAgentPool_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1212,7 +1279,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var artifactStreamingProfile AgentPoolArtifactStreamingProfile_STATUS
 		err := propertyBag.Pull("ArtifactStreamingProfile", &artifactStreamingProfile)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'ArtifactStreamingProfile' from propertyBag")
+			return eris.Wrap(err, "pulling 'ArtifactStreamingProfile' from propertyBag")
 		}
 
 		pool.ArtifactStreamingProfile = &artifactStreamingProfile
@@ -1237,7 +1304,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var creationDatum CreationData_STATUS
 		err := creationDatum.AssignProperties_From_CreationData_STATUS(source.CreationData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CreationData_STATUS() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_From_CreationData_STATUS() to populate field CreationData")
 		}
 		pool.CreationData = &creationDatum
 	} else {
@@ -1260,7 +1327,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var enableCustomCATrust bool
 		err := propertyBag.Pull("EnableCustomCATrust", &enableCustomCATrust)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'EnableCustomCATrust' from propertyBag")
+			return eris.Wrap(err, "pulling 'EnableCustomCATrust' from propertyBag")
 		}
 
 		pool.EnableCustomCATrust = &enableCustomCATrust
@@ -1308,7 +1375,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var gpuProfile AgentPoolGPUProfile_STATUS
 		err := propertyBag.Pull("GpuProfile", &gpuProfile)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'GpuProfile' from propertyBag")
+			return eris.Wrap(err, "pulling 'GpuProfile' from propertyBag")
 		}
 
 		pool.GpuProfile = &gpuProfile
@@ -1327,7 +1394,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var kubeletConfig KubeletConfig_STATUS
 		err := kubeletConfig.AssignProperties_From_KubeletConfig_STATUS(source.KubeletConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KubeletConfig_STATUS() to populate field KubeletConfig")
+			return eris.Wrap(err, "calling AssignProperties_From_KubeletConfig_STATUS() to populate field KubeletConfig")
 		}
 		pool.KubeletConfig = &kubeletConfig
 	} else {
@@ -1342,7 +1409,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var linuxOSConfig LinuxOSConfig_STATUS
 		err := linuxOSConfig.AssignProperties_From_LinuxOSConfig_STATUS(source.LinuxOSConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_LinuxOSConfig_STATUS() to populate field LinuxOSConfig")
+			return eris.Wrap(err, "calling AssignProperties_From_LinuxOSConfig_STATUS() to populate field LinuxOSConfig")
 		}
 		pool.LinuxOSConfig = &linuxOSConfig
 	} else {
@@ -1360,7 +1427,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var messageOfTheDay string
 		err := propertyBag.Pull("MessageOfTheDay", &messageOfTheDay)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'MessageOfTheDay' from propertyBag")
+			return eris.Wrap(err, "pulling 'MessageOfTheDay' from propertyBag")
 		}
 
 		pool.MessageOfTheDay = &messageOfTheDay
@@ -1382,7 +1449,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var networkProfile AgentPoolNetworkProfile_STATUS
 		err := networkProfile.AssignProperties_From_AgentPoolNetworkProfile_STATUS(source.NetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AgentPoolNetworkProfile_STATUS() to populate field NetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_AgentPoolNetworkProfile_STATUS() to populate field NetworkProfile")
 		}
 		pool.NetworkProfile = &networkProfile
 	} else {
@@ -1397,7 +1464,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var nodeInitializationTaint []string
 		err := propertyBag.Pull("NodeInitializationTaints", &nodeInitializationTaint)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'NodeInitializationTaints' from propertyBag")
+			return eris.Wrap(err, "pulling 'NodeInitializationTaints' from propertyBag")
 		}
 
 		pool.NodeInitializationTaints = nodeInitializationTaint
@@ -1437,7 +1504,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var powerState PowerState_STATUS
 		err := powerState.AssignProperties_From_PowerState_STATUS(source.PowerState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PowerState_STATUS() to populate field PowerState")
+			return eris.Wrap(err, "calling AssignProperties_From_PowerState_STATUS() to populate field PowerState")
 		}
 		pool.PowerState = &powerState
 	} else {
@@ -1467,7 +1534,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var securityProfile AgentPoolSecurityProfile_STATUS
 		err := propertyBag.Pull("SecurityProfile", &securityProfile)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'SecurityProfile' from propertyBag")
+			return eris.Wrap(err, "pulling 'SecurityProfile' from propertyBag")
 		}
 
 		pool.SecurityProfile = &securityProfile
@@ -1494,7 +1561,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var upgradeSetting AgentPoolUpgradeSettings_STATUS
 		err := upgradeSetting.AssignProperties_From_AgentPoolUpgradeSettings_STATUS(source.UpgradeSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AgentPoolUpgradeSettings_STATUS() to populate field UpgradeSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_AgentPoolUpgradeSettings_STATUS() to populate field UpgradeSettings")
 		}
 		pool.UpgradeSettings = &upgradeSetting
 	} else {
@@ -1506,7 +1573,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var virtualMachineNodesStatus []VirtualMachineNodes_STATUS
 		err := propertyBag.Pull("VirtualMachineNodesStatus", &virtualMachineNodesStatus)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'VirtualMachineNodesStatus' from propertyBag")
+			return eris.Wrap(err, "pulling 'VirtualMachineNodesStatus' from propertyBag")
 		}
 
 		pool.VirtualMachineNodesStatus = virtualMachineNodesStatus
@@ -1519,7 +1586,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var virtualMachinesProfile VirtualMachinesProfile_STATUS
 		err := propertyBag.Pull("VirtualMachinesProfile", &virtualMachinesProfile)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'VirtualMachinesProfile' from propertyBag")
+			return eris.Wrap(err, "pulling 'VirtualMachinesProfile' from propertyBag")
 		}
 
 		pool.VirtualMachinesProfile = &virtualMachinesProfile
@@ -1538,7 +1605,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		var windowsProfile AgentPoolWindowsProfile_STATUS
 		err := propertyBag.Pull("WindowsProfile", &windowsProfile)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'WindowsProfile' from propertyBag")
+			return eris.Wrap(err, "pulling 'WindowsProfile' from propertyBag")
 		}
 
 		pool.WindowsProfile = &windowsProfile
@@ -1556,12 +1623,12 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		pool.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForManagedClusters_AgentPool_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForManagedClustersAgentPool_STATUS interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
-	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClusters_AgentPool_STATUS); ok {
+	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClustersAgentPool_STATUS); ok {
 		err := augmentedPool.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1569,8 +1636,8 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 	return nil
 }
 
-// AssignProperties_To_ManagedClusters_AgentPool_STATUS populates the provided destination ManagedClusters_AgentPool_STATUS from our ManagedClusters_AgentPool_STATUS
-func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedClusters_AgentPool_STATUS(destination *storage.ManagedClusters_AgentPool_STATUS) error {
+// AssignProperties_To_ManagedClustersAgentPool_STATUS populates the provided destination ManagedClustersAgentPool_STATUS from our ManagedClustersAgentPool_STATUS
+func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClustersAgentPool_STATUS(destination *v20231001s.ManagedClustersAgentPool_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
 
@@ -1595,10 +1662,10 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 
 	// CreationData
 	if pool.CreationData != nil {
-		var creationDatum storage.CreationData_STATUS
+		var creationDatum v20231001s.CreationData_STATUS
 		err := pool.CreationData.AssignProperties_To_CreationData_STATUS(&creationDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CreationData_STATUS() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_To_CreationData_STATUS() to populate field CreationData")
 		}
 		destination.CreationData = &creationDatum
 	} else {
@@ -1673,10 +1740,10 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 
 	// KubeletConfig
 	if pool.KubeletConfig != nil {
-		var kubeletConfig storage.KubeletConfig_STATUS
+		var kubeletConfig v20231001s.KubeletConfig_STATUS
 		err := pool.KubeletConfig.AssignProperties_To_KubeletConfig_STATUS(&kubeletConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KubeletConfig_STATUS() to populate field KubeletConfig")
+			return eris.Wrap(err, "calling AssignProperties_To_KubeletConfig_STATUS() to populate field KubeletConfig")
 		}
 		destination.KubeletConfig = &kubeletConfig
 	} else {
@@ -1688,10 +1755,10 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 
 	// LinuxOSConfig
 	if pool.LinuxOSConfig != nil {
-		var linuxOSConfig storage.LinuxOSConfig_STATUS
+		var linuxOSConfig v20231001s.LinuxOSConfig_STATUS
 		err := pool.LinuxOSConfig.AssignProperties_To_LinuxOSConfig_STATUS(&linuxOSConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_LinuxOSConfig_STATUS() to populate field LinuxOSConfig")
+			return eris.Wrap(err, "calling AssignProperties_To_LinuxOSConfig_STATUS() to populate field LinuxOSConfig")
 		}
 		destination.LinuxOSConfig = &linuxOSConfig
 	} else {
@@ -1722,10 +1789,10 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 
 	// NetworkProfile
 	if pool.NetworkProfile != nil {
-		var networkProfile storage.AgentPoolNetworkProfile_STATUS
+		var networkProfile v20231001s.AgentPoolNetworkProfile_STATUS
 		err := pool.NetworkProfile.AssignProperties_To_AgentPoolNetworkProfile_STATUS(&networkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolNetworkProfile_STATUS() to populate field NetworkProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_AgentPoolNetworkProfile_STATUS() to populate field NetworkProfile")
 		}
 		destination.NetworkProfile = &networkProfile
 	} else {
@@ -1771,10 +1838,10 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 
 	// PowerState
 	if pool.PowerState != nil {
-		var powerState storage.PowerState_STATUS
+		var powerState v20231001s.PowerState_STATUS
 		err := pool.PowerState.AssignProperties_To_PowerState_STATUS(&powerState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PowerState_STATUS() to populate field PowerState")
+			return eris.Wrap(err, "calling AssignProperties_To_PowerState_STATUS() to populate field PowerState")
 		}
 		destination.PowerState = &powerState
 	} else {
@@ -1822,10 +1889,10 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 
 	// UpgradeSettings
 	if pool.UpgradeSettings != nil {
-		var upgradeSetting storage.AgentPoolUpgradeSettings_STATUS
+		var upgradeSetting v20231001s.AgentPoolUpgradeSettings_STATUS
 		err := pool.UpgradeSettings.AssignProperties_To_AgentPoolUpgradeSettings_STATUS(&upgradeSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolUpgradeSettings_STATUS() to populate field UpgradeSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_AgentPoolUpgradeSettings_STATUS() to populate field UpgradeSettings")
 		}
 		destination.UpgradeSettings = &upgradeSetting
 	} else {
@@ -1869,12 +1936,12 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForManagedClusters_AgentPool_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForManagedClustersAgentPool_STATUS interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
-	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClusters_AgentPool_STATUS); ok {
+	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClustersAgentPool_STATUS); ok {
 		err := augmentedPool.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1907,7 +1974,6 @@ type AgentPoolGPUProfile_STATUS struct {
 }
 
 // Storage version of v1api20231102preview.AgentPoolNetworkProfile
-// Network settings of an agent pool.
 type AgentPoolNetworkProfile struct {
 	AllowedHostPorts                    []PortRange                    `json:"allowedHostPorts,omitempty"`
 	ApplicationSecurityGroupsReferences []genruntime.ResourceReference `armReference:"ApplicationSecurityGroups" json:"applicationSecurityGroupsReferences,omitempty"`
@@ -1916,7 +1982,7 @@ type AgentPoolNetworkProfile struct {
 }
 
 // AssignProperties_From_AgentPoolNetworkProfile populates our AgentPoolNetworkProfile from the provided source AgentPoolNetworkProfile
-func (profile *AgentPoolNetworkProfile) AssignProperties_From_AgentPoolNetworkProfile(source *storage.AgentPoolNetworkProfile) error {
+func (profile *AgentPoolNetworkProfile) AssignProperties_From_AgentPoolNetworkProfile(source *v20231001s.AgentPoolNetworkProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1929,7 +1995,7 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_From_AgentPoolNetworkPr
 			var allowedHostPort PortRange
 			err := allowedHostPort.AssignProperties_From_PortRange(&allowedHostPortItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PortRange() to populate field AllowedHostPorts")
+				return eris.Wrap(err, "calling AssignProperties_From_PortRange() to populate field AllowedHostPorts")
 			}
 			allowedHostPortList[allowedHostPortIndex] = allowedHostPort
 		}
@@ -1960,7 +2026,7 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_From_AgentPoolNetworkPr
 			var nodePublicIPTag IPTag
 			err := nodePublicIPTag.AssignProperties_From_IPTag(&nodePublicIPTagItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IPTag() to populate field NodePublicIPTags")
+				return eris.Wrap(err, "calling AssignProperties_From_IPTag() to populate field NodePublicIPTags")
 			}
 			nodePublicIPTagList[nodePublicIPTagIndex] = nodePublicIPTag
 		}
@@ -1981,7 +2047,7 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_From_AgentPoolNetworkPr
 	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolNetworkProfile); ok {
 		err := augmentedProfile.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1990,20 +2056,20 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_From_AgentPoolNetworkPr
 }
 
 // AssignProperties_To_AgentPoolNetworkProfile populates the provided destination AgentPoolNetworkProfile from our AgentPoolNetworkProfile
-func (profile *AgentPoolNetworkProfile) AssignProperties_To_AgentPoolNetworkProfile(destination *storage.AgentPoolNetworkProfile) error {
+func (profile *AgentPoolNetworkProfile) AssignProperties_To_AgentPoolNetworkProfile(destination *v20231001s.AgentPoolNetworkProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// AllowedHostPorts
 	if profile.AllowedHostPorts != nil {
-		allowedHostPortList := make([]storage.PortRange, len(profile.AllowedHostPorts))
+		allowedHostPortList := make([]v20231001s.PortRange, len(profile.AllowedHostPorts))
 		for allowedHostPortIndex, allowedHostPortItem := range profile.AllowedHostPorts {
 			// Shadow the loop variable to avoid aliasing
 			allowedHostPortItem := allowedHostPortItem
-			var allowedHostPort storage.PortRange
+			var allowedHostPort v20231001s.PortRange
 			err := allowedHostPortItem.AssignProperties_To_PortRange(&allowedHostPort)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PortRange() to populate field AllowedHostPorts")
+				return eris.Wrap(err, "calling AssignProperties_To_PortRange() to populate field AllowedHostPorts")
 			}
 			allowedHostPortList[allowedHostPortIndex] = allowedHostPort
 		}
@@ -2027,14 +2093,14 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_To_AgentPoolNetworkProf
 
 	// NodePublicIPTags
 	if profile.NodePublicIPTags != nil {
-		nodePublicIPTagList := make([]storage.IPTag, len(profile.NodePublicIPTags))
+		nodePublicIPTagList := make([]v20231001s.IPTag, len(profile.NodePublicIPTags))
 		for nodePublicIPTagIndex, nodePublicIPTagItem := range profile.NodePublicIPTags {
 			// Shadow the loop variable to avoid aliasing
 			nodePublicIPTagItem := nodePublicIPTagItem
-			var nodePublicIPTag storage.IPTag
+			var nodePublicIPTag v20231001s.IPTag
 			err := nodePublicIPTagItem.AssignProperties_To_IPTag(&nodePublicIPTag)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IPTag() to populate field NodePublicIPTags")
+				return eris.Wrap(err, "calling AssignProperties_To_IPTag() to populate field NodePublicIPTags")
 			}
 			nodePublicIPTagList[nodePublicIPTagIndex] = nodePublicIPTag
 		}
@@ -2055,7 +2121,7 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_To_AgentPoolNetworkProf
 	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolNetworkProfile); ok {
 		err := augmentedProfile.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2064,7 +2130,6 @@ func (profile *AgentPoolNetworkProfile) AssignProperties_To_AgentPoolNetworkProf
 }
 
 // Storage version of v1api20231102preview.AgentPoolNetworkProfile_STATUS
-// Network settings of an agent pool.
 type AgentPoolNetworkProfile_STATUS struct {
 	AllowedHostPorts          []PortRange_STATUS     `json:"allowedHostPorts,omitempty"`
 	ApplicationSecurityGroups []string               `json:"applicationSecurityGroups,omitempty"`
@@ -2073,7 +2138,7 @@ type AgentPoolNetworkProfile_STATUS struct {
 }
 
 // AssignProperties_From_AgentPoolNetworkProfile_STATUS populates our AgentPoolNetworkProfile_STATUS from the provided source AgentPoolNetworkProfile_STATUS
-func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_From_AgentPoolNetworkProfile_STATUS(source *storage.AgentPoolNetworkProfile_STATUS) error {
+func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_From_AgentPoolNetworkProfile_STATUS(source *v20231001s.AgentPoolNetworkProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2086,7 +2151,7 @@ func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_From_AgentPoolNe
 			var allowedHostPort PortRange_STATUS
 			err := allowedHostPort.AssignProperties_From_PortRange_STATUS(&allowedHostPortItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PortRange_STATUS() to populate field AllowedHostPorts")
+				return eris.Wrap(err, "calling AssignProperties_From_PortRange_STATUS() to populate field AllowedHostPorts")
 			}
 			allowedHostPortList[allowedHostPortIndex] = allowedHostPort
 		}
@@ -2107,7 +2172,7 @@ func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_From_AgentPoolNe
 			var nodePublicIPTag IPTag_STATUS
 			err := nodePublicIPTag.AssignProperties_From_IPTag_STATUS(&nodePublicIPTagItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IPTag_STATUS() to populate field NodePublicIPTags")
+				return eris.Wrap(err, "calling AssignProperties_From_IPTag_STATUS() to populate field NodePublicIPTags")
 			}
 			nodePublicIPTagList[nodePublicIPTagIndex] = nodePublicIPTag
 		}
@@ -2128,7 +2193,7 @@ func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_From_AgentPoolNe
 	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolNetworkProfile_STATUS); ok {
 		err := augmentedProfile.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2137,20 +2202,20 @@ func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_From_AgentPoolNe
 }
 
 // AssignProperties_To_AgentPoolNetworkProfile_STATUS populates the provided destination AgentPoolNetworkProfile_STATUS from our AgentPoolNetworkProfile_STATUS
-func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_To_AgentPoolNetworkProfile_STATUS(destination *storage.AgentPoolNetworkProfile_STATUS) error {
+func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_To_AgentPoolNetworkProfile_STATUS(destination *v20231001s.AgentPoolNetworkProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// AllowedHostPorts
 	if profile.AllowedHostPorts != nil {
-		allowedHostPortList := make([]storage.PortRange_STATUS, len(profile.AllowedHostPorts))
+		allowedHostPortList := make([]v20231001s.PortRange_STATUS, len(profile.AllowedHostPorts))
 		for allowedHostPortIndex, allowedHostPortItem := range profile.AllowedHostPorts {
 			// Shadow the loop variable to avoid aliasing
 			allowedHostPortItem := allowedHostPortItem
-			var allowedHostPort storage.PortRange_STATUS
+			var allowedHostPort v20231001s.PortRange_STATUS
 			err := allowedHostPortItem.AssignProperties_To_PortRange_STATUS(&allowedHostPort)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PortRange_STATUS() to populate field AllowedHostPorts")
+				return eris.Wrap(err, "calling AssignProperties_To_PortRange_STATUS() to populate field AllowedHostPorts")
 			}
 			allowedHostPortList[allowedHostPortIndex] = allowedHostPort
 		}
@@ -2164,14 +2229,14 @@ func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_To_AgentPoolNetw
 
 	// NodePublicIPTags
 	if profile.NodePublicIPTags != nil {
-		nodePublicIPTagList := make([]storage.IPTag_STATUS, len(profile.NodePublicIPTags))
+		nodePublicIPTagList := make([]v20231001s.IPTag_STATUS, len(profile.NodePublicIPTags))
 		for nodePublicIPTagIndex, nodePublicIPTagItem := range profile.NodePublicIPTags {
 			// Shadow the loop variable to avoid aliasing
 			nodePublicIPTagItem := nodePublicIPTagItem
-			var nodePublicIPTag storage.IPTag_STATUS
+			var nodePublicIPTag v20231001s.IPTag_STATUS
 			err := nodePublicIPTagItem.AssignProperties_To_IPTag_STATUS(&nodePublicIPTag)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IPTag_STATUS() to populate field NodePublicIPTags")
+				return eris.Wrap(err, "calling AssignProperties_To_IPTag_STATUS() to populate field NodePublicIPTags")
 			}
 			nodePublicIPTagList[nodePublicIPTagIndex] = nodePublicIPTag
 		}
@@ -2192,7 +2257,7 @@ func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_To_AgentPoolNetw
 	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolNetworkProfile_STATUS); ok {
 		err := augmentedProfile.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2201,7 +2266,6 @@ func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_To_AgentPoolNetw
 }
 
 // Storage version of v1api20231102preview.AgentPoolSecurityProfile
-// The security settings of an agent pool.
 type AgentPoolSecurityProfile struct {
 	EnableSecureBoot *bool                  `json:"enableSecureBoot,omitempty"`
 	EnableVTPM       *bool                  `json:"enableVTPM,omitempty"`
@@ -2209,8 +2273,95 @@ type AgentPoolSecurityProfile struct {
 	SshAccess        *string                `json:"sshAccess,omitempty"`
 }
 
+// AssignProperties_From_AgentPoolSecurityProfile populates our AgentPoolSecurityProfile from the provided source AgentPoolSecurityProfile
+func (profile *AgentPoolSecurityProfile) AssignProperties_From_AgentPoolSecurityProfile(source *v20231001sc.AgentPoolSecurityProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EnableSecureBoot
+	if source.EnableSecureBoot != nil {
+		enableSecureBoot := *source.EnableSecureBoot
+		profile.EnableSecureBoot = &enableSecureBoot
+	} else {
+		profile.EnableSecureBoot = nil
+	}
+
+	// EnableVTPM
+	if source.EnableVTPM != nil {
+		enableVTPM := *source.EnableVTPM
+		profile.EnableVTPM = &enableVTPM
+	} else {
+		profile.EnableVTPM = nil
+	}
+
+	// SshAccess
+	profile.SshAccess = genruntime.ClonePointerToString(source.SshAccess)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAgentPoolSecurityProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolSecurityProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AgentPoolSecurityProfile populates the provided destination AgentPoolSecurityProfile from our AgentPoolSecurityProfile
+func (profile *AgentPoolSecurityProfile) AssignProperties_To_AgentPoolSecurityProfile(destination *v20231001sc.AgentPoolSecurityProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// EnableSecureBoot
+	if profile.EnableSecureBoot != nil {
+		enableSecureBoot := *profile.EnableSecureBoot
+		destination.EnableSecureBoot = &enableSecureBoot
+	} else {
+		destination.EnableSecureBoot = nil
+	}
+
+	// EnableVTPM
+	if profile.EnableVTPM != nil {
+		enableVTPM := *profile.EnableVTPM
+		destination.EnableVTPM = &enableVTPM
+	} else {
+		destination.EnableVTPM = nil
+	}
+
+	// SshAccess
+	destination.SshAccess = genruntime.ClonePointerToString(profile.SshAccess)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAgentPoolSecurityProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolSecurityProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20231102preview.AgentPoolSecurityProfile_STATUS
-// The security settings of an agent pool.
 type AgentPoolSecurityProfile_STATUS struct {
 	EnableSecureBoot *bool                  `json:"enableSecureBoot,omitempty"`
 	EnableVTPM       *bool                  `json:"enableVTPM,omitempty"`
@@ -2218,8 +2369,95 @@ type AgentPoolSecurityProfile_STATUS struct {
 	SshAccess        *string                `json:"sshAccess,omitempty"`
 }
 
+// AssignProperties_From_AgentPoolSecurityProfile_STATUS populates our AgentPoolSecurityProfile_STATUS from the provided source AgentPoolSecurityProfile_STATUS
+func (profile *AgentPoolSecurityProfile_STATUS) AssignProperties_From_AgentPoolSecurityProfile_STATUS(source *v20231001sc.AgentPoolSecurityProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EnableSecureBoot
+	if source.EnableSecureBoot != nil {
+		enableSecureBoot := *source.EnableSecureBoot
+		profile.EnableSecureBoot = &enableSecureBoot
+	} else {
+		profile.EnableSecureBoot = nil
+	}
+
+	// EnableVTPM
+	if source.EnableVTPM != nil {
+		enableVTPM := *source.EnableVTPM
+		profile.EnableVTPM = &enableVTPM
+	} else {
+		profile.EnableVTPM = nil
+	}
+
+	// SshAccess
+	profile.SshAccess = genruntime.ClonePointerToString(source.SshAccess)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAgentPoolSecurityProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolSecurityProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AgentPoolSecurityProfile_STATUS populates the provided destination AgentPoolSecurityProfile_STATUS from our AgentPoolSecurityProfile_STATUS
+func (profile *AgentPoolSecurityProfile_STATUS) AssignProperties_To_AgentPoolSecurityProfile_STATUS(destination *v20231001sc.AgentPoolSecurityProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// EnableSecureBoot
+	if profile.EnableSecureBoot != nil {
+		enableSecureBoot := *profile.EnableSecureBoot
+		destination.EnableSecureBoot = &enableSecureBoot
+	} else {
+		destination.EnableSecureBoot = nil
+	}
+
+	// EnableVTPM
+	if profile.EnableVTPM != nil {
+		enableVTPM := *profile.EnableVTPM
+		destination.EnableVTPM = &enableVTPM
+	} else {
+		destination.EnableVTPM = nil
+	}
+
+	// SshAccess
+	destination.SshAccess = genruntime.ClonePointerToString(profile.SshAccess)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAgentPoolSecurityProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolSecurityProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20231102preview.AgentPoolUpgradeSettings
-// Settings for upgrading an agentpool
 type AgentPoolUpgradeSettings struct {
 	DrainTimeoutInMinutes     *int                   `json:"drainTimeoutInMinutes,omitempty"`
 	MaxSurge                  *string                `json:"maxSurge,omitempty"`
@@ -2228,7 +2466,7 @@ type AgentPoolUpgradeSettings struct {
 }
 
 // AssignProperties_From_AgentPoolUpgradeSettings populates our AgentPoolUpgradeSettings from the provided source AgentPoolUpgradeSettings
-func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgradeSettings(source *storage.AgentPoolUpgradeSettings) error {
+func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgradeSettings(source *v20231001s.AgentPoolUpgradeSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2243,7 +2481,7 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgrade
 		var nodeSoakDurationInMinute int
 		err := propertyBag.Pull("NodeSoakDurationInMinutes", &nodeSoakDurationInMinute)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'NodeSoakDurationInMinutes' from propertyBag")
+			return eris.Wrap(err, "pulling 'NodeSoakDurationInMinutes' from propertyBag")
 		}
 
 		settings.NodeSoakDurationInMinutes = &nodeSoakDurationInMinute
@@ -2263,7 +2501,7 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgrade
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAgentPoolUpgradeSettings); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2272,7 +2510,7 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgrade
 }
 
 // AssignProperties_To_AgentPoolUpgradeSettings populates the provided destination AgentPoolUpgradeSettings from our AgentPoolUpgradeSettings
-func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSettings(destination *storage.AgentPoolUpgradeSettings) error {
+func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSettings(destination *v20231001s.AgentPoolUpgradeSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -2301,7 +2539,7 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSe
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAgentPoolUpgradeSettings); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2310,7 +2548,6 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSe
 }
 
 // Storage version of v1api20231102preview.AgentPoolUpgradeSettings_STATUS
-// Settings for upgrading an agentpool
 type AgentPoolUpgradeSettings_STATUS struct {
 	DrainTimeoutInMinutes     *int                   `json:"drainTimeoutInMinutes,omitempty"`
 	MaxSurge                  *string                `json:"maxSurge,omitempty"`
@@ -2319,7 +2556,7 @@ type AgentPoolUpgradeSettings_STATUS struct {
 }
 
 // AssignProperties_From_AgentPoolUpgradeSettings_STATUS populates our AgentPoolUpgradeSettings_STATUS from the provided source AgentPoolUpgradeSettings_STATUS
-func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPoolUpgradeSettings_STATUS(source *storage.AgentPoolUpgradeSettings_STATUS) error {
+func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPoolUpgradeSettings_STATUS(source *v20231001s.AgentPoolUpgradeSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2334,7 +2571,7 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPool
 		var nodeSoakDurationInMinute int
 		err := propertyBag.Pull("NodeSoakDurationInMinutes", &nodeSoakDurationInMinute)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'NodeSoakDurationInMinutes' from propertyBag")
+			return eris.Wrap(err, "pulling 'NodeSoakDurationInMinutes' from propertyBag")
 		}
 
 		settings.NodeSoakDurationInMinutes = &nodeSoakDurationInMinute
@@ -2354,7 +2591,7 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPool
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAgentPoolUpgradeSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2363,7 +2600,7 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPool
 }
 
 // AssignProperties_To_AgentPoolUpgradeSettings_STATUS populates the provided destination AgentPoolUpgradeSettings_STATUS from our AgentPoolUpgradeSettings_STATUS
-func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_To_AgentPoolUpgradeSettings_STATUS(destination *storage.AgentPoolUpgradeSettings_STATUS) error {
+func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_To_AgentPoolUpgradeSettings_STATUS(destination *v20231001s.AgentPoolUpgradeSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -2392,7 +2629,7 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_To_AgentPoolUp
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAgentPoolUpgradeSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2401,31 +2638,160 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_To_AgentPoolUp
 }
 
 // Storage version of v1api20231102preview.AgentPoolWindowsProfile
-// The Windows agent pool's specific profile.
 type AgentPoolWindowsProfile struct {
 	DisableOutboundNat *bool                  `json:"disableOutboundNat,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_AgentPoolWindowsProfile populates our AgentPoolWindowsProfile from the provided source AgentPoolWindowsProfile
+func (profile *AgentPoolWindowsProfile) AssignProperties_From_AgentPoolWindowsProfile(source *v20240901s.AgentPoolWindowsProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DisableOutboundNat
+	if source.DisableOutboundNat != nil {
+		disableOutboundNat := *source.DisableOutboundNat
+		profile.DisableOutboundNat = &disableOutboundNat
+	} else {
+		profile.DisableOutboundNat = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAgentPoolWindowsProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolWindowsProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AgentPoolWindowsProfile populates the provided destination AgentPoolWindowsProfile from our AgentPoolWindowsProfile
+func (profile *AgentPoolWindowsProfile) AssignProperties_To_AgentPoolWindowsProfile(destination *v20240901s.AgentPoolWindowsProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// DisableOutboundNat
+	if profile.DisableOutboundNat != nil {
+		disableOutboundNat := *profile.DisableOutboundNat
+		destination.DisableOutboundNat = &disableOutboundNat
+	} else {
+		destination.DisableOutboundNat = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAgentPoolWindowsProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolWindowsProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20231102preview.AgentPoolWindowsProfile_STATUS
-// The Windows agent pool's specific profile.
 type AgentPoolWindowsProfile_STATUS struct {
 	DisableOutboundNat *bool                  `json:"disableOutboundNat,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-type augmentConversionForManagedClusters_AgentPool_Spec interface {
-	AssignPropertiesFrom(src *storage.ManagedClusters_AgentPool_Spec) error
-	AssignPropertiesTo(dst *storage.ManagedClusters_AgentPool_Spec) error
+// AssignProperties_From_AgentPoolWindowsProfile_STATUS populates our AgentPoolWindowsProfile_STATUS from the provided source AgentPoolWindowsProfile_STATUS
+func (profile *AgentPoolWindowsProfile_STATUS) AssignProperties_From_AgentPoolWindowsProfile_STATUS(source *v20240901s.AgentPoolWindowsProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DisableOutboundNat
+	if source.DisableOutboundNat != nil {
+		disableOutboundNat := *source.DisableOutboundNat
+		profile.DisableOutboundNat = &disableOutboundNat
+	} else {
+		profile.DisableOutboundNat = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAgentPoolWindowsProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolWindowsProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
-type augmentConversionForManagedClusters_AgentPool_STATUS interface {
-	AssignPropertiesFrom(src *storage.ManagedClusters_AgentPool_STATUS) error
-	AssignPropertiesTo(dst *storage.ManagedClusters_AgentPool_STATUS) error
+// AssignProperties_To_AgentPoolWindowsProfile_STATUS populates the provided destination AgentPoolWindowsProfile_STATUS from our AgentPoolWindowsProfile_STATUS
+func (profile *AgentPoolWindowsProfile_STATUS) AssignProperties_To_AgentPoolWindowsProfile_STATUS(destination *v20240901s.AgentPoolWindowsProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// DisableOutboundNat
+	if profile.DisableOutboundNat != nil {
+		disableOutboundNat := *profile.DisableOutboundNat
+		destination.DisableOutboundNat = &disableOutboundNat
+	} else {
+		destination.DisableOutboundNat = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAgentPoolWindowsProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolWindowsProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForManagedClustersAgentPool_Spec interface {
+	AssignPropertiesFrom(src *v20231001s.ManagedClustersAgentPool_Spec) error
+	AssignPropertiesTo(dst *v20231001s.ManagedClustersAgentPool_Spec) error
+}
+
+type augmentConversionForManagedClustersAgentPool_STATUS interface {
+	AssignPropertiesFrom(src *v20231001s.ManagedClustersAgentPool_STATUS) error
+	AssignPropertiesTo(dst *v20231001s.ManagedClustersAgentPool_STATUS) error
 }
 
 // Storage version of v1api20231102preview.KubeletConfig
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfig struct {
 	AllowedUnsafeSysctls  []string               `json:"allowedUnsafeSysctls,omitempty"`
 	ContainerLogMaxFiles  *int                   `json:"containerLogMaxFiles,omitempty"`
@@ -2442,7 +2808,7 @@ type KubeletConfig struct {
 }
 
 // AssignProperties_From_KubeletConfig populates our KubeletConfig from the provided source KubeletConfig
-func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *storage.KubeletConfig) error {
+func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *v20231001s.KubeletConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2501,7 +2867,7 @@ func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *storage
 	if augmentedConfig, ok := configAsAny.(augmentConversionForKubeletConfig); ok {
 		err := augmentedConfig.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2510,7 +2876,7 @@ func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *storage
 }
 
 // AssignProperties_To_KubeletConfig populates the provided destination KubeletConfig from our KubeletConfig
-func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *storage.KubeletConfig) error {
+func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *v20231001s.KubeletConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -2569,7 +2935,7 @@ func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *stor
 	if augmentedConfig, ok := configAsAny.(augmentConversionForKubeletConfig); ok {
 		err := augmentedConfig.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2578,7 +2944,6 @@ func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *stor
 }
 
 // Storage version of v1api20231102preview.KubeletConfig_STATUS
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfig_STATUS struct {
 	AllowedUnsafeSysctls  []string               `json:"allowedUnsafeSysctls,omitempty"`
 	ContainerLogMaxFiles  *int                   `json:"containerLogMaxFiles,omitempty"`
@@ -2595,7 +2960,7 @@ type KubeletConfig_STATUS struct {
 }
 
 // AssignProperties_From_KubeletConfig_STATUS populates our KubeletConfig_STATUS from the provided source KubeletConfig_STATUS
-func (config *KubeletConfig_STATUS) AssignProperties_From_KubeletConfig_STATUS(source *storage.KubeletConfig_STATUS) error {
+func (config *KubeletConfig_STATUS) AssignProperties_From_KubeletConfig_STATUS(source *v20231001s.KubeletConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2654,7 +3019,7 @@ func (config *KubeletConfig_STATUS) AssignProperties_From_KubeletConfig_STATUS(s
 	if augmentedConfig, ok := configAsAny.(augmentConversionForKubeletConfig_STATUS); ok {
 		err := augmentedConfig.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2663,7 +3028,7 @@ func (config *KubeletConfig_STATUS) AssignProperties_From_KubeletConfig_STATUS(s
 }
 
 // AssignProperties_To_KubeletConfig_STATUS populates the provided destination KubeletConfig_STATUS from our KubeletConfig_STATUS
-func (config *KubeletConfig_STATUS) AssignProperties_To_KubeletConfig_STATUS(destination *storage.KubeletConfig_STATUS) error {
+func (config *KubeletConfig_STATUS) AssignProperties_To_KubeletConfig_STATUS(destination *v20231001s.KubeletConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -2722,7 +3087,7 @@ func (config *KubeletConfig_STATUS) AssignProperties_To_KubeletConfig_STATUS(des
 	if augmentedConfig, ok := configAsAny.(augmentConversionForKubeletConfig_STATUS); ok {
 		err := augmentedConfig.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2731,7 +3096,6 @@ func (config *KubeletConfig_STATUS) AssignProperties_To_KubeletConfig_STATUS(des
 }
 
 // Storage version of v1api20231102preview.LinuxOSConfig
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig struct {
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SwapFileSizeMB             *int                   `json:"swapFileSizeMB,omitempty"`
@@ -2741,7 +3105,7 @@ type LinuxOSConfig struct {
 }
 
 // AssignProperties_From_LinuxOSConfig populates our LinuxOSConfig from the provided source LinuxOSConfig
-func (config *LinuxOSConfig) AssignProperties_From_LinuxOSConfig(source *storage.LinuxOSConfig) error {
+func (config *LinuxOSConfig) AssignProperties_From_LinuxOSConfig(source *v20231001s.LinuxOSConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2753,7 +3117,7 @@ func (config *LinuxOSConfig) AssignProperties_From_LinuxOSConfig(source *storage
 		var sysctl SysctlConfig
 		err := sysctl.AssignProperties_From_SysctlConfig(source.Sysctls)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SysctlConfig() to populate field Sysctls")
+			return eris.Wrap(err, "calling AssignProperties_From_SysctlConfig() to populate field Sysctls")
 		}
 		config.Sysctls = &sysctl
 	} else {
@@ -2778,7 +3142,7 @@ func (config *LinuxOSConfig) AssignProperties_From_LinuxOSConfig(source *storage
 	if augmentedConfig, ok := configAsAny.(augmentConversionForLinuxOSConfig); ok {
 		err := augmentedConfig.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2787,7 +3151,7 @@ func (config *LinuxOSConfig) AssignProperties_From_LinuxOSConfig(source *storage
 }
 
 // AssignProperties_To_LinuxOSConfig populates the provided destination LinuxOSConfig from our LinuxOSConfig
-func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *storage.LinuxOSConfig) error {
+func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *v20231001s.LinuxOSConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -2796,10 +3160,10 @@ func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *stor
 
 	// Sysctls
 	if config.Sysctls != nil {
-		var sysctl storage.SysctlConfig
+		var sysctl v20231001s.SysctlConfig
 		err := config.Sysctls.AssignProperties_To_SysctlConfig(&sysctl)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SysctlConfig() to populate field Sysctls")
+			return eris.Wrap(err, "calling AssignProperties_To_SysctlConfig() to populate field Sysctls")
 		}
 		destination.Sysctls = &sysctl
 	} else {
@@ -2824,7 +3188,7 @@ func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *stor
 	if augmentedConfig, ok := configAsAny.(augmentConversionForLinuxOSConfig); ok {
 		err := augmentedConfig.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2833,7 +3197,6 @@ func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *stor
 }
 
 // Storage version of v1api20231102preview.LinuxOSConfig_STATUS
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig_STATUS struct {
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SwapFileSizeMB             *int                   `json:"swapFileSizeMB,omitempty"`
@@ -2843,7 +3206,7 @@ type LinuxOSConfig_STATUS struct {
 }
 
 // AssignProperties_From_LinuxOSConfig_STATUS populates our LinuxOSConfig_STATUS from the provided source LinuxOSConfig_STATUS
-func (config *LinuxOSConfig_STATUS) AssignProperties_From_LinuxOSConfig_STATUS(source *storage.LinuxOSConfig_STATUS) error {
+func (config *LinuxOSConfig_STATUS) AssignProperties_From_LinuxOSConfig_STATUS(source *v20231001s.LinuxOSConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2855,7 +3218,7 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_From_LinuxOSConfig_STATUS(s
 		var sysctl SysctlConfig_STATUS
 		err := sysctl.AssignProperties_From_SysctlConfig_STATUS(source.Sysctls)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SysctlConfig_STATUS() to populate field Sysctls")
+			return eris.Wrap(err, "calling AssignProperties_From_SysctlConfig_STATUS() to populate field Sysctls")
 		}
 		config.Sysctls = &sysctl
 	} else {
@@ -2880,7 +3243,7 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_From_LinuxOSConfig_STATUS(s
 	if augmentedConfig, ok := configAsAny.(augmentConversionForLinuxOSConfig_STATUS); ok {
 		err := augmentedConfig.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2889,7 +3252,7 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_From_LinuxOSConfig_STATUS(s
 }
 
 // AssignProperties_To_LinuxOSConfig_STATUS populates the provided destination LinuxOSConfig_STATUS from our LinuxOSConfig_STATUS
-func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(destination *storage.LinuxOSConfig_STATUS) error {
+func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(destination *v20231001s.LinuxOSConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -2898,10 +3261,10 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(des
 
 	// Sysctls
 	if config.Sysctls != nil {
-		var sysctl storage.SysctlConfig_STATUS
+		var sysctl v20231001s.SysctlConfig_STATUS
 		err := config.Sysctls.AssignProperties_To_SysctlConfig_STATUS(&sysctl)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SysctlConfig_STATUS() to populate field Sysctls")
+			return eris.Wrap(err, "calling AssignProperties_To_SysctlConfig_STATUS() to populate field Sysctls")
 		}
 		destination.Sysctls = &sysctl
 	} else {
@@ -2926,7 +3289,137 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(des
 	if augmentedConfig, ok := configAsAny.(augmentConversionForLinuxOSConfig_STATUS); ok {
 		err := augmentedConfig.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1api20231102preview.ManagedClustersAgentPoolOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ManagedClustersAgentPoolOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ManagedClustersAgentPoolOperatorSpec populates our ManagedClustersAgentPoolOperatorSpec from the provided source ManagedClustersAgentPoolOperatorSpec
+func (operator *ManagedClustersAgentPoolOperatorSpec) AssignProperties_From_ManagedClustersAgentPoolOperatorSpec(source *v20231001s.ManagedClustersAgentPoolOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClustersAgentPoolOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForManagedClustersAgentPoolOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedClustersAgentPoolOperatorSpec populates the provided destination ManagedClustersAgentPoolOperatorSpec from our ManagedClustersAgentPoolOperatorSpec
+func (operator *ManagedClustersAgentPoolOperatorSpec) AssignProperties_To_ManagedClustersAgentPoolOperatorSpec(destination *v20231001s.ManagedClustersAgentPoolOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClustersAgentPoolOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForManagedClustersAgentPoolOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2935,14 +3428,13 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(des
 }
 
 // Storage version of v1api20231102preview.PowerState
-// Describes the Power State of the cluster
 type PowerState struct {
 	Code        *string                `json:"code,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignProperties_From_PowerState populates our PowerState from the provided source PowerState
-func (state *PowerState) AssignProperties_From_PowerState(source *storage.PowerState) error {
+func (state *PowerState) AssignProperties_From_PowerState(source *v20231001s.PowerState) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2961,7 +3453,7 @@ func (state *PowerState) AssignProperties_From_PowerState(source *storage.PowerS
 	if augmentedState, ok := stateAsAny.(augmentConversionForPowerState); ok {
 		err := augmentedState.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2970,7 +3462,7 @@ func (state *PowerState) AssignProperties_From_PowerState(source *storage.PowerS
 }
 
 // AssignProperties_To_PowerState populates the provided destination PowerState from our PowerState
-func (state *PowerState) AssignProperties_To_PowerState(destination *storage.PowerState) error {
+func (state *PowerState) AssignProperties_To_PowerState(destination *v20231001s.PowerState) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(state.PropertyBag)
 
@@ -2989,7 +3481,7 @@ func (state *PowerState) AssignProperties_To_PowerState(destination *storage.Pow
 	if augmentedState, ok := stateAsAny.(augmentConversionForPowerState); ok {
 		err := augmentedState.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2998,7 +3490,6 @@ func (state *PowerState) AssignProperties_To_PowerState(destination *storage.Pow
 }
 
 // Storage version of v1api20231102preview.VirtualMachineNodes
-// Current status on a group of nodes of the same vm size.
 type VirtualMachineNodes struct {
 	Count       *int                   `json:"count,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -3006,7 +3497,6 @@ type VirtualMachineNodes struct {
 }
 
 // Storage version of v1api20231102preview.VirtualMachineNodes_STATUS
-// Current status on a group of nodes of the same vm size.
 type VirtualMachineNodes_STATUS struct {
 	Count       *int                   `json:"count,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -3014,66 +3504,88 @@ type VirtualMachineNodes_STATUS struct {
 }
 
 // Storage version of v1api20231102preview.VirtualMachinesProfile
-// Specifications on VirtualMachines agent pool.
 type VirtualMachinesProfile struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Scale       *ScaleProfile          `json:"scale,omitempty"`
 }
 
 // Storage version of v1api20231102preview.VirtualMachinesProfile_STATUS
-// Specifications on VirtualMachines agent pool.
 type VirtualMachinesProfile_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Scale       *ScaleProfile_STATUS   `json:"scale,omitempty"`
 }
 
 type augmentConversionForAgentPoolNetworkProfile interface {
-	AssignPropertiesFrom(src *storage.AgentPoolNetworkProfile) error
-	AssignPropertiesTo(dst *storage.AgentPoolNetworkProfile) error
+	AssignPropertiesFrom(src *v20231001s.AgentPoolNetworkProfile) error
+	AssignPropertiesTo(dst *v20231001s.AgentPoolNetworkProfile) error
 }
 
 type augmentConversionForAgentPoolNetworkProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.AgentPoolNetworkProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.AgentPoolNetworkProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231001s.AgentPoolNetworkProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231001s.AgentPoolNetworkProfile_STATUS) error
+}
+
+type augmentConversionForAgentPoolSecurityProfile interface {
+	AssignPropertiesFrom(src *v20231001sc.AgentPoolSecurityProfile) error
+	AssignPropertiesTo(dst *v20231001sc.AgentPoolSecurityProfile) error
+}
+
+type augmentConversionForAgentPoolSecurityProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20231001sc.AgentPoolSecurityProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231001sc.AgentPoolSecurityProfile_STATUS) error
 }
 
 type augmentConversionForAgentPoolUpgradeSettings interface {
-	AssignPropertiesFrom(src *storage.AgentPoolUpgradeSettings) error
-	AssignPropertiesTo(dst *storage.AgentPoolUpgradeSettings) error
+	AssignPropertiesFrom(src *v20231001s.AgentPoolUpgradeSettings) error
+	AssignPropertiesTo(dst *v20231001s.AgentPoolUpgradeSettings) error
 }
 
 type augmentConversionForAgentPoolUpgradeSettings_STATUS interface {
-	AssignPropertiesFrom(src *storage.AgentPoolUpgradeSettings_STATUS) error
-	AssignPropertiesTo(dst *storage.AgentPoolUpgradeSettings_STATUS) error
+	AssignPropertiesFrom(src *v20231001s.AgentPoolUpgradeSettings_STATUS) error
+	AssignPropertiesTo(dst *v20231001s.AgentPoolUpgradeSettings_STATUS) error
+}
+
+type augmentConversionForAgentPoolWindowsProfile interface {
+	AssignPropertiesFrom(src *v20240901s.AgentPoolWindowsProfile) error
+	AssignPropertiesTo(dst *v20240901s.AgentPoolWindowsProfile) error
+}
+
+type augmentConversionForAgentPoolWindowsProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20240901s.AgentPoolWindowsProfile_STATUS) error
+	AssignPropertiesTo(dst *v20240901s.AgentPoolWindowsProfile_STATUS) error
 }
 
 type augmentConversionForKubeletConfig interface {
-	AssignPropertiesFrom(src *storage.KubeletConfig) error
-	AssignPropertiesTo(dst *storage.KubeletConfig) error
+	AssignPropertiesFrom(src *v20231001s.KubeletConfig) error
+	AssignPropertiesTo(dst *v20231001s.KubeletConfig) error
 }
 
 type augmentConversionForKubeletConfig_STATUS interface {
-	AssignPropertiesFrom(src *storage.KubeletConfig_STATUS) error
-	AssignPropertiesTo(dst *storage.KubeletConfig_STATUS) error
+	AssignPropertiesFrom(src *v20231001s.KubeletConfig_STATUS) error
+	AssignPropertiesTo(dst *v20231001s.KubeletConfig_STATUS) error
 }
 
 type augmentConversionForLinuxOSConfig interface {
-	AssignPropertiesFrom(src *storage.LinuxOSConfig) error
-	AssignPropertiesTo(dst *storage.LinuxOSConfig) error
+	AssignPropertiesFrom(src *v20231001s.LinuxOSConfig) error
+	AssignPropertiesTo(dst *v20231001s.LinuxOSConfig) error
 }
 
 type augmentConversionForLinuxOSConfig_STATUS interface {
-	AssignPropertiesFrom(src *storage.LinuxOSConfig_STATUS) error
-	AssignPropertiesTo(dst *storage.LinuxOSConfig_STATUS) error
+	AssignPropertiesFrom(src *v20231001s.LinuxOSConfig_STATUS) error
+	AssignPropertiesTo(dst *v20231001s.LinuxOSConfig_STATUS) error
+}
+
+type augmentConversionForManagedClustersAgentPoolOperatorSpec interface {
+	AssignPropertiesFrom(src *v20231001s.ManagedClustersAgentPoolOperatorSpec) error
+	AssignPropertiesTo(dst *v20231001s.ManagedClustersAgentPoolOperatorSpec) error
 }
 
 type augmentConversionForPowerState interface {
-	AssignPropertiesFrom(src *storage.PowerState) error
-	AssignPropertiesTo(dst *storage.PowerState) error
+	AssignPropertiesFrom(src *v20231001s.PowerState) error
+	AssignPropertiesTo(dst *v20231001s.PowerState) error
 }
 
 // Storage version of v1api20231102preview.IPTag
-// Contains the IPTag associated with the object.
 type IPTag struct {
 	IpTagType   *string                `json:"ipTagType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -3081,7 +3593,7 @@ type IPTag struct {
 }
 
 // AssignProperties_From_IPTag populates our IPTag from the provided source IPTag
-func (ipTag *IPTag) AssignProperties_From_IPTag(source *storage.IPTag) error {
+func (ipTag *IPTag) AssignProperties_From_IPTag(source *v20231001s.IPTag) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3103,7 +3615,7 @@ func (ipTag *IPTag) AssignProperties_From_IPTag(source *storage.IPTag) error {
 	if augmentedIpTag, ok := ipTagAsAny.(augmentConversionForIPTag); ok {
 		err := augmentedIpTag.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3112,7 +3624,7 @@ func (ipTag *IPTag) AssignProperties_From_IPTag(source *storage.IPTag) error {
 }
 
 // AssignProperties_To_IPTag populates the provided destination IPTag from our IPTag
-func (ipTag *IPTag) AssignProperties_To_IPTag(destination *storage.IPTag) error {
+func (ipTag *IPTag) AssignProperties_To_IPTag(destination *v20231001s.IPTag) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(ipTag.PropertyBag)
 
@@ -3134,7 +3646,7 @@ func (ipTag *IPTag) AssignProperties_To_IPTag(destination *storage.IPTag) error 
 	if augmentedIpTag, ok := ipTagAsAny.(augmentConversionForIPTag); ok {
 		err := augmentedIpTag.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3143,7 +3655,6 @@ func (ipTag *IPTag) AssignProperties_To_IPTag(destination *storage.IPTag) error 
 }
 
 // Storage version of v1api20231102preview.IPTag_STATUS
-// Contains the IPTag associated with the object.
 type IPTag_STATUS struct {
 	IpTagType   *string                `json:"ipTagType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -3151,7 +3662,7 @@ type IPTag_STATUS struct {
 }
 
 // AssignProperties_From_IPTag_STATUS populates our IPTag_STATUS from the provided source IPTag_STATUS
-func (ipTag *IPTag_STATUS) AssignProperties_From_IPTag_STATUS(source *storage.IPTag_STATUS) error {
+func (ipTag *IPTag_STATUS) AssignProperties_From_IPTag_STATUS(source *v20231001s.IPTag_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3173,7 +3684,7 @@ func (ipTag *IPTag_STATUS) AssignProperties_From_IPTag_STATUS(source *storage.IP
 	if augmentedIpTag, ok := ipTagAsAny.(augmentConversionForIPTag_STATUS); ok {
 		err := augmentedIpTag.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3182,7 +3693,7 @@ func (ipTag *IPTag_STATUS) AssignProperties_From_IPTag_STATUS(source *storage.IP
 }
 
 // AssignProperties_To_IPTag_STATUS populates the provided destination IPTag_STATUS from our IPTag_STATUS
-func (ipTag *IPTag_STATUS) AssignProperties_To_IPTag_STATUS(destination *storage.IPTag_STATUS) error {
+func (ipTag *IPTag_STATUS) AssignProperties_To_IPTag_STATUS(destination *v20231001s.IPTag_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(ipTag.PropertyBag)
 
@@ -3204,7 +3715,7 @@ func (ipTag *IPTag_STATUS) AssignProperties_To_IPTag_STATUS(destination *storage
 	if augmentedIpTag, ok := ipTagAsAny.(augmentConversionForIPTag_STATUS); ok {
 		err := augmentedIpTag.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3213,7 +3724,6 @@ func (ipTag *IPTag_STATUS) AssignProperties_To_IPTag_STATUS(destination *storage
 }
 
 // Storage version of v1api20231102preview.PortRange
-// The port range.
 type PortRange struct {
 	PortEnd     *int                   `json:"portEnd,omitempty"`
 	PortStart   *int                   `json:"portStart,omitempty"`
@@ -3222,7 +3732,7 @@ type PortRange struct {
 }
 
 // AssignProperties_From_PortRange populates our PortRange from the provided source PortRange
-func (portRange *PortRange) AssignProperties_From_PortRange(source *storage.PortRange) error {
+func (portRange *PortRange) AssignProperties_From_PortRange(source *v20231001s.PortRange) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3247,7 +3757,7 @@ func (portRange *PortRange) AssignProperties_From_PortRange(source *storage.Port
 	if augmentedPortRange, ok := portRangeAsAny.(augmentConversionForPortRange); ok {
 		err := augmentedPortRange.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3256,7 +3766,7 @@ func (portRange *PortRange) AssignProperties_From_PortRange(source *storage.Port
 }
 
 // AssignProperties_To_PortRange populates the provided destination PortRange from our PortRange
-func (portRange *PortRange) AssignProperties_To_PortRange(destination *storage.PortRange) error {
+func (portRange *PortRange) AssignProperties_To_PortRange(destination *v20231001s.PortRange) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(portRange.PropertyBag)
 
@@ -3281,7 +3791,7 @@ func (portRange *PortRange) AssignProperties_To_PortRange(destination *storage.P
 	if augmentedPortRange, ok := portRangeAsAny.(augmentConversionForPortRange); ok {
 		err := augmentedPortRange.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3290,7 +3800,6 @@ func (portRange *PortRange) AssignProperties_To_PortRange(destination *storage.P
 }
 
 // Storage version of v1api20231102preview.PortRange_STATUS
-// The port range.
 type PortRange_STATUS struct {
 	PortEnd     *int                   `json:"portEnd,omitempty"`
 	PortStart   *int                   `json:"portStart,omitempty"`
@@ -3299,7 +3808,7 @@ type PortRange_STATUS struct {
 }
 
 // AssignProperties_From_PortRange_STATUS populates our PortRange_STATUS from the provided source PortRange_STATUS
-func (portRange *PortRange_STATUS) AssignProperties_From_PortRange_STATUS(source *storage.PortRange_STATUS) error {
+func (portRange *PortRange_STATUS) AssignProperties_From_PortRange_STATUS(source *v20231001s.PortRange_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3324,7 +3833,7 @@ func (portRange *PortRange_STATUS) AssignProperties_From_PortRange_STATUS(source
 	if augmentedPortRange, ok := portRangeAsAny.(augmentConversionForPortRange_STATUS); ok {
 		err := augmentedPortRange.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3333,7 +3842,7 @@ func (portRange *PortRange_STATUS) AssignProperties_From_PortRange_STATUS(source
 }
 
 // AssignProperties_To_PortRange_STATUS populates the provided destination PortRange_STATUS from our PortRange_STATUS
-func (portRange *PortRange_STATUS) AssignProperties_To_PortRange_STATUS(destination *storage.PortRange_STATUS) error {
+func (portRange *PortRange_STATUS) AssignProperties_To_PortRange_STATUS(destination *v20231001s.PortRange_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(portRange.PropertyBag)
 
@@ -3358,7 +3867,7 @@ func (portRange *PortRange_STATUS) AssignProperties_To_PortRange_STATUS(destinat
 	if augmentedPortRange, ok := portRangeAsAny.(augmentConversionForPortRange_STATUS); ok {
 		err := augmentedPortRange.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3367,21 +3876,18 @@ func (portRange *PortRange_STATUS) AssignProperties_To_PortRange_STATUS(destinat
 }
 
 // Storage version of v1api20231102preview.ScaleProfile
-// Specifications on how to scale a VirtualMachines agent pool.
 type ScaleProfile struct {
 	Manual      []ManualScaleProfile   `json:"manual,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20231102preview.ScaleProfile_STATUS
-// Specifications on how to scale a VirtualMachines agent pool.
 type ScaleProfile_STATUS struct {
 	Manual      []ManualScaleProfile_STATUS `json:"manual,omitempty"`
 	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20231102preview.SysctlConfig
-// Sysctl settings for Linux agent nodes.
 type SysctlConfig struct {
 	FsAioMaxNr                     *int                   `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int                   `json:"fsFileMax,omitempty"`
@@ -3415,7 +3921,7 @@ type SysctlConfig struct {
 }
 
 // AssignProperties_From_SysctlConfig populates our SysctlConfig from the provided source SysctlConfig
-func (config *SysctlConfig) AssignProperties_From_SysctlConfig(source *storage.SysctlConfig) error {
+func (config *SysctlConfig) AssignProperties_From_SysctlConfig(source *v20231001s.SysctlConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3520,7 +4026,7 @@ func (config *SysctlConfig) AssignProperties_From_SysctlConfig(source *storage.S
 	if augmentedConfig, ok := configAsAny.(augmentConversionForSysctlConfig); ok {
 		err := augmentedConfig.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3529,7 +4035,7 @@ func (config *SysctlConfig) AssignProperties_From_SysctlConfig(source *storage.S
 }
 
 // AssignProperties_To_SysctlConfig populates the provided destination SysctlConfig from our SysctlConfig
-func (config *SysctlConfig) AssignProperties_To_SysctlConfig(destination *storage.SysctlConfig) error {
+func (config *SysctlConfig) AssignProperties_To_SysctlConfig(destination *v20231001s.SysctlConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -3634,7 +4140,7 @@ func (config *SysctlConfig) AssignProperties_To_SysctlConfig(destination *storag
 	if augmentedConfig, ok := configAsAny.(augmentConversionForSysctlConfig); ok {
 		err := augmentedConfig.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3643,7 +4149,6 @@ func (config *SysctlConfig) AssignProperties_To_SysctlConfig(destination *storag
 }
 
 // Storage version of v1api20231102preview.SysctlConfig_STATUS
-// Sysctl settings for Linux agent nodes.
 type SysctlConfig_STATUS struct {
 	FsAioMaxNr                     *int                   `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int                   `json:"fsFileMax,omitempty"`
@@ -3677,7 +4182,7 @@ type SysctlConfig_STATUS struct {
 }
 
 // AssignProperties_From_SysctlConfig_STATUS populates our SysctlConfig_STATUS from the provided source SysctlConfig_STATUS
-func (config *SysctlConfig_STATUS) AssignProperties_From_SysctlConfig_STATUS(source *storage.SysctlConfig_STATUS) error {
+func (config *SysctlConfig_STATUS) AssignProperties_From_SysctlConfig_STATUS(source *v20231001s.SysctlConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3782,7 +4287,7 @@ func (config *SysctlConfig_STATUS) AssignProperties_From_SysctlConfig_STATUS(sou
 	if augmentedConfig, ok := configAsAny.(augmentConversionForSysctlConfig_STATUS); ok {
 		err := augmentedConfig.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -3791,7 +4296,7 @@ func (config *SysctlConfig_STATUS) AssignProperties_From_SysctlConfig_STATUS(sou
 }
 
 // AssignProperties_To_SysctlConfig_STATUS populates the provided destination SysctlConfig_STATUS from our SysctlConfig_STATUS
-func (config *SysctlConfig_STATUS) AssignProperties_To_SysctlConfig_STATUS(destination *storage.SysctlConfig_STATUS) error {
+func (config *SysctlConfig_STATUS) AssignProperties_To_SysctlConfig_STATUS(destination *v20231001s.SysctlConfig_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -3896,7 +4401,7 @@ func (config *SysctlConfig_STATUS) AssignProperties_To_SysctlConfig_STATUS(desti
 	if augmentedConfig, ok := configAsAny.(augmentConversionForSysctlConfig_STATUS); ok {
 		err := augmentedConfig.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -3905,37 +4410,36 @@ func (config *SysctlConfig_STATUS) AssignProperties_To_SysctlConfig_STATUS(desti
 }
 
 type augmentConversionForIPTag interface {
-	AssignPropertiesFrom(src *storage.IPTag) error
-	AssignPropertiesTo(dst *storage.IPTag) error
+	AssignPropertiesFrom(src *v20231001s.IPTag) error
+	AssignPropertiesTo(dst *v20231001s.IPTag) error
 }
 
 type augmentConversionForIPTag_STATUS interface {
-	AssignPropertiesFrom(src *storage.IPTag_STATUS) error
-	AssignPropertiesTo(dst *storage.IPTag_STATUS) error
+	AssignPropertiesFrom(src *v20231001s.IPTag_STATUS) error
+	AssignPropertiesTo(dst *v20231001s.IPTag_STATUS) error
 }
 
 type augmentConversionForPortRange interface {
-	AssignPropertiesFrom(src *storage.PortRange) error
-	AssignPropertiesTo(dst *storage.PortRange) error
+	AssignPropertiesFrom(src *v20231001s.PortRange) error
+	AssignPropertiesTo(dst *v20231001s.PortRange) error
 }
 
 type augmentConversionForPortRange_STATUS interface {
-	AssignPropertiesFrom(src *storage.PortRange_STATUS) error
-	AssignPropertiesTo(dst *storage.PortRange_STATUS) error
+	AssignPropertiesFrom(src *v20231001s.PortRange_STATUS) error
+	AssignPropertiesTo(dst *v20231001s.PortRange_STATUS) error
 }
 
 type augmentConversionForSysctlConfig interface {
-	AssignPropertiesFrom(src *storage.SysctlConfig) error
-	AssignPropertiesTo(dst *storage.SysctlConfig) error
+	AssignPropertiesFrom(src *v20231001s.SysctlConfig) error
+	AssignPropertiesTo(dst *v20231001s.SysctlConfig) error
 }
 
 type augmentConversionForSysctlConfig_STATUS interface {
-	AssignPropertiesFrom(src *storage.SysctlConfig_STATUS) error
-	AssignPropertiesTo(dst *storage.SysctlConfig_STATUS) error
+	AssignPropertiesFrom(src *v20231001s.SysctlConfig_STATUS) error
+	AssignPropertiesTo(dst *v20231001s.SysctlConfig_STATUS) error
 }
 
 // Storage version of v1api20231102preview.ManualScaleProfile
-// Specifications on number of machines.
 type ManualScaleProfile struct {
 	Count       *int                   `json:"count,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -3943,7 +4447,6 @@ type ManualScaleProfile struct {
 }
 
 // Storage version of v1api20231102preview.ManualScaleProfile_STATUS
-// Specifications on number of machines.
 type ManualScaleProfile_STATUS struct {
 	Count       *int                   `json:"count,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

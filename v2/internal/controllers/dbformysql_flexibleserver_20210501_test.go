@@ -8,8 +8,9 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
+
+	"github.com/kr/pretty"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
 	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
@@ -131,7 +132,7 @@ func MySQLFlexibleServer_Database_20210501_CRUD(tc *testcommon.KubePerTestContex
 	// although it doesn't give nice errors to point this out
 	database := &mysql.FlexibleServersDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("db")),
-		Spec: mysql.FlexibleServers_Database_Spec{
+		Spec: mysql.FlexibleServersDatabase_Spec{
 			Owner:   testcommon.AsOwner(flexibleServer),
 			Charset: to.Ptr("utf8mb4"),
 		},
@@ -145,7 +146,7 @@ func MySQLFlexibleServer_Database_20210501_CRUD(tc *testcommon.KubePerTestContex
 func MySQLFlexibleServer_FirewallRule_20210501_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
 	rule := &mysql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
-		Spec: mysql.FlexibleServers_FirewallRule_Spec{
+		Spec: mysql.FlexibleServersFirewallRule_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
 			StartIpAddress: to.Ptr("1.2.3.4"),
 			EndIpAddress:   to.Ptr("1.2.3.4"),
@@ -211,7 +212,7 @@ func MySQLFlexibleServer_AADAdmin_20220101_CRUD(tc *testcommon.KubePerTestContex
 	aadAdmin := mysql20220101.AdministratorProperties_AdministratorType_ActiveDirectory
 	admin := &mysql20220101.FlexibleServersAdministrator{
 		ObjectMeta: tc.MakeObjectMeta("aadadmin"),
-		Spec: mysql20220101.FlexibleServers_Administrator_Spec{
+		Spec: mysql20220101.FlexibleServersAdministrator_Spec{
 			Owner:             testcommon.AsOwner(server),
 			AdministratorType: &aadAdmin,
 			Login:             &mi.Name,
@@ -236,7 +237,7 @@ func MySQLFlexibleServer_AADAdmin_20220101_CRUD(tc *testcommon.KubePerTestContex
 func MySQLFlexibleServer_Configuration_20220101_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
 	configuration := &mysql20220101.FlexibleServersConfiguration{
 		ObjectMeta: tc.MakeObjectMetaWithName("maxconnections"),
-		Spec: mysql20220101.FlexibleServers_Configuration_Spec{
+		Spec: mysql20220101.FlexibleServersConfiguration_Spec{
 			AzureName: "max_connections",
 			Owner:     testcommon.AsOwner(flexibleServer),
 			Source:    to.Ptr(mysql20220101.ConfigurationProperties_Source_UserOverride),

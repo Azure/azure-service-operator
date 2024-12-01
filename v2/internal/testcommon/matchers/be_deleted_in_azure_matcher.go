@@ -11,7 +11,7 @@ import (
 
 	gomegaformat "github.com/onsi/gomega/format"
 	"github.com/onsi/gomega/types"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
@@ -21,7 +21,7 @@ func actualAsStr(actual interface{}) (string, error) {
 	strPtr, okPtr := actual.(*string)
 
 	if !ok && !okPtr {
-		return "", errors.Errorf("expected string or *string, was: %T", actual)
+		return "", eris.Errorf("expected string or *string, was: %T", actual)
 	}
 
 	if okPtr {

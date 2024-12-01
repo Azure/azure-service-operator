@@ -186,11 +186,7 @@ func (tn InternalTypeName) IsStatus() bool {
 
 // IsARMType returns true if the TypeName identifies an ARM specific type, false otherwise.
 func (tn InternalTypeName) IsARMType() bool {
-	if IsARMPackageReference(tn.InternalPackageReference()) {
-		return true
-	}
-
-	return strings.HasSuffix(tn.Name(), ARMSuffix)
+	return IsARMPackageReference(tn.InternalPackageReference())
 }
 
 func (tn InternalTypeName) IsEmpty() bool {

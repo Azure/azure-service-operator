@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,6 +46,26 @@ func (factory *Factory) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (factory *Factory) SetConditions(conditions conditions.Conditions) {
 	factory.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Factory{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (factory *Factory) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if factory.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return factory.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Factory{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (factory *Factory) SecretDestinationExpressions() []*core.DestinationExpression {
+	if factory.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return factory.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Factory{}
@@ -93,6 +116,10 @@ func (factory *Factory) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (factory *Factory) Owner() *genruntime.ResourceReference {
+	if factory.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(factory.Spec)
 	return factory.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -109,7 +136,7 @@ func (factory *Factory) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Factory_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	factory.Status = st
@@ -156,6 +183,7 @@ type Factory_Spec struct {
 	GlobalParameters map[string]GlobalParameterSpecification `json:"globalParameters,omitempty"`
 	Identity         *FactoryIdentity                        `json:"identity,omitempty"`
 	Location         *string                                 `json:"location,omitempty"`
+	OperatorSpec     *FactoryOperatorSpec                    `json:"operatorSpec,omitempty"`
 	OriginalVersion  string                                  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -175,7 +203,7 @@ var _ genruntime.ConvertibleSpec = &Factory_Spec{}
 // ConvertSpecFrom populates our Factory_Spec from the provided source
 func (factory *Factory_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == factory {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(factory)
@@ -184,7 +212,7 @@ func (factory *Factory_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 // ConvertSpecTo populates the provided destination from our Factory_Spec
 func (factory *Factory_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == factory {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(factory)
@@ -218,7 +246,7 @@ var _ genruntime.ConvertibleStatus = &Factory_STATUS{}
 // ConvertStatusFrom populates our Factory_STATUS from the provided source
 func (factory *Factory_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == factory {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(factory)
@@ -227,7 +255,7 @@ func (factory *Factory_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 // ConvertStatusTo populates the provided destination from our Factory_STATUS
 func (factory *Factory_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == factory {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(factory)
@@ -269,6 +297,14 @@ type FactoryIdentity_STATUS struct {
 	TenantId               *string                `json:"tenantId,omitempty"`
 	Type                   *string                `json:"type,omitempty"`
 	UserAssignedIdentities map[string]v1.JSON     `json:"userAssignedIdentities,omitempty"`
+}
+
+// Storage version of v1api20180601.FactoryOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FactoryOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20180601.FactoryRepoConfiguration

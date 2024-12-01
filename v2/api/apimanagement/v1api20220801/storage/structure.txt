@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2022-08-01"
 Api: Resource
 ├── Owner: apimanagement/v1api20220801.Service
-├── Spec: Object (29 properties)
+├── Spec: Object (30 properties)
 │   ├── APIVersion: *string
 │   ├── ApiRevision: *string
 │   ├── ApiRevisionDescription: *string
@@ -52,6 +52,10 @@ Api: Resource
 │   │   ├── Name: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Url: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Path: *string
@@ -135,10 +139,14 @@ Api: Resource
     └── Type: *string
 ApiVersionSet: Resource
 ├── Owner: apimanagement/v1api20220801.Service
-├── Spec: Object (9 properties)
+├── Spec: Object (10 properties)
 │   ├── AzureName: string
 │   ├── Description: *string
 │   ├── DisplayName: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -158,7 +166,7 @@ ApiVersionSet: Resource
     └── VersioningScheme: *string
 AuthorizationProvider: Resource
 ├── Owner: apimanagement/v1api20220801.Service
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AzureName: string
 │   ├── DisplayName: *string
 │   ├── IdentityProvider: *string
@@ -169,6 +177,10 @@ AuthorizationProvider: Resource
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── RedirectUrl: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
@@ -189,10 +201,14 @@ AuthorizationProvider: Resource
     └── Type: *string
 AuthorizationProvidersAuthorization: Resource
 ├── Owner: apimanagement/v1api20220801.AuthorizationProvider
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AuthorizationType: *string
 │   ├── AzureName: string
 │   ├── Oauth2GrantType: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Parameters: *genruntime.SecretMapReference
@@ -213,10 +229,14 @@ AuthorizationProvidersAuthorization: Resource
     └── Type: *string
 AuthorizationProvidersAuthorizationsAccessPolicy: Resource
 ├── Owner: apimanagement/v1api20220801.AuthorizationProvidersAuthorization
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
 │   ├── ObjectId: *string
 │   ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -232,7 +252,7 @@ AuthorizationProvidersAuthorizationsAccessPolicy: Resource
     └── Type: *string
 Backend: Resource
 ├── Owner: apimanagement/v1api20220801.Service
-├── Spec: Object (13 properties)
+├── Spec: Object (14 properties)
 │   ├── AzureName: string
 │   ├── Credentials: *Object (6 properties)
 │   │   ├── Authorization: *Object (3 properties)
@@ -245,6 +265,10 @@ Backend: Resource
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Query: map[string]string[]
 │   ├── Description: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Properties: *Object (2 properties)
@@ -318,7 +342,7 @@ Backend: Resource
     └── Url: *string
 NamedValue: Resource
 ├── Owner: apimanagement/v1api20220801.Service
-├── Spec: Object (9 properties)
+├── Spec: Object (10 properties)
 │   ├── AzureName: string
 │   ├── DisplayName: *string
 │   ├── KeyVault: *Object (4 properties)
@@ -326,6 +350,10 @@ NamedValue: Resource
 │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── SecretIdentifier: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -353,8 +381,12 @@ NamedValue: Resource
     └── Value: *string
 Policy: Resource
 ├── Owner: apimanagement/v1api20220801.Service
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── Format: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -369,10 +401,14 @@ Policy: Resource
     └── Value: *string
 PolicyFragment: Resource
 ├── Owner: apimanagement/v1api20220801.Service
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AzureName: string
 │   ├── Description: *string
 │   ├── Format: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -388,11 +424,15 @@ PolicyFragment: Resource
     └── Value: *string
 Product: Resource
 ├── Owner: apimanagement/v1api20220801.Service
-├── Spec: Object (11 properties)
+├── Spec: Object (12 properties)
 │   ├── ApprovalRequired: *bool
 │   ├── AzureName: string
 │   ├── Description: *string
 │   ├── DisplayName: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -415,8 +455,12 @@ Product: Resource
     └── Type: *string
 ProductApi: Resource
 ├── Owner: apimanagement/v1api20220801.Product
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
@@ -425,8 +469,12 @@ ProductApi: Resource
     └── PropertyBag: genruntime.PropertyBag
 ProductPolicy: Resource
 ├── Owner: apimanagement/v1api20220801.Product
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── Format: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -441,7 +489,7 @@ ProductPolicy: Resource
     └── Value: *string
 Service: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (25 properties)
+├── Spec: Object (26 properties)
 │   ├── AdditionalLocations: Object (8 properties)[]
 │   │   ├── DisableGateway: *bool
 │   │   ├── Location: *string
@@ -506,6 +554,10 @@ Service: Resource
 │   ├── Location: *string
 │   ├── NatGatewayState: *string
 │   ├── NotificationSenderEmail: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -654,8 +706,10 @@ Subscription: Resource
 │   ├── AllowTracing: *bool
 │   ├── AzureName: string
 │   ├── DisplayName: *string
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (3 properties)
 │   │       ├── PrimaryKey: *genruntime.SecretDestination
 │   │       ├── PropertyBag: genruntime.PropertyBag

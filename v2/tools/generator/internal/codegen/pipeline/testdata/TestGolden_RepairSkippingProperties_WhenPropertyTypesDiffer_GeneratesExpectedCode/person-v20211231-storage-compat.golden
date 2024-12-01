@@ -6,7 +6,7 @@ package compat
 import (
 	storage "github.com/Azure/azure-service-operator/testing/person/v20220630/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 // Storage version of v20200101.Residence
@@ -46,7 +46,7 @@ func (residence *Residence) AssignProperties_From_Residence(source *storage.Resi
 	if augmentedResidence, ok := residenceAsAny.(augmentConversionForResidence); ok {
 		err := augmentedResidence.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -70,7 +70,7 @@ func (residence *Residence) AssignProperties_To_Residence(destination *storage.R
 		var suburb string
 		err := propertyBag.Pull("Suburb", &suburb)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'Suburb' from propertyBag")
+			return eris.Wrap(err, "pulling 'Suburb' from propertyBag")
 		}
 
 		destination.Suburb = &suburb
@@ -90,7 +90,7 @@ func (residence *Residence) AssignProperties_To_Residence(destination *storage.R
 	if augmentedResidence, ok := residenceAsAny.(augmentConversionForResidence); ok {
 		err := augmentedResidence.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

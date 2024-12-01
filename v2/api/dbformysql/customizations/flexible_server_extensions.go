@@ -8,33 +8,35 @@ package customizations
 import (
 	"context"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
-var _ genruntime.KubernetesExporter = &FlexibleServerExtension{}
+var _ genruntime.KubernetesSecretExporter = &FlexibleServerExtension{}
 
-func (ext *FlexibleServerExtension) ExportKubernetesResources(
+func (ext *FlexibleServerExtension) ExportKubernetesSecrets(
 	ctx context.Context,
 	obj genruntime.MetaObject,
+	additionalSecrets set.Set[string],
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
-) ([]client.Object, error) {
+) (*genruntime.KubernetesSecretExportResult, error) {
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
 	typedObj, ok := obj.(*mysql.FlexibleServer)
 	if !ok {
-		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *mysql.FlexibleServer", obj)
+		return nil, eris.Errorf("cannot run on unknown resource type %T, expected *mysql.FlexibleServer", obj)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if
@@ -52,7 +54,10 @@ func (ext *FlexibleServerExtension) ExportKubernetesResources(
 		return nil, err
 	}
 
-	return secrets.SliceToClientObjectSlice(secretSlice), nil
+	return &genruntime.KubernetesSecretExportResult{
+		Objs:       secrets.SliceToClientObjectSlice(secretSlice),
+		RawSecrets: nil, // No RawSecrets as all secret values are coming from status (not real secrets)
+	}, nil
 }
 
 func secretsSpecified(obj *mysql.FlexibleServer) bool {
@@ -67,7 +72,7 @@ func secretsSpecified(obj *mysql.FlexibleServer) bool {
 func secretsToWrite(obj *mysql.FlexibleServer) ([]*v1.Secret, error) {
 	operatorSpecSecrets := obj.Spec.OperatorSpec.Secrets
 	if operatorSpecSecrets == nil {
-		return nil, errors.Errorf("unexpected nil operatorspec")
+		return nil, nil
 	}
 
 	collector := secrets.NewCollector(obj.Namespace)

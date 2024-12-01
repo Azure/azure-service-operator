@@ -9,17 +9,18 @@ import (
 	"context"
 	"strings"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
@@ -27,27 +28,36 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
-var _ genruntime.KubernetesExporter = &DatabaseAccountExtension{}
+const (
+	primaryMasterKeyKey           = "primaryMasterKey"
+	secondaryMasterKeyKey         = "secondaryMasterKey"
+	primaryReadonlyMasterKeyKey   = "primaryReadonlyMasterKey"
+	secondaryReadonlyMasterKeyKey = "secondaryReadonlyMasterKey"
+)
 
-func (ext *DatabaseAccountExtension) ExportKubernetesResources(
+var _ genruntime.KubernetesSecretExporter = &DatabaseAccountExtension{}
+
+func (ext *DatabaseAccountExtension) ExportKubernetesSecrets(
 	ctx context.Context,
 	obj genruntime.MetaObject,
+	additionalSecrets set.Set[string],
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
-) ([]client.Object, error) {
+) (*genruntime.KubernetesSecretExportResult, error) {
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
 	typedObj, ok := obj.(*documentdb.DatabaseAccount)
 	if !ok {
-		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *documentdb.DatabaseAccount", obj)
+		return nil, eris.Errorf("cannot run on unknown resource type %T, expected *documentdb.DatabaseAccount", obj)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = typedObj
 
-	hasSecrets, hasEndpoints := secretsSpecified(typedObj)
-	if !hasSecrets && !hasEndpoints {
+	primarySecrets, hasEndpoints := secretsSpecified(typedObj)
+	requestedSecrets := set.Union(primarySecrets, additionalSecrets)
+	if len(requestedSecrets) == 0 && !hasEndpoints {
 		log.V(Debug).Info("No secrets retrieval to perform as operatorSpec is empty")
 		return nil, nil
 	}
@@ -59,14 +69,14 @@ func (ext *DatabaseAccountExtension) ExportKubernetesResources(
 
 	var keys armcosmos.DatabaseAccountListKeysResult
 	// Only bother calling ListKeys if there are secrets to retrieve
-	if hasSecrets {
+	if len(requestedSecrets) > 0 {
 		subscription := id.SubscriptionID
 		// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
 		// connection each time through
 		var acctClient *armcosmos.DatabaseAccountsClient
 		acctClient, err = armcosmos.NewDatabaseAccountsClient(subscription, armClient.Creds(), armClient.ClientOptions())
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to create new DatabaseAccountClient")
+			return nil, eris.Wrapf(err, "failed to create new DatabaseAccountClient")
 		}
 
 		// TODO: There is a ListReadOnlyKeys API that requires less permissions. We should consider determining
@@ -74,10 +84,24 @@ func (ext *DatabaseAccountExtension) ExportKubernetesResources(
 		var resp armcosmos.DatabaseAccountsClientListKeysResponse
 		resp, err = acctClient.ListKeys(ctx, id.ResourceGroupName, typedObj.AzureName(), nil)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed listing keys")
+			return nil, eris.Wrapf(err, "failed listing keys")
 		}
 
 		keys = resp.DatabaseAccountListKeysResult
+	}
+
+	resolvedSecrets := map[string]string{}
+	if to.Value(keys.PrimaryMasterKey) != "" {
+		resolvedSecrets[primaryMasterKeyKey] = to.Value(keys.PrimaryMasterKey)
+	}
+	if to.Value(keys.SecondaryMasterKey) != "" {
+		resolvedSecrets[secondaryMasterKeyKey] = to.Value(keys.SecondaryMasterKey)
+	}
+	if to.Value(keys.PrimaryReadonlyMasterKey) != "" {
+		resolvedSecrets[primaryReadonlyMasterKeyKey] = to.Value(keys.PrimaryReadonlyMasterKey)
+	}
+	if to.Value(keys.SecondaryReadonlyMasterKey) != "" {
+		resolvedSecrets[secondaryReadonlyMasterKeyKey] = to.Value(keys.SecondaryReadonlyMasterKey)
 	}
 
 	secretSlice, err := secretsToWrite(typedObj, keys)
@@ -85,35 +109,44 @@ func (ext *DatabaseAccountExtension) ExportKubernetesResources(
 		return nil, err
 	}
 
-	return secrets.SliceToClientObjectSlice(secretSlice), nil
+	return &genruntime.KubernetesSecretExportResult{
+		Objs:       secrets.SliceToClientObjectSlice(secretSlice),
+		RawSecrets: secrets.SelectSecrets(additionalSecrets, resolvedSecrets),
+	}, nil
 }
 
-func secretsSpecified(obj *documentdb.DatabaseAccount) (bool, bool) {
+func secretsSpecified(obj *documentdb.DatabaseAccount) (set.Set[string], bool) {
 	if obj.Spec.OperatorSpec == nil || obj.Spec.OperatorSpec.Secrets == nil {
-		return false, false
+		return nil, false
 	}
 
 	specSecrets := obj.Spec.OperatorSpec.Secrets
-	hasSecrets := false
 	hasEndpoints := false
-	if specSecrets.PrimaryMasterKey != nil ||
-		specSecrets.SecondaryMasterKey != nil ||
-		specSecrets.PrimaryReadonlyMasterKey != nil ||
-		specSecrets.SecondaryReadonlyMasterKey != nil {
-		hasSecrets = true
+	result := make(set.Set[string])
+	if specSecrets.PrimaryMasterKey != nil {
+		result.Add(primaryMasterKeyKey)
+	}
+	if specSecrets.SecondaryMasterKey != nil {
+		result.Add(secondaryMasterKeyKey)
+	}
+	if specSecrets.PrimaryReadonlyMasterKey != nil {
+		result.Add(primaryReadonlyMasterKeyKey)
+	}
+	if specSecrets.SecondaryReadonlyMasterKey != nil {
+		result.Add(secondaryReadonlyMasterKeyKey)
 	}
 
 	if specSecrets.DocumentEndpoint != nil {
 		hasEndpoints = true
 	}
 
-	return hasSecrets, hasEndpoints
+	return result, hasEndpoints
 }
 
 func secretsToWrite(obj *documentdb.DatabaseAccount, accessKeys armcosmos.DatabaseAccountListKeysResult) ([]*v1.Secret, error) {
 	operatorSpecSecrets := obj.Spec.OperatorSpec.Secrets
 	if operatorSpecSecrets == nil {
-		return nil, errors.Errorf("unexpected nil operatorspec")
+		return nil, nil
 	}
 
 	collector := secrets.NewCollector(obj.Namespace)
@@ -190,7 +223,7 @@ func (ext *DatabaseAccountExtension) PreReconcileCheck(
 	// It will need to be updated if the hub storage version changes.
 	account, ok := obj.(*documentdb.DatabaseAccount)
 	if !ok {
-		return extensions.PreReconcileCheckResult{}, errors.Errorf("cannot run on unknown resource type %T, expected *documentdb.DatabaseAccount", obj)
+		return extensions.PreReconcileCheckResult{}, eris.Errorf("cannot run on unknown resource type %T, expected *documentdb.DatabaseAccount", obj)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if

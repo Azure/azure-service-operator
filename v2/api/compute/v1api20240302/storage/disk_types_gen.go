@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -42,6 +45,26 @@ func (disk *Disk) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (disk *Disk) SetConditions(conditions conditions.Conditions) {
 	disk.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Disk{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (disk *Disk) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if disk.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return disk.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Disk{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (disk *Disk) SecretDestinationExpressions() []*core.DestinationExpression {
+	if disk.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return disk.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Disk{}
@@ -92,6 +115,10 @@ func (disk *Disk) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (disk *Disk) Owner() *genruntime.ResourceReference {
+	if disk.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(disk.Spec)
 	return disk.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -108,7 +135,7 @@ func (disk *Disk) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Disk_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	disk.Status = st
@@ -168,6 +195,7 @@ type Disk_Spec struct {
 	Location                     *string                       `json:"location,omitempty"`
 	MaxShares                    *int                          `json:"maxShares,omitempty"`
 	NetworkAccessPolicy          *string                       `json:"networkAccessPolicy,omitempty"`
+	OperatorSpec                 *DiskOperatorSpec             `json:"operatorSpec,omitempty"`
 	OptimizedForFrequentAttach   *bool                         `json:"optimizedForFrequentAttach,omitempty"`
 	OriginalVersion              string                        `json:"originalVersion,omitempty"`
 	OsType                       *string                       `json:"osType,omitempty"`
@@ -194,7 +222,7 @@ var _ genruntime.ConvertibleSpec = &Disk_Spec{}
 // ConvertSpecFrom populates our Disk_Spec from the provided source
 func (disk *Disk_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == disk {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(disk)
@@ -203,7 +231,7 @@ func (disk *Disk_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error 
 // ConvertSpecTo populates the provided destination from our Disk_Spec
 func (disk *Disk_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == disk {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(disk)
@@ -263,7 +291,7 @@ var _ genruntime.ConvertibleStatus = &Disk_STATUS{}
 // ConvertStatusFrom populates our Disk_STATUS from the provided source
 func (disk *Disk_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == disk {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(disk)
@@ -272,7 +300,7 @@ func (disk *Disk_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) 
 // ConvertStatusTo populates the provided destination from our Disk_STATUS
 func (disk *Disk_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == disk {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(disk)
@@ -318,6 +346,14 @@ type CreationData_STATUS struct {
 	SourceUri                     *string                    `json:"sourceUri,omitempty"`
 	StorageAccountId              *string                    `json:"storageAccountId,omitempty"`
 	UploadSizeBytes               *int                       `json:"uploadSizeBytes,omitempty"`
+}
+
+// Storage version of v1api20240302.DiskOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DiskOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20240302.DiskSecurityProfile

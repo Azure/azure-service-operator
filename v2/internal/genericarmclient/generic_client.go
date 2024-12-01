@@ -18,7 +18,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	azcoreruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
@@ -56,10 +56,10 @@ func NewGenericClient(
 ) (*GenericClient, error) {
 	rmConfig, ok := cloudCfg.Services[cloud.ResourceManager]
 	if !ok {
-		return nil, errors.Errorf("provided cloud missing %q entry", cloud.ResourceManager)
+		return nil, eris.Errorf("provided cloud missing %q entry", cloud.ResourceManager)
 	}
 	if rmConfig.Endpoint == "" {
-		return nil, errors.New("provided cloud missing resourceManager.Endpoint entry")
+		return nil, eris.New("provided cloud missing resourceManager.Endpoint entry")
 	}
 
 	if options == nil {
@@ -99,7 +99,7 @@ func NewGenericClient(
 		creds,
 		&opts.ClientOptions)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to create rp registration policy")
+		return nil, eris.Wrapf(err, "failed to create rp registration policy")
 	}
 
 	opts.PerCallPolicies = append([]policy.Policy{rpRegistrationPolicy}, opts.PerCallPolicies...)
@@ -189,7 +189,7 @@ func (client *GenericClient) createOrUpdateByIDCreateRequest(
 	resource interface{},
 ) (*policy.Request, error) {
 	if resourceID == "" {
-		return nil, errors.New("parameter resourceID cannot be empty")
+		return nil, eris.New("parameter resourceID cannot be empty")
 	}
 
 	urlPath := resourceID
@@ -244,7 +244,7 @@ func (client *GenericClient) GetByID(
 func (client *GenericClient) getByIDCreateRequest(ctx context.Context, resourceID string, apiVersion string) (*policy.Request, error) {
 	urlPath := "/{resourceId}"
 	if resourceID == "" {
-		return nil, errors.New("parameter resourceID cannot be empty")
+		return nil, eris.New("parameter resourceID cannot be empty")
 	}
 	urlPath = strings.ReplaceAll(urlPath, "{resourceId}", resourceID)
 	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(client.endpoint, urlPath))
@@ -309,7 +309,7 @@ func (client *GenericClient) checkExistenceByIDImpl(
 func (client *GenericClient) checkExistenceByIDCreateRequest(ctx context.Context, resourceID string, apiVersion string) (*policy.Request, error) {
 	urlPath := "/{resourceId}"
 	if resourceID == "" {
-		return nil, errors.New("parameter resourceID cannot be empty")
+		return nil, eris.New("parameter resourceID cannot be empty")
 	}
 	urlPath = strings.ReplaceAll(urlPath, "{resourceId}", resourceID)
 	req, err := runtime.NewRequest(ctx, http.MethodHead, runtime.JoinPaths(client.endpoint, urlPath))
@@ -426,7 +426,7 @@ func (client *GenericClient) listByContainerIDCreateRequest(
 ) (*policy.Request, error) {
 	urlPath := "/{containerId}"
 	if containerID == "" {
-		return nil, errors.New("parameter containerID cannot be empty")
+		return nil, eris.New("parameter containerID cannot be empty")
 	}
 	urlPath = strings.ReplaceAll(urlPath, "{containerId}", containerID)
 	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(client.endpoint, urlPath))
@@ -487,7 +487,7 @@ func (client *GenericClient) deleteByID(ctx context.Context, resourceID string, 
 func (client *GenericClient) deleteByIDCreateRequest(ctx context.Context, resourceID string, apiVersion string) (*policy.Request, error) {
 	urlPath := "/{resourceId}"
 	if resourceID == "" {
-		return nil, errors.New("parameter resourceID cannot be empty")
+		return nil, eris.New("parameter resourceID cannot be empty")
 	}
 	urlPath = strings.ReplaceAll(urlPath, "{resourceId}", resourceID)
 	req, err := runtime.NewRequest(ctx, http.MethodDelete, runtime.JoinPaths(client.endpoint, urlPath))
@@ -503,7 +503,7 @@ func (client *GenericClient) deleteByIDCreateRequest(ctx context.Context, resour
 
 func (client *GenericClient) CheckExistenceWithGetByID(ctx context.Context, resourceID string, apiVersion string) (bool, time.Duration, error) {
 	if resourceID == "" {
-		return false, zeroDuration, errors.New("parameter resourceID cannot be empty")
+		return false, zeroDuration, eris.New("parameter resourceID cannot be empty")
 	}
 
 	ignored := struct{}{}
@@ -521,7 +521,7 @@ func (client *GenericClient) CheckExistenceWithGetByID(ctx context.Context, reso
 
 func IsNotFoundError(err error) bool {
 	var typedError *azcore.ResponseError
-	if errors.As(err, &typedError) {
+	if eris.As(err, &typedError) {
 		if typedError.StatusCode == http.StatusNotFound {
 			return true
 		}

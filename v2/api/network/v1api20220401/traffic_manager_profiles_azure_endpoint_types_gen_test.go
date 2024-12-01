@@ -579,36 +579,36 @@ func TrafficManagerProfilesAzureEndpointGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint(gens map[string]gopter.Gen) {
-	gens["Spec"] = Trafficmanagerprofiles_AzureEndpoint_SpecGenerator()
-	gens["Status"] = Trafficmanagerprofiles_AzureEndpoint_STATUSGenerator()
+	gens["Spec"] = TrafficManagerProfilesAzureEndpoint_SpecGenerator()
+	gens["Status"] = TrafficManagerProfilesAzureEndpoint_STATUSGenerator()
 }
 
-func Test_Trafficmanagerprofiles_AzureEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_TrafficManagerProfilesAzureEndpointOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Trafficmanagerprofiles_AzureEndpoint_STATUS to Trafficmanagerprofiles_AzureEndpoint_STATUS via AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS & AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_STATUS, Trafficmanagerprofiles_AzureEndpoint_STATUSGenerator()))
+		"Round trip from TrafficManagerProfilesAzureEndpointOperatorSpec to TrafficManagerProfilesAzureEndpointOperatorSpec via AssignProperties_To_TrafficManagerProfilesAzureEndpointOperatorSpec & AssignProperties_From_TrafficManagerProfilesAzureEndpointOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTrafficManagerProfilesAzureEndpointOperatorSpec, TrafficManagerProfilesAzureEndpointOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_STATUS tests if a specific instance of Trafficmanagerprofiles_AzureEndpoint_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_STATUS(subject Trafficmanagerprofiles_AzureEndpoint_STATUS) string {
+// RunPropertyAssignmentTestForTrafficManagerProfilesAzureEndpointOperatorSpec tests if a specific instance of TrafficManagerProfilesAzureEndpointOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTrafficManagerProfilesAzureEndpointOperatorSpec(subject TrafficManagerProfilesAzureEndpointOperatorSpec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Trafficmanagerprofiles_AzureEndpoint_STATUS
-	err := copied.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS(&other)
+	var other storage.TrafficManagerProfilesAzureEndpointOperatorSpec
+	err := copied.AssignProperties_To_TrafficManagerProfilesAzureEndpointOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Trafficmanagerprofiles_AzureEndpoint_STATUS
-	err = actual.AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_STATUS(&other)
+	var actual TrafficManagerProfilesAzureEndpointOperatorSpec
+	err = actual.AssignProperties_From_TrafficManagerProfilesAzureEndpointOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -625,20 +625,20 @@ func RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_STATUS(sub
 	return ""
 }
 
-func Test_Trafficmanagerprofiles_AzureEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_TrafficManagerProfilesAzureEndpointOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Trafficmanagerprofiles_AzureEndpoint_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_STATUS, Trafficmanagerprofiles_AzureEndpoint_STATUSGenerator()))
+		"Round trip of TrafficManagerProfilesAzureEndpointOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTrafficManagerProfilesAzureEndpointOperatorSpec, TrafficManagerProfilesAzureEndpointOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_STATUS runs a test to see if a specific instance of Trafficmanagerprofiles_AzureEndpoint_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_STATUS(subject Trafficmanagerprofiles_AzureEndpoint_STATUS) string {
+// RunJSONSerializationTestForTrafficManagerProfilesAzureEndpointOperatorSpec runs a test to see if a specific instance of TrafficManagerProfilesAzureEndpointOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForTrafficManagerProfilesAzureEndpointOperatorSpec(subject TrafficManagerProfilesAzureEndpointOperatorSpec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -646,7 +646,7 @@ func RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_STATUS(subj
 	}
 
 	// Deserialize back into memory
-	var actual Trafficmanagerprofiles_AzureEndpoint_STATUS
+	var actual TrafficManagerProfilesAzureEndpointOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -664,34 +664,131 @@ func RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_STATUS(subj
 	return ""
 }
 
-// Generator of Trafficmanagerprofiles_AzureEndpoint_STATUS instances for property testing - lazily instantiated by
-// Trafficmanagerprofiles_AzureEndpoint_STATUSGenerator()
-var trafficmanagerprofiles_AzureEndpoint_STATUSGenerator gopter.Gen
+// Generator of TrafficManagerProfilesAzureEndpointOperatorSpec instances for property testing - lazily instantiated by
+// TrafficManagerProfilesAzureEndpointOperatorSpecGenerator()
+var trafficManagerProfilesAzureEndpointOperatorSpecGenerator gopter.Gen
 
-// Trafficmanagerprofiles_AzureEndpoint_STATUSGenerator returns a generator of Trafficmanagerprofiles_AzureEndpoint_STATUS instances for property testing.
-// We first initialize trafficmanagerprofiles_AzureEndpoint_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Trafficmanagerprofiles_AzureEndpoint_STATUSGenerator() gopter.Gen {
-	if trafficmanagerprofiles_AzureEndpoint_STATUSGenerator != nil {
-		return trafficmanagerprofiles_AzureEndpoint_STATUSGenerator
+// TrafficManagerProfilesAzureEndpointOperatorSpecGenerator returns a generator of TrafficManagerProfilesAzureEndpointOperatorSpec instances for property testing.
+func TrafficManagerProfilesAzureEndpointOperatorSpecGenerator() gopter.Gen {
+	if trafficManagerProfilesAzureEndpointOperatorSpecGenerator != nil {
+		return trafficManagerProfilesAzureEndpointOperatorSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS(generators)
-	trafficmanagerprofiles_AzureEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(Trafficmanagerprofiles_AzureEndpoint_STATUS{}), generators)
+	trafficManagerProfilesAzureEndpointOperatorSpecGenerator = gen.Struct(reflect.TypeOf(TrafficManagerProfilesAzureEndpointOperatorSpec{}), generators)
+
+	return trafficManagerProfilesAzureEndpointOperatorSpecGenerator
+}
+
+func Test_TrafficManagerProfilesAzureEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TrafficManagerProfilesAzureEndpoint_STATUS to TrafficManagerProfilesAzureEndpoint_STATUS via AssignProperties_To_TrafficManagerProfilesAzureEndpoint_STATUS & AssignProperties_From_TrafficManagerProfilesAzureEndpoint_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTrafficManagerProfilesAzureEndpoint_STATUS, TrafficManagerProfilesAzureEndpoint_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTrafficManagerProfilesAzureEndpoint_STATUS tests if a specific instance of TrafficManagerProfilesAzureEndpoint_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTrafficManagerProfilesAzureEndpoint_STATUS(subject TrafficManagerProfilesAzureEndpoint_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.TrafficManagerProfilesAzureEndpoint_STATUS
+	err := copied.AssignProperties_To_TrafficManagerProfilesAzureEndpoint_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TrafficManagerProfilesAzureEndpoint_STATUS
+	err = actual.AssignProperties_From_TrafficManagerProfilesAzureEndpoint_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_TrafficManagerProfilesAzureEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of TrafficManagerProfilesAzureEndpoint_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTrafficManagerProfilesAzureEndpoint_STATUS, TrafficManagerProfilesAzureEndpoint_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTrafficManagerProfilesAzureEndpoint_STATUS runs a test to see if a specific instance of TrafficManagerProfilesAzureEndpoint_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForTrafficManagerProfilesAzureEndpoint_STATUS(subject TrafficManagerProfilesAzureEndpoint_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual TrafficManagerProfilesAzureEndpoint_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of TrafficManagerProfilesAzureEndpoint_STATUS instances for property testing - lazily instantiated by
+// TrafficManagerProfilesAzureEndpoint_STATUSGenerator()
+var trafficManagerProfilesAzureEndpoint_STATUSGenerator gopter.Gen
+
+// TrafficManagerProfilesAzureEndpoint_STATUSGenerator returns a generator of TrafficManagerProfilesAzureEndpoint_STATUS instances for property testing.
+// We first initialize trafficManagerProfilesAzureEndpoint_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func TrafficManagerProfilesAzureEndpoint_STATUSGenerator() gopter.Gen {
+	if trafficManagerProfilesAzureEndpoint_STATUSGenerator != nil {
+		return trafficManagerProfilesAzureEndpoint_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_STATUS(generators)
+	trafficManagerProfilesAzureEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(TrafficManagerProfilesAzureEndpoint_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS(generators)
-	AddRelatedPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS(generators)
-	trafficmanagerprofiles_AzureEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(Trafficmanagerprofiles_AzureEndpoint_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_STATUS(generators)
+	AddRelatedPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_STATUS(generators)
+	trafficManagerProfilesAzureEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(TrafficManagerProfilesAzureEndpoint_STATUS{}), generators)
 
-	return trafficmanagerprofiles_AzureEndpoint_STATUSGenerator
+	return trafficManagerProfilesAzureEndpoint_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_STATUS(gens map[string]gopter.Gen) {
 	gens["AlwaysServe"] = gen.PtrOf(gen.OneConstOf(EndpointProperties_AlwaysServe_STATUS_Disabled, EndpointProperties_AlwaysServe_STATUS_Enabled))
 	gens["EndpointLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["EndpointMonitorStatus"] = gen.PtrOf(gen.OneConstOf(
@@ -716,38 +813,38 @@ func AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STA
 	gens["Weight"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_STATUS(gens map[string]gopter.Gen) {
 	gens["CustomHeaders"] = gen.SliceOf(EndpointProperties_CustomHeaders_STATUSGenerator())
 	gens["Subnets"] = gen.SliceOf(EndpointProperties_Subnets_STATUSGenerator())
 }
 
-func Test_Trafficmanagerprofiles_AzureEndpoint_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_TrafficManagerProfilesAzureEndpoint_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Trafficmanagerprofiles_AzureEndpoint_Spec to Trafficmanagerprofiles_AzureEndpoint_Spec via AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec & AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_Spec, Trafficmanagerprofiles_AzureEndpoint_SpecGenerator()))
+		"Round trip from TrafficManagerProfilesAzureEndpoint_Spec to TrafficManagerProfilesAzureEndpoint_Spec via AssignProperties_To_TrafficManagerProfilesAzureEndpoint_Spec & AssignProperties_From_TrafficManagerProfilesAzureEndpoint_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTrafficManagerProfilesAzureEndpoint_Spec, TrafficManagerProfilesAzureEndpoint_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_Spec tests if a specific instance of Trafficmanagerprofiles_AzureEndpoint_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_Spec(subject Trafficmanagerprofiles_AzureEndpoint_Spec) string {
+// RunPropertyAssignmentTestForTrafficManagerProfilesAzureEndpoint_Spec tests if a specific instance of TrafficManagerProfilesAzureEndpoint_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTrafficManagerProfilesAzureEndpoint_Spec(subject TrafficManagerProfilesAzureEndpoint_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Trafficmanagerprofiles_AzureEndpoint_Spec
-	err := copied.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec(&other)
+	var other storage.TrafficManagerProfilesAzureEndpoint_Spec
+	err := copied.AssignProperties_To_TrafficManagerProfilesAzureEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Trafficmanagerprofiles_AzureEndpoint_Spec
-	err = actual.AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_Spec(&other)
+	var actual TrafficManagerProfilesAzureEndpoint_Spec
+	err = actual.AssignProperties_From_TrafficManagerProfilesAzureEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -764,20 +861,20 @@ func RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_Spec(subje
 	return ""
 }
 
-func Test_Trafficmanagerprofiles_AzureEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_TrafficManagerProfilesAzureEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Trafficmanagerprofiles_AzureEndpoint_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_Spec, Trafficmanagerprofiles_AzureEndpoint_SpecGenerator()))
+		"Round trip of TrafficManagerProfilesAzureEndpoint_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTrafficManagerProfilesAzureEndpoint_Spec, TrafficManagerProfilesAzureEndpoint_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_Spec runs a test to see if a specific instance of Trafficmanagerprofiles_AzureEndpoint_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_Spec(subject Trafficmanagerprofiles_AzureEndpoint_Spec) string {
+// RunJSONSerializationTestForTrafficManagerProfilesAzureEndpoint_Spec runs a test to see if a specific instance of TrafficManagerProfilesAzureEndpoint_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForTrafficManagerProfilesAzureEndpoint_Spec(subject TrafficManagerProfilesAzureEndpoint_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -785,7 +882,7 @@ func RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_Spec(subjec
 	}
 
 	// Deserialize back into memory
-	var actual Trafficmanagerprofiles_AzureEndpoint_Spec
+	var actual TrafficManagerProfilesAzureEndpoint_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -803,34 +900,34 @@ func RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_Spec(subjec
 	return ""
 }
 
-// Generator of Trafficmanagerprofiles_AzureEndpoint_Spec instances for property testing - lazily instantiated by
-// Trafficmanagerprofiles_AzureEndpoint_SpecGenerator()
-var trafficmanagerprofiles_AzureEndpoint_SpecGenerator gopter.Gen
+// Generator of TrafficManagerProfilesAzureEndpoint_Spec instances for property testing - lazily instantiated by
+// TrafficManagerProfilesAzureEndpoint_SpecGenerator()
+var trafficManagerProfilesAzureEndpoint_SpecGenerator gopter.Gen
 
-// Trafficmanagerprofiles_AzureEndpoint_SpecGenerator returns a generator of Trafficmanagerprofiles_AzureEndpoint_Spec instances for property testing.
-// We first initialize trafficmanagerprofiles_AzureEndpoint_SpecGenerator with a simplified generator based on the
+// TrafficManagerProfilesAzureEndpoint_SpecGenerator returns a generator of TrafficManagerProfilesAzureEndpoint_Spec instances for property testing.
+// We first initialize trafficManagerProfilesAzureEndpoint_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Trafficmanagerprofiles_AzureEndpoint_SpecGenerator() gopter.Gen {
-	if trafficmanagerprofiles_AzureEndpoint_SpecGenerator != nil {
-		return trafficmanagerprofiles_AzureEndpoint_SpecGenerator
+func TrafficManagerProfilesAzureEndpoint_SpecGenerator() gopter.Gen {
+	if trafficManagerProfilesAzureEndpoint_SpecGenerator != nil {
+		return trafficManagerProfilesAzureEndpoint_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_Spec(generators)
-	trafficmanagerprofiles_AzureEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(Trafficmanagerprofiles_AzureEndpoint_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_Spec(generators)
+	trafficManagerProfilesAzureEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(TrafficManagerProfilesAzureEndpoint_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_Spec(generators)
-	AddRelatedPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_Spec(generators)
-	trafficmanagerprofiles_AzureEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(Trafficmanagerprofiles_AzureEndpoint_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_Spec(generators)
+	AddRelatedPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_Spec(generators)
+	trafficManagerProfilesAzureEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(TrafficManagerProfilesAzureEndpoint_Spec{}), generators)
 
-	return trafficmanagerprofiles_AzureEndpoint_SpecGenerator
+	return trafficManagerProfilesAzureEndpoint_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_Spec(gens map[string]gopter.Gen) {
 	gens["AlwaysServe"] = gen.PtrOf(gen.OneConstOf(EndpointProperties_AlwaysServe_Disabled, EndpointProperties_AlwaysServe_Enabled))
 	gens["AzureName"] = gen.AlphaString()
 	gens["EndpointLocation"] = gen.PtrOf(gen.AlphaString())
@@ -853,8 +950,9 @@ func AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_Spe
 	gens["Weight"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForTrafficManagerProfilesAzureEndpoint_Spec(gens map[string]gopter.Gen) {
 	gens["CustomHeaders"] = gen.SliceOf(EndpointProperties_CustomHeadersGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(TrafficManagerProfilesAzureEndpointOperatorSpecGenerator())
 	gens["Subnets"] = gen.SliceOf(EndpointProperties_SubnetsGenerator())
 }

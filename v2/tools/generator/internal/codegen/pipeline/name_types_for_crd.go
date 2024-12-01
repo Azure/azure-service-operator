@@ -9,7 +9,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -36,7 +36,7 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
 
 				newDefs, err := nameInnerTypes(typeDef, getDescription)
 				if err != nil {
-					return nil, errors.Wrapf(err, "failed to name inner definitions")
+					return nil, eris.Wrapf(err, "failed to name inner definitions")
 				}
 
 				for _, def := range newDefs {
@@ -154,14 +154,14 @@ func nameInnerTypes(
 	builder.VisitResourceType = func(this *astmodel.TypeVisitor[nameHint], it *astmodel.ResourceType, ctx nameHint) (astmodel.Type, error) {
 		spec, err := this.Visit(it.SpecType(), ctx.WithSuffixPart(astmodel.SpecSuffix))
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to name spec type %s", it.SpecType())
+			return nil, eris.Wrapf(err, "failed to name spec type %s", it.SpecType())
 		}
 
 		var status astmodel.Type
 		if it.StatusType() != nil {
 			status, err = this.Visit(it.StatusType(), ctx.WithSuffixPart(astmodel.StatusSuffix))
 			if err != nil {
-				return nil, errors.Wrapf(err, "failed to name status type %s", it.StatusType())
+				return nil, eris.Wrapf(err, "failed to name status type %s", it.StatusType())
 			}
 		}
 
@@ -178,7 +178,7 @@ func nameInnerTypes(
 
 	_, err := visitor.Visit(def.Type(), newNameHint(def.Name()))
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to name inner types of %s", def.Name())
+		return nil, eris.Wrapf(err, "failed to name inner types of %s", def.Name())
 	}
 
 	return resultTypes, nil
@@ -192,7 +192,6 @@ type nameHint struct {
 var suffixesToFloat = []string{
 	astmodel.SpecSuffix,
 	astmodel.StatusSuffix,
-	astmodel.ARMSuffix,
 }
 
 func newNameHint(name astmodel.TypeName) nameHint {

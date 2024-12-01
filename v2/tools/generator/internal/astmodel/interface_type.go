@@ -10,11 +10,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/pkg/errors"
-
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
 	"github.com/dave/dst"
+	"github.com/rotisserie/eris"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/readonly"
@@ -117,7 +115,7 @@ func (i *InterfaceType) AsDeclarations(
 ) ([]dst.Decl, error) {
 	iExpr, err := i.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for interface %s", declContext.Name)
+		return nil, eris.Wrapf(err, "creating type expression for interface %s", declContext.Name)
 	}
 
 	declaration := &dst.GenDecl{
@@ -231,7 +229,7 @@ func functionToField(
 	// Populate Type
 	f, err := function.AsFunc(codeGenerationContext, InternalTypeName{}) // Empty typename here because we have no receiver
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to determiine type of function %s", function.Name())
+		return nil, eris.Wrapf(err, "unable to determiine type of function %s", function.Name())
 	}
 
 	result.Type = f.Type

@@ -5,7 +5,7 @@ package vcurrent
 
 import (
 	vnext "github.com/Azure/azure-service-operator/testing/verification/vnext"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 type Person struct {
@@ -25,7 +25,7 @@ func (person *Person) AssignProperties_From_Person(source *vnext.Person) error {
 				var indexLocal Release
 				err := indexLocal.AssignProperties_From_Release(indexItem)
 				if err != nil {
-					return errors.Wrap(err, "calling AssignProperties_From_Release() to populate field Indexes")
+					return eris.Wrap(err, "calling AssignProperties_From_Release() to populate field Indexes")
 				}
 				indexList[index] = &indexLocal
 			} else {
@@ -54,7 +54,7 @@ func (person *Person) AssignProperties_To_Person(destination *vnext.Person) erro
 				var indexLocal Release
 				err := indexItem.AssignProperties_To_Release(&indexLocal)
 				if err != nil {
-					return errors.Wrap(err, "calling AssignProperties_To_Release() to populate field Indexes")
+					return eris.Wrap(err, "calling AssignProperties_To_Release() to populate field Indexes")
 				}
 				indexList[index] = &indexLocal
 			} else {

@@ -9,8 +9,9 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/microsoft/go-mssqldb"
 	. "github.com/onsi/gomega"
+
+	_ "github.com/microsoft/go-mssqldb"
 	v1 "k8s.io/api/core/v1"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
@@ -350,7 +351,7 @@ func newAzureSQLServer(tc *testcommon.KubePerTestContext, rg *resources.Resource
 func newAzureSQLServerDatabase(tc *testcommon.KubePerTestContext, server *sql.Server) *sql.ServersDatabase {
 	db := &sql.ServersDatabase{
 		ObjectMeta: tc.MakeObjectMeta("db"),
-		Spec: sql.Servers_Database_Spec{
+		Spec: sql.ServersDatabase_Spec{
 			Owner:     testcommon.AsOwner(server),
 			Location:  tc.AzureRegion,
 			Collation: to.Ptr("SQL_Latin1_General_CP1_CI_AS"),
@@ -363,7 +364,7 @@ func newAzureSQLServerDatabase(tc *testcommon.KubePerTestContext, server *sql.Se
 func newSQLServerOpenFirewallRule(tc *testcommon.KubePerTestContext, server *sql.Server) *sql.ServersFirewallRule {
 	firewall := &sql.ServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
-		Spec: sql.Servers_FirewallRule_Spec{
+		Spec: sql.ServersFirewallRule_Spec{
 			Owner:          testcommon.AsOwner(server),
 			StartIpAddress: to.Ptr("0.0.0.0"),
 			EndIpAddress:   to.Ptr("255.255.255.255"),

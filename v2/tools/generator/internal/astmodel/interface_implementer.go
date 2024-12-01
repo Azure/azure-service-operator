@@ -9,11 +9,10 @@ import (
 	"go/token"
 	"sort"
 
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/maps"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -105,11 +104,10 @@ func (i InterfaceImplementer) AsDeclarations(
 		}
 
 		if len(errs) > 0 {
-			return nil, errors.Wrapf(
+			return nil, eris.Wrapf(
 				kerrors.NewAggregate(errs),
 				"generating declarations for interface %s",
-				iface.name.Name(),
-			)
+				iface.name.Name())
 		}
 	}
 

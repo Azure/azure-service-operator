@@ -74,24 +74,24 @@ func DnsZonesMXRecordGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForDnsZonesMXRecord is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDnsZonesMXRecord(gens map[string]gopter.Gen) {
-	gens["Spec"] = DnsZones_MX_SpecGenerator()
-	gens["Status"] = DnsZones_MX_STATUSGenerator()
+	gens["Spec"] = DnsZonesMXRecord_SpecGenerator()
+	gens["Status"] = DnsZonesMXRecord_STATUSGenerator()
 }
 
-func Test_DnsZones_MX_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DnsZonesMXRecordOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DnsZones_MX_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsZones_MX_STATUS, DnsZones_MX_STATUSGenerator()))
+		"Round trip of DnsZonesMXRecordOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZonesMXRecordOperatorSpec, DnsZonesMXRecordOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDnsZones_MX_STATUS runs a test to see if a specific instance of DnsZones_MX_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsZones_MX_STATUS(subject DnsZones_MX_STATUS) string {
+// RunJSONSerializationTestForDnsZonesMXRecordOperatorSpec runs a test to see if a specific instance of DnsZonesMXRecordOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZonesMXRecordOperatorSpec(subject DnsZonesMXRecordOperatorSpec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -99,7 +99,7 @@ func RunJSONSerializationTestForDnsZones_MX_STATUS(subject DnsZones_MX_STATUS) s
 	}
 
 	// Deserialize back into memory
-	var actual DnsZones_MX_STATUS
+	var actual DnsZonesMXRecordOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -117,33 +117,89 @@ func RunJSONSerializationTestForDnsZones_MX_STATUS(subject DnsZones_MX_STATUS) s
 	return ""
 }
 
-// Generator of DnsZones_MX_STATUS instances for property testing - lazily instantiated by DnsZones_MX_STATUSGenerator()
-var dnsZones_MX_STATUSGenerator gopter.Gen
+// Generator of DnsZonesMXRecordOperatorSpec instances for property testing - lazily instantiated by
+// DnsZonesMXRecordOperatorSpecGenerator()
+var dnsZonesMXRecordOperatorSpecGenerator gopter.Gen
 
-// DnsZones_MX_STATUSGenerator returns a generator of DnsZones_MX_STATUS instances for property testing.
-// We first initialize dnsZones_MX_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DnsZones_MX_STATUSGenerator() gopter.Gen {
-	if dnsZones_MX_STATUSGenerator != nil {
-		return dnsZones_MX_STATUSGenerator
+// DnsZonesMXRecordOperatorSpecGenerator returns a generator of DnsZonesMXRecordOperatorSpec instances for property testing.
+func DnsZonesMXRecordOperatorSpecGenerator() gopter.Gen {
+	if dnsZonesMXRecordOperatorSpecGenerator != nil {
+		return dnsZonesMXRecordOperatorSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_MX_STATUS(generators)
-	dnsZones_MX_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZones_MX_STATUS{}), generators)
+	dnsZonesMXRecordOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DnsZonesMXRecordOperatorSpec{}), generators)
+
+	return dnsZonesMXRecordOperatorSpecGenerator
+}
+
+func Test_DnsZonesMXRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsZonesMXRecord_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZonesMXRecord_STATUS, DnsZonesMXRecord_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsZonesMXRecord_STATUS runs a test to see if a specific instance of DnsZonesMXRecord_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZonesMXRecord_STATUS(subject DnsZonesMXRecord_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsZonesMXRecord_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsZonesMXRecord_STATUS instances for property testing - lazily instantiated by
+// DnsZonesMXRecord_STATUSGenerator()
+var dnsZonesMXRecord_STATUSGenerator gopter.Gen
+
+// DnsZonesMXRecord_STATUSGenerator returns a generator of DnsZonesMXRecord_STATUS instances for property testing.
+// We first initialize dnsZonesMXRecord_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func DnsZonesMXRecord_STATUSGenerator() gopter.Gen {
+	if dnsZonesMXRecord_STATUSGenerator != nil {
+		return dnsZonesMXRecord_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsZonesMXRecord_STATUS(generators)
+	dnsZonesMXRecord_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZonesMXRecord_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_MX_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDnsZones_MX_STATUS(generators)
-	dnsZones_MX_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZones_MX_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDnsZonesMXRecord_STATUS(generators)
+	AddRelatedPropertyGeneratorsForDnsZonesMXRecord_STATUS(generators)
+	dnsZonesMXRecord_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZonesMXRecord_STATUS{}), generators)
 
-	return dnsZones_MX_STATUSGenerator
+	return dnsZonesMXRecord_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDnsZones_MX_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsZones_MX_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDnsZonesMXRecord_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsZonesMXRecord_STATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -156,8 +212,8 @@ func AddIndependentPropertyGeneratorsForDnsZones_MX_STATUS(gens map[string]gopte
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDnsZones_MX_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsZones_MX_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDnsZonesMXRecord_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsZonesMXRecord_STATUS(gens map[string]gopter.Gen) {
 	gens["AAAARecords"] = gen.SliceOf(AaaaRecord_STATUSGenerator())
 	gens["ARecords"] = gen.SliceOf(ARecord_STATUSGenerator())
 	gens["CNAMERecord"] = gen.PtrOf(CnameRecord_STATUSGenerator())
@@ -171,20 +227,20 @@ func AddRelatedPropertyGeneratorsForDnsZones_MX_STATUS(gens map[string]gopter.Ge
 	gens["TargetResource"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
-func Test_DnsZones_MX_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DnsZonesMXRecord_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DnsZones_MX_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsZones_MX_Spec, DnsZones_MX_SpecGenerator()))
+		"Round trip of DnsZonesMXRecord_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZonesMXRecord_Spec, DnsZonesMXRecord_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDnsZones_MX_Spec runs a test to see if a specific instance of DnsZones_MX_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsZones_MX_Spec(subject DnsZones_MX_Spec) string {
+// RunJSONSerializationTestForDnsZonesMXRecord_Spec runs a test to see if a specific instance of DnsZonesMXRecord_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZonesMXRecord_Spec(subject DnsZonesMXRecord_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -192,7 +248,7 @@ func RunJSONSerializationTestForDnsZones_MX_Spec(subject DnsZones_MX_Spec) strin
 	}
 
 	// Deserialize back into memory
-	var actual DnsZones_MX_Spec
+	var actual DnsZonesMXRecord_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -210,33 +266,34 @@ func RunJSONSerializationTestForDnsZones_MX_Spec(subject DnsZones_MX_Spec) strin
 	return ""
 }
 
-// Generator of DnsZones_MX_Spec instances for property testing - lazily instantiated by DnsZones_MX_SpecGenerator()
-var dnsZones_MX_SpecGenerator gopter.Gen
+// Generator of DnsZonesMXRecord_Spec instances for property testing - lazily instantiated by
+// DnsZonesMXRecord_SpecGenerator()
+var dnsZonesMXRecord_SpecGenerator gopter.Gen
 
-// DnsZones_MX_SpecGenerator returns a generator of DnsZones_MX_Spec instances for property testing.
-// We first initialize dnsZones_MX_SpecGenerator with a simplified generator based on the
+// DnsZonesMXRecord_SpecGenerator returns a generator of DnsZonesMXRecord_Spec instances for property testing.
+// We first initialize dnsZonesMXRecord_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DnsZones_MX_SpecGenerator() gopter.Gen {
-	if dnsZones_MX_SpecGenerator != nil {
-		return dnsZones_MX_SpecGenerator
+func DnsZonesMXRecord_SpecGenerator() gopter.Gen {
+	if dnsZonesMXRecord_SpecGenerator != nil {
+		return dnsZonesMXRecord_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_MX_Spec(generators)
-	dnsZones_MX_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZones_MX_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDnsZonesMXRecord_Spec(generators)
+	dnsZonesMXRecord_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZonesMXRecord_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_MX_Spec(generators)
-	AddRelatedPropertyGeneratorsForDnsZones_MX_Spec(generators)
-	dnsZones_MX_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZones_MX_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDnsZonesMXRecord_Spec(generators)
+	AddRelatedPropertyGeneratorsForDnsZonesMXRecord_Spec(generators)
+	dnsZonesMXRecord_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZonesMXRecord_Spec{}), generators)
 
-	return dnsZones_MX_SpecGenerator
+	return dnsZonesMXRecord_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDnsZones_MX_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsZones_MX_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDnsZonesMXRecord_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsZonesMXRecord_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Metadata"] = gen.MapOf(
 		gen.AlphaString(),
@@ -245,14 +302,15 @@ func AddIndependentPropertyGeneratorsForDnsZones_MX_Spec(gens map[string]gopter.
 	gens["TTL"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForDnsZones_MX_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsZones_MX_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDnsZonesMXRecord_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsZonesMXRecord_Spec(gens map[string]gopter.Gen) {
 	gens["AAAARecords"] = gen.SliceOf(AaaaRecordGenerator())
 	gens["ARecords"] = gen.SliceOf(ARecordGenerator())
 	gens["CNAMERecord"] = gen.PtrOf(CnameRecordGenerator())
 	gens["CaaRecords"] = gen.SliceOf(CaaRecordGenerator())
 	gens["MXRecords"] = gen.SliceOf(MxRecordGenerator())
 	gens["NSRecords"] = gen.SliceOf(NsRecordGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(DnsZonesMXRecordOperatorSpecGenerator())
 	gens["PTRRecords"] = gen.SliceOf(PtrRecordGenerator())
 	gens["SOARecord"] = gen.PtrOf(SoaRecordGenerator())
 	gens["SRVRecords"] = gen.SliceOf(SrvRecordGenerator())

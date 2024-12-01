@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type StorageAccountsQueueService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_QueueService_Spec   `json:"spec,omitempty"`
-	Status            StorageAccounts_QueueService_STATUS `json:"status,omitempty"`
+	Spec              StorageAccountsQueueService_Spec   `json:"spec,omitempty"`
+	Status            StorageAccountsQueueService_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsQueueService{}
@@ -42,6 +45,26 @@ func (service *StorageAccountsQueueService) GetConditions() conditions.Condition
 // SetConditions sets the conditions on the resource status
 func (service *StorageAccountsQueueService) SetConditions(conditions conditions.Conditions) {
 	service.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &StorageAccountsQueueService{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (service *StorageAccountsQueueService) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if service.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return service.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &StorageAccountsQueueService{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (service *StorageAccountsQueueService) SecretDestinationExpressions() []*core.DestinationExpression {
+	if service.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return service.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsQueueService{}
@@ -86,11 +109,15 @@ func (service *StorageAccountsQueueService) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (service *StorageAccountsQueueService) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &StorageAccounts_QueueService_STATUS{}
+	return &StorageAccountsQueueService_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (service *StorageAccountsQueueService) Owner() *genruntime.ResourceReference {
+	if service.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(service.Spec)
 	return service.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -98,16 +125,16 @@ func (service *StorageAccountsQueueService) Owner() *genruntime.ResourceReferenc
 // SetStatus sets the status of this resource
 func (service *StorageAccountsQueueService) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*StorageAccounts_QueueService_STATUS); ok {
+	if st, ok := status.(*StorageAccountsQueueService_STATUS); ok {
 		service.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st StorageAccounts_QueueService_STATUS
+	var st StorageAccountsQueueService_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	service.Status = st
@@ -137,10 +164,11 @@ type StorageAccountsQueueServiceList struct {
 	Items           []StorageAccountsQueueService `json:"items"`
 }
 
-// Storage version of v1api20230101.StorageAccounts_QueueService_Spec
-type StorageAccounts_QueueService_Spec struct {
-	Cors            *CorsRules `json:"cors,omitempty"`
-	OriginalVersion string     `json:"originalVersion,omitempty"`
+// Storage version of v1api20230101.StorageAccountsQueueService_Spec
+type StorageAccountsQueueService_Spec struct {
+	Cors            *CorsRules                               `json:"cors,omitempty"`
+	OperatorSpec    *StorageAccountsQueueServiceOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -150,28 +178,28 @@ type StorageAccounts_QueueService_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccounts_QueueService_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsQueueService_Spec{}
 
-// ConvertSpecFrom populates our StorageAccounts_QueueService_Spec from the provided source
-func (service *StorageAccounts_QueueService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our StorageAccountsQueueService_Spec from the provided source
+func (service *StorageAccountsQueueService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == service {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(service)
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccounts_QueueService_Spec
-func (service *StorageAccounts_QueueService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our StorageAccountsQueueService_Spec
+func (service *StorageAccountsQueueService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == service {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(service)
 }
 
-// Storage version of v1api20230101.StorageAccounts_QueueService_STATUS
-type StorageAccounts_QueueService_STATUS struct {
+// Storage version of v1api20230101.StorageAccountsQueueService_STATUS
+type StorageAccountsQueueService_STATUS struct {
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Cors        *CorsRules_STATUS      `json:"cors,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -180,24 +208,32 @@ type StorageAccounts_QueueService_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &StorageAccounts_QueueService_STATUS{}
+var _ genruntime.ConvertibleStatus = &StorageAccountsQueueService_STATUS{}
 
-// ConvertStatusFrom populates our StorageAccounts_QueueService_STATUS from the provided source
-func (service *StorageAccounts_QueueService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our StorageAccountsQueueService_STATUS from the provided source
+func (service *StorageAccountsQueueService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == service {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(service)
 }
 
-// ConvertStatusTo populates the provided destination from our StorageAccounts_QueueService_STATUS
-func (service *StorageAccounts_QueueService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our StorageAccountsQueueService_STATUS
+func (service *StorageAccountsQueueService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == service {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(service)
+}
+
+// Storage version of v1api20230101.StorageAccountsQueueServiceOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type StorageAccountsQueueServiceOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

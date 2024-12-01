@@ -10,7 +10,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -91,6 +94,26 @@ func (access *DiskAccess) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the DiskAccess resource
 func (access *DiskAccess) defaultImpl() { access.defaultAzureName() }
 
+var _ configmaps.Exporter = &DiskAccess{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (access *DiskAccess) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if access.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return access.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &DiskAccess{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (access *DiskAccess) SecretDestinationExpressions() []*core.DestinationExpression {
+	if access.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return access.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &DiskAccess{}
 
 // InitializeSpec initializes the spec for this resource from the given status
@@ -150,6 +173,10 @@ func (access *DiskAccess) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (access *DiskAccess) Owner() *genruntime.ResourceReference {
+	if access.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(access.Spec)
 	return access.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -166,7 +193,7 @@ func (access *DiskAccess) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st DiskAccess_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	access.Status = st
@@ -209,7 +236,7 @@ func (access *DiskAccess) ValidateUpdate(old runtime.Object) (admission.Warnings
 
 // createValidations validates the creation of the resource
 func (access *DiskAccess) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){access.validateResourceReferences, access.validateOwnerReference}
+	return []func() (admission.Warnings, error){access.validateResourceReferences, access.validateOwnerReference, access.validateSecretDestinations, access.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +254,21 @@ func (access *DiskAccess) updateValidations() []func(old runtime.Object) (admiss
 		func(old runtime.Object) (admission.Warnings, error) {
 			return access.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return access.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return access.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (access *DiskAccess) validateConfigMapDestinations() (admission.Warnings, error) {
+	if access.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(access, nil, access.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +283,14 @@ func (access *DiskAccess) validateResourceReferences() (admission.Warnings, erro
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (access *DiskAccess) validateSecretDestinations() (admission.Warnings, error) {
+	if access.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(access, nil, access.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -264,7 +313,7 @@ func (access *DiskAccess) AssignProperties_From_DiskAccess(source *storage.DiskA
 	var spec DiskAccess_Spec
 	err := spec.AssignProperties_From_DiskAccess_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DiskAccess_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_DiskAccess_Spec() to populate field Spec")
 	}
 	access.Spec = spec
 
@@ -272,7 +321,7 @@ func (access *DiskAccess) AssignProperties_From_DiskAccess(source *storage.DiskA
 	var status DiskAccess_STATUS
 	err = status.AssignProperties_From_DiskAccess_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DiskAccess_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_DiskAccess_STATUS() to populate field Status")
 	}
 	access.Status = status
 
@@ -290,7 +339,7 @@ func (access *DiskAccess) AssignProperties_To_DiskAccess(destination *storage.Di
 	var spec storage.DiskAccess_Spec
 	err := access.Spec.AssignProperties_To_DiskAccess_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DiskAccess_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_DiskAccess_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -298,7 +347,7 @@ func (access *DiskAccess) AssignProperties_To_DiskAccess(destination *storage.Di
 	var status storage.DiskAccess_STATUS
 	err = access.Status.AssignProperties_To_DiskAccess_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DiskAccess_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_DiskAccess_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -336,6 +385,10 @@ type DiskAccess_Spec struct {
 	// +kubebuilder:validation:Required
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *DiskAccessOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -417,6 +470,8 @@ func (access *DiskAccess_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		access.Location = &location
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	access.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -449,13 +504,13 @@ func (access *DiskAccess_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 	src = &storage.DiskAccess_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = access.AssignProperties_From_DiskAccess_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -473,13 +528,13 @@ func (access *DiskAccess_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 	dst = &storage.DiskAccess_Spec{}
 	err := access.AssignProperties_To_DiskAccess_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -496,7 +551,7 @@ func (access *DiskAccess_Spec) AssignProperties_From_DiskAccess_Spec(source *sto
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		access.ExtendedLocation = &extendedLocation
 	} else {
@@ -505,6 +560,18 @@ func (access *DiskAccess_Spec) AssignProperties_From_DiskAccess_Spec(source *sto
 
 	// Location
 	access.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DiskAccessOperatorSpec
+		err := operatorSpec.AssignProperties_From_DiskAccessOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DiskAccessOperatorSpec() to populate field OperatorSpec")
+		}
+		access.OperatorSpec = &operatorSpec
+	} else {
+		access.OperatorSpec = nil
+	}
 
 	// Owner
 	if source.Owner != nil {
@@ -534,7 +601,7 @@ func (access *DiskAccess_Spec) AssignProperties_To_DiskAccess_Spec(destination *
 		var extendedLocation storage.ExtendedLocation
 		err := access.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -543,6 +610,18 @@ func (access *DiskAccess_Spec) AssignProperties_To_DiskAccess_Spec(destination *
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(access.Location)
+
+	// OperatorSpec
+	if access.OperatorSpec != nil {
+		var operatorSpec storage.DiskAccessOperatorSpec
+		err := access.OperatorSpec.AssignProperties_To_DiskAccessOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DiskAccessOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = access.OriginalVersion()
@@ -577,7 +656,7 @@ func (access *DiskAccess_Spec) Initialize_From_DiskAccess_STATUS(source *DiskAcc
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		access.ExtendedLocation = &extendedLocation
 	} else {
@@ -650,13 +729,13 @@ func (access *DiskAccess_STATUS) ConvertStatusFrom(source genruntime.Convertible
 	src = &storage.DiskAccess_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = access.AssignProperties_From_DiskAccess_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -674,13 +753,13 @@ func (access *DiskAccess_STATUS) ConvertStatusTo(destination genruntime.Converti
 	dst = &storage.DiskAccess_STATUS{}
 	err := access.AssignProperties_To_DiskAccess_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -791,7 +870,7 @@ func (access *DiskAccess_STATUS) AssignProperties_From_DiskAccess_STATUS(source 
 		var extendedLocation ExtendedLocation_STATUS
 		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		access.ExtendedLocation = &extendedLocation
 	} else {
@@ -816,7 +895,7 @@ func (access *DiskAccess_STATUS) AssignProperties_From_DiskAccess_STATUS(source 
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -854,7 +933,7 @@ func (access *DiskAccess_STATUS) AssignProperties_To_DiskAccess_STATUS(destinati
 		var extendedLocation storage.ExtendedLocation_STATUS
 		err := access.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -879,7 +958,7 @@ func (access *DiskAccess_STATUS) AssignProperties_To_DiskAccess_STATUS(destinati
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -899,6 +978,110 @@ func (access *DiskAccess_STATUS) AssignProperties_To_DiskAccess_STATUS(destinati
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(access.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DiskAccessOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_DiskAccessOperatorSpec populates our DiskAccessOperatorSpec from the provided source DiskAccessOperatorSpec
+func (operator *DiskAccessOperatorSpec) AssignProperties_From_DiskAccessOperatorSpec(source *storage.DiskAccessOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DiskAccessOperatorSpec populates the provided destination DiskAccessOperatorSpec from our DiskAccessOperatorSpec
+func (operator *DiskAccessOperatorSpec) AssignProperties_To_DiskAccessOperatorSpec(destination *storage.DiskAccessOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

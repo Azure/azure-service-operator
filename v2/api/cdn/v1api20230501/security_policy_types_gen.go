@@ -5,11 +5,15 @@ package v1api20230501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -29,8 +33,8 @@ import (
 type SecurityPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_SecurityPolicy_Spec   `json:"spec,omitempty"`
-	Status            Profiles_SecurityPolicy_STATUS `json:"status,omitempty"`
+	Spec              SecurityPolicy_Spec   `json:"spec,omitempty"`
+	Status            SecurityPolicy_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SecurityPolicy{}
@@ -90,15 +94,35 @@ func (policy *SecurityPolicy) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the SecurityPolicy resource
 func (policy *SecurityPolicy) defaultImpl() { policy.defaultAzureName() }
 
+var _ configmaps.Exporter = &SecurityPolicy{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (policy *SecurityPolicy) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &SecurityPolicy{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (policy *SecurityPolicy) SecretDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &SecurityPolicy{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (policy *SecurityPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Profiles_SecurityPolicy_STATUS); ok {
-		return policy.Spec.Initialize_From_Profiles_SecurityPolicy_STATUS(s)
+	if s, ok := status.(*SecurityPolicy_STATUS); ok {
+		return policy.Spec.Initialize_From_SecurityPolicy_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Profiles_SecurityPolicy_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type SecurityPolicy_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &SecurityPolicy{}
@@ -144,11 +168,15 @@ func (policy *SecurityPolicy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *SecurityPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Profiles_SecurityPolicy_STATUS{}
+	return &SecurityPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (policy *SecurityPolicy) Owner() *genruntime.ResourceReference {
+	if policy.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
 	return policy.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -156,16 +184,16 @@ func (policy *SecurityPolicy) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (policy *SecurityPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Profiles_SecurityPolicy_STATUS); ok {
+	if st, ok := status.(*SecurityPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Profiles_SecurityPolicy_STATUS
+	var st SecurityPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	policy.Status = st
@@ -208,7 +236,7 @@ func (policy *SecurityPolicy) ValidateUpdate(old runtime.Object) (admission.Warn
 
 // createValidations validates the creation of the resource
 func (policy *SecurityPolicy) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){policy.validateResourceReferences, policy.validateOwnerReference}
+	return []func() (admission.Warnings, error){policy.validateResourceReferences, policy.validateOwnerReference, policy.validateSecretDestinations, policy.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +254,21 @@ func (policy *SecurityPolicy) updateValidations() []func(old runtime.Object) (ad
 		func(old runtime.Object) (admission.Warnings, error) {
 			return policy.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return policy.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return policy.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (policy *SecurityPolicy) validateConfigMapDestinations() (admission.Warnings, error) {
+	if policy.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(policy, nil, policy.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -241,6 +283,14 @@ func (policy *SecurityPolicy) validateResourceReferences() (admission.Warnings, 
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (policy *SecurityPolicy) validateSecretDestinations() (admission.Warnings, error) {
+	if policy.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(policy, nil, policy.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -260,18 +310,18 @@ func (policy *SecurityPolicy) AssignProperties_From_SecurityPolicy(source *stora
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Profiles_SecurityPolicy_Spec
-	err := spec.AssignProperties_From_Profiles_SecurityPolicy_Spec(&source.Spec)
+	var spec SecurityPolicy_Spec
+	err := spec.AssignProperties_From_SecurityPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_SecurityPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
 	// Status
-	var status Profiles_SecurityPolicy_STATUS
-	err = status.AssignProperties_From_Profiles_SecurityPolicy_STATUS(&source.Status)
+	var status SecurityPolicy_STATUS
+	err = status.AssignProperties_From_SecurityPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_SecurityPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -286,18 +336,18 @@ func (policy *SecurityPolicy) AssignProperties_To_SecurityPolicy(destination *st
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Profiles_SecurityPolicy_Spec
-	err := policy.Spec.AssignProperties_To_Profiles_SecurityPolicy_Spec(&spec)
+	var spec storage.SecurityPolicy_Spec
+	err := policy.Spec.AssignProperties_To_SecurityPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_SecurityPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Profiles_SecurityPolicy_STATUS
-	err = policy.Status.AssignProperties_To_Profiles_SecurityPolicy_STATUS(&status)
+	var status storage.SecurityPolicy_STATUS
+	err = policy.Status.AssignProperties_To_SecurityPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_SecurityPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,10 +374,14 @@ type SecurityPolicyList struct {
 	Items           []SecurityPolicy `json:"items"`
 }
 
-type Profiles_SecurityPolicy_Spec struct {
+type SecurityPolicy_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *SecurityPolicyOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -339,47 +393,49 @@ type Profiles_SecurityPolicy_Spec struct {
 	Parameters *SecurityPolicyPropertiesParameters `json:"parameters,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Profiles_SecurityPolicy_Spec{}
+var _ genruntime.ARMTransformer = &SecurityPolicy_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *Profiles_SecurityPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (policy *SecurityPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if policy == nil {
 		return nil, nil
 	}
-	result := &Profiles_SecurityPolicy_Spec_ARM{}
+	result := &arm.SecurityPolicy_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if policy.Parameters != nil {
-		result.Properties = &SecurityPolicyProperties_ARM{}
+		result.Properties = &arm.SecurityPolicyProperties{}
 	}
 	if policy.Parameters != nil {
 		parameters_ARM, err := (*policy.Parameters).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		parameters := *parameters_ARM.(*SecurityPolicyPropertiesParameters_ARM)
+		parameters := *parameters_ARM.(*arm.SecurityPolicyPropertiesParameters)
 		result.Properties.Parameters = &parameters
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *Profiles_SecurityPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_SecurityPolicy_Spec_ARM{}
+func (policy *SecurityPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.SecurityPolicy_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *Profiles_SecurityPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_SecurityPolicy_Spec_ARM)
+func (policy *SecurityPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.SecurityPolicy_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_SecurityPolicy_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicy_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
 	policy.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	policy.Owner = &genruntime.KnownResourceReference{
@@ -405,61 +461,73 @@ func (policy *Profiles_SecurityPolicy_Spec) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Profiles_SecurityPolicy_Spec{}
+var _ genruntime.ConvertibleSpec = &SecurityPolicy_Spec{}
 
-// ConvertSpecFrom populates our Profiles_SecurityPolicy_Spec from the provided source
-func (policy *Profiles_SecurityPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Profiles_SecurityPolicy_Spec)
+// ConvertSpecFrom populates our SecurityPolicy_Spec from the provided source
+func (policy *SecurityPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.SecurityPolicy_Spec)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_Profiles_SecurityPolicy_Spec(src)
+		return policy.AssignProperties_From_SecurityPolicy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Profiles_SecurityPolicy_Spec{}
+	src = &storage.SecurityPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_Profiles_SecurityPolicy_Spec(src)
+	err = policy.AssignProperties_From_SecurityPolicy_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Profiles_SecurityPolicy_Spec
-func (policy *Profiles_SecurityPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Profiles_SecurityPolicy_Spec)
+// ConvertSpecTo populates the provided destination from our SecurityPolicy_Spec
+func (policy *SecurityPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.SecurityPolicy_Spec)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_Profiles_SecurityPolicy_Spec(dst)
+		return policy.AssignProperties_To_SecurityPolicy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Profiles_SecurityPolicy_Spec{}
-	err := policy.AssignProperties_To_Profiles_SecurityPolicy_Spec(dst)
+	dst = &storage.SecurityPolicy_Spec{}
+	err := policy.AssignProperties_To_SecurityPolicy_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_Profiles_SecurityPolicy_Spec populates our Profiles_SecurityPolicy_Spec from the provided source Profiles_SecurityPolicy_Spec
-func (policy *Profiles_SecurityPolicy_Spec) AssignProperties_From_Profiles_SecurityPolicy_Spec(source *storage.Profiles_SecurityPolicy_Spec) error {
+// AssignProperties_From_SecurityPolicy_Spec populates our SecurityPolicy_Spec from the provided source SecurityPolicy_Spec
+func (policy *SecurityPolicy_Spec) AssignProperties_From_SecurityPolicy_Spec(source *storage.SecurityPolicy_Spec) error {
 
 	// AzureName
 	policy.AzureName = source.AzureName
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SecurityPolicyOperatorSpec
+		err := operatorSpec.AssignProperties_From_SecurityPolicyOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyOperatorSpec() to populate field OperatorSpec")
+		}
+		policy.OperatorSpec = &operatorSpec
+	} else {
+		policy.OperatorSpec = nil
+	}
 
 	// Owner
 	if source.Owner != nil {
@@ -474,7 +542,7 @@ func (policy *Profiles_SecurityPolicy_Spec) AssignProperties_From_Profiles_Secur
 		var parameter SecurityPolicyPropertiesParameters
 		err := parameter.AssignProperties_From_SecurityPolicyPropertiesParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyPropertiesParameters() to populate field Parameters")
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyPropertiesParameters() to populate field Parameters")
 		}
 		policy.Parameters = &parameter
 	} else {
@@ -485,13 +553,25 @@ func (policy *Profiles_SecurityPolicy_Spec) AssignProperties_From_Profiles_Secur
 	return nil
 }
 
-// AssignProperties_To_Profiles_SecurityPolicy_Spec populates the provided destination Profiles_SecurityPolicy_Spec from our Profiles_SecurityPolicy_Spec
-func (policy *Profiles_SecurityPolicy_Spec) AssignProperties_To_Profiles_SecurityPolicy_Spec(destination *storage.Profiles_SecurityPolicy_Spec) error {
+// AssignProperties_To_SecurityPolicy_Spec populates the provided destination SecurityPolicy_Spec from our SecurityPolicy_Spec
+func (policy *SecurityPolicy_Spec) AssignProperties_To_SecurityPolicy_Spec(destination *storage.SecurityPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
 	destination.AzureName = policy.AzureName
+
+	// OperatorSpec
+	if policy.OperatorSpec != nil {
+		var operatorSpec storage.SecurityPolicyOperatorSpec
+		err := policy.OperatorSpec.AssignProperties_To_SecurityPolicyOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = policy.OriginalVersion()
@@ -509,7 +589,7 @@ func (policy *Profiles_SecurityPolicy_Spec) AssignProperties_To_Profiles_Securit
 		var parameter storage.SecurityPolicyPropertiesParameters
 		err := policy.Parameters.AssignProperties_To_SecurityPolicyPropertiesParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyPropertiesParameters() to populate field Parameters")
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyPropertiesParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -527,15 +607,15 @@ func (policy *Profiles_SecurityPolicy_Spec) AssignProperties_To_Profiles_Securit
 	return nil
 }
 
-// Initialize_From_Profiles_SecurityPolicy_STATUS populates our Profiles_SecurityPolicy_Spec from the provided source Profiles_SecurityPolicy_STATUS
-func (policy *Profiles_SecurityPolicy_Spec) Initialize_From_Profiles_SecurityPolicy_STATUS(source *Profiles_SecurityPolicy_STATUS) error {
+// Initialize_From_SecurityPolicy_STATUS populates our SecurityPolicy_Spec from the provided source SecurityPolicy_STATUS
+func (policy *SecurityPolicy_Spec) Initialize_From_SecurityPolicy_STATUS(source *SecurityPolicy_STATUS) error {
 
 	// Parameters
 	if source.Parameters != nil {
 		var parameter SecurityPolicyPropertiesParameters
 		err := parameter.Initialize_From_SecurityPolicyPropertiesParameters_STATUS(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
+			return eris.Wrap(err, "calling Initialize_From_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
 		}
 		policy.Parameters = &parameter
 	} else {
@@ -547,16 +627,14 @@ func (policy *Profiles_SecurityPolicy_Spec) Initialize_From_Profiles_SecurityPol
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (policy *Profiles_SecurityPolicy_Spec) OriginalVersion() string {
+func (policy *SecurityPolicy_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (policy *Profiles_SecurityPolicy_Spec) SetAzureName(azureName string) {
-	policy.AzureName = azureName
-}
+func (policy *SecurityPolicy_Spec) SetAzureName(azureName string) { policy.AzureName = azureName }
 
-type Profiles_SecurityPolicy_STATUS struct {
+type SecurityPolicy_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions       []conditions.Condition                            `json:"conditions,omitempty"`
 	DeploymentStatus *SecurityPolicyProperties_DeploymentStatus_STATUS `json:"deploymentStatus,omitempty"`
@@ -583,68 +661,68 @@ type Profiles_SecurityPolicy_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Profiles_SecurityPolicy_STATUS{}
+var _ genruntime.ConvertibleStatus = &SecurityPolicy_STATUS{}
 
-// ConvertStatusFrom populates our Profiles_SecurityPolicy_STATUS from the provided source
-func (policy *Profiles_SecurityPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Profiles_SecurityPolicy_STATUS)
+// ConvertStatusFrom populates our SecurityPolicy_STATUS from the provided source
+func (policy *SecurityPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.SecurityPolicy_STATUS)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_Profiles_SecurityPolicy_STATUS(src)
+		return policy.AssignProperties_From_SecurityPolicy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Profiles_SecurityPolicy_STATUS{}
+	src = &storage.SecurityPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_Profiles_SecurityPolicy_STATUS(src)
+	err = policy.AssignProperties_From_SecurityPolicy_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Profiles_SecurityPolicy_STATUS
-func (policy *Profiles_SecurityPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Profiles_SecurityPolicy_STATUS)
+// ConvertStatusTo populates the provided destination from our SecurityPolicy_STATUS
+func (policy *SecurityPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.SecurityPolicy_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_Profiles_SecurityPolicy_STATUS(dst)
+		return policy.AssignProperties_To_SecurityPolicy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Profiles_SecurityPolicy_STATUS{}
-	err := policy.AssignProperties_To_Profiles_SecurityPolicy_STATUS(dst)
+	dst = &storage.SecurityPolicy_STATUS{}
+	err := policy.AssignProperties_To_SecurityPolicy_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Profiles_SecurityPolicy_STATUS{}
+var _ genruntime.FromARMConverter = &SecurityPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *Profiles_SecurityPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_SecurityPolicy_STATUS_ARM{}
+func (policy *SecurityPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.SecurityPolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *Profiles_SecurityPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_SecurityPolicy_STATUS_ARM)
+func (policy *SecurityPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.SecurityPolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_SecurityPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicy_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -727,8 +805,8 @@ func (policy *Profiles_SecurityPolicy_STATUS) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-// AssignProperties_From_Profiles_SecurityPolicy_STATUS populates our Profiles_SecurityPolicy_STATUS from the provided source Profiles_SecurityPolicy_STATUS
-func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_From_Profiles_SecurityPolicy_STATUS(source *storage.Profiles_SecurityPolicy_STATUS) error {
+// AssignProperties_From_SecurityPolicy_STATUS populates our SecurityPolicy_STATUS from the provided source SecurityPolicy_STATUS
+func (policy *SecurityPolicy_STATUS) AssignProperties_From_SecurityPolicy_STATUS(source *storage.SecurityPolicy_STATUS) error {
 
 	// Conditions
 	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -753,7 +831,7 @@ func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_From_Profiles_Sec
 		var parameter SecurityPolicyPropertiesParameters_STATUS
 		err := parameter.AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
 		}
 		policy.Parameters = &parameter
 	} else {
@@ -777,7 +855,7 @@ func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_From_Profiles_Sec
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		policy.SystemData = &systemDatum
 	} else {
@@ -791,8 +869,8 @@ func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_From_Profiles_Sec
 	return nil
 }
 
-// AssignProperties_To_Profiles_SecurityPolicy_STATUS populates the provided destination Profiles_SecurityPolicy_STATUS from our Profiles_SecurityPolicy_STATUS
-func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_To_Profiles_SecurityPolicy_STATUS(destination *storage.Profiles_SecurityPolicy_STATUS) error {
+// AssignProperties_To_SecurityPolicy_STATUS populates the provided destination SecurityPolicy_STATUS from our SecurityPolicy_STATUS
+func (policy *SecurityPolicy_STATUS) AssignProperties_To_SecurityPolicy_STATUS(destination *storage.SecurityPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -818,7 +896,7 @@ func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_To_Profiles_Secur
 		var parameter storage.SecurityPolicyPropertiesParameters_STATUS
 		err := policy.Parameters.AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -841,7 +919,7 @@ func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_To_Profiles_Secur
 		var systemDatum storage.SystemData_STATUS
 		err := policy.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -850,6 +928,110 @@ func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_To_Profiles_Secur
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(policy.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SecurityPolicyOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_SecurityPolicyOperatorSpec populates our SecurityPolicyOperatorSpec from the provided source SecurityPolicyOperatorSpec
+func (operator *SecurityPolicyOperatorSpec) AssignProperties_From_SecurityPolicyOperatorSpec(source *storage.SecurityPolicyOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SecurityPolicyOperatorSpec populates the provided destination SecurityPolicyOperatorSpec from our SecurityPolicyOperatorSpec
+func (operator *SecurityPolicyOperatorSpec) AssignProperties_To_SecurityPolicyOperatorSpec(destination *storage.SecurityPolicyOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -910,7 +1092,7 @@ func (parameters *SecurityPolicyPropertiesParameters) ConvertToARM(resolved genr
 	if parameters == nil {
 		return nil, nil
 	}
-	result := &SecurityPolicyPropertiesParameters_ARM{}
+	result := &arm.SecurityPolicyPropertiesParameters{}
 
 	// Set property "WebApplicationFirewall":
 	if parameters.WebApplicationFirewall != nil {
@@ -918,7 +1100,7 @@ func (parameters *SecurityPolicyPropertiesParameters) ConvertToARM(resolved genr
 		if err != nil {
 			return nil, err
 		}
-		webApplicationFirewall := *webApplicationFirewall_ARM.(*SecurityPolicyWebApplicationFirewallParameters_ARM)
+		webApplicationFirewall := *webApplicationFirewall_ARM.(*arm.SecurityPolicyWebApplicationFirewallParameters)
 		result.WebApplicationFirewall = &webApplicationFirewall
 	}
 	return result, nil
@@ -926,14 +1108,14 @@ func (parameters *SecurityPolicyPropertiesParameters) ConvertToARM(resolved genr
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *SecurityPolicyPropertiesParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicyPropertiesParameters_ARM{}
+	return &arm.SecurityPolicyPropertiesParameters{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *SecurityPolicyPropertiesParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicyPropertiesParameters_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicyPropertiesParameters)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicyPropertiesParameters_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicyPropertiesParameters, got %T", armInput)
 	}
 
 	// Set property "WebApplicationFirewall":
@@ -959,7 +1141,7 @@ func (parameters *SecurityPolicyPropertiesParameters) AssignProperties_From_Secu
 		var webApplicationFirewall SecurityPolicyWebApplicationFirewallParameters
 		err := webApplicationFirewall.AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters(source.WebApplicationFirewall)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters() to populate field WebApplicationFirewall")
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters() to populate field WebApplicationFirewall")
 		}
 		parameters.WebApplicationFirewall = &webApplicationFirewall
 	} else {
@@ -980,7 +1162,7 @@ func (parameters *SecurityPolicyPropertiesParameters) AssignProperties_To_Securi
 		var webApplicationFirewall storage.SecurityPolicyWebApplicationFirewallParameters
 		err := parameters.WebApplicationFirewall.AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters(&webApplicationFirewall)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters() to populate field WebApplicationFirewall")
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters() to populate field WebApplicationFirewall")
 		}
 		destination.WebApplicationFirewall = &webApplicationFirewall
 	} else {
@@ -1006,7 +1188,7 @@ func (parameters *SecurityPolicyPropertiesParameters) Initialize_From_SecurityPo
 		var webApplicationFirewall SecurityPolicyWebApplicationFirewallParameters
 		err := webApplicationFirewall.Initialize_From_SecurityPolicyWebApplicationFirewallParameters_STATUS(source.WebApplicationFirewall)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
+			return eris.Wrap(err, "calling Initialize_From_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
 		}
 		parameters.WebApplicationFirewall = &webApplicationFirewall
 	} else {
@@ -1026,14 +1208,14 @@ var _ genruntime.FromARMConverter = &SecurityPolicyPropertiesParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *SecurityPolicyPropertiesParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicyPropertiesParameters_STATUS_ARM{}
+	return &arm.SecurityPolicyPropertiesParameters_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *SecurityPolicyPropertiesParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicyPropertiesParameters_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicyPropertiesParameters_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicyPropertiesParameters_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicyPropertiesParameters_STATUS, got %T", armInput)
 	}
 
 	// Set property "WebApplicationFirewall":
@@ -1059,7 +1241,7 @@ func (parameters *SecurityPolicyPropertiesParameters_STATUS) AssignProperties_Fr
 		var webApplicationFirewall SecurityPolicyWebApplicationFirewallParameters_STATUS
 		err := webApplicationFirewall.AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS(source.WebApplicationFirewall)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
 		}
 		parameters.WebApplicationFirewall = &webApplicationFirewall
 	} else {
@@ -1080,7 +1262,7 @@ func (parameters *SecurityPolicyPropertiesParameters_STATUS) AssignProperties_To
 		var webApplicationFirewall storage.SecurityPolicyWebApplicationFirewallParameters_STATUS
 		err := parameters.WebApplicationFirewall.AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS(&webApplicationFirewall)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
 		}
 		destination.WebApplicationFirewall = &webApplicationFirewall
 	} else {
@@ -1117,7 +1299,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) ConvertToARM(r
 	if parameters == nil {
 		return nil, nil
 	}
-	result := &SecurityPolicyWebApplicationFirewallParameters_ARM{}
+	result := &arm.SecurityPolicyWebApplicationFirewallParameters{}
 
 	// Set property "Associations":
 	for _, item := range parameters.Associations {
@@ -1125,15 +1307,15 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) ConvertToARM(r
 		if err != nil {
 			return nil, err
 		}
-		result.Associations = append(result.Associations, *item_ARM.(*SecurityPolicyWebApplicationFirewallAssociation_ARM))
+		result.Associations = append(result.Associations, *item_ARM.(*arm.SecurityPolicyWebApplicationFirewallAssociation))
 	}
 
 	// Set property "Type":
 	if parameters.Type != nil {
-		var temp SecurityPolicyWebApplicationFirewallParameters_Type_ARM
+		var temp arm.SecurityPolicyWebApplicationFirewallParameters_Type
 		var temp1 string
 		temp1 = string(*parameters.Type)
-		temp = SecurityPolicyWebApplicationFirewallParameters_Type_ARM(temp1)
+		temp = arm.SecurityPolicyWebApplicationFirewallParameters_Type(temp1)
 		result.Type = temp
 	}
 
@@ -1143,7 +1325,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) ConvertToARM(r
 		if err != nil {
 			return nil, err
 		}
-		wafPolicy := *wafPolicy_ARM.(*ResourceReference_ARM)
+		wafPolicy := *wafPolicy_ARM.(*arm.ResourceReference)
 		result.WafPolicy = &wafPolicy
 	}
 	return result, nil
@@ -1151,14 +1333,14 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) ConvertToARM(r
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *SecurityPolicyWebApplicationFirewallParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicyWebApplicationFirewallParameters_ARM{}
+	return &arm.SecurityPolicyWebApplicationFirewallParameters{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *SecurityPolicyWebApplicationFirewallParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicyWebApplicationFirewallParameters_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicyWebApplicationFirewallParameters)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicyWebApplicationFirewallParameters_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicyWebApplicationFirewallParameters, got %T", armInput)
 	}
 
 	// Set property "Associations":
@@ -1205,7 +1387,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperti
 			var association SecurityPolicyWebApplicationFirewallAssociation
 			err := association.AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation(&associationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation() to populate field Associations")
+				return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation() to populate field Associations")
 			}
 			associationList[associationIndex] = association
 		}
@@ -1228,7 +1410,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperti
 		var wafPolicy ResourceReference
 		err := wafPolicy.AssignProperties_From_ResourceReference(source.WafPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field WafPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field WafPolicy")
 		}
 		parameters.WafPolicy = &wafPolicy
 	} else {
@@ -1253,7 +1435,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperti
 			var association storage.SecurityPolicyWebApplicationFirewallAssociation
 			err := associationItem.AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation(&association)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation() to populate field Associations")
+				return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation() to populate field Associations")
 			}
 			associationList[associationIndex] = association
 		}
@@ -1275,7 +1457,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperti
 		var wafPolicy storage.ResourceReference
 		err := parameters.WafPolicy.AssignProperties_To_ResourceReference(&wafPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field WafPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field WafPolicy")
 		}
 		destination.WafPolicy = &wafPolicy
 	} else {
@@ -1305,7 +1487,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) Initialize_Fro
 			var association SecurityPolicyWebApplicationFirewallAssociation
 			err := association.Initialize_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&associationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
+				return eris.Wrap(err, "calling Initialize_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
 			}
 			associationList[associationIndex] = association
 		}
@@ -1327,7 +1509,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) Initialize_Fro
 		var wafPolicy ResourceReference
 		err := wafPolicy.Initialize_From_ResourceReference_STATUS(source.WafPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field WafPolicy")
+			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field WafPolicy")
 		}
 		parameters.WafPolicy = &wafPolicy
 	} else {
@@ -1353,14 +1535,14 @@ var _ genruntime.FromARMConverter = &SecurityPolicyWebApplicationFirewallParamet
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicyWebApplicationFirewallParameters_STATUS_ARM{}
+	return &arm.SecurityPolicyWebApplicationFirewallParameters_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicyWebApplicationFirewallParameters_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicyWebApplicationFirewallParameters_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicyWebApplicationFirewallParameters_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicyWebApplicationFirewallParameters_STATUS, got %T", armInput)
 	}
 
 	// Set property "Associations":
@@ -1407,7 +1589,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignP
 			var association SecurityPolicyWebApplicationFirewallAssociation_STATUS
 			err := association.AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&associationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
+				return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
 			}
 			associationList[associationIndex] = association
 		}
@@ -1430,7 +1612,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignP
 		var wafPolicy ResourceReference_STATUS
 		err := wafPolicy.AssignProperties_From_ResourceReference_STATUS(source.WafPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field WafPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field WafPolicy")
 		}
 		parameters.WafPolicy = &wafPolicy
 	} else {
@@ -1455,7 +1637,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignP
 			var association storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS
 			err := associationItem.AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&association)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
+				return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
 			}
 			associationList[associationIndex] = association
 		}
@@ -1477,7 +1659,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignP
 		var wafPolicy storage.ResourceReference_STATUS
 		err := parameters.WafPolicy.AssignProperties_To_ResourceReference_STATUS(&wafPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field WafPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field WafPolicy")
 		}
 		destination.WafPolicy = &wafPolicy
 	} else {
@@ -1511,7 +1693,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) ConvertToARM
 	if association == nil {
 		return nil, nil
 	}
-	result := &SecurityPolicyWebApplicationFirewallAssociation_ARM{}
+	result := &arm.SecurityPolicyWebApplicationFirewallAssociation{}
 
 	// Set property "Domains":
 	for _, item := range association.Domains {
@@ -1519,7 +1701,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		result.Domains = append(result.Domains, *item_ARM.(*ActivatedResourceReference_ARM))
+		result.Domains = append(result.Domains, *item_ARM.(*arm.ActivatedResourceReference))
 	}
 
 	// Set property "PatternsToMatch":
@@ -1531,14 +1713,14 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (association *SecurityPolicyWebApplicationFirewallAssociation) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicyWebApplicationFirewallAssociation_ARM{}
+	return &arm.SecurityPolicyWebApplicationFirewallAssociation{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (association *SecurityPolicyWebApplicationFirewallAssociation) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicyWebApplicationFirewallAssociation_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicyWebApplicationFirewallAssociation)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicyWebApplicationFirewallAssociation_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicyWebApplicationFirewallAssociation, got %T", armInput)
 	}
 
 	// Set property "Domains":
@@ -1572,7 +1754,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) AssignProper
 			var domain ActivatedResourceReference
 			err := domain.AssignProperties_From_ActivatedResourceReference(&domainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference() to populate field Domains")
+				return eris.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference() to populate field Domains")
 			}
 			domainList[domainIndex] = domain
 		}
@@ -1602,7 +1784,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) AssignProper
 			var domain storage.ActivatedResourceReference
 			err := domainItem.AssignProperties_To_ActivatedResourceReference(&domain)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference() to populate field Domains")
+				return eris.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference() to populate field Domains")
 			}
 			domainList[domainIndex] = domain
 		}
@@ -1637,7 +1819,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) Initialize_F
 			var domain ActivatedResourceReference
 			err := domain.Initialize_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&domainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
+				return eris.Wrap(err, "calling Initialize_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
 			}
 			domainList[domainIndex] = domain
 		}
@@ -1666,14 +1848,14 @@ var _ genruntime.FromARMConverter = &SecurityPolicyWebApplicationFirewallAssocia
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicyWebApplicationFirewallAssociation_STATUS_ARM{}
+	return &arm.SecurityPolicyWebApplicationFirewallAssociation_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicyWebApplicationFirewallAssociation_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicyWebApplicationFirewallAssociation_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicyWebApplicationFirewallAssociation_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicyWebApplicationFirewallAssociation_STATUS, got %T", armInput)
 	}
 
 	// Set property "Domains":
@@ -1707,7 +1889,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) Assig
 			var domain ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
 			err := domain.AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&domainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
+				return eris.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
 			}
 			domainList[domainIndex] = domain
 		}
@@ -1737,7 +1919,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) Assig
 			var domain storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
 			err := domainItem.AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&domain)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
+				return eris.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
 			}
 			domainList[domainIndex] = domain
 		}

@@ -7,10 +7,12 @@ package crd
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
-	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
+
+	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/fake"
@@ -101,6 +103,38 @@ func Test_CleanDeprecatedCRDVersions_CleansHandcraftedBetaVersion_IfExists(t *te
 	g.Expect(crd.Status.StoredVersions).ToNot(BeEquivalentTo(definition.Status.StoredVersions))
 	g.Expect(crd.Status.StoredVersions).ToNot(ContainElement(betaVersion))
 	g.Expect(crd.Status.StoredVersions).To(ContainElement(gaVersion))
+}
+
+func Test_CleanDeprecatedCRDVersions_CleansTrustedAccessRoleBindings(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	c := makeClientSets()
+
+	oldVersion := "v1api20230202previewstorage"
+	newVersion := "v1api20231001storage"
+
+	// create CRD
+	definition := newCRDWithStoredVersionsAndName(
+		"containerservice.azure.com",
+		"trustedaccessrolebindings",
+		"TrustedAccessRoleBindingList",
+		oldVersion,
+		newVersion)
+
+	_, err := c.fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
+	g.Expect(err).To(BeNil())
+
+	err = c.cleaner.Run(context.TODO())
+	g.Expect(err).To(BeNil())
+
+	crd, err := c.fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
+	g.Expect(err).To(BeNil())
+
+	g.Expect(crd.Status.StoredVersions).ToNot(BeNil())
+	g.Expect(crd.Status.StoredVersions).ToNot(BeEquivalentTo(definition.Status.StoredVersions))
+	g.Expect(crd.Status.StoredVersions).ToNot(ContainElement(oldVersion))
+	g.Expect(crd.Status.StoredVersions).To(ContainElement(newVersion))
 }
 
 func Test_MigrateDeprecatedCRDResources_DoesNotMigrateBetaVersion_IfStorage(t *testing.T) {
@@ -335,17 +369,21 @@ func newResourceGroup(name, namespace string) *resources.ResourceGroup {
 }
 
 func newCRDWithStoredVersions(versions ...string) *v1.CustomResourceDefinition {
+	return newCRDWithStoredVersionsAndName("resources.azure.com", "resourcegroups", "ResourceGroup", versions...)
+}
+
+func newCRDWithStoredVersionsAndName(group string, name string, listKind string, versions ...string) *v1.CustomResourceDefinition {
 	definition := &v1.CustomResourceDefinition{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: "resourcegroups.resources.azure.com",
+			Name: fmt.Sprintf("%s.%s", name, group),
 			Labels: map[string]string{
 				"app.kubernetes.io/name": "azure-service-operator",
 			},
 		},
 		Spec: v1.CustomResourceDefinitionSpec{
-			Group: "resources.azure.com",
+			Group: group,
 			Names: v1.CustomResourceDefinitionNames{
-				ListKind: "ResourceGroup",
+				ListKind: listKind,
 			},
 		},
 		Status: v1.CustomResourceDefinitionStatus{

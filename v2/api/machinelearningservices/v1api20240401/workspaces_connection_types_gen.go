@@ -5,12 +5,15 @@ package v1api20240401
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -25,13 +28,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/machineLearningServices.json
+// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/workspaceRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}
 type WorkspacesConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Workspaces_Connection_Spec   `json:"spec,omitempty"`
-	Status            Workspaces_Connection_STATUS `json:"status,omitempty"`
+	Spec              WorkspacesConnection_Spec   `json:"spec,omitempty"`
+	Status            WorkspacesConnection_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WorkspacesConnection{}
@@ -91,15 +94,35 @@ func (connection *WorkspacesConnection) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the WorkspacesConnection resource
 func (connection *WorkspacesConnection) defaultImpl() { connection.defaultAzureName() }
 
+var _ configmaps.Exporter = &WorkspacesConnection{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (connection *WorkspacesConnection) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if connection.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return connection.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &WorkspacesConnection{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (connection *WorkspacesConnection) SecretDestinationExpressions() []*core.DestinationExpression {
+	if connection.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return connection.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &WorkspacesConnection{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (connection *WorkspacesConnection) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Workspaces_Connection_STATUS); ok {
-		return connection.Spec.Initialize_From_Workspaces_Connection_STATUS(s)
+	if s, ok := status.(*WorkspacesConnection_STATUS); ok {
+		return connection.Spec.Initialize_From_WorkspacesConnection_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Workspaces_Connection_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type WorkspacesConnection_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &WorkspacesConnection{}
@@ -145,11 +168,15 @@ func (connection *WorkspacesConnection) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (connection *WorkspacesConnection) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Workspaces_Connection_STATUS{}
+	return &WorkspacesConnection_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (connection *WorkspacesConnection) Owner() *genruntime.ResourceReference {
+	if connection.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(connection.Spec)
 	return connection.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -157,16 +184,16 @@ func (connection *WorkspacesConnection) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (connection *WorkspacesConnection) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Workspaces_Connection_STATUS); ok {
+	if st, ok := status.(*WorkspacesConnection_STATUS); ok {
 		connection.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Workspaces_Connection_STATUS
+	var st WorkspacesConnection_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	connection.Status = st
@@ -209,7 +236,7 @@ func (connection *WorkspacesConnection) ValidateUpdate(old runtime.Object) (admi
 
 // createValidations validates the creation of the resource
 func (connection *WorkspacesConnection) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){connection.validateResourceReferences, connection.validateOwnerReference, connection.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){connection.validateResourceReferences, connection.validateOwnerReference, connection.validateSecretDestinations, connection.validateConfigMapDestinations, connection.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -228,9 +255,23 @@ func (connection *WorkspacesConnection) updateValidations() []func(old runtime.O
 			return connection.validateOwnerReference()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
+			return connection.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return connection.validateConfigMapDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return connection.validateOptionalConfigMapReferences()
 		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (connection *WorkspacesConnection) validateConfigMapDestinations() (admission.Warnings, error) {
+	if connection.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(connection, nil, connection.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
@@ -256,6 +297,14 @@ func (connection *WorkspacesConnection) validateResourceReferences() (admission.
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (connection *WorkspacesConnection) validateSecretDestinations() (admission.Warnings, error) {
+	if connection.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(connection, nil, connection.Spec.OperatorSpec.SecretExpressions)
+}
+
 // validateWriteOnceProperties validates all WriteOnce properties
 func (connection *WorkspacesConnection) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*WorkspacesConnection)
@@ -273,18 +322,18 @@ func (connection *WorkspacesConnection) AssignProperties_From_WorkspacesConnecti
 	connection.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Workspaces_Connection_Spec
-	err := spec.AssignProperties_From_Workspaces_Connection_Spec(&source.Spec)
+	var spec WorkspacesConnection_Spec
+	err := spec.AssignProperties_From_WorkspacesConnection_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspaces_Connection_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_WorkspacesConnection_Spec() to populate field Spec")
 	}
 	connection.Spec = spec
 
 	// Status
-	var status Workspaces_Connection_STATUS
-	err = status.AssignProperties_From_Workspaces_Connection_STATUS(&source.Status)
+	var status WorkspacesConnection_STATUS
+	err = status.AssignProperties_From_WorkspacesConnection_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspaces_Connection_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_WorkspacesConnection_STATUS() to populate field Status")
 	}
 	connection.Status = status
 
@@ -299,18 +348,18 @@ func (connection *WorkspacesConnection) AssignProperties_To_WorkspacesConnection
 	destination.ObjectMeta = *connection.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Workspaces_Connection_Spec
-	err := connection.Spec.AssignProperties_To_Workspaces_Connection_Spec(&spec)
+	var spec storage.WorkspacesConnection_Spec
+	err := connection.Spec.AssignProperties_To_WorkspacesConnection_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Connection_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_WorkspacesConnection_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Workspaces_Connection_STATUS
-	err = connection.Status.AssignProperties_To_Workspaces_Connection_STATUS(&status)
+	var status storage.WorkspacesConnection_STATUS
+	err = connection.Status.AssignProperties_To_WorkspacesConnection_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Connection_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_WorkspacesConnection_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -329,7 +378,7 @@ func (connection *WorkspacesConnection) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/machineLearningServices.json
+// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/workspaceRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}
 type WorkspacesConnectionList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -337,11 +386,15 @@ type WorkspacesConnectionList struct {
 	Items           []WorkspacesConnection `json:"items"`
 }
 
-type Workspaces_Connection_Spec struct {
+type WorkspacesConnection_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9][a-zA-Z0-9_-]{2,32}$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *WorkspacesConnectionOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -353,14 +406,14 @@ type Workspaces_Connection_Spec struct {
 	Properties *WorkspaceConnectionPropertiesV2 `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Workspaces_Connection_Spec{}
+var _ genruntime.ARMTransformer = &WorkspacesConnection_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (connection *Workspaces_Connection_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (connection *WorkspacesConnection_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if connection == nil {
 		return nil, nil
 	}
-	result := &Workspaces_Connection_Spec_ARM{}
+	result := &arm.WorkspacesConnection_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -371,26 +424,28 @@ func (connection *Workspaces_Connection_Spec) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*WorkspaceConnectionPropertiesV2_ARM)
+		properties := *properties_ARM.(*arm.WorkspaceConnectionPropertiesV2)
 		result.Properties = &properties
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (connection *Workspaces_Connection_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspaces_Connection_Spec_ARM{}
+func (connection *WorkspacesConnection_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.WorkspacesConnection_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (connection *Workspaces_Connection_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspaces_Connection_Spec_ARM)
+func (connection *WorkspacesConnection_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.WorkspacesConnection_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Connection_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspacesConnection_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
 	connection.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	connection.Owner = &genruntime.KnownResourceReference{
@@ -413,61 +468,73 @@ func (connection *Workspaces_Connection_Spec) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Workspaces_Connection_Spec{}
+var _ genruntime.ConvertibleSpec = &WorkspacesConnection_Spec{}
 
-// ConvertSpecFrom populates our Workspaces_Connection_Spec from the provided source
-func (connection *Workspaces_Connection_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Workspaces_Connection_Spec)
+// ConvertSpecFrom populates our WorkspacesConnection_Spec from the provided source
+func (connection *WorkspacesConnection_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.WorkspacesConnection_Spec)
 	if ok {
 		// Populate our instance from source
-		return connection.AssignProperties_From_Workspaces_Connection_Spec(src)
+		return connection.AssignProperties_From_WorkspacesConnection_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Workspaces_Connection_Spec{}
+	src = &storage.WorkspacesConnection_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = connection.AssignProperties_From_Workspaces_Connection_Spec(src)
+	err = connection.AssignProperties_From_WorkspacesConnection_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Workspaces_Connection_Spec
-func (connection *Workspaces_Connection_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Workspaces_Connection_Spec)
+// ConvertSpecTo populates the provided destination from our WorkspacesConnection_Spec
+func (connection *WorkspacesConnection_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.WorkspacesConnection_Spec)
 	if ok {
 		// Populate destination from our instance
-		return connection.AssignProperties_To_Workspaces_Connection_Spec(dst)
+		return connection.AssignProperties_To_WorkspacesConnection_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Workspaces_Connection_Spec{}
-	err := connection.AssignProperties_To_Workspaces_Connection_Spec(dst)
+	dst = &storage.WorkspacesConnection_Spec{}
+	err := connection.AssignProperties_To_WorkspacesConnection_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_Workspaces_Connection_Spec populates our Workspaces_Connection_Spec from the provided source Workspaces_Connection_Spec
-func (connection *Workspaces_Connection_Spec) AssignProperties_From_Workspaces_Connection_Spec(source *storage.Workspaces_Connection_Spec) error {
+// AssignProperties_From_WorkspacesConnection_Spec populates our WorkspacesConnection_Spec from the provided source WorkspacesConnection_Spec
+func (connection *WorkspacesConnection_Spec) AssignProperties_From_WorkspacesConnection_Spec(source *storage.WorkspacesConnection_Spec) error {
 
 	// AzureName
 	connection.AzureName = source.AzureName
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec WorkspacesConnectionOperatorSpec
+		err := operatorSpec.AssignProperties_From_WorkspacesConnectionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspacesConnectionOperatorSpec() to populate field OperatorSpec")
+		}
+		connection.OperatorSpec = &operatorSpec
+	} else {
+		connection.OperatorSpec = nil
+	}
 
 	// Owner
 	if source.Owner != nil {
@@ -482,7 +549,7 @@ func (connection *Workspaces_Connection_Spec) AssignProperties_From_Workspaces_C
 		var property WorkspaceConnectionPropertiesV2
 		err := property.AssignProperties_From_WorkspaceConnectionPropertiesV2(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPropertiesV2() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPropertiesV2() to populate field Properties")
 		}
 		connection.Properties = &property
 	} else {
@@ -493,13 +560,25 @@ func (connection *Workspaces_Connection_Spec) AssignProperties_From_Workspaces_C
 	return nil
 }
 
-// AssignProperties_To_Workspaces_Connection_Spec populates the provided destination Workspaces_Connection_Spec from our Workspaces_Connection_Spec
-func (connection *Workspaces_Connection_Spec) AssignProperties_To_Workspaces_Connection_Spec(destination *storage.Workspaces_Connection_Spec) error {
+// AssignProperties_To_WorkspacesConnection_Spec populates the provided destination WorkspacesConnection_Spec from our WorkspacesConnection_Spec
+func (connection *WorkspacesConnection_Spec) AssignProperties_To_WorkspacesConnection_Spec(destination *storage.WorkspacesConnection_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
 	destination.AzureName = connection.AzureName
+
+	// OperatorSpec
+	if connection.OperatorSpec != nil {
+		var operatorSpec storage.WorkspacesConnectionOperatorSpec
+		err := connection.OperatorSpec.AssignProperties_To_WorkspacesConnectionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspacesConnectionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = connection.OriginalVersion()
@@ -517,7 +596,7 @@ func (connection *Workspaces_Connection_Spec) AssignProperties_To_Workspaces_Con
 		var property storage.WorkspaceConnectionPropertiesV2
 		err := connection.Properties.AssignProperties_To_WorkspaceConnectionPropertiesV2(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPropertiesV2() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPropertiesV2() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -535,15 +614,15 @@ func (connection *Workspaces_Connection_Spec) AssignProperties_To_Workspaces_Con
 	return nil
 }
 
-// Initialize_From_Workspaces_Connection_STATUS populates our Workspaces_Connection_Spec from the provided source Workspaces_Connection_STATUS
-func (connection *Workspaces_Connection_Spec) Initialize_From_Workspaces_Connection_STATUS(source *Workspaces_Connection_STATUS) error {
+// Initialize_From_WorkspacesConnection_STATUS populates our WorkspacesConnection_Spec from the provided source WorkspacesConnection_STATUS
+func (connection *WorkspacesConnection_Spec) Initialize_From_WorkspacesConnection_STATUS(source *WorkspacesConnection_STATUS) error {
 
 	// Properties
 	if source.Properties != nil {
 		var property WorkspaceConnectionPropertiesV2
 		err := property.Initialize_From_WorkspaceConnectionPropertiesV2_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionPropertiesV2_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionPropertiesV2_STATUS() to populate field Properties")
 		}
 		connection.Properties = &property
 	} else {
@@ -555,16 +634,16 @@ func (connection *Workspaces_Connection_Spec) Initialize_From_Workspaces_Connect
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (connection *Workspaces_Connection_Spec) OriginalVersion() string {
+func (connection *WorkspacesConnection_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (connection *Workspaces_Connection_Spec) SetAzureName(azureName string) {
+func (connection *WorkspacesConnection_Spec) SetAzureName(azureName string) {
 	connection.AzureName = azureName
 }
 
-type Workspaces_Connection_STATUS struct {
+type WorkspacesConnection_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -583,68 +662,68 @@ type Workspaces_Connection_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Workspaces_Connection_STATUS{}
+var _ genruntime.ConvertibleStatus = &WorkspacesConnection_STATUS{}
 
-// ConvertStatusFrom populates our Workspaces_Connection_STATUS from the provided source
-func (connection *Workspaces_Connection_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Workspaces_Connection_STATUS)
+// ConvertStatusFrom populates our WorkspacesConnection_STATUS from the provided source
+func (connection *WorkspacesConnection_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.WorkspacesConnection_STATUS)
 	if ok {
 		// Populate our instance from source
-		return connection.AssignProperties_From_Workspaces_Connection_STATUS(src)
+		return connection.AssignProperties_From_WorkspacesConnection_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Workspaces_Connection_STATUS{}
+	src = &storage.WorkspacesConnection_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = connection.AssignProperties_From_Workspaces_Connection_STATUS(src)
+	err = connection.AssignProperties_From_WorkspacesConnection_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Workspaces_Connection_STATUS
-func (connection *Workspaces_Connection_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Workspaces_Connection_STATUS)
+// ConvertStatusTo populates the provided destination from our WorkspacesConnection_STATUS
+func (connection *WorkspacesConnection_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.WorkspacesConnection_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return connection.AssignProperties_To_Workspaces_Connection_STATUS(dst)
+		return connection.AssignProperties_To_WorkspacesConnection_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Workspaces_Connection_STATUS{}
-	err := connection.AssignProperties_To_Workspaces_Connection_STATUS(dst)
+	dst = &storage.WorkspacesConnection_STATUS{}
+	err := connection.AssignProperties_To_WorkspacesConnection_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Workspaces_Connection_STATUS{}
+var _ genruntime.FromARMConverter = &WorkspacesConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (connection *Workspaces_Connection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspaces_Connection_STATUS_ARM{}
+func (connection *WorkspacesConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.WorkspacesConnection_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (connection *Workspaces_Connection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspaces_Connection_STATUS_ARM)
+func (connection *WorkspacesConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.WorkspacesConnection_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Connection_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspacesConnection_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -693,8 +772,8 @@ func (connection *Workspaces_Connection_STATUS) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignProperties_From_Workspaces_Connection_STATUS populates our Workspaces_Connection_STATUS from the provided source Workspaces_Connection_STATUS
-func (connection *Workspaces_Connection_STATUS) AssignProperties_From_Workspaces_Connection_STATUS(source *storage.Workspaces_Connection_STATUS) error {
+// AssignProperties_From_WorkspacesConnection_STATUS populates our WorkspacesConnection_STATUS from the provided source WorkspacesConnection_STATUS
+func (connection *WorkspacesConnection_STATUS) AssignProperties_From_WorkspacesConnection_STATUS(source *storage.WorkspacesConnection_STATUS) error {
 
 	// Conditions
 	connection.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -710,7 +789,7 @@ func (connection *Workspaces_Connection_STATUS) AssignProperties_From_Workspaces
 		var property WorkspaceConnectionPropertiesV2_STATUS
 		err := property.AssignProperties_From_WorkspaceConnectionPropertiesV2_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPropertiesV2_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPropertiesV2_STATUS() to populate field Properties")
 		}
 		connection.Properties = &property
 	} else {
@@ -722,7 +801,7 @@ func (connection *Workspaces_Connection_STATUS) AssignProperties_From_Workspaces
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		connection.SystemData = &systemDatum
 	} else {
@@ -736,8 +815,8 @@ func (connection *Workspaces_Connection_STATUS) AssignProperties_From_Workspaces
 	return nil
 }
 
-// AssignProperties_To_Workspaces_Connection_STATUS populates the provided destination Workspaces_Connection_STATUS from our Workspaces_Connection_STATUS
-func (connection *Workspaces_Connection_STATUS) AssignProperties_To_Workspaces_Connection_STATUS(destination *storage.Workspaces_Connection_STATUS) error {
+// AssignProperties_To_WorkspacesConnection_STATUS populates the provided destination WorkspacesConnection_STATUS from our WorkspacesConnection_STATUS
+func (connection *WorkspacesConnection_STATUS) AssignProperties_To_WorkspacesConnection_STATUS(destination *storage.WorkspacesConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -755,7 +834,7 @@ func (connection *Workspaces_Connection_STATUS) AssignProperties_To_Workspaces_C
 		var property storage.WorkspaceConnectionPropertiesV2_STATUS
 		err := connection.Properties.AssignProperties_To_WorkspaceConnectionPropertiesV2_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPropertiesV2_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPropertiesV2_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -767,7 +846,7 @@ func (connection *Workspaces_Connection_STATUS) AssignProperties_To_Workspaces_C
 		var systemDatum storage.SystemData_STATUS
 		err := connection.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -833,7 +912,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 	if v2 == nil {
 		return nil, nil
 	}
-	result := &WorkspaceConnectionPropertiesV2_ARM{}
+	result := &arm.WorkspaceConnectionPropertiesV2{}
 
 	// Set property "AAD":
 	if v2.AAD != nil {
@@ -841,7 +920,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		aad := *aad_ARM.(*AADAuthTypeWorkspaceConnectionProperties_ARM)
+		aad := *aad_ARM.(*arm.AADAuthTypeWorkspaceConnectionProperties)
 		result.AAD = &aad
 	}
 
@@ -851,7 +930,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		accessKey := *accessKey_ARM.(*AccessKeyAuthTypeWorkspaceConnectionProperties_ARM)
+		accessKey := *accessKey_ARM.(*arm.AccessKeyAuthTypeWorkspaceConnectionProperties)
 		result.AccessKey = &accessKey
 	}
 
@@ -861,7 +940,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		accountKey := *accountKey_ARM.(*AccountKeyAuthTypeWorkspaceConnectionProperties_ARM)
+		accountKey := *accountKey_ARM.(*arm.AccountKeyAuthTypeWorkspaceConnectionProperties)
 		result.AccountKey = &accountKey
 	}
 
@@ -871,7 +950,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		apiKey := *apiKey_ARM.(*ApiKeyAuthWorkspaceConnectionProperties_ARM)
+		apiKey := *apiKey_ARM.(*arm.ApiKeyAuthWorkspaceConnectionProperties)
 		result.ApiKey = &apiKey
 	}
 
@@ -881,7 +960,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		customKeys := *customKeys_ARM.(*CustomKeysWorkspaceConnectionProperties_ARM)
+		customKeys := *customKeys_ARM.(*arm.CustomKeysWorkspaceConnectionProperties)
 		result.CustomKeys = &customKeys
 	}
 
@@ -891,7 +970,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		managedIdentity := *managedIdentity_ARM.(*ManagedIdentityAuthTypeWorkspaceConnectionProperties_ARM)
+		managedIdentity := *managedIdentity_ARM.(*arm.ManagedIdentityAuthTypeWorkspaceConnectionProperties)
 		result.ManagedIdentity = &managedIdentity
 	}
 
@@ -901,7 +980,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		none := *none_ARM.(*NoneAuthTypeWorkspaceConnectionProperties_ARM)
+		none := *none_ARM.(*arm.NoneAuthTypeWorkspaceConnectionProperties)
 		result.None = &none
 	}
 
@@ -911,7 +990,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		oAuth2 := *oAuth2_ARM.(*OAuth2AuthTypeWorkspaceConnectionProperties_ARM)
+		oAuth2 := *oAuth2_ARM.(*arm.OAuth2AuthTypeWorkspaceConnectionProperties)
 		result.OAuth2 = &oAuth2
 	}
 
@@ -921,7 +1000,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		pat := *pat_ARM.(*PATAuthTypeWorkspaceConnectionProperties_ARM)
+		pat := *pat_ARM.(*arm.PATAuthTypeWorkspaceConnectionProperties)
 		result.PAT = &pat
 	}
 
@@ -931,7 +1010,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		sas := *sas_ARM.(*SASAuthTypeWorkspaceConnectionProperties_ARM)
+		sas := *sas_ARM.(*arm.SASAuthTypeWorkspaceConnectionProperties)
 		result.SAS = &sas
 	}
 
@@ -941,7 +1020,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		servicePrincipal := *servicePrincipal_ARM.(*ServicePrincipalAuthTypeWorkspaceConnectionProperties_ARM)
+		servicePrincipal := *servicePrincipal_ARM.(*arm.ServicePrincipalAuthTypeWorkspaceConnectionProperties)
 		result.ServicePrincipal = &servicePrincipal
 	}
 
@@ -951,7 +1030,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		usernamePassword := *usernamePassword_ARM.(*UsernamePasswordAuthTypeWorkspaceConnectionProperties_ARM)
+		usernamePassword := *usernamePassword_ARM.(*arm.UsernamePasswordAuthTypeWorkspaceConnectionProperties)
 		result.UsernamePassword = &usernamePassword
 	}
 	return result, nil
@@ -959,14 +1038,14 @@ func (v2 *WorkspaceConnectionPropertiesV2) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (v2 *WorkspaceConnectionPropertiesV2) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionPropertiesV2_ARM{}
+	return &arm.WorkspaceConnectionPropertiesV2{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (v2 *WorkspaceConnectionPropertiesV2) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionPropertiesV2_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceConnectionPropertiesV2)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionPropertiesV2_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionPropertiesV2, got %T", armInput)
 	}
 
 	// Set property "AAD":
@@ -1113,7 +1192,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var aad AADAuthTypeWorkspaceConnectionProperties
 		err := aad.AssignProperties_From_AADAuthTypeWorkspaceConnectionProperties(source.AAD)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AADAuthTypeWorkspaceConnectionProperties() to populate field AAD")
+			return eris.Wrap(err, "calling AssignProperties_From_AADAuthTypeWorkspaceConnectionProperties() to populate field AAD")
 		}
 		v2.AAD = &aad
 	} else {
@@ -1125,7 +1204,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var accessKey AccessKeyAuthTypeWorkspaceConnectionProperties
 		err := accessKey.AssignProperties_From_AccessKeyAuthTypeWorkspaceConnectionProperties(source.AccessKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AccessKeyAuthTypeWorkspaceConnectionProperties() to populate field AccessKey")
+			return eris.Wrap(err, "calling AssignProperties_From_AccessKeyAuthTypeWorkspaceConnectionProperties() to populate field AccessKey")
 		}
 		v2.AccessKey = &accessKey
 	} else {
@@ -1137,7 +1216,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var accountKey AccountKeyAuthTypeWorkspaceConnectionProperties
 		err := accountKey.AssignProperties_From_AccountKeyAuthTypeWorkspaceConnectionProperties(source.AccountKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AccountKeyAuthTypeWorkspaceConnectionProperties() to populate field AccountKey")
+			return eris.Wrap(err, "calling AssignProperties_From_AccountKeyAuthTypeWorkspaceConnectionProperties() to populate field AccountKey")
 		}
 		v2.AccountKey = &accountKey
 	} else {
@@ -1149,7 +1228,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var apiKey ApiKeyAuthWorkspaceConnectionProperties
 		err := apiKey.AssignProperties_From_ApiKeyAuthWorkspaceConnectionProperties(source.ApiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiKeyAuthWorkspaceConnectionProperties() to populate field ApiKey")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiKeyAuthWorkspaceConnectionProperties() to populate field ApiKey")
 		}
 		v2.ApiKey = &apiKey
 	} else {
@@ -1161,7 +1240,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var customKey CustomKeysWorkspaceConnectionProperties
 		err := customKey.AssignProperties_From_CustomKeysWorkspaceConnectionProperties(source.CustomKeys)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomKeysWorkspaceConnectionProperties() to populate field CustomKeys")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomKeysWorkspaceConnectionProperties() to populate field CustomKeys")
 		}
 		v2.CustomKeys = &customKey
 	} else {
@@ -1173,7 +1252,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var managedIdentity ManagedIdentityAuthTypeWorkspaceConnectionProperties
 		err := managedIdentity.AssignProperties_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties(source.ManagedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties() to populate field ManagedIdentity")
 		}
 		v2.ManagedIdentity = &managedIdentity
 	} else {
@@ -1185,7 +1264,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var none NoneAuthTypeWorkspaceConnectionProperties
 		err := none.AssignProperties_From_NoneAuthTypeWorkspaceConnectionProperties(source.None)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NoneAuthTypeWorkspaceConnectionProperties() to populate field None")
+			return eris.Wrap(err, "calling AssignProperties_From_NoneAuthTypeWorkspaceConnectionProperties() to populate field None")
 		}
 		v2.None = &none
 	} else {
@@ -1197,7 +1276,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var oAuth2 OAuth2AuthTypeWorkspaceConnectionProperties
 		err := oAuth2.AssignProperties_From_OAuth2AuthTypeWorkspaceConnectionProperties(source.OAuth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_OAuth2AuthTypeWorkspaceConnectionProperties() to populate field OAuth2")
+			return eris.Wrap(err, "calling AssignProperties_From_OAuth2AuthTypeWorkspaceConnectionProperties() to populate field OAuth2")
 		}
 		v2.OAuth2 = &oAuth2
 	} else {
@@ -1209,7 +1288,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var pat PATAuthTypeWorkspaceConnectionProperties
 		err := pat.AssignProperties_From_PATAuthTypeWorkspaceConnectionProperties(source.PAT)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PATAuthTypeWorkspaceConnectionProperties() to populate field PAT")
+			return eris.Wrap(err, "calling AssignProperties_From_PATAuthTypeWorkspaceConnectionProperties() to populate field PAT")
 		}
 		v2.PAT = &pat
 	} else {
@@ -1221,7 +1300,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var sas SASAuthTypeWorkspaceConnectionProperties
 		err := sas.AssignProperties_From_SASAuthTypeWorkspaceConnectionProperties(source.SAS)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SASAuthTypeWorkspaceConnectionProperties() to populate field SAS")
+			return eris.Wrap(err, "calling AssignProperties_From_SASAuthTypeWorkspaceConnectionProperties() to populate field SAS")
 		}
 		v2.SAS = &sas
 	} else {
@@ -1233,7 +1312,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var servicePrincipal ServicePrincipalAuthTypeWorkspaceConnectionProperties
 		err := servicePrincipal.AssignProperties_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties(source.ServicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties() to populate field ServicePrincipal")
 		}
 		v2.ServicePrincipal = &servicePrincipal
 	} else {
@@ -1245,7 +1324,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_From_WorkspaceConnec
 		var usernamePassword UsernamePasswordAuthTypeWorkspaceConnectionProperties
 		err := usernamePassword.AssignProperties_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties(source.UsernamePassword)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties() to populate field UsernamePassword")
+			return eris.Wrap(err, "calling AssignProperties_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties() to populate field UsernamePassword")
 		}
 		v2.UsernamePassword = &usernamePassword
 	} else {
@@ -1266,7 +1345,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var aad storage.AADAuthTypeWorkspaceConnectionProperties
 		err := v2.AAD.AssignProperties_To_AADAuthTypeWorkspaceConnectionProperties(&aad)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AADAuthTypeWorkspaceConnectionProperties() to populate field AAD")
+			return eris.Wrap(err, "calling AssignProperties_To_AADAuthTypeWorkspaceConnectionProperties() to populate field AAD")
 		}
 		destination.AAD = &aad
 	} else {
@@ -1278,7 +1357,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var accessKey storage.AccessKeyAuthTypeWorkspaceConnectionProperties
 		err := v2.AccessKey.AssignProperties_To_AccessKeyAuthTypeWorkspaceConnectionProperties(&accessKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AccessKeyAuthTypeWorkspaceConnectionProperties() to populate field AccessKey")
+			return eris.Wrap(err, "calling AssignProperties_To_AccessKeyAuthTypeWorkspaceConnectionProperties() to populate field AccessKey")
 		}
 		destination.AccessKey = &accessKey
 	} else {
@@ -1290,7 +1369,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var accountKey storage.AccountKeyAuthTypeWorkspaceConnectionProperties
 		err := v2.AccountKey.AssignProperties_To_AccountKeyAuthTypeWorkspaceConnectionProperties(&accountKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AccountKeyAuthTypeWorkspaceConnectionProperties() to populate field AccountKey")
+			return eris.Wrap(err, "calling AssignProperties_To_AccountKeyAuthTypeWorkspaceConnectionProperties() to populate field AccountKey")
 		}
 		destination.AccountKey = &accountKey
 	} else {
@@ -1302,7 +1381,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var apiKey storage.ApiKeyAuthWorkspaceConnectionProperties
 		err := v2.ApiKey.AssignProperties_To_ApiKeyAuthWorkspaceConnectionProperties(&apiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiKeyAuthWorkspaceConnectionProperties() to populate field ApiKey")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiKeyAuthWorkspaceConnectionProperties() to populate field ApiKey")
 		}
 		destination.ApiKey = &apiKey
 	} else {
@@ -1314,7 +1393,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var customKey storage.CustomKeysWorkspaceConnectionProperties
 		err := v2.CustomKeys.AssignProperties_To_CustomKeysWorkspaceConnectionProperties(&customKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomKeysWorkspaceConnectionProperties() to populate field CustomKeys")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomKeysWorkspaceConnectionProperties() to populate field CustomKeys")
 		}
 		destination.CustomKeys = &customKey
 	} else {
@@ -1326,7 +1405,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var managedIdentity storage.ManagedIdentityAuthTypeWorkspaceConnectionProperties
 		err := v2.ManagedIdentity.AssignProperties_To_ManagedIdentityAuthTypeWorkspaceConnectionProperties(&managedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentityAuthTypeWorkspaceConnectionProperties() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentityAuthTypeWorkspaceConnectionProperties() to populate field ManagedIdentity")
 		}
 		destination.ManagedIdentity = &managedIdentity
 	} else {
@@ -1338,7 +1417,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var none storage.NoneAuthTypeWorkspaceConnectionProperties
 		err := v2.None.AssignProperties_To_NoneAuthTypeWorkspaceConnectionProperties(&none)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NoneAuthTypeWorkspaceConnectionProperties() to populate field None")
+			return eris.Wrap(err, "calling AssignProperties_To_NoneAuthTypeWorkspaceConnectionProperties() to populate field None")
 		}
 		destination.None = &none
 	} else {
@@ -1350,7 +1429,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var oAuth2 storage.OAuth2AuthTypeWorkspaceConnectionProperties
 		err := v2.OAuth2.AssignProperties_To_OAuth2AuthTypeWorkspaceConnectionProperties(&oAuth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_OAuth2AuthTypeWorkspaceConnectionProperties() to populate field OAuth2")
+			return eris.Wrap(err, "calling AssignProperties_To_OAuth2AuthTypeWorkspaceConnectionProperties() to populate field OAuth2")
 		}
 		destination.OAuth2 = &oAuth2
 	} else {
@@ -1362,7 +1441,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var pat storage.PATAuthTypeWorkspaceConnectionProperties
 		err := v2.PAT.AssignProperties_To_PATAuthTypeWorkspaceConnectionProperties(&pat)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PATAuthTypeWorkspaceConnectionProperties() to populate field PAT")
+			return eris.Wrap(err, "calling AssignProperties_To_PATAuthTypeWorkspaceConnectionProperties() to populate field PAT")
 		}
 		destination.PAT = &pat
 	} else {
@@ -1374,7 +1453,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var sas storage.SASAuthTypeWorkspaceConnectionProperties
 		err := v2.SAS.AssignProperties_To_SASAuthTypeWorkspaceConnectionProperties(&sas)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SASAuthTypeWorkspaceConnectionProperties() to populate field SAS")
+			return eris.Wrap(err, "calling AssignProperties_To_SASAuthTypeWorkspaceConnectionProperties() to populate field SAS")
 		}
 		destination.SAS = &sas
 	} else {
@@ -1386,7 +1465,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var servicePrincipal storage.ServicePrincipalAuthTypeWorkspaceConnectionProperties
 		err := v2.ServicePrincipal.AssignProperties_To_ServicePrincipalAuthTypeWorkspaceConnectionProperties(&servicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServicePrincipalAuthTypeWorkspaceConnectionProperties() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_To_ServicePrincipalAuthTypeWorkspaceConnectionProperties() to populate field ServicePrincipal")
 		}
 		destination.ServicePrincipal = &servicePrincipal
 	} else {
@@ -1398,7 +1477,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) AssignProperties_To_WorkspaceConnecti
 		var usernamePassword storage.UsernamePasswordAuthTypeWorkspaceConnectionProperties
 		err := v2.UsernamePassword.AssignProperties_To_UsernamePasswordAuthTypeWorkspaceConnectionProperties(&usernamePassword)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_UsernamePasswordAuthTypeWorkspaceConnectionProperties() to populate field UsernamePassword")
+			return eris.Wrap(err, "calling AssignProperties_To_UsernamePasswordAuthTypeWorkspaceConnectionProperties() to populate field UsernamePassword")
 		}
 		destination.UsernamePassword = &usernamePassword
 	} else {
@@ -1424,7 +1503,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var aad AADAuthTypeWorkspaceConnectionProperties
 		err := aad.Initialize_From_AADAuthTypeWorkspaceConnectionProperties_STATUS(source.AAD)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AADAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AAD")
+			return eris.Wrap(err, "calling Initialize_From_AADAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AAD")
 		}
 		v2.AAD = &aad
 	} else {
@@ -1436,7 +1515,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var accessKey AccessKeyAuthTypeWorkspaceConnectionProperties
 		err := accessKey.Initialize_From_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS(source.AccessKey)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccessKey")
+			return eris.Wrap(err, "calling Initialize_From_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccessKey")
 		}
 		v2.AccessKey = &accessKey
 	} else {
@@ -1448,7 +1527,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var accountKey AccountKeyAuthTypeWorkspaceConnectionProperties
 		err := accountKey.Initialize_From_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS(source.AccountKey)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccountKey")
+			return eris.Wrap(err, "calling Initialize_From_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccountKey")
 		}
 		v2.AccountKey = &accountKey
 	} else {
@@ -1460,7 +1539,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var apiKey ApiKeyAuthWorkspaceConnectionProperties
 		err := apiKey.Initialize_From_ApiKeyAuthWorkspaceConnectionProperties_STATUS(source.ApiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ApiKeyAuthWorkspaceConnectionProperties_STATUS() to populate field ApiKey")
+			return eris.Wrap(err, "calling Initialize_From_ApiKeyAuthWorkspaceConnectionProperties_STATUS() to populate field ApiKey")
 		}
 		v2.ApiKey = &apiKey
 	} else {
@@ -1472,7 +1551,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var customKey CustomKeysWorkspaceConnectionProperties
 		err := customKey.Initialize_From_CustomKeysWorkspaceConnectionProperties_STATUS(source.CustomKeys)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CustomKeysWorkspaceConnectionProperties_STATUS() to populate field CustomKeys")
+			return eris.Wrap(err, "calling Initialize_From_CustomKeysWorkspaceConnectionProperties_STATUS() to populate field CustomKeys")
 		}
 		v2.CustomKeys = &customKey
 	} else {
@@ -1484,7 +1563,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var managedIdentity ManagedIdentityAuthTypeWorkspaceConnectionProperties
 		err := managedIdentity.Initialize_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS(source.ManagedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ManagedIdentity")
 		}
 		v2.ManagedIdentity = &managedIdentity
 	} else {
@@ -1496,7 +1575,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var none NoneAuthTypeWorkspaceConnectionProperties
 		err := none.Initialize_From_NoneAuthTypeWorkspaceConnectionProperties_STATUS(source.None)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NoneAuthTypeWorkspaceConnectionProperties_STATUS() to populate field None")
+			return eris.Wrap(err, "calling Initialize_From_NoneAuthTypeWorkspaceConnectionProperties_STATUS() to populate field None")
 		}
 		v2.None = &none
 	} else {
@@ -1508,7 +1587,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var oAuth2 OAuth2AuthTypeWorkspaceConnectionProperties
 		err := oAuth2.Initialize_From_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS(source.OAuth2)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS() to populate field OAuth2")
+			return eris.Wrap(err, "calling Initialize_From_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS() to populate field OAuth2")
 		}
 		v2.OAuth2 = &oAuth2
 	} else {
@@ -1520,7 +1599,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var pat PATAuthTypeWorkspaceConnectionProperties
 		err := pat.Initialize_From_PATAuthTypeWorkspaceConnectionProperties_STATUS(source.PAT)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PATAuthTypeWorkspaceConnectionProperties_STATUS() to populate field PAT")
+			return eris.Wrap(err, "calling Initialize_From_PATAuthTypeWorkspaceConnectionProperties_STATUS() to populate field PAT")
 		}
 		v2.PAT = &pat
 	} else {
@@ -1532,7 +1611,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var sas SASAuthTypeWorkspaceConnectionProperties
 		err := sas.Initialize_From_SASAuthTypeWorkspaceConnectionProperties_STATUS(source.SAS)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SASAuthTypeWorkspaceConnectionProperties_STATUS() to populate field SAS")
+			return eris.Wrap(err, "calling Initialize_From_SASAuthTypeWorkspaceConnectionProperties_STATUS() to populate field SAS")
 		}
 		v2.SAS = &sas
 	} else {
@@ -1544,7 +1623,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var servicePrincipal ServicePrincipalAuthTypeWorkspaceConnectionProperties
 		err := servicePrincipal.Initialize_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS(source.ServicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling Initialize_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ServicePrincipal")
 		}
 		v2.ServicePrincipal = &servicePrincipal
 	} else {
@@ -1556,7 +1635,7 @@ func (v2 *WorkspaceConnectionPropertiesV2) Initialize_From_WorkspaceConnectionPr
 		var usernamePassword UsernamePasswordAuthTypeWorkspaceConnectionProperties
 		err := usernamePassword.Initialize_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS(source.UsernamePassword)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS() to populate field UsernamePassword")
+			return eris.Wrap(err, "calling Initialize_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS() to populate field UsernamePassword")
 		}
 		v2.UsernamePassword = &usernamePassword
 	} else {
@@ -1609,14 +1688,14 @@ var _ genruntime.FromARMConverter = &WorkspaceConnectionPropertiesV2_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (v2 *WorkspaceConnectionPropertiesV2_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionPropertiesV2_STATUS_ARM{}
+	return &arm.WorkspaceConnectionPropertiesV2_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (v2 *WorkspaceConnectionPropertiesV2_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionPropertiesV2_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceConnectionPropertiesV2_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionPropertiesV2_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionPropertiesV2_STATUS, got %T", armInput)
 	}
 
 	// Set property "AAD":
@@ -1763,7 +1842,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var aad AADAuthTypeWorkspaceConnectionProperties_STATUS
 		err := aad.AssignProperties_From_AADAuthTypeWorkspaceConnectionProperties_STATUS(source.AAD)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AADAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AAD")
+			return eris.Wrap(err, "calling AssignProperties_From_AADAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AAD")
 		}
 		v2.AAD = &aad
 	} else {
@@ -1775,7 +1854,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var accessKey AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS
 		err := accessKey.AssignProperties_From_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS(source.AccessKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccessKey")
+			return eris.Wrap(err, "calling AssignProperties_From_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccessKey")
 		}
 		v2.AccessKey = &accessKey
 	} else {
@@ -1787,7 +1866,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var accountKey AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS
 		err := accountKey.AssignProperties_From_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS(source.AccountKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccountKey")
+			return eris.Wrap(err, "calling AssignProperties_From_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccountKey")
 		}
 		v2.AccountKey = &accountKey
 	} else {
@@ -1799,7 +1878,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var apiKey ApiKeyAuthWorkspaceConnectionProperties_STATUS
 		err := apiKey.AssignProperties_From_ApiKeyAuthWorkspaceConnectionProperties_STATUS(source.ApiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiKeyAuthWorkspaceConnectionProperties_STATUS() to populate field ApiKey")
+			return eris.Wrap(err, "calling AssignProperties_From_ApiKeyAuthWorkspaceConnectionProperties_STATUS() to populate field ApiKey")
 		}
 		v2.ApiKey = &apiKey
 	} else {
@@ -1811,7 +1890,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var customKey CustomKeysWorkspaceConnectionProperties_STATUS
 		err := customKey.AssignProperties_From_CustomKeysWorkspaceConnectionProperties_STATUS(source.CustomKeys)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomKeysWorkspaceConnectionProperties_STATUS() to populate field CustomKeys")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomKeysWorkspaceConnectionProperties_STATUS() to populate field CustomKeys")
 		}
 		v2.CustomKeys = &customKey
 	} else {
@@ -1823,7 +1902,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var managedIdentity ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS
 		err := managedIdentity.AssignProperties_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS(source.ManagedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ManagedIdentity")
 		}
 		v2.ManagedIdentity = &managedIdentity
 	} else {
@@ -1835,7 +1914,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var none NoneAuthTypeWorkspaceConnectionProperties_STATUS
 		err := none.AssignProperties_From_NoneAuthTypeWorkspaceConnectionProperties_STATUS(source.None)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NoneAuthTypeWorkspaceConnectionProperties_STATUS() to populate field None")
+			return eris.Wrap(err, "calling AssignProperties_From_NoneAuthTypeWorkspaceConnectionProperties_STATUS() to populate field None")
 		}
 		v2.None = &none
 	} else {
@@ -1847,7 +1926,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var oAuth2 OAuth2AuthTypeWorkspaceConnectionProperties_STATUS
 		err := oAuth2.AssignProperties_From_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS(source.OAuth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS() to populate field OAuth2")
+			return eris.Wrap(err, "calling AssignProperties_From_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS() to populate field OAuth2")
 		}
 		v2.OAuth2 = &oAuth2
 	} else {
@@ -1859,7 +1938,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var pat PATAuthTypeWorkspaceConnectionProperties_STATUS
 		err := pat.AssignProperties_From_PATAuthTypeWorkspaceConnectionProperties_STATUS(source.PAT)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PATAuthTypeWorkspaceConnectionProperties_STATUS() to populate field PAT")
+			return eris.Wrap(err, "calling AssignProperties_From_PATAuthTypeWorkspaceConnectionProperties_STATUS() to populate field PAT")
 		}
 		v2.PAT = &pat
 	} else {
@@ -1871,7 +1950,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var sas SASAuthTypeWorkspaceConnectionProperties_STATUS
 		err := sas.AssignProperties_From_SASAuthTypeWorkspaceConnectionProperties_STATUS(source.SAS)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SASAuthTypeWorkspaceConnectionProperties_STATUS() to populate field SAS")
+			return eris.Wrap(err, "calling AssignProperties_From_SASAuthTypeWorkspaceConnectionProperties_STATUS() to populate field SAS")
 		}
 		v2.SAS = &sas
 	} else {
@@ -1883,7 +1962,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var servicePrincipal ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS
 		err := servicePrincipal.AssignProperties_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS(source.ServicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_From_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ServicePrincipal")
 		}
 		v2.ServicePrincipal = &servicePrincipal
 	} else {
@@ -1895,7 +1974,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_From_Workspac
 		var usernamePassword UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS
 		err := usernamePassword.AssignProperties_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS(source.UsernamePassword)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS() to populate field UsernamePassword")
+			return eris.Wrap(err, "calling AssignProperties_From_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS() to populate field UsernamePassword")
 		}
 		v2.UsernamePassword = &usernamePassword
 	} else {
@@ -1916,7 +1995,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var aad storage.AADAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.AAD.AssignProperties_To_AADAuthTypeWorkspaceConnectionProperties_STATUS(&aad)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AADAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AAD")
+			return eris.Wrap(err, "calling AssignProperties_To_AADAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AAD")
 		}
 		destination.AAD = &aad
 	} else {
@@ -1928,7 +2007,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var accessKey storage.AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.AccessKey.AssignProperties_To_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS(&accessKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccessKey")
+			return eris.Wrap(err, "calling AssignProperties_To_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccessKey")
 		}
 		destination.AccessKey = &accessKey
 	} else {
@@ -1940,7 +2019,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var accountKey storage.AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.AccountKey.AssignProperties_To_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS(&accountKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccountKey")
+			return eris.Wrap(err, "calling AssignProperties_To_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS() to populate field AccountKey")
 		}
 		destination.AccountKey = &accountKey
 	} else {
@@ -1952,7 +2031,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var apiKey storage.ApiKeyAuthWorkspaceConnectionProperties_STATUS
 		err := v2.ApiKey.AssignProperties_To_ApiKeyAuthWorkspaceConnectionProperties_STATUS(&apiKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiKeyAuthWorkspaceConnectionProperties_STATUS() to populate field ApiKey")
+			return eris.Wrap(err, "calling AssignProperties_To_ApiKeyAuthWorkspaceConnectionProperties_STATUS() to populate field ApiKey")
 		}
 		destination.ApiKey = &apiKey
 	} else {
@@ -1964,7 +2043,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var customKey storage.CustomKeysWorkspaceConnectionProperties_STATUS
 		err := v2.CustomKeys.AssignProperties_To_CustomKeysWorkspaceConnectionProperties_STATUS(&customKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomKeysWorkspaceConnectionProperties_STATUS() to populate field CustomKeys")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomKeysWorkspaceConnectionProperties_STATUS() to populate field CustomKeys")
 		}
 		destination.CustomKeys = &customKey
 	} else {
@@ -1976,7 +2055,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var managedIdentity storage.ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.ManagedIdentity.AssignProperties_To_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS(&managedIdentity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ManagedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ManagedIdentity")
 		}
 		destination.ManagedIdentity = &managedIdentity
 	} else {
@@ -1988,7 +2067,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var none storage.NoneAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.None.AssignProperties_To_NoneAuthTypeWorkspaceConnectionProperties_STATUS(&none)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NoneAuthTypeWorkspaceConnectionProperties_STATUS() to populate field None")
+			return eris.Wrap(err, "calling AssignProperties_To_NoneAuthTypeWorkspaceConnectionProperties_STATUS() to populate field None")
 		}
 		destination.None = &none
 	} else {
@@ -2000,7 +2079,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var oAuth2 storage.OAuth2AuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.OAuth2.AssignProperties_To_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS(&oAuth2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS() to populate field OAuth2")
+			return eris.Wrap(err, "calling AssignProperties_To_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS() to populate field OAuth2")
 		}
 		destination.OAuth2 = &oAuth2
 	} else {
@@ -2012,7 +2091,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var pat storage.PATAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.PAT.AssignProperties_To_PATAuthTypeWorkspaceConnectionProperties_STATUS(&pat)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PATAuthTypeWorkspaceConnectionProperties_STATUS() to populate field PAT")
+			return eris.Wrap(err, "calling AssignProperties_To_PATAuthTypeWorkspaceConnectionProperties_STATUS() to populate field PAT")
 		}
 		destination.PAT = &pat
 	} else {
@@ -2024,7 +2103,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var sas storage.SASAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.SAS.AssignProperties_To_SASAuthTypeWorkspaceConnectionProperties_STATUS(&sas)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SASAuthTypeWorkspaceConnectionProperties_STATUS() to populate field SAS")
+			return eris.Wrap(err, "calling AssignProperties_To_SASAuthTypeWorkspaceConnectionProperties_STATUS() to populate field SAS")
 		}
 		destination.SAS = &sas
 	} else {
@@ -2036,7 +2115,7 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var servicePrincipal storage.ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.ServicePrincipal.AssignProperties_To_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS(&servicePrincipal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ServicePrincipal")
+			return eris.Wrap(err, "calling AssignProperties_To_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS() to populate field ServicePrincipal")
 		}
 		destination.ServicePrincipal = &servicePrincipal
 	} else {
@@ -2048,11 +2127,115 @@ func (v2 *WorkspaceConnectionPropertiesV2_STATUS) AssignProperties_To_WorkspaceC
 		var usernamePassword storage.UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS
 		err := v2.UsernamePassword.AssignProperties_To_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS(&usernamePassword)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS() to populate field UsernamePassword")
+			return eris.Wrap(err, "calling AssignProperties_To_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS() to populate field UsernamePassword")
 		}
 		destination.UsernamePassword = &usernamePassword
 	} else {
 		destination.UsernamePassword = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WorkspacesConnectionOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_WorkspacesConnectionOperatorSpec populates our WorkspacesConnectionOperatorSpec from the provided source WorkspacesConnectionOperatorSpec
+func (operator *WorkspacesConnectionOperatorSpec) AssignProperties_From_WorkspacesConnectionOperatorSpec(source *storage.WorkspacesConnectionOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WorkspacesConnectionOperatorSpec populates the provided destination WorkspacesConnectionOperatorSpec from our WorkspacesConnectionOperatorSpec
+func (operator *WorkspacesConnectionOperatorSpec) AssignProperties_To_WorkspacesConnectionOperatorSpec(destination *storage.WorkspacesConnectionOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag
@@ -2095,14 +2278,14 @@ func (properties *AADAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 	if properties == nil {
 		return nil, nil
 	}
-	result := &AADAuthTypeWorkspaceConnectionProperties_ARM{}
+	result := &arm.AADAuthTypeWorkspaceConnectionProperties{}
 
 	// Set property "AuthType":
 	if properties.AuthType != nil {
-		var temp AADAuthTypeWorkspaceConnectionProperties_AuthType_ARM
+		var temp arm.AADAuthTypeWorkspaceConnectionProperties_AuthType
 		var temp1 string
 		temp1 = string(*properties.AuthType)
-		temp = AADAuthTypeWorkspaceConnectionProperties_AuthType_ARM(temp1)
+		temp = arm.AADAuthTypeWorkspaceConnectionProperties_AuthType(temp1)
 		result.AuthType = temp
 	}
 
@@ -2110,7 +2293,7 @@ func (properties *AADAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 	if properties.Category != nil {
 		var temp string
 		temp = string(*properties.Category)
-		category := ConnectionCategory_ARM(temp)
+		category := arm.ConnectionCategory(temp)
 		result.Category = &category
 	}
 
@@ -2155,7 +2338,7 @@ func (properties *AADAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 	if properties.ValueFormat != nil {
 		var temp string
 		temp = string(*properties.ValueFormat)
-		valueFormat := AADAuthTypeWorkspaceConnectionProperties_ValueFormat_ARM(temp)
+		valueFormat := arm.AADAuthTypeWorkspaceConnectionProperties_ValueFormat(temp)
 		result.ValueFormat = &valueFormat
 	}
 	return result, nil
@@ -2163,14 +2346,14 @@ func (properties *AADAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AADAuthTypeWorkspaceConnectionProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AADAuthTypeWorkspaceConnectionProperties_ARM{}
+	return &arm.AADAuthTypeWorkspaceConnectionProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AADAuthTypeWorkspaceConnectionProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AADAuthTypeWorkspaceConnectionProperties_ARM)
+	typedInput, ok := armInput.(arm.AADAuthTypeWorkspaceConnectionProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AADAuthTypeWorkspaceConnectionProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AADAuthTypeWorkspaceConnectionProperties, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -2440,14 +2623,14 @@ var _ genruntime.FromARMConverter = &AADAuthTypeWorkspaceConnectionProperties_ST
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AADAuthTypeWorkspaceConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AADAuthTypeWorkspaceConnectionProperties_STATUS_ARM{}
+	return &arm.AADAuthTypeWorkspaceConnectionProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AADAuthTypeWorkspaceConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AADAuthTypeWorkspaceConnectionProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AADAuthTypeWorkspaceConnectionProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AADAuthTypeWorkspaceConnectionProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AADAuthTypeWorkspaceConnectionProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -2701,14 +2884,14 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties) ConvertToARM(r
 	if properties == nil {
 		return nil, nil
 	}
-	result := &AccessKeyAuthTypeWorkspaceConnectionProperties_ARM{}
+	result := &arm.AccessKeyAuthTypeWorkspaceConnectionProperties{}
 
 	// Set property "AuthType":
 	if properties.AuthType != nil {
-		var temp AccessKeyAuthTypeWorkspaceConnectionProperties_AuthType_ARM
+		var temp arm.AccessKeyAuthTypeWorkspaceConnectionProperties_AuthType
 		var temp1 string
 		temp1 = string(*properties.AuthType)
-		temp = AccessKeyAuthTypeWorkspaceConnectionProperties_AuthType_ARM(temp1)
+		temp = arm.AccessKeyAuthTypeWorkspaceConnectionProperties_AuthType(temp1)
 		result.AuthType = temp
 	}
 
@@ -2716,7 +2899,7 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties) ConvertToARM(r
 	if properties.Category != nil {
 		var temp string
 		temp = string(*properties.Category)
-		category := ConnectionCategory_ARM(temp)
+		category := arm.ConnectionCategory(temp)
 		result.Category = &category
 	}
 
@@ -2726,7 +2909,7 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties) ConvertToARM(r
 		if err != nil {
 			return nil, err
 		}
-		credentials := *credentials_ARM.(*WorkspaceConnectionAccessKey_ARM)
+		credentials := *credentials_ARM.(*arm.WorkspaceConnectionAccessKey)
 		result.Credentials = &credentials
 	}
 
@@ -2771,7 +2954,7 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties) ConvertToARM(r
 	if properties.ValueFormat != nil {
 		var temp string
 		temp = string(*properties.ValueFormat)
-		valueFormat := AccessKeyAuthTypeWorkspaceConnectionProperties_ValueFormat_ARM(temp)
+		valueFormat := arm.AccessKeyAuthTypeWorkspaceConnectionProperties_ValueFormat(temp)
 		result.ValueFormat = &valueFormat
 	}
 	return result, nil
@@ -2779,14 +2962,14 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties) ConvertToARM(r
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AccessKeyAuthTypeWorkspaceConnectionProperties_ARM{}
+	return &arm.AccessKeyAuthTypeWorkspaceConnectionProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AccessKeyAuthTypeWorkspaceConnectionProperties_ARM)
+	typedInput, ok := armInput.(arm.AccessKeyAuthTypeWorkspaceConnectionProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AccessKeyAuthTypeWorkspaceConnectionProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AccessKeyAuthTypeWorkspaceConnectionProperties, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -2890,7 +3073,7 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties) AssignProperti
 		var credential WorkspaceConnectionAccessKey
 		err := credential.AssignProperties_From_WorkspaceConnectionAccessKey(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccessKey() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccessKey() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -2959,7 +3142,7 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties) AssignProperti
 		var credential storage.WorkspaceConnectionAccessKey
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionAccessKey(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccessKey() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccessKey() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -3032,7 +3215,7 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties) Initialize_Fro
 		var credential WorkspaceConnectionAccessKey
 		err := credential.Initialize_From_WorkspaceConnectionAccessKey_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionAccessKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionAccessKey_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -3104,14 +3287,14 @@ var _ genruntime.FromARMConverter = &AccessKeyAuthTypeWorkspaceConnectionPropert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS_ARM{}
+	return &arm.AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -3232,7 +3415,7 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS) AssignP
 		var credential WorkspaceConnectionAccessKey_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionAccessKey_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccessKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccessKey_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -3313,7 +3496,7 @@ func (properties *AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS) AssignP
 		var credential storage.WorkspaceConnectionAccessKey_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionAccessKey_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccessKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccessKey_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -3400,14 +3583,14 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties) ConvertToARM(
 	if properties == nil {
 		return nil, nil
 	}
-	result := &AccountKeyAuthTypeWorkspaceConnectionProperties_ARM{}
+	result := &arm.AccountKeyAuthTypeWorkspaceConnectionProperties{}
 
 	// Set property "AuthType":
 	if properties.AuthType != nil {
-		var temp AccountKeyAuthTypeWorkspaceConnectionProperties_AuthType_ARM
+		var temp arm.AccountKeyAuthTypeWorkspaceConnectionProperties_AuthType
 		var temp1 string
 		temp1 = string(*properties.AuthType)
-		temp = AccountKeyAuthTypeWorkspaceConnectionProperties_AuthType_ARM(temp1)
+		temp = arm.AccountKeyAuthTypeWorkspaceConnectionProperties_AuthType(temp1)
 		result.AuthType = temp
 	}
 
@@ -3415,7 +3598,7 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties) ConvertToARM(
 	if properties.Category != nil {
 		var temp string
 		temp = string(*properties.Category)
-		category := ConnectionCategory_ARM(temp)
+		category := arm.ConnectionCategory(temp)
 		result.Category = &category
 	}
 
@@ -3425,7 +3608,7 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties) ConvertToARM(
 		if err != nil {
 			return nil, err
 		}
-		credentials := *credentials_ARM.(*WorkspaceConnectionAccountKey_ARM)
+		credentials := *credentials_ARM.(*arm.WorkspaceConnectionAccountKey)
 		result.Credentials = &credentials
 	}
 
@@ -3470,7 +3653,7 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties) ConvertToARM(
 	if properties.ValueFormat != nil {
 		var temp string
 		temp = string(*properties.ValueFormat)
-		valueFormat := AccountKeyAuthTypeWorkspaceConnectionProperties_ValueFormat_ARM(temp)
+		valueFormat := arm.AccountKeyAuthTypeWorkspaceConnectionProperties_ValueFormat(temp)
 		result.ValueFormat = &valueFormat
 	}
 	return result, nil
@@ -3478,14 +3661,14 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties) ConvertToARM(
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AccountKeyAuthTypeWorkspaceConnectionProperties_ARM{}
+	return &arm.AccountKeyAuthTypeWorkspaceConnectionProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AccountKeyAuthTypeWorkspaceConnectionProperties_ARM)
+	typedInput, ok := armInput.(arm.AccountKeyAuthTypeWorkspaceConnectionProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AccountKeyAuthTypeWorkspaceConnectionProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AccountKeyAuthTypeWorkspaceConnectionProperties, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -3589,7 +3772,7 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties) AssignPropert
 		var credential WorkspaceConnectionAccountKey
 		err := credential.AssignProperties_From_WorkspaceConnectionAccountKey(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccountKey() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccountKey() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -3658,7 +3841,7 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties) AssignPropert
 		var credential storage.WorkspaceConnectionAccountKey
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionAccountKey(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccountKey() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccountKey() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -3731,7 +3914,7 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties) Initialize_Fr
 		var credential WorkspaceConnectionAccountKey
 		err := credential.Initialize_From_WorkspaceConnectionAccountKey_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionAccountKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionAccountKey_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -3803,14 +3986,14 @@ var _ genruntime.FromARMConverter = &AccountKeyAuthTypeWorkspaceConnectionProper
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS_ARM{}
+	return &arm.AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -3931,7 +4114,7 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS) Assign
 		var credential WorkspaceConnectionAccountKey_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionAccountKey_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccountKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionAccountKey_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -4012,7 +4195,7 @@ func (properties *AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS) Assign
 		var credential storage.WorkspaceConnectionAccountKey_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionAccountKey_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccountKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionAccountKey_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -4101,14 +4284,14 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties) ConvertToARM(resolved
 	if properties == nil {
 		return nil, nil
 	}
-	result := &ApiKeyAuthWorkspaceConnectionProperties_ARM{}
+	result := &arm.ApiKeyAuthWorkspaceConnectionProperties{}
 
 	// Set property "AuthType":
 	if properties.AuthType != nil {
-		var temp ApiKeyAuthWorkspaceConnectionProperties_AuthType_ARM
+		var temp arm.ApiKeyAuthWorkspaceConnectionProperties_AuthType
 		var temp1 string
 		temp1 = string(*properties.AuthType)
-		temp = ApiKeyAuthWorkspaceConnectionProperties_AuthType_ARM(temp1)
+		temp = arm.ApiKeyAuthWorkspaceConnectionProperties_AuthType(temp1)
 		result.AuthType = temp
 	}
 
@@ -4116,7 +4299,7 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties) ConvertToARM(resolved
 	if properties.Category != nil {
 		var temp string
 		temp = string(*properties.Category)
-		category := ConnectionCategory_ARM(temp)
+		category := arm.ConnectionCategory(temp)
 		result.Category = &category
 	}
 
@@ -4126,7 +4309,7 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties) ConvertToARM(resolved
 		if err != nil {
 			return nil, err
 		}
-		credentials := *credentials_ARM.(*WorkspaceConnectionApiKey_ARM)
+		credentials := *credentials_ARM.(*arm.WorkspaceConnectionApiKey)
 		result.Credentials = &credentials
 	}
 
@@ -4171,7 +4354,7 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties) ConvertToARM(resolved
 	if properties.ValueFormat != nil {
 		var temp string
 		temp = string(*properties.ValueFormat)
-		valueFormat := ApiKeyAuthWorkspaceConnectionProperties_ValueFormat_ARM(temp)
+		valueFormat := arm.ApiKeyAuthWorkspaceConnectionProperties_ValueFormat(temp)
 		result.ValueFormat = &valueFormat
 	}
 	return result, nil
@@ -4179,14 +4362,14 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties) ConvertToARM(resolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *ApiKeyAuthWorkspaceConnectionProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiKeyAuthWorkspaceConnectionProperties_ARM{}
+	return &arm.ApiKeyAuthWorkspaceConnectionProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *ApiKeyAuthWorkspaceConnectionProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiKeyAuthWorkspaceConnectionProperties_ARM)
+	typedInput, ok := armInput.(arm.ApiKeyAuthWorkspaceConnectionProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiKeyAuthWorkspaceConnectionProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApiKeyAuthWorkspaceConnectionProperties, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -4290,7 +4473,7 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties) AssignProperties_From
 		var credential WorkspaceConnectionApiKey
 		err := credential.AssignProperties_From_WorkspaceConnectionApiKey(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionApiKey() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionApiKey() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -4359,7 +4542,7 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties) AssignProperties_To_A
 		var credential storage.WorkspaceConnectionApiKey
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionApiKey(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionApiKey() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionApiKey() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -4432,7 +4615,7 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties) Initialize_From_ApiKe
 		var credential WorkspaceConnectionApiKey
 		err := credential.Initialize_From_WorkspaceConnectionApiKey_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionApiKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionApiKey_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -4506,14 +4689,14 @@ var _ genruntime.FromARMConverter = &ApiKeyAuthWorkspaceConnectionProperties_STA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *ApiKeyAuthWorkspaceConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiKeyAuthWorkspaceConnectionProperties_STATUS_ARM{}
+	return &arm.ApiKeyAuthWorkspaceConnectionProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *ApiKeyAuthWorkspaceConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiKeyAuthWorkspaceConnectionProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApiKeyAuthWorkspaceConnectionProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiKeyAuthWorkspaceConnectionProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApiKeyAuthWorkspaceConnectionProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -4634,7 +4817,7 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties_STATUS) AssignProperti
 		var credential WorkspaceConnectionApiKey_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionApiKey_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionApiKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionApiKey_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -4715,7 +4898,7 @@ func (properties *ApiKeyAuthWorkspaceConnectionProperties_STATUS) AssignProperti
 		var credential storage.WorkspaceConnectionApiKey_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionApiKey_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionApiKey_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionApiKey_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -4804,14 +4987,14 @@ func (properties *CustomKeysWorkspaceConnectionProperties) ConvertToARM(resolved
 	if properties == nil {
 		return nil, nil
 	}
-	result := &CustomKeysWorkspaceConnectionProperties_ARM{}
+	result := &arm.CustomKeysWorkspaceConnectionProperties{}
 
 	// Set property "AuthType":
 	if properties.AuthType != nil {
-		var temp CustomKeysWorkspaceConnectionProperties_AuthType_ARM
+		var temp arm.CustomKeysWorkspaceConnectionProperties_AuthType
 		var temp1 string
 		temp1 = string(*properties.AuthType)
-		temp = CustomKeysWorkspaceConnectionProperties_AuthType_ARM(temp1)
+		temp = arm.CustomKeysWorkspaceConnectionProperties_AuthType(temp1)
 		result.AuthType = temp
 	}
 
@@ -4819,7 +5002,7 @@ func (properties *CustomKeysWorkspaceConnectionProperties) ConvertToARM(resolved
 	if properties.Category != nil {
 		var temp string
 		temp = string(*properties.Category)
-		category := ConnectionCategory_ARM(temp)
+		category := arm.ConnectionCategory(temp)
 		result.Category = &category
 	}
 
@@ -4829,7 +5012,7 @@ func (properties *CustomKeysWorkspaceConnectionProperties) ConvertToARM(resolved
 		if err != nil {
 			return nil, err
 		}
-		credentials := *credentials_ARM.(*CustomKeys_ARM)
+		credentials := *credentials_ARM.(*arm.CustomKeys)
 		result.Credentials = &credentials
 	}
 
@@ -4874,7 +5057,7 @@ func (properties *CustomKeysWorkspaceConnectionProperties) ConvertToARM(resolved
 	if properties.ValueFormat != nil {
 		var temp string
 		temp = string(*properties.ValueFormat)
-		valueFormat := CustomKeysWorkspaceConnectionProperties_ValueFormat_ARM(temp)
+		valueFormat := arm.CustomKeysWorkspaceConnectionProperties_ValueFormat(temp)
 		result.ValueFormat = &valueFormat
 	}
 	return result, nil
@@ -4882,14 +5065,14 @@ func (properties *CustomKeysWorkspaceConnectionProperties) ConvertToARM(resolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *CustomKeysWorkspaceConnectionProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomKeysWorkspaceConnectionProperties_ARM{}
+	return &arm.CustomKeysWorkspaceConnectionProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *CustomKeysWorkspaceConnectionProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomKeysWorkspaceConnectionProperties_ARM)
+	typedInput, ok := armInput.(arm.CustomKeysWorkspaceConnectionProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomKeysWorkspaceConnectionProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CustomKeysWorkspaceConnectionProperties, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -4993,7 +5176,7 @@ func (properties *CustomKeysWorkspaceConnectionProperties) AssignProperties_From
 		var credential CustomKeys
 		err := credential.AssignProperties_From_CustomKeys(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomKeys() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomKeys() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -5062,7 +5245,7 @@ func (properties *CustomKeysWorkspaceConnectionProperties) AssignProperties_To_C
 		var credential storage.CustomKeys
 		err := properties.Credentials.AssignProperties_To_CustomKeys(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomKeys() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomKeys() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -5135,7 +5318,7 @@ func (properties *CustomKeysWorkspaceConnectionProperties) Initialize_From_Custo
 		var credential CustomKeys
 		err := credential.Initialize_From_CustomKeys_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CustomKeys_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_CustomKeys_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -5209,14 +5392,14 @@ var _ genruntime.FromARMConverter = &CustomKeysWorkspaceConnectionProperties_STA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *CustomKeysWorkspaceConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomKeysWorkspaceConnectionProperties_STATUS_ARM{}
+	return &arm.CustomKeysWorkspaceConnectionProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *CustomKeysWorkspaceConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomKeysWorkspaceConnectionProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CustomKeysWorkspaceConnectionProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomKeysWorkspaceConnectionProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CustomKeysWorkspaceConnectionProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -5337,7 +5520,7 @@ func (properties *CustomKeysWorkspaceConnectionProperties_STATUS) AssignProperti
 		var credential CustomKeys_STATUS
 		err := credential.AssignProperties_From_CustomKeys_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomKeys_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomKeys_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -5418,7 +5601,7 @@ func (properties *CustomKeysWorkspaceConnectionProperties_STATUS) AssignProperti
 		var credential storage.CustomKeys_STATUS
 		err := properties.Credentials.AssignProperties_To_CustomKeys_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomKeys_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomKeys_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -5505,14 +5688,14 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties) ConvertT
 	if properties == nil {
 		return nil, nil
 	}
-	result := &ManagedIdentityAuthTypeWorkspaceConnectionProperties_ARM{}
+	result := &arm.ManagedIdentityAuthTypeWorkspaceConnectionProperties{}
 
 	// Set property "AuthType":
 	if properties.AuthType != nil {
-		var temp ManagedIdentityAuthTypeWorkspaceConnectionProperties_AuthType_ARM
+		var temp arm.ManagedIdentityAuthTypeWorkspaceConnectionProperties_AuthType
 		var temp1 string
 		temp1 = string(*properties.AuthType)
-		temp = ManagedIdentityAuthTypeWorkspaceConnectionProperties_AuthType_ARM(temp1)
+		temp = arm.ManagedIdentityAuthTypeWorkspaceConnectionProperties_AuthType(temp1)
 		result.AuthType = temp
 	}
 
@@ -5520,7 +5703,7 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties) ConvertT
 	if properties.Category != nil {
 		var temp string
 		temp = string(*properties.Category)
-		category := ConnectionCategory_ARM(temp)
+		category := arm.ConnectionCategory(temp)
 		result.Category = &category
 	}
 
@@ -5530,7 +5713,7 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties) ConvertT
 		if err != nil {
 			return nil, err
 		}
-		credentials := *credentials_ARM.(*WorkspaceConnectionManagedIdentity_ARM)
+		credentials := *credentials_ARM.(*arm.WorkspaceConnectionManagedIdentity)
 		result.Credentials = &credentials
 	}
 
@@ -5575,7 +5758,7 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties) ConvertT
 	if properties.ValueFormat != nil {
 		var temp string
 		temp = string(*properties.ValueFormat)
-		valueFormat := ManagedIdentityAuthTypeWorkspaceConnectionProperties_ValueFormat_ARM(temp)
+		valueFormat := arm.ManagedIdentityAuthTypeWorkspaceConnectionProperties_ValueFormat(temp)
 		result.ValueFormat = &valueFormat
 	}
 	return result, nil
@@ -5583,14 +5766,14 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties) ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedIdentityAuthTypeWorkspaceConnectionProperties_ARM{}
+	return &arm.ManagedIdentityAuthTypeWorkspaceConnectionProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedIdentityAuthTypeWorkspaceConnectionProperties_ARM)
+	typedInput, ok := armInput.(arm.ManagedIdentityAuthTypeWorkspaceConnectionProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentityAuthTypeWorkspaceConnectionProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedIdentityAuthTypeWorkspaceConnectionProperties, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -5694,7 +5877,7 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties) AssignPr
 		var credential WorkspaceConnectionManagedIdentity
 		err := credential.AssignProperties_From_WorkspaceConnectionManagedIdentity(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionManagedIdentity() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionManagedIdentity() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -5763,7 +5946,7 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties) AssignPr
 		var credential storage.WorkspaceConnectionManagedIdentity
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionManagedIdentity(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionManagedIdentity() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionManagedIdentity() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -5836,7 +6019,7 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties) Initiali
 		var credential WorkspaceConnectionManagedIdentity
 		err := credential.Initialize_From_WorkspaceConnectionManagedIdentity_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionManagedIdentity_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionManagedIdentity_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -5908,14 +6091,14 @@ var _ genruntime.FromARMConverter = &ManagedIdentityAuthTypeWorkspaceConnectionP
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS_ARM{}
+	return &arm.ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -6036,7 +6219,7 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS) A
 		var credential WorkspaceConnectionManagedIdentity_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionManagedIdentity_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionManagedIdentity_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionManagedIdentity_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -6117,7 +6300,7 @@ func (properties *ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS) A
 		var credential storage.WorkspaceConnectionManagedIdentity_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionManagedIdentity_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionManagedIdentity_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionManagedIdentity_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -6203,14 +6386,14 @@ func (properties *NoneAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolv
 	if properties == nil {
 		return nil, nil
 	}
-	result := &NoneAuthTypeWorkspaceConnectionProperties_ARM{}
+	result := &arm.NoneAuthTypeWorkspaceConnectionProperties{}
 
 	// Set property "AuthType":
 	if properties.AuthType != nil {
-		var temp NoneAuthTypeWorkspaceConnectionProperties_AuthType_ARM
+		var temp arm.NoneAuthTypeWorkspaceConnectionProperties_AuthType
 		var temp1 string
 		temp1 = string(*properties.AuthType)
-		temp = NoneAuthTypeWorkspaceConnectionProperties_AuthType_ARM(temp1)
+		temp = arm.NoneAuthTypeWorkspaceConnectionProperties_AuthType(temp1)
 		result.AuthType = temp
 	}
 
@@ -6218,7 +6401,7 @@ func (properties *NoneAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolv
 	if properties.Category != nil {
 		var temp string
 		temp = string(*properties.Category)
-		category := ConnectionCategory_ARM(temp)
+		category := arm.ConnectionCategory(temp)
 		result.Category = &category
 	}
 
@@ -6263,7 +6446,7 @@ func (properties *NoneAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolv
 	if properties.ValueFormat != nil {
 		var temp string
 		temp = string(*properties.ValueFormat)
-		valueFormat := NoneAuthTypeWorkspaceConnectionProperties_ValueFormat_ARM(temp)
+		valueFormat := arm.NoneAuthTypeWorkspaceConnectionProperties_ValueFormat(temp)
 		result.ValueFormat = &valueFormat
 	}
 	return result, nil
@@ -6271,14 +6454,14 @@ func (properties *NoneAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *NoneAuthTypeWorkspaceConnectionProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NoneAuthTypeWorkspaceConnectionProperties_ARM{}
+	return &arm.NoneAuthTypeWorkspaceConnectionProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *NoneAuthTypeWorkspaceConnectionProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NoneAuthTypeWorkspaceConnectionProperties_ARM)
+	typedInput, ok := armInput.(arm.NoneAuthTypeWorkspaceConnectionProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NoneAuthTypeWorkspaceConnectionProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NoneAuthTypeWorkspaceConnectionProperties, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -6548,14 +6731,14 @@ var _ genruntime.FromARMConverter = &NoneAuthTypeWorkspaceConnectionProperties_S
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *NoneAuthTypeWorkspaceConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NoneAuthTypeWorkspaceConnectionProperties_STATUS_ARM{}
+	return &arm.NoneAuthTypeWorkspaceConnectionProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *NoneAuthTypeWorkspaceConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NoneAuthTypeWorkspaceConnectionProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NoneAuthTypeWorkspaceConnectionProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NoneAuthTypeWorkspaceConnectionProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NoneAuthTypeWorkspaceConnectionProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -6812,14 +6995,14 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties) ConvertToARM(reso
 	if properties == nil {
 		return nil, nil
 	}
-	result := &OAuth2AuthTypeWorkspaceConnectionProperties_ARM{}
+	result := &arm.OAuth2AuthTypeWorkspaceConnectionProperties{}
 
 	// Set property "AuthType":
 	if properties.AuthType != nil {
-		var temp OAuth2AuthTypeWorkspaceConnectionProperties_AuthType_ARM
+		var temp arm.OAuth2AuthTypeWorkspaceConnectionProperties_AuthType
 		var temp1 string
 		temp1 = string(*properties.AuthType)
-		temp = OAuth2AuthTypeWorkspaceConnectionProperties_AuthType_ARM(temp1)
+		temp = arm.OAuth2AuthTypeWorkspaceConnectionProperties_AuthType(temp1)
 		result.AuthType = temp
 	}
 
@@ -6827,7 +7010,7 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties) ConvertToARM(reso
 	if properties.Category != nil {
 		var temp string
 		temp = string(*properties.Category)
-		category := ConnectionCategory_ARM(temp)
+		category := arm.ConnectionCategory(temp)
 		result.Category = &category
 	}
 
@@ -6837,7 +7020,7 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties) ConvertToARM(reso
 		if err != nil {
 			return nil, err
 		}
-		credentials := *credentials_ARM.(*WorkspaceConnectionOAuth2_ARM)
+		credentials := *credentials_ARM.(*arm.WorkspaceConnectionOAuth2)
 		result.Credentials = &credentials
 	}
 
@@ -6882,7 +7065,7 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties) ConvertToARM(reso
 	if properties.ValueFormat != nil {
 		var temp string
 		temp = string(*properties.ValueFormat)
-		valueFormat := OAuth2AuthTypeWorkspaceConnectionProperties_ValueFormat_ARM(temp)
+		valueFormat := arm.OAuth2AuthTypeWorkspaceConnectionProperties_ValueFormat(temp)
 		result.ValueFormat = &valueFormat
 	}
 	return result, nil
@@ -6890,14 +7073,14 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties) ConvertToARM(reso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *OAuth2AuthTypeWorkspaceConnectionProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OAuth2AuthTypeWorkspaceConnectionProperties_ARM{}
+	return &arm.OAuth2AuthTypeWorkspaceConnectionProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *OAuth2AuthTypeWorkspaceConnectionProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OAuth2AuthTypeWorkspaceConnectionProperties_ARM)
+	typedInput, ok := armInput.(arm.OAuth2AuthTypeWorkspaceConnectionProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OAuth2AuthTypeWorkspaceConnectionProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.OAuth2AuthTypeWorkspaceConnectionProperties, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -7001,7 +7184,7 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties) AssignProperties_
 		var credential WorkspaceConnectionOAuth2
 		err := credential.AssignProperties_From_WorkspaceConnectionOAuth2(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionOAuth2() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionOAuth2() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -7070,7 +7253,7 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties) AssignProperties_
 		var credential storage.WorkspaceConnectionOAuth2
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionOAuth2(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionOAuth2() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionOAuth2() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -7143,7 +7326,7 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties) Initialize_From_O
 		var credential WorkspaceConnectionOAuth2
 		err := credential.Initialize_From_WorkspaceConnectionOAuth2_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionOAuth2_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionOAuth2_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -7218,14 +7401,14 @@ var _ genruntime.FromARMConverter = &OAuth2AuthTypeWorkspaceConnectionProperties
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *OAuth2AuthTypeWorkspaceConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OAuth2AuthTypeWorkspaceConnectionProperties_STATUS_ARM{}
+	return &arm.OAuth2AuthTypeWorkspaceConnectionProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *OAuth2AuthTypeWorkspaceConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OAuth2AuthTypeWorkspaceConnectionProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.OAuth2AuthTypeWorkspaceConnectionProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OAuth2AuthTypeWorkspaceConnectionProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.OAuth2AuthTypeWorkspaceConnectionProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -7346,7 +7529,7 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties_STATUS) AssignProp
 		var credential WorkspaceConnectionOAuth2_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionOAuth2_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionOAuth2_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionOAuth2_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -7427,7 +7610,7 @@ func (properties *OAuth2AuthTypeWorkspaceConnectionProperties_STATUS) AssignProp
 		var credential storage.WorkspaceConnectionOAuth2_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionOAuth2_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionOAuth2_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionOAuth2_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -7514,14 +7697,14 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 	if properties == nil {
 		return nil, nil
 	}
-	result := &PATAuthTypeWorkspaceConnectionProperties_ARM{}
+	result := &arm.PATAuthTypeWorkspaceConnectionProperties{}
 
 	// Set property "AuthType":
 	if properties.AuthType != nil {
-		var temp PATAuthTypeWorkspaceConnectionProperties_AuthType_ARM
+		var temp arm.PATAuthTypeWorkspaceConnectionProperties_AuthType
 		var temp1 string
 		temp1 = string(*properties.AuthType)
-		temp = PATAuthTypeWorkspaceConnectionProperties_AuthType_ARM(temp1)
+		temp = arm.PATAuthTypeWorkspaceConnectionProperties_AuthType(temp1)
 		result.AuthType = temp
 	}
 
@@ -7529,7 +7712,7 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 	if properties.Category != nil {
 		var temp string
 		temp = string(*properties.Category)
-		category := ConnectionCategory_ARM(temp)
+		category := arm.ConnectionCategory(temp)
 		result.Category = &category
 	}
 
@@ -7539,7 +7722,7 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		credentials := *credentials_ARM.(*WorkspaceConnectionPersonalAccessToken_ARM)
+		credentials := *credentials_ARM.(*arm.WorkspaceConnectionPersonalAccessToken)
 		result.Credentials = &credentials
 	}
 
@@ -7584,7 +7767,7 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 	if properties.ValueFormat != nil {
 		var temp string
 		temp = string(*properties.ValueFormat)
-		valueFormat := PATAuthTypeWorkspaceConnectionProperties_ValueFormat_ARM(temp)
+		valueFormat := arm.PATAuthTypeWorkspaceConnectionProperties_ValueFormat(temp)
 		result.ValueFormat = &valueFormat
 	}
 	return result, nil
@@ -7592,14 +7775,14 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *PATAuthTypeWorkspaceConnectionProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PATAuthTypeWorkspaceConnectionProperties_ARM{}
+	return &arm.PATAuthTypeWorkspaceConnectionProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *PATAuthTypeWorkspaceConnectionProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PATAuthTypeWorkspaceConnectionProperties_ARM)
+	typedInput, ok := armInput.(arm.PATAuthTypeWorkspaceConnectionProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PATAuthTypeWorkspaceConnectionProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PATAuthTypeWorkspaceConnectionProperties, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -7703,7 +7886,7 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties) AssignProperties_Fro
 		var credential WorkspaceConnectionPersonalAccessToken
 		err := credential.AssignProperties_From_WorkspaceConnectionPersonalAccessToken(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPersonalAccessToken() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPersonalAccessToken() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -7772,7 +7955,7 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties) AssignProperties_To_
 		var credential storage.WorkspaceConnectionPersonalAccessToken
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionPersonalAccessToken(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPersonalAccessToken() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPersonalAccessToken() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -7845,7 +8028,7 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties) Initialize_From_PATA
 		var credential WorkspaceConnectionPersonalAccessToken
 		err := credential.Initialize_From_WorkspaceConnectionPersonalAccessToken_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionPersonalAccessToken_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionPersonalAccessToken_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -7917,14 +8100,14 @@ var _ genruntime.FromARMConverter = &PATAuthTypeWorkspaceConnectionProperties_ST
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *PATAuthTypeWorkspaceConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PATAuthTypeWorkspaceConnectionProperties_STATUS_ARM{}
+	return &arm.PATAuthTypeWorkspaceConnectionProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *PATAuthTypeWorkspaceConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PATAuthTypeWorkspaceConnectionProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PATAuthTypeWorkspaceConnectionProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PATAuthTypeWorkspaceConnectionProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PATAuthTypeWorkspaceConnectionProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -8045,7 +8228,7 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties_STATUS) AssignPropert
 		var credential WorkspaceConnectionPersonalAccessToken_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionPersonalAccessToken_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPersonalAccessToken_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionPersonalAccessToken_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -8126,7 +8309,7 @@ func (properties *PATAuthTypeWorkspaceConnectionProperties_STATUS) AssignPropert
 		var credential storage.WorkspaceConnectionPersonalAccessToken_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionPersonalAccessToken_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPersonalAccessToken_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionPersonalAccessToken_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -8213,14 +8396,14 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 	if properties == nil {
 		return nil, nil
 	}
-	result := &SASAuthTypeWorkspaceConnectionProperties_ARM{}
+	result := &arm.SASAuthTypeWorkspaceConnectionProperties{}
 
 	// Set property "AuthType":
 	if properties.AuthType != nil {
-		var temp SASAuthTypeWorkspaceConnectionProperties_AuthType_ARM
+		var temp arm.SASAuthTypeWorkspaceConnectionProperties_AuthType
 		var temp1 string
 		temp1 = string(*properties.AuthType)
-		temp = SASAuthTypeWorkspaceConnectionProperties_AuthType_ARM(temp1)
+		temp = arm.SASAuthTypeWorkspaceConnectionProperties_AuthType(temp1)
 		result.AuthType = temp
 	}
 
@@ -8228,7 +8411,7 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 	if properties.Category != nil {
 		var temp string
 		temp = string(*properties.Category)
-		category := ConnectionCategory_ARM(temp)
+		category := arm.ConnectionCategory(temp)
 		result.Category = &category
 	}
 
@@ -8238,7 +8421,7 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		credentials := *credentials_ARM.(*WorkspaceConnectionSharedAccessSignature_ARM)
+		credentials := *credentials_ARM.(*arm.WorkspaceConnectionSharedAccessSignature)
 		result.Credentials = &credentials
 	}
 
@@ -8283,7 +8466,7 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 	if properties.ValueFormat != nil {
 		var temp string
 		temp = string(*properties.ValueFormat)
-		valueFormat := SASAuthTypeWorkspaceConnectionProperties_ValueFormat_ARM(temp)
+		valueFormat := arm.SASAuthTypeWorkspaceConnectionProperties_ValueFormat(temp)
 		result.ValueFormat = &valueFormat
 	}
 	return result, nil
@@ -8291,14 +8474,14 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties) ConvertToARM(resolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *SASAuthTypeWorkspaceConnectionProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SASAuthTypeWorkspaceConnectionProperties_ARM{}
+	return &arm.SASAuthTypeWorkspaceConnectionProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *SASAuthTypeWorkspaceConnectionProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SASAuthTypeWorkspaceConnectionProperties_ARM)
+	typedInput, ok := armInput.(arm.SASAuthTypeWorkspaceConnectionProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SASAuthTypeWorkspaceConnectionProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SASAuthTypeWorkspaceConnectionProperties, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -8402,7 +8585,7 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties) AssignProperties_Fro
 		var credential WorkspaceConnectionSharedAccessSignature
 		err := credential.AssignProperties_From_WorkspaceConnectionSharedAccessSignature(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionSharedAccessSignature() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionSharedAccessSignature() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -8471,7 +8654,7 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties) AssignProperties_To_
 		var credential storage.WorkspaceConnectionSharedAccessSignature
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionSharedAccessSignature(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionSharedAccessSignature() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionSharedAccessSignature() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -8544,7 +8727,7 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties) Initialize_From_SASA
 		var credential WorkspaceConnectionSharedAccessSignature
 		err := credential.Initialize_From_WorkspaceConnectionSharedAccessSignature_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionSharedAccessSignature_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionSharedAccessSignature_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -8616,14 +8799,14 @@ var _ genruntime.FromARMConverter = &SASAuthTypeWorkspaceConnectionProperties_ST
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *SASAuthTypeWorkspaceConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SASAuthTypeWorkspaceConnectionProperties_STATUS_ARM{}
+	return &arm.SASAuthTypeWorkspaceConnectionProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *SASAuthTypeWorkspaceConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SASAuthTypeWorkspaceConnectionProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SASAuthTypeWorkspaceConnectionProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SASAuthTypeWorkspaceConnectionProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SASAuthTypeWorkspaceConnectionProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -8744,7 +8927,7 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties_STATUS) AssignPropert
 		var credential WorkspaceConnectionSharedAccessSignature_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionSharedAccessSignature_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionSharedAccessSignature_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionSharedAccessSignature_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -8825,7 +9008,7 @@ func (properties *SASAuthTypeWorkspaceConnectionProperties_STATUS) AssignPropert
 		var credential storage.WorkspaceConnectionSharedAccessSignature_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionSharedAccessSignature_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionSharedAccessSignature_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionSharedAccessSignature_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -8912,14 +9095,14 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties) Convert
 	if properties == nil {
 		return nil, nil
 	}
-	result := &ServicePrincipalAuthTypeWorkspaceConnectionProperties_ARM{}
+	result := &arm.ServicePrincipalAuthTypeWorkspaceConnectionProperties{}
 
 	// Set property "AuthType":
 	if properties.AuthType != nil {
-		var temp ServicePrincipalAuthTypeWorkspaceConnectionProperties_AuthType_ARM
+		var temp arm.ServicePrincipalAuthTypeWorkspaceConnectionProperties_AuthType
 		var temp1 string
 		temp1 = string(*properties.AuthType)
-		temp = ServicePrincipalAuthTypeWorkspaceConnectionProperties_AuthType_ARM(temp1)
+		temp = arm.ServicePrincipalAuthTypeWorkspaceConnectionProperties_AuthType(temp1)
 		result.AuthType = temp
 	}
 
@@ -8927,7 +9110,7 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties) Convert
 	if properties.Category != nil {
 		var temp string
 		temp = string(*properties.Category)
-		category := ConnectionCategory_ARM(temp)
+		category := arm.ConnectionCategory(temp)
 		result.Category = &category
 	}
 
@@ -8937,7 +9120,7 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties) Convert
 		if err != nil {
 			return nil, err
 		}
-		credentials := *credentials_ARM.(*WorkspaceConnectionServicePrincipal_ARM)
+		credentials := *credentials_ARM.(*arm.WorkspaceConnectionServicePrincipal)
 		result.Credentials = &credentials
 	}
 
@@ -8982,7 +9165,7 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties) Convert
 	if properties.ValueFormat != nil {
 		var temp string
 		temp = string(*properties.ValueFormat)
-		valueFormat := ServicePrincipalAuthTypeWorkspaceConnectionProperties_ValueFormat_ARM(temp)
+		valueFormat := arm.ServicePrincipalAuthTypeWorkspaceConnectionProperties_ValueFormat(temp)
 		result.ValueFormat = &valueFormat
 	}
 	return result, nil
@@ -8990,14 +9173,14 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties) Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServicePrincipalAuthTypeWorkspaceConnectionProperties_ARM{}
+	return &arm.ServicePrincipalAuthTypeWorkspaceConnectionProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServicePrincipalAuthTypeWorkspaceConnectionProperties_ARM)
+	typedInput, ok := armInput.(arm.ServicePrincipalAuthTypeWorkspaceConnectionProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServicePrincipalAuthTypeWorkspaceConnectionProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServicePrincipalAuthTypeWorkspaceConnectionProperties, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -9101,7 +9284,7 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties) AssignP
 		var credential WorkspaceConnectionServicePrincipal
 		err := credential.AssignProperties_From_WorkspaceConnectionServicePrincipal(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionServicePrincipal() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionServicePrincipal() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -9170,7 +9353,7 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties) AssignP
 		var credential storage.WorkspaceConnectionServicePrincipal
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionServicePrincipal(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionServicePrincipal() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionServicePrincipal() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -9243,7 +9426,7 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties) Initial
 		var credential WorkspaceConnectionServicePrincipal
 		err := credential.Initialize_From_WorkspaceConnectionServicePrincipal_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionServicePrincipal_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionServicePrincipal_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -9315,14 +9498,14 @@ var _ genruntime.FromARMConverter = &ServicePrincipalAuthTypeWorkspaceConnection
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS_ARM{}
+	return &arm.ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -9443,7 +9626,7 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS) 
 		var credential WorkspaceConnectionServicePrincipal_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionServicePrincipal_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionServicePrincipal_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionServicePrincipal_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -9524,7 +9707,7 @@ func (properties *ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS) 
 		var credential storage.WorkspaceConnectionServicePrincipal_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionServicePrincipal_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionServicePrincipal_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionServicePrincipal_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -9611,14 +9794,14 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties) Convert
 	if properties == nil {
 		return nil, nil
 	}
-	result := &UsernamePasswordAuthTypeWorkspaceConnectionProperties_ARM{}
+	result := &arm.UsernamePasswordAuthTypeWorkspaceConnectionProperties{}
 
 	// Set property "AuthType":
 	if properties.AuthType != nil {
-		var temp UsernamePasswordAuthTypeWorkspaceConnectionProperties_AuthType_ARM
+		var temp arm.UsernamePasswordAuthTypeWorkspaceConnectionProperties_AuthType
 		var temp1 string
 		temp1 = string(*properties.AuthType)
-		temp = UsernamePasswordAuthTypeWorkspaceConnectionProperties_AuthType_ARM(temp1)
+		temp = arm.UsernamePasswordAuthTypeWorkspaceConnectionProperties_AuthType(temp1)
 		result.AuthType = temp
 	}
 
@@ -9626,7 +9809,7 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties) Convert
 	if properties.Category != nil {
 		var temp string
 		temp = string(*properties.Category)
-		category := ConnectionCategory_ARM(temp)
+		category := arm.ConnectionCategory(temp)
 		result.Category = &category
 	}
 
@@ -9636,7 +9819,7 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties) Convert
 		if err != nil {
 			return nil, err
 		}
-		credentials := *credentials_ARM.(*WorkspaceConnectionUsernamePassword_ARM)
+		credentials := *credentials_ARM.(*arm.WorkspaceConnectionUsernamePassword)
 		result.Credentials = &credentials
 	}
 
@@ -9681,7 +9864,7 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties) Convert
 	if properties.ValueFormat != nil {
 		var temp string
 		temp = string(*properties.ValueFormat)
-		valueFormat := UsernamePasswordAuthTypeWorkspaceConnectionProperties_ValueFormat_ARM(temp)
+		valueFormat := arm.UsernamePasswordAuthTypeWorkspaceConnectionProperties_ValueFormat(temp)
 		result.ValueFormat = &valueFormat
 	}
 	return result, nil
@@ -9689,14 +9872,14 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties) Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UsernamePasswordAuthTypeWorkspaceConnectionProperties_ARM{}
+	return &arm.UsernamePasswordAuthTypeWorkspaceConnectionProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UsernamePasswordAuthTypeWorkspaceConnectionProperties_ARM)
+	typedInput, ok := armInput.(arm.UsernamePasswordAuthTypeWorkspaceConnectionProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UsernamePasswordAuthTypeWorkspaceConnectionProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UsernamePasswordAuthTypeWorkspaceConnectionProperties, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -9800,7 +9983,7 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties) AssignP
 		var credential WorkspaceConnectionUsernamePassword
 		err := credential.AssignProperties_From_WorkspaceConnectionUsernamePassword(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionUsernamePassword() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionUsernamePassword() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -9869,7 +10052,7 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties) AssignP
 		var credential storage.WorkspaceConnectionUsernamePassword
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionUsernamePassword(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionUsernamePassword() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionUsernamePassword() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -9942,7 +10125,7 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties) Initial
 		var credential WorkspaceConnectionUsernamePassword
 		err := credential.Initialize_From_WorkspaceConnectionUsernamePassword_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WorkspaceConnectionUsernamePassword_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling Initialize_From_WorkspaceConnectionUsernamePassword_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -10014,14 +10197,14 @@ var _ genruntime.FromARMConverter = &UsernamePasswordAuthTypeWorkspaceConnection
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS_ARM{}
+	return &arm.UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthType":
@@ -10142,7 +10325,7 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS) 
 		var credential WorkspaceConnectionUsernamePassword_STATUS
 		err := credential.AssignProperties_From_WorkspaceConnectionUsernamePassword_STATUS(source.Credentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionUsernamePassword_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspaceConnectionUsernamePassword_STATUS() to populate field Credentials")
 		}
 		properties.Credentials = &credential
 	} else {
@@ -10223,7 +10406,7 @@ func (properties *UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS) 
 		var credential storage.WorkspaceConnectionUsernamePassword_STATUS
 		err := properties.Credentials.AssignProperties_To_WorkspaceConnectionUsernamePassword_STATUS(&credential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionUsernamePassword_STATUS() to populate field Credentials")
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspaceConnectionUsernamePassword_STATUS() to populate field Credentials")
 		}
 		destination.Credentials = &credential
 	} else {
@@ -10897,14 +11080,14 @@ func (keys *CustomKeys) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if keys == nil {
 		return nil, nil
 	}
-	result := &CustomKeys_ARM{}
+	result := &arm.CustomKeys{}
 
 	// Set property "Keys":
 	if keys.Keys != nil {
 		var temp map[string]string
 		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*keys.Keys)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property temp")
+			return nil, eris.Wrap(err, "looking up secret for property temp")
 		}
 		temp = tempSecret
 		result.Keys = temp
@@ -10914,14 +11097,14 @@ func (keys *CustomKeys) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (keys *CustomKeys) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomKeys_ARM{}
+	return &arm.CustomKeys{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (keys *CustomKeys) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(CustomKeys_ARM)
+	_, ok := armInput.(arm.CustomKeys)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomKeys_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CustomKeys, got %T", armInput)
 	}
 
 	// no assignment for property "Keys"
@@ -10985,14 +11168,14 @@ var _ genruntime.FromARMConverter = &CustomKeys_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (keys *CustomKeys_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomKeys_STATUS_ARM{}
+	return &arm.CustomKeys_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (keys *CustomKeys_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomKeys_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CustomKeys_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomKeys_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CustomKeys_STATUS, got %T", armInput)
 	}
 
 	// Set property "Keys":
@@ -11352,7 +11535,7 @@ func (accessKey *WorkspaceConnectionAccessKey) ConvertToARM(resolved genruntime.
 	if accessKey == nil {
 		return nil, nil
 	}
-	result := &WorkspaceConnectionAccessKey_ARM{}
+	result := &arm.WorkspaceConnectionAccessKey{}
 
 	// Set property "AccessKeyId":
 	if accessKey.AccessKeyId != nil {
@@ -11364,7 +11547,7 @@ func (accessKey *WorkspaceConnectionAccessKey) ConvertToARM(resolved genruntime.
 	if accessKey.SecretAccessKey != nil {
 		secretAccessKeySecret, err := resolved.ResolvedSecrets.Lookup(*accessKey.SecretAccessKey)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property SecretAccessKey")
+			return nil, eris.Wrap(err, "looking up secret for property SecretAccessKey")
 		}
 		secretAccessKey := secretAccessKeySecret
 		result.SecretAccessKey = &secretAccessKey
@@ -11374,14 +11557,14 @@ func (accessKey *WorkspaceConnectionAccessKey) ConvertToARM(resolved genruntime.
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (accessKey *WorkspaceConnectionAccessKey) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionAccessKey_ARM{}
+	return &arm.WorkspaceConnectionAccessKey{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (accessKey *WorkspaceConnectionAccessKey) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionAccessKey_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceConnectionAccessKey)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionAccessKey_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionAccessKey, got %T", armInput)
 	}
 
 	// Set property "AccessKeyId":
@@ -11459,14 +11642,14 @@ var _ genruntime.FromARMConverter = &WorkspaceConnectionAccessKey_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (accessKey *WorkspaceConnectionAccessKey_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionAccessKey_STATUS_ARM{}
+	return &arm.WorkspaceConnectionAccessKey_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (accessKey *WorkspaceConnectionAccessKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionAccessKey_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceConnectionAccessKey_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionAccessKey_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionAccessKey_STATUS, got %T", armInput)
 	}
 
 	// Set property "AccessKeyId":
@@ -11519,13 +11702,13 @@ func (accountKey *WorkspaceConnectionAccountKey) ConvertToARM(resolved genruntim
 	if accountKey == nil {
 		return nil, nil
 	}
-	result := &WorkspaceConnectionAccountKey_ARM{}
+	result := &arm.WorkspaceConnectionAccountKey{}
 
 	// Set property "Key":
 	if accountKey.Key != nil {
 		keySecret, err := resolved.ResolvedSecrets.Lookup(*accountKey.Key)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Key")
+			return nil, eris.Wrap(err, "looking up secret for property Key")
 		}
 		key := keySecret
 		result.Key = &key
@@ -11535,14 +11718,14 @@ func (accountKey *WorkspaceConnectionAccountKey) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (accountKey *WorkspaceConnectionAccountKey) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionAccountKey_ARM{}
+	return &arm.WorkspaceConnectionAccountKey{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (accountKey *WorkspaceConnectionAccountKey) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(WorkspaceConnectionAccountKey_ARM)
+	_, ok := armInput.(arm.WorkspaceConnectionAccountKey)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionAccountKey_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionAccountKey, got %T", armInput)
 	}
 
 	// no assignment for property "Key"
@@ -11604,14 +11787,14 @@ var _ genruntime.FromARMConverter = &WorkspaceConnectionAccountKey_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (accountKey *WorkspaceConnectionAccountKey_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionAccountKey_STATUS_ARM{}
+	return &arm.WorkspaceConnectionAccountKey_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (accountKey *WorkspaceConnectionAccountKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(WorkspaceConnectionAccountKey_STATUS_ARM)
+	_, ok := armInput.(arm.WorkspaceConnectionAccountKey_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionAccountKey_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionAccountKey_STATUS, got %T", armInput)
 	}
 
 	// No error
@@ -11653,13 +11836,13 @@ func (apiKey *WorkspaceConnectionApiKey) ConvertToARM(resolved genruntime.Conver
 	if apiKey == nil {
 		return nil, nil
 	}
-	result := &WorkspaceConnectionApiKey_ARM{}
+	result := &arm.WorkspaceConnectionApiKey{}
 
 	// Set property "Key":
 	if apiKey.Key != nil {
 		keySecret, err := resolved.ResolvedSecrets.Lookup(*apiKey.Key)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Key")
+			return nil, eris.Wrap(err, "looking up secret for property Key")
 		}
 		key := keySecret
 		result.Key = &key
@@ -11669,14 +11852,14 @@ func (apiKey *WorkspaceConnectionApiKey) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (apiKey *WorkspaceConnectionApiKey) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionApiKey_ARM{}
+	return &arm.WorkspaceConnectionApiKey{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (apiKey *WorkspaceConnectionApiKey) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(WorkspaceConnectionApiKey_ARM)
+	_, ok := armInput.(arm.WorkspaceConnectionApiKey)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionApiKey_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionApiKey, got %T", armInput)
 	}
 
 	// no assignment for property "Key"
@@ -11739,14 +11922,14 @@ var _ genruntime.FromARMConverter = &WorkspaceConnectionApiKey_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (apiKey *WorkspaceConnectionApiKey_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionApiKey_STATUS_ARM{}
+	return &arm.WorkspaceConnectionApiKey_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (apiKey *WorkspaceConnectionApiKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(WorkspaceConnectionApiKey_STATUS_ARM)
+	_, ok := armInput.(arm.WorkspaceConnectionApiKey_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionApiKey_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionApiKey_STATUS, got %T", armInput)
 	}
 
 	// No error
@@ -11789,7 +11972,7 @@ func (identity *WorkspaceConnectionManagedIdentity) ConvertToARM(resolved genrun
 	if identity == nil {
 		return nil, nil
 	}
-	result := &WorkspaceConnectionManagedIdentity_ARM{}
+	result := &arm.WorkspaceConnectionManagedIdentity{}
 
 	// Set property "ClientId":
 	if identity.ClientId != nil {
@@ -11799,7 +11982,7 @@ func (identity *WorkspaceConnectionManagedIdentity) ConvertToARM(resolved genrun
 	if identity.ClientIdFromConfig != nil {
 		clientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*identity.ClientIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property ClientId")
+			return nil, eris.Wrap(err, "looking up configmap for property ClientId")
 		}
 		clientId := clientIdValue
 		result.ClientId = &clientId
@@ -11819,14 +12002,14 @@ func (identity *WorkspaceConnectionManagedIdentity) ConvertToARM(resolved genrun
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *WorkspaceConnectionManagedIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionManagedIdentity_ARM{}
+	return &arm.WorkspaceConnectionManagedIdentity{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *WorkspaceConnectionManagedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionManagedIdentity_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceConnectionManagedIdentity)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionManagedIdentity_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionManagedIdentity, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -11931,14 +12114,14 @@ var _ genruntime.FromARMConverter = &WorkspaceConnectionManagedIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *WorkspaceConnectionManagedIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionManagedIdentity_STATUS_ARM{}
+	return &arm.WorkspaceConnectionManagedIdentity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *WorkspaceConnectionManagedIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionManagedIdentity_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceConnectionManagedIdentity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionManagedIdentity_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionManagedIdentity_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -12033,7 +12216,7 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 	if auth2 == nil {
 		return nil, nil
 	}
-	result := &WorkspaceConnectionOAuth2_ARM{}
+	result := &arm.WorkspaceConnectionOAuth2{}
 
 	// Set property "AuthUrl":
 	if auth2.AuthUrl != nil {
@@ -12049,7 +12232,7 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 	if auth2.ClientIdFromConfig != nil {
 		clientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*auth2.ClientIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property ClientId")
+			return nil, eris.Wrap(err, "looking up configmap for property ClientId")
 		}
 		clientId := clientIdValue
 		result.ClientId = &clientId
@@ -12059,7 +12242,7 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 	if auth2.ClientSecret != nil {
 		clientSecretSecret, err := resolved.ResolvedSecrets.Lookup(*auth2.ClientSecret)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ClientSecret")
+			return nil, eris.Wrap(err, "looking up secret for property ClientSecret")
 		}
 		clientSecret := clientSecretSecret
 		result.ClientSecret = &clientSecret
@@ -12069,7 +12252,7 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 	if auth2.DeveloperToken != nil {
 		developerTokenSecret, err := resolved.ResolvedSecrets.Lookup(*auth2.DeveloperToken)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property DeveloperToken")
+			return nil, eris.Wrap(err, "looking up secret for property DeveloperToken")
 		}
 		developerToken := developerTokenSecret
 		result.DeveloperToken = &developerToken
@@ -12079,7 +12262,7 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 	if auth2.Password != nil {
 		passwordSecret, err := resolved.ResolvedSecrets.Lookup(*auth2.Password)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Password")
+			return nil, eris.Wrap(err, "looking up secret for property Password")
 		}
 		password := passwordSecret
 		result.Password = &password
@@ -12089,7 +12272,7 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 	if auth2.RefreshToken != nil {
 		refreshTokenSecret, err := resolved.ResolvedSecrets.Lookup(*auth2.RefreshToken)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property RefreshToken")
+			return nil, eris.Wrap(err, "looking up secret for property RefreshToken")
 		}
 		refreshToken := refreshTokenSecret
 		result.RefreshToken = &refreshToken
@@ -12103,7 +12286,7 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 	if auth2.TenantIdFromConfig != nil {
 		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*auth2.TenantIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+			return nil, eris.Wrap(err, "looking up configmap for property TenantId")
 		}
 		tenantId := tenantIdValue
 		result.TenantId = &tenantId
@@ -12119,14 +12302,14 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (auth2 *WorkspaceConnectionOAuth2) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionOAuth2_ARM{}
+	return &arm.WorkspaceConnectionOAuth2{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (auth2 *WorkspaceConnectionOAuth2) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionOAuth2_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceConnectionOAuth2)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionOAuth2_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionOAuth2, got %T", armInput)
 	}
 
 	// Set property "AuthUrl":
@@ -12368,14 +12551,14 @@ var _ genruntime.FromARMConverter = &WorkspaceConnectionOAuth2_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (auth2 *WorkspaceConnectionOAuth2_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionOAuth2_STATUS_ARM{}
+	return &arm.WorkspaceConnectionOAuth2_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (auth2 *WorkspaceConnectionOAuth2_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionOAuth2_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceConnectionOAuth2_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionOAuth2_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionOAuth2_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthUrl":
@@ -12464,13 +12647,13 @@ func (token *WorkspaceConnectionPersonalAccessToken) ConvertToARM(resolved genru
 	if token == nil {
 		return nil, nil
 	}
-	result := &WorkspaceConnectionPersonalAccessToken_ARM{}
+	result := &arm.WorkspaceConnectionPersonalAccessToken{}
 
 	// Set property "Pat":
 	if token.Pat != nil {
 		patSecret, err := resolved.ResolvedSecrets.Lookup(*token.Pat)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Pat")
+			return nil, eris.Wrap(err, "looking up secret for property Pat")
 		}
 		pat := patSecret
 		result.Pat = &pat
@@ -12480,14 +12663,14 @@ func (token *WorkspaceConnectionPersonalAccessToken) ConvertToARM(resolved genru
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (token *WorkspaceConnectionPersonalAccessToken) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionPersonalAccessToken_ARM{}
+	return &arm.WorkspaceConnectionPersonalAccessToken{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (token *WorkspaceConnectionPersonalAccessToken) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(WorkspaceConnectionPersonalAccessToken_ARM)
+	_, ok := armInput.(arm.WorkspaceConnectionPersonalAccessToken)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionPersonalAccessToken_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionPersonalAccessToken, got %T", armInput)
 	}
 
 	// no assignment for property "Pat"
@@ -12549,14 +12732,14 @@ var _ genruntime.FromARMConverter = &WorkspaceConnectionPersonalAccessToken_STAT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (token *WorkspaceConnectionPersonalAccessToken_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionPersonalAccessToken_STATUS_ARM{}
+	return &arm.WorkspaceConnectionPersonalAccessToken_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (token *WorkspaceConnectionPersonalAccessToken_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(WorkspaceConnectionPersonalAccessToken_STATUS_ARM)
+	_, ok := armInput.(arm.WorkspaceConnectionPersonalAccessToken_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionPersonalAccessToken_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionPersonalAccessToken_STATUS, got %T", armInput)
 	}
 
 	// No error
@@ -12601,7 +12784,7 @@ func (principal *WorkspaceConnectionServicePrincipal) ConvertToARM(resolved genr
 	if principal == nil {
 		return nil, nil
 	}
-	result := &WorkspaceConnectionServicePrincipal_ARM{}
+	result := &arm.WorkspaceConnectionServicePrincipal{}
 
 	// Set property "ClientId":
 	if principal.ClientId != nil {
@@ -12611,7 +12794,7 @@ func (principal *WorkspaceConnectionServicePrincipal) ConvertToARM(resolved genr
 	if principal.ClientIdFromConfig != nil {
 		clientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*principal.ClientIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property ClientId")
+			return nil, eris.Wrap(err, "looking up configmap for property ClientId")
 		}
 		clientId := clientIdValue
 		result.ClientId = &clientId
@@ -12621,7 +12804,7 @@ func (principal *WorkspaceConnectionServicePrincipal) ConvertToARM(resolved genr
 	if principal.ClientSecret != nil {
 		clientSecretSecret, err := resolved.ResolvedSecrets.Lookup(*principal.ClientSecret)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ClientSecret")
+			return nil, eris.Wrap(err, "looking up secret for property ClientSecret")
 		}
 		clientSecret := clientSecretSecret
 		result.ClientSecret = &clientSecret
@@ -12635,7 +12818,7 @@ func (principal *WorkspaceConnectionServicePrincipal) ConvertToARM(resolved genr
 	if principal.TenantIdFromConfig != nil {
 		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*principal.TenantIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+			return nil, eris.Wrap(err, "looking up configmap for property TenantId")
 		}
 		tenantId := tenantIdValue
 		result.TenantId = &tenantId
@@ -12645,14 +12828,14 @@ func (principal *WorkspaceConnectionServicePrincipal) ConvertToARM(resolved genr
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (principal *WorkspaceConnectionServicePrincipal) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionServicePrincipal_ARM{}
+	return &arm.WorkspaceConnectionServicePrincipal{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (principal *WorkspaceConnectionServicePrincipal) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionServicePrincipal_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceConnectionServicePrincipal)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionServicePrincipal_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionServicePrincipal, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -12782,14 +12965,14 @@ var _ genruntime.FromARMConverter = &WorkspaceConnectionServicePrincipal_STATUS{
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (principal *WorkspaceConnectionServicePrincipal_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionServicePrincipal_STATUS_ARM{}
+	return &arm.WorkspaceConnectionServicePrincipal_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (principal *WorkspaceConnectionServicePrincipal_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionServicePrincipal_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceConnectionServicePrincipal_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionServicePrincipal_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionServicePrincipal_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -12854,13 +13037,13 @@ func (signature *WorkspaceConnectionSharedAccessSignature) ConvertToARM(resolved
 	if signature == nil {
 		return nil, nil
 	}
-	result := &WorkspaceConnectionSharedAccessSignature_ARM{}
+	result := &arm.WorkspaceConnectionSharedAccessSignature{}
 
 	// Set property "Sas":
 	if signature.Sas != nil {
 		sasSecret, err := resolved.ResolvedSecrets.Lookup(*signature.Sas)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Sas")
+			return nil, eris.Wrap(err, "looking up secret for property Sas")
 		}
 		sas := sasSecret
 		result.Sas = &sas
@@ -12870,14 +13053,14 @@ func (signature *WorkspaceConnectionSharedAccessSignature) ConvertToARM(resolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (signature *WorkspaceConnectionSharedAccessSignature) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionSharedAccessSignature_ARM{}
+	return &arm.WorkspaceConnectionSharedAccessSignature{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (signature *WorkspaceConnectionSharedAccessSignature) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(WorkspaceConnectionSharedAccessSignature_ARM)
+	_, ok := armInput.(arm.WorkspaceConnectionSharedAccessSignature)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionSharedAccessSignature_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionSharedAccessSignature, got %T", armInput)
 	}
 
 	// no assignment for property "Sas"
@@ -12939,14 +13122,14 @@ var _ genruntime.FromARMConverter = &WorkspaceConnectionSharedAccessSignature_ST
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (signature *WorkspaceConnectionSharedAccessSignature_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionSharedAccessSignature_STATUS_ARM{}
+	return &arm.WorkspaceConnectionSharedAccessSignature_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (signature *WorkspaceConnectionSharedAccessSignature_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(WorkspaceConnectionSharedAccessSignature_STATUS_ARM)
+	_, ok := armInput.(arm.WorkspaceConnectionSharedAccessSignature_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionSharedAccessSignature_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionSharedAccessSignature_STATUS, got %T", armInput)
 	}
 
 	// No error
@@ -12991,13 +13174,13 @@ func (password *WorkspaceConnectionUsernamePassword) ConvertToARM(resolved genru
 	if password == nil {
 		return nil, nil
 	}
-	result := &WorkspaceConnectionUsernamePassword_ARM{}
+	result := &arm.WorkspaceConnectionUsernamePassword{}
 
 	// Set property "Password":
 	if password.Password != nil {
 		passwordSecret, err := resolved.ResolvedSecrets.Lookup(*password.Password)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Password")
+			return nil, eris.Wrap(err, "looking up secret for property Password")
 		}
 		password1 := passwordSecret
 		result.Password = &password1
@@ -13007,7 +13190,7 @@ func (password *WorkspaceConnectionUsernamePassword) ConvertToARM(resolved genru
 	if password.SecurityToken != nil {
 		securityTokenSecret, err := resolved.ResolvedSecrets.Lookup(*password.SecurityToken)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property SecurityToken")
+			return nil, eris.Wrap(err, "looking up secret for property SecurityToken")
 		}
 		securityToken := securityTokenSecret
 		result.SecurityToken = &securityToken
@@ -13023,14 +13206,14 @@ func (password *WorkspaceConnectionUsernamePassword) ConvertToARM(resolved genru
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (password *WorkspaceConnectionUsernamePassword) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionUsernamePassword_ARM{}
+	return &arm.WorkspaceConnectionUsernamePassword{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (password *WorkspaceConnectionUsernamePassword) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionUsernamePassword_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceConnectionUsernamePassword)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionUsernamePassword_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionUsernamePassword, got %T", armInput)
 	}
 
 	// no assignment for property "Password"
@@ -13126,14 +13309,14 @@ var _ genruntime.FromARMConverter = &WorkspaceConnectionUsernamePassword_STATUS{
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (password *WorkspaceConnectionUsernamePassword_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnectionUsernamePassword_STATUS_ARM{}
+	return &arm.WorkspaceConnectionUsernamePassword_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (password *WorkspaceConnectionUsernamePassword_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionUsernamePassword_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceConnectionUsernamePassword_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionUsernamePassword_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceConnectionUsernamePassword_STATUS, got %T", armInput)
 	}
 
 	// Set property "Username":

@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/dave/dst"
@@ -159,7 +159,7 @@ func (v *ValidatorBuilder) validateCreate(
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	body, err := v.validateBody(
@@ -170,7 +170,7 @@ func (v *ValidatorBuilder) validateCreate(
 		"ValidateCreate",
 		"")
 	if err != nil {
-		return nil, errors.Wrap(err, "creating validation body")
+		return nil, eris.Wrap(err, "creating validation body")
 	}
 
 	fn := &astbuilder.FuncDetails{
@@ -196,7 +196,7 @@ func (v *ValidatorBuilder) validateUpdate(
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	retType := getValidationFuncType(ValidationKindUpdate, codeGenerationContext)
@@ -209,7 +209,7 @@ func (v *ValidatorBuilder) validateUpdate(
 		"ValidateUpdate",
 		"old")
 	if err != nil {
-		return nil, errors.Wrap(err, "creating validation body")
+		return nil, eris.Wrap(err, "creating validation body")
 	}
 
 	fn := &astbuilder.FuncDetails{
@@ -235,7 +235,7 @@ func (v *ValidatorBuilder) validateDelete(
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	body, err := v.validateBody(
@@ -246,7 +246,7 @@ func (v *ValidatorBuilder) validateDelete(
 		"ValidateDelete",
 		"")
 	if err != nil {
-		return nil, errors.Wrap(err, "creating validation body")
+		return nil, eris.Wrap(err, "creating validation body")
 	}
 
 	fn := &astbuilder.FuncDetails{
@@ -282,7 +282,7 @@ func (v *ValidatorBuilder) validateBody(
 ) ([]dst.Stmt, error) {
 	overrideInterfaceType, err := astmodel.GenRuntimeValidatorInterfaceName.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", astmodel.GenRuntimeValidatorInterfaceName)
+		return nil, eris.Wrapf(err, "creating type expression for %s", astmodel.GenRuntimeValidatorInterfaceName)
 	}
 
 	validationsIdent := "validations"
@@ -375,12 +375,12 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(
 	receiverIdent := v.idFactory.CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	body, err := v.localValidationFuncBody(kind, codeGenerationContext, receiver)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to create local validation function body for %s", methodName)
+		return nil, eris.Wrapf(err, "failed to create local validation function body for %s", methodName)
 	}
 
 	return &astbuilder.FuncDetails{
@@ -432,7 +432,7 @@ func (v *ValidatorBuilder) localValidationFuncBody(
 	}
 
 	if len(errs) > 0 {
-		return nil, errors.Wrap(
+		return nil, eris.Wrap(
 			kerrors.NewAggregate(errs),
 			"failed to create local validation function body")
 	}
@@ -477,7 +477,7 @@ func (v *ValidatorBuilder) makeLocalValidationElement(
 		// doesn't take any parameters, provide a wrapper
 		f, err := validation.asFunc(validation, codeGenerationContext, receiver, validation.name)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to create function for %s", validation.name)
+			return nil, eris.Wrapf(err, "unable to create function for %s", validation.name)
 		}
 
 		if f.Type.Params.NumFields() == 0 {

@@ -6,8 +6,9 @@
 package importresources
 
 import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 // ImportedResource is an interface that wraps a Kubernetes resource that has been imported.
@@ -25,7 +26,4 @@ type ImportedResource interface {
 
 	// Resource returns the actual resource that has been imported.
 	Resource() genruntime.MetaObject
-
-	// Error returns any error that occurred during the import.
-	Error() error
 }

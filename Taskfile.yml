@@ -17,6 +17,8 @@ vars:
   CONTROLLER_OUTPUT:
     sh: 'realpath v2/config'
 
+  MANGLE_ROOT: v2/tools/mangle-test-json
+
   TEST_RESOURCE_PREFIX: asotest
   TEST_LIVE_RESOURCE_PREFIX: asolivetest
   SCRIPTS_ROOT:
@@ -60,8 +62,9 @@ vars:
 
 tasks:
   default:
-    deps:
-      - quick-checks
+    cmds:
+      - task: format-code # Run before quick-checks to avoid racing with generated file creation
+      - task: quick-checks
 
   quick-checks:
     desc: Perform all fast local pre-commit tasks.
@@ -70,8 +73,12 @@ tasks:
       - controller:quick-checks
       - asoctl:quick-checks
       - crossplane:quick-checks
+      - mangle-test:quick-checks
+
+  setup:
+    desc: Perform setup tasks
     cmds:
-      - task: format-code # Run after the deps to avoid racing with generated file creation
+      - "mkdir -p {{.TEST_OUT}}"
 
   ci:
     desc: Run all CI checks.
@@ -95,6 +102,7 @@ tasks:
     desc: Ensure all code is formatted
     dir: v2
     cmds:
+      - golangci-lint run --fix ./... --timeout 5m  # I don't know why fix doesn't use the configured timeout
       - gofumpt -l -w .
 
   build-docs-site:
@@ -145,6 +153,7 @@ tasks:
     desc: Run {{.ASOCTL_APP}} unit tests and output coverage.
     dir: '{{.ASOCTL_ROOT}}'
     deps:
+      - setup
       - controller:generate-crds
     cmds:
       - defer: # want to run even on failure
@@ -152,7 +161,7 @@ tasks:
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/asoctl-unit-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/asoctl-unit-tests.md'
-      - go test ./... -tags=noexit -race -covermode atomic -coverprofile=asoctl-coverage.out -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > '{{.TEST_OUT}}/asoctl-unit-tests.json'
+      - go test ./... -tags=noexit -race -covermode atomic -coverprofile='{{.TEST_OUT}}/asoctl-coverage.out' -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > '{{.TEST_OUT}}/asoctl-unit-tests.json'
 
   asoctl:lint:
     desc: Run {{.ASOCTL_APP}} fast lint checks.
@@ -221,13 +230,15 @@ tasks:
   generator:unit-tests-cover:
     desc: Run {{.GENERATOR_APP}} unit tests and output coverage.
     dir: '{{.GENERATOR_ROOT}}'
+    deps:
+      - setup
     cmds:
       - defer: # want to run even on failure
           task: produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/generator-unit-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/generator-unit-tests.md'
-      - go test ./... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > '{{.TEST_OUT}}/generator-unit-tests.json'
+      - go test ./... -tags=noexit -race -covermode atomic -coverprofile='{{.TEST_OUT}}/generator-coverage.out' -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > '{{.TEST_OUT}}/generator-unit-tests.json'
 
   generator:update-golden-tests:
     desc: Update {{.GENERATOR_APP}} golden test outputs.
@@ -253,6 +264,7 @@ tasks:
       - task: doc:render-diagrams
 
   ############### Controller targets ###############
+
   controller:quick-checks:
     cmds:
       - task: controller:test
@@ -317,6 +329,7 @@ tasks:
     desc: Run {{.CONTROLLER_APP}} unit tests and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
     deps:
+    - setup
     - controller:generate-crds
     - controller:bundle-crds # bundle-crds is here because some tests assert on generated CRD shape
     cmds:
@@ -326,7 +339,7 @@ tasks:
             INPUT_FILE: '{{.TEST_OUT}}/controller-unit-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/controller-unit-tests.md'
       # -race fails at the moment in gopter - possibly due to our shared generator variable?
-      - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile=controller-coverage.out -json -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./... > '{{.TEST_OUT}}/controller-unit-tests.json'
+      - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile='{{.TEST_OUT}}/controller-coverage.out' -json -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./... > '{{.TEST_OUT}}/controller-unit-tests.json'
 
   controller:test-upgrade-setup:
     desc: Setup for upgrade test
@@ -373,16 +386,17 @@ tasks:
         sh: "cat {{.DIR}}/azure/miclientid.txt"
 
   controller:test-upgrade-apply-prerelease-chart:
-    desc: Apply the {{.CONTROLLER_APP}} prelease chart for new release
+    desc: Apply the {{.CONTROLLER_APP}} prerelease chart for new release
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       - task: controller:docker-push-local
       - task: controller:package-helm-manifest
       - task: controller:install-helm-wi
         vars:
-          DIR: "{{.DIR | default .KIND_WORKLOAD_IDENTITY_PATH}}"
           AZURE_MI_CLIENT_ID:
             sh: "cat {{.DIR}}/azure/miclientid.txt"
+    vars:
+      DIR: "{{.DIR  | default .KIND_WORKLOAD_IDENTITY_PATH}}"
 
   controller:test-upgrade-post:
     desc: Test upgrading {{.CONTROLLER_APP}} and helm chart for new release
@@ -390,7 +404,7 @@ tasks:
     cmds:
       - task: controller:test-upgrade-apply-prerelease-chart
       - "go test -timeout 15m -count=1 -v -run Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade ./test/pre-release"
-      - task controller:kind-delete
+      - task: controller:kind-delete
 
   controller:test-upgrade:
     desc: Test upgrading {{.CONTROLLER_APP}} and helm chart for new release
@@ -535,7 +549,8 @@ tasks:
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: 
+    deps:
+      - setup
       - controller:run-kustomize-for-envtest
     cmds:
       - defer: # want to run even on failure
@@ -554,9 +569,9 @@ tasks:
             INPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.md'
       # -race fails at the moment in controller-runtime
-      - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers > '{{.TEST_OUT}}/controller-integration-tests.json'
-      - go test -covermode atomic -coverprofile=coverage-integration-genruntime-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./pkg/genruntime/test > '{{.TEST_OUT}}/controller-integration-genruntime-tests.json'
-      - go test -covermode atomic -coverprofile=coverage-integration-genericarmclient-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/genericarmclient > '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
+      - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-envtest.out' -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers > '{{.TEST_OUT}}/controller-integration-tests.json'
+      - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-genruntime-envtest.out' -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./pkg/genruntime/test > '{{.TEST_OUT}}/controller-integration-genruntime-tests.json'
+      - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-genericarmclient-envtest.out' -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/genericarmclient > '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
@@ -566,7 +581,7 @@ tasks:
       - cleanup-azure-resources
     cmds:
       # -race fails at the moment in controller-runtime
-      - go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers -args -live
+      - go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-envtest-live.out' -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers -args -live
     env:
       RECORD_REPLAY: 0
 
@@ -1094,7 +1109,20 @@ tasks:
     cmds:
       - task: doc:crd-api
 
+  ############### Utility targets ###############
+
+  mangle-test:quick-checks:
+    cmds:
+      - task: mangle-test:lint
+
+  mangle-test:lint:
+    desc: Run mangle-test fast lint checks.
+    dir: '{{.MANGLE_ROOT}}'
+    cmds:
+      - golangci-lint run --verbose --fast=false --timeout 5m ./...  
+
   ############### Crossplane targets ###############
+
   crossplane:quick-checks:
     cmds:
       - task: basic-checks
@@ -1260,7 +1288,7 @@ tasks:
   verify-no-changes:
     desc: Checks that there are no uncommitted modifications to files
     cmds:
-      - cmd: 'if [ -n "{{.CHANGED}}" ]; then echo "Error: files were modified during the build (did you forget to commit generated files?):"; echo "{{.CHANGED}}"; git diff; exit 1; fi'
+      - cmd: 'if [ -n "{{.CHANGED}}" ]; then echo "Error: files were modified during the build (ensure you have commited generated files, and run ''task format-code'' to tidy):"; echo "{{.CHANGED}}"; git diff; exit 1; fi'
         silent: true
     vars:
       CHANGED:

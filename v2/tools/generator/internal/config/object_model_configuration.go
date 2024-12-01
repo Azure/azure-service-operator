@@ -9,7 +9,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"gopkg.in/yaml.v3"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
@@ -44,11 +44,13 @@ type ObjectModelConfiguration struct {
 	RenameTo                 typeAccess[string]
 	ResourceEmbeddedInParent typeAccess[string]
 	OperatorSpecProperties   typeAccess[[]OperatorSpecPropertyConfiguration]
+	StripDocumentation       typeAccess[bool]
 	SupportedFrom            typeAccess[string]
 	TypeNameInNextVersion    typeAccess[string]
 
 	// Property access fields here (alphabetical, please)
 	ARMReference                   propertyAccess[bool]
+	Description                    propertyAccess[string]
 	ImportConfigMapMode            propertyAccess[ImportConfigMapMode]
 	IsSecret                       propertyAccess[bool]
 	PropertyNameInNextVersion      propertyAccess[string]
@@ -99,6 +101,8 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 		result, func(c *TypeConfiguration) *configurable[string] { return &c.RenameTo })
 	result.ResourceEmbeddedInParent = makeTypeAccess[string](
 		result, func(c *TypeConfiguration) *configurable[string] { return &c.ResourceEmbeddedInParent })
+	result.StripDocumentation = makeTypeAccess[bool](
+		result, func(c *TypeConfiguration) *configurable[bool] { return &c.StripDocumentation })
 	result.SupportedFrom = makeTypeAccess[string](
 		result, func(c *TypeConfiguration) *configurable[string] { return &c.SupportedFrom })
 	result.TypeNameInNextVersion = makeTypeAccess[string](
@@ -107,6 +111,8 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	// Initialize property access fields here (alphabetical, please)
 	result.ARMReference = makePropertyAccess[bool](
 		result, func(c *PropertyConfiguration) *configurable[bool] { return &c.ARMReference })
+	result.Description = makePropertyAccess[string](
+		result, func(c *PropertyConfiguration) *configurable[string] { return &c.Description })
 	result.ImportConfigMapMode = makePropertyAccess[ImportConfigMapMode](
 		result, func(c *PropertyConfiguration) *configurable[ImportConfigMapMode] { return &c.ImportConfigMapMode })
 	result.IsSecret = makePropertyAccess[bool](
@@ -218,7 +224,7 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 
 	err := groupVisitor.visit(omc)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to find hand-crafted packages")
+		return nil, eris.Wrapf(err, "failed to find hand-crafted packages")
 	}
 
 	return result, nil
@@ -283,7 +289,7 @@ func (omc *ObjectModelConfiguration) findGroup(ref astmodel.InternalPackageRefer
 // The slice node.Content contains pairs of nodes, first one for an ID, then one for the value.
 func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	if value.Kind != yaml.MappingNode {
-		return errors.New("expected mapping")
+		return eris.New("expected mapping")
 	}
 
 	var lastId string
@@ -299,7 +305,7 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			g := NewGroupConfiguration(lastId)
 			err := c.Decode(&g)
 			if err != nil {
-				return errors.Wrapf(err, "decoding yaml for %q", lastId)
+				return eris.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
 			omc.addGroup(lastId, g)
@@ -307,8 +313,9 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// No handler for this value, return an error
-		return errors.Errorf(
+		return eris.Errorf(
 			"object model configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
+
 	}
 
 	return nil

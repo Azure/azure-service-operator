@@ -78,6 +78,61 @@ func AddRelatedPropertyGeneratorsForActionGroup(gens map[string]gopter.Gen) {
 	gens["Status"] = ActionGroupResource_STATUSGenerator()
 }
 
+func Test_ActionGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ActionGroupOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForActionGroupOperatorSpec, ActionGroupOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForActionGroupOperatorSpec runs a test to see if a specific instance of ActionGroupOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForActionGroupOperatorSpec(subject ActionGroupOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ActionGroupOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ActionGroupOperatorSpec instances for property testing - lazily instantiated by
+// ActionGroupOperatorSpecGenerator()
+var actionGroupOperatorSpecGenerator gopter.Gen
+
+// ActionGroupOperatorSpecGenerator returns a generator of ActionGroupOperatorSpec instances for property testing.
+func ActionGroupOperatorSpecGenerator() gopter.Gen {
+	if actionGroupOperatorSpecGenerator != nil {
+		return actionGroupOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	actionGroupOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ActionGroupOperatorSpec{}), generators)
+
+	return actionGroupOperatorSpecGenerator
+}
+
 func Test_ActionGroupResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -257,6 +312,7 @@ func AddRelatedPropertyGeneratorsForActionGroup_Spec(gens map[string]gopter.Gen)
 	gens["EventHubReceivers"] = gen.SliceOf(EventHubReceiverGenerator())
 	gens["ItsmReceivers"] = gen.SliceOf(ItsmReceiverGenerator())
 	gens["LogicAppReceivers"] = gen.SliceOf(LogicAppReceiverGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ActionGroupOperatorSpecGenerator())
 	gens["SmsReceivers"] = gen.SliceOf(SmsReceiverGenerator())
 	gens["VoiceReceivers"] = gen.SliceOf(VoiceReceiverGenerator())
 	gens["WebhookReceivers"] = gen.SliceOf(WebhookReceiverGenerator())

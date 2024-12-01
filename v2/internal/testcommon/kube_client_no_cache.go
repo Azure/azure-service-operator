@@ -8,7 +8,7 @@ package testcommon
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -131,17 +131,17 @@ func (i *Indexer) doSelectorsMatch(obj client.Object, selectors []fields.Selecto
 		// See https://github.com/kubernetes-sigs/controller-runtime/blob/master/pkg/cache/internal/cache_reader.go#L119
 		field, val, required := requiresExactMatch(sel)
 		if !required {
-			return false, errors.Errorf("non-exact matches are not supported")
+			return false, eris.Errorf("non-exact matches are not supported")
 		}
 
 		idx, ok := i.indexes[gvk]
 		if !ok {
-			return false, errors.Errorf("no index defined for gvk %s", gvk)
+			return false, eris.Errorf("no index defined for gvk %s", gvk)
 		}
 
 		extractValue, ok := idx[field]
 		if !ok {
-			return false, errors.Errorf("no index defined for field %s", field)
+			return false, eris.Errorf("no index defined for field %s", field)
 		}
 
 		values := extractValue(obj)
@@ -184,7 +184,7 @@ func (i *Indexer) noCachingList(ctx context.Context, c client.Client, list clien
 	// Apply selectors manually
 	items, err := reflecthelpers.GetObjectListItems(list)
 	if err != nil {
-		return errors.Wrap(err, "unable to retrieve items from ObjectList")
+		return eris.Wrap(err, "unable to retrieve items from ObjectList")
 	}
 
 	var result []client.Object

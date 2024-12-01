@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type Secret struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_Secret_Spec   `json:"spec,omitempty"`
-	Status            Profiles_Secret_STATUS `json:"status,omitempty"`
+	Spec              Secret_Spec   `json:"spec,omitempty"`
+	Status            Secret_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Secret{}
@@ -42,6 +45,26 @@ func (secret *Secret) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (secret *Secret) SetConditions(conditions conditions.Conditions) {
 	secret.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Secret{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (secret *Secret) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if secret.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return secret.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Secret{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (secret *Secret) SecretDestinationExpressions() []*core.DestinationExpression {
+	if secret.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return secret.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Secret{}
@@ -87,11 +110,15 @@ func (secret *Secret) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (secret *Secret) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Profiles_Secret_STATUS{}
+	return &Secret_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (secret *Secret) Owner() *genruntime.ResourceReference {
+	if secret.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(secret.Spec)
 	return secret.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (secret *Secret) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (secret *Secret) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Profiles_Secret_STATUS); ok {
+	if st, ok := status.(*Secret_STATUS); ok {
 		secret.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Profiles_Secret_STATUS
+	var st Secret_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	secret.Status = st
@@ -138,12 +165,13 @@ type SecretList struct {
 	Items           []Secret `json:"items"`
 }
 
-// Storage version of v1api20230501.Profiles_Secret_Spec
-type Profiles_Secret_Spec struct {
+// Storage version of v1api20230501.Secret_Spec
+type Secret_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string `json:"azureName,omitempty"`
-	OriginalVersion string `json:"originalVersion,omitempty"`
+	AzureName       string              `json:"azureName,omitempty"`
+	OperatorSpec    *SecretOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string              `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -154,28 +182,28 @@ type Profiles_Secret_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Profiles_Secret_Spec{}
+var _ genruntime.ConvertibleSpec = &Secret_Spec{}
 
-// ConvertSpecFrom populates our Profiles_Secret_Spec from the provided source
-func (secret *Profiles_Secret_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our Secret_Spec from the provided source
+func (secret *Secret_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == secret {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(secret)
 }
 
-// ConvertSpecTo populates the provided destination from our Profiles_Secret_Spec
-func (secret *Profiles_Secret_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our Secret_Spec
+func (secret *Secret_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == secret {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(secret)
 }
 
-// Storage version of v1api20230501.Profiles_Secret_STATUS
-type Profiles_Secret_STATUS struct {
+// Storage version of v1api20230501.Secret_STATUS
+type Secret_STATUS struct {
 	Conditions        []conditions.Condition   `json:"conditions,omitempty"`
 	DeploymentStatus  *string                  `json:"deploymentStatus,omitempty"`
 	Id                *string                  `json:"id,omitempty"`
@@ -188,24 +216,32 @@ type Profiles_Secret_STATUS struct {
 	Type              *string                  `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Profiles_Secret_STATUS{}
+var _ genruntime.ConvertibleStatus = &Secret_STATUS{}
 
-// ConvertStatusFrom populates our Profiles_Secret_STATUS from the provided source
-func (secret *Profiles_Secret_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Secret_STATUS from the provided source
+func (secret *Secret_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == secret {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(secret)
 }
 
-// ConvertStatusTo populates the provided destination from our Profiles_Secret_STATUS
-func (secret *Profiles_Secret_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Secret_STATUS
+func (secret *Secret_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == secret {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(secret)
+}
+
+// Storage version of v1api20230501.SecretOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SecretOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230501.SecretParameters

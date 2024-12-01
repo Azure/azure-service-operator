@@ -5,12 +5,15 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -30,8 +33,8 @@ import (
 type ServersAdministrator struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Administrator_Spec   `json:"spec,omitempty"`
-	Status            Servers_Administrator_STATUS `json:"status,omitempty"`
+	Spec              ServersAdministrator_Spec   `json:"spec,omitempty"`
+	Status            ServersAdministrator_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersAdministrator{}
@@ -84,15 +87,35 @@ func (administrator *ServersAdministrator) Default() {
 // defaultImpl applies the code generated defaults to the ServersAdministrator resource
 func (administrator *ServersAdministrator) defaultImpl() {}
 
+var _ configmaps.Exporter = &ServersAdministrator{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (administrator *ServersAdministrator) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return administrator.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersAdministrator{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (administrator *ServersAdministrator) SecretDestinationExpressions() []*core.DestinationExpression {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return administrator.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &ServersAdministrator{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (administrator *ServersAdministrator) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Servers_Administrator_STATUS); ok {
-		return administrator.Spec.Initialize_From_Servers_Administrator_STATUS(s)
+	if s, ok := status.(*ServersAdministrator_STATUS); ok {
+		return administrator.Spec.Initialize_From_ServersAdministrator_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Servers_Administrator_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type ServersAdministrator_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersAdministrator{}
@@ -138,11 +161,15 @@ func (administrator *ServersAdministrator) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (administrator *ServersAdministrator) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_Administrator_STATUS{}
+	return &ServersAdministrator_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (administrator *ServersAdministrator) Owner() *genruntime.ResourceReference {
+	if administrator.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(administrator.Spec)
 	return administrator.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -150,16 +177,16 @@ func (administrator *ServersAdministrator) Owner() *genruntime.ResourceReference
 // SetStatus sets the status of this resource
 func (administrator *ServersAdministrator) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_Administrator_STATUS); ok {
+	if st, ok := status.(*ServersAdministrator_STATUS); ok {
 		administrator.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_Administrator_STATUS
+	var st ServersAdministrator_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	administrator.Status = st
@@ -202,7 +229,7 @@ func (administrator *ServersAdministrator) ValidateUpdate(old runtime.Object) (a
 
 // createValidations validates the creation of the resource
 func (administrator *ServersAdministrator) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){administrator.validateResourceReferences, administrator.validateOwnerReference, administrator.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){administrator.validateResourceReferences, administrator.validateOwnerReference, administrator.validateSecretDestinations, administrator.validateConfigMapDestinations, administrator.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -221,9 +248,23 @@ func (administrator *ServersAdministrator) updateValidations() []func(old runtim
 			return administrator.validateOwnerReference()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
+			return administrator.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return administrator.validateConfigMapDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return administrator.validateOptionalConfigMapReferences()
 		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (administrator *ServersAdministrator) validateConfigMapDestinations() (admission.Warnings, error) {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(administrator, nil, administrator.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
@@ -249,6 +290,14 @@ func (administrator *ServersAdministrator) validateResourceReferences() (admissi
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (administrator *ServersAdministrator) validateSecretDestinations() (admission.Warnings, error) {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(administrator, nil, administrator.Spec.OperatorSpec.SecretExpressions)
+}
+
 // validateWriteOnceProperties validates all WriteOnce properties
 func (administrator *ServersAdministrator) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*ServersAdministrator)
@@ -266,18 +315,18 @@ func (administrator *ServersAdministrator) AssignProperties_From_ServersAdminist
 	administrator.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Servers_Administrator_Spec
-	err := spec.AssignProperties_From_Servers_Administrator_Spec(&source.Spec)
+	var spec ServersAdministrator_Spec
+	err := spec.AssignProperties_From_ServersAdministrator_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_Administrator_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersAdministrator_Spec() to populate field Spec")
 	}
 	administrator.Spec = spec
 
 	// Status
-	var status Servers_Administrator_STATUS
-	err = status.AssignProperties_From_Servers_Administrator_STATUS(&source.Status)
+	var status ServersAdministrator_STATUS
+	err = status.AssignProperties_From_ServersAdministrator_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_Administrator_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ServersAdministrator_STATUS() to populate field Status")
 	}
 	administrator.Status = status
 
@@ -292,18 +341,18 @@ func (administrator *ServersAdministrator) AssignProperties_To_ServersAdministra
 	destination.ObjectMeta = *administrator.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Servers_Administrator_Spec
-	err := administrator.Spec.AssignProperties_To_Servers_Administrator_Spec(&spec)
+	var spec storage.ServersAdministrator_Spec
+	err := administrator.Spec.AssignProperties_To_ServersAdministrator_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_Administrator_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersAdministrator_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Servers_Administrator_STATUS
-	err = administrator.Status.AssignProperties_To_Servers_Administrator_STATUS(&status)
+	var status storage.ServersAdministrator_STATUS
+	err = administrator.Status.AssignProperties_To_ServersAdministrator_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_Administrator_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ServersAdministrator_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -330,7 +379,7 @@ type ServersAdministratorList struct {
 	Items           []ServersAdministrator `json:"items"`
 }
 
-type Servers_Administrator_Spec struct {
+type ServersAdministrator_Spec struct {
 	// +kubebuilder:validation:Required
 	// AdministratorType: Type of the sever administrator.
 	AdministratorType *AdministratorProperties_AdministratorType `json:"administratorType,omitempty"`
@@ -338,6 +387,10 @@ type Servers_Administrator_Spec struct {
 	// +kubebuilder:validation:Required
 	// Login: Login name of the server administrator.
 	Login *string `json:"login,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ServersAdministratorOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -360,14 +413,14 @@ type Servers_Administrator_Spec struct {
 	TenantIdFromConfig *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
-var _ genruntime.ARMTransformer = &Servers_Administrator_Spec{}
+var _ genruntime.ARMTransformer = &ServersAdministrator_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (administrator *Servers_Administrator_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (administrator *ServersAdministrator_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if administrator == nil {
 		return nil, nil
 	}
-	result := &Servers_Administrator_Spec_ARM{}
+	result := &arm.ServersAdministrator_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -379,12 +432,12 @@ func (administrator *Servers_Administrator_Spec) ConvertToARM(resolved genruntim
 		administrator.SidFromConfig != nil ||
 		administrator.TenantId != nil ||
 		administrator.TenantIdFromConfig != nil {
-		result.Properties = &AdministratorProperties_ARM{}
+		result.Properties = &arm.AdministratorProperties{}
 	}
 	if administrator.AdministratorType != nil {
 		var temp string
 		temp = string(*administrator.AdministratorType)
-		administratorType := AdministratorProperties_AdministratorType_ARM(temp)
+		administratorType := arm.AdministratorProperties_AdministratorType(temp)
 		result.Properties.AdministratorType = &administratorType
 	}
 	if administrator.Login != nil {
@@ -398,7 +451,7 @@ func (administrator *Servers_Administrator_Spec) ConvertToARM(resolved genruntim
 	if administrator.SidFromConfig != nil {
 		sidValue, err := resolved.ResolvedConfigMaps.Lookup(*administrator.SidFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property Sid")
+			return nil, eris.Wrap(err, "looking up configmap for property Sid")
 		}
 		sid := sidValue
 		result.Properties.Sid = &sid
@@ -410,7 +463,7 @@ func (administrator *Servers_Administrator_Spec) ConvertToARM(resolved genruntim
 	if administrator.TenantIdFromConfig != nil {
 		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*administrator.TenantIdFromConfig)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+			return nil, eris.Wrap(err, "looking up configmap for property TenantId")
 		}
 		tenantId := tenantIdValue
 		result.Properties.TenantId = &tenantId
@@ -419,15 +472,15 @@ func (administrator *Servers_Administrator_Spec) ConvertToARM(resolved genruntim
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (administrator *Servers_Administrator_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_Administrator_Spec_ARM{}
+func (administrator *ServersAdministrator_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ServersAdministrator_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (administrator *Servers_Administrator_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_Administrator_Spec_ARM)
+func (administrator *ServersAdministrator_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ServersAdministrator_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Administrator_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersAdministrator_Spec, got %T", armInput)
 	}
 
 	// Set property "AdministratorType":
@@ -449,6 +502,8 @@ func (administrator *Servers_Administrator_Spec) PopulateFromARM(owner genruntim
 			administrator.Login = &login
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	administrator.Owner = &genruntime.KnownResourceReference{
@@ -482,58 +537,58 @@ func (administrator *Servers_Administrator_Spec) PopulateFromARM(owner genruntim
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_Administrator_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersAdministrator_Spec{}
 
-// ConvertSpecFrom populates our Servers_Administrator_Spec from the provided source
-func (administrator *Servers_Administrator_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Servers_Administrator_Spec)
+// ConvertSpecFrom populates our ServersAdministrator_Spec from the provided source
+func (administrator *ServersAdministrator_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.ServersAdministrator_Spec)
 	if ok {
 		// Populate our instance from source
-		return administrator.AssignProperties_From_Servers_Administrator_Spec(src)
+		return administrator.AssignProperties_From_ServersAdministrator_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_Administrator_Spec{}
+	src = &storage.ServersAdministrator_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = administrator.AssignProperties_From_Servers_Administrator_Spec(src)
+	err = administrator.AssignProperties_From_ServersAdministrator_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_Administrator_Spec
-func (administrator *Servers_Administrator_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Servers_Administrator_Spec)
+// ConvertSpecTo populates the provided destination from our ServersAdministrator_Spec
+func (administrator *ServersAdministrator_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.ServersAdministrator_Spec)
 	if ok {
 		// Populate destination from our instance
-		return administrator.AssignProperties_To_Servers_Administrator_Spec(dst)
+		return administrator.AssignProperties_To_ServersAdministrator_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_Administrator_Spec{}
-	err := administrator.AssignProperties_To_Servers_Administrator_Spec(dst)
+	dst = &storage.ServersAdministrator_Spec{}
+	err := administrator.AssignProperties_To_ServersAdministrator_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_Servers_Administrator_Spec populates our Servers_Administrator_Spec from the provided source Servers_Administrator_Spec
-func (administrator *Servers_Administrator_Spec) AssignProperties_From_Servers_Administrator_Spec(source *storage.Servers_Administrator_Spec) error {
+// AssignProperties_From_ServersAdministrator_Spec populates our ServersAdministrator_Spec from the provided source ServersAdministrator_Spec
+func (administrator *ServersAdministrator_Spec) AssignProperties_From_ServersAdministrator_Spec(source *storage.ServersAdministrator_Spec) error {
 
 	// AdministratorType
 	if source.AdministratorType != nil {
@@ -546,6 +601,18 @@ func (administrator *Servers_Administrator_Spec) AssignProperties_From_Servers_A
 
 	// Login
 	administrator.Login = genruntime.ClonePointerToString(source.Login)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersAdministratorOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersAdministratorOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ServersAdministratorOperatorSpec() to populate field OperatorSpec")
+		}
+		administrator.OperatorSpec = &operatorSpec
+	} else {
+		administrator.OperatorSpec = nil
+	}
 
 	// Owner
 	if source.Owner != nil {
@@ -591,8 +658,8 @@ func (administrator *Servers_Administrator_Spec) AssignProperties_From_Servers_A
 	return nil
 }
 
-// AssignProperties_To_Servers_Administrator_Spec populates the provided destination Servers_Administrator_Spec from our Servers_Administrator_Spec
-func (administrator *Servers_Administrator_Spec) AssignProperties_To_Servers_Administrator_Spec(destination *storage.Servers_Administrator_Spec) error {
+// AssignProperties_To_ServersAdministrator_Spec populates the provided destination ServersAdministrator_Spec from our ServersAdministrator_Spec
+func (administrator *ServersAdministrator_Spec) AssignProperties_To_ServersAdministrator_Spec(destination *storage.ServersAdministrator_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -606,6 +673,18 @@ func (administrator *Servers_Administrator_Spec) AssignProperties_To_Servers_Adm
 
 	// Login
 	destination.Login = genruntime.ClonePointerToString(administrator.Login)
+
+	// OperatorSpec
+	if administrator.OperatorSpec != nil {
+		var operatorSpec storage.ServersAdministratorOperatorSpec
+		err := administrator.OperatorSpec.AssignProperties_To_ServersAdministratorOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ServersAdministratorOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = administrator.OriginalVersion()
@@ -661,8 +740,8 @@ func (administrator *Servers_Administrator_Spec) AssignProperties_To_Servers_Adm
 	return nil
 }
 
-// Initialize_From_Servers_Administrator_STATUS populates our Servers_Administrator_Spec from the provided source Servers_Administrator_STATUS
-func (administrator *Servers_Administrator_Spec) Initialize_From_Servers_Administrator_STATUS(source *Servers_Administrator_STATUS) error {
+// Initialize_From_ServersAdministrator_STATUS populates our ServersAdministrator_Spec from the provided source ServersAdministrator_STATUS
+func (administrator *ServersAdministrator_Spec) Initialize_From_ServersAdministrator_STATUS(source *ServersAdministrator_STATUS) error {
 
 	// AdministratorType
 	if source.AdministratorType != nil {
@@ -696,11 +775,11 @@ func (administrator *Servers_Administrator_Spec) Initialize_From_Servers_Adminis
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (administrator *Servers_Administrator_Spec) OriginalVersion() string {
+func (administrator *ServersAdministrator_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-type Servers_Administrator_STATUS struct {
+type ServersAdministrator_STATUS struct {
 	// AdministratorType: Type of the sever administrator.
 	AdministratorType *AdministratorProperties_AdministratorType_STATUS `json:"administratorType,omitempty"`
 
@@ -729,68 +808,68 @@ type Servers_Administrator_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_Administrator_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersAdministrator_STATUS{}
 
-// ConvertStatusFrom populates our Servers_Administrator_STATUS from the provided source
-func (administrator *Servers_Administrator_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Servers_Administrator_STATUS)
+// ConvertStatusFrom populates our ServersAdministrator_STATUS from the provided source
+func (administrator *ServersAdministrator_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.ServersAdministrator_STATUS)
 	if ok {
 		// Populate our instance from source
-		return administrator.AssignProperties_From_Servers_Administrator_STATUS(src)
+		return administrator.AssignProperties_From_ServersAdministrator_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_Administrator_STATUS{}
+	src = &storage.ServersAdministrator_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = administrator.AssignProperties_From_Servers_Administrator_STATUS(src)
+	err = administrator.AssignProperties_From_ServersAdministrator_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_Administrator_STATUS
-func (administrator *Servers_Administrator_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Servers_Administrator_STATUS)
+// ConvertStatusTo populates the provided destination from our ServersAdministrator_STATUS
+func (administrator *ServersAdministrator_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.ServersAdministrator_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return administrator.AssignProperties_To_Servers_Administrator_STATUS(dst)
+		return administrator.AssignProperties_To_ServersAdministrator_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_Administrator_STATUS{}
-	err := administrator.AssignProperties_To_Servers_Administrator_STATUS(dst)
+	dst = &storage.ServersAdministrator_STATUS{}
+	err := administrator.AssignProperties_To_ServersAdministrator_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Servers_Administrator_STATUS{}
+var _ genruntime.FromARMConverter = &ServersAdministrator_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (administrator *Servers_Administrator_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_Administrator_STATUS_ARM{}
+func (administrator *ServersAdministrator_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ServersAdministrator_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_Administrator_STATUS_ARM)
+func (administrator *ServersAdministrator_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ServersAdministrator_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Administrator_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersAdministrator_STATUS, got %T", armInput)
 	}
 
 	// Set property "AdministratorType":
@@ -864,8 +943,8 @@ func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignProperties_From_Servers_Administrator_STATUS populates our Servers_Administrator_STATUS from the provided source Servers_Administrator_STATUS
-func (administrator *Servers_Administrator_STATUS) AssignProperties_From_Servers_Administrator_STATUS(source *storage.Servers_Administrator_STATUS) error {
+// AssignProperties_From_ServersAdministrator_STATUS populates our ServersAdministrator_STATUS from the provided source ServersAdministrator_STATUS
+func (administrator *ServersAdministrator_STATUS) AssignProperties_From_ServersAdministrator_STATUS(source *storage.ServersAdministrator_STATUS) error {
 
 	// AdministratorType
 	if source.AdministratorType != nil {
@@ -909,8 +988,8 @@ func (administrator *Servers_Administrator_STATUS) AssignProperties_From_Servers
 	return nil
 }
 
-// AssignProperties_To_Servers_Administrator_STATUS populates the provided destination Servers_Administrator_STATUS from our Servers_Administrator_STATUS
-func (administrator *Servers_Administrator_STATUS) AssignProperties_To_Servers_Administrator_STATUS(destination *storage.Servers_Administrator_STATUS) error {
+// AssignProperties_To_ServersAdministrator_STATUS populates the provided destination ServersAdministrator_STATUS from our ServersAdministrator_STATUS
+func (administrator *ServersAdministrator_STATUS) AssignProperties_To_ServersAdministrator_STATUS(destination *storage.ServersAdministrator_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -979,6 +1058,110 @@ const AdministratorProperties_AdministratorType_STATUS_ActiveDirectory = Adminis
 // Mapping from string to AdministratorProperties_AdministratorType_STATUS
 var administratorProperties_AdministratorType_STATUS_Values = map[string]AdministratorProperties_AdministratorType_STATUS{
 	"activedirectory": AdministratorProperties_AdministratorType_STATUS_ActiveDirectory,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersAdministratorOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersAdministratorOperatorSpec populates our ServersAdministratorOperatorSpec from the provided source ServersAdministratorOperatorSpec
+func (operator *ServersAdministratorOperatorSpec) AssignProperties_From_ServersAdministratorOperatorSpec(source *storage.ServersAdministratorOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersAdministratorOperatorSpec populates the provided destination ServersAdministratorOperatorSpec from our ServersAdministratorOperatorSpec
+func (operator *ServersAdministratorOperatorSpec) AssignProperties_To_ServersAdministratorOperatorSpec(destination *storage.ServersAdministratorOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

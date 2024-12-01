@@ -13,7 +13,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/mod/modfile"
 	"gopkg.in/yaml.v3"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -47,6 +47,8 @@ type Configuration struct {
 	AnyTypePackages []string `yaml:"anyTypePackages"`
 	// Filters used to control which types are created from the JSON schema
 	TypeFilters []*TypeFilter `yaml:"typeFilters"`
+	// Renamers used to resolve naming collisions during loading
+	TypeLoaderRenames []*TypeLoaderRename `yaml:"typeLoaderRenames"`
 	// Transformers used to remap types
 	Transformers []*TypeTransformer `yaml:"typeTransformers"`
 	// RootURL is the root URL for ASOv2 repo, paths are appended to this to generate resource links.
@@ -110,7 +112,7 @@ func (config *Configuration) FullSamplesPath() string {
 func (config *Configuration) GetTypeFiltersError() error {
 	for _, filter := range config.TypeFilters {
 		if err := filter.RequiredTypesWereMatched(); err != nil {
-			return errors.Wrapf(err, "type filter action: %q", filter.Action)
+			return eris.Wrapf(err, "type filter action: %q", filter.Action)
 		}
 	}
 
@@ -120,12 +122,12 @@ func (config *Configuration) GetTypeFiltersError() error {
 func (config *Configuration) GetTransformersError() error {
 	for _, filter := range config.Transformers {
 		if err := filter.RequiredTypesWereMatched(); err != nil {
-			return errors.Wrap(err, "type transformer")
+			return eris.Wrap(err, "type transformer")
 		}
 
 		if filter.Property.IsRestrictive() {
 			if err := filter.RequiredTypesWereMatched(); err != nil {
-				return errors.Wrap(err, "type transformer property")
+				return eris.Wrap(err, "type transformer property")
 			}
 		}
 	}
@@ -164,12 +166,12 @@ func LoadConfiguration(configurationFile string) (*Configuration, error) {
 
 	err = decoder.Decode(result)
 	if err != nil {
-		return nil, errors.Wrapf(err, "configuration file loaded from %q is not valid YAML", configurationFile)
+		return nil, eris.Wrapf(err, "configuration file loaded from %q is not valid YAML", configurationFile)
 	}
 
 	err = result.initialize(configurationFile)
 	if err != nil {
-		return nil, errors.Wrapf(err, "configuration file loaded from %q is invalid", configurationFile)
+		return nil, eris.Wrapf(err, "configuration file loaded from %q is invalid", configurationFile)
 	}
 
 	return result, nil
@@ -189,12 +191,12 @@ const (
 // which need additional setup after json deserialization
 func (config *Configuration) initialize(configPath string) error {
 	if config.SchemaRoot == "" {
-		return errors.New("SchemaRoot missing")
+		return eris.New("SchemaRoot missing")
 	}
 
 	absConfigLocation, err := filepath.Abs(configPath)
 	if err != nil {
-		return errors.Wrapf(err, "unable to find absolute config file location")
+		return eris.Wrapf(err, "unable to find absolute config file location")
 	}
 
 	configDirectory := filepath.Dir(absConfigLocation)
@@ -222,12 +224,12 @@ func (config *Configuration) initialize(configPath string) error {
 		case string(GenerationPipelineCrossplane):
 			config.Pipeline = GenerationPipelineCrossplane
 		default:
-			errs = append(errs, errors.Errorf("unknown pipeline kind %s", config.Pipeline))
+			errs = append(errs, eris.Errorf("unknown pipeline kind %s", config.Pipeline))
 		}
 	}
 
 	if config.DestinationGoModuleFile == "" {
-		errs = append(errs, errors.Errorf("destination Go module must be specified"))
+		errs = append(errs, eris.Errorf("destination Go module must be specified"))
 	}
 
 	// Ensure config.DestinationGoModuleFile is a fully qualified path
@@ -270,7 +272,7 @@ func (config *Configuration) ShouldPrune(typeName astmodel.InternalTypeName) (re
 			case TypeFilterInclude:
 				return Include, f.Because
 			default:
-				panic(errors.Errorf("unknown typefilter directive: %s", f.Action))
+				panic(eris.Errorf("unknown typefilter directive: %s", f.Action))
 			}
 		}
 	}
@@ -304,7 +306,7 @@ func getModulePathFromModFile(modFilePath string) (string, error) {
 
 	modPath := modfile.ModulePath(modFileData)
 	if modPath == "" {
-		return "", errors.Errorf("couldn't find module path in mod file %s", modFilePath)
+		return "", eris.Errorf("couldn't find module path in mod file %s", modFilePath)
 	}
 
 	return modPath, nil

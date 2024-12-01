@@ -74,24 +74,24 @@ func PolicyFragmentGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForPolicyFragment is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPolicyFragment(gens map[string]gopter.Gen) {
-	gens["Spec"] = Service_PolicyFragment_SpecGenerator()
-	gens["Status"] = Service_PolicyFragment_STATUSGenerator()
+	gens["Spec"] = PolicyFragment_SpecGenerator()
+	gens["Status"] = PolicyFragment_STATUSGenerator()
 }
 
-func Test_Service_PolicyFragment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PolicyFragmentOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_PolicyFragment_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_PolicyFragment_STATUS, Service_PolicyFragment_STATUSGenerator()))
+		"Round trip of PolicyFragmentOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPolicyFragmentOperatorSpec, PolicyFragmentOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_PolicyFragment_STATUS runs a test to see if a specific instance of Service_PolicyFragment_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_PolicyFragment_STATUS(subject Service_PolicyFragment_STATUS) string {
+// RunJSONSerializationTestForPolicyFragmentOperatorSpec runs a test to see if a specific instance of PolicyFragmentOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPolicyFragmentOperatorSpec(subject PolicyFragmentOperatorSpec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -99,7 +99,7 @@ func RunJSONSerializationTestForService_PolicyFragment_STATUS(subject Service_Po
 	}
 
 	// Deserialize back into memory
-	var actual Service_PolicyFragment_STATUS
+	var actual PolicyFragmentOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -117,25 +117,80 @@ func RunJSONSerializationTestForService_PolicyFragment_STATUS(subject Service_Po
 	return ""
 }
 
-// Generator of Service_PolicyFragment_STATUS instances for property testing - lazily instantiated by
-// Service_PolicyFragment_STATUSGenerator()
-var service_PolicyFragment_STATUSGenerator gopter.Gen
+// Generator of PolicyFragmentOperatorSpec instances for property testing - lazily instantiated by
+// PolicyFragmentOperatorSpecGenerator()
+var policyFragmentOperatorSpecGenerator gopter.Gen
 
-// Service_PolicyFragment_STATUSGenerator returns a generator of Service_PolicyFragment_STATUS instances for property testing.
-func Service_PolicyFragment_STATUSGenerator() gopter.Gen {
-	if service_PolicyFragment_STATUSGenerator != nil {
-		return service_PolicyFragment_STATUSGenerator
+// PolicyFragmentOperatorSpecGenerator returns a generator of PolicyFragmentOperatorSpec instances for property testing.
+func PolicyFragmentOperatorSpecGenerator() gopter.Gen {
+	if policyFragmentOperatorSpecGenerator != nil {
+		return policyFragmentOperatorSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_PolicyFragment_STATUS(generators)
-	service_PolicyFragment_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_PolicyFragment_STATUS{}), generators)
+	policyFragmentOperatorSpecGenerator = gen.Struct(reflect.TypeOf(PolicyFragmentOperatorSpec{}), generators)
 
-	return service_PolicyFragment_STATUSGenerator
+	return policyFragmentOperatorSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_PolicyFragment_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_PolicyFragment_STATUS(gens map[string]gopter.Gen) {
+func Test_PolicyFragment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PolicyFragment_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPolicyFragment_STATUS, PolicyFragment_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPolicyFragment_STATUS runs a test to see if a specific instance of PolicyFragment_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForPolicyFragment_STATUS(subject PolicyFragment_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PolicyFragment_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PolicyFragment_STATUS instances for property testing - lazily instantiated by
+// PolicyFragment_STATUSGenerator()
+var policyFragment_STATUSGenerator gopter.Gen
+
+// PolicyFragment_STATUSGenerator returns a generator of PolicyFragment_STATUS instances for property testing.
+func PolicyFragment_STATUSGenerator() gopter.Gen {
+	if policyFragment_STATUSGenerator != nil {
+		return policyFragment_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPolicyFragment_STATUS(generators)
+	policyFragment_STATUSGenerator = gen.Struct(reflect.TypeOf(PolicyFragment_STATUS{}), generators)
+
+	return policyFragment_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPolicyFragment_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPolicyFragment_STATUS(gens map[string]gopter.Gen) {
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Format"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -144,20 +199,20 @@ func AddIndependentPropertyGeneratorsForService_PolicyFragment_STATUS(gens map[s
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Service_PolicyFragment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PolicyFragment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_PolicyFragment_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_PolicyFragment_Spec, Service_PolicyFragment_SpecGenerator()))
+		"Round trip of PolicyFragment_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPolicyFragment_Spec, PolicyFragment_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_PolicyFragment_Spec runs a test to see if a specific instance of Service_PolicyFragment_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_PolicyFragment_Spec(subject Service_PolicyFragment_Spec) string {
+// RunJSONSerializationTestForPolicyFragment_Spec runs a test to see if a specific instance of PolicyFragment_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPolicyFragment_Spec(subject PolicyFragment_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -165,7 +220,7 @@ func RunJSONSerializationTestForService_PolicyFragment_Spec(subject Service_Poli
 	}
 
 	// Deserialize back into memory
-	var actual Service_PolicyFragment_Spec
+	var actual PolicyFragment_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -183,28 +238,42 @@ func RunJSONSerializationTestForService_PolicyFragment_Spec(subject Service_Poli
 	return ""
 }
 
-// Generator of Service_PolicyFragment_Spec instances for property testing - lazily instantiated by
-// Service_PolicyFragment_SpecGenerator()
-var service_PolicyFragment_SpecGenerator gopter.Gen
+// Generator of PolicyFragment_Spec instances for property testing - lazily instantiated by
+// PolicyFragment_SpecGenerator()
+var policyFragment_SpecGenerator gopter.Gen
 
-// Service_PolicyFragment_SpecGenerator returns a generator of Service_PolicyFragment_Spec instances for property testing.
-func Service_PolicyFragment_SpecGenerator() gopter.Gen {
-	if service_PolicyFragment_SpecGenerator != nil {
-		return service_PolicyFragment_SpecGenerator
+// PolicyFragment_SpecGenerator returns a generator of PolicyFragment_Spec instances for property testing.
+// We first initialize policyFragment_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func PolicyFragment_SpecGenerator() gopter.Gen {
+	if policyFragment_SpecGenerator != nil {
+		return policyFragment_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_PolicyFragment_Spec(generators)
-	service_PolicyFragment_SpecGenerator = gen.Struct(reflect.TypeOf(Service_PolicyFragment_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForPolicyFragment_Spec(generators)
+	policyFragment_SpecGenerator = gen.Struct(reflect.TypeOf(PolicyFragment_Spec{}), generators)
 
-	return service_PolicyFragment_SpecGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPolicyFragment_Spec(generators)
+	AddRelatedPropertyGeneratorsForPolicyFragment_Spec(generators)
+	policyFragment_SpecGenerator = gen.Struct(reflect.TypeOf(PolicyFragment_Spec{}), generators)
+
+	return policyFragment_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_PolicyFragment_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_PolicyFragment_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPolicyFragment_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPolicyFragment_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Format"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForPolicyFragment_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPolicyFragment_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(PolicyFragmentOperatorSpecGenerator())
 }

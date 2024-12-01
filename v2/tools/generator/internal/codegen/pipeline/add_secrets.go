@@ -7,9 +7,11 @@ package pipeline
 
 import (
 	"context"
+	"regexp"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -26,17 +28,17 @@ func AddSecrets(config *config.Configuration) *Stage {
 		func(ctx context.Context, state *State) (*State, error) {
 			types, err := applyConfigSecretOverrides(config, state.Definitions())
 			if err != nil {
-				return nil, errors.Wrap(err, "applying config secret overrides")
+				return nil, eris.Wrap(err, "applying config secret overrides")
 			}
 
 			updatedSpecs, err := transformSpecSecrets(types)
 			if err != nil {
-				return nil, errors.Wrap(err, "transforming spec secrets")
+				return nil, eris.Wrap(err, "transforming spec secrets")
 			}
 
 			updatedStatuses, err := removeStatusSecrets(types)
 			if err != nil {
-				return nil, errors.Wrap(err, "removing status secrets")
+				return nil, eris.Wrap(err, "removing status secrets")
 			}
 
 			return state.WithOverlaidDefinitions(astmodel.TypesDisjointUnion(updatedSpecs, updatedStatuses)), nil
@@ -68,11 +70,13 @@ func applyConfigSecretOverrides(
 				isSecret, isSecretConfigured = config.ObjectModelConfiguration.IsSecret.Lookup(strippedTypeName, prop.PropertyName())
 			}
 
-			if maybeSecret && !prop.IsSecret() && !isSecretConfigured {
+			// If it's not a secret, but it looks like a secret, and we don't have any configuration to tell us for
+			// sure, request configuration so we know for sure.
+			if !prop.IsSecret() && maybeSecret && !isSecretConfigured {
 				// Property might be a secret, but isn't already configured as one,
 				// and we don't have config to tell us for sure
-				return nil, errors.Errorf(
-					"property %q might be a secret and must to be configured with $isSecret",
+				return nil, eris.Errorf(
+					"property %s might be a secret and must be configured with $isSecret",
 					prop.PropertyName())
 			}
 
@@ -89,6 +93,7 @@ func applyConfigSecretOverrides(
 		VisitObjectType: applyConfigSecrets,
 	}.Build()
 
+	var errs []error
 	for _, def := range definitions {
 		if def.Name().IsARMType() {
 			// No need to process ARM types
@@ -97,16 +102,23 @@ func applyConfigSecretOverrides(
 
 		updatedDef, err := visitor.VisitDefinition(def, def.Name())
 		if err != nil {
-			return nil, errors.Wrapf(err, "visiting type %q", def.Name())
+			errs = append(errs, eris.Wrapf(err, "visiting type %q", def.Name()))
+			continue
 		}
 
 		result.Add(updatedDef)
 	}
 
+	if len(errs) > 0 {
+		return nil, eris.Wrap(
+			kerrors.NewAggregate(errs),
+			"encountered errors while applying config secrets")
+	}
+
 	// Verify that all 'isSecret' modifiers are consumed before returning the result
 	err := config.ObjectModelConfiguration.IsSecret.VerifyConsumed()
 	if err != nil {
-		return nil, errors.Wrap(
+		return nil, eris.Wrap(
 			err,
 			"Found unused $isSecret configurations; these need to be fixed or removed.")
 	}
@@ -139,21 +151,55 @@ func mightBeSecretProperty(
 		return false
 	}
 
-	// If the property name contains any of the secret words, it might be a secret
-	n := strings.ToLower(string(prop.PropertyName()))
-	for _, secretWord := range secretWords {
-		if strings.Contains(n, secretWord) {
-			return true
+	// If the property name matches a detector, that tells us
+	// whether to expect it's a secret or not
+	propertyName := string(prop.PropertyName())
+	for _, detector := range secretDetectors {
+		if detector.regex.MatchString(propertyName) {
+			return detector.isSecret
 		}
 	}
 
 	return false
 }
 
-// A list of secret words to scan for.
-// Lowercase only, please.
-var secretWords = []string{
-	"password",
+// Rules for detecting potentially secret properties.
+// These are processed in order, with the first matching rule being used.
+var secretDetectors = []struct {
+	regex    regexp.Regexp // Regular expression to match
+	isSecret bool          // Whether to treat the property as a secret
+}{
+	{
+		// Look for the word `password` in any position
+		regex:    *regexp.MustCompile(`(?i)password`),
+		isSecret: true,
+	},
+	{
+		// Look for the word `token` in any position
+		regex:    *regexp.MustCompile(`(?i)token`),
+		isSecret: true,
+	},
+	{
+		// a PublicKey is not a secret
+		regex:    *regexp.MustCompile(`(?i)publickey`),
+		isSecret: false,
+	},
+	{
+		// KeyData is always a secret
+		regex:    *regexp.MustCompile(`(?i)keydata`),
+		isSecret: true,
+	},
+	{
+		// URLs and URIs are not secrets
+		regex:    *regexp.MustCompile(`(?i)url|uri`),
+		isSecret: false,
+	},
+	{
+		// IDs, Identifiers, and Names are not secrets, they're used to look them up
+		// (must match at the end)
+		regex:    *regexp.MustCompile(`(?i)(id|identifier|Identity|name)$`),
+		isSecret: false,
+	},
 }
 
 func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -163,7 +209,7 @@ func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.Type
 
 	specTypes, err := astmodel.FindSpecConnectedDefinitions(definitions)
 	if err != nil {
-		return nil, errors.Wrap(err, "couldn't find all spec definitions")
+		return nil, eris.Wrap(err, "couldn't find all spec definitions")
 	}
 
 	result := make(astmodel.TypeDefinitionSet)
@@ -171,7 +217,7 @@ func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.Type
 	for _, def := range specTypes {
 		updatedDef, err := specVisitor.VisitDefinition(def, nil)
 		if err != nil {
-			return nil, errors.Wrapf(err, "visiting type %q", def.Name())
+			return nil, eris.Wrapf(err, "visiting type %q", def.Name())
 		}
 
 		result.Add(updatedDef)
@@ -187,7 +233,7 @@ func removeStatusSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeD
 
 	statusTypes, err := astmodel.FindStatusConnectedDefinitions(definitions)
 	if err != nil {
-		return nil, errors.Wrap(err, "couldn't find all status definitions")
+		return nil, eris.Wrap(err, "couldn't find all status definitions")
 	}
 
 	result := make(astmodel.TypeDefinitionSet)
@@ -195,7 +241,7 @@ func removeStatusSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeD
 	for _, def := range statusTypes {
 		updatedDef, err := specVisitor.VisitDefinition(def, nil)
 		if err != nil {
-			return nil, errors.Wrapf(err, "visiting type %q", def.Name())
+			return nil, eris.Wrapf(err, "visiting type %q", def.Name())
 		}
 
 		result.Add(updatedDef)
@@ -237,7 +283,7 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 			}
 
 			if !isTypeSecretReferenceCandidate(propType) {
-				return nil, errors.Errorf("expected property %q to be a string, optional string, map[string]string, or []string, but was: %q", prop.PropertyName(), astmodel.DebugDescription(propType))
+				return nil, eris.Errorf("expected property %q to be a string, optional string, map[string]string, or []string, but was: %q", prop.PropertyName(), astmodel.DebugDescription(propType))
 			}
 
 			it = it.WithoutProperty(prop.PropertyName())
@@ -253,7 +299,7 @@ func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.Object
 			propType := prop.PropertyType()
 
 			if !isTypeSecretReferenceCandidate(propType) {
-				return nil, errors.Errorf("expected property %q to be a string, optional string, map[string]string, or []string, but was: %T", prop.PropertyName(), astmodel.DebugDescription(propType))
+				return nil, eris.Errorf("expected property %q to be a string, optional string, map[string]string, or []string, but was: %T", prop.PropertyName(), astmodel.DebugDescription(propType))
 			}
 
 			var newType astmodel.Type

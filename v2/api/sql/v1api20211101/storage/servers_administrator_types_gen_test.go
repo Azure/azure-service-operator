@@ -75,24 +75,24 @@ func ServersAdministratorGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForServersAdministrator is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServersAdministrator(gens map[string]gopter.Gen) {
-	gens["Spec"] = Servers_Administrator_SpecGenerator()
-	gens["Status"] = Servers_Administrator_STATUSGenerator()
+	gens["Spec"] = ServersAdministrator_SpecGenerator()
+	gens["Status"] = ServersAdministrator_STATUSGenerator()
 }
 
-func Test_Servers_Administrator_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersAdministratorOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_Administrator_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_Administrator_STATUS, Servers_Administrator_STATUSGenerator()))
+		"Round trip of ServersAdministratorOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersAdministratorOperatorSpec, ServersAdministratorOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_Administrator_STATUS runs a test to see if a specific instance of Servers_Administrator_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_Administrator_STATUS(subject Servers_Administrator_STATUS) string {
+// RunJSONSerializationTestForServersAdministratorOperatorSpec runs a test to see if a specific instance of ServersAdministratorOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersAdministratorOperatorSpec(subject ServersAdministratorOperatorSpec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -100,7 +100,7 @@ func RunJSONSerializationTestForServers_Administrator_STATUS(subject Servers_Adm
 	}
 
 	// Deserialize back into memory
-	var actual Servers_Administrator_STATUS
+	var actual ServersAdministratorOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -118,25 +118,80 @@ func RunJSONSerializationTestForServers_Administrator_STATUS(subject Servers_Adm
 	return ""
 }
 
-// Generator of Servers_Administrator_STATUS instances for property testing - lazily instantiated by
-// Servers_Administrator_STATUSGenerator()
-var servers_Administrator_STATUSGenerator gopter.Gen
+// Generator of ServersAdministratorOperatorSpec instances for property testing - lazily instantiated by
+// ServersAdministratorOperatorSpecGenerator()
+var serversAdministratorOperatorSpecGenerator gopter.Gen
 
-// Servers_Administrator_STATUSGenerator returns a generator of Servers_Administrator_STATUS instances for property testing.
-func Servers_Administrator_STATUSGenerator() gopter.Gen {
-	if servers_Administrator_STATUSGenerator != nil {
-		return servers_Administrator_STATUSGenerator
+// ServersAdministratorOperatorSpecGenerator returns a generator of ServersAdministratorOperatorSpec instances for property testing.
+func ServersAdministratorOperatorSpecGenerator() gopter.Gen {
+	if serversAdministratorOperatorSpecGenerator != nil {
+		return serversAdministratorOperatorSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_Administrator_STATUS(generators)
-	servers_Administrator_STATUSGenerator = gen.Struct(reflect.TypeOf(Servers_Administrator_STATUS{}), generators)
+	serversAdministratorOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServersAdministratorOperatorSpec{}), generators)
 
-	return servers_Administrator_STATUSGenerator
+	return serversAdministratorOperatorSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_Administrator_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_Administrator_STATUS(gens map[string]gopter.Gen) {
+func Test_ServersAdministrator_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServersAdministrator_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersAdministrator_STATUS, ServersAdministrator_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServersAdministrator_STATUS runs a test to see if a specific instance of ServersAdministrator_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersAdministrator_STATUS(subject ServersAdministrator_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServersAdministrator_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServersAdministrator_STATUS instances for property testing - lazily instantiated by
+// ServersAdministrator_STATUSGenerator()
+var serversAdministrator_STATUSGenerator gopter.Gen
+
+// ServersAdministrator_STATUSGenerator returns a generator of ServersAdministrator_STATUS instances for property testing.
+func ServersAdministrator_STATUSGenerator() gopter.Gen {
+	if serversAdministrator_STATUSGenerator != nil {
+		return serversAdministrator_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServersAdministrator_STATUS(generators)
+	serversAdministrator_STATUSGenerator = gen.Struct(reflect.TypeOf(ServersAdministrator_STATUS{}), generators)
+
+	return serversAdministrator_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServersAdministrator_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersAdministrator_STATUS(gens map[string]gopter.Gen) {
 	gens["AdministratorType"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureADOnlyAuthentication"] = gen.PtrOf(gen.Bool())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -147,20 +202,20 @@ func AddIndependentPropertyGeneratorsForServers_Administrator_STATUS(gens map[st
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Servers_Administrator_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersAdministrator_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_Administrator_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_Administrator_Spec, Servers_Administrator_SpecGenerator()))
+		"Round trip of ServersAdministrator_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersAdministrator_Spec, ServersAdministrator_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_Administrator_Spec runs a test to see if a specific instance of Servers_Administrator_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_Administrator_Spec(subject Servers_Administrator_Spec) string {
+// RunJSONSerializationTestForServersAdministrator_Spec runs a test to see if a specific instance of ServersAdministrator_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersAdministrator_Spec(subject ServersAdministrator_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -168,7 +223,7 @@ func RunJSONSerializationTestForServers_Administrator_Spec(subject Servers_Admin
 	}
 
 	// Deserialize back into memory
-	var actual Servers_Administrator_Spec
+	var actual ServersAdministrator_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -186,28 +241,42 @@ func RunJSONSerializationTestForServers_Administrator_Spec(subject Servers_Admin
 	return ""
 }
 
-// Generator of Servers_Administrator_Spec instances for property testing - lazily instantiated by
-// Servers_Administrator_SpecGenerator()
-var servers_Administrator_SpecGenerator gopter.Gen
+// Generator of ServersAdministrator_Spec instances for property testing - lazily instantiated by
+// ServersAdministrator_SpecGenerator()
+var serversAdministrator_SpecGenerator gopter.Gen
 
-// Servers_Administrator_SpecGenerator returns a generator of Servers_Administrator_Spec instances for property testing.
-func Servers_Administrator_SpecGenerator() gopter.Gen {
-	if servers_Administrator_SpecGenerator != nil {
-		return servers_Administrator_SpecGenerator
+// ServersAdministrator_SpecGenerator returns a generator of ServersAdministrator_Spec instances for property testing.
+// We first initialize serversAdministrator_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServersAdministrator_SpecGenerator() gopter.Gen {
+	if serversAdministrator_SpecGenerator != nil {
+		return serversAdministrator_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_Administrator_Spec(generators)
-	servers_Administrator_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_Administrator_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForServersAdministrator_Spec(generators)
+	serversAdministrator_SpecGenerator = gen.Struct(reflect.TypeOf(ServersAdministrator_Spec{}), generators)
 
-	return servers_Administrator_SpecGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServersAdministrator_Spec(generators)
+	AddRelatedPropertyGeneratorsForServersAdministrator_Spec(generators)
+	serversAdministrator_SpecGenerator = gen.Struct(reflect.TypeOf(ServersAdministrator_Spec{}), generators)
+
+	return serversAdministrator_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_Administrator_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_Administrator_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServersAdministrator_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersAdministrator_Spec(gens map[string]gopter.Gen) {
 	gens["AdministratorType"] = gen.PtrOf(gen.AlphaString())
 	gens["Login"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Sid"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForServersAdministrator_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServersAdministrator_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(ServersAdministratorOperatorSpecGenerator())
 }

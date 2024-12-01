@@ -9,8 +9,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -49,10 +51,30 @@ func (topic *Topic) SetConditions(conditions conditions.Conditions) {
 	topic.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesExporter = &Topic{}
+var _ configmaps.Exporter = &Topic{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (topic *Topic) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (topic *Topic) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if topic.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return topic.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Topic{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (topic *Topic) SecretDestinationExpressions() []*core.DestinationExpression {
+	if topic.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return topic.Spec.OperatorSpec.SecretExpressions
+}
+
+var _ genruntime.KubernetesConfigExporter = &Topic{}
+
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (topic *Topic) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(topic.Namespace)
 	if topic.Spec.OperatorSpec != nil && topic.Spec.OperatorSpec.ConfigMaps != nil {
 		if topic.Status.Endpoint != nil {
@@ -114,6 +136,10 @@ func (topic *Topic) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (topic *Topic) Owner() *genruntime.ResourceReference {
+	if topic.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(topic.Spec)
 	return topic.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -130,7 +156,7 @@ func (topic *Topic) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Topic_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	topic.Status = st
@@ -187,7 +213,7 @@ var _ genruntime.ConvertibleSpec = &Topic_Spec{}
 // ConvertSpecFrom populates our Topic_Spec from the provided source
 func (topic *Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(topic)
@@ -196,7 +222,7 @@ func (topic *Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 // ConvertSpecTo populates the provided destination from our Topic_Spec
 func (topic *Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(topic)
@@ -228,7 +254,7 @@ var _ genruntime.ConvertibleStatus = &Topic_STATUS{}
 // ConvertStatusFrom populates our Topic_STATUS from the provided source
 func (topic *Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(topic)
@@ -237,7 +263,7 @@ func (topic *Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 // ConvertStatusTo populates the provided destination from our Topic_STATUS
 func (topic *Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(topic)
@@ -252,9 +278,11 @@ type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded struct {
 // Storage version of v1api20200601.TopicOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type TopicOperatorSpec struct {
-	ConfigMaps  *TopicOperatorConfigMaps `json:"configMaps,omitempty"`
-	PropertyBag genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
-	Secrets     *TopicOperatorSecrets    `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	ConfigMaps           *TopicOperatorConfigMaps      `json:"configMaps,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	Secrets              *TopicOperatorSecrets         `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20200601.TopicOperatorConfigMaps

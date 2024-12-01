@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type ProductPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_Products_Policy_Spec   `json:"spec,omitempty"`
-	Status            Service_Products_Policy_STATUS `json:"status,omitempty"`
+	Spec              ProductPolicy_Spec   `json:"spec,omitempty"`
+	Status            ProductPolicy_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ProductPolicy{}
@@ -42,6 +45,26 @@ func (policy *ProductPolicy) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (policy *ProductPolicy) SetConditions(conditions conditions.Conditions) {
 	policy.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ProductPolicy{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (policy *ProductPolicy) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ProductPolicy{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (policy *ProductPolicy) SecretDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ProductPolicy{}
@@ -88,11 +111,15 @@ func (policy *ProductPolicy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *ProductPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_Products_Policy_STATUS{}
+	return &ProductPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (policy *ProductPolicy) Owner() *genruntime.ResourceReference {
+	if policy.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
 	return policy.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -100,16 +127,16 @@ func (policy *ProductPolicy) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (policy *ProductPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_Products_Policy_STATUS); ok {
+	if st, ok := status.(*ProductPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_Products_Policy_STATUS
+	var st ProductPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	policy.Status = st
@@ -139,10 +166,11 @@ type ProductPolicyList struct {
 	Items           []ProductPolicy `json:"items"`
 }
 
-// Storage version of v1api20220801.Service_Products_Policy_Spec
-type Service_Products_Policy_Spec struct {
-	Format          *string `json:"format,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+// Storage version of v1api20220801.ProductPolicy_Spec
+type ProductPolicy_Spec struct {
+	Format          *string                    `json:"format,omitempty"`
+	OperatorSpec    *ProductPolicyOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                     `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -153,28 +181,28 @@ type Service_Products_Policy_Spec struct {
 	Value       *string                            `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Service_Products_Policy_Spec{}
+var _ genruntime.ConvertibleSpec = &ProductPolicy_Spec{}
 
-// ConvertSpecFrom populates our Service_Products_Policy_Spec from the provided source
-func (policy *Service_Products_Policy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our ProductPolicy_Spec from the provided source
+func (policy *ProductPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(policy)
 }
 
-// ConvertSpecTo populates the provided destination from our Service_Products_Policy_Spec
-func (policy *Service_Products_Policy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our ProductPolicy_Spec
+func (policy *ProductPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(policy)
 }
 
-// Storage version of v1api20220801.Service_Products_Policy_STATUS
-type Service_Products_Policy_STATUS struct {
+// Storage version of v1api20220801.ProductPolicy_STATUS
+type ProductPolicy_STATUS struct {
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Format      *string                `json:"format,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -184,24 +212,32 @@ type Service_Products_Policy_STATUS struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_Products_Policy_STATUS{}
+var _ genruntime.ConvertibleStatus = &ProductPolicy_STATUS{}
 
-// ConvertStatusFrom populates our Service_Products_Policy_STATUS from the provided source
-func (policy *Service_Products_Policy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ProductPolicy_STATUS from the provided source
+func (policy *ProductPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(policy)
 }
 
-// ConvertStatusTo populates the provided destination from our Service_Products_Policy_STATUS
-func (policy *Service_Products_Policy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ProductPolicy_STATUS
+func (policy *ProductPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(policy)
+}
+
+// Storage version of v1api20220801.ProductPolicyOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ProductPolicyOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

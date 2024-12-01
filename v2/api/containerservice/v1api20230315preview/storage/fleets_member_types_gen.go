@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type FleetsMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Fleets_Member_Spec   `json:"spec,omitempty"`
-	Status            Fleets_Member_STATUS `json:"status,omitempty"`
+	Spec              FleetsMember_Spec   `json:"spec,omitempty"`
+	Status            FleetsMember_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FleetsMember{}
@@ -42,6 +45,26 @@ func (member *FleetsMember) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (member *FleetsMember) SetConditions(conditions conditions.Conditions) {
 	member.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &FleetsMember{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (member *FleetsMember) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if member.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return member.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FleetsMember{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (member *FleetsMember) SecretDestinationExpressions() []*core.DestinationExpression {
+	if member.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return member.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &FleetsMember{}
@@ -87,11 +110,15 @@ func (member *FleetsMember) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (member *FleetsMember) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Fleets_Member_STATUS{}
+	return &FleetsMember_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (member *FleetsMember) Owner() *genruntime.ResourceReference {
+	if member.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(member.Spec)
 	return member.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (member *FleetsMember) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (member *FleetsMember) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Fleets_Member_STATUS); ok {
+	if st, ok := status.(*FleetsMember_STATUS); ok {
 		member.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Fleets_Member_STATUS
+	var st FleetsMember_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	member.Status = st
@@ -138,8 +165,8 @@ type FleetsMemberList struct {
 	Items           []FleetsMember `json:"items"`
 }
 
-// Storage version of v1api20230315preview.Fleets_Member_Spec
-type Fleets_Member_Spec struct {
+// Storage version of v1api20230315preview.FleetsMember_Spec
+type FleetsMember_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -150,6 +177,7 @@ type Fleets_Member_Spec struct {
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{clusterName}'.
 	ClusterResourceReference *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
 	Group                    *string                       `json:"group,omitempty"`
+	OperatorSpec             *FleetsMemberOperatorSpec     `json:"operatorSpec,omitempty"`
 	OriginalVersion          string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -160,28 +188,28 @@ type Fleets_Member_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Fleets_Member_Spec{}
+var _ genruntime.ConvertibleSpec = &FleetsMember_Spec{}
 
-// ConvertSpecFrom populates our Fleets_Member_Spec from the provided source
-func (member *Fleets_Member_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our FleetsMember_Spec from the provided source
+func (member *FleetsMember_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == member {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(member)
 }
 
-// ConvertSpecTo populates the provided destination from our Fleets_Member_Spec
-func (member *Fleets_Member_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our FleetsMember_Spec
+func (member *FleetsMember_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == member {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(member)
 }
 
-// Storage version of v1api20230315preview.Fleets_Member_STATUS
-type Fleets_Member_STATUS struct {
+// Storage version of v1api20230315preview.FleetsMember_STATUS
+type FleetsMember_STATUS struct {
 	ClusterResourceId *string                `json:"clusterResourceId,omitempty"`
 	Conditions        []conditions.Condition `json:"conditions,omitempty"`
 	ETag              *string                `json:"eTag,omitempty"`
@@ -194,24 +222,32 @@ type Fleets_Member_STATUS struct {
 	Type              *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Fleets_Member_STATUS{}
+var _ genruntime.ConvertibleStatus = &FleetsMember_STATUS{}
 
-// ConvertStatusFrom populates our Fleets_Member_STATUS from the provided source
-func (member *Fleets_Member_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our FleetsMember_STATUS from the provided source
+func (member *FleetsMember_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == member {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(member)
 }
 
-// ConvertStatusTo populates the provided destination from our Fleets_Member_STATUS
-func (member *Fleets_Member_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our FleetsMember_STATUS
+func (member *FleetsMember_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == member {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(member)
+}
+
+// Storage version of v1api20230315preview.FleetsMemberOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FleetsMemberOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

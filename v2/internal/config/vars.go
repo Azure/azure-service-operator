@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 )
@@ -119,7 +119,7 @@ func ParseRateLimitMode(s string) (RateLimitMode, error) {
 	case string(RateLimitModeBucket):
 		return RateLimitModeBucket, nil
 	default:
-		return "", errors.Errorf("invalid rate limit mode %q", s)
+		return "", eris.Errorf("invalid rate limit mode %q", s)
 	}
 }
 
@@ -245,7 +245,7 @@ func ReadFromEnvironment() (Values, error) {
 	result.TargetNamespaces = parseTargetNamespaces(os.Getenv(config.TargetNamespaces))
 	result.SyncPeriod, err = parseSyncPeriod()
 	if err != nil {
-		return result, errors.Wrapf(err, "parsing %q", config.SyncPeriod)
+		return result, eris.Wrapf(err, "parsing %q", config.SyncPeriod)
 	}
 
 	result.ResourceManagerEndpoint = envOrDefault(config.ResourceManagerEndpoint, DefaultEndpoint)
@@ -296,13 +296,13 @@ func ReadAndValidate() (Values, error) {
 // Validate checks whether the configuration settings are consistent.
 func (v Values) Validate() error {
 	if v.PodNamespace == "" {
-		return errors.Errorf("missing value for %s", config.PodNamespace)
+		return eris.Errorf("missing value for %s", config.PodNamespace)
 	}
 	if !v.OperatorMode.IncludesWatchers() && len(v.TargetNamespaces) > 0 {
-		return errors.Errorf("%s must include watchers to specify target namespaces", config.TargetNamespaces)
+		return eris.Errorf("%s must include watchers to specify target namespaces", config.TargetNamespaces)
 	}
 	if v.MaxConcurrentReconciles <= 0 {
-		return errors.Errorf("%s must be at least 1", config.MaxConcurrentReconciles)
+		return eris.Errorf("%s must be at least 1", config.MaxConcurrentReconciles)
 	}
 	return nil
 }
@@ -349,7 +349,7 @@ func envParseOrDefault[T int | string | float64](env string, def T) (T, error) {
 	case int:
 		parsedVal, err := strconv.Atoi(str)
 		if err != nil {
-			return def, errors.Wrapf(err, "failed to parse value %q for %q", str, env)
+			return def, eris.Wrapf(err, "failed to parse value %q for %q", str, env)
 		}
 		result = any(parsedVal).(T)
 	case string:
@@ -357,11 +357,11 @@ func envParseOrDefault[T int | string | float64](env string, def T) (T, error) {
 	case float64:
 		parsedVal, err := strconv.ParseFloat(str, 64)
 		if err != nil {
-			return def, errors.Wrapf(err, "failed to parse value %q for %q", str, env)
+			return def, eris.Wrapf(err, "failed to parse value %q for %q", str, env)
 		}
 		result = any(parsedVal).(T)
 	default:
-		return def, errors.Errorf("can't read unsupported type %T from env", def)
+		return def, eris.Errorf("can't read unsupported type %T from env", def)
 	}
 
 	return result, nil

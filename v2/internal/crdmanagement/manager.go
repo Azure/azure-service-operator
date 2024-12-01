@@ -10,19 +10,25 @@ import (
 	"path/filepath"
 	"reflect"
 	"strings"
+	"sync"
+
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/maps"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/selection"
+	"k8s.io/client-go/rest"
+	"k8s.io/client-go/tools/leaderelection"
+	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+	ctrlleader "sigs.k8s.io/controller-runtime/pkg/leaderelection"
 	"sigs.k8s.io/yaml"
 
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 )
@@ -40,21 +46,104 @@ const CRDLocation = "crds"
 
 const certMgrInjectCAFromAnnotation = "cert-manager.io/inject-ca-from"
 
+type LeaderElector struct {
+	Elector       *leaderelection.LeaderElector
+	LeaseAcquired *sync.WaitGroup
+	LeaseReleased *sync.WaitGroup
+}
+
+// NewLeaderElector creates a new LeaderElector
+func NewLeaderElector(
+	k8sConfig *rest.Config,
+	log logr.Logger,
+	ctrlOptions ctrl.Options,
+	mgr ctrl.Manager,
+) (*LeaderElector, error) {
+	resourceLock, err := ctrlleader.NewResourceLock(
+		k8sConfig,
+		mgr,
+		ctrlleader.Options{
+			LeaderElection:             ctrlOptions.LeaderElection,
+			LeaderElectionResourceLock: ctrlOptions.LeaderElectionResourceLock,
+			LeaderElectionID:           ctrlOptions.LeaderElectionID,
+		})
+	if err != nil {
+		return nil, err
+	}
+
+	log = log.WithName("crdManagementLeaderElector")
+	leaseAcquiredWait := &sync.WaitGroup{}
+	leaseAcquiredWait.Add(1)
+	leaseReleasedWait := &sync.WaitGroup{}
+	leaseReleasedWait.Add(1)
+
+	// My assumption is that OnStoppedLeading is guaranteed to
+	// be called after OnStartedLeading and we don't need to protect this
+	// shared state with a mutex.
+	var leaderContext context.Context
+
+	leaderElector, err := leaderelection.NewLeaderElector(leaderelection.LeaderElectionConfig{
+		Lock:          resourceLock,
+		LeaseDuration: *ctrlOptions.LeaseDuration,
+		RenewDeadline: *ctrlOptions.RenewDeadline,
+		RetryPeriod:   *ctrlOptions.RetryPeriod,
+		Callbacks: leaderelection.LeaderCallbacks{
+			OnStartedLeading: func(ctx context.Context) {
+				log.V(Status).Info("Elected leader")
+				leaseAcquiredWait.Done()
+				leaderContext = ctx
+			},
+			OnStoppedLeading: func() {
+				leaseReleasedWait.Done()
+
+				exitCode := 1
+				select {
+				case <-leaderContext.Done():
+					exitCode = 0 // done is closed
+				default:
+				}
+
+				if exitCode == 0 {
+					log.V(Status).Info("Lost leader due to cooperative lease release")
+				} else {
+					log.V(Status).Info("Lost leader")
+				}
+				os.Exit(exitCode)
+			},
+		},
+		ReleaseOnCancel: ctrlOptions.LeaderElectionReleaseOnCancel,
+		Name:            ctrlOptions.LeaderElectionID,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &LeaderElector{
+		Elector:       leaderElector,
+		LeaseAcquired: leaseAcquiredWait,
+		LeaseReleased: leaseReleasedWait,
+	}, nil
+}
+
 type Manager struct {
-	logger     logr.Logger
-	kubeClient kubeclient.Client
+	logger         logr.Logger
+	kubeClient     kubeclient.Client
+	leaderElection *LeaderElector
 
 	crds []apiextensions.CustomResourceDefinition
 }
 
-func NewManager(logger logr.Logger, kubeClient kubeclient.Client) *Manager {
+// NewManager creates a new CRD manager.
+// The leaderElection argument is optional, but strongly recommended.
+func NewManager(logger logr.Logger, kubeClient kubeclient.Client, leaderElection *LeaderElector) *Manager {
 	return &Manager{
-		logger:     logger,
-		kubeClient: kubeClient,
+		logger:         logger,
+		kubeClient:     kubeClient,
+		leaderElection: leaderElection,
 	}
 }
 
-func (m *Manager) ListOperatorCRDs(ctx context.Context) ([]apiextensions.CustomResourceDefinition, error) {
+func (m *Manager) ListCRDs(ctx context.Context) ([]apiextensions.CustomResourceDefinition, error) {
 	list := apiextensions.CustomResourceDefinitionList{}
 
 	selector := labels.NewSelector()
@@ -70,7 +159,7 @@ func (m *Manager) ListOperatorCRDs(ctx context.Context) ([]apiextensions.CustomR
 
 	err = m.kubeClient.List(ctx, &list, match)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to list CRDs")
+		return nil, eris.Wrapf(err, "failed to list CRDs")
 	}
 
 	for _, crd := range list.Items {
@@ -206,7 +295,7 @@ func (m *Manager) DetermineCRDsToInstallOrUpgrade(
 	for name := range goalCRDsWithDifferentSpec {
 		result, ok := resultMap[name]
 		if !ok {
-			return nil, errors.Errorf("Couldn't find goal CRD %q. This is unexpected!", name)
+			return nil, eris.Errorf("Couldn't find goal CRD %q. This is unexpected!", name)
 		}
 
 		result.DiffResult = SpecDifferent
@@ -214,7 +303,7 @@ func (m *Manager) DetermineCRDsToInstallOrUpgrade(
 	for name := range goalCRDsWithDifferentVersion {
 		result, ok := resultMap[name]
 		if !ok {
-			return nil, errors.Errorf("Couldn't find goal CRD %q. This is unexpected!", name)
+			return nil, eris.Errorf("Couldn't find goal CRD %q. This is unexpected!", name)
 		}
 
 		result.DiffResult = VersionDifferent
@@ -225,33 +314,50 @@ func (m *Manager) DetermineCRDsToInstallOrUpgrade(
 	return results, nil
 }
 
-func (m *Manager) ApplyCRDs(
+func (m *Manager) applyCRDs(
 	ctx context.Context,
+	goalCRDs []apiextensions.CustomResourceDefinition,
 	instructions []*CRDInstallationInstruction,
+	options Options,
 ) error {
-	var instructionsToApply []*CRDInstallationInstruction
-
-	for _, item := range instructions {
-		apply, reason := item.ShouldApply()
-		if apply {
-			instructionsToApply = append(instructionsToApply, item)
-			m.logger.V(Verbose).Info(
-				"Will update CRD",
-				"crd", item.CRD.Name,
-				"diffResult", item.DiffResult,
-				"filterReason", item.FilterReason,
-				"reason", reason)
-		} else {
-			m.logger.V(Verbose).Info(
-				"Will NOT update CRD",
-				"crd", item.CRD.Name,
-				"reason", reason)
-		}
-	}
+	instructionsToApply := m.filterInstallationInstructions(instructions, true)
 
 	if len(instructionsToApply) == 0 {
 		m.logger.V(Status).Info("Successfully reconciled CRDs because there were no CRDs to update.")
 		return nil
+	}
+
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	if m.leaderElection != nil {
+		m.logger.V(Status).Info("Acquiring leader lock...")
+		go m.leaderElection.Elector.Run(ctx)
+		m.leaderElection.LeaseAcquired.Wait() // Wait for lease to be acquired
+
+		// If lease was acquired we always want to wait til it's released, but defers run in LIFO order
+		// so we need to make sure that the ctx is cancelled first here
+		defer func() {
+			cancel()
+			m.leaderElection.LeaseReleased.Wait()
+		}()
+
+		// Double-checked locking, we need to make sure once we have the lock there's still work to do, as it may
+		// already have been done while we were waiting for the lock.
+		m.logger.V(Status).Info("Double-checked locking - ensure there's still CRDs to apply...")
+		existingCRDs, err := m.ListCRDs(ctx)
+		if err != nil {
+			return eris.Wrap(err, "failed to list current CRDs")
+		}
+		instructions, err = m.DetermineCRDsToInstallOrUpgrade(goalCRDs, existingCRDs, options.CRDPatterns)
+		if err != nil {
+			return eris.Wrap(err, "failed to determine CRDs to apply")
+		}
+		instructionsToApply = m.filterInstallationInstructions(instructions, false)
+		if len(instructionsToApply) == 0 {
+			m.logger.V(Status).Info("Successfully reconciled CRDs because there were no CRDs to update.")
+			return nil
+		}
 	}
 
 	m.logger.V(Status).Info("Will apply CRDs", "count", len(instructionsToApply))
@@ -279,10 +385,17 @@ func (m *Manager) ApplyCRDs(
 			return nil
 		})
 		if err != nil {
-			return errors.Wrapf(err, "failed to apply CRD %s", instruction.CRD.Name)
+			return eris.Wrapf(err, "failed to apply CRD %s", instruction.CRD.Name)
 		}
 
 		m.logger.V(Debug).Info("Successfully applied CRD", "name", instruction.CRD.Name, "result", result)
+	}
+
+	// Cancel the context, and wait for the lease to complete
+	if m.leaderElection != nil {
+		m.logger.V(Info).Info("Giving up leadership lease")
+		cancel()
+		m.leaderElection.LeaseReleased.Wait()
 	}
 
 	// If we make it to here, we have successfully updated all the CRDs we needed to. We need to kill the pod and let it restart so
@@ -294,11 +407,44 @@ func (m *Manager) ApplyCRDs(
 	return nil
 }
 
+type Options struct {
+	Path         string
+	Namespace    string
+	CRDPatterns  string
+	ExistingCRDs []apiextensions.CustomResourceDefinition
+}
+
+func (m *Manager) Install(ctx context.Context, options Options) error {
+	goalCRDs, err := m.LoadOperatorCRDs(options.Path, options.Namespace)
+	if err != nil {
+		return eris.Wrap(err, "failed to load CRDs from disk")
+	}
+
+	installationInstructions, err := m.DetermineCRDsToInstallOrUpgrade(goalCRDs, options.ExistingCRDs, options.CRDPatterns)
+	if err != nil {
+		return eris.Wrap(err, "failed to determine CRDs to apply")
+	}
+
+	included := IncludedCRDs(installationInstructions)
+	if len(included) == 0 {
+		return eris.New("No existing CRDs in cluster and no --crd-pattern specified")
+	}
+
+	// Note that this step will restart the pod when it succeeds
+	// if any CRDs were applied.
+	err = m.applyCRDs(ctx, goalCRDs, installationInstructions, options)
+	if err != nil {
+		return eris.Wrap(err, "failed to apply CRDs")
+	}
+
+	return nil
+}
+
 func (m *Manager) loadCRDs(path string) ([]apiextensions.CustomResourceDefinition, error) {
 	// Expectation is that every file in this folder is a CRD
 	entries, err := os.ReadDir(path)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to read directory %s", path)
+		return nil, eris.Wrapf(err, "failed to read directory %s", path)
 	}
 
 	results := make([]apiextensions.CustomResourceDefinition, 0, len(entries))
@@ -312,13 +458,13 @@ func (m *Manager) loadCRDs(path string) ([]apiextensions.CustomResourceDefinitio
 		var content []byte
 		content, err = os.ReadFile(filePath)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to read %s", filePath)
+			return nil, eris.Wrapf(err, "failed to read %s", filePath)
 		}
 
 		crd := apiextensions.CustomResourceDefinition{}
 		err = yaml.Unmarshal(content, &crd)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to unmarshal %s to CRD", filePath)
+			return nil, eris.Wrapf(err, "failed to unmarshal %s to CRD", filePath)
 		}
 
 		m.logger.V(Verbose).Info("Loaded CRD", "crdPath", filePath, "name", crd.Name)
@@ -326,6 +472,34 @@ func (m *Manager) loadCRDs(path string) ([]apiextensions.CustomResourceDefinitio
 	}
 
 	return results, nil
+}
+
+func (m *Manager) filterInstallationInstructions(instructions []*CRDInstallationInstruction, log bool) []*CRDInstallationInstruction {
+	var instructionsToApply []*CRDInstallationInstruction
+
+	for _, item := range instructions {
+		apply, reason := item.ShouldApply()
+		if apply {
+			instructionsToApply = append(instructionsToApply, item)
+			if log {
+				m.logger.V(Verbose).Info(
+					"Will update CRD",
+					"crd", item.CRD.Name,
+					"diffResult", item.DiffResult,
+					"filterReason", item.FilterReason,
+					"reason", reason)
+			}
+		} else {
+			if log {
+				m.logger.V(Verbose).Info(
+					"Will NOT update CRD",
+					"crd", item.CRD.Name,
+					"reason", reason)
+			}
+		}
+	}
+
+	return instructionsToApply
 }
 
 func (m *Manager) fixCRDNamespaceRefs(crds []apiextensions.CustomResourceDefinition, namespace string) []apiextensions.CustomResourceDefinition {

@@ -8,7 +8,10 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -27,8 +30,8 @@ import (
 type Subscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_Subscription_Spec   `json:"spec,omitempty"`
-	Status            Service_Subscription_STATUS `json:"status,omitempty"`
+	Spec              Subscription_Spec   `json:"spec,omitempty"`
+	Status            Subscription_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Subscription{}
@@ -63,6 +66,26 @@ func (subscription *Subscription) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return subscription.AssignProperties_To_Subscription(destination)
+}
+
+var _ configmaps.Exporter = &Subscription{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (subscription *Subscription) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return subscription.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Subscription{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (subscription *Subscription) SecretDestinationExpressions() []*core.DestinationExpression {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return subscription.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Subscription{}
@@ -109,11 +132,15 @@ func (subscription *Subscription) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (subscription *Subscription) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_Subscription_STATUS{}
+	return &Subscription_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (subscription *Subscription) Owner() *genruntime.ResourceReference {
+	if subscription.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(subscription.Spec)
 	return subscription.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -121,16 +148,16 @@ func (subscription *Subscription) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (subscription *Subscription) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_Subscription_STATUS); ok {
+	if st, ok := status.(*Subscription_STATUS); ok {
 		subscription.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_Subscription_STATUS
+	var st Subscription_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	subscription.Status = st
@@ -144,18 +171,18 @@ func (subscription *Subscription) AssignProperties_From_Subscription(source *sto
 	subscription.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Service_Subscription_Spec
-	err := spec.AssignProperties_From_Service_Subscription_Spec(&source.Spec)
+	var spec Subscription_Spec
+	err := spec.AssignProperties_From_Subscription_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_Subscription_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Subscription_Spec() to populate field Spec")
 	}
 	subscription.Spec = spec
 
 	// Status
-	var status Service_Subscription_STATUS
-	err = status.AssignProperties_From_Service_Subscription_STATUS(&source.Status)
+	var status Subscription_STATUS
+	err = status.AssignProperties_From_Subscription_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_Subscription_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Subscription_STATUS() to populate field Status")
 	}
 	subscription.Status = status
 
@@ -164,7 +191,7 @@ func (subscription *Subscription) AssignProperties_From_Subscription(source *sto
 	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForSubscription); ok {
 		err := augmentedSubscription.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -179,18 +206,18 @@ func (subscription *Subscription) AssignProperties_To_Subscription(destination *
 	destination.ObjectMeta = *subscription.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Service_Subscription_Spec
-	err := subscription.Spec.AssignProperties_To_Service_Subscription_Spec(&spec)
+	var spec storage.Subscription_Spec
+	err := subscription.Spec.AssignProperties_To_Subscription_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_Subscription_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Subscription_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Service_Subscription_STATUS
-	err = subscription.Status.AssignProperties_To_Service_Subscription_STATUS(&status)
+	var status storage.Subscription_STATUS
+	err = subscription.Status.AssignProperties_To_Subscription_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_Subscription_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Subscription_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -199,7 +226,7 @@ func (subscription *Subscription) AssignProperties_To_Subscription(destination *
 	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForSubscription); ok {
 		err := augmentedSubscription.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -232,8 +259,8 @@ type augmentConversionForSubscription interface {
 	AssignPropertiesTo(dst *storage.Subscription) error
 }
 
-// Storage version of v1api20230501preview.Service_Subscription_Spec
-type Service_Subscription_Spec struct {
+// Storage version of v1api20230501preview.Subscription_Spec
+type Subscription_Spec struct {
 	AllowTracing *bool `json:"allowTracing,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -258,58 +285,58 @@ type Service_Subscription_Spec struct {
 	State          *string                       `json:"state,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Service_Subscription_Spec{}
+var _ genruntime.ConvertibleSpec = &Subscription_Spec{}
 
-// ConvertSpecFrom populates our Service_Subscription_Spec from the provided source
-func (subscription *Service_Subscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Service_Subscription_Spec)
+// ConvertSpecFrom populates our Subscription_Spec from the provided source
+func (subscription *Subscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.Subscription_Spec)
 	if ok {
 		// Populate our instance from source
-		return subscription.AssignProperties_From_Service_Subscription_Spec(src)
+		return subscription.AssignProperties_From_Subscription_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_Subscription_Spec{}
+	src = &storage.Subscription_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = subscription.AssignProperties_From_Service_Subscription_Spec(src)
+	err = subscription.AssignProperties_From_Subscription_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Service_Subscription_Spec
-func (subscription *Service_Subscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Service_Subscription_Spec)
+// ConvertSpecTo populates the provided destination from our Subscription_Spec
+func (subscription *Subscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.Subscription_Spec)
 	if ok {
 		// Populate destination from our instance
-		return subscription.AssignProperties_To_Service_Subscription_Spec(dst)
+		return subscription.AssignProperties_To_Subscription_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_Subscription_Spec{}
-	err := subscription.AssignProperties_To_Service_Subscription_Spec(dst)
+	dst = &storage.Subscription_Spec{}
+	err := subscription.AssignProperties_To_Subscription_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_Service_Subscription_Spec populates our Service_Subscription_Spec from the provided source Service_Subscription_Spec
-func (subscription *Service_Subscription_Spec) AssignProperties_From_Service_Subscription_Spec(source *storage.Service_Subscription_Spec) error {
+// AssignProperties_From_Subscription_Spec populates our Subscription_Spec from the provided source Subscription_Spec
+func (subscription *Subscription_Spec) AssignProperties_From_Subscription_Spec(source *storage.Subscription_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -332,7 +359,7 @@ func (subscription *Service_Subscription_Spec) AssignProperties_From_Service_Sub
 		var operatorSpec SubscriptionOperatorSpec
 		err := operatorSpec.AssignProperties_From_SubscriptionOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubscriptionOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_SubscriptionOperatorSpec() to populate field OperatorSpec")
 		}
 		subscription.OperatorSpec = &operatorSpec
 	} else {
@@ -387,12 +414,12 @@ func (subscription *Service_Subscription_Spec) AssignProperties_From_Service_Sub
 		subscription.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForService_Subscription_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSubscription_Spec interface (if implemented) to customize the conversion
 	var subscriptionAsAny any = subscription
-	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForService_Subscription_Spec); ok {
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForSubscription_Spec); ok {
 		err := augmentedSubscription.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -400,8 +427,8 @@ func (subscription *Service_Subscription_Spec) AssignProperties_From_Service_Sub
 	return nil
 }
 
-// AssignProperties_To_Service_Subscription_Spec populates the provided destination Service_Subscription_Spec from our Service_Subscription_Spec
-func (subscription *Service_Subscription_Spec) AssignProperties_To_Service_Subscription_Spec(destination *storage.Service_Subscription_Spec) error {
+// AssignProperties_To_Subscription_Spec populates the provided destination Subscription_Spec from our Subscription_Spec
+func (subscription *Subscription_Spec) AssignProperties_To_Subscription_Spec(destination *storage.Subscription_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(subscription.PropertyBag)
 
@@ -424,7 +451,7 @@ func (subscription *Service_Subscription_Spec) AssignProperties_To_Service_Subsc
 		var operatorSpec storage.SubscriptionOperatorSpec
 		err := subscription.OperatorSpec.AssignProperties_To_SubscriptionOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubscriptionOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_SubscriptionOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -479,12 +506,12 @@ func (subscription *Service_Subscription_Spec) AssignProperties_To_Service_Subsc
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForService_Subscription_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSubscription_Spec interface (if implemented) to customize the conversion
 	var subscriptionAsAny any = subscription
-	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForService_Subscription_Spec); ok {
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForSubscription_Spec); ok {
 		err := augmentedSubscription.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -492,8 +519,8 @@ func (subscription *Service_Subscription_Spec) AssignProperties_To_Service_Subsc
 	return nil
 }
 
-// Storage version of v1api20230501preview.Service_Subscription_STATUS
-type Service_Subscription_STATUS struct {
+// Storage version of v1api20230501preview.Subscription_STATUS
+type Subscription_STATUS struct {
 	AllowTracing     *bool                  `json:"allowTracing,omitempty"`
 	Conditions       []conditions.Condition `json:"conditions,omitempty"`
 	CreatedDate      *string                `json:"createdDate,omitempty"`
@@ -512,58 +539,58 @@ type Service_Subscription_STATUS struct {
 	Type             *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_Subscription_STATUS{}
+var _ genruntime.ConvertibleStatus = &Subscription_STATUS{}
 
-// ConvertStatusFrom populates our Service_Subscription_STATUS from the provided source
-func (subscription *Service_Subscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Service_Subscription_STATUS)
+// ConvertStatusFrom populates our Subscription_STATUS from the provided source
+func (subscription *Subscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.Subscription_STATUS)
 	if ok {
 		// Populate our instance from source
-		return subscription.AssignProperties_From_Service_Subscription_STATUS(src)
+		return subscription.AssignProperties_From_Subscription_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_Subscription_STATUS{}
+	src = &storage.Subscription_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = subscription.AssignProperties_From_Service_Subscription_STATUS(src)
+	err = subscription.AssignProperties_From_Subscription_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Service_Subscription_STATUS
-func (subscription *Service_Subscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Service_Subscription_STATUS)
+// ConvertStatusTo populates the provided destination from our Subscription_STATUS
+func (subscription *Subscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.Subscription_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return subscription.AssignProperties_To_Service_Subscription_STATUS(dst)
+		return subscription.AssignProperties_To_Subscription_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_Subscription_STATUS{}
-	err := subscription.AssignProperties_To_Service_Subscription_STATUS(dst)
+	dst = &storage.Subscription_STATUS{}
+	err := subscription.AssignProperties_To_Subscription_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_Service_Subscription_STATUS populates our Service_Subscription_STATUS from the provided source Service_Subscription_STATUS
-func (subscription *Service_Subscription_STATUS) AssignProperties_From_Service_Subscription_STATUS(source *storage.Service_Subscription_STATUS) error {
+// AssignProperties_From_Subscription_STATUS populates our Subscription_STATUS from the provided source Subscription_STATUS
+func (subscription *Subscription_STATUS) AssignProperties_From_Subscription_STATUS(source *storage.Subscription_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -624,12 +651,12 @@ func (subscription *Service_Subscription_STATUS) AssignProperties_From_Service_S
 		subscription.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForService_Subscription_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSubscription_STATUS interface (if implemented) to customize the conversion
 	var subscriptionAsAny any = subscription
-	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForService_Subscription_STATUS); ok {
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForSubscription_STATUS); ok {
 		err := augmentedSubscription.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -637,8 +664,8 @@ func (subscription *Service_Subscription_STATUS) AssignProperties_From_Service_S
 	return nil
 }
 
-// AssignProperties_To_Service_Subscription_STATUS populates the provided destination Service_Subscription_STATUS from our Service_Subscription_STATUS
-func (subscription *Service_Subscription_STATUS) AssignProperties_To_Service_Subscription_STATUS(destination *storage.Service_Subscription_STATUS) error {
+// AssignProperties_To_Subscription_STATUS populates the provided destination Subscription_STATUS from our Subscription_STATUS
+func (subscription *Subscription_STATUS) AssignProperties_To_Subscription_STATUS(destination *storage.Subscription_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(subscription.PropertyBag)
 
@@ -699,12 +726,12 @@ func (subscription *Service_Subscription_STATUS) AssignProperties_To_Service_Sub
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForService_Subscription_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSubscription_STATUS interface (if implemented) to customize the conversion
 	var subscriptionAsAny any = subscription
-	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForService_Subscription_STATUS); ok {
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForSubscription_STATUS); ok {
 		err := augmentedSubscription.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -712,21 +739,23 @@ func (subscription *Service_Subscription_STATUS) AssignProperties_To_Service_Sub
 	return nil
 }
 
-type augmentConversionForService_Subscription_Spec interface {
-	AssignPropertiesFrom(src *storage.Service_Subscription_Spec) error
-	AssignPropertiesTo(dst *storage.Service_Subscription_Spec) error
+type augmentConversionForSubscription_Spec interface {
+	AssignPropertiesFrom(src *storage.Subscription_Spec) error
+	AssignPropertiesTo(dst *storage.Subscription_Spec) error
 }
 
-type augmentConversionForService_Subscription_STATUS interface {
-	AssignPropertiesFrom(src *storage.Service_Subscription_STATUS) error
-	AssignPropertiesTo(dst *storage.Service_Subscription_STATUS) error
+type augmentConversionForSubscription_STATUS interface {
+	AssignPropertiesFrom(src *storage.Subscription_STATUS) error
+	AssignPropertiesTo(dst *storage.Subscription_STATUS) error
 }
 
 // Storage version of v1api20230501preview.SubscriptionOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type SubscriptionOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	Secrets     *SubscriptionOperatorSecrets `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	Secrets              *SubscriptionOperatorSecrets  `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_SubscriptionOperatorSpec populates our SubscriptionOperatorSpec from the provided source SubscriptionOperatorSpec
@@ -734,12 +763,48 @@ func (operator *SubscriptionOperatorSpec) AssignProperties_From_SubscriptionOper
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
 	// Secrets
 	if source.Secrets != nil {
 		var secret SubscriptionOperatorSecrets
 		err := secret.AssignProperties_From_SubscriptionOperatorSecrets(source.Secrets)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubscriptionOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_From_SubscriptionOperatorSecrets() to populate field Secrets")
 		}
 		operator.Secrets = &secret
 	} else {
@@ -758,7 +823,7 @@ func (operator *SubscriptionOperatorSpec) AssignProperties_From_SubscriptionOper
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSubscriptionOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -771,12 +836,48 @@ func (operator *SubscriptionOperatorSpec) AssignProperties_To_SubscriptionOperat
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
 
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
 	// Secrets
 	if operator.Secrets != nil {
 		var secret storage.SubscriptionOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_SubscriptionOperatorSecrets(&secret)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubscriptionOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_To_SubscriptionOperatorSecrets() to populate field Secrets")
 		}
 		destination.Secrets = &secret
 	} else {
@@ -795,7 +896,7 @@ func (operator *SubscriptionOperatorSpec) AssignProperties_To_SubscriptionOperat
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSubscriptionOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -848,7 +949,7 @@ func (secrets *SubscriptionOperatorSecrets) AssignProperties_From_SubscriptionOp
 	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForSubscriptionOperatorSecrets); ok {
 		err := augmentedSecrets.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -889,7 +990,7 @@ func (secrets *SubscriptionOperatorSecrets) AssignProperties_To_SubscriptionOper
 	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForSubscriptionOperatorSecrets); ok {
 		err := augmentedSecrets.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

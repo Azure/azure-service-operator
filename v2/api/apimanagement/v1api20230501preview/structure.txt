@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2023-05-01-preview"
 Api: Resource
 ├── Owner: Service
-├── Spec: Object (27 properties)
+├── Spec: Object (28 properties)
 │   ├── APIVersion: Validated<*string> (1 rule)
 │   │   └── Rule 0: MaxLength: 100
 │   ├── ApiRevision: Validated<*string> (2 rules)
@@ -82,6 +82,9 @@ Api: Resource
 │   ├── License: *Object (2 properties)
 │   │   ├── Name: *string
 │   │   └── Url: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Path: Validated<*string> (2 rules)
 │   │   ├── Rule 0: MaxLength: 400
@@ -185,7 +188,7 @@ Api: Resource
     └── Type: *string
 ApiVersionSet: Resource
 ├── Owner: Service
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AzureName: Validated<string> (3 rules)
 │   │   ├── Rule 0: MaxLength: 80
 │   │   ├── Rule 1: MinLength: 1
@@ -194,6 +197,9 @@ ApiVersionSet: Resource
 │   ├── DisplayName: Validated<*string> (2 rules)
 │   │   ├── Rule 0: MaxLength: 100
 │   │   └── Rule 1: MinLength: 1
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── VersionHeaderName: Validated<*string> (2 rules)
 │   │   ├── Rule 0: MaxLength: 100
@@ -220,7 +226,7 @@ ApiVersionSet: Resource
         └── "Segment"
 AuthorizationProvider: Resource
 ├── Owner: Service
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── AzureName: Validated<string> (3 rules)
 │   │   ├── Rule 0: MaxLength: 256
 │   │   ├── Rule 1: MinLength: 1
@@ -234,6 +240,9 @@ AuthorizationProvider: Resource
 │   │   │   ├── AuthorizationCode: *genruntime.SecretMapReference
 │   │   │   └── ClientCredentials: *genruntime.SecretMapReference
 │   │   └── RedirectUrl: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   └── Owner: *genruntime.KnownResourceReference
 └── Status: Object (7 properties)
     ├── Conditions: conditions.Condition[]
@@ -249,7 +258,7 @@ AuthorizationProvider: Resource
     └── Type: *string
 AuthorizationProvidersAuthorization: Resource
 ├── Owner: AuthorizationProvider
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── AuthorizationType: *Enum (1 value)
 │   │   └── "OAuth2"
 │   ├── AzureName: Validated<string> (3 rules)
@@ -259,6 +268,9 @@ AuthorizationProvidersAuthorization: Resource
 │   ├── Oauth2GrantType: *Enum (2 values)
 │   │   ├── "AuthorizationCode"
 │   │   └── "ClientCredentials"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── Parameters: *genruntime.SecretMapReference
 └── Status: Object (9 properties)
@@ -278,7 +290,7 @@ AuthorizationProvidersAuthorization: Resource
     └── Type: *string
 AuthorizationProvidersAuthorizationsAccessPolicy: Resource
 ├── Owner: AuthorizationProvidersAuthorization
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AppIds: string[]
 │   ├── AzureName: Validated<string> (3 rules)
 │   │   ├── Rule 0: MaxLength: 256
@@ -286,6 +298,9 @@ AuthorizationProvidersAuthorizationsAccessPolicy: Resource
 │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
 │   ├── ObjectId: *string
 │   ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── TenantId: *string
 │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
@@ -299,7 +314,7 @@ AuthorizationProvidersAuthorizationsAccessPolicy: Resource
     └── Type: *string
 Backend: Resource
 ├── Owner: Service
-├── Spec: Object (14 properties)
+├── Spec: Object (15 properties)
 │   ├── AzureName: Validated<string> (2 rules)
 │   │   ├── Rule 0: MaxLength: 80
 │   │   └── Rule 1: MinLength: 1
@@ -340,6 +355,9 @@ Backend: Resource
 │   ├── Description: Validated<*string> (2 rules)
 │   │   ├── Rule 0: MaxLength: 2000
 │   │   └── Rule 1: MinLength: 1
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Pool: *Object (1 property)
 │   │   └── Services: Validated<Object (1 property)[]> (1 rule)
@@ -440,7 +458,7 @@ Backend: Resource
     └── Url: *string
 NamedValue: Resource
 ├── Owner: Service
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AzureName: Validated<string> (2 rules)
 │   │   ├── Rule 0: MaxLength: 256
 │   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
@@ -452,6 +470,9 @@ NamedValue: Resource
 │   │   ├── IdentityClientId: *string
 │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
 │   │   └── SecretIdentifier: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Secret: *bool
 │   ├── Tags: Validated<string[]> (1 rule)
@@ -477,12 +498,15 @@ NamedValue: Resource
     └── Value: *string
 Policy: Resource
 ├── Owner: Service
-├── Spec: Object (3 properties)
+├── Spec: Object (4 properties)
 │   ├── Format: *Enum (4 values)
 │   │   ├── "rawxml"
 │   │   ├── "rawxml-link"
 │   │   ├── "xml"
 │   │   └── "xml-link"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── Value: *string
 └── Status: Object (6 properties)
@@ -498,7 +522,7 @@ Policy: Resource
     └── Value: *string
 PolicyFragment: Resource
 ├── Owner: Service
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── AzureName: Validated<string> (3 rules)
 │   │   ├── Rule 0: MaxLength: 80
 │   │   ├── Rule 1: MinLength: 1
@@ -509,6 +533,9 @@ PolicyFragment: Resource
 │   ├── Format: *Enum (2 values)
 │   │   ├── "rawxml"
 │   │   └── "xml"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── Value: *string
 └── Status: Object (8 properties)
@@ -524,7 +551,7 @@ PolicyFragment: Resource
     └── Value: *string
 Product: Resource
 ├── Owner: Service
-├── Spec: Object (9 properties)
+├── Spec: Object (10 properties)
 │   ├── ApprovalRequired: *bool
 │   ├── AzureName: Validated<string> (2 rules)
 │   │   ├── Rule 0: MaxLength: 256
@@ -535,6 +562,9 @@ Product: Resource
 │   ├── DisplayName: Validated<*string> (2 rules)
 │   │   ├── Rule 0: MaxLength: 300
 │   │   └── Rule 1: MinLength: 1
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── State: *Enum (2 values)
 │   │   ├── "notPublished"
@@ -558,22 +588,28 @@ Product: Resource
     └── Type: *string
 ProductApi: Resource
 ├── Owner: Product
-├── Spec: Object (2 properties)
+├── Spec: Object (3 properties)
 │   ├── AzureName: Validated<string> (3 rules)
 │   │   ├── Rule 0: MaxLength: 256
 │   │   ├── Rule 1: MinLength: 1
 │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   └── Owner: *genruntime.KnownResourceReference
 └── Status: Object (1 property)
     └── Conditions: conditions.Condition[]
 ProductPolicy: Resource
 ├── Owner: Product
-├── Spec: Object (3 properties)
+├── Spec: Object (4 properties)
 │   ├── Format: *Enum (4 values)
 │   │   ├── "rawxml"
 │   │   ├── "rawxml-link"
 │   │   ├── "xml"
 │   │   └── "xml-link"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── Value: *string
 └── Status: Object (6 properties)
@@ -589,7 +625,7 @@ ProductPolicy: Resource
     └── Value: *string
 Service: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (26 properties)
+├── Spec: Object (27 properties)
 │   ├── AdditionalLocations: Object (7 properties)[]
 │   │   ├── DisableGateway: *bool
 │   │   ├── Location: *string
@@ -689,6 +725,9 @@ Service: Resource
 │   │   └── "Enabled"
 │   ├── NotificationSenderEmail: Validated<*string> (1 rule)
 │   │   └── Rule 0: MaxLength: 100
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PublicIpAddressReference: *genruntime.ResourceReference
 │   ├── PublicNetworkAccess: *Enum (2 values)
@@ -900,812 +939,6 @@ Service: Resource
     │   ├── "Internal"
     │   └── "None"
     └── Zones: string[]
-Service_ApiVersionSet_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (5 properties)
-│   ├── Description: *string
-│   ├── DisplayName: *string
-│   ├── VersionHeaderName: *string
-│   ├── VersionQueryName: *string
-│   └── VersioningScheme: *Enum (3 values)
-│       ├── "Header"
-│       ├── "Query"
-│       └── "Segment"
-└── Type: *string
-Service_ApiVersionSet_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (5 properties)
-    ├── Description: *string
-    ├── DisplayName: *string
-    ├── VersionHeaderName: *string
-    ├── VersionQueryName: *string
-    └── VersioningScheme: *Enum (3 values)
-        ├── "Header"
-        ├── "Query"
-        └── "Segment"
-Service_Api_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (22 properties)
-│   ├── APIVersion: *string
-│   ├── ApiRevision: *string
-│   ├── ApiRevisionDescription: *string
-│   ├── ApiVersionDescription: *string
-│   ├── ApiVersionSet: *Object (6 properties)
-│   │   ├── Description: *string
-│   │   ├── Id: *string
-│   │   ├── Name: *string
-│   │   ├── VersionHeaderName: *string
-│   │   ├── VersionQueryName: *string
-│   │   └── VersioningScheme: *Enum (3 values)
-│   │       ├── "Header"
-│   │       ├── "Query"
-│   │       └── "Segment"
-│   ├── ApiVersionSetId: *string
-│   ├── AuthenticationSettings: *Object (4 properties)
-│   │   ├── OAuth2: *Object (2 properties)
-│   │   │   ├── AuthorizationServerId: *string
-│   │   │   └── Scope: *string
-│   │   ├── OAuth2AuthenticationSettings: Object (2 properties)[]
-│   │   │   ├── AuthorizationServerId: *string
-│   │   │   └── Scope: *string
-│   │   ├── Openid: *Object (2 properties)
-│   │   │   ├── BearerTokenSendingMethods: Enum (2 values)[]
-│   │   │   │   ├── "authorizationHeader"
-│   │   │   │   └── "query"
-│   │   │   └── OpenidProviderId: *string
-│   │   └── OpenidAuthenticationSettings: Object (2 properties)[]
-│   │       ├── BearerTokenSendingMethods: Enum (2 values)[]
-│   │       │   ├── "authorizationHeader"
-│   │       │   └── "query"
-│   │       └── OpenidProviderId: *string
-│   ├── Contact: *Object (3 properties)
-│   │   ├── Email: *string
-│   │   ├── Name: *string
-│   │   └── Url: *string
-│   ├── Description: *string
-│   ├── DisplayName: *string
-│   ├── IsCurrent: *bool
-│   ├── IsOnline: *bool
-│   ├── License: *Object (2 properties)
-│   │   ├── Name: *string
-│   │   └── Url: *string
-│   ├── Path: *string
-│   ├── Protocols: Enum (4 values)[]
-│   │   ├── "http"
-│   │   ├── "https"
-│   │   ├── "ws"
-│   │   └── "wss"
-│   ├── ProvisioningState: *string
-│   ├── ServiceUrl: *string
-│   ├── SourceApiId: *string
-│   ├── SubscriptionKeyParameterNames: *Object (2 properties)
-│   │   ├── Header: *string
-│   │   └── Query: *string
-│   ├── SubscriptionRequired: *bool
-│   ├── TermsOfServiceUrl: *string
-│   └── Type: *Enum (6 values)
-│       ├── "graphql"
-│       ├── "grpc"
-│       ├── "http"
-│       ├── "odata"
-│       ├── "soap"
-│       └── "websocket"
-└── Type: *string
-Service_Api_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (25 properties)
-    ├── APIVersion: *string
-    ├── ApiRevision: *string
-    ├── ApiRevisionDescription: *string
-    ├── ApiType: *Enum (6 values)
-    │   ├── "graphql"
-    │   ├── "grpc"
-    │   ├── "http"
-    │   ├── "odata"
-    │   ├── "soap"
-    │   └── "websocket"
-    ├── ApiVersionDescription: *string
-    ├── ApiVersionSet: *Object (6 properties)
-    │   ├── Description: *string
-    │   ├── Id: *string
-    │   ├── Name: *string
-    │   ├── VersionHeaderName: *string
-    │   ├── VersionQueryName: *string
-    │   └── VersioningScheme: *Enum (3 values)
-    │       ├── "Header"
-    │       ├── "Query"
-    │       └── "Segment"
-    ├── ApiVersionSetId: *string
-    ├── AuthenticationSettings: *Object (4 properties)
-    │   ├── OAuth2: *Object (2 properties)
-    │   │   ├── AuthorizationServerId: *string
-    │   │   └── Scope: *string
-    │   ├── OAuth2AuthenticationSettings: Object (2 properties)[]
-    │   │   ├── AuthorizationServerId: *string
-    │   │   └── Scope: *string
-    │   ├── Openid: *Object (2 properties)
-    │   │   ├── BearerTokenSendingMethods: Enum (2 values)[]
-    │   │   │   ├── "authorizationHeader"
-    │   │   │   └── "query"
-    │   │   └── OpenidProviderId: *string
-    │   └── OpenidAuthenticationSettings: Object (2 properties)[]
-    │       ├── BearerTokenSendingMethods: Enum (2 values)[]
-    │       │   ├── "authorizationHeader"
-    │       │   └── "query"
-    │       └── OpenidProviderId: *string
-    ├── Contact: *Object (3 properties)
-    │   ├── Email: *string
-    │   ├── Name: *string
-    │   └── Url: *string
-    ├── Description: *string
-    ├── DisplayName: *string
-    ├── Format: *Enum (15 values)
-    │   ├── "graphql-link"
-    │   ├── "grpc"
-    │   ├── "grpc-link"
-    │   ├── "odata"
-    │   ├── "odata-link"
-    │   ├── "openapi"
-    │   ├── "openapi+json"
-    │   ├── "openapi+json-link"
-    │   ├── "openapi-link"
-    │   ├── "swagger-json"
-    │   ├── "swagger-link-json"
-    │   ├── "wadl-link-json"
-    │   ├── "wadl-xml"
-    │   ├── "wsdl"
-    │   └── "wsdl-link"
-    ├── IsCurrent: *bool
-    ├── License: *Object (2 properties)
-    │   ├── Name: *string
-    │   └── Url: *string
-    ├── Path: *string
-    ├── Protocols: Enum (4 values)[]
-    │   ├── "http"
-    │   ├── "https"
-    │   ├── "ws"
-    │   └── "wss"
-    ├── ServiceUrl: *string
-    ├── SourceApiId: *string
-    ├── SubscriptionKeyParameterNames: *Object (2 properties)
-    │   ├── Header: *string
-    │   └── Query: *string
-    ├── SubscriptionRequired: *bool
-    ├── TermsOfServiceUrl: *string
-    ├── TranslateRequiredQueryParameters: *Enum (2 values)
-    │   ├── "query"
-    │   └── "template"
-    ├── Type: *Enum (6 values)
-    │   ├── "graphql"
-    │   ├── "grpc"
-    │   ├── "http"
-    │   ├── "odata"
-    │   ├── "soap"
-    │   └── "websocket"
-    ├── Value: *string
-    └── WsdlSelector: *Object (2 properties)
-        ├── WsdlEndpointName: *string
-        └── WsdlServiceName: *string
-Service_AuthorizationProvider_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (3 properties)
-│   ├── DisplayName: *string
-│   ├── IdentityProvider: *string
-│   └── Oauth2: *Object (2 properties)
-│       ├── GrantTypes: *Object (2 properties)
-│       │   ├── AuthorizationCode: map[string]string
-│       │   └── ClientCredentials: map[string]string
-│       └── RedirectUrl: *string
-└── Type: *string
-Service_AuthorizationProvider_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (3 properties)
-    ├── DisplayName: *string
-    ├── IdentityProvider: *string
-    └── Oauth2: *Object (2 properties)
-        ├── GrantTypes: *Object (2 properties)
-        │   ├── AuthorizationCode: map[string]string
-        │   └── ClientCredentials: map[string]string
-        └── RedirectUrl: *string
-Service_AuthorizationProviders_Authorization_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (5 properties)
-│   ├── AuthorizationType: *Enum (1 value)
-│   │   └── "OAuth2"
-│   ├── Error: *Object (2 properties)
-│   │   ├── Code: *string
-│   │   └── Message: *string
-│   ├── Oauth2GrantType: *Enum (2 values)
-│   │   ├── "AuthorizationCode"
-│   │   └── "ClientCredentials"
-│   ├── Parameters: map[string]string
-│   └── Status: *string
-└── Type: *string
-Service_AuthorizationProviders_Authorization_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (3 properties)
-    ├── AuthorizationType: *Enum (1 value)
-    │   └── "OAuth2"
-    ├── Oauth2GrantType: *Enum (2 values)
-    │   ├── "AuthorizationCode"
-    │   └── "ClientCredentials"
-    └── Parameters: map[string]string
-Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (3 properties)
-│   ├── AppIds: string[]
-│   ├── ObjectId: *string
-│   └── TenantId: *string
-└── Type: *string
-Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (3 properties)
-    ├── AppIds: string[]
-    ├── ObjectId: *string
-    └── TenantId: *string
-Service_Backend_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (12 properties)
-│   ├── CircuitBreaker: *Object (1 property)
-│   │   └── Rules: Object (3 properties)[]
-│   │       ├── FailureCondition: *Object (5 properties)
-│   │       │   ├── Count: *int
-│   │       │   ├── ErrorReasons: string[]
-│   │       │   ├── Interval: *string
-│   │       │   ├── Percentage: *int
-│   │       │   └── StatusCodeRanges: Object (2 properties)[]
-│   │       │       ├── Max: *int
-│   │       │       └── Min: *int
-│   │       ├── Name: *string
-│   │       └── TripDuration: *string
-│   ├── Credentials: *Object (5 properties)
-│   │   ├── Authorization: *Object (2 properties)
-│   │   │   ├── Parameter: *string
-│   │   │   └── Scheme: *string
-│   │   ├── Certificate: string[]
-│   │   ├── CertificateIds: string[]
-│   │   ├── Header: map[string]string[]
-│   │   └── Query: map[string]string[]
-│   ├── Description: *string
-│   ├── Pool: *Object (1 property)
-│   │   └── Services: Object (1 property)[]
-│   │       └── Id: *string
-│   ├── Properties: *Object (1 property)
-│   │   └── ServiceFabricCluster: *Object (6 properties)
-│   │       ├── ClientCertificateId: *string
-│   │       ├── ClientCertificatethumbprint: *string
-│   │       ├── ManagementEndpoints: string[]
-│   │       ├── MaxPartitionResolutionRetries: *int
-│   │       ├── ServerCertificateThumbprints: string[]
-│   │       └── ServerX509Names: Object (2 properties)[]
-│   │           ├── IssuerCertificateThumbprint: *string
-│   │           └── Name: *string
-│   ├── Protocol: *Enum (2 values)
-│   │   ├── "http"
-│   │   └── "soap"
-│   ├── Proxy: *Object (2 properties)
-│   │   ├── Url: *string
-│   │   └── Username: *string
-│   ├── ResourceId: *string
-│   ├── Title: *string
-│   ├── Tls: *Object (2 properties)
-│   │   ├── ValidateCertificateChain: *bool
-│   │   └── ValidateCertificateName: *bool
-│   ├── Type: *Enum (2 values)
-│   │   ├── "Pool"
-│   │   └── "Single"
-│   └── Url: *string
-└── Type: *string
-Service_Backend_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (12 properties)
-    ├── CircuitBreaker: *Object (1 property)
-    │   └── Rules: Object (3 properties)[]
-    │       ├── FailureCondition: *Object (5 properties)
-    │       │   ├── Count: *int
-    │       │   ├── ErrorReasons: string[]
-    │       │   ├── Interval: *string
-    │       │   ├── Percentage: *int
-    │       │   └── StatusCodeRanges: Object (2 properties)[]
-    │       │       ├── Max: *int
-    │       │       └── Min: *int
-    │       ├── Name: *string
-    │       └── TripDuration: *string
-    ├── Credentials: *Object (5 properties)
-    │   ├── Authorization: *Object (2 properties)
-    │   │   ├── Parameter: *string
-    │   │   └── Scheme: *string
-    │   ├── Certificate: string[]
-    │   ├── CertificateIds: string[]
-    │   ├── Header: map[string]string[]
-    │   └── Query: map[string]string[]
-    ├── Description: *string
-    ├── Pool: *Object (1 property)
-    │   └── Services: Object (1 property)[]
-    │       └── Id: *string
-    ├── Properties: *Object (1 property)
-    │   └── ServiceFabricCluster: *Object (6 properties)
-    │       ├── ClientCertificateId: *string
-    │       ├── ClientCertificatethumbprint: *string
-    │       ├── ManagementEndpoints: string[]
-    │       ├── MaxPartitionResolutionRetries: *int
-    │       ├── ServerCertificateThumbprints: string[]
-    │       └── ServerX509Names: Object (2 properties)[]
-    │           ├── IssuerCertificateThumbprint: *string
-    │           └── Name: *string
-    ├── Protocol: *Enum (2 values)
-    │   ├── "http"
-    │   └── "soap"
-    ├── Proxy: *Object (3 properties)
-    │   ├── Password: *string
-    │   ├── Url: *string
-    │   └── Username: *string
-    ├── ResourceId: *string
-    ├── Title: *string
-    ├── Tls: *Object (2 properties)
-    │   ├── ValidateCertificateChain: *bool
-    │   └── ValidateCertificateName: *bool
-    ├── Type: *Enum (2 values)
-    │   ├── "Pool"
-    │   └── "Single"
-    └── Url: *string
-Service_NamedValue_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (6 properties)
-│   ├── DisplayName: *string
-│   ├── KeyVault: *Object (3 properties)
-│   │   ├── IdentityClientId: *string
-│   │   ├── LastStatus: *Object (3 properties)
-│   │   │   ├── Code: *string
-│   │   │   ├── Message: *string
-│   │   │   └── TimeStampUtc: *string
-│   │   └── SecretIdentifier: *string
-│   ├── ProvisioningState: *string
-│   ├── Secret: *bool
-│   ├── Tags: string[]
-│   └── Value: *string
-└── Type: *string
-Service_NamedValue_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (5 properties)
-    ├── DisplayName: *string
-    ├── KeyVault: *Object (2 properties)
-    │   ├── IdentityClientId: *string
-    │   └── SecretIdentifier: *string
-    ├── Secret: *bool
-    ├── Tags: string[]
-    └── Value: *string
-Service_PolicyFragment_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (4 properties)
-│   ├── Description: *string
-│   ├── Format: *Enum (2 values)
-│   │   ├── "rawxml"
-│   │   └── "xml"
-│   ├── ProvisioningState: *string
-│   └── Value: *string
-└── Type: *string
-Service_PolicyFragment_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (3 properties)
-    ├── Description: *string
-    ├── Format: *Enum (2 values)
-    │   ├── "rawxml"
-    │   └── "xml"
-    └── Value: *string
-Service_Policy_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (2 properties)
-│   ├── Format: *Enum (4 values)
-│   │   ├── "rawxml"
-│   │   ├── "rawxml-link"
-│   │   ├── "xml"
-│   │   └── "xml-link"
-│   └── Value: *string
-└── Type: *string
-Service_Policy_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (2 properties)
-    ├── Format: *Enum (4 values)
-    │   ├── "rawxml"
-    │   ├── "rawxml-link"
-    │   ├── "xml"
-    │   └── "xml-link"
-    └── Value: *string
-Service_Product_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (7 properties)
-│   ├── ApprovalRequired: *bool
-│   ├── Description: *string
-│   ├── DisplayName: *string
-│   ├── State: *Enum (2 values)
-│   │   ├── "notPublished"
-│   │   └── "published"
-│   ├── SubscriptionRequired: *bool
-│   ├── SubscriptionsLimit: *int
-│   └── Terms: *string
-└── Type: *string
-Service_Product_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (7 properties)
-    ├── ApprovalRequired: *bool
-    ├── Description: *string
-    ├── DisplayName: *string
-    ├── State: *Enum (2 values)
-    │   ├── "notPublished"
-    │   └── "published"
-    ├── SubscriptionRequired: *bool
-    ├── SubscriptionsLimit: *int
-    └── Terms: *string
-Service_Products_Api_STATUS_ARM: Object (0 properties)
-Service_Products_Api_Spec_ARM: Object (1 property)
-└── Name: string
-Service_Products_Policy_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (2 properties)
-│   ├── Format: *Enum (4 values)
-│   │   ├── "rawxml"
-│   │   ├── "rawxml-link"
-│   │   ├── "xml"
-│   │   └── "xml-link"
-│   └── Value: *string
-└── Type: *string
-Service_Products_Policy_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (2 properties)
-    ├── Format: *Enum (4 values)
-    │   ├── "rawxml"
-    │   ├── "rawxml-link"
-    │   ├── "xml"
-    │   └── "xml-link"
-    └── Value: *string
-Service_STATUS_ARM: Object (11 properties)
-├── Etag: *string
-├── Id: *string
-├── Identity: *Object (4 properties)
-│   ├── PrincipalId: *string
-│   ├── TenantId: *string
-│   ├── Type: *Enum (4 values)
-│   │   ├── "None"
-│   │   ├── "SystemAssigned"
-│   │   ├── "SystemAssigned, UserAssigned"
-│   │   └── "UserAssigned"
-│   └── UserAssignedIdentities: map[string]Object (2 properties)
-│       ├── ClientId: *string
-│       └── PrincipalId: *string
-├── Location: *string
-├── Name: *string
-├── Properties: *Object (33 properties)
-│   ├── AdditionalLocations: Object (12 properties)[]
-│   │   ├── DisableGateway: *bool
-│   │   ├── GatewayRegionalUrl: *string
-│   │   ├── Location: *string
-│   │   ├── NatGatewayState: *Enum (2 values)
-│   │   │   ├── "Disabled"
-│   │   │   └── "Enabled"
-│   │   ├── OutboundPublicIPAddresses: string[]
-│   │   ├── PlatformVersion: *Enum (5 values)
-│   │   │   ├── "mtv1"
-│   │   │   ├── "stv1"
-│   │   │   ├── "stv2"
-│   │   │   ├── "stv2.1"
-│   │   │   └── "undetermined"
-│   │   ├── PrivateIPAddresses: string[]
-│   │   ├── PublicIPAddresses: string[]
-│   │   ├── PublicIpAddressId: *string
-│   │   ├── Sku: *Object (2 properties)
-│   │   │   ├── Capacity: *int
-│   │   │   └── Name: *Enum (8 values)
-│   │   │       ├── "Basic"
-│   │   │       ├── "BasicV2"
-│   │   │       ├── "Consumption"
-│   │   │       ├── "Developer"
-│   │   │       ├── "Isolated"
-│   │   │       ├── "Premium"
-│   │   │       ├── "Standard"
-│   │   │       └── "StandardV2"
-│   │   ├── VirtualNetworkConfiguration: *Object (3 properties)
-│   │   │   ├── SubnetResourceId: *string
-│   │   │   ├── Subnetname: *string
-│   │   │   └── Vnetid: *string
-│   │   └── Zones: string[]
-│   ├── ApiVersionConstraint: *Object (1 property)
-│   │   └── MinApiVersion: *string
-│   ├── Certificates: Object (3 properties)[]
-│   │   ├── Certificate: *Object (3 properties)
-│   │   │   ├── Expiry: *string
-│   │   │   ├── Subject: *string
-│   │   │   └── Thumbprint: *string
-│   │   ├── EncodedCertificate: *string
-│   │   └── StoreName: *Enum (2 values)
-│   │       ├── "CertificateAuthority"
-│   │       └── "Root"
-│   ├── ConfigurationApi: *Object (1 property)
-│   │   └── LegacyApi: *Enum (2 values)
-│   │       ├── "Disabled"
-│   │       └── "Enabled"
-│   ├── CreatedAtUtc: *string
-│   ├── CustomProperties: map[string]string
-│   ├── DeveloperPortalStatus: *Enum (2 values)
-│   │   ├── "Disabled"
-│   │   └── "Enabled"
-│   ├── DeveloperPortalUrl: *string
-│   ├── DisableGateway: *bool
-│   ├── EnableClientCertificate: *bool
-│   ├── GatewayRegionalUrl: *string
-│   ├── GatewayUrl: *string
-│   ├── HostnameConfigurations: Object (10 properties)[]
-│   │   ├── Certificate: *Object (3 properties)
-│   │   │   ├── Expiry: *string
-│   │   │   ├── Subject: *string
-│   │   │   └── Thumbprint: *string
-│   │   ├── CertificateSource: *Enum (4 values)
-│   │   │   ├── "BuiltIn"
-│   │   │   ├── "Custom"
-│   │   │   ├── "KeyVault"
-│   │   │   └── "Managed"
-│   │   ├── CertificateStatus: *Enum (3 values)
-│   │   │   ├── "Completed"
-│   │   │   ├── "Failed"
-│   │   │   └── "InProgress"
-│   │   ├── DefaultSslBinding: *bool
-│   │   ├── EncodedCertificate: *string
-│   │   ├── HostName: *string
-│   │   ├── IdentityClientId: *string
-│   │   ├── KeyVaultId: *string
-│   │   ├── NegotiateClientCertificate: *bool
-│   │   └── Type: *Enum (6 values)
-│   │       ├── "ConfigurationApi"
-│   │       ├── "DeveloperPortal"
-│   │       ├── "Management"
-│   │       ├── "Portal"
-│   │       ├── "Proxy"
-│   │       └── "Scm"
-│   ├── LegacyPortalStatus: *Enum (2 values)
-│   │   ├── "Disabled"
-│   │   └── "Enabled"
-│   ├── ManagementApiUrl: *string
-│   ├── NatGatewayState: *Enum (2 values)
-│   │   ├── "Disabled"
-│   │   └── "Enabled"
-│   ├── NotificationSenderEmail: *string
-│   ├── OutboundPublicIPAddresses: string[]
-│   ├── PlatformVersion: *Enum (5 values)
-│   │   ├── "mtv1"
-│   │   ├── "stv1"
-│   │   ├── "stv2"
-│   │   ├── "stv2.1"
-│   │   └── "undetermined"
-│   ├── PortalUrl: *string
-│   ├── PrivateEndpointConnections: Object (4 properties)[]
-│   │   ├── Id: *string
-│   │   ├── Name: *string
-│   │   ├── Properties: *Object (4 properties)
-│   │   │   ├── GroupIds: string[]
-│   │   │   ├── PrivateEndpoint: *Object (1 property)
-│   │   │   │   └── Id: *string
-│   │   │   ├── PrivateLinkServiceConnectionState: *Object (3 properties)
-│   │   │   │   ├── ActionsRequired: *string
-│   │   │   │   ├── Description: *string
-│   │   │   │   └── Status: *Enum (3 values)
-│   │   │   │       ├── "Approved"
-│   │   │   │       ├── "Pending"
-│   │   │   │       └── "Rejected"
-│   │   │   └── ProvisioningState: *string
-│   │   └── Type: *string
-│   ├── PrivateIPAddresses: string[]
-│   ├── ProvisioningState: *string
-│   ├── PublicIPAddresses: string[]
-│   ├── PublicIpAddressId: *string
-│   ├── PublicNetworkAccess: *Enum (2 values)
-│   │   ├── "Disabled"
-│   │   └── "Enabled"
-│   ├── PublisherEmail: *string
-│   ├── PublisherName: *string
-│   ├── Restore: *bool
-│   ├── ScmUrl: *string
-│   ├── TargetProvisioningState: *string
-│   ├── VirtualNetworkConfiguration: *Object (3 properties)
-│   │   ├── SubnetResourceId: *string
-│   │   ├── Subnetname: *string
-│   │   └── Vnetid: *string
-│   └── VirtualNetworkType: *Enum (3 values)
-│       ├── "External"
-│       ├── "Internal"
-│       └── "None"
-├── Sku: *Object (2 properties)
-│   ├── Capacity: *int
-│   └── Name: *Enum (8 values)
-│       ├── "Basic"
-│       ├── "BasicV2"
-│       ├── "Consumption"
-│       ├── "Developer"
-│       ├── "Isolated"
-│       ├── "Premium"
-│       ├── "Standard"
-│       └── "StandardV2"
-├── SystemData: *Object (6 properties)
-│   ├── CreatedAt: *string
-│   ├── CreatedBy: *string
-│   ├── CreatedByType: *Enum (4 values)
-│   │   ├── "Application"
-│   │   ├── "Key"
-│   │   ├── "ManagedIdentity"
-│   │   └── "User"
-│   ├── LastModifiedAt: *string
-│   ├── LastModifiedBy: *string
-│   └── LastModifiedByType: *Enum (4 values)
-│       ├── "Application"
-│       ├── "Key"
-│       ├── "ManagedIdentity"
-│       └── "User"
-├── Tags: map[string]string
-├── Type: *string
-└── Zones: string[]
-Service_Spec_ARM: Object (7 properties)
-├── Identity: *Object (2 properties)
-│   ├── Type: *Enum (4 values)
-│   │   ├── "None"
-│   │   ├── "SystemAssigned"
-│   │   ├── "SystemAssigned, UserAssigned"
-│   │   └── "UserAssigned"
-│   └── UserAssignedIdentities: map[string]Object (0 properties)
-├── Location: *string
-├── Name: string
-├── Properties: *Object (19 properties)
-│   ├── AdditionalLocations: Object (7 properties)[]
-│   │   ├── DisableGateway: *bool
-│   │   ├── Location: *string
-│   │   ├── NatGatewayState: *Enum (2 values)
-│   │   │   ├── "Disabled"
-│   │   │   └── "Enabled"
-│   │   ├── PublicIpAddressId: *string
-│   │   ├── Sku: *Object (2 properties)
-│   │   │   ├── Capacity: *int
-│   │   │   └── Name: *Enum (8 values)
-│   │   │       ├── "Basic"
-│   │   │       ├── "BasicV2"
-│   │   │       ├── "Consumption"
-│   │   │       ├── "Developer"
-│   │   │       ├── "Isolated"
-│   │   │       ├── "Premium"
-│   │   │       ├── "Standard"
-│   │   │       └── "StandardV2"
-│   │   ├── VirtualNetworkConfiguration: *Object (1 property)
-│   │   │   └── SubnetResourceId: *string
-│   │   └── Zones: string[]
-│   ├── ApiVersionConstraint: *Object (1 property)
-│   │   └── MinApiVersion: *string
-│   ├── Certificates: Object (4 properties)[]
-│   │   ├── Certificate: *Object (3 properties)
-│   │   │   ├── Expiry: *string
-│   │   │   ├── Subject: *string
-│   │   │   └── Thumbprint: *string
-│   │   ├── CertificatePassword: *string
-│   │   ├── EncodedCertificate: *string
-│   │   └── StoreName: *Enum (2 values)
-│   │       ├── "CertificateAuthority"
-│   │       └── "Root"
-│   ├── ConfigurationApi: *Object (1 property)
-│   │   └── LegacyApi: *Enum (2 values)
-│   │       ├── "Disabled"
-│   │       └── "Enabled"
-│   ├── CustomProperties: map[string]string
-│   ├── DeveloperPortalStatus: *Enum (2 values)
-│   │   ├── "Disabled"
-│   │   └── "Enabled"
-│   ├── DisableGateway: *bool
-│   ├── EnableClientCertificate: *bool
-│   ├── HostnameConfigurations: Object (11 properties)[]
-│   │   ├── Certificate: *Object (3 properties)
-│   │   │   ├── Expiry: *string
-│   │   │   ├── Subject: *string
-│   │   │   └── Thumbprint: *string
-│   │   ├── CertificatePassword: *string
-│   │   ├── CertificateSource: *Enum (4 values)
-│   │   │   ├── "BuiltIn"
-│   │   │   ├── "Custom"
-│   │   │   ├── "KeyVault"
-│   │   │   └── "Managed"
-│   │   ├── CertificateStatus: *Enum (3 values)
-│   │   │   ├── "Completed"
-│   │   │   ├── "Failed"
-│   │   │   └── "InProgress"
-│   │   ├── DefaultSslBinding: *bool
-│   │   ├── EncodedCertificate: *string
-│   │   ├── HostName: *string
-│   │   ├── IdentityClientId: *string
-│   │   ├── KeyVaultId: *string
-│   │   ├── NegotiateClientCertificate: *bool
-│   │   └── Type: *Enum (6 values)
-│   │       ├── "ConfigurationApi"
-│   │       ├── "DeveloperPortal"
-│   │       ├── "Management"
-│   │       ├── "Portal"
-│   │       ├── "Proxy"
-│   │       └── "Scm"
-│   ├── LegacyPortalStatus: *Enum (2 values)
-│   │   ├── "Disabled"
-│   │   └── "Enabled"
-│   ├── NatGatewayState: *Enum (2 values)
-│   │   ├── "Disabled"
-│   │   └── "Enabled"
-│   ├── NotificationSenderEmail: *string
-│   ├── PublicIpAddressId: *string
-│   ├── PublicNetworkAccess: *Enum (2 values)
-│   │   ├── "Disabled"
-│   │   └── "Enabled"
-│   ├── PublisherEmail: *string
-│   ├── PublisherName: *string
-│   ├── Restore: *bool
-│   ├── VirtualNetworkConfiguration: *Object (1 property)
-│   │   └── SubnetResourceId: *string
-│   └── VirtualNetworkType: *Enum (3 values)
-│       ├── "External"
-│       ├── "Internal"
-│       └── "None"
-├── Sku: *Object (2 properties)
-│   ├── Capacity: *int
-│   └── Name: *Enum (8 values)
-│       ├── "Basic"
-│       ├── "BasicV2"
-│       ├── "Consumption"
-│       ├── "Developer"
-│       ├── "Isolated"
-│       ├── "Premium"
-│       ├── "Standard"
-│       └── "StandardV2"
-├── Tags: map[string]string
-└── Zones: string[]
-Service_Subscription_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (11 properties)
-│   ├── AllowTracing: *bool
-│   ├── CreatedDate: *string
-│   ├── DisplayName: *string
-│   ├── EndDate: *string
-│   ├── ExpirationDate: *string
-│   ├── NotificationDate: *string
-│   ├── OwnerId: *string
-│   ├── Scope: *string
-│   ├── StartDate: *string
-│   ├── State: *Enum (6 values)
-│   │   ├── "active"
-│   │   ├── "cancelled"
-│   │   ├── "expired"
-│   │   ├── "rejected"
-│   │   ├── "submitted"
-│   │   └── "suspended"
-│   └── StateComment: *string
-└── Type: *string
-Service_Subscription_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (7 properties)
-    ├── AllowTracing: *bool
-    ├── DisplayName: *string
-    ├── OwnerId: *string
-    ├── PrimaryKey: *string
-    ├── Scope: *string
-    ├── SecondaryKey: *string
-    └── State: *Enum (6 values)
-        ├── "active"
-        ├── "cancelled"
-        ├── "expired"
-        ├── "rejected"
-        ├── "submitted"
-        └── "suspended"
 Subscription: Resource
 ├── Owner: Service
 ├── Spec: Object (10 properties)
@@ -1716,7 +949,9 @@ Subscription: Resource
 │   ├── DisplayName: Validated<*string> (2 rules)
 │   │   ├── Rule 0: MaxLength: 100
 │   │   └── Rule 1: MinLength: 1
-│   ├── OperatorSpec: *Object (1 property)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (2 properties)
 │   │       ├── PrimaryKey: *genruntime.SecretDestination
 │   │       └── SecondaryKey: *genruntime.SecretDestination

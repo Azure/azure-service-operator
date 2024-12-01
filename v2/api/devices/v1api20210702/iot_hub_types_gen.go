@@ -5,12 +5,15 @@ package v1api20210702
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -91,6 +94,26 @@ func (iotHub *IotHub) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the IotHub resource
 func (iotHub *IotHub) defaultImpl() { iotHub.defaultAzureName() }
 
+var _ configmaps.Exporter = &IotHub{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (iotHub *IotHub) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if iotHub.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return iotHub.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &IotHub{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (iotHub *IotHub) SecretDestinationExpressions() []*core.DestinationExpression {
+	if iotHub.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return iotHub.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &IotHub{}
 
 // InitializeSpec initializes the spec for this resource from the given status
@@ -150,6 +173,10 @@ func (iotHub *IotHub) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (iotHub *IotHub) Owner() *genruntime.ResourceReference {
+	if iotHub.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(iotHub.Spec)
 	return iotHub.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -166,7 +193,7 @@ func (iotHub *IotHub) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st IotHub_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	iotHub.Status = st
@@ -209,7 +236,7 @@ func (iotHub *IotHub) ValidateUpdate(old runtime.Object) (admission.Warnings, er
 
 // createValidations validates the creation of the resource
 func (iotHub *IotHub) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){iotHub.validateResourceReferences, iotHub.validateOwnerReference, iotHub.validateSecretDestinations}
+	return []func() (admission.Warnings, error){iotHub.validateResourceReferences, iotHub.validateOwnerReference, iotHub.validateSecretDestinations, iotHub.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -230,7 +257,18 @@ func (iotHub *IotHub) updateValidations() []func(old runtime.Object) (admission.
 		func(old runtime.Object) (admission.Warnings, error) {
 			return iotHub.validateSecretDestinations()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return iotHub.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (iotHub *IotHub) validateConfigMapDestinations() (admission.Warnings, error) {
+	if iotHub.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(iotHub, nil, iotHub.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -252,22 +290,22 @@ func (iotHub *IotHub) validateSecretDestinations() (admission.Warnings, error) {
 	if iotHub.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	if iotHub.Spec.OperatorSpec.Secrets == nil {
-		return nil, nil
+	var toValidate []*genruntime.SecretDestination
+	if iotHub.Spec.OperatorSpec.Secrets != nil {
+		toValidate = []*genruntime.SecretDestination{
+			iotHub.Spec.OperatorSpec.Secrets.DevicePrimaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.DeviceSecondaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.IotHubOwnerPrimaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.IotHubOwnerSecondaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.RegistryReadPrimaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.RegistryReadSecondaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.RegistryReadWritePrimaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.RegistryReadWriteSecondaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.ServicePrimaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.ServiceSecondaryKey,
+		}
 	}
-	toValidate := []*genruntime.SecretDestination{
-		iotHub.Spec.OperatorSpec.Secrets.DevicePrimaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.DeviceSecondaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.IotHubOwnerPrimaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.IotHubOwnerSecondaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.RegistryReadPrimaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.RegistryReadSecondaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.RegistryReadWritePrimaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.RegistryReadWriteSecondaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.ServicePrimaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.ServiceSecondaryKey,
-	}
-	return secrets.ValidateDestinations(toValidate)
+	return secrets.ValidateDestinations(iotHub, toValidate, iotHub.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -290,7 +328,7 @@ func (iotHub *IotHub) AssignProperties_From_IotHub(source *storage.IotHub) error
 	var spec IotHub_Spec
 	err := spec.AssignProperties_From_IotHub_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_IotHub_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_IotHub_Spec() to populate field Spec")
 	}
 	iotHub.Spec = spec
 
@@ -298,7 +336,7 @@ func (iotHub *IotHub) AssignProperties_From_IotHub(source *storage.IotHub) error
 	var status IotHub_STATUS
 	err = status.AssignProperties_From_IotHub_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_IotHub_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_IotHub_STATUS() to populate field Status")
 	}
 	iotHub.Status = status
 
@@ -316,7 +354,7 @@ func (iotHub *IotHub) AssignProperties_To_IotHub(destination *storage.IotHub) er
 	var spec storage.IotHub_Spec
 	err := iotHub.Spec.AssignProperties_To_IotHub_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_IotHub_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_IotHub_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -324,7 +362,7 @@ func (iotHub *IotHub) AssignProperties_To_IotHub(destination *storage.IotHub) er
 	var status storage.IotHub_STATUS
 	err = iotHub.Status.AssignProperties_To_IotHub_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_IotHub_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_IotHub_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -396,7 +434,7 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if iotHub == nil {
 		return nil, nil
 	}
-	result := &IotHub_Spec_ARM{}
+	result := &arm.IotHub_Spec{}
 
 	// Set property "Identity":
 	if iotHub.Identity != nil {
@@ -404,7 +442,7 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*ArmIdentity_ARM)
+		identity := *identity_ARM.(*arm.ArmIdentity)
 		result.Identity = &identity
 	}
 
@@ -423,7 +461,7 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*IotHubProperties_ARM)
+		properties := *properties_ARM.(*arm.IotHubProperties)
 		result.Properties = &properties
 	}
 
@@ -433,7 +471,7 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*IotHubSkuInfo_ARM)
+		sku := *sku_ARM.(*arm.IotHubSkuInfo)
 		result.Sku = &sku
 	}
 
@@ -449,14 +487,14 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (iotHub *IotHub_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IotHub_Spec_ARM{}
+	return &arm.IotHub_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (iotHub *IotHub_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IotHub_Spec_ARM)
+	typedInput, ok := armInput.(arm.IotHub_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHub_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IotHub_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -535,13 +573,13 @@ func (iotHub *IotHub_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 	src = &storage.IotHub_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = iotHub.AssignProperties_From_IotHub_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -559,13 +597,13 @@ func (iotHub *IotHub_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 	dst = &storage.IotHub_Spec{}
 	err := iotHub.AssignProperties_To_IotHub_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -582,7 +620,7 @@ func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *storage.Iot
 		var identity ArmIdentity
 		err := identity.AssignProperties_From_ArmIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ArmIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ArmIdentity() to populate field Identity")
 		}
 		iotHub.Identity = &identity
 	} else {
@@ -597,7 +635,7 @@ func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *storage.Iot
 		var operatorSpec IotHubOperatorSpec
 		err := operatorSpec.AssignProperties_From_IotHubOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IotHubOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_IotHubOperatorSpec() to populate field OperatorSpec")
 		}
 		iotHub.OperatorSpec = &operatorSpec
 	} else {
@@ -617,7 +655,7 @@ func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *storage.Iot
 		var property IotHubProperties
 		err := property.AssignProperties_From_IotHubProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IotHubProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_IotHubProperties() to populate field Properties")
 		}
 		iotHub.Properties = &property
 	} else {
@@ -629,7 +667,7 @@ func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *storage.Iot
 		var sku IotHubSkuInfo
 		err := sku.AssignProperties_From_IotHubSkuInfo(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IotHubSkuInfo() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_IotHubSkuInfo() to populate field Sku")
 		}
 		iotHub.Sku = &sku
 	} else {
@@ -656,7 +694,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *storage.
 		var identity storage.ArmIdentity
 		err := iotHub.Identity.AssignProperties_To_ArmIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ArmIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ArmIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -671,7 +709,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *storage.
 		var operatorSpec storage.IotHubOperatorSpec
 		err := iotHub.OperatorSpec.AssignProperties_To_IotHubOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IotHubOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_IotHubOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -694,7 +732,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *storage.
 		var property storage.IotHubProperties
 		err := iotHub.Properties.AssignProperties_To_IotHubProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IotHubProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_IotHubProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -706,7 +744,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *storage.
 		var sku storage.IotHubSkuInfo
 		err := iotHub.Sku.AssignProperties_To_IotHubSkuInfo(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IotHubSkuInfo() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_IotHubSkuInfo() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -735,7 +773,7 @@ func (iotHub *IotHub_Spec) Initialize_From_IotHub_STATUS(source *IotHub_STATUS) 
 		var identity ArmIdentity
 		err := identity.Initialize_From_ArmIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ArmIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ArmIdentity_STATUS() to populate field Identity")
 		}
 		iotHub.Identity = &identity
 	} else {
@@ -750,7 +788,7 @@ func (iotHub *IotHub_Spec) Initialize_From_IotHub_STATUS(source *IotHub_STATUS) 
 		var property IotHubProperties
 		err := property.Initialize_From_IotHubProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_IotHubProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling Initialize_From_IotHubProperties_STATUS() to populate field Properties")
 		}
 		iotHub.Properties = &property
 	} else {
@@ -762,7 +800,7 @@ func (iotHub *IotHub_Spec) Initialize_From_IotHub_STATUS(source *IotHub_STATUS) 
 		var sku IotHubSkuInfo
 		err := sku.Initialize_From_IotHubSkuInfo_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_IotHubSkuInfo_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_IotHubSkuInfo_STATUS() to populate field Sku")
 		}
 		iotHub.Sku = &sku
 	} else {
@@ -834,13 +872,13 @@ func (iotHub *IotHub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 	src = &storage.IotHub_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = iotHub.AssignProperties_From_IotHub_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -858,13 +896,13 @@ func (iotHub *IotHub_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 	dst = &storage.IotHub_STATUS{}
 	err := iotHub.AssignProperties_To_IotHub_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -874,14 +912,14 @@ var _ genruntime.FromARMConverter = &IotHub_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (iotHub *IotHub_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IotHub_STATUS_ARM{}
+	return &arm.IotHub_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (iotHub *IotHub_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IotHub_STATUS_ARM)
+	typedInput, ok := armInput.(arm.IotHub_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHub_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IotHub_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -989,7 +1027,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_From_IotHub_STATUS(source *storage
 		var identity ArmIdentity_STATUS
 		err := identity.AssignProperties_From_ArmIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ArmIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ArmIdentity_STATUS() to populate field Identity")
 		}
 		iotHub.Identity = &identity
 	} else {
@@ -1007,7 +1045,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_From_IotHub_STATUS(source *storage
 		var property IotHubProperties_STATUS
 		err := property.AssignProperties_From_IotHubProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IotHubProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_IotHubProperties_STATUS() to populate field Properties")
 		}
 		iotHub.Properties = &property
 	} else {
@@ -1019,7 +1057,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_From_IotHub_STATUS(source *storage
 		var sku IotHubSkuInfo_STATUS
 		err := sku.AssignProperties_From_IotHubSkuInfo_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IotHubSkuInfo_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_IotHubSkuInfo_STATUS() to populate field Sku")
 		}
 		iotHub.Sku = &sku
 	} else {
@@ -1031,7 +1069,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_From_IotHub_STATUS(source *storage
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		iotHub.SystemData = &systemDatum
 	} else {
@@ -1067,7 +1105,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *stor
 		var identity storage.ArmIdentity_STATUS
 		err := iotHub.Identity.AssignProperties_To_ArmIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ArmIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ArmIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1085,7 +1123,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *stor
 		var property storage.IotHubProperties_STATUS
 		err := iotHub.Properties.AssignProperties_To_IotHubProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IotHubProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_IotHubProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -1097,7 +1135,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *stor
 		var sku storage.IotHubSkuInfo_STATUS
 		err := iotHub.Sku.AssignProperties_To_IotHubSkuInfo_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IotHubSkuInfo_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_IotHubSkuInfo_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1109,7 +1147,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *stor
 		var systemDatum storage.SystemData_STATUS
 		err := iotHub.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1147,39 +1185,39 @@ func (identity *ArmIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if identity == nil {
 		return nil, nil
 	}
-	result := &ArmIdentity_ARM{}
+	result := &arm.ArmIdentity{}
 
 	// Set property "Type":
 	if identity.Type != nil {
 		var temp string
 		temp = string(*identity.Type)
-		typeVar := ArmIdentity_Type_ARM(temp)
+		typeVar := arm.ArmIdentity_Type(temp)
 		result.Type = &typeVar
 	}
 
 	// Set property "UserAssignedIdentities":
-	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
+	result.UserAssignedIdentities = make(map[string]arm.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
 		if err != nil {
 			return nil, err
 		}
 		key := identARMID
-		result.UserAssignedIdentities[key] = UserAssignedIdentityDetails_ARM{}
+		result.UserAssignedIdentities[key] = arm.UserAssignedIdentityDetails{}
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ArmIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ArmIdentity_ARM{}
+	return &arm.ArmIdentity{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ArmIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ArmIdentity_ARM)
+	typedInput, ok := armInput.(arm.ArmIdentity)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ArmIdentity_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ArmIdentity, got %T", armInput)
 	}
 
 	// Set property "Type":
@@ -1217,7 +1255,7 @@ func (identity *ArmIdentity) AssignProperties_From_ArmIdentity(source *storage.A
 			var userAssignedIdentity UserAssignedIdentityDetails
 			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -1252,7 +1290,7 @@ func (identity *ArmIdentity) AssignProperties_To_ArmIdentity(destination *storag
 			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
@@ -1316,14 +1354,14 @@ var _ genruntime.FromARMConverter = &ArmIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ArmIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ArmIdentity_STATUS_ARM{}
+	return &arm.ArmIdentity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ArmIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ArmIdentity_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ArmIdentity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ArmIdentity_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ArmIdentity_STATUS, got %T", armInput)
 	}
 
 	// Set property "PrincipalId":
@@ -1390,7 +1428,7 @@ func (identity *ArmIdentity_STATUS) AssignProperties_From_ArmIdentity_STATUS(sou
 			var userAssignedIdentity ArmUserIdentity_STATUS
 			err := userAssignedIdentity.AssignProperties_From_ArmUserIdentity_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ArmUserIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_ArmUserIdentity_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1431,7 +1469,7 @@ func (identity *ArmIdentity_STATUS) AssignProperties_To_ArmIdentity_STATUS(desti
 			var userAssignedIdentity storage.ArmUserIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_ArmUserIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ArmUserIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_ArmUserIdentity_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1453,6 +1491,12 @@ func (identity *ArmIdentity_STATUS) AssignProperties_To_ArmIdentity_STATUS(desti
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type IotHubOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+
 	// Secrets: configures where to place Azure generated secrets.
 	Secrets *IotHubOperatorSecrets `json:"secrets,omitempty"`
 }
@@ -1460,12 +1504,48 @@ type IotHubOperatorSpec struct {
 // AssignProperties_From_IotHubOperatorSpec populates our IotHubOperatorSpec from the provided source IotHubOperatorSpec
 func (operator *IotHubOperatorSpec) AssignProperties_From_IotHubOperatorSpec(source *storage.IotHubOperatorSpec) error {
 
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
 	// Secrets
 	if source.Secrets != nil {
 		var secret IotHubOperatorSecrets
 		err := secret.AssignProperties_From_IotHubOperatorSecrets(source.Secrets)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IotHubOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_From_IotHubOperatorSecrets() to populate field Secrets")
 		}
 		operator.Secrets = &secret
 	} else {
@@ -1481,12 +1561,48 @@ func (operator *IotHubOperatorSpec) AssignProperties_To_IotHubOperatorSpec(desti
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
 	// Secrets
 	if operator.Secrets != nil {
 		var secret storage.IotHubOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_IotHubOperatorSecrets(&secret)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IotHubOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_To_IotHubOperatorSecrets() to populate field Secrets")
 		}
 		destination.Secrets = &secret
 	} else {
@@ -1579,7 +1695,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 	if properties == nil {
 		return nil, nil
 	}
-	result := &IotHubProperties_ARM{}
+	result := &arm.IotHubProperties{}
 
 	// Set property "AllowedFqdnList":
 	for _, item := range properties.AllowedFqdnList {
@@ -1592,7 +1708,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		result.AuthorizationPolicies = append(result.AuthorizationPolicies, *item_ARM.(*SharedAccessSignatureAuthorizationRule_ARM))
+		result.AuthorizationPolicies = append(result.AuthorizationPolicies, *item_ARM.(*arm.SharedAccessSignatureAuthorizationRule))
 	}
 
 	// Set property "CloudToDevice":
@@ -1601,7 +1717,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		cloudToDevice := *cloudToDevice_ARM.(*CloudToDeviceProperties_ARM)
+		cloudToDevice := *cloudToDevice_ARM.(*arm.CloudToDeviceProperties)
 		result.CloudToDevice = &cloudToDevice
 	}
 
@@ -1643,13 +1759,13 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "EventHubEndpoints":
 	if properties.EventHubEndpoints != nil {
-		result.EventHubEndpoints = make(map[string]EventHubProperties_ARM, len(properties.EventHubEndpoints))
+		result.EventHubEndpoints = make(map[string]arm.EventHubProperties, len(properties.EventHubEndpoints))
 		for key, value := range properties.EventHubEndpoints {
 			value_ARM, err := value.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			result.EventHubEndpoints[key] = *value_ARM.(*EventHubProperties_ARM)
+			result.EventHubEndpoints[key] = *value_ARM.(*arm.EventHubProperties)
 		}
 	}
 
@@ -1657,7 +1773,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 	if properties.Features != nil {
 		var temp string
 		temp = string(*properties.Features)
-		features := IotHubProperties_Features_ARM(temp)
+		features := arm.IotHubProperties_Features(temp)
 		result.Features = &features
 	}
 
@@ -1667,18 +1783,18 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		result.IpFilterRules = append(result.IpFilterRules, *item_ARM.(*IpFilterRule_ARM))
+		result.IpFilterRules = append(result.IpFilterRules, *item_ARM.(*arm.IpFilterRule))
 	}
 
 	// Set property "MessagingEndpoints":
 	if properties.MessagingEndpoints != nil {
-		result.MessagingEndpoints = make(map[string]MessagingEndpointProperties_ARM, len(properties.MessagingEndpoints))
+		result.MessagingEndpoints = make(map[string]arm.MessagingEndpointProperties, len(properties.MessagingEndpoints))
 		for key, value := range properties.MessagingEndpoints {
 			value_ARM, err := value.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			result.MessagingEndpoints[key] = *value_ARM.(*MessagingEndpointProperties_ARM)
+			result.MessagingEndpoints[key] = *value_ARM.(*arm.MessagingEndpointProperties)
 		}
 	}
 
@@ -1694,7 +1810,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		networkRuleSets := *networkRuleSets_ARM.(*NetworkRuleSetProperties_ARM)
+		networkRuleSets := *networkRuleSets_ARM.(*arm.NetworkRuleSetProperties)
 		result.NetworkRuleSets = &networkRuleSets
 	}
 
@@ -1702,7 +1818,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 	if properties.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*properties.PublicNetworkAccess)
-		publicNetworkAccess := IotHubProperties_PublicNetworkAccess_ARM(temp)
+		publicNetworkAccess := arm.IotHubProperties_PublicNetworkAccess(temp)
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -1718,19 +1834,19 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		routing := *routing_ARM.(*RoutingProperties_ARM)
+		routing := *routing_ARM.(*arm.RoutingProperties)
 		result.Routing = &routing
 	}
 
 	// Set property "StorageEndpoints":
 	if properties.StorageEndpoints != nil {
-		result.StorageEndpoints = make(map[string]StorageEndpointProperties_ARM, len(properties.StorageEndpoints))
+		result.StorageEndpoints = make(map[string]arm.StorageEndpointProperties, len(properties.StorageEndpoints))
 		for key, value := range properties.StorageEndpoints {
 			value_ARM, err := value.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			result.StorageEndpoints[key] = *value_ARM.(*StorageEndpointProperties_ARM)
+			result.StorageEndpoints[key] = *value_ARM.(*arm.StorageEndpointProperties)
 		}
 	}
 	return result, nil
@@ -1738,14 +1854,14 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *IotHubProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IotHubProperties_ARM{}
+	return &arm.IotHubProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *IotHubProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IotHubProperties_ARM)
+	typedInput, ok := armInput.(arm.IotHubProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IotHubProperties, got %T", armInput)
 	}
 
 	// Set property "AllowedFqdnList":
@@ -1928,7 +2044,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 			var authorizationPolicy SharedAccessSignatureAuthorizationRule
 			err := authorizationPolicy.AssignProperties_From_SharedAccessSignatureAuthorizationRule(&authorizationPolicyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SharedAccessSignatureAuthorizationRule() to populate field AuthorizationPolicies")
+				return eris.Wrap(err, "calling AssignProperties_From_SharedAccessSignatureAuthorizationRule() to populate field AuthorizationPolicies")
 			}
 			authorizationPolicyList[authorizationPolicyIndex] = authorizationPolicy
 		}
@@ -1942,7 +2058,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 		var cloudToDevice CloudToDeviceProperties
 		err := cloudToDevice.AssignProperties_From_CloudToDeviceProperties(source.CloudToDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CloudToDeviceProperties() to populate field CloudToDevice")
+			return eris.Wrap(err, "calling AssignProperties_From_CloudToDeviceProperties() to populate field CloudToDevice")
 		}
 		properties.CloudToDevice = &cloudToDevice
 	} else {
@@ -2001,7 +2117,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 			var eventHubEndpoint EventHubProperties
 			err := eventHubEndpoint.AssignProperties_From_EventHubProperties(&eventHubEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EventHubProperties() to populate field EventHubEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_From_EventHubProperties() to populate field EventHubEndpoints")
 			}
 			eventHubEndpointMap[eventHubEndpointKey] = eventHubEndpoint
 		}
@@ -2028,7 +2144,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 			var ipFilterRule IpFilterRule
 			err := ipFilterRule.AssignProperties_From_IpFilterRule(&ipFilterRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpFilterRule() to populate field IpFilterRules")
+				return eris.Wrap(err, "calling AssignProperties_From_IpFilterRule() to populate field IpFilterRules")
 			}
 			ipFilterRuleList[ipFilterRuleIndex] = ipFilterRule
 		}
@@ -2046,7 +2162,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 			var messagingEndpoint MessagingEndpointProperties
 			err := messagingEndpoint.AssignProperties_From_MessagingEndpointProperties(&messagingEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_MessagingEndpointProperties() to populate field MessagingEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_From_MessagingEndpointProperties() to populate field MessagingEndpoints")
 			}
 			messagingEndpointMap[messagingEndpointKey] = messagingEndpoint
 		}
@@ -2063,7 +2179,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 		var networkRuleSet NetworkRuleSetProperties
 		err := networkRuleSet.AssignProperties_From_NetworkRuleSetProperties(source.NetworkRuleSets)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSetProperties() to populate field NetworkRuleSets")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkRuleSetProperties() to populate field NetworkRuleSets")
 		}
 		properties.NetworkRuleSets = &networkRuleSet
 	} else {
@@ -2092,7 +2208,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 		var routing RoutingProperties
 		err := routing.AssignProperties_From_RoutingProperties(source.Routing)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RoutingProperties() to populate field Routing")
+			return eris.Wrap(err, "calling AssignProperties_From_RoutingProperties() to populate field Routing")
 		}
 		properties.Routing = &routing
 	} else {
@@ -2108,7 +2224,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 			var storageEndpoint StorageEndpointProperties
 			err := storageEndpoint.AssignProperties_From_StorageEndpointProperties(&storageEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_StorageEndpointProperties() to populate field StorageEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_From_StorageEndpointProperties() to populate field StorageEndpoints")
 			}
 			storageEndpointMap[storageEndpointKey] = storageEndpoint
 		}
@@ -2138,7 +2254,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 			var authorizationPolicy storage.SharedAccessSignatureAuthorizationRule
 			err := authorizationPolicyItem.AssignProperties_To_SharedAccessSignatureAuthorizationRule(&authorizationPolicy)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SharedAccessSignatureAuthorizationRule() to populate field AuthorizationPolicies")
+				return eris.Wrap(err, "calling AssignProperties_To_SharedAccessSignatureAuthorizationRule() to populate field AuthorizationPolicies")
 			}
 			authorizationPolicyList[authorizationPolicyIndex] = authorizationPolicy
 		}
@@ -2152,7 +2268,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 		var cloudToDevice storage.CloudToDeviceProperties
 		err := properties.CloudToDevice.AssignProperties_To_CloudToDeviceProperties(&cloudToDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CloudToDeviceProperties() to populate field CloudToDevice")
+			return eris.Wrap(err, "calling AssignProperties_To_CloudToDeviceProperties() to populate field CloudToDevice")
 		}
 		destination.CloudToDevice = &cloudToDevice
 	} else {
@@ -2211,7 +2327,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 			var eventHubEndpoint storage.EventHubProperties
 			err := eventHubEndpointValue.AssignProperties_To_EventHubProperties(&eventHubEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EventHubProperties() to populate field EventHubEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_To_EventHubProperties() to populate field EventHubEndpoints")
 			}
 			eventHubEndpointMap[eventHubEndpointKey] = eventHubEndpoint
 		}
@@ -2237,7 +2353,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 			var ipFilterRule storage.IpFilterRule
 			err := ipFilterRuleItem.AssignProperties_To_IpFilterRule(&ipFilterRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpFilterRule() to populate field IpFilterRules")
+				return eris.Wrap(err, "calling AssignProperties_To_IpFilterRule() to populate field IpFilterRules")
 			}
 			ipFilterRuleList[ipFilterRuleIndex] = ipFilterRule
 		}
@@ -2255,7 +2371,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 			var messagingEndpoint storage.MessagingEndpointProperties
 			err := messagingEndpointValue.AssignProperties_To_MessagingEndpointProperties(&messagingEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_MessagingEndpointProperties() to populate field MessagingEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_To_MessagingEndpointProperties() to populate field MessagingEndpoints")
 			}
 			messagingEndpointMap[messagingEndpointKey] = messagingEndpoint
 		}
@@ -2272,7 +2388,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 		var networkRuleSet storage.NetworkRuleSetProperties
 		err := properties.NetworkRuleSets.AssignProperties_To_NetworkRuleSetProperties(&networkRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetProperties() to populate field NetworkRuleSets")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkRuleSetProperties() to populate field NetworkRuleSets")
 		}
 		destination.NetworkRuleSets = &networkRuleSet
 	} else {
@@ -2300,7 +2416,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 		var routing storage.RoutingProperties
 		err := properties.Routing.AssignProperties_To_RoutingProperties(&routing)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RoutingProperties() to populate field Routing")
+			return eris.Wrap(err, "calling AssignProperties_To_RoutingProperties() to populate field Routing")
 		}
 		destination.Routing = &routing
 	} else {
@@ -2316,7 +2432,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 			var storageEndpoint storage.StorageEndpointProperties
 			err := storageEndpointValue.AssignProperties_To_StorageEndpointProperties(&storageEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_StorageEndpointProperties() to populate field StorageEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_To_StorageEndpointProperties() to populate field StorageEndpoints")
 			}
 			storageEndpointMap[storageEndpointKey] = storageEndpoint
 		}
@@ -2351,7 +2467,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 			var authorizationPolicy SharedAccessSignatureAuthorizationRule
 			err := authorizationPolicy.Initialize_From_SharedAccessSignatureAuthorizationRule_STATUS(&authorizationPolicyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SharedAccessSignatureAuthorizationRule_STATUS() to populate field AuthorizationPolicies")
+				return eris.Wrap(err, "calling Initialize_From_SharedAccessSignatureAuthorizationRule_STATUS() to populate field AuthorizationPolicies")
 			}
 			authorizationPolicyList[authorizationPolicyIndex] = authorizationPolicy
 		}
@@ -2365,7 +2481,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 		var cloudToDevice CloudToDeviceProperties
 		err := cloudToDevice.Initialize_From_CloudToDeviceProperties_STATUS(source.CloudToDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CloudToDeviceProperties_STATUS() to populate field CloudToDevice")
+			return eris.Wrap(err, "calling Initialize_From_CloudToDeviceProperties_STATUS() to populate field CloudToDevice")
 		}
 		properties.CloudToDevice = &cloudToDevice
 	} else {
@@ -2424,7 +2540,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 			var eventHubEndpoint EventHubProperties
 			err := eventHubEndpoint.Initialize_From_EventHubProperties_STATUS(&eventHubEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_EventHubProperties_STATUS() to populate field EventHubEndpoints")
+				return eris.Wrap(err, "calling Initialize_From_EventHubProperties_STATUS() to populate field EventHubEndpoints")
 			}
 			eventHubEndpointMap[eventHubEndpointKey] = eventHubEndpoint
 		}
@@ -2450,7 +2566,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 			var ipFilterRule IpFilterRule
 			err := ipFilterRule.Initialize_From_IpFilterRule_STATUS(&ipFilterRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IpFilterRule_STATUS() to populate field IpFilterRules")
+				return eris.Wrap(err, "calling Initialize_From_IpFilterRule_STATUS() to populate field IpFilterRules")
 			}
 			ipFilterRuleList[ipFilterRuleIndex] = ipFilterRule
 		}
@@ -2468,7 +2584,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 			var messagingEndpoint MessagingEndpointProperties
 			err := messagingEndpoint.Initialize_From_MessagingEndpointProperties_STATUS(&messagingEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_MessagingEndpointProperties_STATUS() to populate field MessagingEndpoints")
+				return eris.Wrap(err, "calling Initialize_From_MessagingEndpointProperties_STATUS() to populate field MessagingEndpoints")
 			}
 			messagingEndpointMap[messagingEndpointKey] = messagingEndpoint
 		}
@@ -2485,7 +2601,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 		var networkRuleSet NetworkRuleSetProperties
 		err := networkRuleSet.Initialize_From_NetworkRuleSetProperties_STATUS(source.NetworkRuleSets)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NetworkRuleSetProperties_STATUS() to populate field NetworkRuleSets")
+			return eris.Wrap(err, "calling Initialize_From_NetworkRuleSetProperties_STATUS() to populate field NetworkRuleSets")
 		}
 		properties.NetworkRuleSets = &networkRuleSet
 	} else {
@@ -2513,7 +2629,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 		var routing RoutingProperties
 		err := routing.Initialize_From_RoutingProperties_STATUS(source.Routing)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RoutingProperties_STATUS() to populate field Routing")
+			return eris.Wrap(err, "calling Initialize_From_RoutingProperties_STATUS() to populate field Routing")
 		}
 		properties.Routing = &routing
 	} else {
@@ -2529,7 +2645,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 			var storageEndpoint StorageEndpointProperties
 			err := storageEndpoint.Initialize_From_StorageEndpointProperties_STATUS(&storageEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_StorageEndpointProperties_STATUS() to populate field StorageEndpoints")
+				return eris.Wrap(err, "calling Initialize_From_StorageEndpointProperties_STATUS() to populate field StorageEndpoints")
 			}
 			storageEndpointMap[storageEndpointKey] = storageEndpoint
 		}
@@ -2629,14 +2745,14 @@ var _ genruntime.FromARMConverter = &IotHubProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *IotHubProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IotHubProperties_STATUS_ARM{}
+	return &arm.IotHubProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IotHubProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.IotHubProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IotHubProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AllowedFqdnList":
@@ -2857,7 +2973,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 			var authorizationPolicy SharedAccessSignatureAuthorizationRule_STATUS
 			err := authorizationPolicy.AssignProperties_From_SharedAccessSignatureAuthorizationRule_STATUS(&authorizationPolicyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SharedAccessSignatureAuthorizationRule_STATUS() to populate field AuthorizationPolicies")
+				return eris.Wrap(err, "calling AssignProperties_From_SharedAccessSignatureAuthorizationRule_STATUS() to populate field AuthorizationPolicies")
 			}
 			authorizationPolicyList[authorizationPolicyIndex] = authorizationPolicy
 		}
@@ -2871,7 +2987,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 		var cloudToDevice CloudToDeviceProperties_STATUS
 		err := cloudToDevice.AssignProperties_From_CloudToDeviceProperties_STATUS(source.CloudToDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CloudToDeviceProperties_STATUS() to populate field CloudToDevice")
+			return eris.Wrap(err, "calling AssignProperties_From_CloudToDeviceProperties_STATUS() to populate field CloudToDevice")
 		}
 		properties.CloudToDevice = &cloudToDevice
 	} else {
@@ -2930,7 +3046,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 			var eventHubEndpoint EventHubProperties_STATUS
 			err := eventHubEndpoint.AssignProperties_From_EventHubProperties_STATUS(&eventHubEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EventHubProperties_STATUS() to populate field EventHubEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_From_EventHubProperties_STATUS() to populate field EventHubEndpoints")
 			}
 			eventHubEndpointMap[eventHubEndpointKey] = eventHubEndpoint
 		}
@@ -2960,7 +3076,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 			var ipFilterRule IpFilterRule_STATUS
 			err := ipFilterRule.AssignProperties_From_IpFilterRule_STATUS(&ipFilterRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpFilterRule_STATUS() to populate field IpFilterRules")
+				return eris.Wrap(err, "calling AssignProperties_From_IpFilterRule_STATUS() to populate field IpFilterRules")
 			}
 			ipFilterRuleList[ipFilterRuleIndex] = ipFilterRule
 		}
@@ -2978,7 +3094,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 			var location IotHubLocationDescription_STATUS
 			err := location.AssignProperties_From_IotHubLocationDescription_STATUS(&locationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IotHubLocationDescription_STATUS() to populate field Locations")
+				return eris.Wrap(err, "calling AssignProperties_From_IotHubLocationDescription_STATUS() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -2996,7 +3112,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 			var messagingEndpoint MessagingEndpointProperties_STATUS
 			err := messagingEndpoint.AssignProperties_From_MessagingEndpointProperties_STATUS(&messagingEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_MessagingEndpointProperties_STATUS() to populate field MessagingEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_From_MessagingEndpointProperties_STATUS() to populate field MessagingEndpoints")
 			}
 			messagingEndpointMap[messagingEndpointKey] = messagingEndpoint
 		}
@@ -3013,7 +3129,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 		var networkRuleSet NetworkRuleSetProperties_STATUS
 		err := networkRuleSet.AssignProperties_From_NetworkRuleSetProperties_STATUS(source.NetworkRuleSets)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSetProperties_STATUS() to populate field NetworkRuleSets")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkRuleSetProperties_STATUS() to populate field NetworkRuleSets")
 		}
 		properties.NetworkRuleSets = &networkRuleSet
 	} else {
@@ -3029,7 +3145,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -3063,7 +3179,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 		var routing RoutingProperties_STATUS
 		err := routing.AssignProperties_From_RoutingProperties_STATUS(source.Routing)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RoutingProperties_STATUS() to populate field Routing")
+			return eris.Wrap(err, "calling AssignProperties_From_RoutingProperties_STATUS() to populate field Routing")
 		}
 		properties.Routing = &routing
 	} else {
@@ -3082,7 +3198,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 			var storageEndpoint StorageEndpointProperties_STATUS
 			err := storageEndpoint.AssignProperties_From_StorageEndpointProperties_STATUS(&storageEndpointValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_StorageEndpointProperties_STATUS() to populate field StorageEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_From_StorageEndpointProperties_STATUS() to populate field StorageEndpoints")
 			}
 			storageEndpointMap[storageEndpointKey] = storageEndpoint
 		}
@@ -3112,7 +3228,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 			var authorizationPolicy storage.SharedAccessSignatureAuthorizationRule_STATUS
 			err := authorizationPolicyItem.AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS(&authorizationPolicy)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS() to populate field AuthorizationPolicies")
+				return eris.Wrap(err, "calling AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS() to populate field AuthorizationPolicies")
 			}
 			authorizationPolicyList[authorizationPolicyIndex] = authorizationPolicy
 		}
@@ -3126,7 +3242,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 		var cloudToDevice storage.CloudToDeviceProperties_STATUS
 		err := properties.CloudToDevice.AssignProperties_To_CloudToDeviceProperties_STATUS(&cloudToDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CloudToDeviceProperties_STATUS() to populate field CloudToDevice")
+			return eris.Wrap(err, "calling AssignProperties_To_CloudToDeviceProperties_STATUS() to populate field CloudToDevice")
 		}
 		destination.CloudToDevice = &cloudToDevice
 	} else {
@@ -3185,7 +3301,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 			var eventHubEndpoint storage.EventHubProperties_STATUS
 			err := eventHubEndpointValue.AssignProperties_To_EventHubProperties_STATUS(&eventHubEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EventHubProperties_STATUS() to populate field EventHubEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_To_EventHubProperties_STATUS() to populate field EventHubEndpoints")
 			}
 			eventHubEndpointMap[eventHubEndpointKey] = eventHubEndpoint
 		}
@@ -3214,7 +3330,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 			var ipFilterRule storage.IpFilterRule_STATUS
 			err := ipFilterRuleItem.AssignProperties_To_IpFilterRule_STATUS(&ipFilterRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpFilterRule_STATUS() to populate field IpFilterRules")
+				return eris.Wrap(err, "calling AssignProperties_To_IpFilterRule_STATUS() to populate field IpFilterRules")
 			}
 			ipFilterRuleList[ipFilterRuleIndex] = ipFilterRule
 		}
@@ -3232,7 +3348,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 			var location storage.IotHubLocationDescription_STATUS
 			err := locationItem.AssignProperties_To_IotHubLocationDescription_STATUS(&location)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IotHubLocationDescription_STATUS() to populate field Locations")
+				return eris.Wrap(err, "calling AssignProperties_To_IotHubLocationDescription_STATUS() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -3250,7 +3366,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 			var messagingEndpoint storage.MessagingEndpointProperties_STATUS
 			err := messagingEndpointValue.AssignProperties_To_MessagingEndpointProperties_STATUS(&messagingEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_MessagingEndpointProperties_STATUS() to populate field MessagingEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_To_MessagingEndpointProperties_STATUS() to populate field MessagingEndpoints")
 			}
 			messagingEndpointMap[messagingEndpointKey] = messagingEndpoint
 		}
@@ -3267,7 +3383,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 		var networkRuleSet storage.NetworkRuleSetProperties_STATUS
 		err := properties.NetworkRuleSets.AssignProperties_To_NetworkRuleSetProperties_STATUS(&networkRuleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetProperties_STATUS() to populate field NetworkRuleSets")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkRuleSetProperties_STATUS() to populate field NetworkRuleSets")
 		}
 		destination.NetworkRuleSets = &networkRuleSet
 	} else {
@@ -3283,7 +3399,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -3316,7 +3432,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 		var routing storage.RoutingProperties_STATUS
 		err := properties.Routing.AssignProperties_To_RoutingProperties_STATUS(&routing)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RoutingProperties_STATUS() to populate field Routing")
+			return eris.Wrap(err, "calling AssignProperties_To_RoutingProperties_STATUS() to populate field Routing")
 		}
 		destination.Routing = &routing
 	} else {
@@ -3335,7 +3451,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 			var storageEndpoint storage.StorageEndpointProperties_STATUS
 			err := storageEndpointValue.AssignProperties_To_StorageEndpointProperties_STATUS(&storageEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_StorageEndpointProperties_STATUS() to populate field StorageEndpoints")
+				return eris.Wrap(err, "calling AssignProperties_To_StorageEndpointProperties_STATUS() to populate field StorageEndpoints")
 			}
 			storageEndpointMap[storageEndpointKey] = storageEndpoint
 		}
@@ -3373,7 +3489,7 @@ func (info *IotHubSkuInfo) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if info == nil {
 		return nil, nil
 	}
-	result := &IotHubSkuInfo_ARM{}
+	result := &arm.IotHubSkuInfo{}
 
 	// Set property "Capacity":
 	if info.Capacity != nil {
@@ -3385,7 +3501,7 @@ func (info *IotHubSkuInfo) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if info.Name != nil {
 		var temp string
 		temp = string(*info.Name)
-		name := IotHubSkuInfo_Name_ARM(temp)
+		name := arm.IotHubSkuInfo_Name(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -3393,14 +3509,14 @@ func (info *IotHubSkuInfo) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (info *IotHubSkuInfo) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IotHubSkuInfo_ARM{}
+	return &arm.IotHubSkuInfo{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (info *IotHubSkuInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IotHubSkuInfo_ARM)
+	typedInput, ok := armInput.(arm.IotHubSkuInfo)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubSkuInfo_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IotHubSkuInfo, got %T", armInput)
 	}
 
 	// Set property "Capacity":
@@ -3502,14 +3618,14 @@ var _ genruntime.FromARMConverter = &IotHubSkuInfo_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (info *IotHubSkuInfo_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IotHubSkuInfo_STATUS_ARM{}
+	return &arm.IotHubSkuInfo_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (info *IotHubSkuInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IotHubSkuInfo_STATUS_ARM)
+	typedInput, ok := armInput.(arm.IotHubSkuInfo_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubSkuInfo_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IotHubSkuInfo_STATUS, got %T", armInput)
 	}
 
 	// Set property "Capacity":
@@ -3626,14 +3742,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUS_ARM{}
+	return &arm.SystemData_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreatedAt":
@@ -3805,14 +3921,14 @@ var _ genruntime.FromARMConverter = &ArmUserIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ArmUserIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ArmUserIdentity_STATUS_ARM{}
+	return &arm.ArmUserIdentity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ArmUserIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ArmUserIdentity_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ArmUserIdentity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ArmUserIdentity_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ArmUserIdentity_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -3889,7 +4005,7 @@ func (properties *CloudToDeviceProperties) ConvertToARM(resolved genruntime.Conv
 	if properties == nil {
 		return nil, nil
 	}
-	result := &CloudToDeviceProperties_ARM{}
+	result := &arm.CloudToDeviceProperties{}
 
 	// Set property "DefaultTtlAsIso8601":
 	if properties.DefaultTtlAsIso8601 != nil {
@@ -3903,7 +4019,7 @@ func (properties *CloudToDeviceProperties) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		feedback := *feedback_ARM.(*FeedbackProperties_ARM)
+		feedback := *feedback_ARM.(*arm.FeedbackProperties)
 		result.Feedback = &feedback
 	}
 
@@ -3917,14 +4033,14 @@ func (properties *CloudToDeviceProperties) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *CloudToDeviceProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CloudToDeviceProperties_ARM{}
+	return &arm.CloudToDeviceProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *CloudToDeviceProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CloudToDeviceProperties_ARM)
+	typedInput, ok := armInput.(arm.CloudToDeviceProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CloudToDeviceProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CloudToDeviceProperties, got %T", armInput)
 	}
 
 	// Set property "DefaultTtlAsIso8601":
@@ -3965,7 +4081,7 @@ func (properties *CloudToDeviceProperties) AssignProperties_From_CloudToDevicePr
 		var feedback FeedbackProperties
 		err := feedback.AssignProperties_From_FeedbackProperties(source.Feedback)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FeedbackProperties() to populate field Feedback")
+			return eris.Wrap(err, "calling AssignProperties_From_FeedbackProperties() to populate field Feedback")
 		}
 		properties.Feedback = &feedback
 	} else {
@@ -3997,7 +4113,7 @@ func (properties *CloudToDeviceProperties) AssignProperties_To_CloudToDeviceProp
 		var feedback storage.FeedbackProperties
 		err := properties.Feedback.AssignProperties_To_FeedbackProperties(&feedback)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FeedbackProperties() to populate field Feedback")
+			return eris.Wrap(err, "calling AssignProperties_To_FeedbackProperties() to populate field Feedback")
 		}
 		destination.Feedback = &feedback
 	} else {
@@ -4034,7 +4150,7 @@ func (properties *CloudToDeviceProperties) Initialize_From_CloudToDeviceProperti
 		var feedback FeedbackProperties
 		err := feedback.Initialize_From_FeedbackProperties_STATUS(source.Feedback)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_FeedbackProperties_STATUS() to populate field Feedback")
+			return eris.Wrap(err, "calling Initialize_From_FeedbackProperties_STATUS() to populate field Feedback")
 		}
 		properties.Feedback = &feedback
 	} else {
@@ -4071,14 +4187,14 @@ var _ genruntime.FromARMConverter = &CloudToDeviceProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *CloudToDeviceProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CloudToDeviceProperties_STATUS_ARM{}
+	return &arm.CloudToDeviceProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *CloudToDeviceProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CloudToDeviceProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CloudToDeviceProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CloudToDeviceProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CloudToDeviceProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "DefaultTtlAsIso8601":
@@ -4119,7 +4235,7 @@ func (properties *CloudToDeviceProperties_STATUS) AssignProperties_From_CloudToD
 		var feedback FeedbackProperties_STATUS
 		err := feedback.AssignProperties_From_FeedbackProperties_STATUS(source.Feedback)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FeedbackProperties_STATUS() to populate field Feedback")
+			return eris.Wrap(err, "calling AssignProperties_From_FeedbackProperties_STATUS() to populate field Feedback")
 		}
 		properties.Feedback = &feedback
 	} else {
@@ -4146,7 +4262,7 @@ func (properties *CloudToDeviceProperties_STATUS) AssignProperties_To_CloudToDev
 		var feedback storage.FeedbackProperties_STATUS
 		err := properties.Feedback.AssignProperties_To_FeedbackProperties_STATUS(&feedback)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FeedbackProperties_STATUS() to populate field Feedback")
+			return eris.Wrap(err, "calling AssignProperties_To_FeedbackProperties_STATUS() to populate field Feedback")
 		}
 		destination.Feedback = &feedback
 	} else {
@@ -4185,7 +4301,7 @@ func (properties *EventHubProperties) ConvertToARM(resolved genruntime.ConvertTo
 	if properties == nil {
 		return nil, nil
 	}
-	result := &EventHubProperties_ARM{}
+	result := &arm.EventHubProperties{}
 
 	// Set property "PartitionCount":
 	if properties.PartitionCount != nil {
@@ -4203,14 +4319,14 @@ func (properties *EventHubProperties) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *EventHubProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventHubProperties_ARM{}
+	return &arm.EventHubProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *EventHubProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventHubProperties_ARM)
+	typedInput, ok := armInput.(arm.EventHubProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventHubProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EventHubProperties, got %T", armInput)
 	}
 
 	// Set property "PartitionCount":
@@ -4301,14 +4417,14 @@ var _ genruntime.FromARMConverter = &EventHubProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *EventHubProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventHubProperties_STATUS_ARM{}
+	return &arm.EventHubProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *EventHubProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventHubProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.EventHubProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventHubProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EventHubProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "Endpoint":
@@ -4412,14 +4528,14 @@ var _ genruntime.FromARMConverter = &IotHubLocationDescription_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (description *IotHubLocationDescription_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IotHubLocationDescription_STATUS_ARM{}
+	return &arm.IotHubLocationDescription_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (description *IotHubLocationDescription_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IotHubLocationDescription_STATUS_ARM)
+	typedInput, ok := armInput.(arm.IotHubLocationDescription_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubLocationDescription_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IotHubLocationDescription_STATUS, got %T", armInput)
 	}
 
 	// Set property "Location":
@@ -4849,13 +4965,13 @@ func (rule *IpFilterRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if rule == nil {
 		return nil, nil
 	}
-	result := &IpFilterRule_ARM{}
+	result := &arm.IpFilterRule{}
 
 	// Set property "Action":
 	if rule.Action != nil {
 		var temp string
 		temp = string(*rule.Action)
-		action := IpFilterRule_Action_ARM(temp)
+		action := arm.IpFilterRule_Action(temp)
 		result.Action = &action
 	}
 
@@ -4875,14 +4991,14 @@ func (rule *IpFilterRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *IpFilterRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IpFilterRule_ARM{}
+	return &arm.IpFilterRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *IpFilterRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IpFilterRule_ARM)
+	typedInput, ok := armInput.(arm.IpFilterRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpFilterRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IpFilterRule, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -4998,14 +5114,14 @@ var _ genruntime.FromARMConverter = &IpFilterRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *IpFilterRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IpFilterRule_STATUS_ARM{}
+	return &arm.IpFilterRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *IpFilterRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IpFilterRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.IpFilterRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpFilterRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IpFilterRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -5107,7 +5223,7 @@ func (properties *MessagingEndpointProperties) ConvertToARM(resolved genruntime.
 	if properties == nil {
 		return nil, nil
 	}
-	result := &MessagingEndpointProperties_ARM{}
+	result := &arm.MessagingEndpointProperties{}
 
 	// Set property "LockDurationAsIso8601":
 	if properties.LockDurationAsIso8601 != nil {
@@ -5131,14 +5247,14 @@ func (properties *MessagingEndpointProperties) ConvertToARM(resolved genruntime.
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *MessagingEndpointProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MessagingEndpointProperties_ARM{}
+	return &arm.MessagingEndpointProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *MessagingEndpointProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MessagingEndpointProperties_ARM)
+	typedInput, ok := armInput.(arm.MessagingEndpointProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MessagingEndpointProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MessagingEndpointProperties, got %T", armInput)
 	}
 
 	// Set property "LockDurationAsIso8601":
@@ -5253,14 +5369,14 @@ var _ genruntime.FromARMConverter = &MessagingEndpointProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *MessagingEndpointProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MessagingEndpointProperties_STATUS_ARM{}
+	return &arm.MessagingEndpointProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *MessagingEndpointProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MessagingEndpointProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MessagingEndpointProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MessagingEndpointProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MessagingEndpointProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "LockDurationAsIso8601":
@@ -5347,7 +5463,7 @@ func (properties *NetworkRuleSetProperties) ConvertToARM(resolved genruntime.Con
 	if properties == nil {
 		return nil, nil
 	}
-	result := &NetworkRuleSetProperties_ARM{}
+	result := &arm.NetworkRuleSetProperties{}
 
 	// Set property "ApplyToBuiltInEventHubEndpoint":
 	if properties.ApplyToBuiltInEventHubEndpoint != nil {
@@ -5359,7 +5475,7 @@ func (properties *NetworkRuleSetProperties) ConvertToARM(resolved genruntime.Con
 	if properties.DefaultAction != nil {
 		var temp string
 		temp = string(*properties.DefaultAction)
-		defaultAction := NetworkRuleSetProperties_DefaultAction_ARM(temp)
+		defaultAction := arm.NetworkRuleSetProperties_DefaultAction(temp)
 		result.DefaultAction = &defaultAction
 	}
 
@@ -5369,21 +5485,21 @@ func (properties *NetworkRuleSetProperties) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		result.IpRules = append(result.IpRules, *item_ARM.(*NetworkRuleSetIpRule_ARM))
+		result.IpRules = append(result.IpRules, *item_ARM.(*arm.NetworkRuleSetIpRule))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *NetworkRuleSetProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkRuleSetProperties_ARM{}
+	return &arm.NetworkRuleSetProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *NetworkRuleSetProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkRuleSetProperties_ARM)
+	typedInput, ok := armInput.(arm.NetworkRuleSetProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSetProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkRuleSetProperties, got %T", armInput)
 	}
 
 	// Set property "ApplyToBuiltInEventHubEndpoint":
@@ -5443,7 +5559,7 @@ func (properties *NetworkRuleSetProperties) AssignProperties_From_NetworkRuleSet
 			var ipRule NetworkRuleSetIpRule
 			err := ipRule.AssignProperties_From_NetworkRuleSetIpRule(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSetIpRule() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_NetworkRuleSetIpRule() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -5486,7 +5602,7 @@ func (properties *NetworkRuleSetProperties) AssignProperties_To_NetworkRuleSetPr
 			var ipRule storage.NetworkRuleSetIpRule
 			err := ipRuleItem.AssignProperties_To_NetworkRuleSetIpRule(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetIpRule() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_NetworkRuleSetIpRule() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -5534,7 +5650,7 @@ func (properties *NetworkRuleSetProperties) Initialize_From_NetworkRuleSetProper
 			var ipRule NetworkRuleSetIpRule
 			err := ipRule.Initialize_From_NetworkRuleSetIpRule_STATUS(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_NetworkRuleSetIpRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling Initialize_From_NetworkRuleSetIpRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -5563,14 +5679,14 @@ var _ genruntime.FromARMConverter = &NetworkRuleSetProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *NetworkRuleSetProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkRuleSetProperties_STATUS_ARM{}
+	return &arm.NetworkRuleSetProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *NetworkRuleSetProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkRuleSetProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NetworkRuleSetProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSetProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkRuleSetProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "ApplyToBuiltInEventHubEndpoint":
@@ -5630,7 +5746,7 @@ func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_From_Network
 			var ipRule NetworkRuleSetIpRule_STATUS
 			err := ipRule.AssignProperties_From_NetworkRuleSetIpRule_STATUS(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSetIpRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_NetworkRuleSetIpRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -5673,7 +5789,7 @@ func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_To_NetworkRu
 			var ipRule storage.NetworkRuleSetIpRule_STATUS
 			err := ipRuleItem.AssignProperties_To_NetworkRuleSetIpRule_STATUS(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetIpRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_NetworkRuleSetIpRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -5703,14 +5819,14 @@ var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (connection *PrivateEndpointConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUS_ARM{}
+	return &arm.PrivateEndpointConnection_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateEndpointConnection_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateEndpointConnection_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -5781,7 +5897,7 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 	if properties == nil {
 		return nil, nil
 	}
-	result := &RoutingProperties_ARM{}
+	result := &arm.RoutingProperties{}
 
 	// Set property "Endpoints":
 	if properties.Endpoints != nil {
@@ -5789,7 +5905,7 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		endpoints := *endpoints_ARM.(*RoutingEndpoints_ARM)
+		endpoints := *endpoints_ARM.(*arm.RoutingEndpoints)
 		result.Endpoints = &endpoints
 	}
 
@@ -5799,7 +5915,7 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		result.Enrichments = append(result.Enrichments, *item_ARM.(*EnrichmentProperties_ARM))
+		result.Enrichments = append(result.Enrichments, *item_ARM.(*arm.EnrichmentProperties))
 	}
 
 	// Set property "FallbackRoute":
@@ -5808,7 +5924,7 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		fallbackRoute := *fallbackRoute_ARM.(*FallbackRouteProperties_ARM)
+		fallbackRoute := *fallbackRoute_ARM.(*arm.FallbackRouteProperties)
 		result.FallbackRoute = &fallbackRoute
 	}
 
@@ -5818,21 +5934,21 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		result.Routes = append(result.Routes, *item_ARM.(*RouteProperties_ARM))
+		result.Routes = append(result.Routes, *item_ARM.(*arm.RouteProperties))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingProperties_ARM{}
+	return &arm.RoutingProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingProperties_ARM)
+	typedInput, ok := armInput.(arm.RoutingProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingProperties, got %T", armInput)
 	}
 
 	// Set property "Endpoints":
@@ -5889,7 +6005,7 @@ func (properties *RoutingProperties) AssignProperties_From_RoutingProperties(sou
 		var endpoint RoutingEndpoints
 		err := endpoint.AssignProperties_From_RoutingEndpoints(source.Endpoints)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RoutingEndpoints() to populate field Endpoints")
+			return eris.Wrap(err, "calling AssignProperties_From_RoutingEndpoints() to populate field Endpoints")
 		}
 		properties.Endpoints = &endpoint
 	} else {
@@ -5905,7 +6021,7 @@ func (properties *RoutingProperties) AssignProperties_From_RoutingProperties(sou
 			var enrichment EnrichmentProperties
 			err := enrichment.AssignProperties_From_EnrichmentProperties(&enrichmentItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EnrichmentProperties() to populate field Enrichments")
+				return eris.Wrap(err, "calling AssignProperties_From_EnrichmentProperties() to populate field Enrichments")
 			}
 			enrichmentList[enrichmentIndex] = enrichment
 		}
@@ -5919,7 +6035,7 @@ func (properties *RoutingProperties) AssignProperties_From_RoutingProperties(sou
 		var fallbackRoute FallbackRouteProperties
 		err := fallbackRoute.AssignProperties_From_FallbackRouteProperties(source.FallbackRoute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FallbackRouteProperties() to populate field FallbackRoute")
+			return eris.Wrap(err, "calling AssignProperties_From_FallbackRouteProperties() to populate field FallbackRoute")
 		}
 		properties.FallbackRoute = &fallbackRoute
 	} else {
@@ -5935,7 +6051,7 @@ func (properties *RoutingProperties) AssignProperties_From_RoutingProperties(sou
 			var route RouteProperties
 			err := route.AssignProperties_From_RouteProperties(&routeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RouteProperties() to populate field Routes")
+				return eris.Wrap(err, "calling AssignProperties_From_RouteProperties() to populate field Routes")
 			}
 			routeList[routeIndex] = route
 		}
@@ -5958,7 +6074,7 @@ func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(desti
 		var endpoint storage.RoutingEndpoints
 		err := properties.Endpoints.AssignProperties_To_RoutingEndpoints(&endpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RoutingEndpoints() to populate field Endpoints")
+			return eris.Wrap(err, "calling AssignProperties_To_RoutingEndpoints() to populate field Endpoints")
 		}
 		destination.Endpoints = &endpoint
 	} else {
@@ -5974,7 +6090,7 @@ func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(desti
 			var enrichment storage.EnrichmentProperties
 			err := enrichmentItem.AssignProperties_To_EnrichmentProperties(&enrichment)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EnrichmentProperties() to populate field Enrichments")
+				return eris.Wrap(err, "calling AssignProperties_To_EnrichmentProperties() to populate field Enrichments")
 			}
 			enrichmentList[enrichmentIndex] = enrichment
 		}
@@ -5988,7 +6104,7 @@ func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(desti
 		var fallbackRoute storage.FallbackRouteProperties
 		err := properties.FallbackRoute.AssignProperties_To_FallbackRouteProperties(&fallbackRoute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FallbackRouteProperties() to populate field FallbackRoute")
+			return eris.Wrap(err, "calling AssignProperties_To_FallbackRouteProperties() to populate field FallbackRoute")
 		}
 		destination.FallbackRoute = &fallbackRoute
 	} else {
@@ -6004,7 +6120,7 @@ func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(desti
 			var route storage.RouteProperties
 			err := routeItem.AssignProperties_To_RouteProperties(&route)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RouteProperties() to populate field Routes")
+				return eris.Wrap(err, "calling AssignProperties_To_RouteProperties() to populate field Routes")
 			}
 			routeList[routeIndex] = route
 		}
@@ -6032,7 +6148,7 @@ func (properties *RoutingProperties) Initialize_From_RoutingProperties_STATUS(so
 		var endpoint RoutingEndpoints
 		err := endpoint.Initialize_From_RoutingEndpoints_STATUS(source.Endpoints)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RoutingEndpoints_STATUS() to populate field Endpoints")
+			return eris.Wrap(err, "calling Initialize_From_RoutingEndpoints_STATUS() to populate field Endpoints")
 		}
 		properties.Endpoints = &endpoint
 	} else {
@@ -6048,7 +6164,7 @@ func (properties *RoutingProperties) Initialize_From_RoutingProperties_STATUS(so
 			var enrichment EnrichmentProperties
 			err := enrichment.Initialize_From_EnrichmentProperties_STATUS(&enrichmentItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_EnrichmentProperties_STATUS() to populate field Enrichments")
+				return eris.Wrap(err, "calling Initialize_From_EnrichmentProperties_STATUS() to populate field Enrichments")
 			}
 			enrichmentList[enrichmentIndex] = enrichment
 		}
@@ -6062,7 +6178,7 @@ func (properties *RoutingProperties) Initialize_From_RoutingProperties_STATUS(so
 		var fallbackRoute FallbackRouteProperties
 		err := fallbackRoute.Initialize_From_FallbackRouteProperties_STATUS(source.FallbackRoute)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_FallbackRouteProperties_STATUS() to populate field FallbackRoute")
+			return eris.Wrap(err, "calling Initialize_From_FallbackRouteProperties_STATUS() to populate field FallbackRoute")
 		}
 		properties.FallbackRoute = &fallbackRoute
 	} else {
@@ -6078,7 +6194,7 @@ func (properties *RoutingProperties) Initialize_From_RoutingProperties_STATUS(so
 			var route RouteProperties
 			err := route.Initialize_From_RouteProperties_STATUS(&routeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_RouteProperties_STATUS() to populate field Routes")
+				return eris.Wrap(err, "calling Initialize_From_RouteProperties_STATUS() to populate field Routes")
 			}
 			routeList[routeIndex] = route
 		}
@@ -6117,14 +6233,14 @@ var _ genruntime.FromARMConverter = &RoutingProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingProperties_STATUS_ARM{}
+	return &arm.RoutingProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoutingProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "Endpoints":
@@ -6181,7 +6297,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_From_RoutingPropert
 		var endpoint RoutingEndpoints_STATUS
 		err := endpoint.AssignProperties_From_RoutingEndpoints_STATUS(source.Endpoints)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RoutingEndpoints_STATUS() to populate field Endpoints")
+			return eris.Wrap(err, "calling AssignProperties_From_RoutingEndpoints_STATUS() to populate field Endpoints")
 		}
 		properties.Endpoints = &endpoint
 	} else {
@@ -6197,7 +6313,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_From_RoutingPropert
 			var enrichment EnrichmentProperties_STATUS
 			err := enrichment.AssignProperties_From_EnrichmentProperties_STATUS(&enrichmentItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_EnrichmentProperties_STATUS() to populate field Enrichments")
+				return eris.Wrap(err, "calling AssignProperties_From_EnrichmentProperties_STATUS() to populate field Enrichments")
 			}
 			enrichmentList[enrichmentIndex] = enrichment
 		}
@@ -6211,7 +6327,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_From_RoutingPropert
 		var fallbackRoute FallbackRouteProperties_STATUS
 		err := fallbackRoute.AssignProperties_From_FallbackRouteProperties_STATUS(source.FallbackRoute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FallbackRouteProperties_STATUS() to populate field FallbackRoute")
+			return eris.Wrap(err, "calling AssignProperties_From_FallbackRouteProperties_STATUS() to populate field FallbackRoute")
 		}
 		properties.FallbackRoute = &fallbackRoute
 	} else {
@@ -6227,7 +6343,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_From_RoutingPropert
 			var route RouteProperties_STATUS
 			err := route.AssignProperties_From_RouteProperties_STATUS(&routeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RouteProperties_STATUS() to populate field Routes")
+				return eris.Wrap(err, "calling AssignProperties_From_RouteProperties_STATUS() to populate field Routes")
 			}
 			routeList[routeIndex] = route
 		}
@@ -6250,7 +6366,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingPropertie
 		var endpoint storage.RoutingEndpoints_STATUS
 		err := properties.Endpoints.AssignProperties_To_RoutingEndpoints_STATUS(&endpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RoutingEndpoints_STATUS() to populate field Endpoints")
+			return eris.Wrap(err, "calling AssignProperties_To_RoutingEndpoints_STATUS() to populate field Endpoints")
 		}
 		destination.Endpoints = &endpoint
 	} else {
@@ -6266,7 +6382,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingPropertie
 			var enrichment storage.EnrichmentProperties_STATUS
 			err := enrichmentItem.AssignProperties_To_EnrichmentProperties_STATUS(&enrichment)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_EnrichmentProperties_STATUS() to populate field Enrichments")
+				return eris.Wrap(err, "calling AssignProperties_To_EnrichmentProperties_STATUS() to populate field Enrichments")
 			}
 			enrichmentList[enrichmentIndex] = enrichment
 		}
@@ -6280,7 +6396,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingPropertie
 		var fallbackRoute storage.FallbackRouteProperties_STATUS
 		err := properties.FallbackRoute.AssignProperties_To_FallbackRouteProperties_STATUS(&fallbackRoute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FallbackRouteProperties_STATUS() to populate field FallbackRoute")
+			return eris.Wrap(err, "calling AssignProperties_To_FallbackRouteProperties_STATUS() to populate field FallbackRoute")
 		}
 		destination.FallbackRoute = &fallbackRoute
 	} else {
@@ -6296,7 +6412,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingPropertie
 			var route storage.RouteProperties_STATUS
 			err := routeItem.AssignProperties_To_RouteProperties_STATUS(&route)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RouteProperties_STATUS() to populate field Routes")
+				return eris.Wrap(err, "calling AssignProperties_To_RouteProperties_STATUS() to populate field Routes")
 			}
 			routeList[routeIndex] = route
 		}
@@ -6334,7 +6450,7 @@ func (rule *SharedAccessSignatureAuthorizationRule) ConvertToARM(resolved genrun
 	if rule == nil {
 		return nil, nil
 	}
-	result := &SharedAccessSignatureAuthorizationRule_ARM{}
+	result := &arm.SharedAccessSignatureAuthorizationRule{}
 
 	// Set property "KeyName":
 	if rule.KeyName != nil {
@@ -6346,7 +6462,7 @@ func (rule *SharedAccessSignatureAuthorizationRule) ConvertToARM(resolved genrun
 	if rule.Rights != nil {
 		var temp string
 		temp = string(*rule.Rights)
-		rights := SharedAccessSignatureAuthorizationRule_Rights_ARM(temp)
+		rights := arm.SharedAccessSignatureAuthorizationRule_Rights(temp)
 		result.Rights = &rights
 	}
 	return result, nil
@@ -6354,14 +6470,14 @@ func (rule *SharedAccessSignatureAuthorizationRule) ConvertToARM(resolved genrun
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *SharedAccessSignatureAuthorizationRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SharedAccessSignatureAuthorizationRule_ARM{}
+	return &arm.SharedAccessSignatureAuthorizationRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *SharedAccessSignatureAuthorizationRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SharedAccessSignatureAuthorizationRule_ARM)
+	typedInput, ok := armInput.(arm.SharedAccessSignatureAuthorizationRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SharedAccessSignatureAuthorizationRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SharedAccessSignatureAuthorizationRule, got %T", armInput)
 	}
 
 	// Set property "KeyName":
@@ -6459,14 +6575,14 @@ var _ genruntime.FromARMConverter = &SharedAccessSignatureAuthorizationRule_STAT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *SharedAccessSignatureAuthorizationRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SharedAccessSignatureAuthorizationRule_STATUS_ARM{}
+	return &arm.SharedAccessSignatureAuthorizationRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *SharedAccessSignatureAuthorizationRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SharedAccessSignatureAuthorizationRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SharedAccessSignatureAuthorizationRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SharedAccessSignatureAuthorizationRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SharedAccessSignatureAuthorizationRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "KeyName":
@@ -6562,13 +6678,13 @@ func (properties *StorageEndpointProperties) ConvertToARM(resolved genruntime.Co
 	if properties == nil {
 		return nil, nil
 	}
-	result := &StorageEndpointProperties_ARM{}
+	result := &arm.StorageEndpointProperties{}
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		var temp string
 		temp = string(*properties.AuthenticationType)
-		authenticationType := StorageEndpointProperties_AuthenticationType_ARM(temp)
+		authenticationType := arm.StorageEndpointProperties_AuthenticationType(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -6576,7 +6692,7 @@ func (properties *StorageEndpointProperties) ConvertToARM(resolved genruntime.Co
 	if properties.ConnectionString != nil {
 		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+			return nil, eris.Wrap(err, "looking up secret for property ConnectionString")
 		}
 		connectionString := connectionStringSecret
 		result.ConnectionString = &connectionString
@@ -6594,7 +6710,7 @@ func (properties *StorageEndpointProperties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*ManagedIdentity_ARM)
+		identity := *identity_ARM.(*arm.ManagedIdentity)
 		result.Identity = &identity
 	}
 
@@ -6608,14 +6724,14 @@ func (properties *StorageEndpointProperties) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *StorageEndpointProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageEndpointProperties_ARM{}
+	return &arm.StorageEndpointProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *StorageEndpointProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageEndpointProperties_ARM)
+	typedInput, ok := armInput.(arm.StorageEndpointProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageEndpointProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.StorageEndpointProperties, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -6683,7 +6799,7 @@ func (properties *StorageEndpointProperties) AssignProperties_From_StorageEndpoi
 		var identity ManagedIdentity
 		err := identity.AssignProperties_From_ManagedIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -6726,7 +6842,7 @@ func (properties *StorageEndpointProperties) AssignProperties_To_StorageEndpoint
 		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -6766,7 +6882,7 @@ func (properties *StorageEndpointProperties) Initialize_From_StorageEndpointProp
 		var identity ManagedIdentity
 		err := identity.Initialize_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -6801,14 +6917,14 @@ var _ genruntime.FromARMConverter = &StorageEndpointProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *StorageEndpointProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageEndpointProperties_STATUS_ARM{}
+	return &arm.StorageEndpointProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *StorageEndpointProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageEndpointProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.StorageEndpointProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageEndpointProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.StorageEndpointProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -6866,7 +6982,7 @@ func (properties *StorageEndpointProperties_STATUS) AssignProperties_From_Storag
 		var identity ManagedIdentity_STATUS
 		err := identity.AssignProperties_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -6901,7 +7017,7 @@ func (properties *StorageEndpointProperties_STATUS) AssignProperties_To_StorageE
 		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -7013,7 +7129,7 @@ func (properties *EnrichmentProperties) ConvertToARM(resolved genruntime.Convert
 	if properties == nil {
 		return nil, nil
 	}
-	result := &EnrichmentProperties_ARM{}
+	result := &arm.EnrichmentProperties{}
 
 	// Set property "EndpointNames":
 	for _, item := range properties.EndpointNames {
@@ -7036,14 +7152,14 @@ func (properties *EnrichmentProperties) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *EnrichmentProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EnrichmentProperties_ARM{}
+	return &arm.EnrichmentProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *EnrichmentProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EnrichmentProperties_ARM)
+	typedInput, ok := armInput.(arm.EnrichmentProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EnrichmentProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EnrichmentProperties, got %T", armInput)
 	}
 
 	// Set property "EndpointNames":
@@ -7170,14 +7286,14 @@ var _ genruntime.FromARMConverter = &EnrichmentProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *EnrichmentProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EnrichmentProperties_STATUS_ARM{}
+	return &arm.EnrichmentProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *EnrichmentProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EnrichmentProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.EnrichmentProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EnrichmentProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EnrichmentProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "EndpointNames":
@@ -7276,7 +7392,7 @@ func (properties *FallbackRouteProperties) ConvertToARM(resolved genruntime.Conv
 	if properties == nil {
 		return nil, nil
 	}
-	result := &FallbackRouteProperties_ARM{}
+	result := &arm.FallbackRouteProperties{}
 
 	// Set property "Condition":
 	if properties.Condition != nil {
@@ -7305,7 +7421,7 @@ func (properties *FallbackRouteProperties) ConvertToARM(resolved genruntime.Conv
 	if properties.Source != nil {
 		var temp string
 		temp = string(*properties.Source)
-		source := FallbackRouteProperties_Source_ARM(temp)
+		source := arm.FallbackRouteProperties_Source(temp)
 		result.Source = &source
 	}
 	return result, nil
@@ -7313,14 +7429,14 @@ func (properties *FallbackRouteProperties) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *FallbackRouteProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FallbackRouteProperties_ARM{}
+	return &arm.FallbackRouteProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *FallbackRouteProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FallbackRouteProperties_ARM)
+	typedInput, ok := armInput.(arm.FallbackRouteProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FallbackRouteProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FallbackRouteProperties, got %T", armInput)
 	}
 
 	// Set property "Condition":
@@ -7520,14 +7636,14 @@ var _ genruntime.FromARMConverter = &FallbackRouteProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *FallbackRouteProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FallbackRouteProperties_STATUS_ARM{}
+	return &arm.FallbackRouteProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *FallbackRouteProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FallbackRouteProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FallbackRouteProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FallbackRouteProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FallbackRouteProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "Condition":
@@ -7663,7 +7779,7 @@ func (properties *FeedbackProperties) ConvertToARM(resolved genruntime.ConvertTo
 	if properties == nil {
 		return nil, nil
 	}
-	result := &FeedbackProperties_ARM{}
+	result := &arm.FeedbackProperties{}
 
 	// Set property "LockDurationAsIso8601":
 	if properties.LockDurationAsIso8601 != nil {
@@ -7687,14 +7803,14 @@ func (properties *FeedbackProperties) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *FeedbackProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FeedbackProperties_ARM{}
+	return &arm.FeedbackProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *FeedbackProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FeedbackProperties_ARM)
+	typedInput, ok := armInput.(arm.FeedbackProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FeedbackProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FeedbackProperties, got %T", armInput)
 	}
 
 	// Set property "LockDurationAsIso8601":
@@ -7810,14 +7926,14 @@ var _ genruntime.FromARMConverter = &FeedbackProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *FeedbackProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FeedbackProperties_STATUS_ARM{}
+	return &arm.FeedbackProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *FeedbackProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FeedbackProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FeedbackProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FeedbackProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FeedbackProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "LockDurationAsIso8601":
@@ -7936,7 +8052,7 @@ func (identity *ManagedIdentity) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if identity == nil {
 		return nil, nil
 	}
-	result := &ManagedIdentity_ARM{}
+	result := &arm.ManagedIdentity{}
 
 	// Set property "UserAssignedIdentity":
 	if identity.UserAssignedIdentity != nil {
@@ -7948,14 +8064,14 @@ func (identity *ManagedIdentity) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ManagedIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedIdentity_ARM{}
+	return &arm.ManagedIdentity{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ManagedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedIdentity_ARM)
+	typedInput, ok := armInput.(arm.ManagedIdentity)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentity_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedIdentity, got %T", armInput)
 	}
 
 	// Set property "UserAssignedIdentity":
@@ -8017,14 +8133,14 @@ var _ genruntime.FromARMConverter = &ManagedIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ManagedIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedIdentity_STATUS_ARM{}
+	return &arm.ManagedIdentity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ManagedIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedIdentity_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedIdentity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentity_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedIdentity_STATUS, got %T", armInput)
 	}
 
 	// Set property "UserAssignedIdentity":
@@ -8087,13 +8203,13 @@ func (rule *NetworkRuleSetIpRule) ConvertToARM(resolved genruntime.ConvertToARMR
 	if rule == nil {
 		return nil, nil
 	}
-	result := &NetworkRuleSetIpRule_ARM{}
+	result := &arm.NetworkRuleSetIpRule{}
 
 	// Set property "Action":
 	if rule.Action != nil {
 		var temp string
 		temp = string(*rule.Action)
-		action := NetworkRuleSetIpRule_Action_ARM(temp)
+		action := arm.NetworkRuleSetIpRule_Action(temp)
 		result.Action = &action
 	}
 
@@ -8113,14 +8229,14 @@ func (rule *NetworkRuleSetIpRule) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *NetworkRuleSetIpRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkRuleSetIpRule_ARM{}
+	return &arm.NetworkRuleSetIpRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *NetworkRuleSetIpRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkRuleSetIpRule_ARM)
+	typedInput, ok := armInput.(arm.NetworkRuleSetIpRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSetIpRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkRuleSetIpRule, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -8236,14 +8352,14 @@ var _ genruntime.FromARMConverter = &NetworkRuleSetIpRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *NetworkRuleSetIpRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkRuleSetIpRule_STATUS_ARM{}
+	return &arm.NetworkRuleSetIpRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *NetworkRuleSetIpRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkRuleSetIpRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NetworkRuleSetIpRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSetIpRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkRuleSetIpRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -8384,7 +8500,7 @@ func (properties *RouteProperties) ConvertToARM(resolved genruntime.ConvertToARM
 	if properties == nil {
 		return nil, nil
 	}
-	result := &RouteProperties_ARM{}
+	result := &arm.RouteProperties{}
 
 	// Set property "Condition":
 	if properties.Condition != nil {
@@ -8413,7 +8529,7 @@ func (properties *RouteProperties) ConvertToARM(resolved genruntime.ConvertToARM
 	if properties.Source != nil {
 		var temp string
 		temp = string(*properties.Source)
-		source := RouteProperties_Source_ARM(temp)
+		source := arm.RouteProperties_Source(temp)
 		result.Source = &source
 	}
 	return result, nil
@@ -8421,14 +8537,14 @@ func (properties *RouteProperties) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RouteProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteProperties_ARM{}
+	return &arm.RouteProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RouteProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteProperties_ARM)
+	typedInput, ok := armInput.(arm.RouteProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RouteProperties, got %T", armInput)
 	}
 
 	// Set property "Condition":
@@ -8642,14 +8758,14 @@ var _ genruntime.FromARMConverter = &RouteProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RouteProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteProperties_STATUS_ARM{}
+	return &arm.RouteProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RouteProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RouteProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RouteProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "Condition":
@@ -8788,7 +8904,7 @@ func (endpoints *RoutingEndpoints) ConvertToARM(resolved genruntime.ConvertToARM
 	if endpoints == nil {
 		return nil, nil
 	}
-	result := &RoutingEndpoints_ARM{}
+	result := &arm.RoutingEndpoints{}
 
 	// Set property "EventHubs":
 	for _, item := range endpoints.EventHubs {
@@ -8796,7 +8912,7 @@ func (endpoints *RoutingEndpoints) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		result.EventHubs = append(result.EventHubs, *item_ARM.(*RoutingEventHubProperties_ARM))
+		result.EventHubs = append(result.EventHubs, *item_ARM.(*arm.RoutingEventHubProperties))
 	}
 
 	// Set property "ServiceBusQueues":
@@ -8805,7 +8921,7 @@ func (endpoints *RoutingEndpoints) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		result.ServiceBusQueues = append(result.ServiceBusQueues, *item_ARM.(*RoutingServiceBusQueueEndpointProperties_ARM))
+		result.ServiceBusQueues = append(result.ServiceBusQueues, *item_ARM.(*arm.RoutingServiceBusQueueEndpointProperties))
 	}
 
 	// Set property "ServiceBusTopics":
@@ -8814,7 +8930,7 @@ func (endpoints *RoutingEndpoints) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		result.ServiceBusTopics = append(result.ServiceBusTopics, *item_ARM.(*RoutingServiceBusTopicEndpointProperties_ARM))
+		result.ServiceBusTopics = append(result.ServiceBusTopics, *item_ARM.(*arm.RoutingServiceBusTopicEndpointProperties))
 	}
 
 	// Set property "StorageContainers":
@@ -8823,21 +8939,21 @@ func (endpoints *RoutingEndpoints) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		result.StorageContainers = append(result.StorageContainers, *item_ARM.(*RoutingStorageContainerProperties_ARM))
+		result.StorageContainers = append(result.StorageContainers, *item_ARM.(*arm.RoutingStorageContainerProperties))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoints *RoutingEndpoints) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingEndpoints_ARM{}
+	return &arm.RoutingEndpoints{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoints *RoutingEndpoints) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingEndpoints_ARM)
+	typedInput, ok := armInput.(arm.RoutingEndpoints)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingEndpoints_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingEndpoints, got %T", armInput)
 	}
 
 	// Set property "EventHubs":
@@ -8896,7 +9012,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_From_RoutingEndpoints(source
 			var eventHub RoutingEventHubProperties
 			err := eventHub.AssignProperties_From_RoutingEventHubProperties(&eventHubItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingEventHubProperties() to populate field EventHubs")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingEventHubProperties() to populate field EventHubs")
 			}
 			eventHubList[eventHubIndex] = eventHub
 		}
@@ -8914,7 +9030,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_From_RoutingEndpoints(source
 			var serviceBusQueue RoutingServiceBusQueueEndpointProperties
 			err := serviceBusQueue.AssignProperties_From_RoutingServiceBusQueueEndpointProperties(&serviceBusQueueItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingServiceBusQueueEndpointProperties() to populate field ServiceBusQueues")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingServiceBusQueueEndpointProperties() to populate field ServiceBusQueues")
 			}
 			serviceBusQueueList[serviceBusQueueIndex] = serviceBusQueue
 		}
@@ -8932,7 +9048,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_From_RoutingEndpoints(source
 			var serviceBusTopic RoutingServiceBusTopicEndpointProperties
 			err := serviceBusTopic.AssignProperties_From_RoutingServiceBusTopicEndpointProperties(&serviceBusTopicItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingServiceBusTopicEndpointProperties() to populate field ServiceBusTopics")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingServiceBusTopicEndpointProperties() to populate field ServiceBusTopics")
 			}
 			serviceBusTopicList[serviceBusTopicIndex] = serviceBusTopic
 		}
@@ -8950,7 +9066,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_From_RoutingEndpoints(source
 			var storageContainer RoutingStorageContainerProperties
 			err := storageContainer.AssignProperties_From_RoutingStorageContainerProperties(&storageContainerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingStorageContainerProperties() to populate field StorageContainers")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingStorageContainerProperties() to populate field StorageContainers")
 			}
 			storageContainerList[storageContainerIndex] = storageContainer
 		}
@@ -8977,7 +9093,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destinat
 			var eventHub storage.RoutingEventHubProperties
 			err := eventHubItem.AssignProperties_To_RoutingEventHubProperties(&eventHub)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingEventHubProperties() to populate field EventHubs")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingEventHubProperties() to populate field EventHubs")
 			}
 			eventHubList[eventHubIndex] = eventHub
 		}
@@ -8995,7 +9111,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destinat
 			var serviceBusQueue storage.RoutingServiceBusQueueEndpointProperties
 			err := serviceBusQueueItem.AssignProperties_To_RoutingServiceBusQueueEndpointProperties(&serviceBusQueue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusQueueEndpointProperties() to populate field ServiceBusQueues")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingServiceBusQueueEndpointProperties() to populate field ServiceBusQueues")
 			}
 			serviceBusQueueList[serviceBusQueueIndex] = serviceBusQueue
 		}
@@ -9013,7 +9129,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destinat
 			var serviceBusTopic storage.RoutingServiceBusTopicEndpointProperties
 			err := serviceBusTopicItem.AssignProperties_To_RoutingServiceBusTopicEndpointProperties(&serviceBusTopic)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusTopicEndpointProperties() to populate field ServiceBusTopics")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingServiceBusTopicEndpointProperties() to populate field ServiceBusTopics")
 			}
 			serviceBusTopicList[serviceBusTopicIndex] = serviceBusTopic
 		}
@@ -9031,7 +9147,7 @@ func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destinat
 			var storageContainer storage.RoutingStorageContainerProperties
 			err := storageContainerItem.AssignProperties_To_RoutingStorageContainerProperties(&storageContainer)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingStorageContainerProperties() to populate field StorageContainers")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingStorageContainerProperties() to populate field StorageContainers")
 			}
 			storageContainerList[storageContainerIndex] = storageContainer
 		}
@@ -9063,7 +9179,7 @@ func (endpoints *RoutingEndpoints) Initialize_From_RoutingEndpoints_STATUS(sourc
 			var eventHub RoutingEventHubProperties
 			err := eventHub.Initialize_From_RoutingEventHubProperties_STATUS(&eventHubItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_RoutingEventHubProperties_STATUS() to populate field EventHubs")
+				return eris.Wrap(err, "calling Initialize_From_RoutingEventHubProperties_STATUS() to populate field EventHubs")
 			}
 			eventHubList[eventHubIndex] = eventHub
 		}
@@ -9081,7 +9197,7 @@ func (endpoints *RoutingEndpoints) Initialize_From_RoutingEndpoints_STATUS(sourc
 			var serviceBusQueue RoutingServiceBusQueueEndpointProperties
 			err := serviceBusQueue.Initialize_From_RoutingServiceBusQueueEndpointProperties_STATUS(&serviceBusQueueItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_RoutingServiceBusQueueEndpointProperties_STATUS() to populate field ServiceBusQueues")
+				return eris.Wrap(err, "calling Initialize_From_RoutingServiceBusQueueEndpointProperties_STATUS() to populate field ServiceBusQueues")
 			}
 			serviceBusQueueList[serviceBusQueueIndex] = serviceBusQueue
 		}
@@ -9099,7 +9215,7 @@ func (endpoints *RoutingEndpoints) Initialize_From_RoutingEndpoints_STATUS(sourc
 			var serviceBusTopic RoutingServiceBusTopicEndpointProperties
 			err := serviceBusTopic.Initialize_From_RoutingServiceBusTopicEndpointProperties_STATUS(&serviceBusTopicItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_RoutingServiceBusTopicEndpointProperties_STATUS() to populate field ServiceBusTopics")
+				return eris.Wrap(err, "calling Initialize_From_RoutingServiceBusTopicEndpointProperties_STATUS() to populate field ServiceBusTopics")
 			}
 			serviceBusTopicList[serviceBusTopicIndex] = serviceBusTopic
 		}
@@ -9117,7 +9233,7 @@ func (endpoints *RoutingEndpoints) Initialize_From_RoutingEndpoints_STATUS(sourc
 			var storageContainer RoutingStorageContainerProperties
 			err := storageContainer.Initialize_From_RoutingStorageContainerProperties_STATUS(&storageContainerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_RoutingStorageContainerProperties_STATUS() to populate field StorageContainers")
+				return eris.Wrap(err, "calling Initialize_From_RoutingStorageContainerProperties_STATUS() to populate field StorageContainers")
 			}
 			storageContainerList[storageContainerIndex] = storageContainer
 		}
@@ -9154,14 +9270,14 @@ var _ genruntime.FromARMConverter = &RoutingEndpoints_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoints *RoutingEndpoints_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingEndpoints_STATUS_ARM{}
+	return &arm.RoutingEndpoints_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoints *RoutingEndpoints_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingEndpoints_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoutingEndpoints_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingEndpoints_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingEndpoints_STATUS, got %T", armInput)
 	}
 
 	// Set property "EventHubs":
@@ -9220,7 +9336,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_From_RoutingEndpoints
 			var eventHub RoutingEventHubProperties_STATUS
 			err := eventHub.AssignProperties_From_RoutingEventHubProperties_STATUS(&eventHubItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingEventHubProperties_STATUS() to populate field EventHubs")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingEventHubProperties_STATUS() to populate field EventHubs")
 			}
 			eventHubList[eventHubIndex] = eventHub
 		}
@@ -9238,7 +9354,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_From_RoutingEndpoints
 			var serviceBusQueue RoutingServiceBusQueueEndpointProperties_STATUS
 			err := serviceBusQueue.AssignProperties_From_RoutingServiceBusQueueEndpointProperties_STATUS(&serviceBusQueueItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingServiceBusQueueEndpointProperties_STATUS() to populate field ServiceBusQueues")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingServiceBusQueueEndpointProperties_STATUS() to populate field ServiceBusQueues")
 			}
 			serviceBusQueueList[serviceBusQueueIndex] = serviceBusQueue
 		}
@@ -9256,7 +9372,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_From_RoutingEndpoints
 			var serviceBusTopic RoutingServiceBusTopicEndpointProperties_STATUS
 			err := serviceBusTopic.AssignProperties_From_RoutingServiceBusTopicEndpointProperties_STATUS(&serviceBusTopicItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingServiceBusTopicEndpointProperties_STATUS() to populate field ServiceBusTopics")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingServiceBusTopicEndpointProperties_STATUS() to populate field ServiceBusTopics")
 			}
 			serviceBusTopicList[serviceBusTopicIndex] = serviceBusTopic
 		}
@@ -9274,7 +9390,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_From_RoutingEndpoints
 			var storageContainer RoutingStorageContainerProperties_STATUS
 			err := storageContainer.AssignProperties_From_RoutingStorageContainerProperties_STATUS(&storageContainerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingStorageContainerProperties_STATUS() to populate field StorageContainers")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingStorageContainerProperties_STATUS() to populate field StorageContainers")
 			}
 			storageContainerList[storageContainerIndex] = storageContainer
 		}
@@ -9301,7 +9417,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 			var eventHub storage.RoutingEventHubProperties_STATUS
 			err := eventHubItem.AssignProperties_To_RoutingEventHubProperties_STATUS(&eventHub)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingEventHubProperties_STATUS() to populate field EventHubs")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingEventHubProperties_STATUS() to populate field EventHubs")
 			}
 			eventHubList[eventHubIndex] = eventHub
 		}
@@ -9319,7 +9435,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 			var serviceBusQueue storage.RoutingServiceBusQueueEndpointProperties_STATUS
 			err := serviceBusQueueItem.AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS(&serviceBusQueue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS() to populate field ServiceBusQueues")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS() to populate field ServiceBusQueues")
 			}
 			serviceBusQueueList[serviceBusQueueIndex] = serviceBusQueue
 		}
@@ -9337,7 +9453,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 			var serviceBusTopic storage.RoutingServiceBusTopicEndpointProperties_STATUS
 			err := serviceBusTopicItem.AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS(&serviceBusTopic)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS() to populate field ServiceBusTopics")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS() to populate field ServiceBusTopics")
 			}
 			serviceBusTopicList[serviceBusTopicIndex] = serviceBusTopic
 		}
@@ -9355,7 +9471,7 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 			var storageContainer storage.RoutingStorageContainerProperties_STATUS
 			err := storageContainerItem.AssignProperties_To_RoutingStorageContainerProperties_STATUS(&storageContainer)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingStorageContainerProperties_STATUS() to populate field StorageContainers")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingStorageContainerProperties_STATUS() to populate field StorageContainers")
 			}
 			storageContainerList[storageContainerIndex] = storageContainer
 		}
@@ -9603,13 +9719,13 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 	if properties == nil {
 		return nil, nil
 	}
-	result := &RoutingEventHubProperties_ARM{}
+	result := &arm.RoutingEventHubProperties{}
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		var temp string
 		temp = string(*properties.AuthenticationType)
-		authenticationType := RoutingEventHubProperties_AuthenticationType_ARM(temp)
+		authenticationType := arm.RoutingEventHubProperties_AuthenticationType(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -9617,7 +9733,7 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 	if properties.ConnectionString != nil {
 		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+			return nil, eris.Wrap(err, "looking up secret for property ConnectionString")
 		}
 		connectionString := connectionStringSecret
 		result.ConnectionString = &connectionString
@@ -9651,7 +9767,7 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*ManagedIdentity_ARM)
+		identity := *identity_ARM.(*arm.ManagedIdentity)
 		result.Identity = &identity
 	}
 
@@ -9677,14 +9793,14 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingEventHubProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingEventHubProperties_ARM{}
+	return &arm.RoutingEventHubProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingEventHubProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingEventHubProperties_ARM)
+	typedInput, ok := armInput.(arm.RoutingEventHubProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingEventHubProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingEventHubProperties, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -9775,7 +9891,7 @@ func (properties *RoutingEventHubProperties) AssignProperties_From_RoutingEventH
 		var identity ManagedIdentity
 		err := identity.AssignProperties_From_ManagedIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -9840,7 +9956,7 @@ func (properties *RoutingEventHubProperties) AssignProperties_To_RoutingEventHub
 		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -9902,7 +10018,7 @@ func (properties *RoutingEventHubProperties) Initialize_From_RoutingEventHubProp
 		var identity ManagedIdentity
 		err := identity.Initialize_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -9968,14 +10084,14 @@ var _ genruntime.FromARMConverter = &RoutingEventHubProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingEventHubProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingEventHubProperties_STATUS_ARM{}
+	return &arm.RoutingEventHubProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingEventHubProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingEventHubProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoutingEventHubProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingEventHubProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingEventHubProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -10063,7 +10179,7 @@ func (properties *RoutingEventHubProperties_STATUS) AssignProperties_From_Routin
 		var identity ManagedIdentity_STATUS
 		err := identity.AssignProperties_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -10110,7 +10226,7 @@ func (properties *RoutingEventHubProperties_STATUS) AssignProperties_To_RoutingE
 		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -10178,13 +10294,13 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 	if properties == nil {
 		return nil, nil
 	}
-	result := &RoutingServiceBusQueueEndpointProperties_ARM{}
+	result := &arm.RoutingServiceBusQueueEndpointProperties{}
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		var temp string
 		temp = string(*properties.AuthenticationType)
-		authenticationType := RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM(temp)
+		authenticationType := arm.RoutingServiceBusQueueEndpointProperties_AuthenticationType(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -10192,7 +10308,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 	if properties.ConnectionString != nil {
 		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+			return nil, eris.Wrap(err, "looking up secret for property ConnectionString")
 		}
 		connectionString := connectionStringSecret
 		result.ConnectionString = &connectionString
@@ -10226,7 +10342,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*ManagedIdentity_ARM)
+		identity := *identity_ARM.(*arm.ManagedIdentity)
 		result.Identity = &identity
 	}
 
@@ -10252,14 +10368,14 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingServiceBusQueueEndpointProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingServiceBusQueueEndpointProperties_ARM{}
+	return &arm.RoutingServiceBusQueueEndpointProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingServiceBusQueueEndpointProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingServiceBusQueueEndpointProperties_ARM)
+	typedInput, ok := armInput.(arm.RoutingServiceBusQueueEndpointProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingServiceBusQueueEndpointProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingServiceBusQueueEndpointProperties, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -10350,7 +10466,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_Fro
 		var identity ManagedIdentity
 		err := identity.AssignProperties_From_ManagedIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -10415,7 +10531,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_To_
 		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -10477,7 +10593,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) Initialize_From_Rout
 		var identity ManagedIdentity
 		err := identity.Initialize_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -10543,14 +10659,14 @@ var _ genruntime.FromARMConverter = &RoutingServiceBusQueueEndpointProperties_ST
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingServiceBusQueueEndpointProperties_STATUS_ARM{}
+	return &arm.RoutingServiceBusQueueEndpointProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingServiceBusQueueEndpointProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoutingServiceBusQueueEndpointProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingServiceBusQueueEndpointProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingServiceBusQueueEndpointProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -10638,7 +10754,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignPropert
 		var identity ManagedIdentity_STATUS
 		err := identity.AssignProperties_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -10685,7 +10801,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignPropert
 		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -10753,13 +10869,13 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 	if properties == nil {
 		return nil, nil
 	}
-	result := &RoutingServiceBusTopicEndpointProperties_ARM{}
+	result := &arm.RoutingServiceBusTopicEndpointProperties{}
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		var temp string
 		temp = string(*properties.AuthenticationType)
-		authenticationType := RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM(temp)
+		authenticationType := arm.RoutingServiceBusTopicEndpointProperties_AuthenticationType(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -10767,7 +10883,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 	if properties.ConnectionString != nil {
 		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+			return nil, eris.Wrap(err, "looking up secret for property ConnectionString")
 		}
 		connectionString := connectionStringSecret
 		result.ConnectionString = &connectionString
@@ -10801,7 +10917,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*ManagedIdentity_ARM)
+		identity := *identity_ARM.(*arm.ManagedIdentity)
 		result.Identity = &identity
 	}
 
@@ -10827,14 +10943,14 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingServiceBusTopicEndpointProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingServiceBusTopicEndpointProperties_ARM{}
+	return &arm.RoutingServiceBusTopicEndpointProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingServiceBusTopicEndpointProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingServiceBusTopicEndpointProperties_ARM)
+	typedInput, ok := armInput.(arm.RoutingServiceBusTopicEndpointProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingServiceBusTopicEndpointProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingServiceBusTopicEndpointProperties, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -10925,7 +11041,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_Fro
 		var identity ManagedIdentity
 		err := identity.AssignProperties_From_ManagedIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -10990,7 +11106,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_To_
 		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -11052,7 +11168,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) Initialize_From_Rout
 		var identity ManagedIdentity
 		err := identity.Initialize_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -11118,14 +11234,14 @@ var _ genruntime.FromARMConverter = &RoutingServiceBusTopicEndpointProperties_ST
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingServiceBusTopicEndpointProperties_STATUS_ARM{}
+	return &arm.RoutingServiceBusTopicEndpointProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingServiceBusTopicEndpointProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoutingServiceBusTopicEndpointProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingServiceBusTopicEndpointProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingServiceBusTopicEndpointProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -11213,7 +11329,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignPropert
 		var identity ManagedIdentity_STATUS
 		err := identity.AssignProperties_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -11260,7 +11376,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignPropert
 		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -11349,13 +11465,13 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 	if properties == nil {
 		return nil, nil
 	}
-	result := &RoutingStorageContainerProperties_ARM{}
+	result := &arm.RoutingStorageContainerProperties{}
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		var temp string
 		temp = string(*properties.AuthenticationType)
-		authenticationType := RoutingStorageContainerProperties_AuthenticationType_ARM(temp)
+		authenticationType := arm.RoutingStorageContainerProperties_AuthenticationType(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -11369,7 +11485,7 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 	if properties.ConnectionString != nil {
 		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+			return nil, eris.Wrap(err, "looking up secret for property ConnectionString")
 		}
 		connectionString := connectionStringSecret
 		result.ConnectionString = &connectionString
@@ -11385,7 +11501,7 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 	if properties.Encoding != nil {
 		var temp string
 		temp = string(*properties.Encoding)
-		encoding := RoutingStorageContainerProperties_Encoding_ARM(temp)
+		encoding := arm.RoutingStorageContainerProperties_Encoding(temp)
 		result.Encoding = &encoding
 	}
 
@@ -11417,7 +11533,7 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*ManagedIdentity_ARM)
+		identity := *identity_ARM.(*arm.ManagedIdentity)
 		result.Identity = &identity
 	}
 
@@ -11449,14 +11565,14 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingStorageContainerProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingStorageContainerProperties_ARM{}
+	return &arm.RoutingStorageContainerProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingStorageContainerProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingStorageContainerProperties_ARM)
+	typedInput, ok := armInput.(arm.RoutingStorageContainerProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingStorageContainerProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingStorageContainerProperties, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -11593,7 +11709,7 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_From_Routi
 		var identity ManagedIdentity
 		err := identity.AssignProperties_From_ManagedIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -11685,7 +11801,7 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_To_Routing
 		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -11774,7 +11890,7 @@ func (properties *RoutingStorageContainerProperties) Initialize_From_RoutingStor
 		var identity ManagedIdentity
 		err := identity.Initialize_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -11864,14 +11980,14 @@ var _ genruntime.FromARMConverter = &RoutingStorageContainerProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingStorageContainerProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingStorageContainerProperties_STATUS_ARM{}
+	return &arm.RoutingStorageContainerProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingStorageContainerProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingStorageContainerProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoutingStorageContainerProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingStorageContainerProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingStorageContainerProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -12000,7 +12116,7 @@ func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_Fro
 		var identity ManagedIdentity_STATUS
 		err := identity.AssignProperties_From_ManagedIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -12064,7 +12180,7 @@ func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_To_
 		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {

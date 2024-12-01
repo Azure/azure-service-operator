@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
@@ -65,14 +66,14 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
-		Spec: storage.StorageAccounts_BlobService_Spec{
+		Spec: storage.StorageAccountsBlobService_Spec{
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
 
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMeta("velero"),
-		Spec: storage.StorageAccounts_BlobServices_Container_Spec{
+		Spec: storage.StorageAccountsBlobServicesContainer_Spec{
 			Owner: testcommon.AsOwner(blobService),
 		},
 	}
@@ -119,7 +120,7 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 	biName := "asobackupinstance"
 	backupInstance := &dataprotection.BackupVaultsBackupInstance{
 		ObjectMeta: tc.MakeObjectMeta(biName),
-		Spec: dataprotection.BackupVaults_BackupInstance_Spec{
+		Spec: dataprotection.BackupVaultsBackupInstance_Spec{
 			Owner: testcommon.AsOwner(backupVault),
 			Properties: &dataprotection.BackupInstance{
 				ObjectType:   to.Ptr("BackupInstance"),
@@ -237,7 +238,7 @@ func newRoleAssignment(tc *testcommon.KubePerTestContext, owner client.Object, n
 func newBackupInstanceTrustedAccessRoleinding(tc *testcommon.KubePerTestContext, cluster *akscluster.ManagedCluster, backupVault *dataprotection.BackupVault) *aks.TrustedAccessRoleBinding {
 	trustedAccessRoleBinding := &aks.TrustedAccessRoleBinding{
 		ObjectMeta: tc.MakeObjectMetaWithName("tarb"),
-		Spec: aks.ManagedClusters_TrustedAccessRoleBinding_Spec{
+		Spec: aks.TrustedAccessRoleBinding_Spec{
 			Owner: testcommon.AsOwner(cluster),
 			Roles: []string{
 				"Microsoft.DataProtection/backupVaults/backup-operator",

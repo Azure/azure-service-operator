@@ -7,7 +7,10 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -29,8 +32,8 @@ import (
 type DnsZonesAAAARecord struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DnsZones_AAAA_Spec   `json:"spec,omitempty"`
-	Status            DnsZones_AAAA_STATUS `json:"status,omitempty"`
+	Spec              DnsZonesAAAARecord_Spec   `json:"spec,omitempty"`
+	Status            DnsZonesAAAARecord_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DnsZonesAAAARecord{}
@@ -43,6 +46,26 @@ func (record *DnsZonesAAAARecord) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (record *DnsZonesAAAARecord) SetConditions(conditions conditions.Conditions) {
 	record.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &DnsZonesAAAARecord{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (record *DnsZonesAAAARecord) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if record.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return record.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &DnsZonesAAAARecord{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (record *DnsZonesAAAARecord) SecretDestinationExpressions() []*core.DestinationExpression {
+	if record.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return record.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &DnsZonesAAAARecord{}
@@ -88,11 +111,15 @@ func (record *DnsZonesAAAARecord) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (record *DnsZonesAAAARecord) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DnsZones_AAAA_STATUS{}
+	return &DnsZonesAAAARecord_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (record *DnsZonesAAAARecord) Owner() *genruntime.ResourceReference {
+	if record.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(record.Spec)
 	return record.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -100,16 +127,16 @@ func (record *DnsZonesAAAARecord) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (record *DnsZonesAAAARecord) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DnsZones_AAAA_STATUS); ok {
+	if st, ok := status.(*DnsZonesAAAARecord_STATUS); ok {
 		record.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DnsZones_AAAA_STATUS
+	var st DnsZonesAAAARecord_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	record.Status = st
@@ -139,20 +166,21 @@ type DnsZonesAAAARecordList struct {
 	Items           []DnsZonesAAAARecord `json:"items"`
 }
 
-// Storage version of v1api20180501.DnsZones_AAAA_Spec
-type DnsZones_AAAA_Spec struct {
+// Storage version of v1api20180501.DnsZonesAAAARecord_Spec
+type DnsZonesAAAARecord_Spec struct {
 	AAAARecords []AaaaRecord `json:"AAAARecords,omitempty"`
 	ARecords    []ARecord    `json:"ARecords,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string            `json:"azureName,omitempty"`
-	CNAMERecord     *CnameRecord      `json:"CNAMERecord,omitempty"`
-	CaaRecords      []CaaRecord       `json:"caaRecords,omitempty"`
-	MXRecords       []MxRecord        `json:"MXRecords,omitempty"`
-	Metadata        map[string]string `json:"metadata,omitempty"`
-	NSRecords       []NsRecord        `json:"NSRecords,omitempty"`
-	OriginalVersion string            `json:"originalVersion,omitempty"`
+	AzureName       string                          `json:"azureName,omitempty"`
+	CNAMERecord     *CnameRecord                    `json:"CNAMERecord,omitempty"`
+	CaaRecords      []CaaRecord                     `json:"caaRecords,omitempty"`
+	MXRecords       []MxRecord                      `json:"MXRecords,omitempty"`
+	Metadata        map[string]string               `json:"metadata,omitempty"`
+	NSRecords       []NsRecord                      `json:"NSRecords,omitempty"`
+	OperatorSpec    *DnsZonesAAAARecordOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                          `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -168,28 +196,28 @@ type DnsZones_AAAA_Spec struct {
 	TargetResource *SubResource                       `json:"targetResource,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DnsZones_AAAA_Spec{}
+var _ genruntime.ConvertibleSpec = &DnsZonesAAAARecord_Spec{}
 
-// ConvertSpecFrom populates our DnsZones_AAAA_Spec from the provided source
-func (aaaa *DnsZones_AAAA_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == aaaa {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+// ConvertSpecFrom populates our DnsZonesAAAARecord_Spec from the provided source
+func (record *DnsZonesAAAARecord_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == record {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(aaaa)
+	return source.ConvertSpecTo(record)
 }
 
-// ConvertSpecTo populates the provided destination from our DnsZones_AAAA_Spec
-func (aaaa *DnsZones_AAAA_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == aaaa {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+// ConvertSpecTo populates the provided destination from our DnsZonesAAAARecord_Spec
+func (record *DnsZonesAAAARecord_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == record {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(aaaa)
+	return destination.ConvertSpecFrom(record)
 }
 
-// Storage version of v1api20180501.DnsZones_AAAA_STATUS
-type DnsZones_AAAA_STATUS struct {
+// Storage version of v1api20180501.DnsZonesAAAARecord_STATUS
+type DnsZonesAAAARecord_STATUS struct {
 	AAAARecords       []AaaaRecord_STATUS    `json:"AAAARecords,omitempty"`
 	ARecords          []ARecord_STATUS       `json:"ARecords,omitempty"`
 	CNAMERecord       *CnameRecord_STATUS    `json:"CNAMERecord,omitempty"`
@@ -213,24 +241,24 @@ type DnsZones_AAAA_STATUS struct {
 	Type              *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DnsZones_AAAA_STATUS{}
+var _ genruntime.ConvertibleStatus = &DnsZonesAAAARecord_STATUS{}
 
-// ConvertStatusFrom populates our DnsZones_AAAA_STATUS from the provided source
-func (aaaa *DnsZones_AAAA_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == aaaa {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+// ConvertStatusFrom populates our DnsZonesAAAARecord_STATUS from the provided source
+func (record *DnsZonesAAAARecord_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == record {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(aaaa)
+	return source.ConvertStatusTo(record)
 }
 
-// ConvertStatusTo populates the provided destination from our DnsZones_AAAA_STATUS
-func (aaaa *DnsZones_AAAA_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == aaaa {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+// ConvertStatusTo populates the provided destination from our DnsZonesAAAARecord_STATUS
+func (record *DnsZonesAAAARecord_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == record {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(aaaa)
+	return destination.ConvertStatusFrom(record)
 }
 
 // Storage version of v1api20180501.AaaaRecord
@@ -260,7 +288,7 @@ func (record *AaaaRecord) AssignProperties_From_AaaaRecord(source *storage.AaaaR
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForAaaaRecord); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -288,7 +316,7 @@ func (record *AaaaRecord) AssignProperties_To_AaaaRecord(destination *storage.Aa
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForAaaaRecord); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -323,7 +351,7 @@ func (record *AaaaRecord_STATUS) AssignProperties_From_AaaaRecord_STATUS(source 
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForAaaaRecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -351,7 +379,7 @@ func (record *AaaaRecord_STATUS) AssignProperties_To_AaaaRecord_STATUS(destinati
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForAaaaRecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -386,7 +414,7 @@ func (record *ARecord) AssignProperties_From_ARecord(source *storage.ARecord) er
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForARecord); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -414,7 +442,7 @@ func (record *ARecord) AssignProperties_To_ARecord(destination *storage.ARecord)
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForARecord); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -449,7 +477,7 @@ func (record *ARecord_STATUS) AssignProperties_From_ARecord_STATUS(source *stora
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForARecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -477,7 +505,7 @@ func (record *ARecord_STATUS) AssignProperties_To_ARecord_STATUS(destination *st
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForARecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -530,7 +558,7 @@ func (record *CnameRecord) AssignProperties_From_CnameRecord(source *storage.Cna
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForCnameRecord); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -558,7 +586,7 @@ func (record *CnameRecord) AssignProperties_To_CnameRecord(destination *storage.
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForCnameRecord); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -593,7 +621,7 @@ func (record *CnameRecord_STATUS) AssignProperties_From_CnameRecord_STATUS(sourc
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForCnameRecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -621,12 +649,20 @@ func (record *CnameRecord_STATUS) AssignProperties_To_CnameRecord_STATUS(destina
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForCnameRecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
 	// No error
 	return nil
+}
+
+// Storage version of v1api20180501.DnsZonesAAAARecordOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DnsZonesAAAARecordOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20180501.MxRecord
@@ -660,7 +696,7 @@ func (record *MxRecord) AssignProperties_From_MxRecord(source *storage.MxRecord)
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForMxRecord); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -691,7 +727,7 @@ func (record *MxRecord) AssignProperties_To_MxRecord(destination *storage.MxReco
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForMxRecord); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -730,7 +766,7 @@ func (record *MxRecord_STATUS) AssignProperties_From_MxRecord_STATUS(source *sto
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForMxRecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -761,7 +797,7 @@ func (record *MxRecord_STATUS) AssignProperties_To_MxRecord_STATUS(destination *
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForMxRecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -810,7 +846,7 @@ func (record *PtrRecord) AssignProperties_From_PtrRecord(source *storage.PtrReco
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForPtrRecord); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -838,7 +874,7 @@ func (record *PtrRecord) AssignProperties_To_PtrRecord(destination *storage.PtrR
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForPtrRecord); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -873,7 +909,7 @@ func (record *PtrRecord_STATUS) AssignProperties_From_PtrRecord_STATUS(source *s
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForPtrRecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -901,7 +937,7 @@ func (record *PtrRecord_STATUS) AssignProperties_To_PtrRecord_STATUS(destination
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForPtrRecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -941,7 +977,7 @@ func (record *SoaRecord) AssignProperties_From_SoaRecord(source *storage.SoaReco
 		var minimumTTL int
 		err := propertyBag.Pull("MinimumTTL", &minimumTTL)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'MinimumTTL' from propertyBag")
+			return eris.Wrap(err, "pulling 'MinimumTTL' from propertyBag")
 		}
 
 		record.MinimumTTL = &minimumTTL
@@ -977,7 +1013,7 @@ func (record *SoaRecord) AssignProperties_From_SoaRecord(source *storage.SoaReco
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForSoaRecord); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1011,7 +1047,7 @@ func (record *SoaRecord) AssignProperties_To_SoaRecord(destination *storage.SoaR
 		var minimumTtl int
 		err := propertyBag.Pull("MinimumTtl", &minimumTtl)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'MinimumTtl' from propertyBag")
+			return eris.Wrap(err, "pulling 'MinimumTtl' from propertyBag")
 		}
 
 		destination.MinimumTtl = &minimumTtl
@@ -1040,7 +1076,7 @@ func (record *SoaRecord) AssignProperties_To_SoaRecord(destination *storage.SoaR
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForSoaRecord); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1080,7 +1116,7 @@ func (record *SoaRecord_STATUS) AssignProperties_From_SoaRecord_STATUS(source *s
 		var minimumTTL int
 		err := propertyBag.Pull("MinimumTTL", &minimumTTL)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'MinimumTTL' from propertyBag")
+			return eris.Wrap(err, "pulling 'MinimumTTL' from propertyBag")
 		}
 
 		record.MinimumTTL = &minimumTTL
@@ -1116,7 +1152,7 @@ func (record *SoaRecord_STATUS) AssignProperties_From_SoaRecord_STATUS(source *s
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForSoaRecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1150,7 +1186,7 @@ func (record *SoaRecord_STATUS) AssignProperties_To_SoaRecord_STATUS(destination
 		var minimumTtl int
 		err := propertyBag.Pull("MinimumTtl", &minimumTtl)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'MinimumTtl' from propertyBag")
+			return eris.Wrap(err, "pulling 'MinimumTtl' from propertyBag")
 		}
 
 		destination.MinimumTtl = &minimumTtl
@@ -1179,7 +1215,7 @@ func (record *SoaRecord_STATUS) AssignProperties_To_SoaRecord_STATUS(destination
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForSoaRecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1226,7 +1262,7 @@ func (record *SrvRecord) AssignProperties_From_SrvRecord(source *storage.SrvReco
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForSrvRecord); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1263,7 +1299,7 @@ func (record *SrvRecord) AssignProperties_To_SrvRecord(destination *storage.SrvR
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForSrvRecord); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1310,7 +1346,7 @@ func (record *SrvRecord_STATUS) AssignProperties_From_SrvRecord_STATUS(source *s
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForSrvRecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1347,7 +1383,7 @@ func (record *SrvRecord_STATUS) AssignProperties_To_SrvRecord_STATUS(destination
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForSrvRecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1382,7 +1418,7 @@ func (record *TxtRecord) AssignProperties_From_TxtRecord(source *storage.TxtReco
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForTxtRecord); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1410,7 +1446,7 @@ func (record *TxtRecord) AssignProperties_To_TxtRecord(destination *storage.TxtR
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForTxtRecord); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1445,7 +1481,7 @@ func (record *TxtRecord_STATUS) AssignProperties_From_TxtRecord_STATUS(source *s
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForTxtRecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1473,7 +1509,7 @@ func (record *TxtRecord_STATUS) AssignProperties_To_TxtRecord_STATUS(destination
 	if augmentedRecord, ok := recordAsAny.(augmentConversionForTxtRecord_STATUS); ok {
 		err := augmentedRecord.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

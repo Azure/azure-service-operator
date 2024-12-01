@@ -4,9 +4,13 @@
 | Configuration                                                          | v1api20180601 |
 | ConfigurationProperties                                                | v1api20180601 |
 | ConfigurationProperties_STATUS                                         | v1api20180601 |
+| Configuration_STATUS                                                   | v1api20180601 |
+| Configuration_Spec                                                     | v1api20180601 |
 | Database                                                               | v1api20180601 |
 | DatabaseProperties                                                     | v1api20180601 |
 | DatabaseProperties_STATUS                                              | v1api20180601 |
+| Database_STATUS                                                        | v1api20180601 |
+| Database_Spec                                                          | v1api20180601 |
 | MinimalTlsVersion                                                      | v1api20180601 |
 | MinimalTlsVersion_STATUS                                               | v1api20180601 |
 | PrivateEndpointProperty_STATUS                                         | v1api20180601 |
@@ -34,10 +38,6 @@
 | ServerVersion_STATUS                                                   | v1api20180601 |
 | Server_STATUS                                                          | v1api20180601 |
 | Server_Spec                                                            | v1api20180601 |
-| Servers_Configuration_STATUS                                           | v1api20180601 |
-| Servers_Configuration_Spec                                             | v1api20180601 |
-| Servers_Database_STATUS                                                | v1api20180601 |
-| Servers_Database_Spec                                                  | v1api20180601 |
 | Sku                                                                    | v1api20180601 |
 | Sku_STATUS                                                             | v1api20180601 |
 | Sku_Tier                                                               | v1api20180601 |

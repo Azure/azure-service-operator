@@ -10,8 +10,10 @@ RoleAssignment: Resource
 │   ├── ConditionVersion: *string
 │   ├── DelegatedManagedIdentityResourceReference: *genruntime.ResourceReference
 │   ├── Description: *string
-│   ├── OperatorSpec: *Object (1 property)
-│   │   └── NamingConvention: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── NamingConvention: *string
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   ├── PrincipalId: *string
 │   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
@@ -44,50 +46,15 @@ RoleAssignment: Resource
     ├── Type: *string
     ├── UpdatedBy: *string
     └── UpdatedOn: *string
-RoleAssignment_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (12 properties)
-│   ├── Condition: *string
-│   ├── ConditionVersion: *string
-│   ├── CreatedBy: *string
-│   ├── CreatedOn: *string
-│   ├── DelegatedManagedIdentityResourceId: *string
-│   ├── Description: *string
-│   ├── PrincipalId: *string
-│   ├── PrincipalType: *Enum (5 values)
-│   │   ├── "Device"
-│   │   ├── "ForeignGroup"
-│   │   ├── "Group"
-│   │   ├── "ServicePrincipal"
-│   │   └── "User"
-│   ├── RoleDefinitionId: *string
-│   ├── Scope: *string
-│   ├── UpdatedBy: *string
-│   └── UpdatedOn: *string
-└── Type: *string
-RoleAssignment_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (7 properties)
-    ├── Condition: *string
-    ├── ConditionVersion: *string
-    ├── DelegatedManagedIdentityResourceId: *string
-    ├── Description: *string
-    ├── PrincipalId: *string
-    ├── PrincipalType: *Enum (5 values)
-    │   ├── "Device"
-    │   ├── "ForeignGroup"
-    │   ├── "Group"
-    │   ├── "ServicePrincipal"
-    │   └── "User"
-    └── RoleDefinitionId: *string
 RoleDefinition: Resource
 ├── Spec: Object (8 properties)
 │   ├── AssignableScopesReferences: genruntime.ResourceReference[]
 │   ├── AzureName: string
 │   ├── Description: *string
-│   ├── OperatorSpec: *Object (1 property)
-│   │   └── NamingConvention: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── NamingConvention: *string
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   ├── Permissions: Object (4 properties)[]
 │   │   ├── Actions: string[]
@@ -114,33 +81,3 @@ RoleDefinition: Resource
     ├── Type: *string
     ├── UpdatedBy: *string
     └── UpdatedOn: *string
-RoleDefinition_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (9 properties)
-│   ├── AssignableScopes: string[]
-│   ├── CreatedBy: *string
-│   ├── CreatedOn: *string
-│   ├── Description: *string
-│   ├── Permissions: Object (4 properties)[]
-│   │   ├── Actions: string[]
-│   │   ├── DataActions: string[]
-│   │   ├── NotActions: string[]
-│   │   └── NotDataActions: string[]
-│   ├── RoleName: *string
-│   ├── Type: *string
-│   ├── UpdatedBy: *string
-│   └── UpdatedOn: *string
-└── Type: *string
-RoleDefinition_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (5 properties)
-    ├── AssignableScopes: string[]
-    ├── Description: *string
-    ├── Permissions: Object (4 properties)[]
-    │   ├── Actions: string[]
-    │   ├── DataActions: string[]
-    │   ├── NotActions: string[]
-    │   └── NotDataActions: string[]
-    ├── RoleName: *string
-    └── Type: *string

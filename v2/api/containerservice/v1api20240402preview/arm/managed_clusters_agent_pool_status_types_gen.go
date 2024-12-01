@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package arm
 
-type ManagedClusters_AgentPool_STATUS struct {
+type ManagedClustersAgentPool_STATUS struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
@@ -639,8 +639,7 @@ type ScaleProfile_STATUS struct {
 	// at most one AutoScaleProfile is allowed.
 	Autoscale []AutoScaleProfile_STATUS `json:"autoscale"`
 
-	// Manual: Specifications on how to scale the VirtualMachines agent pool to a fixed size. Currently, at most one
-	// ManualScaleProfile is allowed.
+	// Manual: Specifications on how to scale the VirtualMachines agent pool to a fixed size.
 	Manual []ManualScaleProfile_STATUS `json:"manual"`
 }
 

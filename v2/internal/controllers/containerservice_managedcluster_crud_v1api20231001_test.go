@@ -132,7 +132,7 @@ func AKS_ManagedCluster_AgentPool_20231001_CRUD(tc *testcommon.KubePerTestContex
 
 	agentPool := &aks.ManagedClustersAgentPool{
 		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),
-		Spec: aks.ManagedClusters_AgentPool_Spec{
+		Spec: aks.ManagedClustersAgentPool_Spec{
 			Owner:  testcommon.AsOwner(cluster),
 			Count:  to.Ptr(1),
 			VmSize: to.Ptr("Standard_DS2_v2"),
@@ -212,7 +212,7 @@ func AKS_ManagedCluster_TrustedAccessRoleBinding_20231001_CRUD(
 
 	roleBinding := &aks.TrustedAccessRoleBinding{
 		ObjectMeta: tc.MakeObjectMetaWithName("tarb"),
-		Spec: aks.ManagedClusters_TrustedAccessRoleBinding_Spec{
+		Spec: aks.TrustedAccessRoleBinding_Spec{
 			Owner: testcommon.AsOwner(cluster),
 			Roles: []string{
 				// Microsoft.MachineLearningServices/workspaces/mlworkload

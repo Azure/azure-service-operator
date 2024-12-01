@@ -6,7 +6,7 @@ package v1api20200101
 import (
 	storage "github.com/Azure/azure-service-operator/testing/test/v1api20200101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json
@@ -26,7 +26,7 @@ func (test *Test) AssignProperties_From_Test(source *storage.Test) error {
 		var innerFlat Inner
 		err := innerFlat.AssignProperties_From_Inner(source.Inner_Flat)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Inner() to populate field Inner_Flat")
+			return eris.Wrap(err, "calling AssignProperties_From_Inner() to populate field Inner_Flat")
 		}
 		test.Inner_Flat = &innerFlat
 	} else {
@@ -38,7 +38,7 @@ func (test *Test) AssignProperties_From_Test(source *storage.Test) error {
 		var innerNotFlat Inner
 		err := innerNotFlat.AssignProperties_From_Inner(source.Inner_Not_Flat)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Inner() to populate field Inner_Not_Flat")
+			return eris.Wrap(err, "calling AssignProperties_From_Inner() to populate field Inner_Not_Flat")
 		}
 		test.Inner_Not_Flat = &innerNotFlat
 	} else {
@@ -59,7 +59,7 @@ func (test *Test) AssignProperties_To_Test(destination *storage.Test) error {
 		var innerFlat storage.Inner
 		err := test.Inner_Flat.AssignProperties_To_Inner(&innerFlat)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Inner() to populate field Inner_Flat")
+			return eris.Wrap(err, "calling AssignProperties_To_Inner() to populate field Inner_Flat")
 		}
 		destination.Inner_Flat = &innerFlat
 	} else {
@@ -71,7 +71,7 @@ func (test *Test) AssignProperties_To_Test(destination *storage.Test) error {
 		var innerNotFlat storage.Inner
 		err := test.Inner_Not_Flat.AssignProperties_To_Inner(&innerNotFlat)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Inner() to populate field Inner_Not_Flat")
+			return eris.Wrap(err, "calling AssignProperties_To_Inner() to populate field Inner_Not_Flat")
 		}
 		destination.Inner_Not_Flat = &innerNotFlat
 	} else {

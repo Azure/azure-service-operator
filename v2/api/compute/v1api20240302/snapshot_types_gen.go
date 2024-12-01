@@ -10,7 +10,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -91,6 +94,26 @@ func (snapshot *Snapshot) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Snapshot resource
 func (snapshot *Snapshot) defaultImpl() { snapshot.defaultAzureName() }
 
+var _ configmaps.Exporter = &Snapshot{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (snapshot *Snapshot) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if snapshot.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return snapshot.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Snapshot{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (snapshot *Snapshot) SecretDestinationExpressions() []*core.DestinationExpression {
+	if snapshot.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return snapshot.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &Snapshot{}
 
 // InitializeSpec initializes the spec for this resource from the given status
@@ -150,6 +173,10 @@ func (snapshot *Snapshot) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (snapshot *Snapshot) Owner() *genruntime.ResourceReference {
+	if snapshot.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(snapshot.Spec)
 	return snapshot.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -166,7 +193,7 @@ func (snapshot *Snapshot) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Snapshot_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	snapshot.Status = st
@@ -209,7 +236,7 @@ func (snapshot *Snapshot) ValidateUpdate(old runtime.Object) (admission.Warnings
 
 // createValidations validates the creation of the resource
 func (snapshot *Snapshot) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){snapshot.validateResourceReferences, snapshot.validateOwnerReference}
+	return []func() (admission.Warnings, error){snapshot.validateResourceReferences, snapshot.validateOwnerReference, snapshot.validateSecretDestinations, snapshot.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +254,21 @@ func (snapshot *Snapshot) updateValidations() []func(old runtime.Object) (admiss
 		func(old runtime.Object) (admission.Warnings, error) {
 			return snapshot.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return snapshot.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return snapshot.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (snapshot *Snapshot) validateConfigMapDestinations() (admission.Warnings, error) {
+	if snapshot.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(snapshot, nil, snapshot.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +283,14 @@ func (snapshot *Snapshot) validateResourceReferences() (admission.Warnings, erro
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (snapshot *Snapshot) validateSecretDestinations() (admission.Warnings, error) {
+	if snapshot.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(snapshot, nil, snapshot.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -264,7 +313,7 @@ func (snapshot *Snapshot) AssignProperties_From_Snapshot(source *storage.Snapsho
 	var spec Snapshot_Spec
 	err := spec.AssignProperties_From_Snapshot_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Snapshot_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Snapshot_Spec() to populate field Spec")
 	}
 	snapshot.Spec = spec
 
@@ -272,7 +321,7 @@ func (snapshot *Snapshot) AssignProperties_From_Snapshot(source *storage.Snapsho
 	var status Snapshot_STATUS
 	err = status.AssignProperties_From_Snapshot_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Snapshot_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Snapshot_STATUS() to populate field Status")
 	}
 	snapshot.Status = status
 
@@ -290,7 +339,7 @@ func (snapshot *Snapshot) AssignProperties_To_Snapshot(destination *storage.Snap
 	var spec storage.Snapshot_Spec
 	err := snapshot.Spec.AssignProperties_To_Snapshot_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Snapshot_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Snapshot_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -298,7 +347,7 @@ func (snapshot *Snapshot) AssignProperties_To_Snapshot(destination *storage.Snap
 	var status storage.Snapshot_STATUS
 	err = snapshot.Status.AssignProperties_To_Snapshot_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Snapshot_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Snapshot_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -378,6 +427,10 @@ type Snapshot_Spec struct {
 
 	// NetworkAccessPolicy: Policy for accessing the disk via network.
 	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *SnapshotOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// OsType: The Operating System type.
 	OsType *SnapshotProperties_OsType `json:"osType,omitempty"`
@@ -759,6 +812,8 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "OsType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -875,13 +930,13 @@ func (snapshot *Snapshot_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 	src = &storage.Snapshot_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = snapshot.AssignProperties_From_Snapshot_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -899,13 +954,13 @@ func (snapshot *Snapshot_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 	dst = &storage.Snapshot_Spec{}
 	err := snapshot.AssignProperties_To_Snapshot_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -930,7 +985,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *stora
 		var copyCompletionError CopyCompletionError
 		err := copyCompletionError.AssignProperties_From_CopyCompletionError(source.CopyCompletionError)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CopyCompletionError() to populate field CopyCompletionError")
+			return eris.Wrap(err, "calling AssignProperties_From_CopyCompletionError() to populate field CopyCompletionError")
 		}
 		snapshot.CopyCompletionError = &copyCompletionError
 	} else {
@@ -942,7 +997,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *stora
 		var creationDatum CreationData
 		err := creationDatum.AssignProperties_From_CreationData(source.CreationData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CreationData() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_From_CreationData() to populate field CreationData")
 		}
 		snapshot.CreationData = &creationDatum
 	} else {
@@ -983,7 +1038,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *stora
 		var encryption Encryption
 		err := encryption.AssignProperties_From_Encryption(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Encryption() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_Encryption() to populate field Encryption")
 		}
 		snapshot.Encryption = &encryption
 	} else {
@@ -995,7 +1050,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *stora
 		var encryptionSettingsCollection EncryptionSettingsCollection
 		err := encryptionSettingsCollection.AssignProperties_From_EncryptionSettingsCollection(source.EncryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
 		}
 		snapshot.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -1007,7 +1062,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *stora
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		snapshot.ExtendedLocation = &extendedLocation
 	} else {
@@ -1043,6 +1098,18 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *stora
 		snapshot.NetworkAccessPolicy = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SnapshotOperatorSpec
+		err := operatorSpec.AssignProperties_From_SnapshotOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SnapshotOperatorSpec() to populate field OperatorSpec")
+		}
+		snapshot.OperatorSpec = &operatorSpec
+	} else {
+		snapshot.OperatorSpec = nil
+	}
+
 	// OsType
 	if source.OsType != nil {
 		osType := *source.OsType
@@ -1074,7 +1141,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *stora
 		var purchasePlan PurchasePlan
 		err := purchasePlan.AssignProperties_From_PurchasePlan(source.PurchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PurchasePlan() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_From_PurchasePlan() to populate field PurchasePlan")
 		}
 		snapshot.PurchasePlan = &purchasePlan
 	} else {
@@ -1086,7 +1153,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *stora
 		var securityProfile DiskSecurityProfile
 		err := securityProfile.AssignProperties_From_DiskSecurityProfile(source.SecurityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskSecurityProfile() to populate field SecurityProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskSecurityProfile() to populate field SecurityProfile")
 		}
 		snapshot.SecurityProfile = &securityProfile
 	} else {
@@ -1098,7 +1165,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *stora
 		var sku SnapshotSku
 		err := sku.AssignProperties_From_SnapshotSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SnapshotSku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_SnapshotSku() to populate field Sku")
 		}
 		snapshot.Sku = &sku
 	} else {
@@ -1110,7 +1177,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *stora
 		var supportedCapability SupportedCapabilities
 		err := supportedCapability.AssignProperties_From_SupportedCapabilities(source.SupportedCapabilities)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SupportedCapabilities() to populate field SupportedCapabilities")
+			return eris.Wrap(err, "calling AssignProperties_From_SupportedCapabilities() to populate field SupportedCapabilities")
 		}
 		snapshot.SupportedCapabilities = &supportedCapability
 	} else {
@@ -1153,7 +1220,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *st
 		var copyCompletionError storage.CopyCompletionError
 		err := snapshot.CopyCompletionError.AssignProperties_To_CopyCompletionError(&copyCompletionError)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CopyCompletionError() to populate field CopyCompletionError")
+			return eris.Wrap(err, "calling AssignProperties_To_CopyCompletionError() to populate field CopyCompletionError")
 		}
 		destination.CopyCompletionError = &copyCompletionError
 	} else {
@@ -1165,7 +1232,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *st
 		var creationDatum storage.CreationData
 		err := snapshot.CreationData.AssignProperties_To_CreationData(&creationDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CreationData() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_To_CreationData() to populate field CreationData")
 		}
 		destination.CreationData = &creationDatum
 	} else {
@@ -1204,7 +1271,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *st
 		var encryption storage.Encryption
 		err := snapshot.Encryption.AssignProperties_To_Encryption(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Encryption() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_Encryption() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1216,7 +1283,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *st
 		var encryptionSettingsCollection storage.EncryptionSettingsCollection
 		err := snapshot.EncryptionSettingsCollection.AssignProperties_To_EncryptionSettingsCollection(&encryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
 		}
 		destination.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -1228,7 +1295,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *st
 		var extendedLocation storage.ExtendedLocation
 		err := snapshot.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1260,6 +1327,18 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *st
 		destination.NetworkAccessPolicy = &networkAccessPolicy
 	} else {
 		destination.NetworkAccessPolicy = nil
+	}
+
+	// OperatorSpec
+	if snapshot.OperatorSpec != nil {
+		var operatorSpec storage.SnapshotOperatorSpec
+		err := snapshot.OperatorSpec.AssignProperties_To_SnapshotOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SnapshotOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -1294,7 +1373,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *st
 		var purchasePlan storage.PurchasePlan
 		err := snapshot.PurchasePlan.AssignProperties_To_PurchasePlan(&purchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PurchasePlan() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_To_PurchasePlan() to populate field PurchasePlan")
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
@@ -1306,7 +1385,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *st
 		var securityProfile storage.DiskSecurityProfile
 		err := snapshot.SecurityProfile.AssignProperties_To_DiskSecurityProfile(&securityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskSecurityProfile() to populate field SecurityProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskSecurityProfile() to populate field SecurityProfile")
 		}
 		destination.SecurityProfile = &securityProfile
 	} else {
@@ -1318,7 +1397,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *st
 		var sku storage.SnapshotSku
 		err := snapshot.Sku.AssignProperties_To_SnapshotSku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SnapshotSku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_SnapshotSku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1330,7 +1409,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *st
 		var supportedCapability storage.SupportedCapabilities
 		err := snapshot.SupportedCapabilities.AssignProperties_To_SupportedCapabilities(&supportedCapability)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SupportedCapabilities() to populate field SupportedCapabilities")
+			return eris.Wrap(err, "calling AssignProperties_To_SupportedCapabilities() to populate field SupportedCapabilities")
 		}
 		destination.SupportedCapabilities = &supportedCapability
 	} else {
@@ -1375,7 +1454,7 @@ func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_
 		var copyCompletionError CopyCompletionError
 		err := copyCompletionError.Initialize_From_CopyCompletionError_STATUS(source.CopyCompletionError)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CopyCompletionError_STATUS() to populate field CopyCompletionError")
+			return eris.Wrap(err, "calling Initialize_From_CopyCompletionError_STATUS() to populate field CopyCompletionError")
 		}
 		snapshot.CopyCompletionError = &copyCompletionError
 	} else {
@@ -1387,7 +1466,7 @@ func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_
 		var creationDatum CreationData
 		err := creationDatum.Initialize_From_CreationData_STATUS(source.CreationData)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CreationData_STATUS() to populate field CreationData")
+			return eris.Wrap(err, "calling Initialize_From_CreationData_STATUS() to populate field CreationData")
 		}
 		snapshot.CreationData = &creationDatum
 	} else {
@@ -1426,7 +1505,7 @@ func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_
 		var encryption Encryption
 		err := encryption.Initialize_From_Encryption_STATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Encryption_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling Initialize_From_Encryption_STATUS() to populate field Encryption")
 		}
 		snapshot.Encryption = &encryption
 	} else {
@@ -1438,7 +1517,7 @@ func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_
 		var encryptionSettingsCollection EncryptionSettingsCollection
 		err := encryptionSettingsCollection.Initialize_From_EncryptionSettingsCollection_STATUS(source.EncryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
+			return eris.Wrap(err, "calling Initialize_From_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
 		}
 		snapshot.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -1450,7 +1529,7 @@ func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		snapshot.ExtendedLocation = &extendedLocation
 	} else {
@@ -1505,7 +1584,7 @@ func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_
 		var purchasePlan PurchasePlan
 		err := purchasePlan.Initialize_From_PurchasePlan_STATUS(source.PurchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PurchasePlan_STATUS() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling Initialize_From_PurchasePlan_STATUS() to populate field PurchasePlan")
 		}
 		snapshot.PurchasePlan = &purchasePlan
 	} else {
@@ -1517,7 +1596,7 @@ func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_
 		var securityProfile DiskSecurityProfile
 		err := securityProfile.Initialize_From_DiskSecurityProfile_STATUS(source.SecurityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DiskSecurityProfile_STATUS() to populate field SecurityProfile")
+			return eris.Wrap(err, "calling Initialize_From_DiskSecurityProfile_STATUS() to populate field SecurityProfile")
 		}
 		snapshot.SecurityProfile = &securityProfile
 	} else {
@@ -1529,7 +1608,7 @@ func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_
 		var sku SnapshotSku
 		err := sku.Initialize_From_SnapshotSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SnapshotSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_SnapshotSku_STATUS() to populate field Sku")
 		}
 		snapshot.Sku = &sku
 	} else {
@@ -1541,7 +1620,7 @@ func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_
 		var supportedCapability SupportedCapabilities
 		err := supportedCapability.Initialize_From_SupportedCapabilities_STATUS(source.SupportedCapabilities)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SupportedCapabilities_STATUS() to populate field SupportedCapabilities")
+			return eris.Wrap(err, "calling Initialize_From_SupportedCapabilities_STATUS() to populate field SupportedCapabilities")
 		}
 		snapshot.SupportedCapabilities = &supportedCapability
 	} else {
@@ -1692,13 +1771,13 @@ func (snapshot *Snapshot_STATUS) ConvertStatusFrom(source genruntime.Convertible
 	src = &storage.Snapshot_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = snapshot.AssignProperties_From_Snapshot_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1716,13 +1795,13 @@ func (snapshot *Snapshot_STATUS) ConvertStatusTo(destination genruntime.Converti
 	dst = &storage.Snapshot_STATUS{}
 	err := snapshot.AssignProperties_To_Snapshot_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -2081,7 +2160,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *s
 		var copyCompletionError CopyCompletionError_STATUS
 		err := copyCompletionError.AssignProperties_From_CopyCompletionError_STATUS(source.CopyCompletionError)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CopyCompletionError_STATUS() to populate field CopyCompletionError")
+			return eris.Wrap(err, "calling AssignProperties_From_CopyCompletionError_STATUS() to populate field CopyCompletionError")
 		}
 		snapshot.CopyCompletionError = &copyCompletionError
 	} else {
@@ -2093,7 +2172,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *s
 		var creationDatum CreationData_STATUS
 		err := creationDatum.AssignProperties_From_CreationData_STATUS(source.CreationData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CreationData_STATUS() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_From_CreationData_STATUS() to populate field CreationData")
 		}
 		snapshot.CreationData = &creationDatum
 	} else {
@@ -2132,7 +2211,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *s
 		var encryption Encryption_STATUS
 		err := encryption.AssignProperties_From_Encryption_STATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Encryption_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_Encryption_STATUS() to populate field Encryption")
 		}
 		snapshot.Encryption = &encryption
 	} else {
@@ -2144,7 +2223,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *s
 		var encryptionSettingsCollection EncryptionSettingsCollection_STATUS
 		err := encryptionSettingsCollection.AssignProperties_From_EncryptionSettingsCollection_STATUS(source.EncryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
+			return eris.Wrap(err, "calling AssignProperties_From_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
 		}
 		snapshot.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -2156,7 +2235,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *s
 		var extendedLocation ExtendedLocation_STATUS
 		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		snapshot.ExtendedLocation = &extendedLocation
 	} else {
@@ -2230,7 +2309,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *s
 		var purchasePlan PurchasePlan_STATUS
 		err := purchasePlan.AssignProperties_From_PurchasePlan_STATUS(source.PurchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PurchasePlan_STATUS() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_From_PurchasePlan_STATUS() to populate field PurchasePlan")
 		}
 		snapshot.PurchasePlan = &purchasePlan
 	} else {
@@ -2242,7 +2321,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *s
 		var securityProfile DiskSecurityProfile_STATUS
 		err := securityProfile.AssignProperties_From_DiskSecurityProfile_STATUS(source.SecurityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskSecurityProfile_STATUS() to populate field SecurityProfile")
+			return eris.Wrap(err, "calling AssignProperties_From_DiskSecurityProfile_STATUS() to populate field SecurityProfile")
 		}
 		snapshot.SecurityProfile = &securityProfile
 	} else {
@@ -2254,7 +2333,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *s
 		var sku SnapshotSku_STATUS
 		err := sku.AssignProperties_From_SnapshotSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SnapshotSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_SnapshotSku_STATUS() to populate field Sku")
 		}
 		snapshot.Sku = &sku
 	} else {
@@ -2266,7 +2345,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *s
 		var supportedCapability SupportedCapabilities_STATUS
 		err := supportedCapability.AssignProperties_From_SupportedCapabilities_STATUS(source.SupportedCapabilities)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SupportedCapabilities_STATUS() to populate field SupportedCapabilities")
+			return eris.Wrap(err, "calling AssignProperties_From_SupportedCapabilities_STATUS() to populate field SupportedCapabilities")
 		}
 		snapshot.SupportedCapabilities = &supportedCapability
 	} else {
@@ -2318,7 +2397,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 		var copyCompletionError storage.CopyCompletionError_STATUS
 		err := snapshot.CopyCompletionError.AssignProperties_To_CopyCompletionError_STATUS(&copyCompletionError)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CopyCompletionError_STATUS() to populate field CopyCompletionError")
+			return eris.Wrap(err, "calling AssignProperties_To_CopyCompletionError_STATUS() to populate field CopyCompletionError")
 		}
 		destination.CopyCompletionError = &copyCompletionError
 	} else {
@@ -2330,7 +2409,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 		var creationDatum storage.CreationData_STATUS
 		err := snapshot.CreationData.AssignProperties_To_CreationData_STATUS(&creationDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CreationData_STATUS() to populate field CreationData")
+			return eris.Wrap(err, "calling AssignProperties_To_CreationData_STATUS() to populate field CreationData")
 		}
 		destination.CreationData = &creationDatum
 	} else {
@@ -2367,7 +2446,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 		var encryption storage.Encryption_STATUS
 		err := snapshot.Encryption.AssignProperties_To_Encryption_STATUS(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Encryption_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_Encryption_STATUS() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -2379,7 +2458,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 		var encryptionSettingsCollection storage.EncryptionSettingsCollection_STATUS
 		err := snapshot.EncryptionSettingsCollection.AssignProperties_To_EncryptionSettingsCollection_STATUS(&encryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
+			return eris.Wrap(err, "calling AssignProperties_To_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
 		}
 		destination.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -2391,7 +2470,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 		var extendedLocation storage.ExtendedLocation_STATUS
 		err := snapshot.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -2461,7 +2540,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 		var purchasePlan storage.PurchasePlan_STATUS
 		err := snapshot.PurchasePlan.AssignProperties_To_PurchasePlan_STATUS(&purchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PurchasePlan_STATUS() to populate field PurchasePlan")
+			return eris.Wrap(err, "calling AssignProperties_To_PurchasePlan_STATUS() to populate field PurchasePlan")
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
@@ -2473,7 +2552,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 		var securityProfile storage.DiskSecurityProfile_STATUS
 		err := snapshot.SecurityProfile.AssignProperties_To_DiskSecurityProfile_STATUS(&securityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskSecurityProfile_STATUS() to populate field SecurityProfile")
+			return eris.Wrap(err, "calling AssignProperties_To_DiskSecurityProfile_STATUS() to populate field SecurityProfile")
 		}
 		destination.SecurityProfile = &securityProfile
 	} else {
@@ -2485,7 +2564,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 		var sku storage.SnapshotSku_STATUS
 		err := snapshot.Sku.AssignProperties_To_SnapshotSku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SnapshotSku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_SnapshotSku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -2497,7 +2576,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 		var supportedCapability storage.SupportedCapabilities_STATUS
 		err := snapshot.SupportedCapabilities.AssignProperties_To_SupportedCapabilities_STATUS(&supportedCapability)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SupportedCapabilities_STATUS() to populate field SupportedCapabilities")
+			return eris.Wrap(err, "calling AssignProperties_To_SupportedCapabilities_STATUS() to populate field SupportedCapabilities")
 		}
 		destination.SupportedCapabilities = &supportedCapability
 	} else {
@@ -2777,6 +2856,110 @@ var diskState_Values = map[string]DiskState{
 	"readytoupload":   DiskState_ReadyToUpload,
 	"reserved":        DiskState_Reserved,
 	"unattached":      DiskState_Unattached,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SnapshotOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_SnapshotOperatorSpec populates our SnapshotOperatorSpec from the provided source SnapshotOperatorSpec
+func (operator *SnapshotOperatorSpec) AssignProperties_From_SnapshotOperatorSpec(source *storage.SnapshotOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SnapshotOperatorSpec populates the provided destination SnapshotOperatorSpec from our SnapshotOperatorSpec
+func (operator *SnapshotOperatorSpec) AssignProperties_To_SnapshotOperatorSpec(destination *storage.SnapshotOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // +kubebuilder:validation:Enum={"V1","V2"}

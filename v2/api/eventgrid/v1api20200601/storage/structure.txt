@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2020-06-01"
 Domain: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (10 properties)
+├── Spec: Object (11 properties)
 │   ├── AzureName: string
 │   ├── InboundIpRules: Object (3 properties)[]
 │   │   ├── Action: *string
@@ -39,6 +39,10 @@ Domain: Resource
 │   │   │       └── SourceField: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -100,8 +104,12 @@ Domain: Resource
     └── Type: *string
 DomainsTopic: Resource
 ├── Owner: eventgrid/v1api20200601.Domain
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
@@ -121,7 +129,7 @@ DomainsTopic: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 EventSubscription: Resource
-├── Spec: Object (11 properties)
+├── Spec: Object (12 properties)
 │   ├── AzureName: string
 │   ├── DeadLetterDestination: *Object (2 properties)
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -238,6 +246,10 @@ EventSubscription: Resource
 │   │   ├── SubjectBeginsWith: *string
 │   │   └── SubjectEndsWith: *string
 │   ├── Labels: string[]
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -416,11 +428,13 @@ Topic: Resource
 │   │   │       └── SourceField: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── Location: *string
-│   ├── OperatorSpec: *Object (3 properties)
+│   ├── OperatorSpec: *Object (5 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── ConfigMaps: *Object (2 properties)
 │   │   │   ├── Endpoint: *genruntime.ConfigMapDestination
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (3 properties)
 │   │       ├── Key1: *genruntime.SecretDestination
 │   │       ├── Key2: *genruntime.SecretDestination

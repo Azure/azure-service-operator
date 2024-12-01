@@ -4842,6 +4842,102 @@ func AddIndependentPropertyGeneratorsForSiteMachineKey_STATUS(gens map[string]go
 	gens["ValidationKey"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_SiteOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SiteOperatorSpec to SiteOperatorSpec via AssignProperties_To_SiteOperatorSpec & AssignProperties_From_SiteOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSiteOperatorSpec, SiteOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSiteOperatorSpec tests if a specific instance of SiteOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSiteOperatorSpec(subject SiteOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SiteOperatorSpec
+	err := copied.AssignProperties_To_SiteOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SiteOperatorSpec
+	err = actual.AssignProperties_From_SiteOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SiteOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SiteOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSiteOperatorSpec, SiteOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSiteOperatorSpec runs a test to see if a specific instance of SiteOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSiteOperatorSpec(subject SiteOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SiteOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SiteOperatorSpec instances for property testing - lazily instantiated by SiteOperatorSpecGenerator()
+var siteOperatorSpecGenerator gopter.Gen
+
+// SiteOperatorSpecGenerator returns a generator of SiteOperatorSpec instances for property testing.
+func SiteOperatorSpecGenerator() gopter.Gen {
+	if siteOperatorSpecGenerator != nil {
+		return siteOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	siteOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SiteOperatorSpec{}), generators)
+
+	return siteOperatorSpecGenerator
+}
+
 func Test_Site_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -5099,6 +5195,7 @@ func AddRelatedPropertyGeneratorsForSite_Spec(gens map[string]gopter.Gen) {
 	gens["HostNameSslStates"] = gen.SliceOf(HostNameSslStateGenerator())
 	gens["HostingEnvironmentProfile"] = gen.PtrOf(HostingEnvironmentProfileGenerator())
 	gens["Identity"] = gen.PtrOf(ManagedServiceIdentityGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(SiteOperatorSpecGenerator())
 	gens["SiteConfig"] = gen.PtrOf(SiteConfigGenerator())
 }
 

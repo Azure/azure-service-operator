@@ -5,11 +5,15 @@ package v1api20220501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v1api20220501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v1api20220501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -29,8 +33,8 @@ import (
 type WebApplicationFirewallPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FrontDoorWebApplicationFirewallPolicy_Spec   `json:"spec,omitempty"`
-	Status            FrontDoorWebApplicationFirewallPolicy_STATUS `json:"status,omitempty"`
+	Spec              WebApplicationFirewallPolicy_Spec   `json:"spec,omitempty"`
+	Status            WebApplicationFirewallPolicy_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WebApplicationFirewallPolicy{}
@@ -90,15 +94,35 @@ func (policy *WebApplicationFirewallPolicy) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the WebApplicationFirewallPolicy resource
 func (policy *WebApplicationFirewallPolicy) defaultImpl() { policy.defaultAzureName() }
 
+var _ configmaps.Exporter = &WebApplicationFirewallPolicy{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (policy *WebApplicationFirewallPolicy) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &WebApplicationFirewallPolicy{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (policy *WebApplicationFirewallPolicy) SecretDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &WebApplicationFirewallPolicy{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (policy *WebApplicationFirewallPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FrontDoorWebApplicationFirewallPolicy_STATUS); ok {
-		return policy.Spec.Initialize_From_FrontDoorWebApplicationFirewallPolicy_STATUS(s)
+	if s, ok := status.(*WebApplicationFirewallPolicy_STATUS); ok {
+		return policy.Spec.Initialize_From_WebApplicationFirewallPolicy_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type FrontDoorWebApplicationFirewallPolicy_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type WebApplicationFirewallPolicy_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &WebApplicationFirewallPolicy{}
@@ -144,11 +168,15 @@ func (policy *WebApplicationFirewallPolicy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *WebApplicationFirewallPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &FrontDoorWebApplicationFirewallPolicy_STATUS{}
+	return &WebApplicationFirewallPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (policy *WebApplicationFirewallPolicy) Owner() *genruntime.ResourceReference {
+	if policy.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
 	return policy.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -156,16 +184,16 @@ func (policy *WebApplicationFirewallPolicy) Owner() *genruntime.ResourceReferenc
 // SetStatus sets the status of this resource
 func (policy *WebApplicationFirewallPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*FrontDoorWebApplicationFirewallPolicy_STATUS); ok {
+	if st, ok := status.(*WebApplicationFirewallPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st FrontDoorWebApplicationFirewallPolicy_STATUS
+	var st WebApplicationFirewallPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	policy.Status = st
@@ -208,7 +236,7 @@ func (policy *WebApplicationFirewallPolicy) ValidateUpdate(old runtime.Object) (
 
 // createValidations validates the creation of the resource
 func (policy *WebApplicationFirewallPolicy) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){policy.validateResourceReferences, policy.validateOwnerReference}
+	return []func() (admission.Warnings, error){policy.validateResourceReferences, policy.validateOwnerReference, policy.validateSecretDestinations, policy.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +254,21 @@ func (policy *WebApplicationFirewallPolicy) updateValidations() []func(old runti
 		func(old runtime.Object) (admission.Warnings, error) {
 			return policy.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return policy.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return policy.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (policy *WebApplicationFirewallPolicy) validateConfigMapDestinations() (admission.Warnings, error) {
+	if policy.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(policy, nil, policy.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -241,6 +283,14 @@ func (policy *WebApplicationFirewallPolicy) validateResourceReferences() (admiss
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (policy *WebApplicationFirewallPolicy) validateSecretDestinations() (admission.Warnings, error) {
+	if policy.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(policy, nil, policy.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -260,18 +310,18 @@ func (policy *WebApplicationFirewallPolicy) AssignProperties_From_WebApplication
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec FrontDoorWebApplicationFirewallPolicy_Spec
-	err := spec.AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_Spec(&source.Spec)
+	var spec WebApplicationFirewallPolicy_Spec
+	err := spec.AssignProperties_From_WebApplicationFirewallPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_WebApplicationFirewallPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
 	// Status
-	var status FrontDoorWebApplicationFirewallPolicy_STATUS
-	err = status.AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_STATUS(&source.Status)
+	var status WebApplicationFirewallPolicy_STATUS
+	err = status.AssignProperties_From_WebApplicationFirewallPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_WebApplicationFirewallPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -286,18 +336,18 @@ func (policy *WebApplicationFirewallPolicy) AssignProperties_To_WebApplicationFi
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.FrontDoorWebApplicationFirewallPolicy_Spec
-	err := policy.Spec.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec(&spec)
+	var spec storage.WebApplicationFirewallPolicy_Spec
+	err := policy.Spec.AssignProperties_To_WebApplicationFirewallPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_WebApplicationFirewallPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.FrontDoorWebApplicationFirewallPolicy_STATUS
-	err = policy.Status.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS(&status)
+	var status storage.WebApplicationFirewallPolicy_STATUS
+	err = policy.Status.AssignProperties_To_WebApplicationFirewallPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_WebApplicationFirewallPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -329,7 +379,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-05-01")
 
-type FrontDoorWebApplicationFirewallPolicy_Spec struct {
+type WebApplicationFirewallPolicy_Spec struct {
 	// +kubebuilder:validation:MaxLength=128
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -347,6 +397,10 @@ type FrontDoorWebApplicationFirewallPolicy_Spec struct {
 	// ManagedRules: Describes managed rules inside the policy.
 	ManagedRules *ManagedRuleSetList `json:"managedRules,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *WebApplicationFirewallPolicyOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -363,14 +417,14 @@ type FrontDoorWebApplicationFirewallPolicy_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &FrontDoorWebApplicationFirewallPolicy_Spec{}
+var _ genruntime.ARMTransformer = &WebApplicationFirewallPolicy_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (policy *WebApplicationFirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if policy == nil {
 		return nil, nil
 	}
-	result := &FrontDoorWebApplicationFirewallPolicy_Spec_ARM{}
+	result := &arm.WebApplicationFirewallPolicy_Spec{}
 
 	// Set property "Etag":
 	if policy.Etag != nil {
@@ -391,14 +445,14 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) ConvertToARM(resolved 
 	if policy.CustomRules != nil ||
 		policy.ManagedRules != nil ||
 		policy.PolicySettings != nil {
-		result.Properties = &WebApplicationFirewallPolicyProperties_ARM{}
+		result.Properties = &arm.WebApplicationFirewallPolicyProperties{}
 	}
 	if policy.CustomRules != nil {
 		customRules_ARM, err := (*policy.CustomRules).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		customRules := *customRules_ARM.(*CustomRuleList_ARM)
+		customRules := *customRules_ARM.(*arm.CustomRuleList)
 		result.Properties.CustomRules = &customRules
 	}
 	if policy.ManagedRules != nil {
@@ -406,7 +460,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) ConvertToARM(resolved 
 		if err != nil {
 			return nil, err
 		}
-		managedRules := *managedRules_ARM.(*ManagedRuleSetList_ARM)
+		managedRules := *managedRules_ARM.(*arm.ManagedRuleSetList)
 		result.Properties.ManagedRules = &managedRules
 	}
 	if policy.PolicySettings != nil {
@@ -414,7 +468,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) ConvertToARM(resolved 
 		if err != nil {
 			return nil, err
 		}
-		policySettings := *policySettings_ARM.(*PolicySettings_ARM)
+		policySettings := *policySettings_ARM.(*arm.PolicySettings)
 		result.Properties.PolicySettings = &policySettings
 	}
 
@@ -424,7 +478,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) ConvertToARM(resolved 
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*Sku_ARM)
+		sku := *sku_ARM.(*arm.Sku)
 		result.Sku = &sku
 	}
 
@@ -439,15 +493,15 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) ConvertToARM(resolved 
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FrontDoorWebApplicationFirewallPolicy_Spec_ARM{}
+func (policy *WebApplicationFirewallPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.WebApplicationFirewallPolicy_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FrontDoorWebApplicationFirewallPolicy_Spec_ARM)
+func (policy *WebApplicationFirewallPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.WebApplicationFirewallPolicy_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontDoorWebApplicationFirewallPolicy_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebApplicationFirewallPolicy_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -493,6 +547,8 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) PopulateFromARM(owner 
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	policy.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -536,58 +592,58 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) PopulateFromARM(owner 
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &FrontDoorWebApplicationFirewallPolicy_Spec{}
+var _ genruntime.ConvertibleSpec = &WebApplicationFirewallPolicy_Spec{}
 
-// ConvertSpecFrom populates our FrontDoorWebApplicationFirewallPolicy_Spec from the provided source
-func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.FrontDoorWebApplicationFirewallPolicy_Spec)
+// ConvertSpecFrom populates our WebApplicationFirewallPolicy_Spec from the provided source
+func (policy *WebApplicationFirewallPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.WebApplicationFirewallPolicy_Spec)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_Spec(src)
+		return policy.AssignProperties_From_WebApplicationFirewallPolicy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.FrontDoorWebApplicationFirewallPolicy_Spec{}
+	src = &storage.WebApplicationFirewallPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_Spec(src)
+	err = policy.AssignProperties_From_WebApplicationFirewallPolicy_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our FrontDoorWebApplicationFirewallPolicy_Spec
-func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.FrontDoorWebApplicationFirewallPolicy_Spec)
+// ConvertSpecTo populates the provided destination from our WebApplicationFirewallPolicy_Spec
+func (policy *WebApplicationFirewallPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.WebApplicationFirewallPolicy_Spec)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec(dst)
+		return policy.AssignProperties_To_WebApplicationFirewallPolicy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.FrontDoorWebApplicationFirewallPolicy_Spec{}
-	err := policy.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec(dst)
+	dst = &storage.WebApplicationFirewallPolicy_Spec{}
+	err := policy.AssignProperties_To_WebApplicationFirewallPolicy_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_Spec populates our FrontDoorWebApplicationFirewallPolicy_Spec from the provided source FrontDoorWebApplicationFirewallPolicy_Spec
-func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_Spec(source *storage.FrontDoorWebApplicationFirewallPolicy_Spec) error {
+// AssignProperties_From_WebApplicationFirewallPolicy_Spec populates our WebApplicationFirewallPolicy_Spec from the provided source WebApplicationFirewallPolicy_Spec
+func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_From_WebApplicationFirewallPolicy_Spec(source *storage.WebApplicationFirewallPolicy_Spec) error {
 
 	// AzureName
 	policy.AzureName = source.AzureName
@@ -597,7 +653,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_From_
 		var customRule CustomRuleList
 		err := customRule.AssignProperties_From_CustomRuleList(source.CustomRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomRuleList() to populate field CustomRules")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomRuleList() to populate field CustomRules")
 		}
 		policy.CustomRules = &customRule
 	} else {
@@ -615,11 +671,23 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_From_
 		var managedRule ManagedRuleSetList
 		err := managedRule.AssignProperties_From_ManagedRuleSetList(source.ManagedRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleSetList() to populate field ManagedRules")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleSetList() to populate field ManagedRules")
 		}
 		policy.ManagedRules = &managedRule
 	} else {
 		policy.ManagedRules = nil
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec WebApplicationFirewallPolicyOperatorSpec
+		err := operatorSpec.AssignProperties_From_WebApplicationFirewallPolicyOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_WebApplicationFirewallPolicyOperatorSpec() to populate field OperatorSpec")
+		}
+		policy.OperatorSpec = &operatorSpec
+	} else {
+		policy.OperatorSpec = nil
 	}
 
 	// Owner
@@ -635,7 +703,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_From_
 		var policySetting PolicySettings
 		err := policySetting.AssignProperties_From_PolicySettings(source.PolicySettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PolicySettings() to populate field PolicySettings")
+			return eris.Wrap(err, "calling AssignProperties_From_PolicySettings() to populate field PolicySettings")
 		}
 		policy.PolicySettings = &policySetting
 	} else {
@@ -647,7 +715,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_From_
 		var sku Sku
 		err := sku.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
 		policy.Sku = &sku
 	} else {
@@ -661,8 +729,8 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_From_
 	return nil
 }
 
-// AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec populates the provided destination FrontDoorWebApplicationFirewallPolicy_Spec from our FrontDoorWebApplicationFirewallPolicy_Spec
-func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec(destination *storage.FrontDoorWebApplicationFirewallPolicy_Spec) error {
+// AssignProperties_To_WebApplicationFirewallPolicy_Spec populates the provided destination WebApplicationFirewallPolicy_Spec from our WebApplicationFirewallPolicy_Spec
+func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_To_WebApplicationFirewallPolicy_Spec(destination *storage.WebApplicationFirewallPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -674,7 +742,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_To_Fr
 		var customRule storage.CustomRuleList
 		err := policy.CustomRules.AssignProperties_To_CustomRuleList(&customRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomRuleList() to populate field CustomRules")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomRuleList() to populate field CustomRules")
 		}
 		destination.CustomRules = &customRule
 	} else {
@@ -692,11 +760,23 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_To_Fr
 		var managedRule storage.ManagedRuleSetList
 		err := policy.ManagedRules.AssignProperties_To_ManagedRuleSetList(&managedRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleSetList() to populate field ManagedRules")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleSetList() to populate field ManagedRules")
 		}
 		destination.ManagedRules = &managedRule
 	} else {
 		destination.ManagedRules = nil
+	}
+
+	// OperatorSpec
+	if policy.OperatorSpec != nil {
+		var operatorSpec storage.WebApplicationFirewallPolicyOperatorSpec
+		err := policy.OperatorSpec.AssignProperties_To_WebApplicationFirewallPolicyOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_WebApplicationFirewallPolicyOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -715,7 +795,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_To_Fr
 		var policySetting storage.PolicySettings
 		err := policy.PolicySettings.AssignProperties_To_PolicySettings(&policySetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PolicySettings() to populate field PolicySettings")
+			return eris.Wrap(err, "calling AssignProperties_To_PolicySettings() to populate field PolicySettings")
 		}
 		destination.PolicySettings = &policySetting
 	} else {
@@ -727,7 +807,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_To_Fr
 		var sku storage.Sku
 		err := policy.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -748,15 +828,15 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_To_Fr
 	return nil
 }
 
-// Initialize_From_FrontDoorWebApplicationFirewallPolicy_STATUS populates our FrontDoorWebApplicationFirewallPolicy_Spec from the provided source FrontDoorWebApplicationFirewallPolicy_STATUS
-func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) Initialize_From_FrontDoorWebApplicationFirewallPolicy_STATUS(source *FrontDoorWebApplicationFirewallPolicy_STATUS) error {
+// Initialize_From_WebApplicationFirewallPolicy_STATUS populates our WebApplicationFirewallPolicy_Spec from the provided source WebApplicationFirewallPolicy_STATUS
+func (policy *WebApplicationFirewallPolicy_Spec) Initialize_From_WebApplicationFirewallPolicy_STATUS(source *WebApplicationFirewallPolicy_STATUS) error {
 
 	// CustomRules
 	if source.CustomRules != nil {
 		var customRule CustomRuleList
 		err := customRule.Initialize_From_CustomRuleList_STATUS(source.CustomRules)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CustomRuleList_STATUS() to populate field CustomRules")
+			return eris.Wrap(err, "calling Initialize_From_CustomRuleList_STATUS() to populate field CustomRules")
 		}
 		policy.CustomRules = &customRule
 	} else {
@@ -774,7 +854,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) Initialize_From_FrontD
 		var managedRule ManagedRuleSetList
 		err := managedRule.Initialize_From_ManagedRuleSetList_STATUS(source.ManagedRules)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedRuleSetList_STATUS() to populate field ManagedRules")
+			return eris.Wrap(err, "calling Initialize_From_ManagedRuleSetList_STATUS() to populate field ManagedRules")
 		}
 		policy.ManagedRules = &managedRule
 	} else {
@@ -786,7 +866,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) Initialize_From_FrontD
 		var policySetting PolicySettings
 		err := policySetting.Initialize_From_PolicySettings_STATUS(source.PolicySettings)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PolicySettings_STATUS() to populate field PolicySettings")
+			return eris.Wrap(err, "calling Initialize_From_PolicySettings_STATUS() to populate field PolicySettings")
 		}
 		policy.PolicySettings = &policySetting
 	} else {
@@ -798,7 +878,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) Initialize_From_FrontD
 		var sku Sku
 		err := sku.Initialize_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
 		}
 		policy.Sku = &sku
 	} else {
@@ -813,16 +893,16 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) Initialize_From_FrontD
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) OriginalVersion() string {
+func (policy *WebApplicationFirewallPolicy_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) SetAzureName(azureName string) {
+func (policy *WebApplicationFirewallPolicy_Spec) SetAzureName(azureName string) {
 	policy.AzureName = azureName
 }
 
-type FrontDoorWebApplicationFirewallPolicy_STATUS struct {
+type WebApplicationFirewallPolicy_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -870,68 +950,68 @@ type FrontDoorWebApplicationFirewallPolicy_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &FrontDoorWebApplicationFirewallPolicy_STATUS{}
+var _ genruntime.ConvertibleStatus = &WebApplicationFirewallPolicy_STATUS{}
 
-// ConvertStatusFrom populates our FrontDoorWebApplicationFirewallPolicy_STATUS from the provided source
-func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.FrontDoorWebApplicationFirewallPolicy_STATUS)
+// ConvertStatusFrom populates our WebApplicationFirewallPolicy_STATUS from the provided source
+func (policy *WebApplicationFirewallPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.WebApplicationFirewallPolicy_STATUS)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_STATUS(src)
+		return policy.AssignProperties_From_WebApplicationFirewallPolicy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.FrontDoorWebApplicationFirewallPolicy_STATUS{}
+	src = &storage.WebApplicationFirewallPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_STATUS(src)
+	err = policy.AssignProperties_From_WebApplicationFirewallPolicy_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our FrontDoorWebApplicationFirewallPolicy_STATUS
-func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.FrontDoorWebApplicationFirewallPolicy_STATUS)
+// ConvertStatusTo populates the provided destination from our WebApplicationFirewallPolicy_STATUS
+func (policy *WebApplicationFirewallPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.WebApplicationFirewallPolicy_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS(dst)
+		return policy.AssignProperties_To_WebApplicationFirewallPolicy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.FrontDoorWebApplicationFirewallPolicy_STATUS{}
-	err := policy.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS(dst)
+	dst = &storage.WebApplicationFirewallPolicy_STATUS{}
+	err := policy.AssignProperties_To_WebApplicationFirewallPolicy_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &FrontDoorWebApplicationFirewallPolicy_STATUS{}
+var _ genruntime.FromARMConverter = &WebApplicationFirewallPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FrontDoorWebApplicationFirewallPolicy_STATUS_ARM{}
+func (policy *WebApplicationFirewallPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.WebApplicationFirewallPolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FrontDoorWebApplicationFirewallPolicy_STATUS_ARM)
+func (policy *WebApplicationFirewallPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.WebApplicationFirewallPolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontDoorWebApplicationFirewallPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebApplicationFirewallPolicy_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1090,8 +1170,8 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) PopulateFromARM(owne
 	return nil
 }
 
-// AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_STATUS populates our FrontDoorWebApplicationFirewallPolicy_STATUS from the provided source FrontDoorWebApplicationFirewallPolicy_STATUS
-func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_STATUS(source *storage.FrontDoorWebApplicationFirewallPolicy_STATUS) error {
+// AssignProperties_From_WebApplicationFirewallPolicy_STATUS populates our WebApplicationFirewallPolicy_STATUS from the provided source WebApplicationFirewallPolicy_STATUS
+func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_From_WebApplicationFirewallPolicy_STATUS(source *storage.WebApplicationFirewallPolicy_STATUS) error {
 
 	// Conditions
 	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1101,7 +1181,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_Fro
 		var customRule CustomRuleList_STATUS
 		err := customRule.AssignProperties_From_CustomRuleList_STATUS(source.CustomRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomRuleList_STATUS() to populate field CustomRules")
+			return eris.Wrap(err, "calling AssignProperties_From_CustomRuleList_STATUS() to populate field CustomRules")
 		}
 		policy.CustomRules = &customRule
 	} else {
@@ -1120,7 +1200,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_Fro
 			var frontendEndpointLink FrontendEndpointLink_STATUS
 			err := frontendEndpointLink.AssignProperties_From_FrontendEndpointLink_STATUS(&frontendEndpointLinkItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_FrontendEndpointLink_STATUS() to populate field FrontendEndpointLinks")
+				return eris.Wrap(err, "calling AssignProperties_From_FrontendEndpointLink_STATUS() to populate field FrontendEndpointLinks")
 			}
 			frontendEndpointLinkList[frontendEndpointLinkIndex] = frontendEndpointLink
 		}
@@ -1140,7 +1220,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_Fro
 		var managedRule ManagedRuleSetList_STATUS
 		err := managedRule.AssignProperties_From_ManagedRuleSetList_STATUS(source.ManagedRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleSetList_STATUS() to populate field ManagedRules")
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleSetList_STATUS() to populate field ManagedRules")
 		}
 		policy.ManagedRules = &managedRule
 	} else {
@@ -1155,7 +1235,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_Fro
 		var policySetting PolicySettings_STATUS
 		err := policySetting.AssignProperties_From_PolicySettings_STATUS(source.PolicySettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PolicySettings_STATUS() to populate field PolicySettings")
+			return eris.Wrap(err, "calling AssignProperties_From_PolicySettings_STATUS() to populate field PolicySettings")
 		}
 		policy.PolicySettings = &policySetting
 	} else {
@@ -1183,7 +1263,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_Fro
 			var routingRuleLink RoutingRuleLink_STATUS
 			err := routingRuleLink.AssignProperties_From_RoutingRuleLink_STATUS(&routingRuleLinkItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RoutingRuleLink_STATUS() to populate field RoutingRuleLinks")
+				return eris.Wrap(err, "calling AssignProperties_From_RoutingRuleLink_STATUS() to populate field RoutingRuleLinks")
 			}
 			routingRuleLinkList[routingRuleLinkIndex] = routingRuleLink
 		}
@@ -1201,7 +1281,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_Fro
 			var securityPolicyLink SecurityPolicyLink_STATUS
 			err := securityPolicyLink.AssignProperties_From_SecurityPolicyLink_STATUS(&securityPolicyLinkItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SecurityPolicyLink_STATUS() to populate field SecurityPolicyLinks")
+				return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyLink_STATUS() to populate field SecurityPolicyLinks")
 			}
 			securityPolicyLinkList[securityPolicyLinkIndex] = securityPolicyLink
 		}
@@ -1215,7 +1295,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_Fro
 		var sku Sku_STATUS
 		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		policy.Sku = &sku
 	} else {
@@ -1232,8 +1312,8 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_Fro
 	return nil
 }
 
-// AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS populates the provided destination FrontDoorWebApplicationFirewallPolicy_STATUS from our FrontDoorWebApplicationFirewallPolicy_STATUS
-func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS(destination *storage.FrontDoorWebApplicationFirewallPolicy_STATUS) error {
+// AssignProperties_To_WebApplicationFirewallPolicy_STATUS populates the provided destination WebApplicationFirewallPolicy_STATUS from our WebApplicationFirewallPolicy_STATUS
+func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_To_WebApplicationFirewallPolicy_STATUS(destination *storage.WebApplicationFirewallPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1245,7 +1325,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_
 		var customRule storage.CustomRuleList_STATUS
 		err := policy.CustomRules.AssignProperties_To_CustomRuleList_STATUS(&customRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomRuleList_STATUS() to populate field CustomRules")
+			return eris.Wrap(err, "calling AssignProperties_To_CustomRuleList_STATUS() to populate field CustomRules")
 		}
 		destination.CustomRules = &customRule
 	} else {
@@ -1264,7 +1344,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_
 			var frontendEndpointLink storage.FrontendEndpointLink_STATUS
 			err := frontendEndpointLinkItem.AssignProperties_To_FrontendEndpointLink_STATUS(&frontendEndpointLink)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_FrontendEndpointLink_STATUS() to populate field FrontendEndpointLinks")
+				return eris.Wrap(err, "calling AssignProperties_To_FrontendEndpointLink_STATUS() to populate field FrontendEndpointLinks")
 			}
 			frontendEndpointLinkList[frontendEndpointLinkIndex] = frontendEndpointLink
 		}
@@ -1284,7 +1364,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_
 		var managedRule storage.ManagedRuleSetList_STATUS
 		err := policy.ManagedRules.AssignProperties_To_ManagedRuleSetList_STATUS(&managedRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleSetList_STATUS() to populate field ManagedRules")
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleSetList_STATUS() to populate field ManagedRules")
 		}
 		destination.ManagedRules = &managedRule
 	} else {
@@ -1299,7 +1379,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_
 		var policySetting storage.PolicySettings_STATUS
 		err := policy.PolicySettings.AssignProperties_To_PolicySettings_STATUS(&policySetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PolicySettings_STATUS() to populate field PolicySettings")
+			return eris.Wrap(err, "calling AssignProperties_To_PolicySettings_STATUS() to populate field PolicySettings")
 		}
 		destination.PolicySettings = &policySetting
 	} else {
@@ -1326,7 +1406,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_
 			var routingRuleLink storage.RoutingRuleLink_STATUS
 			err := routingRuleLinkItem.AssignProperties_To_RoutingRuleLink_STATUS(&routingRuleLink)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RoutingRuleLink_STATUS() to populate field RoutingRuleLinks")
+				return eris.Wrap(err, "calling AssignProperties_To_RoutingRuleLink_STATUS() to populate field RoutingRuleLinks")
 			}
 			routingRuleLinkList[routingRuleLinkIndex] = routingRuleLink
 		}
@@ -1344,7 +1424,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_
 			var securityPolicyLink storage.SecurityPolicyLink_STATUS
 			err := securityPolicyLinkItem.AssignProperties_To_SecurityPolicyLink_STATUS(&securityPolicyLink)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyLink_STATUS() to populate field SecurityPolicyLinks")
+				return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyLink_STATUS() to populate field SecurityPolicyLinks")
 			}
 			securityPolicyLinkList[securityPolicyLinkIndex] = securityPolicyLink
 		}
@@ -1358,7 +1438,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_
 		var sku storage.Sku_STATUS
 		err := policy.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1395,7 +1475,7 @@ func (list *CustomRuleList) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if list == nil {
 		return nil, nil
 	}
-	result := &CustomRuleList_ARM{}
+	result := &arm.CustomRuleList{}
 
 	// Set property "Rules":
 	for _, item := range list.Rules {
@@ -1403,21 +1483,21 @@ func (list *CustomRuleList) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		if err != nil {
 			return nil, err
 		}
-		result.Rules = append(result.Rules, *item_ARM.(*CustomRule_ARM))
+		result.Rules = append(result.Rules, *item_ARM.(*arm.CustomRule))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (list *CustomRuleList) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomRuleList_ARM{}
+	return &arm.CustomRuleList{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (list *CustomRuleList) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomRuleList_ARM)
+	typedInput, ok := armInput.(arm.CustomRuleList)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomRuleList_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CustomRuleList, got %T", armInput)
 	}
 
 	// Set property "Rules":
@@ -1446,7 +1526,7 @@ func (list *CustomRuleList) AssignProperties_From_CustomRuleList(source *storage
 			var rule CustomRule
 			err := rule.AssignProperties_From_CustomRule(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_CustomRule() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_From_CustomRule() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1473,7 +1553,7 @@ func (list *CustomRuleList) AssignProperties_To_CustomRuleList(destination *stor
 			var rule storage.CustomRule
 			err := ruleItem.AssignProperties_To_CustomRule(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_CustomRule() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_To_CustomRule() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1505,7 +1585,7 @@ func (list *CustomRuleList) Initialize_From_CustomRuleList_STATUS(source *Custom
 			var rule CustomRule
 			err := rule.Initialize_From_CustomRule_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_CustomRule_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling Initialize_From_CustomRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1528,14 +1608,14 @@ var _ genruntime.FromARMConverter = &CustomRuleList_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (list *CustomRuleList_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomRuleList_STATUS_ARM{}
+	return &arm.CustomRuleList_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (list *CustomRuleList_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomRuleList_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CustomRuleList_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomRuleList_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CustomRuleList_STATUS, got %T", armInput)
 	}
 
 	// Set property "Rules":
@@ -1564,7 +1644,7 @@ func (list *CustomRuleList_STATUS) AssignProperties_From_CustomRuleList_STATUS(s
 			var rule CustomRule_STATUS
 			err := rule.AssignProperties_From_CustomRule_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_CustomRule_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_From_CustomRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1591,7 +1671,7 @@ func (list *CustomRuleList_STATUS) AssignProperties_To_CustomRuleList_STATUS(des
 			var rule storage.CustomRule_STATUS
 			err := ruleItem.AssignProperties_To_CustomRule_STATUS(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_CustomRule_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_To_CustomRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1621,14 +1701,14 @@ var _ genruntime.FromARMConverter = &FrontendEndpointLink_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (link *FrontendEndpointLink_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FrontendEndpointLink_STATUS_ARM{}
+	return &arm.FrontendEndpointLink_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (link *FrontendEndpointLink_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FrontendEndpointLink_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FrontendEndpointLink_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendEndpointLink_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FrontendEndpointLink_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1683,7 +1763,7 @@ func (list *ManagedRuleSetList) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if list == nil {
 		return nil, nil
 	}
-	result := &ManagedRuleSetList_ARM{}
+	result := &arm.ManagedRuleSetList{}
 
 	// Set property "ManagedRuleSets":
 	for _, item := range list.ManagedRuleSets {
@@ -1691,21 +1771,21 @@ func (list *ManagedRuleSetList) ConvertToARM(resolved genruntime.ConvertToARMRes
 		if err != nil {
 			return nil, err
 		}
-		result.ManagedRuleSets = append(result.ManagedRuleSets, *item_ARM.(*ManagedRuleSet_ARM))
+		result.ManagedRuleSets = append(result.ManagedRuleSets, *item_ARM.(*arm.ManagedRuleSet))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (list *ManagedRuleSetList) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleSetList_ARM{}
+	return &arm.ManagedRuleSetList{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (list *ManagedRuleSetList) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleSetList_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleSetList)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleSetList_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleSetList, got %T", armInput)
 	}
 
 	// Set property "ManagedRuleSets":
@@ -1734,7 +1814,7 @@ func (list *ManagedRuleSetList) AssignProperties_From_ManagedRuleSetList(source 
 			var managedRuleSet ManagedRuleSet
 			err := managedRuleSet.AssignProperties_From_ManagedRuleSet(&managedRuleSetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleSet() to populate field ManagedRuleSets")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleSet() to populate field ManagedRuleSets")
 			}
 			managedRuleSetList[managedRuleSetIndex] = managedRuleSet
 		}
@@ -1761,7 +1841,7 @@ func (list *ManagedRuleSetList) AssignProperties_To_ManagedRuleSetList(destinati
 			var managedRuleSet storage.ManagedRuleSet
 			err := managedRuleSetItem.AssignProperties_To_ManagedRuleSet(&managedRuleSet)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleSet() to populate field ManagedRuleSets")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleSet() to populate field ManagedRuleSets")
 			}
 			managedRuleSetList[managedRuleSetIndex] = managedRuleSet
 		}
@@ -1793,7 +1873,7 @@ func (list *ManagedRuleSetList) Initialize_From_ManagedRuleSetList_STATUS(source
 			var managedRuleSet ManagedRuleSet
 			err := managedRuleSet.Initialize_From_ManagedRuleSet_STATUS(&managedRuleSetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedRuleSet_STATUS() to populate field ManagedRuleSets")
+				return eris.Wrap(err, "calling Initialize_From_ManagedRuleSet_STATUS() to populate field ManagedRuleSets")
 			}
 			managedRuleSetList[managedRuleSetIndex] = managedRuleSet
 		}
@@ -1816,14 +1896,14 @@ var _ genruntime.FromARMConverter = &ManagedRuleSetList_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (list *ManagedRuleSetList_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleSetList_STATUS_ARM{}
+	return &arm.ManagedRuleSetList_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (list *ManagedRuleSetList_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleSetList_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleSetList_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleSetList_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleSetList_STATUS, got %T", armInput)
 	}
 
 	// Set property "ManagedRuleSets":
@@ -1852,7 +1932,7 @@ func (list *ManagedRuleSetList_STATUS) AssignProperties_From_ManagedRuleSetList_
 			var managedRuleSet ManagedRuleSet_STATUS
 			err := managedRuleSet.AssignProperties_From_ManagedRuleSet_STATUS(&managedRuleSetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleSet_STATUS() to populate field ManagedRuleSets")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleSet_STATUS() to populate field ManagedRuleSets")
 			}
 			managedRuleSetList[managedRuleSetIndex] = managedRuleSet
 		}
@@ -1879,7 +1959,7 @@ func (list *ManagedRuleSetList_STATUS) AssignProperties_To_ManagedRuleSetList_ST
 			var managedRuleSet storage.ManagedRuleSet_STATUS
 			err := managedRuleSetItem.AssignProperties_To_ManagedRuleSet_STATUS(&managedRuleSet)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleSet_STATUS() to populate field ManagedRuleSets")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleSet_STATUS() to populate field ManagedRuleSets")
 			}
 			managedRuleSetList[managedRuleSetIndex] = managedRuleSet
 		}
@@ -1929,7 +2009,7 @@ func (settings *PolicySettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if settings == nil {
 		return nil, nil
 	}
-	result := &PolicySettings_ARM{}
+	result := &arm.PolicySettings{}
 
 	// Set property "CustomBlockResponseBody":
 	if settings.CustomBlockResponseBody != nil {
@@ -1947,7 +2027,7 @@ func (settings *PolicySettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if settings.EnabledState != nil {
 		var temp string
 		temp = string(*settings.EnabledState)
-		enabledState := PolicySettings_EnabledState_ARM(temp)
+		enabledState := arm.PolicySettings_EnabledState(temp)
 		result.EnabledState = &enabledState
 	}
 
@@ -1955,7 +2035,7 @@ func (settings *PolicySettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if settings.Mode != nil {
 		var temp string
 		temp = string(*settings.Mode)
-		mode := PolicySettings_Mode_ARM(temp)
+		mode := arm.PolicySettings_Mode(temp)
 		result.Mode = &mode
 	}
 
@@ -1969,7 +2049,7 @@ func (settings *PolicySettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if settings.RequestBodyCheck != nil {
 		var temp string
 		temp = string(*settings.RequestBodyCheck)
-		requestBodyCheck := PolicySettings_RequestBodyCheck_ARM(temp)
+		requestBodyCheck := arm.PolicySettings_RequestBodyCheck(temp)
 		result.RequestBodyCheck = &requestBodyCheck
 	}
 	return result, nil
@@ -1977,14 +2057,14 @@ func (settings *PolicySettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *PolicySettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PolicySettings_ARM{}
+	return &arm.PolicySettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *PolicySettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PolicySettings_ARM)
+	typedInput, ok := armInput.(arm.PolicySettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PolicySettings_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PolicySettings, got %T", armInput)
 	}
 
 	// Set property "CustomBlockResponseBody":
@@ -2206,14 +2286,14 @@ var _ genruntime.FromARMConverter = &PolicySettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *PolicySettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PolicySettings_STATUS_ARM{}
+	return &arm.PolicySettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *PolicySettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PolicySettings_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PolicySettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PolicySettings_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PolicySettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "CustomBlockResponseBody":
@@ -2364,14 +2444,14 @@ var _ genruntime.FromARMConverter = &RoutingRuleLink_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (link *RoutingRuleLink_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingRuleLink_STATUS_ARM{}
+	return &arm.RoutingRuleLink_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (link *RoutingRuleLink_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingRuleLink_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoutingRuleLink_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingRuleLink_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingRuleLink_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -2423,14 +2503,14 @@ var _ genruntime.FromARMConverter = &SecurityPolicyLink_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (link *SecurityPolicyLink_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicyLink_STATUS_ARM{}
+	return &arm.SecurityPolicyLink_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (link *SecurityPolicyLink_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicyLink_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicyLink_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicyLink_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicyLink_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -2485,13 +2565,13 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	result := &Sku_ARM{}
+	result := &arm.Sku{}
 
 	// Set property "Name":
 	if sku.Name != nil {
 		var temp string
 		temp = string(*sku.Name)
-		name := Sku_Name_ARM(temp)
+		name := arm.Sku_Name(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -2499,14 +2579,14 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_ARM{}
+	return &arm.Sku{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_ARM)
+	typedInput, ok := armInput.(arm.Sku)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Sku, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -2586,14 +2666,14 @@ var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_STATUS_ARM{}
+	return &arm.Sku_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Sku_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Sku_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -2635,6 +2715,110 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 		destination.Name = &name
 	} else {
 		destination.Name = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WebApplicationFirewallPolicyOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_WebApplicationFirewallPolicyOperatorSpec populates our WebApplicationFirewallPolicyOperatorSpec from the provided source WebApplicationFirewallPolicyOperatorSpec
+func (operator *WebApplicationFirewallPolicyOperatorSpec) AssignProperties_From_WebApplicationFirewallPolicyOperatorSpec(source *storage.WebApplicationFirewallPolicyOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WebApplicationFirewallPolicyOperatorSpec populates the provided destination WebApplicationFirewallPolicyOperatorSpec from our WebApplicationFirewallPolicyOperatorSpec
+func (operator *WebApplicationFirewallPolicyOperatorSpec) AssignProperties_To_WebApplicationFirewallPolicyOperatorSpec(destination *storage.WebApplicationFirewallPolicyOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag
@@ -2711,13 +2895,13 @@ func (rule *CustomRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if rule == nil {
 		return nil, nil
 	}
-	result := &CustomRule_ARM{}
+	result := &arm.CustomRule{}
 
 	// Set property "Action":
 	if rule.Action != nil {
 		var temp string
 		temp = string(*rule.Action)
-		action := ActionType_ARM(temp)
+		action := arm.ActionType(temp)
 		result.Action = &action
 	}
 
@@ -2725,7 +2909,7 @@ func (rule *CustomRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if rule.EnabledState != nil {
 		var temp string
 		temp = string(*rule.EnabledState)
-		enabledState := CustomRule_EnabledState_ARM(temp)
+		enabledState := arm.CustomRule_EnabledState(temp)
 		result.EnabledState = &enabledState
 	}
 
@@ -2735,7 +2919,7 @@ func (rule *CustomRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		result.MatchConditions = append(result.MatchConditions, *item_ARM.(*MatchCondition_ARM))
+		result.MatchConditions = append(result.MatchConditions, *item_ARM.(*arm.MatchCondition))
 	}
 
 	// Set property "Name":
@@ -2766,7 +2950,7 @@ func (rule *CustomRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if rule.RuleType != nil {
 		var temp string
 		temp = string(*rule.RuleType)
-		ruleType := CustomRule_RuleType_ARM(temp)
+		ruleType := arm.CustomRule_RuleType(temp)
 		result.RuleType = &ruleType
 	}
 	return result, nil
@@ -2774,14 +2958,14 @@ func (rule *CustomRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *CustomRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomRule_ARM{}
+	return &arm.CustomRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *CustomRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomRule_ARM)
+	typedInput, ok := armInput.(arm.CustomRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CustomRule, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -2876,7 +3060,7 @@ func (rule *CustomRule) AssignProperties_From_CustomRule(source *storage.CustomR
 			var matchCondition MatchCondition
 			err := matchCondition.AssignProperties_From_MatchCondition(&matchConditionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_MatchCondition() to populate field MatchConditions")
+				return eris.Wrap(err, "calling AssignProperties_From_MatchCondition() to populate field MatchConditions")
 			}
 			matchConditionList[matchConditionIndex] = matchCondition
 		}
@@ -2955,7 +3139,7 @@ func (rule *CustomRule) AssignProperties_To_CustomRule(destination *storage.Cust
 			var matchCondition storage.MatchCondition
 			err := matchConditionItem.AssignProperties_To_MatchCondition(&matchCondition)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_MatchCondition() to populate field MatchConditions")
+				return eris.Wrap(err, "calling AssignProperties_To_MatchCondition() to populate field MatchConditions")
 			}
 			matchConditionList[matchConditionIndex] = matchCondition
 		}
@@ -3038,7 +3222,7 @@ func (rule *CustomRule) Initialize_From_CustomRule_STATUS(source *CustomRule_STA
 			var matchCondition MatchCondition
 			err := matchCondition.Initialize_From_MatchCondition_STATUS(&matchConditionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_MatchCondition_STATUS() to populate field MatchConditions")
+				return eris.Wrap(err, "calling Initialize_From_MatchCondition_STATUS() to populate field MatchConditions")
 			}
 			matchConditionList[matchConditionIndex] = matchCondition
 		}
@@ -3117,14 +3301,14 @@ var _ genruntime.FromARMConverter = &CustomRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *CustomRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomRule_STATUS_ARM{}
+	return &arm.CustomRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *CustomRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CustomRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CustomRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -3219,7 +3403,7 @@ func (rule *CustomRule_STATUS) AssignProperties_From_CustomRule_STATUS(source *s
 			var matchCondition MatchCondition_STATUS
 			err := matchCondition.AssignProperties_From_MatchCondition_STATUS(&matchConditionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_MatchCondition_STATUS() to populate field MatchConditions")
+				return eris.Wrap(err, "calling AssignProperties_From_MatchCondition_STATUS() to populate field MatchConditions")
 			}
 			matchConditionList[matchConditionIndex] = matchCondition
 		}
@@ -3283,7 +3467,7 @@ func (rule *CustomRule_STATUS) AssignProperties_To_CustomRule_STATUS(destination
 			var matchCondition storage.MatchCondition_STATUS
 			err := matchConditionItem.AssignProperties_To_MatchCondition_STATUS(&matchCondition)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_MatchCondition_STATUS() to populate field MatchConditions")
+				return eris.Wrap(err, "calling AssignProperties_To_MatchCondition_STATUS() to populate field MatchConditions")
 			}
 			matchConditionList[matchConditionIndex] = matchCondition
 		}
@@ -3350,7 +3534,7 @@ func (ruleSet *ManagedRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if ruleSet == nil {
 		return nil, nil
 	}
-	result := &ManagedRuleSet_ARM{}
+	result := &arm.ManagedRuleSet{}
 
 	// Set property "Exclusions":
 	for _, item := range ruleSet.Exclusions {
@@ -3358,7 +3542,7 @@ func (ruleSet *ManagedRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		result.Exclusions = append(result.Exclusions, *item_ARM.(*ManagedRuleExclusion_ARM))
+		result.Exclusions = append(result.Exclusions, *item_ARM.(*arm.ManagedRuleExclusion))
 	}
 
 	// Set property "RuleGroupOverrides":
@@ -3367,14 +3551,14 @@ func (ruleSet *ManagedRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		result.RuleGroupOverrides = append(result.RuleGroupOverrides, *item_ARM.(*ManagedRuleGroupOverride_ARM))
+		result.RuleGroupOverrides = append(result.RuleGroupOverrides, *item_ARM.(*arm.ManagedRuleGroupOverride))
 	}
 
 	// Set property "RuleSetAction":
 	if ruleSet.RuleSetAction != nil {
 		var temp string
 		temp = string(*ruleSet.RuleSetAction)
-		ruleSetAction := ManagedRuleSetActionType_ARM(temp)
+		ruleSetAction := arm.ManagedRuleSetActionType(temp)
 		result.RuleSetAction = &ruleSetAction
 	}
 
@@ -3394,14 +3578,14 @@ func (ruleSet *ManagedRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ruleSet *ManagedRuleSet) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleSet_ARM{}
+	return &arm.ManagedRuleSet{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ruleSet *ManagedRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleSet_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleSet)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleSet_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleSet, got %T", armInput)
 	}
 
 	// Set property "Exclusions":
@@ -3460,7 +3644,7 @@ func (ruleSet *ManagedRuleSet) AssignProperties_From_ManagedRuleSet(source *stor
 			var exclusion ManagedRuleExclusion
 			err := exclusion.AssignProperties_From_ManagedRuleExclusion(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -3478,7 +3662,7 @@ func (ruleSet *ManagedRuleSet) AssignProperties_From_ManagedRuleSet(source *stor
 			var ruleGroupOverride ManagedRuleGroupOverride
 			err := ruleGroupOverride.AssignProperties_From_ManagedRuleGroupOverride(&ruleGroupOverrideItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleGroupOverride() to populate field RuleGroupOverrides")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleGroupOverride() to populate field RuleGroupOverrides")
 			}
 			ruleGroupOverrideList[ruleGroupOverrideIndex] = ruleGroupOverride
 		}
@@ -3520,7 +3704,7 @@ func (ruleSet *ManagedRuleSet) AssignProperties_To_ManagedRuleSet(destination *s
 			var exclusion storage.ManagedRuleExclusion
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion(&exclusion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -3538,7 +3722,7 @@ func (ruleSet *ManagedRuleSet) AssignProperties_To_ManagedRuleSet(destination *s
 			var ruleGroupOverride storage.ManagedRuleGroupOverride
 			err := ruleGroupOverrideItem.AssignProperties_To_ManagedRuleGroupOverride(&ruleGroupOverride)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleGroupOverride() to populate field RuleGroupOverrides")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleGroupOverride() to populate field RuleGroupOverrides")
 			}
 			ruleGroupOverrideList[ruleGroupOverrideIndex] = ruleGroupOverride
 		}
@@ -3584,7 +3768,7 @@ func (ruleSet *ManagedRuleSet) Initialize_From_ManagedRuleSet_STATUS(source *Man
 			var exclusion ManagedRuleExclusion
 			err := exclusion.Initialize_From_ManagedRuleExclusion_STATUS(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling Initialize_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -3602,7 +3786,7 @@ func (ruleSet *ManagedRuleSet) Initialize_From_ManagedRuleSet_STATUS(source *Man
 			var ruleGroupOverride ManagedRuleGroupOverride
 			err := ruleGroupOverride.Initialize_From_ManagedRuleGroupOverride_STATUS(&ruleGroupOverrideItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedRuleGroupOverride_STATUS() to populate field RuleGroupOverrides")
+				return eris.Wrap(err, "calling Initialize_From_ManagedRuleGroupOverride_STATUS() to populate field RuleGroupOverrides")
 			}
 			ruleGroupOverrideList[ruleGroupOverrideIndex] = ruleGroupOverride
 		}
@@ -3651,14 +3835,14 @@ var _ genruntime.FromARMConverter = &ManagedRuleSet_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ruleSet *ManagedRuleSet_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleSet_STATUS_ARM{}
+	return &arm.ManagedRuleSet_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ruleSet *ManagedRuleSet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleSet_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleSet_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleSet_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleSet_STATUS, got %T", armInput)
 	}
 
 	// Set property "Exclusions":
@@ -3717,7 +3901,7 @@ func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_From_ManagedRuleSet_STATU
 			var exclusion ManagedRuleExclusion_STATUS
 			err := exclusion.AssignProperties_From_ManagedRuleExclusion_STATUS(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -3735,7 +3919,7 @@ func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_From_ManagedRuleSet_STATU
 			var ruleGroupOverride ManagedRuleGroupOverride_STATUS
 			err := ruleGroupOverride.AssignProperties_From_ManagedRuleGroupOverride_STATUS(&ruleGroupOverrideItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleGroupOverride_STATUS() to populate field RuleGroupOverrides")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleGroupOverride_STATUS() to populate field RuleGroupOverrides")
 			}
 			ruleGroupOverrideList[ruleGroupOverrideIndex] = ruleGroupOverride
 		}
@@ -3777,7 +3961,7 @@ func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_To_ManagedRuleSet_STATUS(
 			var exclusion storage.ManagedRuleExclusion_STATUS
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion_STATUS(&exclusion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -3795,7 +3979,7 @@ func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_To_ManagedRuleSet_STATUS(
 			var ruleGroupOverride storage.ManagedRuleGroupOverride_STATUS
 			err := ruleGroupOverrideItem.AssignProperties_To_ManagedRuleGroupOverride_STATUS(&ruleGroupOverride)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleGroupOverride_STATUS() to populate field RuleGroupOverrides")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleGroupOverride_STATUS() to populate field RuleGroupOverrides")
 			}
 			ruleGroupOverrideList[ruleGroupOverrideIndex] = ruleGroupOverride
 		}
@@ -4059,13 +4243,13 @@ func (exclusion *ManagedRuleExclusion) ConvertToARM(resolved genruntime.ConvertT
 	if exclusion == nil {
 		return nil, nil
 	}
-	result := &ManagedRuleExclusion_ARM{}
+	result := &arm.ManagedRuleExclusion{}
 
 	// Set property "MatchVariable":
 	if exclusion.MatchVariable != nil {
 		var temp string
 		temp = string(*exclusion.MatchVariable)
-		matchVariable := ManagedRuleExclusion_MatchVariable_ARM(temp)
+		matchVariable := arm.ManagedRuleExclusion_MatchVariable(temp)
 		result.MatchVariable = &matchVariable
 	}
 
@@ -4079,7 +4263,7 @@ func (exclusion *ManagedRuleExclusion) ConvertToARM(resolved genruntime.ConvertT
 	if exclusion.SelectorMatchOperator != nil {
 		var temp string
 		temp = string(*exclusion.SelectorMatchOperator)
-		selectorMatchOperator := ManagedRuleExclusion_SelectorMatchOperator_ARM(temp)
+		selectorMatchOperator := arm.ManagedRuleExclusion_SelectorMatchOperator(temp)
 		result.SelectorMatchOperator = &selectorMatchOperator
 	}
 	return result, nil
@@ -4087,14 +4271,14 @@ func (exclusion *ManagedRuleExclusion) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (exclusion *ManagedRuleExclusion) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleExclusion_ARM{}
+	return &arm.ManagedRuleExclusion{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (exclusion *ManagedRuleExclusion) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleExclusion_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleExclusion)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleExclusion_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleExclusion, got %T", armInput)
 	}
 
 	// Set property "MatchVariable":
@@ -4229,14 +4413,14 @@ var _ genruntime.FromARMConverter = &ManagedRuleExclusion_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (exclusion *ManagedRuleExclusion_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleExclusion_STATUS_ARM{}
+	return &arm.ManagedRuleExclusion_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (exclusion *ManagedRuleExclusion_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleExclusion_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleExclusion_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleExclusion_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleExclusion_STATUS, got %T", armInput)
 	}
 
 	// Set property "MatchVariable":
@@ -4348,7 +4532,7 @@ func (override *ManagedRuleGroupOverride) ConvertToARM(resolved genruntime.Conve
 	if override == nil {
 		return nil, nil
 	}
-	result := &ManagedRuleGroupOverride_ARM{}
+	result := &arm.ManagedRuleGroupOverride{}
 
 	// Set property "Exclusions":
 	for _, item := range override.Exclusions {
@@ -4356,7 +4540,7 @@ func (override *ManagedRuleGroupOverride) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		result.Exclusions = append(result.Exclusions, *item_ARM.(*ManagedRuleExclusion_ARM))
+		result.Exclusions = append(result.Exclusions, *item_ARM.(*arm.ManagedRuleExclusion))
 	}
 
 	// Set property "RuleGroupName":
@@ -4371,21 +4555,21 @@ func (override *ManagedRuleGroupOverride) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		result.Rules = append(result.Rules, *item_ARM.(*ManagedRuleOverride_ARM))
+		result.Rules = append(result.Rules, *item_ARM.(*arm.ManagedRuleOverride))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (override *ManagedRuleGroupOverride) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleGroupOverride_ARM{}
+	return &arm.ManagedRuleGroupOverride{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (override *ManagedRuleGroupOverride) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleGroupOverride_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleGroupOverride)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleGroupOverride_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleGroupOverride, got %T", armInput)
 	}
 
 	// Set property "Exclusions":
@@ -4430,7 +4614,7 @@ func (override *ManagedRuleGroupOverride) AssignProperties_From_ManagedRuleGroup
 			var exclusion ManagedRuleExclusion
 			err := exclusion.AssignProperties_From_ManagedRuleExclusion(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -4451,7 +4635,7 @@ func (override *ManagedRuleGroupOverride) AssignProperties_From_ManagedRuleGroup
 			var rule ManagedRuleOverride
 			err := rule.AssignProperties_From_ManagedRuleOverride(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleOverride() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleOverride() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -4478,7 +4662,7 @@ func (override *ManagedRuleGroupOverride) AssignProperties_To_ManagedRuleGroupOv
 			var exclusion storage.ManagedRuleExclusion
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion(&exclusion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -4499,7 +4683,7 @@ func (override *ManagedRuleGroupOverride) AssignProperties_To_ManagedRuleGroupOv
 			var rule storage.ManagedRuleOverride
 			err := ruleItem.AssignProperties_To_ManagedRuleOverride(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleOverride() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleOverride() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -4531,7 +4715,7 @@ func (override *ManagedRuleGroupOverride) Initialize_From_ManagedRuleGroupOverri
 			var exclusion ManagedRuleExclusion
 			err := exclusion.Initialize_From_ManagedRuleExclusion_STATUS(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling Initialize_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -4552,7 +4736,7 @@ func (override *ManagedRuleGroupOverride) Initialize_From_ManagedRuleGroupOverri
 			var rule ManagedRuleOverride
 			err := rule.Initialize_From_ManagedRuleOverride_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedRuleOverride_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling Initialize_From_ManagedRuleOverride_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -4581,14 +4765,14 @@ var _ genruntime.FromARMConverter = &ManagedRuleGroupOverride_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (override *ManagedRuleGroupOverride_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleGroupOverride_STATUS_ARM{}
+	return &arm.ManagedRuleGroupOverride_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (override *ManagedRuleGroupOverride_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleGroupOverride_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleGroupOverride_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleGroupOverride_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleGroupOverride_STATUS, got %T", armInput)
 	}
 
 	// Set property "Exclusions":
@@ -4633,7 +4817,7 @@ func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_From_ManagedRu
 			var exclusion ManagedRuleExclusion_STATUS
 			err := exclusion.AssignProperties_From_ManagedRuleExclusion_STATUS(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -4654,7 +4838,7 @@ func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_From_ManagedRu
 			var rule ManagedRuleOverride_STATUS
 			err := rule.AssignProperties_From_ManagedRuleOverride_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleOverride_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleOverride_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -4681,7 +4865,7 @@ func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_To_ManagedRule
 			var exclusion storage.ManagedRuleExclusion_STATUS
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion_STATUS(&exclusion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -4702,7 +4886,7 @@ func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_To_ManagedRule
 			var rule storage.ManagedRuleOverride_STATUS
 			err := ruleItem.AssignProperties_To_ManagedRuleOverride_STATUS(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleOverride_STATUS() to populate field Rules")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleOverride_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -4787,7 +4971,7 @@ func (condition *MatchCondition) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if condition == nil {
 		return nil, nil
 	}
-	result := &MatchCondition_ARM{}
+	result := &arm.MatchCondition{}
 
 	// Set property "MatchValue":
 	for _, item := range condition.MatchValue {
@@ -4798,7 +4982,7 @@ func (condition *MatchCondition) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if condition.MatchVariable != nil {
 		var temp string
 		temp = string(*condition.MatchVariable)
-		matchVariable := MatchCondition_MatchVariable_ARM(temp)
+		matchVariable := arm.MatchCondition_MatchVariable(temp)
 		result.MatchVariable = &matchVariable
 	}
 
@@ -4812,7 +4996,7 @@ func (condition *MatchCondition) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if condition.Operator != nil {
 		var temp string
 		temp = string(*condition.Operator)
-		operator := MatchCondition_Operator_ARM(temp)
+		operator := arm.MatchCondition_Operator(temp)
 		result.Operator = &operator
 	}
 
@@ -4826,21 +5010,21 @@ func (condition *MatchCondition) ConvertToARM(resolved genruntime.ConvertToARMRe
 	for _, item := range condition.Transforms {
 		var temp string
 		temp = string(item)
-		result.Transforms = append(result.Transforms, TransformType_ARM(temp))
+		result.Transforms = append(result.Transforms, arm.TransformType(temp))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (condition *MatchCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MatchCondition_ARM{}
+	return &arm.MatchCondition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (condition *MatchCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MatchCondition_ARM)
+	typedInput, ok := armInput.(arm.MatchCondition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MatchCondition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MatchCondition, got %T", armInput)
 	}
 
 	// Set property "MatchValue":
@@ -5075,14 +5259,14 @@ var _ genruntime.FromARMConverter = &MatchCondition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (condition *MatchCondition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MatchCondition_STATUS_ARM{}
+	return &arm.MatchCondition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (condition *MatchCondition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MatchCondition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MatchCondition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MatchCondition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MatchCondition_STATUS, got %T", armInput)
 	}
 
 	// Set property "MatchValue":
@@ -5341,13 +5525,13 @@ func (override *ManagedRuleOverride) ConvertToARM(resolved genruntime.ConvertToA
 	if override == nil {
 		return nil, nil
 	}
-	result := &ManagedRuleOverride_ARM{}
+	result := &arm.ManagedRuleOverride{}
 
 	// Set property "Action":
 	if override.Action != nil {
 		var temp string
 		temp = string(*override.Action)
-		action := ActionType_ARM(temp)
+		action := arm.ActionType(temp)
 		result.Action = &action
 	}
 
@@ -5355,7 +5539,7 @@ func (override *ManagedRuleOverride) ConvertToARM(resolved genruntime.ConvertToA
 	if override.EnabledState != nil {
 		var temp string
 		temp = string(*override.EnabledState)
-		enabledState := ManagedRuleEnabledState_ARM(temp)
+		enabledState := arm.ManagedRuleEnabledState(temp)
 		result.EnabledState = &enabledState
 	}
 
@@ -5365,7 +5549,7 @@ func (override *ManagedRuleOverride) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		result.Exclusions = append(result.Exclusions, *item_ARM.(*ManagedRuleExclusion_ARM))
+		result.Exclusions = append(result.Exclusions, *item_ARM.(*arm.ManagedRuleExclusion))
 	}
 
 	// Set property "RuleId":
@@ -5378,14 +5562,14 @@ func (override *ManagedRuleOverride) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (override *ManagedRuleOverride) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleOverride_ARM{}
+	return &arm.ManagedRuleOverride{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (override *ManagedRuleOverride) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleOverride_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleOverride)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleOverride_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleOverride, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -5454,7 +5638,7 @@ func (override *ManagedRuleOverride) AssignProperties_From_ManagedRuleOverride(s
 			var exclusion ManagedRuleExclusion
 			err := exclusion.AssignProperties_From_ManagedRuleExclusion(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -5500,7 +5684,7 @@ func (override *ManagedRuleOverride) AssignProperties_To_ManagedRuleOverride(des
 			var exclusion storage.ManagedRuleExclusion
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion(&exclusion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -5551,7 +5735,7 @@ func (override *ManagedRuleOverride) Initialize_From_ManagedRuleOverride_STATUS(
 			var exclusion ManagedRuleExclusion
 			err := exclusion.Initialize_From_ManagedRuleExclusion_STATUS(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling Initialize_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -5586,14 +5770,14 @@ var _ genruntime.FromARMConverter = &ManagedRuleOverride_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (override *ManagedRuleOverride_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleOverride_STATUS_ARM{}
+	return &arm.ManagedRuleOverride_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (override *ManagedRuleOverride_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleOverride_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleOverride_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleOverride_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleOverride_STATUS, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -5662,7 +5846,7 @@ func (override *ManagedRuleOverride_STATUS) AssignProperties_From_ManagedRuleOve
 			var exclusion ManagedRuleExclusion_STATUS
 			err := exclusion.AssignProperties_From_ManagedRuleExclusion_STATUS(&exclusionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_From_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}
@@ -5708,7 +5892,7 @@ func (override *ManagedRuleOverride_STATUS) AssignProperties_To_ManagedRuleOverr
 			var exclusion storage.ManagedRuleExclusion_STATUS
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion_STATUS(&exclusion)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")
+				return eris.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")
 			}
 			exclusionList[exclusionIndex] = exclusion
 		}

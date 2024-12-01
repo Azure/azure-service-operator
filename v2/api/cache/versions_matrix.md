@@ -40,13 +40,15 @@
 | RedisCreateProperties_UpdateChannel           |               |               |               |               | v1api20230801 |
 | RedisEnterprise                               |               | v1api20210301 |               | v1api20230701 |               |
 | RedisEnterpriseDatabase                       |               | v1api20210301 |               | v1api20230701 |               |
-| RedisEnterprise_Database_STATUS               |               | v1api20210301 |               | v1api20230701 |               |
-| RedisEnterprise_Database_Spec                 |               | v1api20210301 |               | v1api20230701 |               |
+| RedisEnterpriseDatabase_STATUS                |               | v1api20210301 |               | v1api20230701 |               |
+| RedisEnterpriseDatabase_Spec                  |               | v1api20210301 |               | v1api20230701 |               |
 | RedisEnterprise_STATUS                        |               | v1api20210301 |               | v1api20230701 |               |
 | RedisEnterprise_Spec                          |               | v1api20210301 |               | v1api20230701 |               |
 | RedisFirewallRule                             | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | RedisFirewallRuleProperties                   | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | RedisFirewallRuleProperties_STATUS            | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
+| RedisFirewallRule_STATUS                      | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
+| RedisFirewallRule_Spec                        | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | RedisInstanceDetails_STATUS                   | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | RedisLinkedServer                             | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | RedisLinkedServerCreateProperties             | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
@@ -54,20 +56,18 @@
 | RedisLinkedServerProperties_STATUS            | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | RedisLinkedServerProperties_ServerRole_STATUS | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | RedisLinkedServer_STATUS                      | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
+| RedisLinkedServer_Spec                        | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | RedisPatchSchedule                            | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
+| RedisPatchSchedule_STATUS                     | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
+| RedisPatchSchedule_Spec                       | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | RedisProperties_MinimumTlsVersion_STATUS      | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | RedisProperties_ProvisioningState_STATUS      | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | RedisProperties_PublicNetworkAccess_STATUS    | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | RedisProperties_RedisConfiguration_STATUS     | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | RedisProperties_STATUS                        | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | RedisProperties_UpdateChannel_STATUS          |               |               |               |               | v1api20230801 |
-| Redis_FirewallRule_STATUS                     | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
-| Redis_FirewallRule_Spec                       | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | Redis_LinkedServer_STATUS                     | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
-| Redis_LinkedServer_Spec                       | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | Redis_PatchSchedule_Name_Spec                 | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
-| Redis_PatchSchedule_STATUS                    | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
-| Redis_PatchSchedule_Spec                      | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | Redis_STATUS                                  | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | Redis_Spec                                    | v1api20201201 |               | v1api20230401 |               | v1api20230801 |
 | ResourceState_STATUS                          |               | v1api20210301 |               | v1api20230701 |               |

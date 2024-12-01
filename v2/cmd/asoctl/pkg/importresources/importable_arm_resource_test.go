@@ -8,9 +8,9 @@ package importresources
 import (
 	"testing"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
-
 	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 
 	"github.com/Azure/azure-service-operator/v2/api"
 )
@@ -124,7 +124,7 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 			armId:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.ContainerService/managedClusters/aso-cluster",
 			expectedGroup:   "containerservice.azure.com",
 			expectedKind:    "ManagedCluster",
-			expectedVersion: "v1api20231001",
+			expectedVersion: "v1api20240901",
 		},
 		{
 			name:            "Redis cache",

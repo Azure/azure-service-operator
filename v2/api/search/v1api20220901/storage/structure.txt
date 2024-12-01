@@ -26,8 +26,10 @@ SearchService: Resource
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Value: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (4 properties)
 │   │       ├── AdminPrimaryKey: *genruntime.SecretDestination
 │   │       ├── AdminSecondaryKey: *genruntime.SecretDestination

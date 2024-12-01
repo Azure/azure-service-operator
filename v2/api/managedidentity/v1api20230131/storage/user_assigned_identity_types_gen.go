@@ -9,8 +9,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -49,10 +51,30 @@ func (identity *UserAssignedIdentity) SetConditions(conditions conditions.Condit
 	identity.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesExporter = &UserAssignedIdentity{}
+var _ configmaps.Exporter = &UserAssignedIdentity{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (identity *UserAssignedIdentity) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (identity *UserAssignedIdentity) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if identity.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return identity.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &UserAssignedIdentity{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (identity *UserAssignedIdentity) SecretDestinationExpressions() []*core.DestinationExpression {
+	if identity.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return identity.Spec.OperatorSpec.SecretExpressions
+}
+
+var _ genruntime.KubernetesConfigExporter = &UserAssignedIdentity{}
+
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (identity *UserAssignedIdentity) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(identity.Namespace)
 	if identity.Spec.OperatorSpec != nil && identity.Spec.OperatorSpec.ConfigMaps != nil {
 		if identity.Status.ClientId != nil {
@@ -124,6 +146,10 @@ func (identity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleSta
 
 // Owner returns the ResourceReference of the owner
 func (identity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
+	if identity.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(identity.Spec)
 	return identity.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -140,7 +166,7 @@ func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleSta
 	var st UserAssignedIdentity_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	identity.Status = st
@@ -193,7 +219,7 @@ var _ genruntime.ConvertibleSpec = &UserAssignedIdentity_Spec{}
 // ConvertSpecFrom populates our UserAssignedIdentity_Spec from the provided source
 func (identity *UserAssignedIdentity_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == identity {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(identity)
@@ -202,7 +228,7 @@ func (identity *UserAssignedIdentity_Spec) ConvertSpecFrom(source genruntime.Con
 // ConvertSpecTo populates the provided destination from our UserAssignedIdentity_Spec
 func (identity *UserAssignedIdentity_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == identity {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(identity)
@@ -228,7 +254,7 @@ var _ genruntime.ConvertibleStatus = &UserAssignedIdentity_STATUS{}
 // ConvertStatusFrom populates our UserAssignedIdentity_STATUS from the provided source
 func (identity *UserAssignedIdentity_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == identity {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(identity)
@@ -237,7 +263,7 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusFrom(source genruntime
 // ConvertStatusTo populates the provided destination from our UserAssignedIdentity_STATUS
 func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == identity {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(identity)
@@ -246,9 +272,11 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genrunt
 // Storage version of v1api20230131.UserAssignedIdentityOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type UserAssignedIdentityOperatorSpec struct {
-	ConfigMaps  *UserAssignedIdentityOperatorConfigMaps `json:"configMaps,omitempty"`
-	PropertyBag genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
-	Secrets     *UserAssignedIdentityOperatorSecrets    `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression           `json:"configMapExpressions,omitempty"`
+	ConfigMaps           *UserAssignedIdentityOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag          genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression           `json:"secretExpressions,omitempty"`
+	Secrets              *UserAssignedIdentityOperatorSecrets    `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20230131.UserAssignedIdentityOperatorConfigMaps

@@ -11,7 +11,7 @@ import (
 	"testing"
 
 	"github.com/kylelemons/godebug/diff"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"github.com/sebdah/goldie/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -151,7 +151,7 @@ func (a *typeAsserter) renderDefs(
 	fileWriter := astmodel.NewGoSourceFileWriter(file)
 	err := fileWriter.SaveToWriter(buf)
 	if err != nil {
-		return "", errors.Wrap(err, "could not generate code file")
+		return "", eris.Wrap(err, "could not generate code file")
 	}
 
 	return buf.String(), nil

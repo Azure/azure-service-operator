@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type ServersDatabasesAdvancedThreatProtectionSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Databases_AdvancedThreatProtectionSetting_Spec   `json:"spec,omitempty"`
-	Status            Servers_Databases_AdvancedThreatProtectionSetting_STATUS `json:"status,omitempty"`
+	Spec              ServersDatabasesAdvancedThreatProtectionSetting_Spec   `json:"spec,omitempty"`
+	Status            ServersDatabasesAdvancedThreatProtectionSetting_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersDatabasesAdvancedThreatProtectionSetting{}
@@ -42,6 +45,26 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting) GetConditions() 
 // SetConditions sets the conditions on the resource status
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting) SetConditions(conditions conditions.Conditions) {
 	setting.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ServersDatabasesAdvancedThreatProtectionSetting{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersDatabasesAdvancedThreatProtectionSetting{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting) SecretDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ServersDatabasesAdvancedThreatProtectionSetting{}
@@ -86,11 +109,15 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting) GetType() string
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_Databases_AdvancedThreatProtectionSetting_STATUS{}
+	return &ServersDatabasesAdvancedThreatProtectionSetting_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting) Owner() *genruntime.ResourceReference {
+	if setting.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
 	return setting.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -98,16 +125,16 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting) Owner() *genrunt
 // SetStatus sets the status of this resource
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_Databases_AdvancedThreatProtectionSetting_STATUS); ok {
+	if st, ok := status.(*ServersDatabasesAdvancedThreatProtectionSetting_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_Databases_AdvancedThreatProtectionSetting_STATUS
+	var st ServersDatabasesAdvancedThreatProtectionSetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	setting.Status = st
@@ -137,9 +164,10 @@ type ServersDatabasesAdvancedThreatProtectionSettingList struct {
 	Items           []ServersDatabasesAdvancedThreatProtectionSetting `json:"items"`
 }
 
-// Storage version of v1api20211101.Servers_Databases_AdvancedThreatProtectionSetting_Spec
-type Servers_Databases_AdvancedThreatProtectionSetting_Spec struct {
-	OriginalVersion string `json:"originalVersion,omitempty"`
+// Storage version of v1api20211101.ServersDatabasesAdvancedThreatProtectionSetting_Spec
+type ServersDatabasesAdvancedThreatProtectionSetting_Spec struct {
+	OperatorSpec    *ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -150,28 +178,28 @@ type Servers_Databases_AdvancedThreatProtectionSetting_Spec struct {
 	State       *string                            `json:"state,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_Databases_AdvancedThreatProtectionSetting_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersDatabasesAdvancedThreatProtectionSetting_Spec{}
 
-// ConvertSpecFrom populates our Servers_Databases_AdvancedThreatProtectionSetting_Spec from the provided source
-func (setting *Servers_Databases_AdvancedThreatProtectionSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our ServersDatabasesAdvancedThreatProtectionSetting_Spec from the provided source
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == setting {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(setting)
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_Databases_AdvancedThreatProtectionSetting_Spec
-func (setting *Servers_Databases_AdvancedThreatProtectionSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our ServersDatabasesAdvancedThreatProtectionSetting_Spec
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == setting {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(setting)
 }
 
-// Storage version of v1api20211101.Servers_Databases_AdvancedThreatProtectionSetting_STATUS
-type Servers_Databases_AdvancedThreatProtectionSetting_STATUS struct {
+// Storage version of v1api20211101.ServersDatabasesAdvancedThreatProtectionSetting_STATUS
+type ServersDatabasesAdvancedThreatProtectionSetting_STATUS struct {
 	Conditions   []conditions.Condition `json:"conditions,omitempty"`
 	CreationTime *string                `json:"creationTime,omitempty"`
 	Id           *string                `json:"id,omitempty"`
@@ -182,24 +210,32 @@ type Servers_Databases_AdvancedThreatProtectionSetting_STATUS struct {
 	Type         *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_Databases_AdvancedThreatProtectionSetting_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersDatabasesAdvancedThreatProtectionSetting_STATUS{}
 
-// ConvertStatusFrom populates our Servers_Databases_AdvancedThreatProtectionSetting_STATUS from the provided source
-func (setting *Servers_Databases_AdvancedThreatProtectionSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ServersDatabasesAdvancedThreatProtectionSetting_STATUS from the provided source
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == setting {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(setting)
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_Databases_AdvancedThreatProtectionSetting_STATUS
-func (setting *Servers_Databases_AdvancedThreatProtectionSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ServersDatabasesAdvancedThreatProtectionSetting_STATUS
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == setting {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(setting)
+}
+
+// Storage version of v1api20211101.ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

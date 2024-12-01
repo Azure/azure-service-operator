@@ -5,11 +5,15 @@ package v1api20230501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -29,8 +33,8 @@ import (
 type AfdCustomDomain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_CustomDomain_Spec   `json:"spec,omitempty"`
-	Status            Profiles_CustomDomain_STATUS `json:"status,omitempty"`
+	Spec              AfdCustomDomain_Spec   `json:"spec,omitempty"`
+	Status            AfdCustomDomain_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &AfdCustomDomain{}
@@ -90,15 +94,35 @@ func (domain *AfdCustomDomain) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the AfdCustomDomain resource
 func (domain *AfdCustomDomain) defaultImpl() { domain.defaultAzureName() }
 
+var _ configmaps.Exporter = &AfdCustomDomain{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (domain *AfdCustomDomain) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if domain.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return domain.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &AfdCustomDomain{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (domain *AfdCustomDomain) SecretDestinationExpressions() []*core.DestinationExpression {
+	if domain.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return domain.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &AfdCustomDomain{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (domain *AfdCustomDomain) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Profiles_CustomDomain_STATUS); ok {
-		return domain.Spec.Initialize_From_Profiles_CustomDomain_STATUS(s)
+	if s, ok := status.(*AfdCustomDomain_STATUS); ok {
+		return domain.Spec.Initialize_From_AfdCustomDomain_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Profiles_CustomDomain_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type AfdCustomDomain_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &AfdCustomDomain{}
@@ -144,11 +168,15 @@ func (domain *AfdCustomDomain) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (domain *AfdCustomDomain) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Profiles_CustomDomain_STATUS{}
+	return &AfdCustomDomain_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (domain *AfdCustomDomain) Owner() *genruntime.ResourceReference {
+	if domain.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(domain.Spec)
 	return domain.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -156,16 +184,16 @@ func (domain *AfdCustomDomain) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (domain *AfdCustomDomain) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Profiles_CustomDomain_STATUS); ok {
+	if st, ok := status.(*AfdCustomDomain_STATUS); ok {
 		domain.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Profiles_CustomDomain_STATUS
+	var st AfdCustomDomain_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	domain.Status = st
@@ -208,7 +236,7 @@ func (domain *AfdCustomDomain) ValidateUpdate(old runtime.Object) (admission.War
 
 // createValidations validates the creation of the resource
 func (domain *AfdCustomDomain) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){domain.validateResourceReferences, domain.validateOwnerReference}
+	return []func() (admission.Warnings, error){domain.validateResourceReferences, domain.validateOwnerReference, domain.validateSecretDestinations, domain.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +254,21 @@ func (domain *AfdCustomDomain) updateValidations() []func(old runtime.Object) (a
 		func(old runtime.Object) (admission.Warnings, error) {
 			return domain.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return domain.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return domain.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (domain *AfdCustomDomain) validateConfigMapDestinations() (admission.Warnings, error) {
+	if domain.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(domain, nil, domain.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -241,6 +283,14 @@ func (domain *AfdCustomDomain) validateResourceReferences() (admission.Warnings,
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (domain *AfdCustomDomain) validateSecretDestinations() (admission.Warnings, error) {
+	if domain.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(domain, nil, domain.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -260,18 +310,18 @@ func (domain *AfdCustomDomain) AssignProperties_From_AfdCustomDomain(source *sto
 	domain.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Profiles_CustomDomain_Spec
-	err := spec.AssignProperties_From_Profiles_CustomDomain_Spec(&source.Spec)
+	var spec AfdCustomDomain_Spec
+	err := spec.AssignProperties_From_AfdCustomDomain_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_CustomDomain_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_AfdCustomDomain_Spec() to populate field Spec")
 	}
 	domain.Spec = spec
 
 	// Status
-	var status Profiles_CustomDomain_STATUS
-	err = status.AssignProperties_From_Profiles_CustomDomain_STATUS(&source.Status)
+	var status AfdCustomDomain_STATUS
+	err = status.AssignProperties_From_AfdCustomDomain_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_CustomDomain_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_AfdCustomDomain_STATUS() to populate field Status")
 	}
 	domain.Status = status
 
@@ -286,18 +336,18 @@ func (domain *AfdCustomDomain) AssignProperties_To_AfdCustomDomain(destination *
 	destination.ObjectMeta = *domain.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Profiles_CustomDomain_Spec
-	err := domain.Spec.AssignProperties_To_Profiles_CustomDomain_Spec(&spec)
+	var spec storage.AfdCustomDomain_Spec
+	err := domain.Spec.AssignProperties_To_AfdCustomDomain_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_CustomDomain_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_AfdCustomDomain_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Profiles_CustomDomain_STATUS
-	err = domain.Status.AssignProperties_To_Profiles_CustomDomain_STATUS(&status)
+	var status storage.AfdCustomDomain_STATUS
+	err = domain.Status.AssignProperties_To_AfdCustomDomain_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_CustomDomain_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_AfdCustomDomain_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,12 +374,7 @@ type AfdCustomDomainList struct {
 	Items           []AfdCustomDomain `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2023-05-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2023-05-01")
-
-type Profiles_CustomDomain_Spec struct {
+type AfdCustomDomain_Spec struct {
 	// AzureDnsZone: Resource reference to the Azure DNS zone
 	AzureDnsZone *ResourceReference `json:"azureDnsZone,omitempty"`
 
@@ -343,6 +388,10 @@ type Profiles_CustomDomain_Spec struct {
 	// +kubebuilder:validation:Required
 	// HostName: The host name of the domain. Must be a domain name.
 	HostName *string `json:"hostName,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *AfdCustomDomainOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -359,14 +408,14 @@ type Profiles_CustomDomain_Spec struct {
 	TlsSettings *AFDDomainHttpsParameters `json:"tlsSettings,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Profiles_CustomDomain_Spec{}
+var _ genruntime.ARMTransformer = &AfdCustomDomain_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (domain *Profiles_CustomDomain_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (domain *AfdCustomDomain_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if domain == nil {
 		return nil, nil
 	}
-	result := &Profiles_CustomDomain_Spec_ARM{}
+	result := &arm.AfdCustomDomain_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -377,14 +426,14 @@ func (domain *Profiles_CustomDomain_Spec) ConvertToARM(resolved genruntime.Conve
 		domain.HostName != nil ||
 		domain.PreValidatedCustomDomainResourceId != nil ||
 		domain.TlsSettings != nil {
-		result.Properties = &AFDDomainProperties_ARM{}
+		result.Properties = &arm.AFDDomainProperties{}
 	}
 	if domain.AzureDnsZone != nil {
 		azureDnsZone_ARM, err := (*domain.AzureDnsZone).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		azureDnsZone := *azureDnsZone_ARM.(*ResourceReference_ARM)
+		azureDnsZone := *azureDnsZone_ARM.(*arm.ResourceReference)
 		result.Properties.AzureDnsZone = &azureDnsZone
 	}
 	if domain.ExtendedProperties != nil {
@@ -402,7 +451,7 @@ func (domain *Profiles_CustomDomain_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		preValidatedCustomDomainResourceId := *preValidatedCustomDomainResourceId_ARM.(*ResourceReference_ARM)
+		preValidatedCustomDomainResourceId := *preValidatedCustomDomainResourceId_ARM.(*arm.ResourceReference)
 		result.Properties.PreValidatedCustomDomainResourceId = &preValidatedCustomDomainResourceId
 	}
 	if domain.TlsSettings != nil {
@@ -410,22 +459,22 @@ func (domain *Profiles_CustomDomain_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		tlsSettings := *tlsSettings_ARM.(*AFDDomainHttpsParameters_ARM)
+		tlsSettings := *tlsSettings_ARM.(*arm.AFDDomainHttpsParameters)
 		result.Properties.TlsSettings = &tlsSettings
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (domain *Profiles_CustomDomain_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_CustomDomain_Spec_ARM{}
+func (domain *AfdCustomDomain_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.AfdCustomDomain_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (domain *Profiles_CustomDomain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_CustomDomain_Spec_ARM)
+func (domain *AfdCustomDomain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.AfdCustomDomain_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_CustomDomain_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AfdCustomDomain_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureDnsZone":
@@ -465,6 +514,8 @@ func (domain *Profiles_CustomDomain_Spec) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	domain.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -503,65 +554,65 @@ func (domain *Profiles_CustomDomain_Spec) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Profiles_CustomDomain_Spec{}
+var _ genruntime.ConvertibleSpec = &AfdCustomDomain_Spec{}
 
-// ConvertSpecFrom populates our Profiles_CustomDomain_Spec from the provided source
-func (domain *Profiles_CustomDomain_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Profiles_CustomDomain_Spec)
+// ConvertSpecFrom populates our AfdCustomDomain_Spec from the provided source
+func (domain *AfdCustomDomain_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.AfdCustomDomain_Spec)
 	if ok {
 		// Populate our instance from source
-		return domain.AssignProperties_From_Profiles_CustomDomain_Spec(src)
+		return domain.AssignProperties_From_AfdCustomDomain_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Profiles_CustomDomain_Spec{}
+	src = &storage.AfdCustomDomain_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = domain.AssignProperties_From_Profiles_CustomDomain_Spec(src)
+	err = domain.AssignProperties_From_AfdCustomDomain_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Profiles_CustomDomain_Spec
-func (domain *Profiles_CustomDomain_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Profiles_CustomDomain_Spec)
+// ConvertSpecTo populates the provided destination from our AfdCustomDomain_Spec
+func (domain *AfdCustomDomain_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.AfdCustomDomain_Spec)
 	if ok {
 		// Populate destination from our instance
-		return domain.AssignProperties_To_Profiles_CustomDomain_Spec(dst)
+		return domain.AssignProperties_To_AfdCustomDomain_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Profiles_CustomDomain_Spec{}
-	err := domain.AssignProperties_To_Profiles_CustomDomain_Spec(dst)
+	dst = &storage.AfdCustomDomain_Spec{}
+	err := domain.AssignProperties_To_AfdCustomDomain_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_Profiles_CustomDomain_Spec populates our Profiles_CustomDomain_Spec from the provided source Profiles_CustomDomain_Spec
-func (domain *Profiles_CustomDomain_Spec) AssignProperties_From_Profiles_CustomDomain_Spec(source *storage.Profiles_CustomDomain_Spec) error {
+// AssignProperties_From_AfdCustomDomain_Spec populates our AfdCustomDomain_Spec from the provided source AfdCustomDomain_Spec
+func (domain *AfdCustomDomain_Spec) AssignProperties_From_AfdCustomDomain_Spec(source *storage.AfdCustomDomain_Spec) error {
 
 	// AzureDnsZone
 	if source.AzureDnsZone != nil {
 		var azureDnsZone ResourceReference
 		err := azureDnsZone.AssignProperties_From_ResourceReference(source.AzureDnsZone)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field AzureDnsZone")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field AzureDnsZone")
 		}
 		domain.AzureDnsZone = &azureDnsZone
 	} else {
@@ -577,6 +628,18 @@ func (domain *Profiles_CustomDomain_Spec) AssignProperties_From_Profiles_CustomD
 	// HostName
 	domain.HostName = genruntime.ClonePointerToString(source.HostName)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec AfdCustomDomainOperatorSpec
+		err := operatorSpec.AssignProperties_From_AfdCustomDomainOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_AfdCustomDomainOperatorSpec() to populate field OperatorSpec")
+		}
+		domain.OperatorSpec = &operatorSpec
+	} else {
+		domain.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -590,7 +653,7 @@ func (domain *Profiles_CustomDomain_Spec) AssignProperties_From_Profiles_CustomD
 		var preValidatedCustomDomainResourceId ResourceReference
 		err := preValidatedCustomDomainResourceId.AssignProperties_From_ResourceReference(source.PreValidatedCustomDomainResourceId)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field PreValidatedCustomDomainResourceId")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field PreValidatedCustomDomainResourceId")
 		}
 		domain.PreValidatedCustomDomainResourceId = &preValidatedCustomDomainResourceId
 	} else {
@@ -602,7 +665,7 @@ func (domain *Profiles_CustomDomain_Spec) AssignProperties_From_Profiles_CustomD
 		var tlsSetting AFDDomainHttpsParameters
 		err := tlsSetting.AssignProperties_From_AFDDomainHttpsParameters(source.TlsSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AFDDomainHttpsParameters() to populate field TlsSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_AFDDomainHttpsParameters() to populate field TlsSettings")
 		}
 		domain.TlsSettings = &tlsSetting
 	} else {
@@ -613,8 +676,8 @@ func (domain *Profiles_CustomDomain_Spec) AssignProperties_From_Profiles_CustomD
 	return nil
 }
 
-// AssignProperties_To_Profiles_CustomDomain_Spec populates the provided destination Profiles_CustomDomain_Spec from our Profiles_CustomDomain_Spec
-func (domain *Profiles_CustomDomain_Spec) AssignProperties_To_Profiles_CustomDomain_Spec(destination *storage.Profiles_CustomDomain_Spec) error {
+// AssignProperties_To_AfdCustomDomain_Spec populates the provided destination AfdCustomDomain_Spec from our AfdCustomDomain_Spec
+func (domain *AfdCustomDomain_Spec) AssignProperties_To_AfdCustomDomain_Spec(destination *storage.AfdCustomDomain_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -623,7 +686,7 @@ func (domain *Profiles_CustomDomain_Spec) AssignProperties_To_Profiles_CustomDom
 		var azureDnsZone storage.ResourceReference
 		err := domain.AzureDnsZone.AssignProperties_To_ResourceReference(&azureDnsZone)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field AzureDnsZone")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field AzureDnsZone")
 		}
 		destination.AzureDnsZone = &azureDnsZone
 	} else {
@@ -638,6 +701,18 @@ func (domain *Profiles_CustomDomain_Spec) AssignProperties_To_Profiles_CustomDom
 
 	// HostName
 	destination.HostName = genruntime.ClonePointerToString(domain.HostName)
+
+	// OperatorSpec
+	if domain.OperatorSpec != nil {
+		var operatorSpec storage.AfdCustomDomainOperatorSpec
+		err := domain.OperatorSpec.AssignProperties_To_AfdCustomDomainOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AfdCustomDomainOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = domain.OriginalVersion()
@@ -655,7 +730,7 @@ func (domain *Profiles_CustomDomain_Spec) AssignProperties_To_Profiles_CustomDom
 		var preValidatedCustomDomainResourceId storage.ResourceReference
 		err := domain.PreValidatedCustomDomainResourceId.AssignProperties_To_ResourceReference(&preValidatedCustomDomainResourceId)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field PreValidatedCustomDomainResourceId")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field PreValidatedCustomDomainResourceId")
 		}
 		destination.PreValidatedCustomDomainResourceId = &preValidatedCustomDomainResourceId
 	} else {
@@ -667,7 +742,7 @@ func (domain *Profiles_CustomDomain_Spec) AssignProperties_To_Profiles_CustomDom
 		var tlsSetting storage.AFDDomainHttpsParameters
 		err := domain.TlsSettings.AssignProperties_To_AFDDomainHttpsParameters(&tlsSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AFDDomainHttpsParameters() to populate field TlsSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_AFDDomainHttpsParameters() to populate field TlsSettings")
 		}
 		destination.TlsSettings = &tlsSetting
 	} else {
@@ -685,15 +760,15 @@ func (domain *Profiles_CustomDomain_Spec) AssignProperties_To_Profiles_CustomDom
 	return nil
 }
 
-// Initialize_From_Profiles_CustomDomain_STATUS populates our Profiles_CustomDomain_Spec from the provided source Profiles_CustomDomain_STATUS
-func (domain *Profiles_CustomDomain_Spec) Initialize_From_Profiles_CustomDomain_STATUS(source *Profiles_CustomDomain_STATUS) error {
+// Initialize_From_AfdCustomDomain_STATUS populates our AfdCustomDomain_Spec from the provided source AfdCustomDomain_STATUS
+func (domain *AfdCustomDomain_Spec) Initialize_From_AfdCustomDomain_STATUS(source *AfdCustomDomain_STATUS) error {
 
 	// AzureDnsZone
 	if source.AzureDnsZone != nil {
 		var azureDnsZone ResourceReference
 		err := azureDnsZone.Initialize_From_ResourceReference_STATUS(source.AzureDnsZone)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field AzureDnsZone")
+			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field AzureDnsZone")
 		}
 		domain.AzureDnsZone = &azureDnsZone
 	} else {
@@ -711,7 +786,7 @@ func (domain *Profiles_CustomDomain_Spec) Initialize_From_Profiles_CustomDomain_
 		var preValidatedCustomDomainResourceId ResourceReference
 		err := preValidatedCustomDomainResourceId.Initialize_From_ResourceReference_STATUS(source.PreValidatedCustomDomainResourceId)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field PreValidatedCustomDomainResourceId")
+			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field PreValidatedCustomDomainResourceId")
 		}
 		domain.PreValidatedCustomDomainResourceId = &preValidatedCustomDomainResourceId
 	} else {
@@ -723,7 +798,7 @@ func (domain *Profiles_CustomDomain_Spec) Initialize_From_Profiles_CustomDomain_
 		var tlsSetting AFDDomainHttpsParameters
 		err := tlsSetting.Initialize_From_AFDDomainHttpsParameters_STATUS(source.TlsSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AFDDomainHttpsParameters_STATUS() to populate field TlsSettings")
+			return eris.Wrap(err, "calling Initialize_From_AFDDomainHttpsParameters_STATUS() to populate field TlsSettings")
 		}
 		domain.TlsSettings = &tlsSetting
 	} else {
@@ -735,16 +810,14 @@ func (domain *Profiles_CustomDomain_Spec) Initialize_From_Profiles_CustomDomain_
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (domain *Profiles_CustomDomain_Spec) OriginalVersion() string {
+func (domain *AfdCustomDomain_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (domain *Profiles_CustomDomain_Spec) SetAzureName(azureName string) {
-	domain.AzureName = azureName
-}
+func (domain *AfdCustomDomain_Spec) SetAzureName(azureName string) { domain.AzureName = azureName }
 
-type Profiles_CustomDomain_STATUS struct {
+type AfdCustomDomain_STATUS struct {
 	// AzureDnsZone: Resource reference to the Azure DNS zone
 	AzureDnsZone *ResourceReference_STATUS `json:"azureDnsZone,omitempty"`
 
@@ -792,68 +865,68 @@ type Profiles_CustomDomain_STATUS struct {
 	ValidationProperties *DomainValidationProperties_STATUS `json:"validationProperties,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Profiles_CustomDomain_STATUS{}
+var _ genruntime.ConvertibleStatus = &AfdCustomDomain_STATUS{}
 
-// ConvertStatusFrom populates our Profiles_CustomDomain_STATUS from the provided source
-func (domain *Profiles_CustomDomain_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Profiles_CustomDomain_STATUS)
+// ConvertStatusFrom populates our AfdCustomDomain_STATUS from the provided source
+func (domain *AfdCustomDomain_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.AfdCustomDomain_STATUS)
 	if ok {
 		// Populate our instance from source
-		return domain.AssignProperties_From_Profiles_CustomDomain_STATUS(src)
+		return domain.AssignProperties_From_AfdCustomDomain_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Profiles_CustomDomain_STATUS{}
+	src = &storage.AfdCustomDomain_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = domain.AssignProperties_From_Profiles_CustomDomain_STATUS(src)
+	err = domain.AssignProperties_From_AfdCustomDomain_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Profiles_CustomDomain_STATUS
-func (domain *Profiles_CustomDomain_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Profiles_CustomDomain_STATUS)
+// ConvertStatusTo populates the provided destination from our AfdCustomDomain_STATUS
+func (domain *AfdCustomDomain_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.AfdCustomDomain_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return domain.AssignProperties_To_Profiles_CustomDomain_STATUS(dst)
+		return domain.AssignProperties_To_AfdCustomDomain_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Profiles_CustomDomain_STATUS{}
-	err := domain.AssignProperties_To_Profiles_CustomDomain_STATUS(dst)
+	dst = &storage.AfdCustomDomain_STATUS{}
+	err := domain.AssignProperties_To_AfdCustomDomain_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Profiles_CustomDomain_STATUS{}
+var _ genruntime.FromARMConverter = &AfdCustomDomain_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (domain *Profiles_CustomDomain_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_CustomDomain_STATUS_ARM{}
+func (domain *AfdCustomDomain_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.AfdCustomDomain_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (domain *Profiles_CustomDomain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_CustomDomain_STATUS_ARM)
+func (domain *AfdCustomDomain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.AfdCustomDomain_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_CustomDomain_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AfdCustomDomain_STATUS, got %T", armInput)
 	}
 
 	// Set property "AzureDnsZone":
@@ -1009,15 +1082,15 @@ func (domain *Profiles_CustomDomain_STATUS) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-// AssignProperties_From_Profiles_CustomDomain_STATUS populates our Profiles_CustomDomain_STATUS from the provided source Profiles_CustomDomain_STATUS
-func (domain *Profiles_CustomDomain_STATUS) AssignProperties_From_Profiles_CustomDomain_STATUS(source *storage.Profiles_CustomDomain_STATUS) error {
+// AssignProperties_From_AfdCustomDomain_STATUS populates our AfdCustomDomain_STATUS from the provided source AfdCustomDomain_STATUS
+func (domain *AfdCustomDomain_STATUS) AssignProperties_From_AfdCustomDomain_STATUS(source *storage.AfdCustomDomain_STATUS) error {
 
 	// AzureDnsZone
 	if source.AzureDnsZone != nil {
 		var azureDnsZone ResourceReference_STATUS
 		err := azureDnsZone.AssignProperties_From_ResourceReference_STATUS(source.AzureDnsZone)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field AzureDnsZone")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field AzureDnsZone")
 		}
 		domain.AzureDnsZone = &azureDnsZone
 	} else {
@@ -1062,7 +1135,7 @@ func (domain *Profiles_CustomDomain_STATUS) AssignProperties_From_Profiles_Custo
 		var preValidatedCustomDomainResourceId ResourceReference_STATUS
 		err := preValidatedCustomDomainResourceId.AssignProperties_From_ResourceReference_STATUS(source.PreValidatedCustomDomainResourceId)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field PreValidatedCustomDomainResourceId")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field PreValidatedCustomDomainResourceId")
 		}
 		domain.PreValidatedCustomDomainResourceId = &preValidatedCustomDomainResourceId
 	} else {
@@ -1086,7 +1159,7 @@ func (domain *Profiles_CustomDomain_STATUS) AssignProperties_From_Profiles_Custo
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		domain.SystemData = &systemDatum
 	} else {
@@ -1098,7 +1171,7 @@ func (domain *Profiles_CustomDomain_STATUS) AssignProperties_From_Profiles_Custo
 		var tlsSetting AFDDomainHttpsParameters_STATUS
 		err := tlsSetting.AssignProperties_From_AFDDomainHttpsParameters_STATUS(source.TlsSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AFDDomainHttpsParameters_STATUS() to populate field TlsSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_AFDDomainHttpsParameters_STATUS() to populate field TlsSettings")
 		}
 		domain.TlsSettings = &tlsSetting
 	} else {
@@ -1113,7 +1186,7 @@ func (domain *Profiles_CustomDomain_STATUS) AssignProperties_From_Profiles_Custo
 		var validationProperty DomainValidationProperties_STATUS
 		err := validationProperty.AssignProperties_From_DomainValidationProperties_STATUS(source.ValidationProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DomainValidationProperties_STATUS() to populate field ValidationProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_DomainValidationProperties_STATUS() to populate field ValidationProperties")
 		}
 		domain.ValidationProperties = &validationProperty
 	} else {
@@ -1124,8 +1197,8 @@ func (domain *Profiles_CustomDomain_STATUS) AssignProperties_From_Profiles_Custo
 	return nil
 }
 
-// AssignProperties_To_Profiles_CustomDomain_STATUS populates the provided destination Profiles_CustomDomain_STATUS from our Profiles_CustomDomain_STATUS
-func (domain *Profiles_CustomDomain_STATUS) AssignProperties_To_Profiles_CustomDomain_STATUS(destination *storage.Profiles_CustomDomain_STATUS) error {
+// AssignProperties_To_AfdCustomDomain_STATUS populates the provided destination AfdCustomDomain_STATUS from our AfdCustomDomain_STATUS
+func (domain *AfdCustomDomain_STATUS) AssignProperties_To_AfdCustomDomain_STATUS(destination *storage.AfdCustomDomain_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1134,7 +1207,7 @@ func (domain *Profiles_CustomDomain_STATUS) AssignProperties_To_Profiles_CustomD
 		var azureDnsZone storage.ResourceReference_STATUS
 		err := domain.AzureDnsZone.AssignProperties_To_ResourceReference_STATUS(&azureDnsZone)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field AzureDnsZone")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field AzureDnsZone")
 		}
 		destination.AzureDnsZone = &azureDnsZone
 	} else {
@@ -1177,7 +1250,7 @@ func (domain *Profiles_CustomDomain_STATUS) AssignProperties_To_Profiles_CustomD
 		var preValidatedCustomDomainResourceId storage.ResourceReference_STATUS
 		err := domain.PreValidatedCustomDomainResourceId.AssignProperties_To_ResourceReference_STATUS(&preValidatedCustomDomainResourceId)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field PreValidatedCustomDomainResourceId")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field PreValidatedCustomDomainResourceId")
 		}
 		destination.PreValidatedCustomDomainResourceId = &preValidatedCustomDomainResourceId
 	} else {
@@ -1200,7 +1273,7 @@ func (domain *Profiles_CustomDomain_STATUS) AssignProperties_To_Profiles_CustomD
 		var systemDatum storage.SystemData_STATUS
 		err := domain.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1212,7 +1285,7 @@ func (domain *Profiles_CustomDomain_STATUS) AssignProperties_To_Profiles_CustomD
 		var tlsSetting storage.AFDDomainHttpsParameters_STATUS
 		err := domain.TlsSettings.AssignProperties_To_AFDDomainHttpsParameters_STATUS(&tlsSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AFDDomainHttpsParameters_STATUS() to populate field TlsSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_AFDDomainHttpsParameters_STATUS() to populate field TlsSettings")
 		}
 		destination.TlsSettings = &tlsSetting
 	} else {
@@ -1227,11 +1300,120 @@ func (domain *Profiles_CustomDomain_STATUS) AssignProperties_To_Profiles_CustomD
 		var validationProperty storage.DomainValidationProperties_STATUS
 		err := domain.ValidationProperties.AssignProperties_To_DomainValidationProperties_STATUS(&validationProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DomainValidationProperties_STATUS() to populate field ValidationProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_DomainValidationProperties_STATUS() to populate field ValidationProperties")
 		}
 		destination.ValidationProperties = &validationProperty
 	} else {
 		destination.ValidationProperties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// +kubebuilder:validation:Enum={"2023-05-01"}
+type APIVersion string
+
+const APIVersion_Value = APIVersion("2023-05-01")
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type AfdCustomDomainOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_AfdCustomDomainOperatorSpec populates our AfdCustomDomainOperatorSpec from the provided source AfdCustomDomainOperatorSpec
+func (operator *AfdCustomDomainOperatorSpec) AssignProperties_From_AfdCustomDomainOperatorSpec(source *storage.AfdCustomDomainOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AfdCustomDomainOperatorSpec populates the provided destination AfdCustomDomainOperatorSpec from our AfdCustomDomainOperatorSpec
+func (operator *AfdCustomDomainOperatorSpec) AssignProperties_To_AfdCustomDomainOperatorSpec(destination *storage.AfdCustomDomainOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag
@@ -1265,13 +1447,13 @@ func (parameters *AFDDomainHttpsParameters) ConvertToARM(resolved genruntime.Con
 	if parameters == nil {
 		return nil, nil
 	}
-	result := &AFDDomainHttpsParameters_ARM{}
+	result := &arm.AFDDomainHttpsParameters{}
 
 	// Set property "CertificateType":
 	if parameters.CertificateType != nil {
 		var temp string
 		temp = string(*parameters.CertificateType)
-		certificateType := AFDDomainHttpsParameters_CertificateType_ARM(temp)
+		certificateType := arm.AFDDomainHttpsParameters_CertificateType(temp)
 		result.CertificateType = &certificateType
 	}
 
@@ -1279,7 +1461,7 @@ func (parameters *AFDDomainHttpsParameters) ConvertToARM(resolved genruntime.Con
 	if parameters.MinimumTlsVersion != nil {
 		var temp string
 		temp = string(*parameters.MinimumTlsVersion)
-		minimumTlsVersion := AFDDomainHttpsParameters_MinimumTlsVersion_ARM(temp)
+		minimumTlsVersion := arm.AFDDomainHttpsParameters_MinimumTlsVersion(temp)
 		result.MinimumTlsVersion = &minimumTlsVersion
 	}
 
@@ -1289,7 +1471,7 @@ func (parameters *AFDDomainHttpsParameters) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		secret := *secret_ARM.(*ResourceReference_ARM)
+		secret := *secret_ARM.(*arm.ResourceReference)
 		result.Secret = &secret
 	}
 	return result, nil
@@ -1297,14 +1479,14 @@ func (parameters *AFDDomainHttpsParameters) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *AFDDomainHttpsParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AFDDomainHttpsParameters_ARM{}
+	return &arm.AFDDomainHttpsParameters{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *AFDDomainHttpsParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AFDDomainHttpsParameters_ARM)
+	typedInput, ok := armInput.(arm.AFDDomainHttpsParameters)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AFDDomainHttpsParameters_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AFDDomainHttpsParameters, got %T", armInput)
 	}
 
 	// Set property "CertificateType":
@@ -1364,7 +1546,7 @@ func (parameters *AFDDomainHttpsParameters) AssignProperties_From_AFDDomainHttps
 		var secret ResourceReference
 		err := secret.AssignProperties_From_ResourceReference(source.Secret)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field Secret")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field Secret")
 		}
 		parameters.Secret = &secret
 	} else {
@@ -1401,7 +1583,7 @@ func (parameters *AFDDomainHttpsParameters) AssignProperties_To_AFDDomainHttpsPa
 		var secret storage.ResourceReference
 		err := parameters.Secret.AssignProperties_To_ResourceReference(&secret)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field Secret")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field Secret")
 		}
 		destination.Secret = &secret
 	} else {
@@ -1443,7 +1625,7 @@ func (parameters *AFDDomainHttpsParameters) Initialize_From_AFDDomainHttpsParame
 		var secret ResourceReference
 		err := secret.Initialize_From_ResourceReference_STATUS(source.Secret)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field Secret")
+			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field Secret")
 		}
 		parameters.Secret = &secret
 	} else {
@@ -1470,14 +1652,14 @@ var _ genruntime.FromARMConverter = &AFDDomainHttpsParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *AFDDomainHttpsParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AFDDomainHttpsParameters_STATUS_ARM{}
+	return &arm.AFDDomainHttpsParameters_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *AFDDomainHttpsParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AFDDomainHttpsParameters_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AFDDomainHttpsParameters_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AFDDomainHttpsParameters_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AFDDomainHttpsParameters_STATUS, got %T", armInput)
 	}
 
 	// Set property "CertificateType":
@@ -1537,7 +1719,7 @@ func (parameters *AFDDomainHttpsParameters_STATUS) AssignProperties_From_AFDDoma
 		var secret ResourceReference_STATUS
 		err := secret.AssignProperties_From_ResourceReference_STATUS(source.Secret)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field Secret")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field Secret")
 		}
 		parameters.Secret = &secret
 	} else {
@@ -1574,7 +1756,7 @@ func (parameters *AFDDomainHttpsParameters_STATUS) AssignProperties_To_AFDDomain
 		var secret storage.ResourceReference_STATUS
 		err := parameters.Secret.AssignProperties_To_ResourceReference_STATUS(&secret)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field Secret")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field Secret")
 		}
 		destination.Secret = &secret
 	} else {
@@ -1668,14 +1850,14 @@ var _ genruntime.FromARMConverter = &DomainValidationProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *DomainValidationProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DomainValidationProperties_STATUS_ARM{}
+	return &arm.DomainValidationProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *DomainValidationProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DomainValidationProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DomainValidationProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DomainValidationProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DomainValidationProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "ExpirationDate":
@@ -1742,7 +1924,7 @@ func (reference *ResourceReference) ConvertToARM(resolved genruntime.ConvertToAR
 	if reference == nil {
 		return nil, nil
 	}
-	result := &ResourceReference_ARM{}
+	result := &arm.ResourceReference{}
 
 	// Set property "Id":
 	if reference.Reference != nil {
@@ -1758,14 +1940,14 @@ func (reference *ResourceReference) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *ResourceReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceReference_ARM{}
+	return &arm.ResourceReference{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *ResourceReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(ResourceReference_ARM)
+	_, ok := armInput.(arm.ResourceReference)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceReference_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceReference, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -1838,14 +2020,14 @@ var _ genruntime.FromARMConverter = &ResourceReference_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *ResourceReference_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceReference_STATUS_ARM{}
+	return &arm.ResourceReference_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *ResourceReference_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceReference_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ResourceReference_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceReference_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceReference_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1912,14 +2094,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUS_ARM{}
+	return &arm.SystemData_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreatedAt":

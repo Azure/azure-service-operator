@@ -13,7 +13,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/slices"
 	"sigs.k8s.io/yaml"
 
@@ -111,7 +111,7 @@ func (r *Result) SaveToIndividualFilesInFolder(folder string) error {
 		path := filepath.Join(folder, fileName)
 		err := r.saveTo(resources, path)
 		if err != nil {
-			return errors.Wrapf(err, "unable to save to file %s", path)
+			return eris.Wrapf(err, "unable to save to file %s", path)
 		}
 	}
 
@@ -121,7 +121,7 @@ func (r *Result) SaveToIndividualFilesInFolder(folder string) error {
 func (r *Result) saveTo(resources []ImportedResource, path string) error {
 	file, err := os.Create(path)
 	if err != nil {
-		return errors.Wrapf(err, "unable to create file %s", path)
+		return eris.Wrapf(err, "unable to create file %s", path)
 	}
 
 	defer func() {
@@ -142,7 +142,7 @@ func (r *Result) saveTo(resources []ImportedResource, path string) error {
 		os.Remove(path)
 	}
 
-	return errors.Wrapf(err, "unable to save to file %s", path)
+	return eris.Wrapf(err, "unable to save to file %s", path)
 }
 
 func (*Result) writeTo(resources []ImportedResource, destination io.Writer) error {
@@ -153,7 +153,7 @@ func (*Result) writeTo(resources []ImportedResource, destination io.Writer) erro
 
 	_, err := buf.WriteString("---\n")
 	if err != nil {
-		return errors.Wrap(err, "unable to save to writer")
+		return eris.Wrap(err, "unable to save to writer")
 	}
 
 	// Sort objects into a deterministic order
@@ -187,19 +187,19 @@ func (*Result) writeTo(resources []ImportedResource, destination io.Writer) erro
 	for _, resource := range resources {
 		data, err := yaml.Marshal(resource.Resource())
 		if err != nil {
-			return errors.Wrap(err, "unable to save to writer")
+			return eris.Wrap(err, "unable to save to writer")
 		}
 
 		data = redact(data)
 
 		_, err = buf.Write(data)
 		if err != nil {
-			return errors.Wrap(err, "unable to save to writer")
+			return eris.Wrap(err, "unable to save to writer")
 		}
 
 		_, err = buf.WriteString("---\n")
 		if err != nil {
-			return errors.Wrap(err, "unable to save to writer")
+			return eris.Wrap(err, "unable to save to writer")
 		}
 	}
 

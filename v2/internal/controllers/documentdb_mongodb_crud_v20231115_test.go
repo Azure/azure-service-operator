@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115"
@@ -35,9 +36,11 @@ func Test_DocumentDB_MongoDatabase_v20231115_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Kind:     &kind,
-			Capabilities: []documentdb.Capability{{
-				Name: to.Ptr("EnableMongo"),
-			}},
+			Capabilities: []documentdb.Capability{
+				{
+					Name: to.Ptr("EnableMongo"),
+				},
+			},
 			DatabaseAccountOfferType: &offerType,
 			Locations: []documentdb.Location{
 				{
@@ -51,7 +54,7 @@ func Test_DocumentDB_MongoDatabase_v20231115_CRUD(t *testing.T) {
 	name := tc.Namer.GenerateName("mongo")
 	db := documentdb.MongodbDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccounts_MongodbDatabase_Spec{
+		Spec: documentdb.MongodbDatabase_Spec{
 			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				AutoscaleSettings: &documentdb.AutoscaleSettings{
@@ -124,7 +127,7 @@ func DocumentDB_MongoDB_Collection_v20231115_CRUD(tc *testcommon.KubePerTestCont
 	name := tc.Namer.GenerateName("collection")
 	collection := documentdb.MongodbDatabaseCollection{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccounts_MongodbDatabases_Collection_Spec{
+		Spec: documentdb.MongodbDatabaseCollection_Spec{
 			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				Throughput: to.Ptr(400),
@@ -184,7 +187,7 @@ func DocumentDB_MongoDB_Collection_v20231115_CRUD(tc *testcommon.KubePerTestCont
 func DocumentDB_MongoDB_Database_ThroughputSettings_v20231115_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
 	throughputSettings := documentdb.MongodbDatabaseThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
-		Spec: documentdb.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec{
+		Spec: documentdb.MongodbDatabaseThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(db),
 			Resource: &documentdb.ThroughputSettingsResource{
 				// We cannot change this to be a fixed throughput as we already created the database using
@@ -217,7 +220,7 @@ func DocumentDB_MongoDB_Database_ThroughputSettings_v20231115_CRUD(tc *testcommo
 func DocumentDB_MongoDB_Database_Collections_ThroughputSettings_v20231515_CRUD(tc *testcommon.KubePerTestContext, collection client.Object) {
 	throughputSettings := documentdb.MongodbDatabaseCollectionThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
-		Spec: documentdb.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec{
+		Spec: documentdb.MongodbDatabaseCollectionThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(collection),
 			Resource: &documentdb.ThroughputSettingsResource{
 				Throughput: to.Ptr(500),

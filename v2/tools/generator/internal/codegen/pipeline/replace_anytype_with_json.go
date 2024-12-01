@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -59,7 +59,7 @@ func ReplaceAnyTypeWithJSON() *Stage {
 			for _, def := range definitions {
 				d, err := visitor.VisitDefinition(def, nil)
 				if err != nil {
-					return nil, errors.Wrapf(err, "visiting %q", def.Name())
+					return nil, eris.Wrapf(err, "visiting %q", def.Name())
 				}
 				results.Add(d)
 			}

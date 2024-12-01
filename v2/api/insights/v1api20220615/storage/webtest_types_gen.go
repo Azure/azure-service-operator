@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -42,6 +45,26 @@ func (webtest *Webtest) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (webtest *Webtest) SetConditions(conditions conditions.Conditions) {
 	webtest.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Webtest{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (webtest *Webtest) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if webtest.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return webtest.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Webtest{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (webtest *Webtest) SecretDestinationExpressions() []*core.DestinationExpression {
+	if webtest.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return webtest.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Webtest{}
@@ -92,6 +115,10 @@ func (webtest *Webtest) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (webtest *Webtest) Owner() *genruntime.ResourceReference {
+	if webtest.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(webtest.Spec)
 	return webtest.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -108,7 +135,7 @@ func (webtest *Webtest) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Webtest_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	webtest.Status = st
@@ -151,6 +178,7 @@ type Webtest_Spec struct {
 	Location        *string                          `json:"location,omitempty"`
 	Locations       []WebTestGeolocation             `json:"Locations,omitempty"`
 	Name            *string                          `json:"Name,omitempty"`
+	OperatorSpec    *WebtestOperatorSpec             `json:"operatorSpec,omitempty"`
 	OriginalVersion string                           `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -172,7 +200,7 @@ var _ genruntime.ConvertibleSpec = &Webtest_Spec{}
 // ConvertSpecFrom populates our Webtest_Spec from the provided source
 func (webtest *Webtest_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == webtest {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(webtest)
@@ -181,7 +209,7 @@ func (webtest *Webtest_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 // ConvertSpecTo populates the provided destination from our Webtest_Spec
 func (webtest *Webtest_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == webtest {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(webtest)
@@ -216,7 +244,7 @@ var _ genruntime.ConvertibleStatus = &Webtest_STATUS{}
 // ConvertStatusFrom populates our Webtest_STATUS from the provided source
 func (webtest *Webtest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == webtest {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(webtest)
@@ -225,7 +253,7 @@ func (webtest *Webtest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 // ConvertStatusTo populates the provided destination from our Webtest_STATUS
 func (webtest *Webtest_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == webtest {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(webtest)
@@ -243,6 +271,14 @@ type WebTestGeolocation struct {
 type WebTestGeolocation_STATUS struct {
 	Id          *string                `json:"Id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20220615.WebtestOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WebtestOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20220615.WebTestProperties_Configuration

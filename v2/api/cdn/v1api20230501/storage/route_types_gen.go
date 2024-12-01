@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type Route struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_AfdEndpoints_Route_Spec   `json:"spec,omitempty"`
-	Status            Profiles_AfdEndpoints_Route_STATUS `json:"status,omitempty"`
+	Spec              Route_Spec   `json:"spec,omitempty"`
+	Status            Route_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Route{}
@@ -42,6 +45,26 @@ func (route *Route) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (route *Route) SetConditions(conditions conditions.Conditions) {
 	route.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Route{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (route *Route) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if route.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return route.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Route{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (route *Route) SecretDestinationExpressions() []*core.DestinationExpression {
+	if route.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return route.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Route{}
@@ -87,11 +110,15 @@ func (route *Route) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (route *Route) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Profiles_AfdEndpoints_Route_STATUS{}
+	return &Route_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (route *Route) Owner() *genruntime.ResourceReference {
+	if route.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(route.Spec)
 	return route.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (route *Route) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (route *Route) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Profiles_AfdEndpoints_Route_STATUS); ok {
+	if st, ok := status.(*Route_STATUS); ok {
 		route.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Profiles_AfdEndpoints_Route_STATUS
+	var st Route_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	route.Status = st
@@ -138,8 +165,8 @@ type RouteList struct {
 	Items           []Route `json:"items"`
 }
 
-// Storage version of v1api20230501.Profiles_AfdEndpoints_Route_Spec
-type Profiles_AfdEndpoints_Route_Spec struct {
+// Storage version of v1api20230501.Route_Spec
+type Route_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName           string                       `json:"azureName,omitempty"`
@@ -149,6 +176,7 @@ type Profiles_AfdEndpoints_Route_Spec struct {
 	ForwardingProtocol  *string                      `json:"forwardingProtocol,omitempty"`
 	HttpsRedirect       *string                      `json:"httpsRedirect,omitempty"`
 	LinkToDefaultDomain *string                      `json:"linkToDefaultDomain,omitempty"`
+	OperatorSpec        *RouteOperatorSpec           `json:"operatorSpec,omitempty"`
 	OriginGroup         *ResourceReference           `json:"originGroup,omitempty"`
 	OriginPath          *string                      `json:"originPath,omitempty"`
 	OriginalVersion     string                       `json:"originalVersion,omitempty"`
@@ -164,28 +192,28 @@ type Profiles_AfdEndpoints_Route_Spec struct {
 	SupportedProtocols []string                           `json:"supportedProtocols,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Profiles_AfdEndpoints_Route_Spec{}
+var _ genruntime.ConvertibleSpec = &Route_Spec{}
 
-// ConvertSpecFrom populates our Profiles_AfdEndpoints_Route_Spec from the provided source
-func (route *Profiles_AfdEndpoints_Route_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our Route_Spec from the provided source
+func (route *Route_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == route {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(route)
 }
 
-// ConvertSpecTo populates the provided destination from our Profiles_AfdEndpoints_Route_Spec
-func (route *Profiles_AfdEndpoints_Route_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our Route_Spec
+func (route *Route_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == route {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(route)
 }
 
-// Storage version of v1api20230501.Profiles_AfdEndpoints_Route_STATUS
-type Profiles_AfdEndpoints_Route_STATUS struct {
+// Storage version of v1api20230501.Route_STATUS
+type Route_STATUS struct {
 	CacheConfiguration  *AfdRouteCacheConfiguration_STATUS                                                  `json:"cacheConfiguration,omitempty"`
 	Conditions          []conditions.Condition                                                              `json:"conditions,omitempty"`
 	CustomDomains       []ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded `json:"customDomains,omitempty"`
@@ -208,21 +236,21 @@ type Profiles_AfdEndpoints_Route_STATUS struct {
 	Type                *string                                                                             `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Profiles_AfdEndpoints_Route_STATUS{}
+var _ genruntime.ConvertibleStatus = &Route_STATUS{}
 
-// ConvertStatusFrom populates our Profiles_AfdEndpoints_Route_STATUS from the provided source
-func (route *Profiles_AfdEndpoints_Route_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Route_STATUS from the provided source
+func (route *Route_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == route {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(route)
 }
 
-// ConvertStatusTo populates the provided destination from our Profiles_AfdEndpoints_Route_STATUS
-func (route *Profiles_AfdEndpoints_Route_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Route_STATUS
+func (route *Route_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == route {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(route)
@@ -260,6 +288,14 @@ type AfdRouteCacheConfiguration_STATUS struct {
 	PropertyBag                genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 	QueryParameters            *string                     `json:"queryParameters,omitempty"`
 	QueryStringCachingBehavior *string                     `json:"queryStringCachingBehavior,omitempty"`
+}
+
+// Storage version of v1api20230501.RouteOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RouteOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230501.CompressionSettings

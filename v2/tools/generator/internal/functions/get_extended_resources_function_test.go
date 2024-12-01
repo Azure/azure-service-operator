@@ -8,9 +8,8 @@ package functions
 import (
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
 func getExtendedResourcesTestData() (string, astmodel.LocalPackageReference) {

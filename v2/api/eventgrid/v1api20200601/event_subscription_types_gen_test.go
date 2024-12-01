@@ -1799,6 +1799,103 @@ func AddRelatedPropertyGeneratorsForEventSubscriptionFilter_STATUS(gens map[stri
 	gens["AdvancedFilters"] = gen.SliceOf(AdvancedFilter_STATUSGenerator())
 }
 
+func Test_EventSubscriptionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from EventSubscriptionOperatorSpec to EventSubscriptionOperatorSpec via AssignProperties_To_EventSubscriptionOperatorSpec & AssignProperties_From_EventSubscriptionOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionOperatorSpec, EventSubscriptionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForEventSubscriptionOperatorSpec tests if a specific instance of EventSubscriptionOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForEventSubscriptionOperatorSpec(subject EventSubscriptionOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.EventSubscriptionOperatorSpec
+	err := copied.AssignProperties_To_EventSubscriptionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual EventSubscriptionOperatorSpec
+	err = actual.AssignProperties_From_EventSubscriptionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_EventSubscriptionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of EventSubscriptionOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEventSubscriptionOperatorSpec, EventSubscriptionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForEventSubscriptionOperatorSpec runs a test to see if a specific instance of EventSubscriptionOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForEventSubscriptionOperatorSpec(subject EventSubscriptionOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual EventSubscriptionOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of EventSubscriptionOperatorSpec instances for property testing - lazily instantiated by
+// EventSubscriptionOperatorSpecGenerator()
+var eventSubscriptionOperatorSpecGenerator gopter.Gen
+
+// EventSubscriptionOperatorSpecGenerator returns a generator of EventSubscriptionOperatorSpec instances for property testing.
+func EventSubscriptionOperatorSpecGenerator() gopter.Gen {
+	if eventSubscriptionOperatorSpecGenerator != nil {
+		return eventSubscriptionOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	eventSubscriptionOperatorSpecGenerator = gen.Struct(reflect.TypeOf(EventSubscriptionOperatorSpec{}), generators)
+
+	return eventSubscriptionOperatorSpecGenerator
+}
+
 func Test_EventSubscription_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2054,6 +2151,7 @@ func AddRelatedPropertyGeneratorsForEventSubscription_Spec(gens map[string]gopte
 	gens["DeadLetterDestination"] = gen.PtrOf(DeadLetterDestinationGenerator())
 	gens["Destination"] = gen.PtrOf(EventSubscriptionDestinationGenerator())
 	gens["Filter"] = gen.PtrOf(EventSubscriptionFilterGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(EventSubscriptionOperatorSpecGenerator())
 	gens["RetryPolicy"] = gen.PtrOf(RetryPolicyGenerator())
 }
 

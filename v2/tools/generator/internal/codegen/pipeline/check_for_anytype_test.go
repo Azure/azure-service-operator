@@ -9,12 +9,12 @@ import (
 	"context"
 	"testing"
 
+	. "github.com/onsi/gomega"
+
+	"github.com/rotisserie/eris"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
-
-	"github.com/pkg/errors"
-
-	. "github.com/onsi/gomega"
 )
 
 func TestFindsAnyTypes(t *testing.T) {
@@ -116,5 +116,5 @@ func TestComplainsAboutUnneededExclusions(t *testing.T) {
 	stage := FilterOutDefinitionsUsingAnyType(exclusions)
 	finalState, err := stage.Run(context.Background(), state)
 	g.Expect(finalState).To(BeNil())
-	g.Expect(errors.Cause(err)).To(MatchError("no AnyTypes found in: gamma.knife/v20200821, people.vultures/20200821"))
+	g.Expect(eris.Cause(err)).To(MatchError("no AnyTypes found in: gamma.knife/v20200821, people.vultures/20200821"))
 }

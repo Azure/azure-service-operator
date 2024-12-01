@@ -78,6 +78,60 @@ func AddRelatedPropertyGeneratorsForDomain(gens map[string]gopter.Gen) {
 	gens["Status"] = Domain_STATUSGenerator()
 }
 
+func Test_DomainOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DomainOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDomainOperatorSpec, DomainOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDomainOperatorSpec runs a test to see if a specific instance of DomainOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDomainOperatorSpec(subject DomainOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DomainOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DomainOperatorSpec instances for property testing - lazily instantiated by DomainOperatorSpecGenerator()
+var domainOperatorSpecGenerator gopter.Gen
+
+// DomainOperatorSpecGenerator returns a generator of DomainOperatorSpec instances for property testing.
+func DomainOperatorSpecGenerator() gopter.Gen {
+	if domainOperatorSpecGenerator != nil {
+		return domainOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	domainOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DomainOperatorSpec{}), generators)
+
+	return domainOperatorSpecGenerator
+}
+
 func Test_Domain_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -246,6 +300,7 @@ func AddIndependentPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) 
 func AddRelatedPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) {
 	gens["InboundIpRules"] = gen.SliceOf(InboundIpRuleGenerator())
 	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMappingGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(DomainOperatorSpecGenerator())
 }
 
 func Test_InboundIpRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type MongodbDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS `json:"status,omitempty"`
+	Spec              MongodbDatabaseThroughputSetting_Spec   `json:"spec,omitempty"`
+	Status            MongodbDatabaseThroughputSetting_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseThroughputSetting{}
@@ -42,6 +45,26 @@ func (setting *MongodbDatabaseThroughputSetting) GetConditions() conditions.Cond
 // SetConditions sets the conditions on the resource status
 func (setting *MongodbDatabaseThroughputSetting) SetConditions(conditions conditions.Conditions) {
 	setting.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &MongodbDatabaseThroughputSetting{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (setting *MongodbDatabaseThroughputSetting) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &MongodbDatabaseThroughputSetting{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (setting *MongodbDatabaseThroughputSetting) SecretDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &MongodbDatabaseThroughputSetting{}
@@ -86,11 +109,15 @@ func (setting *MongodbDatabaseThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *MongodbDatabaseThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS{}
+	return &MongodbDatabaseThroughputSetting_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (setting *MongodbDatabaseThroughputSetting) Owner() *genruntime.ResourceReference {
+	if setting.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
 	return setting.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -98,16 +125,16 @@ func (setting *MongodbDatabaseThroughputSetting) Owner() *genruntime.ResourceRef
 // SetStatus sets the status of this resource
 func (setting *MongodbDatabaseThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS); ok {
+	if st, ok := status.(*MongodbDatabaseThroughputSetting_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
+	var st MongodbDatabaseThroughputSetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	setting.Status = st
@@ -137,10 +164,11 @@ type MongodbDatabaseThroughputSettingList struct {
 	Items           []MongodbDatabaseThroughputSetting `json:"items"`
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec
-type DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec struct {
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+// Storage version of v1api20231115.MongodbDatabaseThroughputSetting_Spec
+type MongodbDatabaseThroughputSetting_Spec struct {
+	Location        *string                                       `json:"location,omitempty"`
+	OperatorSpec    *MongodbDatabaseThroughputSettingOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -152,28 +180,28 @@ type DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec{}
+var _ genruntime.ConvertibleSpec = &MongodbDatabaseThroughputSetting_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec from the provided source
-func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our MongodbDatabaseThroughputSetting_Spec from the provided source
+func (setting *MongodbDatabaseThroughputSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == setting {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(setting)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec
-func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our MongodbDatabaseThroughputSetting_Spec
+func (setting *MongodbDatabaseThroughputSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == setting {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(setting)
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
-type DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS struct {
+// Storage version of v1api20231115.MongodbDatabaseThroughputSetting_STATUS
+type MongodbDatabaseThroughputSetting_STATUS struct {
 	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
 	Id          *string                                          `json:"id,omitempty"`
 	Location    *string                                          `json:"location,omitempty"`
@@ -184,24 +212,32 @@ type DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS struct {
 	Type        *string                                          `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS{}
+var _ genruntime.ConvertibleStatus = &MongodbDatabaseThroughputSetting_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS from the provided source
-func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our MongodbDatabaseThroughputSetting_STATUS from the provided source
+func (setting *MongodbDatabaseThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == setting {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(setting)
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
-func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our MongodbDatabaseThroughputSetting_STATUS
+func (setting *MongodbDatabaseThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == setting {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(setting)
+}
+
+// Storage version of v1api20231115.MongodbDatabaseThroughputSettingOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type MongodbDatabaseThroughputSettingOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

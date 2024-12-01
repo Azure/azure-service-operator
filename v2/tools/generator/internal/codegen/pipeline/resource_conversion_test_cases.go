@@ -6,11 +6,12 @@
 package pipeline
 
 import (
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/testcases"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/net/context"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/testcases"
 )
 
 // InjectResourceConversionTestsID is the unique identifier for this stage
@@ -80,12 +81,12 @@ func (_ *resourceConversionTestCaseFactory) NeedsTest(def astmodel.TypeDefinitio
 func (factory *resourceConversionTestCaseFactory) AddTestTo(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 	resource, ok := astmodel.AsResourceType(def.Type())
 	if !ok {
-		return astmodel.TypeDefinition{}, errors.Errorf("expected %s to be a resourceType", def.Name())
+		return astmodel.TypeDefinition{}, eris.Errorf("expected %s to be a resourceType", def.Name())
 	}
 
 	testCase, err := testcases.NewResourceConversionTestCase(def.Name(), resource, factory.idFactory)
 	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "adding resource conversion test case to %s", def.Name())
+		return astmodel.TypeDefinition{}, eris.Wrapf(err, "adding resource conversion test case to %s", def.Name())
 	}
 
 	return factory.injector.Inject(def, testCase)

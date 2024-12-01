@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -42,6 +45,26 @@ func (iotHub *IotHub) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (iotHub *IotHub) SetConditions(conditions conditions.Conditions) {
 	iotHub.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &IotHub{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (iotHub *IotHub) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if iotHub.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return iotHub.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &IotHub{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (iotHub *IotHub) SecretDestinationExpressions() []*core.DestinationExpression {
+	if iotHub.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return iotHub.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &IotHub{}
@@ -92,6 +115,10 @@ func (iotHub *IotHub) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (iotHub *IotHub) Owner() *genruntime.ResourceReference {
+	if iotHub.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(iotHub.Spec)
 	return iotHub.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -108,7 +135,7 @@ func (iotHub *IotHub) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st IotHub_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	iotHub.Status = st
@@ -170,7 +197,7 @@ var _ genruntime.ConvertibleSpec = &IotHub_Spec{}
 // ConvertSpecFrom populates our IotHub_Spec from the provided source
 func (iotHub *IotHub_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == iotHub {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(iotHub)
@@ -179,7 +206,7 @@ func (iotHub *IotHub_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 // ConvertSpecTo populates the provided destination from our IotHub_Spec
 func (iotHub *IotHub_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == iotHub {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(iotHub)
@@ -206,7 +233,7 @@ var _ genruntime.ConvertibleStatus = &IotHub_STATUS{}
 // ConvertStatusFrom populates our IotHub_STATUS from the provided source
 func (iotHub *IotHub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == iotHub {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(iotHub)
@@ -215,7 +242,7 @@ func (iotHub *IotHub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 // ConvertStatusTo populates the provided destination from our IotHub_STATUS
 func (iotHub *IotHub_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == iotHub {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(iotHub)
@@ -240,8 +267,10 @@ type ArmIdentity_STATUS struct {
 // Storage version of v1api20210702.IotHubOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type IotHubOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Secrets     *IotHubOperatorSecrets `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	Secrets              *IotHubOperatorSecrets        `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20210702.IotHubProperties

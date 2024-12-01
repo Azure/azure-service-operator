@@ -161,36 +161,36 @@ func ServersDatabasesBackupLongTermRetentionPolicyGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForServersDatabasesBackupLongTermRetentionPolicy is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServersDatabasesBackupLongTermRetentionPolicy(gens map[string]gopter.Gen) {
-	gens["Spec"] = Servers_Databases_BackupLongTermRetentionPolicy_SpecGenerator()
-	gens["Status"] = Servers_Databases_BackupLongTermRetentionPolicy_STATUSGenerator()
+	gens["Spec"] = ServersDatabasesBackupLongTermRetentionPolicy_SpecGenerator()
+	gens["Status"] = ServersDatabasesBackupLongTermRetentionPolicy_STATUSGenerator()
 }
 
-func Test_Servers_Databases_BackupLongTermRetentionPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Servers_Databases_BackupLongTermRetentionPolicy_STATUS to Servers_Databases_BackupLongTermRetentionPolicy_STATUS via AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_STATUS & AssignProperties_From_Servers_Databases_BackupLongTermRetentionPolicy_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForServers_Databases_BackupLongTermRetentionPolicy_STATUS, Servers_Databases_BackupLongTermRetentionPolicy_STATUSGenerator()))
+		"Round trip from ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec to ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec via AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec & AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesBackupLongTermRetentionPolicyOperatorSpec, ServersDatabasesBackupLongTermRetentionPolicyOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_Databases_BackupLongTermRetentionPolicy_STATUS tests if a specific instance of Servers_Databases_BackupLongTermRetentionPolicy_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForServers_Databases_BackupLongTermRetentionPolicy_STATUS(subject Servers_Databases_BackupLongTermRetentionPolicy_STATUS) string {
+// RunPropertyAssignmentTestForServersDatabasesBackupLongTermRetentionPolicyOperatorSpec tests if a specific instance of ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesBackupLongTermRetentionPolicyOperatorSpec(subject ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Servers_Databases_BackupLongTermRetentionPolicy_STATUS
-	err := copied.AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_STATUS(&other)
+	var other storage.ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec
+	err := copied.AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Servers_Databases_BackupLongTermRetentionPolicy_STATUS
-	err = actual.AssignProperties_From_Servers_Databases_BackupLongTermRetentionPolicy_STATUS(&other)
+	var actual ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec
+	err = actual.AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -207,20 +207,20 @@ func RunPropertyAssignmentTestForServers_Databases_BackupLongTermRetentionPolicy
 	return ""
 }
 
-func Test_Servers_Databases_BackupLongTermRetentionPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_Databases_BackupLongTermRetentionPolicy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_Databases_BackupLongTermRetentionPolicy_STATUS, Servers_Databases_BackupLongTermRetentionPolicy_STATUSGenerator()))
+		"Round trip of ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersDatabasesBackupLongTermRetentionPolicyOperatorSpec, ServersDatabasesBackupLongTermRetentionPolicyOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_Databases_BackupLongTermRetentionPolicy_STATUS runs a test to see if a specific instance of Servers_Databases_BackupLongTermRetentionPolicy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_Databases_BackupLongTermRetentionPolicy_STATUS(subject Servers_Databases_BackupLongTermRetentionPolicy_STATUS) string {
+// RunJSONSerializationTestForServersDatabasesBackupLongTermRetentionPolicyOperatorSpec runs a test to see if a specific instance of ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersDatabasesBackupLongTermRetentionPolicyOperatorSpec(subject ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -228,7 +228,7 @@ func RunJSONSerializationTestForServers_Databases_BackupLongTermRetentionPolicy_
 	}
 
 	// Deserialize back into memory
-	var actual Servers_Databases_BackupLongTermRetentionPolicy_STATUS
+	var actual ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -246,25 +246,122 @@ func RunJSONSerializationTestForServers_Databases_BackupLongTermRetentionPolicy_
 	return ""
 }
 
-// Generator of Servers_Databases_BackupLongTermRetentionPolicy_STATUS instances for property testing - lazily
-// instantiated by Servers_Databases_BackupLongTermRetentionPolicy_STATUSGenerator()
-var servers_Databases_BackupLongTermRetentionPolicy_STATUSGenerator gopter.Gen
+// Generator of ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec instances for property testing - lazily
+// instantiated by ServersDatabasesBackupLongTermRetentionPolicyOperatorSpecGenerator()
+var serversDatabasesBackupLongTermRetentionPolicyOperatorSpecGenerator gopter.Gen
 
-// Servers_Databases_BackupLongTermRetentionPolicy_STATUSGenerator returns a generator of Servers_Databases_BackupLongTermRetentionPolicy_STATUS instances for property testing.
-func Servers_Databases_BackupLongTermRetentionPolicy_STATUSGenerator() gopter.Gen {
-	if servers_Databases_BackupLongTermRetentionPolicy_STATUSGenerator != nil {
-		return servers_Databases_BackupLongTermRetentionPolicy_STATUSGenerator
+// ServersDatabasesBackupLongTermRetentionPolicyOperatorSpecGenerator returns a generator of ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec instances for property testing.
+func ServersDatabasesBackupLongTermRetentionPolicyOperatorSpecGenerator() gopter.Gen {
+	if serversDatabasesBackupLongTermRetentionPolicyOperatorSpecGenerator != nil {
+		return serversDatabasesBackupLongTermRetentionPolicyOperatorSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_Databases_BackupLongTermRetentionPolicy_STATUS(generators)
-	servers_Databases_BackupLongTermRetentionPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(Servers_Databases_BackupLongTermRetentionPolicy_STATUS{}), generators)
+	serversDatabasesBackupLongTermRetentionPolicyOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec{}), generators)
 
-	return servers_Databases_BackupLongTermRetentionPolicy_STATUSGenerator
+	return serversDatabasesBackupLongTermRetentionPolicyOperatorSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_Databases_BackupLongTermRetentionPolicy_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_Databases_BackupLongTermRetentionPolicy_STATUS(gens map[string]gopter.Gen) {
+func Test_ServersDatabasesBackupLongTermRetentionPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesBackupLongTermRetentionPolicy_STATUS to ServersDatabasesBackupLongTermRetentionPolicy_STATUS via AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy_STATUS & AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesBackupLongTermRetentionPolicy_STATUS, ServersDatabasesBackupLongTermRetentionPolicy_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersDatabasesBackupLongTermRetentionPolicy_STATUS tests if a specific instance of ServersDatabasesBackupLongTermRetentionPolicy_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesBackupLongTermRetentionPolicy_STATUS(subject ServersDatabasesBackupLongTermRetentionPolicy_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersDatabasesBackupLongTermRetentionPolicy_STATUS
+	err := copied.AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersDatabasesBackupLongTermRetentionPolicy_STATUS
+	err = actual.AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicy_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersDatabasesBackupLongTermRetentionPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServersDatabasesBackupLongTermRetentionPolicy_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersDatabasesBackupLongTermRetentionPolicy_STATUS, ServersDatabasesBackupLongTermRetentionPolicy_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServersDatabasesBackupLongTermRetentionPolicy_STATUS runs a test to see if a specific instance of ServersDatabasesBackupLongTermRetentionPolicy_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersDatabasesBackupLongTermRetentionPolicy_STATUS(subject ServersDatabasesBackupLongTermRetentionPolicy_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServersDatabasesBackupLongTermRetentionPolicy_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServersDatabasesBackupLongTermRetentionPolicy_STATUS instances for property testing - lazily
+// instantiated by ServersDatabasesBackupLongTermRetentionPolicy_STATUSGenerator()
+var serversDatabasesBackupLongTermRetentionPolicy_STATUSGenerator gopter.Gen
+
+// ServersDatabasesBackupLongTermRetentionPolicy_STATUSGenerator returns a generator of ServersDatabasesBackupLongTermRetentionPolicy_STATUS instances for property testing.
+func ServersDatabasesBackupLongTermRetentionPolicy_STATUSGenerator() gopter.Gen {
+	if serversDatabasesBackupLongTermRetentionPolicy_STATUSGenerator != nil {
+		return serversDatabasesBackupLongTermRetentionPolicy_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServersDatabasesBackupLongTermRetentionPolicy_STATUS(generators)
+	serversDatabasesBackupLongTermRetentionPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(ServersDatabasesBackupLongTermRetentionPolicy_STATUS{}), generators)
+
+	return serversDatabasesBackupLongTermRetentionPolicy_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServersDatabasesBackupLongTermRetentionPolicy_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersDatabasesBackupLongTermRetentionPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["MonthlyRetention"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -274,32 +371,32 @@ func AddIndependentPropertyGeneratorsForServers_Databases_BackupLongTermRetentio
 	gens["YearlyRetention"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Servers_Databases_BackupLongTermRetentionPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ServersDatabasesBackupLongTermRetentionPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Servers_Databases_BackupLongTermRetentionPolicy_Spec to Servers_Databases_BackupLongTermRetentionPolicy_Spec via AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_Spec & AssignProperties_From_Servers_Databases_BackupLongTermRetentionPolicy_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForServers_Databases_BackupLongTermRetentionPolicy_Spec, Servers_Databases_BackupLongTermRetentionPolicy_SpecGenerator()))
+		"Round trip from ServersDatabasesBackupLongTermRetentionPolicy_Spec to ServersDatabasesBackupLongTermRetentionPolicy_Spec via AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy_Spec & AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicy_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesBackupLongTermRetentionPolicy_Spec, ServersDatabasesBackupLongTermRetentionPolicy_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_Databases_BackupLongTermRetentionPolicy_Spec tests if a specific instance of Servers_Databases_BackupLongTermRetentionPolicy_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForServers_Databases_BackupLongTermRetentionPolicy_Spec(subject Servers_Databases_BackupLongTermRetentionPolicy_Spec) string {
+// RunPropertyAssignmentTestForServersDatabasesBackupLongTermRetentionPolicy_Spec tests if a specific instance of ServersDatabasesBackupLongTermRetentionPolicy_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesBackupLongTermRetentionPolicy_Spec(subject ServersDatabasesBackupLongTermRetentionPolicy_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Servers_Databases_BackupLongTermRetentionPolicy_Spec
-	err := copied.AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_Spec(&other)
+	var other storage.ServersDatabasesBackupLongTermRetentionPolicy_Spec
+	err := copied.AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Servers_Databases_BackupLongTermRetentionPolicy_Spec
-	err = actual.AssignProperties_From_Servers_Databases_BackupLongTermRetentionPolicy_Spec(&other)
+	var actual ServersDatabasesBackupLongTermRetentionPolicy_Spec
+	err = actual.AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -316,20 +413,20 @@ func RunPropertyAssignmentTestForServers_Databases_BackupLongTermRetentionPolicy
 	return ""
 }
 
-func Test_Servers_Databases_BackupLongTermRetentionPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersDatabasesBackupLongTermRetentionPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_Databases_BackupLongTermRetentionPolicy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_Databases_BackupLongTermRetentionPolicy_Spec, Servers_Databases_BackupLongTermRetentionPolicy_SpecGenerator()))
+		"Round trip of ServersDatabasesBackupLongTermRetentionPolicy_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersDatabasesBackupLongTermRetentionPolicy_Spec, ServersDatabasesBackupLongTermRetentionPolicy_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_Databases_BackupLongTermRetentionPolicy_Spec runs a test to see if a specific instance of Servers_Databases_BackupLongTermRetentionPolicy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_Databases_BackupLongTermRetentionPolicy_Spec(subject Servers_Databases_BackupLongTermRetentionPolicy_Spec) string {
+// RunJSONSerializationTestForServersDatabasesBackupLongTermRetentionPolicy_Spec runs a test to see if a specific instance of ServersDatabasesBackupLongTermRetentionPolicy_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersDatabasesBackupLongTermRetentionPolicy_Spec(subject ServersDatabasesBackupLongTermRetentionPolicy_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -337,7 +434,7 @@ func RunJSONSerializationTestForServers_Databases_BackupLongTermRetentionPolicy_
 	}
 
 	// Deserialize back into memory
-	var actual Servers_Databases_BackupLongTermRetentionPolicy_Spec
+	var actual ServersDatabasesBackupLongTermRetentionPolicy_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -355,27 +452,41 @@ func RunJSONSerializationTestForServers_Databases_BackupLongTermRetentionPolicy_
 	return ""
 }
 
-// Generator of Servers_Databases_BackupLongTermRetentionPolicy_Spec instances for property testing - lazily
-// instantiated by Servers_Databases_BackupLongTermRetentionPolicy_SpecGenerator()
-var servers_Databases_BackupLongTermRetentionPolicy_SpecGenerator gopter.Gen
+// Generator of ServersDatabasesBackupLongTermRetentionPolicy_Spec instances for property testing - lazily instantiated
+// by ServersDatabasesBackupLongTermRetentionPolicy_SpecGenerator()
+var serversDatabasesBackupLongTermRetentionPolicy_SpecGenerator gopter.Gen
 
-// Servers_Databases_BackupLongTermRetentionPolicy_SpecGenerator returns a generator of Servers_Databases_BackupLongTermRetentionPolicy_Spec instances for property testing.
-func Servers_Databases_BackupLongTermRetentionPolicy_SpecGenerator() gopter.Gen {
-	if servers_Databases_BackupLongTermRetentionPolicy_SpecGenerator != nil {
-		return servers_Databases_BackupLongTermRetentionPolicy_SpecGenerator
+// ServersDatabasesBackupLongTermRetentionPolicy_SpecGenerator returns a generator of ServersDatabasesBackupLongTermRetentionPolicy_Spec instances for property testing.
+// We first initialize serversDatabasesBackupLongTermRetentionPolicy_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServersDatabasesBackupLongTermRetentionPolicy_SpecGenerator() gopter.Gen {
+	if serversDatabasesBackupLongTermRetentionPolicy_SpecGenerator != nil {
+		return serversDatabasesBackupLongTermRetentionPolicy_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_Databases_BackupLongTermRetentionPolicy_Spec(generators)
-	servers_Databases_BackupLongTermRetentionPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_Databases_BackupLongTermRetentionPolicy_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForServersDatabasesBackupLongTermRetentionPolicy_Spec(generators)
+	serversDatabasesBackupLongTermRetentionPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(ServersDatabasesBackupLongTermRetentionPolicy_Spec{}), generators)
 
-	return servers_Databases_BackupLongTermRetentionPolicy_SpecGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServersDatabasesBackupLongTermRetentionPolicy_Spec(generators)
+	AddRelatedPropertyGeneratorsForServersDatabasesBackupLongTermRetentionPolicy_Spec(generators)
+	serversDatabasesBackupLongTermRetentionPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(ServersDatabasesBackupLongTermRetentionPolicy_Spec{}), generators)
+
+	return serversDatabasesBackupLongTermRetentionPolicy_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_Databases_BackupLongTermRetentionPolicy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_Databases_BackupLongTermRetentionPolicy_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServersDatabasesBackupLongTermRetentionPolicy_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersDatabasesBackupLongTermRetentionPolicy_Spec(gens map[string]gopter.Gen) {
 	gens["MonthlyRetention"] = gen.PtrOf(gen.AlphaString())
 	gens["WeekOfYear"] = gen.PtrOf(gen.Int())
 	gens["WeeklyRetention"] = gen.PtrOf(gen.AlphaString())
 	gens["YearlyRetention"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForServersDatabasesBackupLongTermRetentionPolicy_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServersDatabasesBackupLongTermRetentionPolicy_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(ServersDatabasesBackupLongTermRetentionPolicyOperatorSpecGenerator())
 }

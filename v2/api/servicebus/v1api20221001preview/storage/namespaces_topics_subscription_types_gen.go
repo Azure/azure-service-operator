@@ -8,7 +8,10 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -27,8 +30,8 @@ import (
 type NamespacesTopicsSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Topics_Subscription_Spec   `json:"spec,omitempty"`
-	Status            Namespaces_Topics_Subscription_STATUS `json:"status,omitempty"`
+	Spec              NamespacesTopicsSubscription_Spec   `json:"spec,omitempty"`
+	Status            NamespacesTopicsSubscription_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesTopicsSubscription{}
@@ -63,6 +66,26 @@ func (subscription *NamespacesTopicsSubscription) ConvertTo(hub conversion.Hub) 
 	}
 
 	return subscription.AssignProperties_To_NamespacesTopicsSubscription(destination)
+}
+
+var _ configmaps.Exporter = &NamespacesTopicsSubscription{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (subscription *NamespacesTopicsSubscription) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return subscription.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &NamespacesTopicsSubscription{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (subscription *NamespacesTopicsSubscription) SecretDestinationExpressions() []*core.DestinationExpression {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return subscription.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &NamespacesTopicsSubscription{}
@@ -108,11 +131,15 @@ func (subscription *NamespacesTopicsSubscription) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (subscription *NamespacesTopicsSubscription) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Namespaces_Topics_Subscription_STATUS{}
+	return &NamespacesTopicsSubscription_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (subscription *NamespacesTopicsSubscription) Owner() *genruntime.ResourceReference {
+	if subscription.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(subscription.Spec)
 	return subscription.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -120,16 +147,16 @@ func (subscription *NamespacesTopicsSubscription) Owner() *genruntime.ResourceRe
 // SetStatus sets the status of this resource
 func (subscription *NamespacesTopicsSubscription) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Namespaces_Topics_Subscription_STATUS); ok {
+	if st, ok := status.(*NamespacesTopicsSubscription_STATUS); ok {
 		subscription.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Namespaces_Topics_Subscription_STATUS
+	var st NamespacesTopicsSubscription_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	subscription.Status = st
@@ -143,18 +170,18 @@ func (subscription *NamespacesTopicsSubscription) AssignProperties_From_Namespac
 	subscription.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Namespaces_Topics_Subscription_Spec
-	err := spec.AssignProperties_From_Namespaces_Topics_Subscription_Spec(&source.Spec)
+	var spec NamespacesTopicsSubscription_Spec
+	err := spec.AssignProperties_From_NamespacesTopicsSubscription_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Topics_Subscription_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_NamespacesTopicsSubscription_Spec() to populate field Spec")
 	}
 	subscription.Spec = spec
 
 	// Status
-	var status Namespaces_Topics_Subscription_STATUS
-	err = status.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(&source.Status)
+	var status NamespacesTopicsSubscription_STATUS
+	err = status.AssignProperties_From_NamespacesTopicsSubscription_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Topics_Subscription_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_NamespacesTopicsSubscription_STATUS() to populate field Status")
 	}
 	subscription.Status = status
 
@@ -163,7 +190,7 @@ func (subscription *NamespacesTopicsSubscription) AssignProperties_From_Namespac
 	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespacesTopicsSubscription); ok {
 		err := augmentedSubscription.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -178,18 +205,18 @@ func (subscription *NamespacesTopicsSubscription) AssignProperties_To_Namespaces
 	destination.ObjectMeta = *subscription.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Namespaces_Topics_Subscription_Spec
-	err := subscription.Spec.AssignProperties_To_Namespaces_Topics_Subscription_Spec(&spec)
+	var spec storage.NamespacesTopicsSubscription_Spec
+	err := subscription.Spec.AssignProperties_To_NamespacesTopicsSubscription_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscription_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_NamespacesTopicsSubscription_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Namespaces_Topics_Subscription_STATUS
-	err = subscription.Status.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(&status)
+	var status storage.NamespacesTopicsSubscription_STATUS
+	err = subscription.Status.AssignProperties_To_NamespacesTopicsSubscription_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscription_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_NamespacesTopicsSubscription_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -198,7 +225,7 @@ func (subscription *NamespacesTopicsSubscription) AssignProperties_To_Namespaces
 	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespacesTopicsSubscription); ok {
 		err := augmentedSubscription.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -231,25 +258,26 @@ type augmentConversionForNamespacesTopicsSubscription interface {
 	AssignPropertiesTo(dst *storage.NamespacesTopicsSubscription) error
 }
 
-// Storage version of v1api20221001preview.Namespaces_Topics_Subscription_Spec
-type Namespaces_Topics_Subscription_Spec struct {
+// Storage version of v1api20221001preview.NamespacesTopicsSubscription_Spec
+type NamespacesTopicsSubscription_Spec struct {
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                                 string                    `json:"azureName,omitempty"`
-	ClientAffineProperties                    *SBClientAffineProperties `json:"clientAffineProperties,omitempty"`
-	DeadLetteringOnFilterEvaluationExceptions *bool                     `json:"deadLetteringOnFilterEvaluationExceptions,omitempty"`
-	DeadLetteringOnMessageExpiration          *bool                     `json:"deadLetteringOnMessageExpiration,omitempty"`
-	DefaultMessageTimeToLive                  *string                   `json:"defaultMessageTimeToLive,omitempty"`
-	DuplicateDetectionHistoryTimeWindow       *string                   `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-	EnableBatchedOperations                   *bool                     `json:"enableBatchedOperations,omitempty"`
-	ForwardDeadLetteredMessagesTo             *string                   `json:"forwardDeadLetteredMessagesTo,omitempty"`
-	ForwardTo                                 *string                   `json:"forwardTo,omitempty"`
-	IsClientAffine                            *bool                     `json:"isClientAffine,omitempty"`
-	LockDuration                              *string                   `json:"lockDuration,omitempty"`
-	MaxDeliveryCount                          *int                      `json:"maxDeliveryCount,omitempty"`
-	OriginalVersion                           string                    `json:"originalVersion,omitempty"`
+	AzureName                                 string                                    `json:"azureName,omitempty"`
+	ClientAffineProperties                    *SBClientAffineProperties                 `json:"clientAffineProperties,omitempty"`
+	DeadLetteringOnFilterEvaluationExceptions *bool                                     `json:"deadLetteringOnFilterEvaluationExceptions,omitempty"`
+	DeadLetteringOnMessageExpiration          *bool                                     `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive                  *string                                   `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow       *string                                   `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations                   *bool                                     `json:"enableBatchedOperations,omitempty"`
+	ForwardDeadLetteredMessagesTo             *string                                   `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                                 *string                                   `json:"forwardTo,omitempty"`
+	IsClientAffine                            *bool                                     `json:"isClientAffine,omitempty"`
+	LockDuration                              *string                                   `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                          *int                                      `json:"maxDeliveryCount,omitempty"`
+	OperatorSpec                              *NamespacesTopicsSubscriptionOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                           string                                    `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -260,58 +288,58 @@ type Namespaces_Topics_Subscription_Spec struct {
 	RequiresSession *bool                              `json:"requiresSession,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Namespaces_Topics_Subscription_Spec{}
+var _ genruntime.ConvertibleSpec = &NamespacesTopicsSubscription_Spec{}
 
-// ConvertSpecFrom populates our Namespaces_Topics_Subscription_Spec from the provided source
-func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Namespaces_Topics_Subscription_Spec)
+// ConvertSpecFrom populates our NamespacesTopicsSubscription_Spec from the provided source
+func (subscription *NamespacesTopicsSubscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.NamespacesTopicsSubscription_Spec)
 	if ok {
 		// Populate our instance from source
-		return subscription.AssignProperties_From_Namespaces_Topics_Subscription_Spec(src)
+		return subscription.AssignProperties_From_NamespacesTopicsSubscription_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Namespaces_Topics_Subscription_Spec{}
+	src = &storage.NamespacesTopicsSubscription_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = subscription.AssignProperties_From_Namespaces_Topics_Subscription_Spec(src)
+	err = subscription.AssignProperties_From_NamespacesTopicsSubscription_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Namespaces_Topics_Subscription_Spec
-func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Namespaces_Topics_Subscription_Spec)
+// ConvertSpecTo populates the provided destination from our NamespacesTopicsSubscription_Spec
+func (subscription *NamespacesTopicsSubscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.NamespacesTopicsSubscription_Spec)
 	if ok {
 		// Populate destination from our instance
-		return subscription.AssignProperties_To_Namespaces_Topics_Subscription_Spec(dst)
+		return subscription.AssignProperties_To_NamespacesTopicsSubscription_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Namespaces_Topics_Subscription_Spec{}
-	err := subscription.AssignProperties_To_Namespaces_Topics_Subscription_Spec(dst)
+	dst = &storage.NamespacesTopicsSubscription_Spec{}
+	err := subscription.AssignProperties_To_NamespacesTopicsSubscription_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_Namespaces_Topics_Subscription_Spec populates our Namespaces_Topics_Subscription_Spec from the provided source Namespaces_Topics_Subscription_Spec
-func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_Namespaces_Topics_Subscription_Spec(source *storage.Namespaces_Topics_Subscription_Spec) error {
+// AssignProperties_From_NamespacesTopicsSubscription_Spec populates our NamespacesTopicsSubscription_Spec from the provided source NamespacesTopicsSubscription_Spec
+func (subscription *NamespacesTopicsSubscription_Spec) AssignProperties_From_NamespacesTopicsSubscription_Spec(source *storage.NamespacesTopicsSubscription_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -326,7 +354,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_N
 		var clientAffineProperty SBClientAffineProperties
 		err := clientAffineProperty.AssignProperties_From_SBClientAffineProperties(source.ClientAffineProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SBClientAffineProperties() to populate field ClientAffineProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_SBClientAffineProperties() to populate field ClientAffineProperties")
 		}
 		subscription.ClientAffineProperties = &clientAffineProperty
 	} else {
@@ -383,6 +411,18 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_N
 	// MaxDeliveryCount
 	subscription.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec NamespacesTopicsSubscriptionOperatorSpec
+		err := operatorSpec.AssignProperties_From_NamespacesTopicsSubscriptionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_NamespacesTopicsSubscriptionOperatorSpec() to populate field OperatorSpec")
+		}
+		subscription.OperatorSpec = &operatorSpec
+	} else {
+		subscription.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	subscription.OriginalVersion = source.OriginalVersion
 
@@ -409,12 +449,12 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_N
 		subscription.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForNamespaces_Topics_Subscription_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForNamespacesTopicsSubscription_Spec interface (if implemented) to customize the conversion
 	var subscriptionAsAny any = subscription
-	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespaces_Topics_Subscription_Spec); ok {
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespacesTopicsSubscription_Spec); ok {
 		err := augmentedSubscription.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -422,8 +462,8 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_N
 	return nil
 }
 
-// AssignProperties_To_Namespaces_Topics_Subscription_Spec populates the provided destination Namespaces_Topics_Subscription_Spec from our Namespaces_Topics_Subscription_Spec
-func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Namespaces_Topics_Subscription_Spec(destination *storage.Namespaces_Topics_Subscription_Spec) error {
+// AssignProperties_To_NamespacesTopicsSubscription_Spec populates the provided destination NamespacesTopicsSubscription_Spec from our NamespacesTopicsSubscription_Spec
+func (subscription *NamespacesTopicsSubscription_Spec) AssignProperties_To_NamespacesTopicsSubscription_Spec(destination *storage.NamespacesTopicsSubscription_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(subscription.PropertyBag)
 
@@ -438,7 +478,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 		var clientAffineProperty storage.SBClientAffineProperties
 		err := subscription.ClientAffineProperties.AssignProperties_To_SBClientAffineProperties(&clientAffineProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SBClientAffineProperties() to populate field ClientAffineProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_SBClientAffineProperties() to populate field ClientAffineProperties")
 		}
 		destination.ClientAffineProperties = &clientAffineProperty
 	} else {
@@ -495,6 +535,18 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 	// MaxDeliveryCount
 	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(subscription.MaxDeliveryCount)
 
+	// OperatorSpec
+	if subscription.OperatorSpec != nil {
+		var operatorSpec storage.NamespacesTopicsSubscriptionOperatorSpec
+		err := subscription.OperatorSpec.AssignProperties_To_NamespacesTopicsSubscriptionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_NamespacesTopicsSubscriptionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	destination.OriginalVersion = subscription.OriginalVersion
 
@@ -521,12 +573,12 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForNamespaces_Topics_Subscription_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForNamespacesTopicsSubscription_Spec interface (if implemented) to customize the conversion
 	var subscriptionAsAny any = subscription
-	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespaces_Topics_Subscription_Spec); ok {
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespacesTopicsSubscription_Spec); ok {
 		err := augmentedSubscription.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -534,8 +586,8 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 	return nil
 }
 
-// Storage version of v1api20221001preview.Namespaces_Topics_Subscription_STATUS
-type Namespaces_Topics_Subscription_STATUS struct {
+// Storage version of v1api20221001preview.NamespacesTopicsSubscription_STATUS
+type NamespacesTopicsSubscription_STATUS struct {
 	AccessedAt                                *string                          `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle                          *string                          `json:"autoDeleteOnIdle,omitempty"`
 	ClientAffineProperties                    *SBClientAffineProperties_STATUS `json:"clientAffineProperties,omitempty"`
@@ -564,58 +616,58 @@ type Namespaces_Topics_Subscription_STATUS struct {
 	UpdatedAt                                 *string                          `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Namespaces_Topics_Subscription_STATUS{}
+var _ genruntime.ConvertibleStatus = &NamespacesTopicsSubscription_STATUS{}
 
-// ConvertStatusFrom populates our Namespaces_Topics_Subscription_STATUS from the provided source
-func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Namespaces_Topics_Subscription_STATUS)
+// ConvertStatusFrom populates our NamespacesTopicsSubscription_STATUS from the provided source
+func (subscription *NamespacesTopicsSubscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.NamespacesTopicsSubscription_STATUS)
 	if ok {
 		// Populate our instance from source
-		return subscription.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(src)
+		return subscription.AssignProperties_From_NamespacesTopicsSubscription_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Namespaces_Topics_Subscription_STATUS{}
+	src = &storage.NamespacesTopicsSubscription_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = subscription.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(src)
+	err = subscription.AssignProperties_From_NamespacesTopicsSubscription_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Namespaces_Topics_Subscription_STATUS
-func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Namespaces_Topics_Subscription_STATUS)
+// ConvertStatusTo populates the provided destination from our NamespacesTopicsSubscription_STATUS
+func (subscription *NamespacesTopicsSubscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.NamespacesTopicsSubscription_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return subscription.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(dst)
+		return subscription.AssignProperties_To_NamespacesTopicsSubscription_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Namespaces_Topics_Subscription_STATUS{}
-	err := subscription.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(dst)
+	dst = &storage.NamespacesTopicsSubscription_STATUS{}
+	err := subscription.AssignProperties_To_NamespacesTopicsSubscription_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_Namespaces_Topics_Subscription_STATUS populates our Namespaces_Topics_Subscription_STATUS from the provided source Namespaces_Topics_Subscription_STATUS
-func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From_Namespaces_Topics_Subscription_STATUS(source *storage.Namespaces_Topics_Subscription_STATUS) error {
+// AssignProperties_From_NamespacesTopicsSubscription_STATUS populates our NamespacesTopicsSubscription_STATUS from the provided source NamespacesTopicsSubscription_STATUS
+func (subscription *NamespacesTopicsSubscription_STATUS) AssignProperties_From_NamespacesTopicsSubscription_STATUS(source *storage.NamespacesTopicsSubscription_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -630,7 +682,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From
 		var clientAffineProperty SBClientAffineProperties_STATUS
 		err := clientAffineProperty.AssignProperties_From_SBClientAffineProperties_STATUS(source.ClientAffineProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SBClientAffineProperties_STATUS() to populate field ClientAffineProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_SBClientAffineProperties_STATUS() to populate field ClientAffineProperties")
 		}
 		subscription.ClientAffineProperties = &clientAffineProperty
 	} else {
@@ -645,7 +697,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From
 		var countDetail MessageCountDetails_STATUS
 		err := countDetail.AssignProperties_From_MessageCountDetails_STATUS(source.CountDetails)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_MessageCountDetails_STATUS() to populate field CountDetails")
+			return eris.Wrap(err, "calling AssignProperties_From_MessageCountDetails_STATUS() to populate field CountDetails")
 		}
 		subscription.CountDetails = &countDetail
 	} else {
@@ -733,7 +785,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		subscription.SystemData = &systemDatum
 	} else {
@@ -753,12 +805,12 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From
 		subscription.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForNamespaces_Topics_Subscription_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForNamespacesTopicsSubscription_STATUS interface (if implemented) to customize the conversion
 	var subscriptionAsAny any = subscription
-	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespaces_Topics_Subscription_STATUS); ok {
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespacesTopicsSubscription_STATUS); ok {
 		err := augmentedSubscription.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -766,8 +818,8 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From
 	return nil
 }
 
-// AssignProperties_To_Namespaces_Topics_Subscription_STATUS populates the provided destination Namespaces_Topics_Subscription_STATUS from our Namespaces_Topics_Subscription_STATUS
-func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_Namespaces_Topics_Subscription_STATUS(destination *storage.Namespaces_Topics_Subscription_STATUS) error {
+// AssignProperties_To_NamespacesTopicsSubscription_STATUS populates the provided destination NamespacesTopicsSubscription_STATUS from our NamespacesTopicsSubscription_STATUS
+func (subscription *NamespacesTopicsSubscription_STATUS) AssignProperties_To_NamespacesTopicsSubscription_STATUS(destination *storage.NamespacesTopicsSubscription_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(subscription.PropertyBag)
 
@@ -782,7 +834,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_N
 		var clientAffineProperty storage.SBClientAffineProperties_STATUS
 		err := subscription.ClientAffineProperties.AssignProperties_To_SBClientAffineProperties_STATUS(&clientAffineProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SBClientAffineProperties_STATUS() to populate field ClientAffineProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_SBClientAffineProperties_STATUS() to populate field ClientAffineProperties")
 		}
 		destination.ClientAffineProperties = &clientAffineProperty
 	} else {
@@ -797,7 +849,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_N
 		var countDetail storage.MessageCountDetails_STATUS
 		err := subscription.CountDetails.AssignProperties_To_MessageCountDetails_STATUS(&countDetail)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_MessageCountDetails_STATUS() to populate field CountDetails")
+			return eris.Wrap(err, "calling AssignProperties_To_MessageCountDetails_STATUS() to populate field CountDetails")
 		}
 		destination.CountDetails = &countDetail
 	} else {
@@ -885,7 +937,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_N
 		var systemDatum storage.SystemData_STATUS
 		err := subscription.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -905,12 +957,12 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_N
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForNamespaces_Topics_Subscription_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForNamespacesTopicsSubscription_STATUS interface (if implemented) to customize the conversion
 	var subscriptionAsAny any = subscription
-	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespaces_Topics_Subscription_STATUS); ok {
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespacesTopicsSubscription_STATUS); ok {
 		err := augmentedSubscription.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -918,14 +970,144 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_N
 	return nil
 }
 
-type augmentConversionForNamespaces_Topics_Subscription_Spec interface {
-	AssignPropertiesFrom(src *storage.Namespaces_Topics_Subscription_Spec) error
-	AssignPropertiesTo(dst *storage.Namespaces_Topics_Subscription_Spec) error
+type augmentConversionForNamespacesTopicsSubscription_Spec interface {
+	AssignPropertiesFrom(src *storage.NamespacesTopicsSubscription_Spec) error
+	AssignPropertiesTo(dst *storage.NamespacesTopicsSubscription_Spec) error
 }
 
-type augmentConversionForNamespaces_Topics_Subscription_STATUS interface {
-	AssignPropertiesFrom(src *storage.Namespaces_Topics_Subscription_STATUS) error
-	AssignPropertiesTo(dst *storage.Namespaces_Topics_Subscription_STATUS) error
+type augmentConversionForNamespacesTopicsSubscription_STATUS interface {
+	AssignPropertiesFrom(src *storage.NamespacesTopicsSubscription_STATUS) error
+	AssignPropertiesTo(dst *storage.NamespacesTopicsSubscription_STATUS) error
+}
+
+// Storage version of v1api20221001preview.NamespacesTopicsSubscriptionOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespacesTopicsSubscriptionOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_NamespacesTopicsSubscriptionOperatorSpec populates our NamespacesTopicsSubscriptionOperatorSpec from the provided source NamespacesTopicsSubscriptionOperatorSpec
+func (operator *NamespacesTopicsSubscriptionOperatorSpec) AssignProperties_From_NamespacesTopicsSubscriptionOperatorSpec(source *storage.NamespacesTopicsSubscriptionOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNamespacesTopicsSubscriptionOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForNamespacesTopicsSubscriptionOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamespacesTopicsSubscriptionOperatorSpec populates the provided destination NamespacesTopicsSubscriptionOperatorSpec from our NamespacesTopicsSubscriptionOperatorSpec
+func (operator *NamespacesTopicsSubscriptionOperatorSpec) AssignProperties_To_NamespacesTopicsSubscriptionOperatorSpec(destination *storage.NamespacesTopicsSubscriptionOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNamespacesTopicsSubscriptionOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForNamespacesTopicsSubscriptionOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20221001preview.SBClientAffineProperties
@@ -973,7 +1155,7 @@ func (properties *SBClientAffineProperties) AssignProperties_From_SBClientAffine
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForSBClientAffineProperties); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1017,7 +1199,7 @@ func (properties *SBClientAffineProperties) AssignProperties_To_SBClientAffinePr
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForSBClientAffineProperties); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1070,7 +1252,7 @@ func (properties *SBClientAffineProperties_STATUS) AssignProperties_From_SBClien
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForSBClientAffineProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1114,12 +1296,17 @@ func (properties *SBClientAffineProperties_STATUS) AssignProperties_To_SBClientA
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForSBClientAffineProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
 	// No error
 	return nil
+}
+
+type augmentConversionForNamespacesTopicsSubscriptionOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.NamespacesTopicsSubscriptionOperatorSpec) error
+	AssignPropertiesTo(dst *storage.NamespacesTopicsSubscriptionOperatorSpec) error
 }
 
 type augmentConversionForSBClientAffineProperties interface {

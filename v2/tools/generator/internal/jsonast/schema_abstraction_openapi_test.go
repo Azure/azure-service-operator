@@ -10,9 +10,10 @@ import (
 	"runtime"
 	"testing"
 
+	. "github.com/onsi/gomega"
+
 	"github.com/go-logr/logr"
 	"github.com/go-openapi/spec"
-	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"

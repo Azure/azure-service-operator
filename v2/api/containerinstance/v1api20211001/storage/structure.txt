@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2021-10-01"
 ContainerGroup: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (20 properties)
+├── Spec: Object (21 properties)
 │   ├── AzureName: string
 │   ├── Containers: Object (10 properties)[]
 │   │   ├── Command: string[]
@@ -140,6 +140,10 @@ ContainerGroup: Resource
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Type: *string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── OsType: *string
 │   ├── Owner: *genruntime.KnownResourceReference

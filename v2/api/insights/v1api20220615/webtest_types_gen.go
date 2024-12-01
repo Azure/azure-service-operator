@@ -5,11 +5,15 @@ package v1api20220615
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -90,6 +94,26 @@ func (webtest *Webtest) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Webtest resource
 func (webtest *Webtest) defaultImpl() { webtest.defaultAzureName() }
 
+var _ configmaps.Exporter = &Webtest{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (webtest *Webtest) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if webtest.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return webtest.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Webtest{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (webtest *Webtest) SecretDestinationExpressions() []*core.DestinationExpression {
+	if webtest.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return webtest.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &Webtest{}
 
 // InitializeSpec initializes the spec for this resource from the given status
@@ -149,6 +173,10 @@ func (webtest *Webtest) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (webtest *Webtest) Owner() *genruntime.ResourceReference {
+	if webtest.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(webtest.Spec)
 	return webtest.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -165,7 +193,7 @@ func (webtest *Webtest) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Webtest_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	webtest.Status = st
@@ -208,7 +236,7 @@ func (webtest *Webtest) ValidateUpdate(old runtime.Object) (admission.Warnings, 
 
 // createValidations validates the creation of the resource
 func (webtest *Webtest) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){webtest.validateResourceReferences, webtest.validateOwnerReference}
+	return []func() (admission.Warnings, error){webtest.validateResourceReferences, webtest.validateOwnerReference, webtest.validateSecretDestinations, webtest.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +254,21 @@ func (webtest *Webtest) updateValidations() []func(old runtime.Object) (admissio
 		func(old runtime.Object) (admission.Warnings, error) {
 			return webtest.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return webtest.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return webtest.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (webtest *Webtest) validateConfigMapDestinations() (admission.Warnings, error) {
+	if webtest.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(webtest, nil, webtest.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -241,6 +283,14 @@ func (webtest *Webtest) validateResourceReferences() (admission.Warnings, error)
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (webtest *Webtest) validateSecretDestinations() (admission.Warnings, error) {
+	if webtest.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(webtest, nil, webtest.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -263,7 +313,7 @@ func (webtest *Webtest) AssignProperties_From_Webtest(source *storage.Webtest) e
 	var spec Webtest_Spec
 	err := spec.AssignProperties_From_Webtest_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Webtest_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Webtest_Spec() to populate field Spec")
 	}
 	webtest.Spec = spec
 
@@ -271,7 +321,7 @@ func (webtest *Webtest) AssignProperties_From_Webtest(source *storage.Webtest) e
 	var status Webtest_STATUS
 	err = status.AssignProperties_From_Webtest_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Webtest_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Webtest_STATUS() to populate field Status")
 	}
 	webtest.Status = status
 
@@ -289,7 +339,7 @@ func (webtest *Webtest) AssignProperties_To_Webtest(destination *storage.Webtest
 	var spec storage.Webtest_Spec
 	err := webtest.Spec.AssignProperties_To_Webtest_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Webtest_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Webtest_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -297,7 +347,7 @@ func (webtest *Webtest) AssignProperties_To_Webtest(destination *storage.Webtest
 	var status storage.Webtest_STATUS
 	err = webtest.Status.AssignProperties_To_Webtest_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Webtest_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Webtest_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -358,6 +408,10 @@ type Webtest_Spec struct {
 	// Name: User defined name if this WebTest.
 	Name *string `json:"Name,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *WebtestOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -391,7 +445,7 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if webtest == nil {
 		return nil, nil
 	}
-	result := &Webtest_Spec_ARM{}
+	result := &arm.Webtest_Spec{}
 
 	// Set property "Location":
 	if webtest.Location != nil {
@@ -415,14 +469,14 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		webtest.SyntheticMonitorId != nil ||
 		webtest.Timeout != nil ||
 		webtest.ValidationRules != nil {
-		result.Properties = &WebTestProperties_ARM{}
+		result.Properties = &arm.WebTestProperties{}
 	}
 	if webtest.Configuration != nil {
 		configuration_ARM, err := (*webtest.Configuration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		configuration := *configuration_ARM.(*WebTestProperties_Configuration_ARM)
+		configuration := *configuration_ARM.(*arm.WebTestProperties_Configuration)
 		result.Properties.Configuration = &configuration
 	}
 	if webtest.Description != nil {
@@ -440,7 +494,7 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if webtest.Kind != nil {
 		var temp string
 		temp = string(*webtest.Kind)
-		kind := WebTestProperties_Kind_ARM(temp)
+		kind := arm.WebTestProperties_Kind(temp)
 		result.Properties.Kind = &kind
 	}
 	for _, item := range webtest.Locations {
@@ -448,7 +502,7 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Locations = append(result.Properties.Locations, *item_ARM.(*WebTestGeolocation_ARM))
+		result.Properties.Locations = append(result.Properties.Locations, *item_ARM.(*arm.WebTestGeolocation))
 	}
 	if webtest.Name != nil {
 		name := *webtest.Name
@@ -459,7 +513,7 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		request := *request_ARM.(*WebTestProperties_Request_ARM)
+		request := *request_ARM.(*arm.WebTestProperties_Request)
 		result.Properties.Request = &request
 	}
 	if webtest.RetryEnabled != nil {
@@ -479,7 +533,7 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		validationRules := *validationRules_ARM.(*WebTestProperties_ValidationRules_ARM)
+		validationRules := *validationRules_ARM.(*arm.WebTestProperties_ValidationRules)
 		result.Properties.ValidationRules = &validationRules
 	}
 
@@ -495,14 +549,14 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (webtest *Webtest_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Webtest_Spec_ARM{}
+	return &arm.Webtest_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Webtest_Spec_ARM)
+	typedInput, ok := armInput.(arm.Webtest_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Webtest_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Webtest_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -587,6 +641,8 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 			webtest.Name = &name
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	webtest.Owner = &genruntime.KnownResourceReference{
@@ -675,13 +731,13 @@ func (webtest *Webtest_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 	src = &storage.Webtest_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = webtest.AssignProperties_From_Webtest_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -699,13 +755,13 @@ func (webtest *Webtest_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	dst = &storage.Webtest_Spec{}
 	err := webtest.AssignProperties_To_Webtest_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -722,7 +778,7 @@ func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *storage.
 		var configuration WebTestProperties_Configuration
 		err := configuration.AssignProperties_From_WebTestProperties_Configuration(source.Configuration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_Configuration() to populate field Configuration")
+			return eris.Wrap(err, "calling AssignProperties_From_WebTestProperties_Configuration() to populate field Configuration")
 		}
 		webtest.Configuration = &configuration
 	} else {
@@ -764,7 +820,7 @@ func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *storage.
 			var location WebTestGeolocation
 			err := location.AssignProperties_From_WebTestGeolocation(&locationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_WebTestGeolocation() to populate field Locations")
+				return eris.Wrap(err, "calling AssignProperties_From_WebTestGeolocation() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -775,6 +831,18 @@ func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *storage.
 
 	// Name
 	webtest.Name = genruntime.ClonePointerToString(source.Name)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec WebtestOperatorSpec
+		err := operatorSpec.AssignProperties_From_WebtestOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_WebtestOperatorSpec() to populate field OperatorSpec")
+		}
+		webtest.OperatorSpec = &operatorSpec
+	} else {
+		webtest.OperatorSpec = nil
+	}
 
 	// Owner
 	if source.Owner != nil {
@@ -789,7 +857,7 @@ func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *storage.
 		var request WebTestProperties_Request
 		err := request.AssignProperties_From_WebTestProperties_Request(source.Request)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_Request() to populate field Request")
+			return eris.Wrap(err, "calling AssignProperties_From_WebTestProperties_Request() to populate field Request")
 		}
 		webtest.Request = &request
 	} else {
@@ -818,7 +886,7 @@ func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *storage.
 		var validationRule WebTestProperties_ValidationRules
 		err := validationRule.AssignProperties_From_WebTestProperties_ValidationRules(source.ValidationRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules() to populate field ValidationRules")
+			return eris.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules() to populate field ValidationRules")
 		}
 		webtest.ValidationRules = &validationRule
 	} else {
@@ -842,7 +910,7 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *stora
 		var configuration storage.WebTestProperties_Configuration
 		err := webtest.Configuration.AssignProperties_To_WebTestProperties_Configuration(&configuration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_Configuration() to populate field Configuration")
+			return eris.Wrap(err, "calling AssignProperties_To_WebTestProperties_Configuration() to populate field Configuration")
 		}
 		destination.Configuration = &configuration
 	} else {
@@ -883,7 +951,7 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *stora
 			var location storage.WebTestGeolocation
 			err := locationItem.AssignProperties_To_WebTestGeolocation(&location)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_WebTestGeolocation() to populate field Locations")
+				return eris.Wrap(err, "calling AssignProperties_To_WebTestGeolocation() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -894,6 +962,18 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *stora
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(webtest.Name)
+
+	// OperatorSpec
+	if webtest.OperatorSpec != nil {
+		var operatorSpec storage.WebtestOperatorSpec
+		err := webtest.OperatorSpec.AssignProperties_To_WebtestOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_WebtestOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = webtest.OriginalVersion()
@@ -911,7 +991,7 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *stora
 		var request storage.WebTestProperties_Request
 		err := webtest.Request.AssignProperties_To_WebTestProperties_Request(&request)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_Request() to populate field Request")
+			return eris.Wrap(err, "calling AssignProperties_To_WebTestProperties_Request() to populate field Request")
 		}
 		destination.Request = &request
 	} else {
@@ -940,7 +1020,7 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *stora
 		var validationRule storage.WebTestProperties_ValidationRules
 		err := webtest.ValidationRules.AssignProperties_To_WebTestProperties_ValidationRules(&validationRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules() to populate field ValidationRules")
+			return eris.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules() to populate field ValidationRules")
 		}
 		destination.ValidationRules = &validationRule
 	} else {
@@ -966,7 +1046,7 @@ func (webtest *Webtest_Spec) Initialize_From_Webtest_STATUS(source *Webtest_STAT
 		var configuration WebTestProperties_Configuration
 		err := configuration.Initialize_From_WebTestProperties_Configuration_STATUS(source.Configuration)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WebTestProperties_Configuration_STATUS() to populate field Configuration")
+			return eris.Wrap(err, "calling Initialize_From_WebTestProperties_Configuration_STATUS() to populate field Configuration")
 		}
 		webtest.Configuration = &configuration
 	} else {
@@ -1007,7 +1087,7 @@ func (webtest *Webtest_Spec) Initialize_From_Webtest_STATUS(source *Webtest_STAT
 			var location WebTestGeolocation
 			err := location.Initialize_From_WebTestGeolocation_STATUS(&locationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_WebTestGeolocation_STATUS() to populate field Locations")
+				return eris.Wrap(err, "calling Initialize_From_WebTestGeolocation_STATUS() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -1024,7 +1104,7 @@ func (webtest *Webtest_Spec) Initialize_From_Webtest_STATUS(source *Webtest_STAT
 		var request WebTestProperties_Request
 		err := request.Initialize_From_WebTestProperties_Request_STATUS(source.Request)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WebTestProperties_Request_STATUS() to populate field Request")
+			return eris.Wrap(err, "calling Initialize_From_WebTestProperties_Request_STATUS() to populate field Request")
 		}
 		webtest.Request = &request
 	} else {
@@ -1053,7 +1133,7 @@ func (webtest *Webtest_Spec) Initialize_From_Webtest_STATUS(source *Webtest_STAT
 		var validationRule WebTestProperties_ValidationRules
 		err := validationRule.Initialize_From_WebTestProperties_ValidationRules_STATUS(source.ValidationRules)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
+			return eris.Wrap(err, "calling Initialize_From_WebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
 		}
 		webtest.ValidationRules = &validationRule
 	} else {
@@ -1148,13 +1228,13 @@ func (webtest *Webtest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 	src = &storage.Webtest_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = webtest.AssignProperties_From_Webtest_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -1172,13 +1252,13 @@ func (webtest *Webtest_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 	dst = &storage.Webtest_STATUS{}
 	err := webtest.AssignProperties_To_Webtest_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -1188,14 +1268,14 @@ var _ genruntime.FromARMConverter = &Webtest_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (webtest *Webtest_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Webtest_STATUS_ARM{}
+	return &arm.Webtest_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Webtest_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Webtest_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Webtest_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Webtest_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1385,7 +1465,7 @@ func (webtest *Webtest_STATUS) AssignProperties_From_Webtest_STATUS(source *stor
 		var configuration WebTestProperties_Configuration_STATUS
 		err := configuration.AssignProperties_From_WebTestProperties_Configuration_STATUS(source.Configuration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_Configuration_STATUS() to populate field Configuration")
+			return eris.Wrap(err, "calling AssignProperties_From_WebTestProperties_Configuration_STATUS() to populate field Configuration")
 		}
 		webtest.Configuration = &configuration
 	} else {
@@ -1430,7 +1510,7 @@ func (webtest *Webtest_STATUS) AssignProperties_From_Webtest_STATUS(source *stor
 			var location WebTestGeolocation_STATUS
 			err := location.AssignProperties_From_WebTestGeolocation_STATUS(&locationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_WebTestGeolocation_STATUS() to populate field Locations")
+				return eris.Wrap(err, "calling AssignProperties_From_WebTestGeolocation_STATUS() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -1453,7 +1533,7 @@ func (webtest *Webtest_STATUS) AssignProperties_From_Webtest_STATUS(source *stor
 		var request WebTestProperties_Request_STATUS
 		err := request.AssignProperties_From_WebTestProperties_Request_STATUS(source.Request)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_Request_STATUS() to populate field Request")
+			return eris.Wrap(err, "calling AssignProperties_From_WebTestProperties_Request_STATUS() to populate field Request")
 		}
 		webtest.Request = &request
 	} else {
@@ -1485,7 +1565,7 @@ func (webtest *Webtest_STATUS) AssignProperties_From_Webtest_STATUS(source *stor
 		var validationRule WebTestProperties_ValidationRules_STATUS
 		err := validationRule.AssignProperties_From_WebTestProperties_ValidationRules_STATUS(source.ValidationRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
+			return eris.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
 		}
 		webtest.ValidationRules = &validationRule
 	} else {
@@ -1509,7 +1589,7 @@ func (webtest *Webtest_STATUS) AssignProperties_To_Webtest_STATUS(destination *s
 		var configuration storage.WebTestProperties_Configuration_STATUS
 		err := webtest.Configuration.AssignProperties_To_WebTestProperties_Configuration_STATUS(&configuration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_Configuration_STATUS() to populate field Configuration")
+			return eris.Wrap(err, "calling AssignProperties_To_WebTestProperties_Configuration_STATUS() to populate field Configuration")
 		}
 		destination.Configuration = &configuration
 	} else {
@@ -1553,7 +1633,7 @@ func (webtest *Webtest_STATUS) AssignProperties_To_Webtest_STATUS(destination *s
 			var location storage.WebTestGeolocation_STATUS
 			err := locationItem.AssignProperties_To_WebTestGeolocation_STATUS(&location)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_WebTestGeolocation_STATUS() to populate field Locations")
+				return eris.Wrap(err, "calling AssignProperties_To_WebTestGeolocation_STATUS() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -1576,7 +1656,7 @@ func (webtest *Webtest_STATUS) AssignProperties_To_Webtest_STATUS(destination *s
 		var request storage.WebTestProperties_Request_STATUS
 		err := webtest.Request.AssignProperties_To_WebTestProperties_Request_STATUS(&request)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_Request_STATUS() to populate field Request")
+			return eris.Wrap(err, "calling AssignProperties_To_WebTestProperties_Request_STATUS() to populate field Request")
 		}
 		destination.Request = &request
 	} else {
@@ -1608,7 +1688,7 @@ func (webtest *Webtest_STATUS) AssignProperties_To_Webtest_STATUS(destination *s
 		var validationRule storage.WebTestProperties_ValidationRules_STATUS
 		err := webtest.ValidationRules.AssignProperties_To_WebTestProperties_ValidationRules_STATUS(&validationRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
+			return eris.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
 		}
 		destination.ValidationRules = &validationRule
 	} else {
@@ -1639,7 +1719,7 @@ func (geolocation *WebTestGeolocation) ConvertToARM(resolved genruntime.ConvertT
 	if geolocation == nil {
 		return nil, nil
 	}
-	result := &WebTestGeolocation_ARM{}
+	result := &arm.WebTestGeolocation{}
 
 	// Set property "Id":
 	if geolocation.Id != nil {
@@ -1651,14 +1731,14 @@ func (geolocation *WebTestGeolocation) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (geolocation *WebTestGeolocation) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTestGeolocation_ARM{}
+	return &arm.WebTestGeolocation{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (geolocation *WebTestGeolocation) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTestGeolocation_ARM)
+	typedInput, ok := armInput.(arm.WebTestGeolocation)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestGeolocation_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebTestGeolocation, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1720,14 +1800,14 @@ var _ genruntime.FromARMConverter = &WebTestGeolocation_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (geolocation *WebTestGeolocation_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTestGeolocation_STATUS_ARM{}
+	return &arm.WebTestGeolocation_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (geolocation *WebTestGeolocation_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTestGeolocation_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WebTestGeolocation_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestGeolocation_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebTestGeolocation_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1769,6 +1849,110 @@ func (geolocation *WebTestGeolocation_STATUS) AssignProperties_To_WebTestGeoloca
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WebtestOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_WebtestOperatorSpec populates our WebtestOperatorSpec from the provided source WebtestOperatorSpec
+func (operator *WebtestOperatorSpec) AssignProperties_From_WebtestOperatorSpec(source *storage.WebtestOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WebtestOperatorSpec populates the provided destination WebtestOperatorSpec from our WebtestOperatorSpec
+func (operator *WebtestOperatorSpec) AssignProperties_To_WebtestOperatorSpec(destination *storage.WebtestOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type WebTestProperties_Configuration struct {
 	// WebTest: The XML specification of a WebTest to run against an application.
 	WebTest *string `json:"WebTest,omitempty"`
@@ -1781,7 +1965,7 @@ func (configuration *WebTestProperties_Configuration) ConvertToARM(resolved genr
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &WebTestProperties_Configuration_ARM{}
+	result := &arm.WebTestProperties_Configuration{}
 
 	// Set property "WebTest":
 	if configuration.WebTest != nil {
@@ -1793,14 +1977,14 @@ func (configuration *WebTestProperties_Configuration) ConvertToARM(resolved genr
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *WebTestProperties_Configuration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTestProperties_Configuration_ARM{}
+	return &arm.WebTestProperties_Configuration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *WebTestProperties_Configuration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTestProperties_Configuration_ARM)
+	typedInput, ok := armInput.(arm.WebTestProperties_Configuration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_Configuration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebTestProperties_Configuration, got %T", armInput)
 	}
 
 	// Set property "WebTest":
@@ -1861,14 +2045,14 @@ var _ genruntime.FromARMConverter = &WebTestProperties_Configuration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *WebTestProperties_Configuration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTestProperties_Configuration_STATUS_ARM{}
+	return &arm.WebTestProperties_Configuration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *WebTestProperties_Configuration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTestProperties_Configuration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WebTestProperties_Configuration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_Configuration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebTestProperties_Configuration_STATUS, got %T", armInput)
 	}
 
 	// Set property "WebTest":
@@ -1968,7 +2152,7 @@ func (request *WebTestProperties_Request) ConvertToARM(resolved genruntime.Conve
 	if request == nil {
 		return nil, nil
 	}
-	result := &WebTestProperties_Request_ARM{}
+	result := &arm.WebTestProperties_Request{}
 
 	// Set property "FollowRedirects":
 	if request.FollowRedirects != nil {
@@ -1982,7 +2166,7 @@ func (request *WebTestProperties_Request) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		result.Headers = append(result.Headers, *item_ARM.(*HeaderField_ARM))
+		result.Headers = append(result.Headers, *item_ARM.(*arm.HeaderField))
 	}
 
 	// Set property "HttpVerb":
@@ -2013,14 +2197,14 @@ func (request *WebTestProperties_Request) ConvertToARM(resolved genruntime.Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (request *WebTestProperties_Request) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTestProperties_Request_ARM{}
+	return &arm.WebTestProperties_Request{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (request *WebTestProperties_Request) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTestProperties_Request_ARM)
+	typedInput, ok := armInput.(arm.WebTestProperties_Request)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_Request_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebTestProperties_Request, got %T", armInput)
 	}
 
 	// Set property "FollowRedirects":
@@ -2087,7 +2271,7 @@ func (request *WebTestProperties_Request) AssignProperties_From_WebTestPropertie
 			var header HeaderField
 			err := header.AssignProperties_From_HeaderField(&headerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_HeaderField() to populate field Headers")
+				return eris.Wrap(err, "calling AssignProperties_From_HeaderField() to populate field Headers")
 			}
 			headerList[headerIndex] = header
 		}
@@ -2139,7 +2323,7 @@ func (request *WebTestProperties_Request) AssignProperties_To_WebTestProperties_
 			var header storage.HeaderField
 			err := headerItem.AssignProperties_To_HeaderField(&header)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_HeaderField() to populate field Headers")
+				return eris.Wrap(err, "calling AssignProperties_To_HeaderField() to populate field Headers")
 			}
 			headerList[headerIndex] = header
 		}
@@ -2196,7 +2380,7 @@ func (request *WebTestProperties_Request) Initialize_From_WebTestProperties_Requ
 			var header HeaderField
 			err := header.Initialize_From_HeaderField_STATUS(&headerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_HeaderField_STATUS() to populate field Headers")
+				return eris.Wrap(err, "calling Initialize_From_HeaderField_STATUS() to populate field Headers")
 			}
 			headerList[headerIndex] = header
 		}
@@ -2250,14 +2434,14 @@ var _ genruntime.FromARMConverter = &WebTestProperties_Request_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (request *WebTestProperties_Request_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTestProperties_Request_STATUS_ARM{}
+	return &arm.WebTestProperties_Request_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (request *WebTestProperties_Request_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTestProperties_Request_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WebTestProperties_Request_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_Request_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebTestProperties_Request_STATUS, got %T", armInput)
 	}
 
 	// Set property "FollowRedirects":
@@ -2324,7 +2508,7 @@ func (request *WebTestProperties_Request_STATUS) AssignProperties_From_WebTestPr
 			var header HeaderField_STATUS
 			err := header.AssignProperties_From_HeaderField_STATUS(&headerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_HeaderField_STATUS() to populate field Headers")
+				return eris.Wrap(err, "calling AssignProperties_From_HeaderField_STATUS() to populate field Headers")
 			}
 			headerList[headerIndex] = header
 		}
@@ -2376,7 +2560,7 @@ func (request *WebTestProperties_Request_STATUS) AssignProperties_To_WebTestProp
 			var header storage.HeaderField_STATUS
 			err := headerItem.AssignProperties_To_HeaderField_STATUS(&header)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_HeaderField_STATUS() to populate field Headers")
+				return eris.Wrap(err, "calling AssignProperties_To_HeaderField_STATUS() to populate field Headers")
 			}
 			headerList[headerIndex] = header
 		}
@@ -2438,7 +2622,7 @@ func (rules *WebTestProperties_ValidationRules) ConvertToARM(resolved genruntime
 	if rules == nil {
 		return nil, nil
 	}
-	result := &WebTestProperties_ValidationRules_ARM{}
+	result := &arm.WebTestProperties_ValidationRules{}
 
 	// Set property "ContentValidation":
 	if rules.ContentValidation != nil {
@@ -2446,7 +2630,7 @@ func (rules *WebTestProperties_ValidationRules) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		contentValidation := *contentValidation_ARM.(*WebTestProperties_ValidationRules_ContentValidation_ARM)
+		contentValidation := *contentValidation_ARM.(*arm.WebTestProperties_ValidationRules_ContentValidation)
 		result.ContentValidation = &contentValidation
 	}
 
@@ -2478,14 +2662,14 @@ func (rules *WebTestProperties_ValidationRules) ConvertToARM(resolved genruntime
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rules *WebTestProperties_ValidationRules) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTestProperties_ValidationRules_ARM{}
+	return &arm.WebTestProperties_ValidationRules{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rules *WebTestProperties_ValidationRules) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTestProperties_ValidationRules_ARM)
+	typedInput, ok := armInput.(arm.WebTestProperties_ValidationRules)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_ValidationRules_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebTestProperties_ValidationRules, got %T", armInput)
 	}
 
 	// Set property "ContentValidation":
@@ -2535,7 +2719,7 @@ func (rules *WebTestProperties_ValidationRules) AssignProperties_From_WebTestPro
 		var contentValidation WebTestProperties_ValidationRules_ContentValidation
 		err := contentValidation.AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation(source.ContentValidation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation() to populate field ContentValidation")
+			return eris.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation() to populate field ContentValidation")
 		}
 		rules.ContentValidation = &contentValidation
 	} else {
@@ -2578,7 +2762,7 @@ func (rules *WebTestProperties_ValidationRules) AssignProperties_To_WebTestPrope
 		var contentValidation storage.WebTestProperties_ValidationRules_ContentValidation
 		err := rules.ContentValidation.AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation(&contentValidation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation() to populate field ContentValidation")
+			return eris.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation() to populate field ContentValidation")
 		}
 		destination.ContentValidation = &contentValidation
 	} else {
@@ -2626,7 +2810,7 @@ func (rules *WebTestProperties_ValidationRules) Initialize_From_WebTestPropertie
 		var contentValidation WebTestProperties_ValidationRules_ContentValidation
 		err := contentValidation.Initialize_From_WebTestProperties_ValidationRules_ContentValidation_STATUS(source.ContentValidation)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WebTestProperties_ValidationRules_ContentValidation_STATUS() to populate field ContentValidation")
+			return eris.Wrap(err, "calling Initialize_From_WebTestProperties_ValidationRules_ContentValidation_STATUS() to populate field ContentValidation")
 		}
 		rules.ContentValidation = &contentValidation
 	} else {
@@ -2681,14 +2865,14 @@ var _ genruntime.FromARMConverter = &WebTestProperties_ValidationRules_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rules *WebTestProperties_ValidationRules_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTestProperties_ValidationRules_STATUS_ARM{}
+	return &arm.WebTestProperties_ValidationRules_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rules *WebTestProperties_ValidationRules_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTestProperties_ValidationRules_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WebTestProperties_ValidationRules_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_ValidationRules_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebTestProperties_ValidationRules_STATUS, got %T", armInput)
 	}
 
 	// Set property "ContentValidation":
@@ -2738,7 +2922,7 @@ func (rules *WebTestProperties_ValidationRules_STATUS) AssignProperties_From_Web
 		var contentValidation WebTestProperties_ValidationRules_ContentValidation_STATUS
 		err := contentValidation.AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation_STATUS(source.ContentValidation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation_STATUS() to populate field ContentValidation")
+			return eris.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation_STATUS() to populate field ContentValidation")
 		}
 		rules.ContentValidation = &contentValidation
 	} else {
@@ -2781,7 +2965,7 @@ func (rules *WebTestProperties_ValidationRules_STATUS) AssignProperties_To_WebTe
 		var contentValidation storage.WebTestProperties_ValidationRules_ContentValidation_STATUS
 		err := rules.ContentValidation.AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS(&contentValidation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS() to populate field ContentValidation")
+			return eris.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS() to populate field ContentValidation")
 		}
 		destination.ContentValidation = &contentValidation
 	} else {
@@ -2837,7 +3021,7 @@ func (field *HeaderField) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if field == nil {
 		return nil, nil
 	}
-	result := &HeaderField_ARM{}
+	result := &arm.HeaderField{}
 
 	// Set property "Key":
 	if field.Key != nil {
@@ -2855,14 +3039,14 @@ func (field *HeaderField) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (field *HeaderField) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HeaderField_ARM{}
+	return &arm.HeaderField{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (field *HeaderField) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HeaderField_ARM)
+	typedInput, ok := armInput.(arm.HeaderField)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HeaderField_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.HeaderField, got %T", armInput)
 	}
 
 	// Set property "Key":
@@ -2942,14 +3126,14 @@ var _ genruntime.FromARMConverter = &HeaderField_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (field *HeaderField_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HeaderField_STATUS_ARM{}
+	return &arm.HeaderField_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (field *HeaderField_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HeaderField_STATUS_ARM)
+	typedInput, ok := armInput.(arm.HeaderField_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HeaderField_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.HeaderField_STATUS, got %T", armInput)
 	}
 
 	// Set property "Key":
@@ -3022,7 +3206,7 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation) ConvertTo
 	if validation == nil {
 		return nil, nil
 	}
-	result := &WebTestProperties_ValidationRules_ContentValidation_ARM{}
+	result := &arm.WebTestProperties_ValidationRules_ContentValidation{}
 
 	// Set property "ContentMatch":
 	if validation.ContentMatch != nil {
@@ -3046,14 +3230,14 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation) ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (validation *WebTestProperties_ValidationRules_ContentValidation) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTestProperties_ValidationRules_ContentValidation_ARM{}
+	return &arm.WebTestProperties_ValidationRules_ContentValidation{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (validation *WebTestProperties_ValidationRules_ContentValidation) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTestProperties_ValidationRules_ContentValidation_ARM)
+	typedInput, ok := armInput.(arm.WebTestProperties_ValidationRules_ContentValidation)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_ValidationRules_ContentValidation_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebTestProperties_ValidationRules_ContentValidation, got %T", armInput)
 	}
 
 	// Set property "ContentMatch":
@@ -3181,14 +3365,14 @@ var _ genruntime.FromARMConverter = &WebTestProperties_ValidationRules_ContentVa
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (validation *WebTestProperties_ValidationRules_ContentValidation_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTestProperties_ValidationRules_ContentValidation_STATUS_ARM{}
+	return &arm.WebTestProperties_ValidationRules_ContentValidation_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (validation *WebTestProperties_ValidationRules_ContentValidation_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTestProperties_ValidationRules_ContentValidation_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WebTestProperties_ValidationRules_ContentValidation_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_ValidationRules_ContentValidation_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebTestProperties_ValidationRules_ContentValidation_STATUS, got %T", armInput)
 	}
 
 	// Set property "ContentMatch":

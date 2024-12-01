@@ -5,11 +5,15 @@ package v1api20210301
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -54,12 +58,12 @@ func (enterprise *RedisEnterprise) ConvertFrom(hub conversion.Hub) error {
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = enterprise.AssignProperties_From_RedisEnterprise(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to enterprise")
+		return eris.Wrap(err, "converting from source to enterprise")
 	}
 
 	return nil
@@ -71,11 +75,11 @@ func (enterprise *RedisEnterprise) ConvertTo(hub conversion.Hub) error {
 	var destination storage.RedisEnterprise
 	err := enterprise.AssignProperties_To_RedisEnterprise(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from enterprise")
+		return eris.Wrap(err, "converting to destination from enterprise")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -103,6 +107,26 @@ func (enterprise *RedisEnterprise) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the RedisEnterprise resource
 func (enterprise *RedisEnterprise) defaultImpl() { enterprise.defaultAzureName() }
+
+var _ configmaps.Exporter = &RedisEnterprise{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (enterprise *RedisEnterprise) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if enterprise.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return enterprise.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &RedisEnterprise{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (enterprise *RedisEnterprise) SecretDestinationExpressions() []*core.DestinationExpression {
+	if enterprise.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return enterprise.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &RedisEnterprise{}
 
@@ -152,6 +176,10 @@ func (enterprise *RedisEnterprise) NewEmptyStatus() genruntime.ConvertibleStatus
 
 // Owner returns the ResourceReference of the owner
 func (enterprise *RedisEnterprise) Owner() *genruntime.ResourceReference {
+	if enterprise.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(enterprise.Spec)
 	return enterprise.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -168,7 +196,7 @@ func (enterprise *RedisEnterprise) SetStatus(status genruntime.ConvertibleStatus
 	var st RedisEnterprise_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	enterprise.Status = st
@@ -211,7 +239,7 @@ func (enterprise *RedisEnterprise) ValidateUpdate(old runtime.Object) (admission
 
 // createValidations validates the creation of the resource
 func (enterprise *RedisEnterprise) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){enterprise.validateResourceReferences, enterprise.validateOwnerReference}
+	return []func() (admission.Warnings, error){enterprise.validateResourceReferences, enterprise.validateOwnerReference, enterprise.validateSecretDestinations, enterprise.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -229,7 +257,21 @@ func (enterprise *RedisEnterprise) updateValidations() []func(old runtime.Object
 		func(old runtime.Object) (admission.Warnings, error) {
 			return enterprise.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return enterprise.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return enterprise.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (enterprise *RedisEnterprise) validateConfigMapDestinations() (admission.Warnings, error) {
+	if enterprise.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(enterprise, nil, enterprise.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -244,6 +286,14 @@ func (enterprise *RedisEnterprise) validateResourceReferences() (admission.Warni
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (enterprise *RedisEnterprise) validateSecretDestinations() (admission.Warnings, error) {
+	if enterprise.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(enterprise, nil, enterprise.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -266,7 +316,7 @@ func (enterprise *RedisEnterprise) AssignProperties_From_RedisEnterprise(source 
 	var spec RedisEnterprise_Spec
 	err := spec.AssignProperties_From_RedisEnterprise_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RedisEnterprise_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_RedisEnterprise_Spec() to populate field Spec")
 	}
 	enterprise.Spec = spec
 
@@ -274,7 +324,7 @@ func (enterprise *RedisEnterprise) AssignProperties_From_RedisEnterprise(source 
 	var status RedisEnterprise_STATUS
 	err = status.AssignProperties_From_RedisEnterprise_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RedisEnterprise_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_RedisEnterprise_STATUS() to populate field Status")
 	}
 	enterprise.Status = status
 
@@ -292,7 +342,7 @@ func (enterprise *RedisEnterprise) AssignProperties_To_RedisEnterprise(destinati
 	var spec storage.RedisEnterprise_Spec
 	err := enterprise.Spec.AssignProperties_To_RedisEnterprise_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RedisEnterprise_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_RedisEnterprise_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -300,7 +350,7 @@ func (enterprise *RedisEnterprise) AssignProperties_To_RedisEnterprise(destinati
 	var status storage.RedisEnterprise_STATUS
 	err = enterprise.Status.AssignProperties_To_RedisEnterprise_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RedisEnterprise_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_RedisEnterprise_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -344,6 +394,10 @@ type RedisEnterprise_Spec struct {
 	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
 	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *RedisEnterpriseOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -368,7 +422,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 	if enterprise == nil {
 		return nil, nil
 	}
-	result := &RedisEnterprise_Spec_ARM{}
+	result := &arm.RedisEnterprise_Spec{}
 
 	// Set property "Location":
 	if enterprise.Location != nil {
@@ -381,12 +435,12 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Properties":
 	if enterprise.MinimumTlsVersion != nil {
-		result.Properties = &ClusterProperties_ARM{}
+		result.Properties = &arm.ClusterProperties{}
 	}
 	if enterprise.MinimumTlsVersion != nil {
 		var temp string
 		temp = string(*enterprise.MinimumTlsVersion)
-		minimumTlsVersion := ClusterProperties_MinimumTlsVersion_ARM(temp)
+		minimumTlsVersion := arm.ClusterProperties_MinimumTlsVersion(temp)
 		result.Properties.MinimumTlsVersion = &minimumTlsVersion
 	}
 
@@ -396,7 +450,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*Sku_ARM)
+		sku := *sku_ARM.(*arm.Sku)
 		result.Sku = &sku
 	}
 
@@ -417,14 +471,14 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (enterprise *RedisEnterprise_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisEnterprise_Spec_ARM{}
+	return &arm.RedisEnterprise_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisEnterprise_Spec_ARM)
+	typedInput, ok := armInput.(arm.RedisEnterprise_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RedisEnterprise_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -446,6 +500,8 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 			enterprise.MinimumTlsVersion = &minimumTlsVersion
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	enterprise.Owner = &genruntime.KnownResourceReference{
@@ -495,13 +551,13 @@ func (enterprise *RedisEnterprise_Spec) ConvertSpecFrom(source genruntime.Conver
 	src = &storage.RedisEnterprise_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = enterprise.AssignProperties_From_RedisEnterprise_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -519,13 +575,13 @@ func (enterprise *RedisEnterprise_Spec) ConvertSpecTo(destination genruntime.Con
 	dst = &storage.RedisEnterprise_Spec{}
 	err := enterprise.AssignProperties_To_RedisEnterprise_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -549,6 +605,18 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_From_RedisEnterprise_Sp
 		enterprise.MinimumTlsVersion = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RedisEnterpriseOperatorSpec
+		err := operatorSpec.AssignProperties_From_RedisEnterpriseOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_RedisEnterpriseOperatorSpec() to populate field OperatorSpec")
+		}
+		enterprise.OperatorSpec = &operatorSpec
+	} else {
+		enterprise.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -562,7 +630,7 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_From_RedisEnterprise_Sp
 		var sku Sku
 		err := sku.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
 		enterprise.Sku = &sku
 	} else {
@@ -598,6 +666,18 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_To_RedisEnterprise_Spec
 		destination.MinimumTlsVersion = nil
 	}
 
+	// OperatorSpec
+	if enterprise.OperatorSpec != nil {
+		var operatorSpec storage.RedisEnterpriseOperatorSpec
+		err := enterprise.OperatorSpec.AssignProperties_To_RedisEnterpriseOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_RedisEnterpriseOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	destination.OriginalVersion = enterprise.OriginalVersion()
 
@@ -614,7 +694,7 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_To_RedisEnterprise_Spec
 		var sku storage.Sku
 		err := enterprise.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -707,13 +787,13 @@ func (enterprise *RedisEnterprise_STATUS) ConvertStatusFrom(source genruntime.Co
 	src = &storage.RedisEnterprise_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = enterprise.AssignProperties_From_RedisEnterprise_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -731,13 +811,13 @@ func (enterprise *RedisEnterprise_STATUS) ConvertStatusTo(destination genruntime
 	dst = &storage.RedisEnterprise_STATUS{}
 	err := enterprise.AssignProperties_To_RedisEnterprise_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -747,14 +827,14 @@ var _ genruntime.FromARMConverter = &RedisEnterprise_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (enterprise *RedisEnterprise_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisEnterprise_STATUS_ARM{}
+	return &arm.RedisEnterprise_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisEnterprise_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RedisEnterprise_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RedisEnterprise_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -911,7 +991,7 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -946,7 +1026,7 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 		var sku Sku_STATUS
 		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		enterprise.Sku = &sku
 	} else {
@@ -1003,7 +1083,7 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_To_RedisEnterprise_ST
 			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1036,7 +1116,7 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_To_RedisEnterprise_ST
 		var sku storage.Sku_STATUS
 		err := enterprise.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1105,14 +1185,14 @@ var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (connection *PrivateEndpointConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUS_ARM{}
+	return &arm.PrivateEndpointConnection_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateEndpointConnection_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateEndpointConnection_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1176,6 +1256,110 @@ var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
 	"updating":  ProvisioningState_STATUS_Updating,
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RedisEnterpriseOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_RedisEnterpriseOperatorSpec populates our RedisEnterpriseOperatorSpec from the provided source RedisEnterpriseOperatorSpec
+func (operator *RedisEnterpriseOperatorSpec) AssignProperties_From_RedisEnterpriseOperatorSpec(source *storage.RedisEnterpriseOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RedisEnterpriseOperatorSpec populates the provided destination RedisEnterpriseOperatorSpec from our RedisEnterpriseOperatorSpec
+func (operator *RedisEnterpriseOperatorSpec) AssignProperties_To_RedisEnterpriseOperatorSpec(destination *storage.RedisEnterpriseOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Current resource status
 type ResourceState_STATUS string
 
@@ -1228,7 +1412,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	result := &Sku_ARM{}
+	result := &arm.Sku{}
 
 	// Set property "Capacity":
 	if sku.Capacity != nil {
@@ -1240,7 +1424,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku.Name != nil {
 		var temp string
 		temp = string(*sku.Name)
-		name := Sku_Name_ARM(temp)
+		name := arm.Sku_Name(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -1248,14 +1432,14 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_ARM{}
+	return &arm.Sku{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_ARM)
+	typedInput, ok := armInput.(arm.Sku)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Sku, got %T", armInput)
 	}
 
 	// Set property "Capacity":
@@ -1336,14 +1520,14 @@ var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_STATUS_ARM{}
+	return &arm.Sku_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Sku_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Sku_STATUS, got %T", armInput)
 	}
 
 	// Set property "Capacity":

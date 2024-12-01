@@ -391,6 +391,61 @@ func AddIndependentPropertyGeneratorsForWorkspaceFeatures_STATUS(gens map[string
 	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
 }
 
+func Test_WorkspaceOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of WorkspaceOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspaceOperatorSpec, WorkspaceOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWorkspaceOperatorSpec runs a test to see if a specific instance of WorkspaceOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspaceOperatorSpec(subject WorkspaceOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual WorkspaceOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of WorkspaceOperatorSpec instances for property testing - lazily instantiated by
+// WorkspaceOperatorSpecGenerator()
+var workspaceOperatorSpecGenerator gopter.Gen
+
+// WorkspaceOperatorSpecGenerator returns a generator of WorkspaceOperatorSpec instances for property testing.
+func WorkspaceOperatorSpecGenerator() gopter.Gen {
+	if workspaceOperatorSpecGenerator != nil {
+		return workspaceOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	workspaceOperatorSpecGenerator = gen.Struct(reflect.TypeOf(WorkspaceOperatorSpec{}), generators)
+
+	return workspaceOperatorSpecGenerator
+}
+
 func Test_WorkspaceSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -690,6 +745,7 @@ func AddIndependentPropertyGeneratorsForWorkspace_Spec(gens map[string]gopter.Ge
 // AddRelatedPropertyGeneratorsForWorkspace_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWorkspace_Spec(gens map[string]gopter.Gen) {
 	gens["Features"] = gen.PtrOf(WorkspaceFeaturesGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(WorkspaceOperatorSpecGenerator())
 	gens["Sku"] = gen.PtrOf(WorkspaceSkuGenerator())
 	gens["WorkspaceCapping"] = gen.PtrOf(WorkspaceCappingGenerator())
 }

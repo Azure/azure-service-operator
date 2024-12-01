@@ -5,11 +5,15 @@ package v1api20210101preview
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -29,8 +33,8 @@ import (
 type NamespacesTopicsSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Topics_Subscription_Spec   `json:"spec,omitempty"`
-	Status            Namespaces_Topics_Subscription_STATUS `json:"status,omitempty"`
+	Spec              NamespacesTopicsSubscription_Spec   `json:"spec,omitempty"`
+	Status            NamespacesTopicsSubscription_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesTopicsSubscription{}
@@ -54,12 +58,12 @@ func (subscription *NamespacesTopicsSubscription) ConvertFrom(hub conversion.Hub
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = subscription.AssignProperties_From_NamespacesTopicsSubscription(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to subscription")
+		return eris.Wrap(err, "converting from source to subscription")
 	}
 
 	return nil
@@ -71,11 +75,11 @@ func (subscription *NamespacesTopicsSubscription) ConvertTo(hub conversion.Hub) 
 	var destination storage.NamespacesTopicsSubscription
 	err := subscription.AssignProperties_To_NamespacesTopicsSubscription(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from subscription")
+		return eris.Wrap(err, "converting to destination from subscription")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -103,6 +107,26 @@ func (subscription *NamespacesTopicsSubscription) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the NamespacesTopicsSubscription resource
 func (subscription *NamespacesTopicsSubscription) defaultImpl() { subscription.defaultAzureName() }
+
+var _ configmaps.Exporter = &NamespacesTopicsSubscription{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (subscription *NamespacesTopicsSubscription) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return subscription.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &NamespacesTopicsSubscription{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (subscription *NamespacesTopicsSubscription) SecretDestinationExpressions() []*core.DestinationExpression {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return subscription.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &NamespacesTopicsSubscription{}
 
@@ -147,11 +171,15 @@ func (subscription *NamespacesTopicsSubscription) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (subscription *NamespacesTopicsSubscription) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Namespaces_Topics_Subscription_STATUS{}
+	return &NamespacesTopicsSubscription_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (subscription *NamespacesTopicsSubscription) Owner() *genruntime.ResourceReference {
+	if subscription.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(subscription.Spec)
 	return subscription.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -159,16 +187,16 @@ func (subscription *NamespacesTopicsSubscription) Owner() *genruntime.ResourceRe
 // SetStatus sets the status of this resource
 func (subscription *NamespacesTopicsSubscription) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Namespaces_Topics_Subscription_STATUS); ok {
+	if st, ok := status.(*NamespacesTopicsSubscription_STATUS); ok {
 		subscription.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Namespaces_Topics_Subscription_STATUS
+	var st NamespacesTopicsSubscription_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	subscription.Status = st
@@ -211,7 +239,7 @@ func (subscription *NamespacesTopicsSubscription) ValidateUpdate(old runtime.Obj
 
 // createValidations validates the creation of the resource
 func (subscription *NamespacesTopicsSubscription) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){subscription.validateResourceReferences, subscription.validateOwnerReference}
+	return []func() (admission.Warnings, error){subscription.validateResourceReferences, subscription.validateOwnerReference, subscription.validateSecretDestinations, subscription.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -229,7 +257,21 @@ func (subscription *NamespacesTopicsSubscription) updateValidations() []func(old
 		func(old runtime.Object) (admission.Warnings, error) {
 			return subscription.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return subscription.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return subscription.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (subscription *NamespacesTopicsSubscription) validateConfigMapDestinations() (admission.Warnings, error) {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(subscription, nil, subscription.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -244,6 +286,14 @@ func (subscription *NamespacesTopicsSubscription) validateResourceReferences() (
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (subscription *NamespacesTopicsSubscription) validateSecretDestinations() (admission.Warnings, error) {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(subscription, nil, subscription.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -263,18 +313,18 @@ func (subscription *NamespacesTopicsSubscription) AssignProperties_From_Namespac
 	subscription.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Namespaces_Topics_Subscription_Spec
-	err := spec.AssignProperties_From_Namespaces_Topics_Subscription_Spec(&source.Spec)
+	var spec NamespacesTopicsSubscription_Spec
+	err := spec.AssignProperties_From_NamespacesTopicsSubscription_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Topics_Subscription_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_NamespacesTopicsSubscription_Spec() to populate field Spec")
 	}
 	subscription.Spec = spec
 
 	// Status
-	var status Namespaces_Topics_Subscription_STATUS
-	err = status.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(&source.Status)
+	var status NamespacesTopicsSubscription_STATUS
+	err = status.AssignProperties_From_NamespacesTopicsSubscription_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Topics_Subscription_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_NamespacesTopicsSubscription_STATUS() to populate field Status")
 	}
 	subscription.Status = status
 
@@ -289,18 +339,18 @@ func (subscription *NamespacesTopicsSubscription) AssignProperties_To_Namespaces
 	destination.ObjectMeta = *subscription.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Namespaces_Topics_Subscription_Spec
-	err := subscription.Spec.AssignProperties_To_Namespaces_Topics_Subscription_Spec(&spec)
+	var spec storage.NamespacesTopicsSubscription_Spec
+	err := subscription.Spec.AssignProperties_To_NamespacesTopicsSubscription_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscription_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_NamespacesTopicsSubscription_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Namespaces_Topics_Subscription_STATUS
-	err = subscription.Status.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(&status)
+	var status storage.NamespacesTopicsSubscription_STATUS
+	err = subscription.Status.AssignProperties_To_NamespacesTopicsSubscription_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscription_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_NamespacesTopicsSubscription_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -327,7 +377,7 @@ type NamespacesTopicsSubscriptionList struct {
 	Items           []NamespacesTopicsSubscription `json:"items"`
 }
 
-type Namespaces_Topics_Subscription_Spec struct {
+type NamespacesTopicsSubscription_Spec struct {
 	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration
 	// is 5 minutes.
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
@@ -370,6 +420,10 @@ type Namespaces_Topics_Subscription_Spec struct {
 	// MaxDeliveryCount: Number of maximum deliveries.
 	MaxDeliveryCount *int `json:"maxDeliveryCount,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *NamespacesTopicsSubscriptionOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -380,14 +434,14 @@ type Namespaces_Topics_Subscription_Spec struct {
 	RequiresSession *bool `json:"requiresSession,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Namespaces_Topics_Subscription_Spec{}
+var _ genruntime.ARMTransformer = &NamespacesTopicsSubscription_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (subscription *Namespaces_Topics_Subscription_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (subscription *NamespacesTopicsSubscription_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if subscription == nil {
 		return nil, nil
 	}
-	result := &Namespaces_Topics_Subscription_Spec_ARM{}
+	result := &arm.NamespacesTopicsSubscription_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -404,7 +458,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertToARM(resolved g
 		subscription.LockDuration != nil ||
 		subscription.MaxDeliveryCount != nil ||
 		subscription.RequiresSession != nil {
-		result.Properties = &SBSubscriptionProperties_ARM{}
+		result.Properties = &arm.SBSubscriptionProperties{}
 	}
 	if subscription.AutoDeleteOnIdle != nil {
 		autoDeleteOnIdle := *subscription.AutoDeleteOnIdle
@@ -454,15 +508,15 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertToARM(resolved g
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subscription *Namespaces_Topics_Subscription_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Namespaces_Topics_Subscription_Spec_ARM{}
+func (subscription *NamespacesTopicsSubscription_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.NamespacesTopicsSubscription_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Namespaces_Topics_Subscription_Spec_ARM)
+func (subscription *NamespacesTopicsSubscription_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.NamespacesTopicsSubscription_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topics_Subscription_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NamespacesTopicsSubscription_Spec, got %T", armInput)
 	}
 
 	// Set property "AutoDeleteOnIdle":
@@ -558,6 +612,8 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	subscription.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -577,58 +633,58 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Namespaces_Topics_Subscription_Spec{}
+var _ genruntime.ConvertibleSpec = &NamespacesTopicsSubscription_Spec{}
 
-// ConvertSpecFrom populates our Namespaces_Topics_Subscription_Spec from the provided source
-func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Namespaces_Topics_Subscription_Spec)
+// ConvertSpecFrom populates our NamespacesTopicsSubscription_Spec from the provided source
+func (subscription *NamespacesTopicsSubscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.NamespacesTopicsSubscription_Spec)
 	if ok {
 		// Populate our instance from source
-		return subscription.AssignProperties_From_Namespaces_Topics_Subscription_Spec(src)
+		return subscription.AssignProperties_From_NamespacesTopicsSubscription_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Namespaces_Topics_Subscription_Spec{}
+	src = &storage.NamespacesTopicsSubscription_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = subscription.AssignProperties_From_Namespaces_Topics_Subscription_Spec(src)
+	err = subscription.AssignProperties_From_NamespacesTopicsSubscription_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Namespaces_Topics_Subscription_Spec
-func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Namespaces_Topics_Subscription_Spec)
+// ConvertSpecTo populates the provided destination from our NamespacesTopicsSubscription_Spec
+func (subscription *NamespacesTopicsSubscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.NamespacesTopicsSubscription_Spec)
 	if ok {
 		// Populate destination from our instance
-		return subscription.AssignProperties_To_Namespaces_Topics_Subscription_Spec(dst)
+		return subscription.AssignProperties_To_NamespacesTopicsSubscription_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Namespaces_Topics_Subscription_Spec{}
-	err := subscription.AssignProperties_To_Namespaces_Topics_Subscription_Spec(dst)
+	dst = &storage.NamespacesTopicsSubscription_Spec{}
+	err := subscription.AssignProperties_To_NamespacesTopicsSubscription_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_Namespaces_Topics_Subscription_Spec populates our Namespaces_Topics_Subscription_Spec from the provided source Namespaces_Topics_Subscription_Spec
-func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_Namespaces_Topics_Subscription_Spec(source *storage.Namespaces_Topics_Subscription_Spec) error {
+// AssignProperties_From_NamespacesTopicsSubscription_Spec populates our NamespacesTopicsSubscription_Spec from the provided source NamespacesTopicsSubscription_Spec
+func (subscription *NamespacesTopicsSubscription_Spec) AssignProperties_From_NamespacesTopicsSubscription_Spec(source *storage.NamespacesTopicsSubscription_Spec) error {
 
 	// AutoDeleteOnIdle
 	subscription.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
@@ -678,6 +734,18 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_N
 	// MaxDeliveryCount
 	subscription.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec NamespacesTopicsSubscriptionOperatorSpec
+		err := operatorSpec.AssignProperties_From_NamespacesTopicsSubscriptionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_NamespacesTopicsSubscriptionOperatorSpec() to populate field OperatorSpec")
+		}
+		subscription.OperatorSpec = &operatorSpec
+	} else {
+		subscription.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -698,8 +766,8 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_N
 	return nil
 }
 
-// AssignProperties_To_Namespaces_Topics_Subscription_Spec populates the provided destination Namespaces_Topics_Subscription_Spec from our Namespaces_Topics_Subscription_Spec
-func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Namespaces_Topics_Subscription_Spec(destination *storage.Namespaces_Topics_Subscription_Spec) error {
+// AssignProperties_To_NamespacesTopicsSubscription_Spec populates the provided destination NamespacesTopicsSubscription_Spec from our NamespacesTopicsSubscription_Spec
+func (subscription *NamespacesTopicsSubscription_Spec) AssignProperties_To_NamespacesTopicsSubscription_Spec(destination *storage.NamespacesTopicsSubscription_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -751,6 +819,18 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 	// MaxDeliveryCount
 	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(subscription.MaxDeliveryCount)
 
+	// OperatorSpec
+	if subscription.OperatorSpec != nil {
+		var operatorSpec storage.NamespacesTopicsSubscriptionOperatorSpec
+		err := subscription.OperatorSpec.AssignProperties_To_NamespacesTopicsSubscriptionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_NamespacesTopicsSubscriptionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	destination.OriginalVersion = subscription.OriginalVersion()
 
@@ -782,16 +862,16 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (subscription *Namespaces_Topics_Subscription_Spec) OriginalVersion() string {
+func (subscription *NamespacesTopicsSubscription_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (subscription *Namespaces_Topics_Subscription_Spec) SetAzureName(azureName string) {
+func (subscription *NamespacesTopicsSubscription_Spec) SetAzureName(azureName string) {
 	subscription.AzureName = azureName
 }
 
-type Namespaces_Topics_Subscription_STATUS struct {
+type NamespacesTopicsSubscription_STATUS struct {
 	// AccessedAt: Last time there was a receive request to this subscription.
 	AccessedAt *string `json:"accessedAt,omitempty"`
 
@@ -865,68 +945,68 @@ type Namespaces_Topics_Subscription_STATUS struct {
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Namespaces_Topics_Subscription_STATUS{}
+var _ genruntime.ConvertibleStatus = &NamespacesTopicsSubscription_STATUS{}
 
-// ConvertStatusFrom populates our Namespaces_Topics_Subscription_STATUS from the provided source
-func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Namespaces_Topics_Subscription_STATUS)
+// ConvertStatusFrom populates our NamespacesTopicsSubscription_STATUS from the provided source
+func (subscription *NamespacesTopicsSubscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.NamespacesTopicsSubscription_STATUS)
 	if ok {
 		// Populate our instance from source
-		return subscription.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(src)
+		return subscription.AssignProperties_From_NamespacesTopicsSubscription_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Namespaces_Topics_Subscription_STATUS{}
+	src = &storage.NamespacesTopicsSubscription_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = subscription.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(src)
+	err = subscription.AssignProperties_From_NamespacesTopicsSubscription_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Namespaces_Topics_Subscription_STATUS
-func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Namespaces_Topics_Subscription_STATUS)
+// ConvertStatusTo populates the provided destination from our NamespacesTopicsSubscription_STATUS
+func (subscription *NamespacesTopicsSubscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.NamespacesTopicsSubscription_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return subscription.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(dst)
+		return subscription.AssignProperties_To_NamespacesTopicsSubscription_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Namespaces_Topics_Subscription_STATUS{}
-	err := subscription.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(dst)
+	dst = &storage.NamespacesTopicsSubscription_STATUS{}
+	err := subscription.AssignProperties_To_NamespacesTopicsSubscription_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Namespaces_Topics_Subscription_STATUS{}
+var _ genruntime.FromARMConverter = &NamespacesTopicsSubscription_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subscription *Namespaces_Topics_Subscription_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Namespaces_Topics_Subscription_STATUS_ARM{}
+func (subscription *NamespacesTopicsSubscription_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.NamespacesTopicsSubscription_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Namespaces_Topics_Subscription_STATUS_ARM)
+func (subscription *NamespacesTopicsSubscription_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.NamespacesTopicsSubscription_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topics_Subscription_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NamespacesTopicsSubscription_STATUS, got %T", armInput)
 	}
 
 	// Set property "AccessedAt":
@@ -1124,8 +1204,8 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 	return nil
 }
 
-// AssignProperties_From_Namespaces_Topics_Subscription_STATUS populates our Namespaces_Topics_Subscription_STATUS from the provided source Namespaces_Topics_Subscription_STATUS
-func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From_Namespaces_Topics_Subscription_STATUS(source *storage.Namespaces_Topics_Subscription_STATUS) error {
+// AssignProperties_From_NamespacesTopicsSubscription_STATUS populates our NamespacesTopicsSubscription_STATUS from the provided source NamespacesTopicsSubscription_STATUS
+func (subscription *NamespacesTopicsSubscription_STATUS) AssignProperties_From_NamespacesTopicsSubscription_STATUS(source *storage.NamespacesTopicsSubscription_STATUS) error {
 
 	// AccessedAt
 	subscription.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
@@ -1141,7 +1221,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From
 		var countDetail MessageCountDetails_STATUS
 		err := countDetail.AssignProperties_From_MessageCountDetails_STATUS(source.CountDetails)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_MessageCountDetails_STATUS() to populate field CountDetails")
+			return eris.Wrap(err, "calling AssignProperties_From_MessageCountDetails_STATUS() to populate field CountDetails")
 		}
 		subscription.CountDetails = &countDetail
 	} else {
@@ -1224,7 +1304,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		subscription.SystemData = &systemDatum
 	} else {
@@ -1241,8 +1321,8 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From
 	return nil
 }
 
-// AssignProperties_To_Namespaces_Topics_Subscription_STATUS populates the provided destination Namespaces_Topics_Subscription_STATUS from our Namespaces_Topics_Subscription_STATUS
-func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_Namespaces_Topics_Subscription_STATUS(destination *storage.Namespaces_Topics_Subscription_STATUS) error {
+// AssignProperties_To_NamespacesTopicsSubscription_STATUS populates the provided destination NamespacesTopicsSubscription_STATUS from our NamespacesTopicsSubscription_STATUS
+func (subscription *NamespacesTopicsSubscription_STATUS) AssignProperties_To_NamespacesTopicsSubscription_STATUS(destination *storage.NamespacesTopicsSubscription_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1260,7 +1340,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_N
 		var countDetail storage.MessageCountDetails_STATUS
 		err := subscription.CountDetails.AssignProperties_To_MessageCountDetails_STATUS(&countDetail)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_MessageCountDetails_STATUS() to populate field CountDetails")
+			return eris.Wrap(err, "calling AssignProperties_To_MessageCountDetails_STATUS() to populate field CountDetails")
 		}
 		destination.CountDetails = &countDetail
 	} else {
@@ -1342,7 +1422,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_N
 		var systemDatum storage.SystemData_STATUS
 		err := subscription.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1354,6 +1434,110 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_N
 
 	// UpdatedAt
 	destination.UpdatedAt = genruntime.ClonePointerToString(subscription.UpdatedAt)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespacesTopicsSubscriptionOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_NamespacesTopicsSubscriptionOperatorSpec populates our NamespacesTopicsSubscriptionOperatorSpec from the provided source NamespacesTopicsSubscriptionOperatorSpec
+func (operator *NamespacesTopicsSubscriptionOperatorSpec) AssignProperties_From_NamespacesTopicsSubscriptionOperatorSpec(source *storage.NamespacesTopicsSubscriptionOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamespacesTopicsSubscriptionOperatorSpec populates the provided destination NamespacesTopicsSubscriptionOperatorSpec from our NamespacesTopicsSubscriptionOperatorSpec
+func (operator *NamespacesTopicsSubscriptionOperatorSpec) AssignProperties_To_NamespacesTopicsSubscriptionOperatorSpec(destination *storage.NamespacesTopicsSubscriptionOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

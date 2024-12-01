@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2020-09-30"
 Disk: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (23 properties)
+├── Spec: Object (24 properties)
 │   ├── AzureName: string
 │   ├── BurstingEnabled: *bool
 │   ├── CreationData: *Object (8 properties)
@@ -65,6 +65,9 @@ Disk: Resource
 │   │   ├── "AllowAll"
 │   │   ├── "AllowPrivate"
 │   │   └── "DenyAll"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OsType: *Enum (2 values)
 │   │   ├── "Linux"
 │   │   └── "Windows"
@@ -182,7 +185,7 @@ Disk: Resource
     └── Zones: string[]
 Snapshot: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── AzureName: string
 │   ├── CreationData: *Object (8 properties)
 │   │   ├── CreateOption: *Enum (7 values)
@@ -244,6 +247,9 @@ Snapshot: Resource
 │   │   ├── "AllowAll"
 │   │   ├── "AllowPrivate"
 │   │   └── "DenyAll"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OsType: *Enum (2 values)
 │   │   ├── "Linux"
 │   │   └── "Windows"

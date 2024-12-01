@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2023-01-01"
 ActionGroup: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (19 properties)
+├── Spec: Object (20 properties)
 │   ├── ArmRoleReceivers: Object (4 properties)[]
 │   │   ├── Name: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -61,6 +61,10 @@ ActionGroup: Resource
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── ResourceReference: *genruntime.ResourceReference
 │   │   └── UseCommonAlertSchema: *bool
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag

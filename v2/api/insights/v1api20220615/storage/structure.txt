@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2022-06-15"
 ScheduledQueryRule: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (22 properties)
+├── Spec: Object (23 properties)
 │   ├── Actions: *Object (3 properties)
 │   │   ├── ActionGroupsReferences: genruntime.ResourceReference[]
 │   │   ├── CustomProperties: map[string]string
@@ -40,6 +40,10 @@ ScheduledQueryRule: Resource
 │   ├── Kind: *string
 │   ├── Location: *string
 │   ├── MuteActionsDuration: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── OverrideQueryTimeRange: *string
 │   ├── Owner: *genruntime.KnownResourceReference
@@ -110,7 +114,7 @@ ScheduledQueryRule: Resource
     └── WindowSize: *string
 Webtest: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (18 properties)
+├── Spec: Object (19 properties)
 │   ├── AzureName: string
 │   ├── Configuration: *Object (2 properties)
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -124,6 +128,10 @@ Webtest: Resource
 │   │   ├── Id: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── Name: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag

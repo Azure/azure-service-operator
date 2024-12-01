@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -122,7 +122,7 @@ func (p *PropertyAssignmentTestCase) AsFuncs(
 	testRunner := p.createTestRunner(codeGenerationContext)
 	testMethod, err := p.createTestMethod(receiver, codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating test method for %s", p.testName)
+		return nil, eris.Wrapf(err, "creating test method for %s", p.testName)
 	}
 
 	return []dst.Decl{
@@ -260,7 +260,7 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 	// var other OtherType
 	parameterTypeExpr, err := p.toFn.ParameterType().AsTypeExpr(codegenContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", p.toFn.ParameterType())
+		return nil, eris.Wrapf(err, "creating type expression for %s", p.toFn.ParameterType())
 	}
 
 	declareOther := astbuilder.LocalVariableDeclaration(
@@ -285,7 +285,7 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 	// var result OurType
 	subjectExpr, err := subject.AsTypeExpr(codegenContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", subject)
+		return nil, eris.Wrapf(err, "creating type expression for %s", subject)
 	}
 
 	declareResult := astbuilder.LocalVariableDeclaration(
@@ -370,7 +370,7 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 
 	subjectExpr, err = p.subject.AsTypeExpr(codegenContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", p.subject)
+		return nil, eris.Wrapf(err, "creating type expression for %s", p.subject)
 	}
 
 	fn.AddParameter("subject", subjectExpr)

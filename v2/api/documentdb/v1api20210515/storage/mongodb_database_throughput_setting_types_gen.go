@@ -8,7 +8,10 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -27,8 +30,8 @@ import (
 type MongodbDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS `json:"status,omitempty"`
+	Spec              MongodbDatabaseThroughputSetting_Spec   `json:"spec,omitempty"`
+	Status            MongodbDatabaseThroughputSetting_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseThroughputSetting{}
@@ -63,6 +66,26 @@ func (setting *MongodbDatabaseThroughputSetting) ConvertTo(hub conversion.Hub) e
 	}
 
 	return setting.AssignProperties_To_MongodbDatabaseThroughputSetting(destination)
+}
+
+var _ configmaps.Exporter = &MongodbDatabaseThroughputSetting{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (setting *MongodbDatabaseThroughputSetting) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &MongodbDatabaseThroughputSetting{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (setting *MongodbDatabaseThroughputSetting) SecretDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &MongodbDatabaseThroughputSetting{}
@@ -107,11 +130,15 @@ func (setting *MongodbDatabaseThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *MongodbDatabaseThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS{}
+	return &MongodbDatabaseThroughputSetting_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (setting *MongodbDatabaseThroughputSetting) Owner() *genruntime.ResourceReference {
+	if setting.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
 	return setting.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -119,16 +146,16 @@ func (setting *MongodbDatabaseThroughputSetting) Owner() *genruntime.ResourceRef
 // SetStatus sets the status of this resource
 func (setting *MongodbDatabaseThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS); ok {
+	if st, ok := status.(*MongodbDatabaseThroughputSetting_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
+	var st MongodbDatabaseThroughputSetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	setting.Status = st
@@ -142,18 +169,18 @@ func (setting *MongodbDatabaseThroughputSetting) AssignProperties_From_MongodbDa
 	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec
-	err := spec.AssignProperties_From_DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec(&source.Spec)
+	var spec MongodbDatabaseThroughputSetting_Spec
+	err := spec.AssignProperties_From_MongodbDatabaseThroughputSetting_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_MongodbDatabaseThroughputSetting_Spec() to populate field Spec")
 	}
 	setting.Spec = spec
 
 	// Status
-	var status DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
-	err = status.AssignProperties_From_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS(&source.Status)
+	var status MongodbDatabaseThroughputSetting_STATUS
+	err = status.AssignProperties_From_MongodbDatabaseThroughputSetting_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_MongodbDatabaseThroughputSetting_STATUS() to populate field Status")
 	}
 	setting.Status = status
 
@@ -162,7 +189,7 @@ func (setting *MongodbDatabaseThroughputSetting) AssignProperties_From_MongodbDa
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForMongodbDatabaseThroughputSetting); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -177,18 +204,18 @@ func (setting *MongodbDatabaseThroughputSetting) AssignProperties_To_MongodbData
 	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec
-	err := setting.Spec.AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec(&spec)
+	var spec storage.MongodbDatabaseThroughputSetting_Spec
+	err := setting.Spec.AssignProperties_To_MongodbDatabaseThroughputSetting_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_MongodbDatabaseThroughputSetting_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
-	err = setting.Status.AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS(&status)
+	var status storage.MongodbDatabaseThroughputSetting_STATUS
+	err = setting.Status.AssignProperties_To_MongodbDatabaseThroughputSetting_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_MongodbDatabaseThroughputSetting_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -197,7 +224,7 @@ func (setting *MongodbDatabaseThroughputSetting) AssignProperties_To_MongodbData
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForMongodbDatabaseThroughputSetting); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -230,10 +257,11 @@ type augmentConversionForMongodbDatabaseThroughputSetting interface {
 	AssignPropertiesTo(dst *storage.MongodbDatabaseThroughputSetting) error
 }
 
-// Storage version of v1api20210515.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec
-type DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec struct {
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+// Storage version of v1api20210515.MongodbDatabaseThroughputSetting_Spec
+type MongodbDatabaseThroughputSetting_Spec struct {
+	Location        *string                                       `json:"location,omitempty"`
+	OperatorSpec    *MongodbDatabaseThroughputSettingOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -245,63 +273,75 @@ type DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec{}
+var _ genruntime.ConvertibleSpec = &MongodbDatabaseThroughputSetting_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec from the provided source
-func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec)
+// ConvertSpecFrom populates our MongodbDatabaseThroughputSetting_Spec from the provided source
+func (setting *MongodbDatabaseThroughputSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.MongodbDatabaseThroughputSetting_Spec)
 	if ok {
 		// Populate our instance from source
-		return setting.AssignProperties_From_DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec(src)
+		return setting.AssignProperties_From_MongodbDatabaseThroughputSetting_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec{}
+	src = &storage.MongodbDatabaseThroughputSetting_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = setting.AssignProperties_From_DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec(src)
+	err = setting.AssignProperties_From_MongodbDatabaseThroughputSetting_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec
-func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec)
+// ConvertSpecTo populates the provided destination from our MongodbDatabaseThroughputSetting_Spec
+func (setting *MongodbDatabaseThroughputSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.MongodbDatabaseThroughputSetting_Spec)
 	if ok {
 		// Populate destination from our instance
-		return setting.AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec(dst)
+		return setting.AssignProperties_To_MongodbDatabaseThroughputSetting_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec{}
-	err := setting.AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec(dst)
+	dst = &storage.MongodbDatabaseThroughputSetting_Spec{}
+	err := setting.AssignProperties_To_MongodbDatabaseThroughputSetting_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec populates our DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec from the provided source DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec
-func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) AssignProperties_From_DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec(source *storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) error {
+// AssignProperties_From_MongodbDatabaseThroughputSetting_Spec populates our MongodbDatabaseThroughputSetting_Spec from the provided source MongodbDatabaseThroughputSetting_Spec
+func (setting *MongodbDatabaseThroughputSetting_Spec) AssignProperties_From_MongodbDatabaseThroughputSetting_Spec(source *storage.MongodbDatabaseThroughputSetting_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Location
 	setting.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec MongodbDatabaseThroughputSettingOperatorSpec
+		err := operatorSpec.AssignProperties_From_MongodbDatabaseThroughputSettingOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_MongodbDatabaseThroughputSettingOperatorSpec() to populate field OperatorSpec")
+		}
+		setting.OperatorSpec = &operatorSpec
+	} else {
+		setting.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	setting.OriginalVersion = source.OriginalVersion
@@ -319,7 +359,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) AssignP
 		var resource ThroughputSettingsResource
 		err := resource.AssignProperties_From_ThroughputSettingsResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ThroughputSettingsResource() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_From_ThroughputSettingsResource() to populate field Resource")
 		}
 		setting.Resource = &resource
 	} else {
@@ -336,12 +376,12 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) AssignP
 		setting.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForMongodbDatabaseThroughputSetting_Spec interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
-	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec); ok {
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForMongodbDatabaseThroughputSetting_Spec); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -349,13 +389,25 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) AssignP
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec populates the provided destination DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec from our DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec
-func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec(destination *storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) error {
+// AssignProperties_To_MongodbDatabaseThroughputSetting_Spec populates the provided destination MongodbDatabaseThroughputSetting_Spec from our MongodbDatabaseThroughputSetting_Spec
+func (setting *MongodbDatabaseThroughputSetting_Spec) AssignProperties_To_MongodbDatabaseThroughputSetting_Spec(destination *storage.MongodbDatabaseThroughputSetting_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(setting.Location)
+
+	// OperatorSpec
+	if setting.OperatorSpec != nil {
+		var operatorSpec storage.MongodbDatabaseThroughputSettingOperatorSpec
+		err := setting.OperatorSpec.AssignProperties_To_MongodbDatabaseThroughputSettingOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_MongodbDatabaseThroughputSettingOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = setting.OriginalVersion
@@ -373,7 +425,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) AssignP
 		var resource storage.ThroughputSettingsResource
 		err := setting.Resource.AssignProperties_To_ThroughputSettingsResource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ThroughputSettingsResource() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_To_ThroughputSettingsResource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -390,12 +442,12 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) AssignP
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForMongodbDatabaseThroughputSetting_Spec interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
-	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec); ok {
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForMongodbDatabaseThroughputSetting_Spec); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -403,8 +455,8 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) AssignP
 	return nil
 }
 
-// Storage version of v1api20210515.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
-type DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS struct {
+// Storage version of v1api20210515.MongodbDatabaseThroughputSetting_STATUS
+type MongodbDatabaseThroughputSetting_STATUS struct {
 	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
 	Id          *string                                          `json:"id,omitempty"`
 	Location    *string                                          `json:"location,omitempty"`
@@ -415,58 +467,58 @@ type DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS struct {
 	Type        *string                                          `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS{}
+var _ genruntime.ConvertibleStatus = &MongodbDatabaseThroughputSetting_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS from the provided source
-func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS)
+// ConvertStatusFrom populates our MongodbDatabaseThroughputSetting_STATUS from the provided source
+func (setting *MongodbDatabaseThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.MongodbDatabaseThroughputSetting_STATUS)
 	if ok {
 		// Populate our instance from source
-		return setting.AssignProperties_From_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS(src)
+		return setting.AssignProperties_From_MongodbDatabaseThroughputSetting_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS{}
+	src = &storage.MongodbDatabaseThroughputSetting_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = setting.AssignProperties_From_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS(src)
+	err = setting.AssignProperties_From_MongodbDatabaseThroughputSetting_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
-func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS)
+// ConvertStatusTo populates the provided destination from our MongodbDatabaseThroughputSetting_STATUS
+func (setting *MongodbDatabaseThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.MongodbDatabaseThroughputSetting_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return setting.AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS(dst)
+		return setting.AssignProperties_To_MongodbDatabaseThroughputSetting_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS{}
-	err := setting.AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS(dst)
+	dst = &storage.MongodbDatabaseThroughputSetting_STATUS{}
+	err := setting.AssignProperties_To_MongodbDatabaseThroughputSetting_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS populates our DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS from the provided source DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
-func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) AssignProperties_From_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS(source *storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) error {
+// AssignProperties_From_MongodbDatabaseThroughputSetting_STATUS populates our MongodbDatabaseThroughputSetting_STATUS from the provided source MongodbDatabaseThroughputSetting_STATUS
+func (setting *MongodbDatabaseThroughputSetting_STATUS) AssignProperties_From_MongodbDatabaseThroughputSetting_STATUS(source *storage.MongodbDatabaseThroughputSetting_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -487,7 +539,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) Assig
 		var resource ThroughputSettingsGetProperties_Resource_STATUS
 		err := resource.AssignProperties_From_ThroughputSettingsGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_From_ThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		setting.Resource = &resource
 	} else {
@@ -507,12 +559,12 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) Assig
 		setting.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForMongodbDatabaseThroughputSetting_STATUS interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
-	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS); ok {
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForMongodbDatabaseThroughputSetting_STATUS); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -520,8 +572,8 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) Assig
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS populates the provided destination DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS from our DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
-func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS(destination *storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) error {
+// AssignProperties_To_MongodbDatabaseThroughputSetting_STATUS populates the provided destination MongodbDatabaseThroughputSetting_STATUS from our MongodbDatabaseThroughputSetting_STATUS
+func (setting *MongodbDatabaseThroughputSetting_STATUS) AssignProperties_To_MongodbDatabaseThroughputSetting_STATUS(destination *storage.MongodbDatabaseThroughputSetting_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
 
@@ -542,7 +594,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) Assig
 		var resource storage.ThroughputSettingsGetProperties_Resource_STATUS
 		err := setting.Resource.AssignProperties_To_ThroughputSettingsGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
+			return eris.Wrap(err, "calling AssignProperties_To_ThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -562,12 +614,12 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) Assig
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForMongodbDatabaseThroughputSetting_STATUS interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
-	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS); ok {
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForMongodbDatabaseThroughputSetting_STATUS); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -575,14 +627,149 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) Assig
 	return nil
 }
 
-type augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec interface {
-	AssignPropertiesFrom(src *storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) error
-	AssignPropertiesTo(dst *storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) error
+type augmentConversionForMongodbDatabaseThroughputSetting_Spec interface {
+	AssignPropertiesFrom(src *storage.MongodbDatabaseThroughputSetting_Spec) error
+	AssignPropertiesTo(dst *storage.MongodbDatabaseThroughputSetting_Spec) error
 }
 
-type augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS interface {
-	AssignPropertiesFrom(src *storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) error
-	AssignPropertiesTo(dst *storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) error
+type augmentConversionForMongodbDatabaseThroughputSetting_STATUS interface {
+	AssignPropertiesFrom(src *storage.MongodbDatabaseThroughputSetting_STATUS) error
+	AssignPropertiesTo(dst *storage.MongodbDatabaseThroughputSetting_STATUS) error
+}
+
+// Storage version of v1api20210515.MongodbDatabaseThroughputSettingOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type MongodbDatabaseThroughputSettingOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_MongodbDatabaseThroughputSettingOperatorSpec populates our MongodbDatabaseThroughputSettingOperatorSpec from the provided source MongodbDatabaseThroughputSettingOperatorSpec
+func (operator *MongodbDatabaseThroughputSettingOperatorSpec) AssignProperties_From_MongodbDatabaseThroughputSettingOperatorSpec(source *storage.MongodbDatabaseThroughputSettingOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForMongodbDatabaseThroughputSettingOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForMongodbDatabaseThroughputSettingOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_MongodbDatabaseThroughputSettingOperatorSpec populates the provided destination MongodbDatabaseThroughputSettingOperatorSpec from our MongodbDatabaseThroughputSettingOperatorSpec
+func (operator *MongodbDatabaseThroughputSettingOperatorSpec) AssignProperties_To_MongodbDatabaseThroughputSettingOperatorSpec(destination *storage.MongodbDatabaseThroughputSettingOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForMongodbDatabaseThroughputSettingOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForMongodbDatabaseThroughputSettingOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForMongodbDatabaseThroughputSettingOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.MongodbDatabaseThroughputSettingOperatorSpec) error
+	AssignPropertiesTo(dst *storage.MongodbDatabaseThroughputSettingOperatorSpec) error
 }
 
 func init() {

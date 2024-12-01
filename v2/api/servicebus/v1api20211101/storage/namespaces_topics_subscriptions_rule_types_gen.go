@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type NamespacesTopicsSubscriptionsRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Topics_Subscriptions_Rule_Spec   `json:"spec,omitempty"`
-	Status            Namespaces_Topics_Subscriptions_Rule_STATUS `json:"status,omitempty"`
+	Spec              NamespacesTopicsSubscriptionsRule_Spec   `json:"spec,omitempty"`
+	Status            NamespacesTopicsSubscriptionsRule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesTopicsSubscriptionsRule{}
@@ -42,6 +45,26 @@ func (rule *NamespacesTopicsSubscriptionsRule) GetConditions() conditions.Condit
 // SetConditions sets the conditions on the resource status
 func (rule *NamespacesTopicsSubscriptionsRule) SetConditions(conditions conditions.Conditions) {
 	rule.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &NamespacesTopicsSubscriptionsRule{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (rule *NamespacesTopicsSubscriptionsRule) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &NamespacesTopicsSubscriptionsRule{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (rule *NamespacesTopicsSubscriptionsRule) SecretDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &NamespacesTopicsSubscriptionsRule{}
@@ -87,11 +110,15 @@ func (rule *NamespacesTopicsSubscriptionsRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *NamespacesTopicsSubscriptionsRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Namespaces_Topics_Subscriptions_Rule_STATUS{}
+	return &NamespacesTopicsSubscriptionsRule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (rule *NamespacesTopicsSubscriptionsRule) Owner() *genruntime.ResourceReference {
+	if rule.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
 	return rule.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (rule *NamespacesTopicsSubscriptionsRule) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (rule *NamespacesTopicsSubscriptionsRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Namespaces_Topics_Subscriptions_Rule_STATUS); ok {
+	if st, ok := status.(*NamespacesTopicsSubscriptionsRule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Namespaces_Topics_Subscriptions_Rule_STATUS
+	var st NamespacesTopicsSubscriptionsRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	rule.Status = st
@@ -138,16 +165,17 @@ type NamespacesTopicsSubscriptionsRuleList struct {
 	Items           []NamespacesTopicsSubscriptionsRule `json:"items"`
 }
 
-// Storage version of v1api20211101.Namespaces_Topics_Subscriptions_Rule_Spec
-type Namespaces_Topics_Subscriptions_Rule_Spec struct {
+// Storage version of v1api20211101.NamespacesTopicsSubscriptionsRule_Spec
+type NamespacesTopicsSubscriptionsRule_Spec struct {
 	Action *Action `json:"action,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName         string             `json:"azureName,omitempty"`
-	CorrelationFilter *CorrelationFilter `json:"correlationFilter,omitempty"`
-	FilterType        *string            `json:"filterType,omitempty"`
-	OriginalVersion   string             `json:"originalVersion,omitempty"`
+	AzureName         string                                         `json:"azureName,omitempty"`
+	CorrelationFilter *CorrelationFilter                             `json:"correlationFilter,omitempty"`
+	FilterType        *string                                        `json:"filterType,omitempty"`
+	OperatorSpec      *NamespacesTopicsSubscriptionsRuleOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion   string                                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -158,28 +186,28 @@ type Namespaces_Topics_Subscriptions_Rule_Spec struct {
 	SqlFilter   *SqlFilter                         `json:"sqlFilter,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Namespaces_Topics_Subscriptions_Rule_Spec{}
+var _ genruntime.ConvertibleSpec = &NamespacesTopicsSubscriptionsRule_Spec{}
 
-// ConvertSpecFrom populates our Namespaces_Topics_Subscriptions_Rule_Spec from the provided source
-func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our NamespacesTopicsSubscriptionsRule_Spec from the provided source
+func (rule *NamespacesTopicsSubscriptionsRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(rule)
 }
 
-// ConvertSpecTo populates the provided destination from our Namespaces_Topics_Subscriptions_Rule_Spec
-func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our NamespacesTopicsSubscriptionsRule_Spec
+func (rule *NamespacesTopicsSubscriptionsRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(rule)
 }
 
-// Storage version of v1api20211101.Namespaces_Topics_Subscriptions_Rule_STATUS
-type Namespaces_Topics_Subscriptions_Rule_STATUS struct {
+// Storage version of v1api20211101.NamespacesTopicsSubscriptionsRule_STATUS
+type NamespacesTopicsSubscriptionsRule_STATUS struct {
 	Action            *Action_STATUS            `json:"action,omitempty"`
 	Conditions        []conditions.Condition    `json:"conditions,omitempty"`
 	CorrelationFilter *CorrelationFilter_STATUS `json:"correlationFilter,omitempty"`
@@ -193,21 +221,21 @@ type Namespaces_Topics_Subscriptions_Rule_STATUS struct {
 	Type              *string                   `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Namespaces_Topics_Subscriptions_Rule_STATUS{}
+var _ genruntime.ConvertibleStatus = &NamespacesTopicsSubscriptionsRule_STATUS{}
 
-// ConvertStatusFrom populates our Namespaces_Topics_Subscriptions_Rule_STATUS from the provided source
-func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our NamespacesTopicsSubscriptionsRule_STATUS from the provided source
+func (rule *NamespacesTopicsSubscriptionsRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(rule)
 }
 
-// ConvertStatusTo populates the provided destination from our Namespaces_Topics_Subscriptions_Rule_STATUS
-func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our NamespacesTopicsSubscriptionsRule_STATUS
+func (rule *NamespacesTopicsSubscriptionsRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(rule)
@@ -263,6 +291,14 @@ type CorrelationFilter_STATUS struct {
 	RequiresPreprocessing *bool                  `json:"requiresPreprocessing,omitempty"`
 	SessionId             *string                `json:"sessionId,omitempty"`
 	To                    *string                `json:"to,omitempty"`
+}
+
+// Storage version of v1api20211101.NamespacesTopicsSubscriptionsRuleOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespacesTopicsSubscriptionsRuleOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20211101.SqlFilter

@@ -4,14 +4,15 @@ run:
 
 linters:
   enable:
+    - gci
     - gofmt
-    - staticcheck
     - gosimple
-    - unused
-    - tparallel
     - paralleltest
     - prealloc
-    - unparam  # This was added while we used go1.18 which means it's always been disabled. It may eventually be re-enabled and we'll need to fix what it finds
+    - staticcheck
+    - tparallel
+    - unparam 
+    - unused
   presets:
     - bugs
     - unused
@@ -19,16 +20,35 @@ linters:
     # The below rules are disabled due to bug with go1.18 and generics: https://github.com/golangci/golangci-lint/issues/2859
     - stylecheck
     - musttag # Extremely slow, at least on CI machines
+
 linters-settings:
-  govet:
-    check-shadowing: true
-  unused:
-    generated-is-used: true
   exhaustive:
     default-signifies-exhaustive: true
+  gci:
+    custom-order: true
+    sections:
+      - standard
+      - dot
+      - default
+      - prefix(github.com/Azure/azure-service-operator/)
+  govet:
+    check-shadowing: true
   gosimple:
     # See https://golangci-lint.run/usage/linters#gosimple for a breakdown of what's checked by this linter
     checks:
       - "all"
       - "-S1002" # Comparison to bool explicitly can sometimes add clarity
       - "-S1016" # Uncommon language feature, encourages coupling when it may not be appropriate
+  unused:
+    generated-is-used: true
+
+issues:
+  exclude-rules:
+    # Exclude some linters from being run on generated files
+    - path: "_gen.go"
+      linters:
+        - gci
+    # Exclude some linters from being run on generated test files
+    - path: "_gen_test.go"
+      linters:
+        - gci

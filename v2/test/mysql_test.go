@@ -9,8 +9,9 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql" // sql drive link
 	. "github.com/onsi/gomega"
+
+	_ "github.com/go-sql-driver/mysql" // sql drive link
 	v1 "k8s.io/api/core/v1"
 
 	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
@@ -446,7 +447,7 @@ func newMySQLServerOpenFirewallRule(tc *testcommon.KubePerTestContext, flexibleS
 	// because there's no data in the database anyway
 	firewallRule := &mysql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
-		Spec: mysql.FlexibleServers_FirewallRule_Spec{
+		Spec: mysql.FlexibleServersFirewallRule_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
 			StartIpAddress: to.Ptr("0.0.0.0"),
 			EndIpAddress:   to.Ptr("255.255.255.255"),

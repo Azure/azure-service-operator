@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type DomainsTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Domains_Topic_Spec   `json:"spec,omitempty"`
-	Status            Domains_Topic_STATUS `json:"status,omitempty"`
+	Spec              DomainsTopic_Spec   `json:"spec,omitempty"`
+	Status            DomainsTopic_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DomainsTopic{}
@@ -42,6 +45,26 @@ func (topic *DomainsTopic) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (topic *DomainsTopic) SetConditions(conditions conditions.Conditions) {
 	topic.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &DomainsTopic{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (topic *DomainsTopic) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if topic.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return topic.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &DomainsTopic{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (topic *DomainsTopic) SecretDestinationExpressions() []*core.DestinationExpression {
+	if topic.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return topic.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &DomainsTopic{}
@@ -87,11 +110,15 @@ func (topic *DomainsTopic) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (topic *DomainsTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Domains_Topic_STATUS{}
+	return &DomainsTopic_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (topic *DomainsTopic) Owner() *genruntime.ResourceReference {
+	if topic.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(topic.Spec)
 	return topic.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (topic *DomainsTopic) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (topic *DomainsTopic) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Domains_Topic_STATUS); ok {
+	if st, ok := status.(*DomainsTopic_STATUS); ok {
 		topic.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Domains_Topic_STATUS
+	var st DomainsTopic_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	topic.Status = st
@@ -138,12 +165,13 @@ type DomainsTopicList struct {
 	Items           []DomainsTopic `json:"items"`
 }
 
-// Storage version of v1api20200601.Domains_Topic_Spec
-type Domains_Topic_Spec struct {
+// Storage version of v1api20200601.DomainsTopic_Spec
+type DomainsTopic_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string `json:"azureName,omitempty"`
-	OriginalVersion string `json:"originalVersion,omitempty"`
+	AzureName       string                    `json:"azureName,omitempty"`
+	OperatorSpec    *DomainsTopicOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                    `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -153,28 +181,28 @@ type Domains_Topic_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Domains_Topic_Spec{}
+var _ genruntime.ConvertibleSpec = &DomainsTopic_Spec{}
 
-// ConvertSpecFrom populates our Domains_Topic_Spec from the provided source
-func (topic *Domains_Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our DomainsTopic_Spec from the provided source
+func (topic *DomainsTopic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(topic)
 }
 
-// ConvertSpecTo populates the provided destination from our Domains_Topic_Spec
-func (topic *Domains_Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our DomainsTopic_Spec
+func (topic *DomainsTopic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(topic)
 }
 
-// Storage version of v1api20200601.Domains_Topic_STATUS
-type Domains_Topic_STATUS struct {
+// Storage version of v1api20200601.DomainsTopic_STATUS
+type DomainsTopic_STATUS struct {
 	Conditions        []conditions.Condition `json:"conditions,omitempty"`
 	Id                *string                `json:"id,omitempty"`
 	Name              *string                `json:"name,omitempty"`
@@ -184,24 +212,32 @@ type Domains_Topic_STATUS struct {
 	Type              *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Domains_Topic_STATUS{}
+var _ genruntime.ConvertibleStatus = &DomainsTopic_STATUS{}
 
-// ConvertStatusFrom populates our Domains_Topic_STATUS from the provided source
-func (topic *Domains_Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our DomainsTopic_STATUS from the provided source
+func (topic *DomainsTopic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(topic)
 }
 
-// ConvertStatusTo populates the provided destination from our Domains_Topic_STATUS
-func (topic *Domains_Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our DomainsTopic_STATUS
+func (topic *DomainsTopic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(topic)
+}
+
+// Storage version of v1api20200601.DomainsTopicOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DomainsTopicOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

@@ -53,13 +53,45 @@ For this reason, we recommend if you expect to perform secret rotation to mount 
 ## How to retrieve secrets created by Azure
 
 Some Azure resources produce secrets themselves. ASO supports automatically querying these secrets 
-and storing them in the [SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination) you specify.
+and storing them in the [SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination) 
+you specify. This is done with the `.spec.operatorSpec.secrets` field, if you just need the secret itself,
+or the [`.spec.operatorSpec.secretExpressions`]( {{< relref "expressions" >}} ) field, if you want the secret formatted in some way.
 
 These secrets will be written to the destination(s) you specify once the resource has successfully been provisioned in Azure.
 The resource will not move to [Condition]( {{< relref "conditions" >}} ) `Ready=True` 
 until the secrets have been written.
 
-**Example:**
+**Example `.spec.operatorSpec.secretExpressions`:**
+```yaml
+apiVersion: documentdb.azure.com/v1alpha1api20210515
+kind: DatabaseAccount
+metadata:
+  name: sample-db-account
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  kind: MongoDB
+  databaseAccountOfferType: Standard
+  locations:
+    - locationName: westcentralus
+  operatorSpec:
+    secretExpressions:
+      - name: mysecret
+        key: primarymasterkey
+        value: secret.primaryMasterKey
+      - name: mysecret
+        key: secondarymasterkey
+        value: secret.secondaryMasterKey
+      - name: myendpoint  # Can put different values into different Kubernetes secrets, if desired
+        key: endpoint
+        value: self.status.documentEndpoint
+```
+
+More complex expressions can be exported as well, see [Expressions]( {{< relref "expressions" >}} ) for more details.
+
+**Example `.spec.operatorSpec.secrets`:**
 ```yaml
 apiVersion: documentdb.azure.com/v1alpha1api20210515
 kind: DatabaseAccount

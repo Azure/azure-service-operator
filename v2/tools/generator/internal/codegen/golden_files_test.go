@@ -15,7 +15,7 @@ import (
 	"testing"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"github.com/sebdah/goldie/v2"
 	"github.com/xeipuuv/gojsonschema"
 	"gopkg.in/yaml.v3"
@@ -58,7 +58,7 @@ func loadTestConfig(path string) (GoldenTestConfig, error) {
 
 	err = yaml.Unmarshal(fileBytes, &result)
 	if err != nil {
-		return result, errors.Wrapf(err, "unmarshalling golden config %s", path)
+		return result, eris.Wrapf(err, "unmarshalling golden config %s", path)
 	}
 
 	return result, nil
@@ -191,7 +191,7 @@ func NewTestCodeGenerator(
 		}
 
 	default:
-		return nil, errors.Errorf("unknown pipeline kind %q", string(genPipeline))
+		return nil, eris.Errorf("unknown pipeline kind %q", string(genPipeline))
 	}
 
 	codegen.ReplaceStage(pipeline.LoadTypesStageID, loadTestSchemaIntoTypes(idFactory, cfg, path))
@@ -228,13 +228,13 @@ func loadTestSchemaIntoTypes(
 		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
 			inputFile, err := os.ReadFile(path)
 			if err != nil {
-				return nil, errors.Wrapf(err, "cannot read golden test input file")
+				return nil, eris.Wrapf(err, "cannot read golden test input file")
 			}
 
 			loader := gojsonschema.NewSchemaLoader()
 			schema, err := loader.Compile(gojsonschema.NewBytesLoader(inputFile))
 			if err != nil {
-				return nil, errors.Wrapf(err, "could not compile input")
+				return nil, eris.Wrapf(err, "could not compile input")
 			}
 
 			scanner := jsonast.NewSchemaScanner(idFactory, configuration, logr.Discard())
@@ -242,7 +242,7 @@ func loadTestSchemaIntoTypes(
 			schemaAbstraction := jsonast.MakeGoJSONSchema(schema.Root(), configuration.MakeLocalPackageReference, idFactory)
 			_, err = scanner.GenerateAllDefinitions(ctx, schemaAbstraction)
 			if err != nil {
-				return nil, errors.Wrapf(err, "failed to walk JSON schema")
+				return nil, eris.Wrapf(err, "failed to walk JSON schema")
 			}
 
 			return state.WithDefinitions(scanner.Definitions()), nil
@@ -317,7 +317,7 @@ func stripUnusedTypesPipelineStage() *pipeline.Stage {
 			roots := astmodel.NewTypeNameSet(astmodel.MakeInternalTypeName(goldenTestPackageReference, "Test"))
 			defs, err := pipeline.StripUnusedDefinitions(roots, state.Definitions())
 			if err != nil {
-				return nil, errors.Wrapf(err, "could not strip unused types")
+				return nil, eris.Wrapf(err, "could not strip unused types")
 			}
 
 			return state.WithDefinitions(defs), nil
@@ -358,12 +358,12 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pi
 
 				updatedDef, err := crossReferenceVisitor.VisitDefinition(def, def.Name())
 				if err != nil {
-					return nil, errors.Wrapf(err, "crossReferenceVisitor failed visiting %q", def.Name())
+					return nil, eris.Wrapf(err, "crossReferenceVisitor failed visiting %q", def.Name())
 				}
 
 				updatedDef, err = resourceReferenceVisitor.VisitDefinition(updatedDef, def.Name())
 				if err != nil {
-					return nil, errors.Wrapf(err, "resourceReferenceVisitor failed visiting %q", def.Name())
+					return nil, eris.Wrapf(err, "resourceReferenceVisitor failed visiting %q", def.Name())
 				}
 
 				defs.Add(updatedDef)

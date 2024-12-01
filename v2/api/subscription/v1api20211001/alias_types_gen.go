@@ -5,11 +5,15 @@ package v1api20211001
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -90,6 +94,26 @@ func (alias *Alias) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Alias resource
 func (alias *Alias) defaultImpl() { alias.defaultAzureName() }
 
+var _ configmaps.Exporter = &Alias{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (alias *Alias) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if alias.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return alias.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Alias{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (alias *Alias) SecretDestinationExpressions() []*core.DestinationExpression {
+	if alias.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return alias.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.ImportableResource = &Alias{}
 
 // InitializeSpec initializes the spec for this resource from the given status
@@ -164,7 +188,7 @@ func (alias *Alias) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Alias_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	alias.Status = st
@@ -207,7 +231,7 @@ func (alias *Alias) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (alias *Alias) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){alias.validateResourceReferences}
+	return []func() (admission.Warnings, error){alias.validateResourceReferences, alias.validateSecretDestinations, alias.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -221,7 +245,22 @@ func (alias *Alias) updateValidations() []func(old runtime.Object) (admission.Wa
 		func(old runtime.Object) (admission.Warnings, error) {
 			return alias.validateResourceReferences()
 		},
-		alias.validateWriteOnceProperties}
+		alias.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return alias.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return alias.validateConfigMapDestinations()
+		},
+	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (alias *Alias) validateConfigMapDestinations() (admission.Warnings, error) {
+	if alias.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(alias, nil, alias.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateResourceReferences validates all resource references
@@ -231,6 +270,14 @@ func (alias *Alias) validateResourceReferences() (admission.Warnings, error) {
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (alias *Alias) validateSecretDestinations() (admission.Warnings, error) {
+	if alias.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(alias, nil, alias.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -253,7 +300,7 @@ func (alias *Alias) AssignProperties_From_Alias(source *storage.Alias) error {
 	var spec Alias_Spec
 	err := spec.AssignProperties_From_Alias_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Alias_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Alias_Spec() to populate field Spec")
 	}
 	alias.Spec = spec
 
@@ -261,7 +308,7 @@ func (alias *Alias) AssignProperties_From_Alias(source *storage.Alias) error {
 	var status Alias_STATUS
 	err = status.AssignProperties_From_Alias_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Alias_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Alias_STATUS() to populate field Status")
 	}
 	alias.Status = status
 
@@ -279,7 +326,7 @@ func (alias *Alias) AssignProperties_To_Alias(destination *storage.Alias) error 
 	var spec storage.Alias_Spec
 	err := alias.Spec.AssignProperties_To_Alias_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Alias_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Alias_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -287,7 +334,7 @@ func (alias *Alias) AssignProperties_To_Alias(destination *storage.Alias) error 
 	var status storage.Alias_STATUS
 	err = alias.Status.AssignProperties_To_Alias_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Alias_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Alias_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -319,6 +366,10 @@ type Alias_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *AliasOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// Properties: Put alias request properties.
 	Properties *PutAliasRequestProperties `json:"properties,omitempty"`
 }
@@ -330,7 +381,7 @@ func (alias *Alias_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if alias == nil {
 		return nil, nil
 	}
-	result := &Alias_Spec_ARM{}
+	result := &arm.Alias_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -341,7 +392,7 @@ func (alias *Alias_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*PutAliasRequestProperties_ARM)
+		properties := *properties_ARM.(*arm.PutAliasRequestProperties)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -349,18 +400,20 @@ func (alias *Alias_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (alias *Alias_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Alias_Spec_ARM{}
+	return &arm.Alias_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (alias *Alias_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Alias_Spec_ARM)
+	typedInput, ok := armInput.(arm.Alias_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Alias_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Alias_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
 	alias.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Properties":
 	if typedInput.Properties != nil {
@@ -391,13 +444,13 @@ func (alias *Alias_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 	src = &storage.Alias_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = alias.AssignProperties_From_Alias_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -415,13 +468,13 @@ func (alias *Alias_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	dst = &storage.Alias_Spec{}
 	err := alias.AssignProperties_To_Alias_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -433,12 +486,24 @@ func (alias *Alias_Spec) AssignProperties_From_Alias_Spec(source *storage.Alias_
 	// AzureName
 	alias.AzureName = source.AzureName
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec AliasOperatorSpec
+		err := operatorSpec.AssignProperties_From_AliasOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_AliasOperatorSpec() to populate field OperatorSpec")
+		}
+		alias.OperatorSpec = &operatorSpec
+	} else {
+		alias.OperatorSpec = nil
+	}
+
 	// Properties
 	if source.Properties != nil {
 		var property PutAliasRequestProperties
 		err := property.AssignProperties_From_PutAliasRequestProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PutAliasRequestProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_PutAliasRequestProperties() to populate field Properties")
 		}
 		alias.Properties = &property
 	} else {
@@ -457,6 +522,18 @@ func (alias *Alias_Spec) AssignProperties_To_Alias_Spec(destination *storage.Ali
 	// AzureName
 	destination.AzureName = alias.AzureName
 
+	// OperatorSpec
+	if alias.OperatorSpec != nil {
+		var operatorSpec storage.AliasOperatorSpec
+		err := alias.OperatorSpec.AssignProperties_To_AliasOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AliasOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	destination.OriginalVersion = alias.OriginalVersion()
 
@@ -465,7 +542,7 @@ func (alias *Alias_Spec) AssignProperties_To_Alias_Spec(destination *storage.Ali
 		var property storage.PutAliasRequestProperties
 		err := alias.Properties.AssignProperties_To_PutAliasRequestProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PutAliasRequestProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_PutAliasRequestProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -491,7 +568,7 @@ func (alias *Alias_Spec) Initialize_From_Alias_STATUS(source *Alias_STATUS) erro
 		var property PutAliasRequestProperties
 		err := property.Initialize_From_SubscriptionAliasResponseProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling Initialize_From_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
 		}
 		alias.Properties = &property
 	} else {
@@ -544,13 +621,13 @@ func (alias *Alias_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	src = &storage.Alias_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = alias.AssignProperties_From_Alias_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -568,13 +645,13 @@ func (alias *Alias_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	dst = &storage.Alias_STATUS{}
 	err := alias.AssignProperties_To_Alias_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -584,14 +661,14 @@ var _ genruntime.FromARMConverter = &Alias_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (alias *Alias_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Alias_STATUS_ARM{}
+	return &arm.Alias_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (alias *Alias_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Alias_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Alias_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Alias_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Alias_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -657,7 +734,7 @@ func (alias *Alias_STATUS) AssignProperties_From_Alias_STATUS(source *storage.Al
 		var property SubscriptionAliasResponseProperties_STATUS
 		err := property.AssignProperties_From_SubscriptionAliasResponseProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
 		}
 		alias.Properties = &property
 	} else {
@@ -669,7 +746,7 @@ func (alias *Alias_STATUS) AssignProperties_From_Alias_STATUS(source *storage.Al
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		alias.SystemData = &systemDatum
 	} else {
@@ -702,7 +779,7 @@ func (alias *Alias_STATUS) AssignProperties_To_Alias_STATUS(destination *storage
 		var property storage.SubscriptionAliasResponseProperties_STATUS
 		err := alias.Properties.AssignProperties_To_SubscriptionAliasResponseProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -714,7 +791,7 @@ func (alias *Alias_STATUS) AssignProperties_To_Alias_STATUS(destination *storage
 		var systemDatum storage.SystemData_STATUS
 		err := alias.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -739,6 +816,110 @@ func (alias *Alias_STATUS) AssignProperties_To_Alias_STATUS(destination *storage
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-10-01")
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type AliasOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_AliasOperatorSpec populates our AliasOperatorSpec from the provided source AliasOperatorSpec
+func (operator *AliasOperatorSpec) AssignProperties_From_AliasOperatorSpec(source *storage.AliasOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AliasOperatorSpec populates the provided destination AliasOperatorSpec from our AliasOperatorSpec
+func (operator *AliasOperatorSpec) AssignProperties_To_AliasOperatorSpec(destination *storage.AliasOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 // Put subscription properties.
 type PutAliasRequestProperties struct {
@@ -766,7 +947,7 @@ func (properties *PutAliasRequestProperties) ConvertToARM(resolved genruntime.Co
 	if properties == nil {
 		return nil, nil
 	}
-	result := &PutAliasRequestProperties_ARM{}
+	result := &arm.PutAliasRequestProperties{}
 
 	// Set property "AdditionalProperties":
 	if properties.AdditionalProperties != nil {
@@ -774,7 +955,7 @@ func (properties *PutAliasRequestProperties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		additionalProperties := *additionalProperties_ARM.(*PutAliasRequestAdditionalProperties_ARM)
+		additionalProperties := *additionalProperties_ARM.(*arm.PutAliasRequestAdditionalProperties)
 		result.AdditionalProperties = &additionalProperties
 	}
 
@@ -806,7 +987,7 @@ func (properties *PutAliasRequestProperties) ConvertToARM(resolved genruntime.Co
 	if properties.Workload != nil {
 		var temp string
 		temp = string(*properties.Workload)
-		workload := Workload_ARM(temp)
+		workload := arm.Workload(temp)
 		result.Workload = &workload
 	}
 	return result, nil
@@ -814,14 +995,14 @@ func (properties *PutAliasRequestProperties) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *PutAliasRequestProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PutAliasRequestProperties_ARM{}
+	return &arm.PutAliasRequestProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *PutAliasRequestProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PutAliasRequestProperties_ARM)
+	typedInput, ok := armInput.(arm.PutAliasRequestProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PutAliasRequestProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PutAliasRequestProperties, got %T", armInput)
 	}
 
 	// Set property "AdditionalProperties":
@@ -879,7 +1060,7 @@ func (properties *PutAliasRequestProperties) AssignProperties_From_PutAliasReque
 		var additionalProperty PutAliasRequestAdditionalProperties
 		err := additionalProperty.AssignProperties_From_PutAliasRequestAdditionalProperties(source.AdditionalProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PutAliasRequestAdditionalProperties() to populate field AdditionalProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_PutAliasRequestAdditionalProperties() to populate field AdditionalProperties")
 		}
 		properties.AdditionalProperties = &additionalProperty
 	} else {
@@ -921,7 +1102,7 @@ func (properties *PutAliasRequestProperties) AssignProperties_To_PutAliasRequest
 		var additionalProperty storage.PutAliasRequestAdditionalProperties
 		err := properties.AdditionalProperties.AssignProperties_To_PutAliasRequestAdditionalProperties(&additionalProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PutAliasRequestAdditionalProperties() to populate field AdditionalProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_PutAliasRequestAdditionalProperties() to populate field AdditionalProperties")
 		}
 		destination.AdditionalProperties = &additionalProperty
 	} else {
@@ -1027,14 +1208,14 @@ var _ genruntime.FromARMConverter = &SubscriptionAliasResponseProperties_STATUS{
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *SubscriptionAliasResponseProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubscriptionAliasResponseProperties_STATUS_ARM{}
+	return &arm.SubscriptionAliasResponseProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *SubscriptionAliasResponseProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubscriptionAliasResponseProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SubscriptionAliasResponseProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubscriptionAliasResponseProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubscriptionAliasResponseProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AcceptOwnershipState":
@@ -1274,14 +1455,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUS_ARM{}
+	return &arm.SystemData_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreatedAt":
@@ -1447,7 +1628,7 @@ func (properties *PutAliasRequestAdditionalProperties) ConvertToARM(resolved gen
 	if properties == nil {
 		return nil, nil
 	}
-	result := &PutAliasRequestAdditionalProperties_ARM{}
+	result := &arm.PutAliasRequestAdditionalProperties{}
 
 	// Set property "ManagementGroupId":
 	if properties.ManagementGroupId != nil {
@@ -1479,14 +1660,14 @@ func (properties *PutAliasRequestAdditionalProperties) ConvertToARM(resolved gen
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *PutAliasRequestAdditionalProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PutAliasRequestAdditionalProperties_ARM{}
+	return &arm.PutAliasRequestAdditionalProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *PutAliasRequestAdditionalProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PutAliasRequestAdditionalProperties_ARM)
+	typedInput, ok := armInput.(arm.PutAliasRequestAdditionalProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PutAliasRequestAdditionalProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PutAliasRequestAdditionalProperties, got %T", armInput)
 	}
 
 	// Set property "ManagementGroupId":

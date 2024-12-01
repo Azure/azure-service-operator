@@ -5,6 +5,9 @@ package v20200101
 
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -15,6 +18,26 @@ type Person struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Person_Spec   `json:"spec,omitempty"`
 	Status            Person_STATUS `json:"status,omitempty"`
+}
+
+var _ configmaps.Exporter = &Person{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (person *Person) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if person.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return person.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Person{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (person *Person) SecretDestinationExpressions() []*core.DestinationExpression {
+	if person.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return person.Spec.OperatorSpec.SecretExpressions
 }
 
 // +kubebuilder:object:root=true
@@ -46,6 +69,12 @@ type Person_STATUS struct {
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type PersonOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+
 	// Secrets: configures where to place Azure generated secrets.
 	Secrets *PersonOperatorSecrets `json:"secrets,omitempty"`
 }

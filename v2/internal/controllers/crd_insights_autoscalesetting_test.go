@@ -22,9 +22,9 @@ func Test_Insights_Autoscalesetting_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	vnet := newVNet(tc, testcommon.AsOwner(rg), []string{"10.0.0.0/8"})
-	subnet := newSubnet(tc, vnet, "10.0.0.0/24")
-	publicIP := newPublicIp(tc, testcommon.AsOwner(rg))
+	vnet := newVNet20201101(tc, testcommon.AsOwner(rg), []string{"10.0.0.0/8"})
+	subnet := newSubnet20201101(tc, vnet, "10.0.0.0/24")
+	publicIP := newPublicIP20201101(tc, testcommon.AsOwner(rg))
 	lb := newLoadBalancerForVMSS(tc, rg, publicIP)
 
 	tc.CreateResourcesAndWait(vnet, subnet, publicIP, lb)
@@ -35,7 +35,7 @@ func Test_Insights_Autoscalesetting_CRUD(t *testing.T) {
 	objectMeta := tc.MakeObjectMeta("setting")
 	setting := &insights.AutoscaleSetting{
 		ObjectMeta: objectMeta,
-		Spec: insights.Autoscalesetting_Spec{
+		Spec: insights.AutoscaleSetting_Spec{
 			Location:                   tc.AzureRegion,
 			Name:                       &objectMeta.Name,
 			Owner:                      testcommon.AsOwner(rg),

@@ -5,7 +5,7 @@ package vcurrent
 
 import (
 	vnext "github.com/Azure/azure-service-operator/testing/verification/vnext"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 type Person struct {
@@ -19,7 +19,7 @@ func (person *Person) AssignProperties_From_Person(source *vnext.Person) error {
 	var role Release
 	err := role.AssignProperties_From_Release(&source.Role)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Release() to populate field Role")
+		return eris.Wrap(err, "calling AssignProperties_From_Release() to populate field Role")
 	}
 	person.Role = role
 
@@ -34,7 +34,7 @@ func (person *Person) AssignProperties_To_Person(destination *vnext.Person) erro
 	var role vnext.Release
 	err := person.Role.AssignProperties_To_Release(&role)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Release() to populate field Role")
+		return eris.Wrap(err, "calling AssignProperties_To_Release() to populate field Role")
 	}
 	destination.Role = role
 

@@ -9,7 +9,7 @@ import (
 	"context"
 
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -17,6 +17,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -63,6 +64,7 @@ func NewAzureDeploymentReconciler(
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
+	expressionEvaluator asocel.ExpressionEvaluator,
 	cfg config.Values,
 	extension genruntime.ResourceExtension,
 ) *AzureDeploymentReconciler {
@@ -76,8 +78,9 @@ func NewAzureDeploymentReconciler(
 		ARMOwnedResourceReconcilerCommon: reconcilers.ARMOwnedResourceReconcilerCommon{
 			ResourceResolver: resourceResolver,
 			ReconcilerCommon: reconcilers.ReconcilerCommon{
-				KubeClient:         kubeClient,
-				PositiveConditions: positiveConditions,
+				KubeClient:          kubeClient,
+				PositiveConditions:  positiveConditions,
+				ExpressionEvaluator: expressionEvaluator,
 			},
 		},
 	}
@@ -86,7 +89,7 @@ func NewAzureDeploymentReconciler(
 func (r *AzureDeploymentReconciler) asARMObj(obj genruntime.MetaObject) (genruntime.ARMMetaObject, error) {
 	typedObj, ok := obj.(genruntime.ARMMetaObject)
 	if !ok {
-		return nil, errors.Errorf("cannot modify resource that is not of type ARMMetaObject. Type is %T", obj)
+		return nil, eris.Errorf("cannot modify resource that is not of type ARMMetaObject. Type is %T", obj)
 	}
 
 	return typedObj, nil
@@ -166,7 +169,7 @@ func (r *AzureDeploymentReconciler) Claim(
 	// Add ARM specific details
 	err = instance.AddInitialResourceState(ctx)
 	if err != nil {
-		return errors.Wrapf(err, "failed to add initial resource state")
+		return eris.Wrapf(err, "failed to add initial resource state")
 	}
 
 	return nil

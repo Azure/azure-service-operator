@@ -23,6 +23,7 @@ var (
 
 	// References to our Libraries
 	GenRuntimeReference             = MakeExternalPackageReference(genRuntimePathPrefix)
+	GenRuntimeCoreReference         = MakeExternalPackageReference(genRuntimePathPrefix + "/core")
 	GenRuntimeConditionsReference   = MakeExternalPackageReference(genRuntimePathPrefix + "/conditions")
 	GenRuntimeRegistrationReference = MakeExternalPackageReference(genRuntimePathPrefix + "/registration")
 	ReflectHelpersReference         = MakeExternalPackageReference(reflectHelpersPath)
@@ -45,7 +46,7 @@ var (
 	ControllerRuntimeConversion = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/conversion")
 	ControllerSchemeReference   = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/scheme")
 	ControllerRuntimeClient     = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/client")
-	GitHubErrorsReference       = MakeExternalPackageReference("github.com/pkg/errors")
+	ErisReference               = MakeExternalPackageReference("github.com/rotisserie/eris")
 
 	// References to libraries used for testing
 	CmpReference        = MakeExternalPackageReference("github.com/google/go-cmp/cmp")
@@ -62,7 +63,7 @@ var (
 
 	// Type names - GenRuntime
 	KubernetesResourceType           = MakeExternalTypeName(GenRuntimeReference, "KubernetesResource")
-	KubernetesExporterType           = MakeExternalTypeName(GenRuntimeReference, "KubernetesExporter")
+	KuberentesConfigExporterType     = MakeExternalTypeName(GenRuntimeReference, "KubernetesConfigExporter")
 	TenantResourceType               = MakeExternalTypeName(GenRuntimeReference, "TenantResource")
 	ConvertibleSpecInterfaceType     = MakeExternalTypeName(GenRuntimeReference, "ConvertibleSpec")
 	ConvertibleStatusInterfaceType   = MakeExternalTypeName(GenRuntimeReference, "ConvertibleStatus")
@@ -88,6 +89,9 @@ var (
 	ImportableResourceType           = MakeExternalTypeName(GenRuntimeReference, "ImportableResource")
 	ResourceOperationType            = MakeExternalTypeName(GenRuntimeReference, "ResourceOperation")
 	ResourceOperationTypeArray       = NewArrayType(ResourceOperationType)
+	DestinationExpressionType        = MakeExternalTypeName(GenRuntimeCoreReference, "DestinationExpression")
+	ConfigMapExporterType            = MakeExternalTypeName(GenRuntimeConfigMapsReference, "Exporter")
+	SecretExporterType               = MakeExternalTypeName(GenRuntimeSecretsReference, "Exporter")
 
 	// Optional types - GenRuntime
 	OptionalConfigMapReferenceType     = NewOptionalType(ConfigMapReferenceType)
@@ -98,6 +102,9 @@ var (
 
 	// Predeclared maps
 	MapOfStringStringType = NewMapType(StringType, StringType)
+
+	// Predeclared slices
+	DestinationExpressionCollectionType = NewArrayType(NewOptionalType(DestinationExpressionType))
 
 	// Type names - Generic ARM client
 	GenericClientType = MakeExternalTypeName(GenericARMClientReference, "GenericClient")

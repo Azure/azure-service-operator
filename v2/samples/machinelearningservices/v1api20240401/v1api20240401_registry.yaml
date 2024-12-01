@@ -1,0 +1,26 @@
+apiVersion: machinelearningservices.azure.com/v1api20240401
+kind: Registry
+metadata:
+  name: asotestregistrylsapiw
+  namespace: default
+spec:
+  identity:
+    type: SystemAssigned
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  publicNetworkAccess: Disabled
+  regionDetails:
+    - acrDetails:
+        - systemCreatedAcrAccount:
+            acrAccountName: myasoamltestacr
+            acrAccountSku: Premium
+      location: westus2
+      storageAccountDetails:
+        - systemCreatedStorageAccount:
+            allowBlobPublicAccess: false
+            storageAccountName: myasoamltestsa
+            storageAccountType: Standard_LRS
+  sku:
+    name: P3
+    tier: Free

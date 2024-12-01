@@ -11,7 +11,7 @@ import (
 
 	gomegaformat "github.com/onsi/gomega/format"
 	"github.com/onsi/gomega/types"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
@@ -26,11 +26,11 @@ var _ types.GomegaMatcher = &AzureBeDeletedMatcher{}
 func (m *AzureBeDeletedMatcher) typedActual(actual interface{}) ([]string, error) {
 	args, ok := actual.([]string)
 	if !ok {
-		return nil, errors.Errorf("Expected actual of type []string, instead %T", actual)
+		return nil, eris.Errorf("Expected actual of type []string, instead %T", actual)
 	}
 
 	if len(args) != 2 {
-		return nil, errors.Errorf("Expected args of length 2, actually length: %d", len(args))
+		return nil, eris.Errorf("Expected args of length 2, actually length: %d", len(args))
 	}
 
 	return args, nil

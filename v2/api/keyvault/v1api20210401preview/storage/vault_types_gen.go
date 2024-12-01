@@ -8,7 +8,10 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -65,6 +68,26 @@ func (vault *Vault) ConvertTo(hub conversion.Hub) error {
 	return vault.AssignProperties_To_Vault(destination)
 }
 
+var _ configmaps.Exporter = &Vault{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (vault *Vault) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if vault.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return vault.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Vault{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (vault *Vault) SecretDestinationExpressions() []*core.DestinationExpression {
+	if vault.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return vault.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.KubernetesResource = &Vault{}
 
 // AzureName returns the Azure name of the resource
@@ -113,6 +136,10 @@ func (vault *Vault) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (vault *Vault) Owner() *genruntime.ResourceReference {
+	if vault.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(vault.Spec)
 	return vault.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -129,7 +156,7 @@ func (vault *Vault) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Vault_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	vault.Status = st
@@ -146,7 +173,7 @@ func (vault *Vault) AssignProperties_From_Vault(source *storage.Vault) error {
 	var spec Vault_Spec
 	err := spec.AssignProperties_From_Vault_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Vault_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_Vault_Spec() to populate field Spec")
 	}
 	vault.Spec = spec
 
@@ -154,7 +181,7 @@ func (vault *Vault) AssignProperties_From_Vault(source *storage.Vault) error {
 	var status Vault_STATUS
 	err = status.AssignProperties_From_Vault_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Vault_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_Vault_STATUS() to populate field Status")
 	}
 	vault.Status = status
 
@@ -163,7 +190,7 @@ func (vault *Vault) AssignProperties_From_Vault(source *storage.Vault) error {
 	if augmentedVault, ok := vaultAsAny.(augmentConversionForVault); ok {
 		err := augmentedVault.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -181,7 +208,7 @@ func (vault *Vault) AssignProperties_To_Vault(destination *storage.Vault) error 
 	var spec storage.Vault_Spec
 	err := vault.Spec.AssignProperties_To_Vault_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Vault_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_Vault_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -189,7 +216,7 @@ func (vault *Vault) AssignProperties_To_Vault(destination *storage.Vault) error 
 	var status storage.Vault_STATUS
 	err = vault.Status.AssignProperties_To_Vault_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Vault_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_Vault_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -198,7 +225,7 @@ func (vault *Vault) AssignProperties_To_Vault(destination *storage.Vault) error 
 	if augmentedVault, ok := vaultAsAny.(augmentConversionForVault); ok {
 		err := augmentedVault.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -241,9 +268,10 @@ type augmentConversionForVault interface {
 type Vault_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string             `json:"azureName,omitempty"`
+	Location        *string            `json:"location,omitempty"`
+	OperatorSpec    *VaultOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -269,13 +297,13 @@ func (vault *Vault_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 	src = &storage.Vault_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
 	err = vault.AssignProperties_From_Vault_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
@@ -293,13 +321,13 @@ func (vault *Vault_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	dst = &storage.Vault_Spec{}
 	err := vault.AssignProperties_To_Vault_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
@@ -315,6 +343,18 @@ func (vault *Vault_Spec) AssignProperties_From_Vault_Spec(source *storage.Vault_
 
 	// Location
 	vault.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec VaultOperatorSpec
+		err := operatorSpec.AssignProperties_From_VaultOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_VaultOperatorSpec() to populate field OperatorSpec")
+		}
+		vault.OperatorSpec = &operatorSpec
+	} else {
+		vault.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	vault.OriginalVersion = source.OriginalVersion
@@ -332,7 +372,7 @@ func (vault *Vault_Spec) AssignProperties_From_Vault_Spec(source *storage.Vault_
 		var property VaultProperties
 		err := property.AssignProperties_From_VaultProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VaultProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_VaultProperties() to populate field Properties")
 		}
 		vault.Properties = &property
 	} else {
@@ -354,7 +394,7 @@ func (vault *Vault_Spec) AssignProperties_From_Vault_Spec(source *storage.Vault_
 	if augmentedVault, ok := vaultAsAny.(augmentConversionForVault_Spec); ok {
 		err := augmentedVault.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -373,6 +413,18 @@ func (vault *Vault_Spec) AssignProperties_To_Vault_Spec(destination *storage.Vau
 	// Location
 	destination.Location = genruntime.ClonePointerToString(vault.Location)
 
+	// OperatorSpec
+	if vault.OperatorSpec != nil {
+		var operatorSpec storage.VaultOperatorSpec
+		err := vault.OperatorSpec.AssignProperties_To_VaultOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_VaultOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	destination.OriginalVersion = vault.OriginalVersion
 
@@ -389,7 +441,7 @@ func (vault *Vault_Spec) AssignProperties_To_Vault_Spec(destination *storage.Vau
 		var property storage.VaultProperties
 		err := vault.Properties.AssignProperties_To_VaultProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VaultProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_VaultProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -411,7 +463,7 @@ func (vault *Vault_Spec) AssignProperties_To_Vault_Spec(destination *storage.Vau
 	if augmentedVault, ok := vaultAsAny.(augmentConversionForVault_Spec); ok {
 		err := augmentedVault.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -447,13 +499,13 @@ func (vault *Vault_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	src = &storage.Vault_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
 	err = vault.AssignProperties_From_Vault_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
@@ -471,13 +523,13 @@ func (vault *Vault_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	dst = &storage.Vault_STATUS{}
 	err := vault.AssignProperties_To_Vault_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
@@ -505,7 +557,7 @@ func (vault *Vault_STATUS) AssignProperties_From_Vault_STATUS(source *storage.Va
 		var property VaultProperties_STATUS
 		err := property.AssignProperties_From_VaultProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VaultProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_VaultProperties_STATUS() to populate field Properties")
 		}
 		vault.Properties = &property
 	} else {
@@ -517,7 +569,7 @@ func (vault *Vault_STATUS) AssignProperties_From_Vault_STATUS(source *storage.Va
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		vault.SystemData = &systemDatum
 	} else {
@@ -542,7 +594,7 @@ func (vault *Vault_STATUS) AssignProperties_From_Vault_STATUS(source *storage.Va
 	if augmentedVault, ok := vaultAsAny.(augmentConversionForVault_STATUS); ok {
 		err := augmentedVault.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -572,7 +624,7 @@ func (vault *Vault_STATUS) AssignProperties_To_Vault_STATUS(destination *storage
 		var property storage.VaultProperties_STATUS
 		err := vault.Properties.AssignProperties_To_VaultProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VaultProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_VaultProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -584,7 +636,7 @@ func (vault *Vault_STATUS) AssignProperties_To_Vault_STATUS(destination *storage
 		var systemDatum storage.SystemData_STATUS
 		err := vault.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -609,7 +661,7 @@ func (vault *Vault_STATUS) AssignProperties_To_Vault_STATUS(destination *storage
 	if augmentedVault, ok := vaultAsAny.(augmentConversionForVault_STATUS); ok {
 		err := augmentedVault.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -674,7 +726,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *s
 	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
 		err := augmentedData.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -717,7 +769,137 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
 		err := augmentedData.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1api20210401preview.VaultOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type VaultOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_VaultOperatorSpec populates our VaultOperatorSpec from the provided source VaultOperatorSpec
+func (operator *VaultOperatorSpec) AssignProperties_From_VaultOperatorSpec(source *storage.VaultOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForVaultOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForVaultOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VaultOperatorSpec populates the provided destination VaultOperatorSpec from our VaultOperatorSpec
+func (operator *VaultOperatorSpec) AssignProperties_To_VaultOperatorSpec(destination *storage.VaultOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForVaultOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForVaultOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -760,7 +942,7 @@ func (properties *VaultProperties) AssignProperties_From_VaultProperties(source 
 			var accessPolicy AccessPolicyEntry
 			err := accessPolicy.AssignProperties_From_AccessPolicyEntry(&accessPolicyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_AccessPolicyEntry() to populate field AccessPolicies")
+				return eris.Wrap(err, "calling AssignProperties_From_AccessPolicyEntry() to populate field AccessPolicies")
 			}
 			accessPolicyList[accessPolicyIndex] = accessPolicy
 		}
@@ -825,7 +1007,7 @@ func (properties *VaultProperties) AssignProperties_From_VaultProperties(source 
 		var networkAcl NetworkRuleSet
 		err := networkAcl.AssignProperties_From_NetworkRuleSet(source.NetworkAcls)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSet() to populate field NetworkAcls")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkRuleSet() to populate field NetworkAcls")
 		}
 		properties.NetworkAcls = &networkAcl
 	} else {
@@ -847,7 +1029,7 @@ func (properties *VaultProperties) AssignProperties_From_VaultProperties(source 
 		var sku Sku
 		err := sku.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
 		properties.Sku = &sku
 	} else {
@@ -883,7 +1065,7 @@ func (properties *VaultProperties) AssignProperties_From_VaultProperties(source 
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForVaultProperties); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -905,7 +1087,7 @@ func (properties *VaultProperties) AssignProperties_To_VaultProperties(destinati
 			var accessPolicy storage.AccessPolicyEntry
 			err := accessPolicyItem.AssignProperties_To_AccessPolicyEntry(&accessPolicy)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_AccessPolicyEntry() to populate field AccessPolicies")
+				return eris.Wrap(err, "calling AssignProperties_To_AccessPolicyEntry() to populate field AccessPolicies")
 			}
 			accessPolicyList[accessPolicyIndex] = accessPolicy
 		}
@@ -970,7 +1152,7 @@ func (properties *VaultProperties) AssignProperties_To_VaultProperties(destinati
 		var networkAcl storage.NetworkRuleSet
 		err := properties.NetworkAcls.AssignProperties_To_NetworkRuleSet(&networkAcl)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSet() to populate field NetworkAcls")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkRuleSet() to populate field NetworkAcls")
 		}
 		destination.NetworkAcls = &networkAcl
 	} else {
@@ -985,7 +1167,7 @@ func (properties *VaultProperties) AssignProperties_To_VaultProperties(destinati
 		var publicNetworkAccess string
 		err := propertyBag.Pull("PublicNetworkAccess", &publicNetworkAccess)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
+			return eris.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
 		}
 
 		destination.PublicNetworkAccess = &publicNetworkAccess
@@ -998,7 +1180,7 @@ func (properties *VaultProperties) AssignProperties_To_VaultProperties(destinati
 		var sku storage.Sku
 		err := properties.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1034,7 +1216,7 @@ func (properties *VaultProperties) AssignProperties_To_VaultProperties(destinati
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForVaultProperties); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1078,7 +1260,7 @@ func (properties *VaultProperties_STATUS) AssignProperties_From_VaultProperties_
 			var accessPolicy AccessPolicyEntry_STATUS
 			err := accessPolicy.AssignProperties_From_AccessPolicyEntry_STATUS(&accessPolicyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_AccessPolicyEntry_STATUS() to populate field AccessPolicies")
+				return eris.Wrap(err, "calling AssignProperties_From_AccessPolicyEntry_STATUS() to populate field AccessPolicies")
 			}
 			accessPolicyList[accessPolicyIndex] = accessPolicy
 		}
@@ -1146,7 +1328,7 @@ func (properties *VaultProperties_STATUS) AssignProperties_From_VaultProperties_
 		var networkAcl NetworkRuleSet_STATUS
 		err := networkAcl.AssignProperties_From_NetworkRuleSet_STATUS(source.NetworkAcls)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSet_STATUS() to populate field NetworkAcls")
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkRuleSet_STATUS() to populate field NetworkAcls")
 		}
 		properties.NetworkAcls = &networkAcl
 	} else {
@@ -1162,7 +1344,7 @@ func (properties *VaultProperties_STATUS) AssignProperties_From_VaultProperties_
 			var privateEndpointConnection PrivateEndpointConnectionItem_STATUS
 			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnectionItem_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnectionItem_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnectionItem_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1186,7 +1368,7 @@ func (properties *VaultProperties_STATUS) AssignProperties_From_VaultProperties_
 		var sku Sku_STATUS
 		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		properties.Sku = &sku
 	} else {
@@ -1214,7 +1396,7 @@ func (properties *VaultProperties_STATUS) AssignProperties_From_VaultProperties_
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForVaultProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1236,7 +1418,7 @@ func (properties *VaultProperties_STATUS) AssignProperties_To_VaultProperties_ST
 			var accessPolicy storage.AccessPolicyEntry_STATUS
 			err := accessPolicyItem.AssignProperties_To_AccessPolicyEntry_STATUS(&accessPolicy)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_AccessPolicyEntry_STATUS() to populate field AccessPolicies")
+				return eris.Wrap(err, "calling AssignProperties_To_AccessPolicyEntry_STATUS() to populate field AccessPolicies")
 			}
 			accessPolicyList[accessPolicyIndex] = accessPolicy
 		}
@@ -1304,7 +1486,7 @@ func (properties *VaultProperties_STATUS) AssignProperties_To_VaultProperties_ST
 		var networkAcl storage.NetworkRuleSet_STATUS
 		err := properties.NetworkAcls.AssignProperties_To_NetworkRuleSet_STATUS(&networkAcl)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSet_STATUS() to populate field NetworkAcls")
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkRuleSet_STATUS() to populate field NetworkAcls")
 		}
 		destination.NetworkAcls = &networkAcl
 	} else {
@@ -1320,7 +1502,7 @@ func (properties *VaultProperties_STATUS) AssignProperties_To_VaultProperties_ST
 			var privateEndpointConnection storage.PrivateEndpointConnectionItem_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnectionItem_STATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnectionItem_STATUS() to populate field PrivateEndpointConnections")
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnectionItem_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1337,7 +1519,7 @@ func (properties *VaultProperties_STATUS) AssignProperties_To_VaultProperties_ST
 		var publicNetworkAccess string
 		err := propertyBag.Pull("PublicNetworkAccess", &publicNetworkAccess)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
+			return eris.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
 		}
 
 		destination.PublicNetworkAccess = &publicNetworkAccess
@@ -1350,7 +1532,7 @@ func (properties *VaultProperties_STATUS) AssignProperties_To_VaultProperties_ST
 		var sku storage.Sku_STATUS
 		err := properties.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1378,7 +1560,7 @@ func (properties *VaultProperties_STATUS) AssignProperties_To_VaultProperties_ST
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForVaultProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1432,7 +1614,7 @@ func (entry *AccessPolicyEntry) AssignProperties_From_AccessPolicyEntry(source *
 		var permission Permissions
 		err := permission.AssignProperties_From_Permissions(source.Permissions)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Permissions() to populate field Permissions")
+			return eris.Wrap(err, "calling AssignProperties_From_Permissions() to populate field Permissions")
 		}
 		entry.Permissions = &permission
 	} else {
@@ -1462,7 +1644,7 @@ func (entry *AccessPolicyEntry) AssignProperties_From_AccessPolicyEntry(source *
 	if augmentedEntry, ok := entryAsAny.(augmentConversionForAccessPolicyEntry); ok {
 		err := augmentedEntry.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1502,7 +1684,7 @@ func (entry *AccessPolicyEntry) AssignProperties_To_AccessPolicyEntry(destinatio
 		var permission storage.Permissions
 		err := entry.Permissions.AssignProperties_To_Permissions(&permission)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Permissions() to populate field Permissions")
+			return eris.Wrap(err, "calling AssignProperties_To_Permissions() to populate field Permissions")
 		}
 		destination.Permissions = &permission
 	} else {
@@ -1532,7 +1714,7 @@ func (entry *AccessPolicyEntry) AssignProperties_To_AccessPolicyEntry(destinatio
 	if augmentedEntry, ok := entryAsAny.(augmentConversionForAccessPolicyEntry); ok {
 		err := augmentedEntry.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1567,7 +1749,7 @@ func (entry *AccessPolicyEntry_STATUS) AssignProperties_From_AccessPolicyEntry_S
 		var permission Permissions_STATUS
 		err := permission.AssignProperties_From_Permissions_STATUS(source.Permissions)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Permissions_STATUS() to populate field Permissions")
+			return eris.Wrap(err, "calling AssignProperties_From_Permissions_STATUS() to populate field Permissions")
 		}
 		entry.Permissions = &permission
 	} else {
@@ -1589,7 +1771,7 @@ func (entry *AccessPolicyEntry_STATUS) AssignProperties_From_AccessPolicyEntry_S
 	if augmentedEntry, ok := entryAsAny.(augmentConversionForAccessPolicyEntry_STATUS); ok {
 		err := augmentedEntry.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1613,7 +1795,7 @@ func (entry *AccessPolicyEntry_STATUS) AssignProperties_To_AccessPolicyEntry_STA
 		var permission storage.Permissions_STATUS
 		err := entry.Permissions.AssignProperties_To_Permissions_STATUS(&permission)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Permissions_STATUS() to populate field Permissions")
+			return eris.Wrap(err, "calling AssignProperties_To_Permissions_STATUS() to populate field Permissions")
 		}
 		destination.Permissions = &permission
 	} else {
@@ -1635,7 +1817,7 @@ func (entry *AccessPolicyEntry_STATUS) AssignProperties_To_AccessPolicyEntry_STA
 	if augmentedEntry, ok := entryAsAny.(augmentConversionForAccessPolicyEntry_STATUS); ok {
 		err := augmentedEntry.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1646,6 +1828,11 @@ func (entry *AccessPolicyEntry_STATUS) AssignProperties_To_AccessPolicyEntry_STA
 type augmentConversionForSystemData_STATUS interface {
 	AssignPropertiesFrom(src *storage.SystemData_STATUS) error
 	AssignPropertiesTo(dst *storage.SystemData_STATUS) error
+}
+
+type augmentConversionForVaultOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.VaultOperatorSpec) error
+	AssignPropertiesTo(dst *storage.VaultOperatorSpec) error
 }
 
 type augmentConversionForVaultProperties interface {
@@ -1688,7 +1875,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *stor
 			var ipRule IPRule
 			err := ipRule.AssignProperties_From_IPRule(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IPRule() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_IPRule() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -1706,7 +1893,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *stor
 			var virtualNetworkRule VirtualNetworkRule
 			err := virtualNetworkRule.AssignProperties_From_VirtualNetworkRule(&virtualNetworkRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkRule() to populate field VirtualNetworkRules")
+				return eris.Wrap(err, "calling AssignProperties_From_VirtualNetworkRule() to populate field VirtualNetworkRules")
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -1727,7 +1914,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *stor
 	if augmentedRuleSet, ok := ruleSetAsAny.(augmentConversionForNetworkRuleSet); ok {
 		err := augmentedRuleSet.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1755,7 +1942,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *s
 			var ipRule storage.IPRule
 			err := ipRuleItem.AssignProperties_To_IPRule(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IPRule() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_IPRule() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -1773,7 +1960,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *s
 			var virtualNetworkRule storage.VirtualNetworkRule
 			err := virtualNetworkRuleItem.AssignProperties_To_VirtualNetworkRule(&virtualNetworkRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkRule() to populate field VirtualNetworkRules")
+				return eris.Wrap(err, "calling AssignProperties_To_VirtualNetworkRule() to populate field VirtualNetworkRules")
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -1794,7 +1981,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *s
 	if augmentedRuleSet, ok := ruleSetAsAny.(augmentConversionForNetworkRuleSet); ok {
 		err := augmentedRuleSet.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1832,7 +2019,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATU
 			var ipRule IPRule_STATUS
 			err := ipRule.AssignProperties_From_IPRule_STATUS(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IPRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_From_IPRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -1850,7 +2037,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATU
 			var virtualNetworkRule VirtualNetworkRule_STATUS
 			err := virtualNetworkRule.AssignProperties_From_VirtualNetworkRule_STATUS(&virtualNetworkRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkRule_STATUS() to populate field VirtualNetworkRules")
+				return eris.Wrap(err, "calling AssignProperties_From_VirtualNetworkRule_STATUS() to populate field VirtualNetworkRules")
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -1871,7 +2058,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATU
 	if augmentedRuleSet, ok := ruleSetAsAny.(augmentConversionForNetworkRuleSet_STATUS); ok {
 		err := augmentedRuleSet.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -1899,7 +2086,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 			var ipRule storage.IPRule_STATUS
 			err := ipRuleItem.AssignProperties_To_IPRule_STATUS(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IPRule_STATUS() to populate field IpRules")
+				return eris.Wrap(err, "calling AssignProperties_To_IPRule_STATUS() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -1917,7 +2104,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 			var virtualNetworkRule storage.VirtualNetworkRule_STATUS
 			err := virtualNetworkRuleItem.AssignProperties_To_VirtualNetworkRule_STATUS(&virtualNetworkRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkRule_STATUS() to populate field VirtualNetworkRules")
+				return eris.Wrap(err, "calling AssignProperties_To_VirtualNetworkRule_STATUS() to populate field VirtualNetworkRules")
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -1938,7 +2125,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 	if augmentedRuleSet, ok := ruleSetAsAny.(augmentConversionForNetworkRuleSet_STATUS); ok {
 		err := augmentedRuleSet.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -1973,7 +2160,7 @@ func (item *PrivateEndpointConnectionItem_STATUS) AssignProperties_From_PrivateE
 		var privateEndpoint PrivateEndpoint_STATUS
 		err := privateEndpoint.AssignProperties_From_PrivateEndpoint_STATUS(source.PrivateEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_STATUS() to populate field PrivateEndpoint")
+			return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_STATUS() to populate field PrivateEndpoint")
 		}
 		item.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -1985,7 +2172,7 @@ func (item *PrivateEndpointConnectionItem_STATUS) AssignProperties_From_PrivateE
 		var privateLinkServiceConnectionState PrivateLinkServiceConnectionState_STATUS
 		err := privateLinkServiceConnectionState.AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source.PrivateLinkServiceConnectionState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
+			return eris.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
 		}
 		item.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	} else {
@@ -2007,7 +2194,7 @@ func (item *PrivateEndpointConnectionItem_STATUS) AssignProperties_From_PrivateE
 	if augmentedItem, ok := itemAsAny.(augmentConversionForPrivateEndpointConnectionItem_STATUS); ok {
 		err := augmentedItem.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2031,7 +2218,7 @@ func (item *PrivateEndpointConnectionItem_STATUS) AssignProperties_To_PrivateEnd
 		var privateEndpoint storage.PrivateEndpoint_STATUS
 		err := item.PrivateEndpoint.AssignProperties_To_PrivateEndpoint_STATUS(&privateEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS() to populate field PrivateEndpoint")
+			return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS() to populate field PrivateEndpoint")
 		}
 		destination.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -2043,7 +2230,7 @@ func (item *PrivateEndpointConnectionItem_STATUS) AssignProperties_To_PrivateEnd
 		var privateLinkServiceConnectionState storage.PrivateLinkServiceConnectionState_STATUS
 		err := item.PrivateLinkServiceConnectionState.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&privateLinkServiceConnectionState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
+			return eris.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
 		}
 		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	} else {
@@ -2065,7 +2252,7 @@ func (item *PrivateEndpointConnectionItem_STATUS) AssignProperties_To_PrivateEnd
 	if augmentedItem, ok := itemAsAny.(augmentConversionForPrivateEndpointConnectionItem_STATUS); ok {
 		err := augmentedItem.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2104,7 +2291,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *storage.Sku) error {
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
 		err := augmentedSku.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2135,7 +2322,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
 		err := augmentedSku.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2174,7 +2361,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *storage.Sku_STAT
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
 		err := augmentedSku.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2205,7 +2392,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
 		err := augmentedSku.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2275,7 +2462,7 @@ func (rule *IPRule) AssignProperties_From_IPRule(source *storage.IPRule) error {
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForIPRule); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2303,7 +2490,7 @@ func (rule *IPRule) AssignProperties_To_IPRule(destination *storage.IPRule) erro
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForIPRule); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2338,7 +2525,7 @@ func (rule *IPRule_STATUS) AssignProperties_From_IPRule_STATUS(source *storage.I
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForIPRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2366,7 +2553,7 @@ func (rule *IPRule_STATUS) AssignProperties_To_IPRule_STATUS(destination *storag
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForIPRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2413,7 +2600,7 @@ func (permissions *Permissions) AssignProperties_From_Permissions(source *storag
 	if augmentedPermissions, ok := permissionsAsAny.(augmentConversionForPermissions); ok {
 		err := augmentedPermissions.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2450,7 +2637,7 @@ func (permissions *Permissions) AssignProperties_To_Permissions(destination *sto
 	if augmentedPermissions, ok := permissionsAsAny.(augmentConversionForPermissions); ok {
 		err := augmentedPermissions.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2497,7 +2684,7 @@ func (permissions *Permissions_STATUS) AssignProperties_From_Permissions_STATUS(
 	if augmentedPermissions, ok := permissionsAsAny.(augmentConversionForPermissions_STATUS); ok {
 		err := augmentedPermissions.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2534,7 +2721,7 @@ func (permissions *Permissions_STATUS) AssignProperties_To_Permissions_STATUS(de
 	if augmentedPermissions, ok := permissionsAsAny.(augmentConversionForPermissions_STATUS); ok {
 		err := augmentedPermissions.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2569,7 +2756,7 @@ func (endpoint *PrivateEndpoint_STATUS) AssignProperties_From_PrivateEndpoint_ST
 	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForPrivateEndpoint_STATUS); ok {
 		err := augmentedEndpoint.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2597,7 +2784,7 @@ func (endpoint *PrivateEndpoint_STATUS) AssignProperties_To_PrivateEndpoint_STAT
 	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForPrivateEndpoint_STATUS); ok {
 		err := augmentedEndpoint.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2640,7 +2827,7 @@ func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_Pri
 	if augmentedState, ok := stateAsAny.(augmentConversionForPrivateLinkServiceConnectionState_STATUS); ok {
 		err := augmentedState.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2674,7 +2861,7 @@ func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_To_Priva
 	if augmentedState, ok := stateAsAny.(augmentConversionForPrivateLinkServiceConnectionState_STATUS); ok {
 		err := augmentedState.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2727,7 +2914,7 @@ func (rule *VirtualNetworkRule) AssignProperties_From_VirtualNetworkRule(source 
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForVirtualNetworkRule); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2768,7 +2955,7 @@ func (rule *VirtualNetworkRule) AssignProperties_To_VirtualNetworkRule(destinati
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForVirtualNetworkRule); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 
@@ -2812,7 +2999,7 @@ func (rule *VirtualNetworkRule_STATUS) AssignProperties_From_VirtualNetworkRule_
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForVirtualNetworkRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
 	}
 
@@ -2848,7 +3035,7 @@ func (rule *VirtualNetworkRule_STATUS) AssignProperties_To_VirtualNetworkRule_ST
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForVirtualNetworkRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
 		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
 	}
 

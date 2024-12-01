@@ -11,9 +11,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -49,7 +49,7 @@ func CreateConversionGraph(
 			graph, err := builder.Build()
 			if err != nil {
 				// Shouldn't have any non-local references, if we do, abort
-				return nil, errors.Wrapf(err, "creating conversion graph")
+				return nil, eris.Wrapf(err, "creating conversion graph")
 			}
 
 			return StateWithData(state, ConversionGraphInfo, graph), nil
@@ -64,14 +64,14 @@ func CreateConversionGraph(
 func exportConversionGraph(settings *DebugSettings, index int, state *State) error {
 	graph, err := GetStateData[*storage.ConversionGraph](state, ConversionGraphInfo)
 	if err != nil {
-		return errors.Wrapf(err, "conversion graph not found")
+		return eris.Wrapf(err, "conversion graph not found")
 	}
 
 	// Create our output folder
 	outputFolder := settings.CreateFileName(fmt.Sprintf("conversion-graph-%d", index))
 	err = os.Mkdir(outputFolder, 0o700)
 	if err != nil {
-		return errors.Wrapf(err, "creating output folder for conversion graph diagnostic")
+		return eris.Wrapf(err, "creating output folder for conversion graph diagnostic")
 	}
 
 	done := set.Make[string]()
@@ -106,7 +106,7 @@ func exportConversionGraph(settings *DebugSettings, index int, state *State) err
 		filename := filepath.Join(outputFolder, key)
 		err := graph.SaveTo(grp, name, filename)
 		if err != nil {
-			return errors.Wrapf(err, "writing conversion graph for %s", name)
+			return eris.Wrapf(err, "writing conversion graph for %s", name)
 		}
 	}
 

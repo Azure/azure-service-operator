@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301"
@@ -85,7 +86,7 @@ func RedisEnterprise_Database_20210301_CRUD(tc *testcommon.KubePerTestContext, r
 		// The RP currently only allows one database, which must be
 		// named "default", in a cluster.
 		ObjectMeta: tc.MakeObjectMetaWithName("default"),
-		Spec: cache.RedisEnterprise_Database_Spec{
+		Spec: cache.RedisEnterpriseDatabase_Spec{
 			Owner:            testcommon.AsOwner(redis),
 			ClientProtocol:   &encrypted,
 			ClusteringPolicy: &enterpriseCluster,

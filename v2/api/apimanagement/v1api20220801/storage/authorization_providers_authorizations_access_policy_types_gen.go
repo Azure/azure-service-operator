@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type AuthorizationProvidersAuthorizationsAccessPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec   `json:"spec,omitempty"`
-	Status            Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS `json:"status,omitempty"`
+	Spec              AuthorizationProvidersAuthorizationsAccessPolicy_Spec   `json:"spec,omitempty"`
+	Status            AuthorizationProvidersAuthorizationsAccessPolicy_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &AuthorizationProvidersAuthorizationsAccessPolicy{}
@@ -42,6 +45,26 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) GetConditions() 
 // SetConditions sets the conditions on the resource status
 func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) SetConditions(conditions conditions.Conditions) {
 	policy.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &AuthorizationProvidersAuthorizationsAccessPolicy{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &AuthorizationProvidersAuthorizationsAccessPolicy{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) SecretDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &AuthorizationProvidersAuthorizationsAccessPolicy{}
@@ -87,11 +110,15 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) GetType() string
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS{}
+	return &AuthorizationProvidersAuthorizationsAccessPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) Owner() *genruntime.ResourceReference {
+	if policy.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
 	return policy.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) Owner() *genrunt
 // SetStatus sets the status of this resource
 func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS); ok {
+	if st, ok := status.(*AuthorizationProvidersAuthorizationsAccessPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS
+	var st AuthorizationProvidersAuthorizationsAccessPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	policy.Status = st
@@ -138,14 +165,15 @@ type AuthorizationProvidersAuthorizationsAccessPolicyList struct {
 	Items           []AuthorizationProvidersAuthorizationsAccessPolicy `json:"items"`
 }
 
-// Storage version of v1api20220801.Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec
-type Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec struct {
+// Storage version of v1api20220801.AuthorizationProvidersAuthorizationsAccessPolicy_Spec
+type AuthorizationProvidersAuthorizationsAccessPolicy_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName          string                         `json:"azureName,omitempty"`
-	ObjectId           *string                        `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
-	ObjectIdFromConfig *genruntime.ConfigMapReference `json:"objectIdFromConfig,omitempty" optionalConfigMapPair:"ObjectId"`
-	OriginalVersion    string                         `json:"originalVersion,omitempty"`
+	AzureName          string                                                        `json:"azureName,omitempty"`
+	ObjectId           *string                                                       `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
+	ObjectIdFromConfig *genruntime.ConfigMapReference                                `json:"objectIdFromConfig,omitempty" optionalConfigMapPair:"ObjectId"`
+	OperatorSpec       *AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion    string                                                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -157,28 +185,28 @@ type Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec struct {
 	TenantIdFromConfig *genruntime.ConfigMapReference     `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
-var _ genruntime.ConvertibleSpec = &Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec{}
+var _ genruntime.ConvertibleSpec = &AuthorizationProvidersAuthorizationsAccessPolicy_Spec{}
 
-// ConvertSpecFrom populates our Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec from the provided source
-func (policy *Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our AuthorizationProvidersAuthorizationsAccessPolicy_Spec from the provided source
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(policy)
 }
 
-// ConvertSpecTo populates the provided destination from our Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec
-func (policy *Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our AuthorizationProvidersAuthorizationsAccessPolicy_Spec
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(policy)
 }
 
-// Storage version of v1api20220801.Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS
-type Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS struct {
+// Storage version of v1api20220801.AuthorizationProvidersAuthorizationsAccessPolicy_STATUS
+type AuthorizationProvidersAuthorizationsAccessPolicy_STATUS struct {
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -188,24 +216,32 @@ type Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS{}
+var _ genruntime.ConvertibleStatus = &AuthorizationProvidersAuthorizationsAccessPolicy_STATUS{}
 
-// ConvertStatusFrom populates our Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS from the provided source
-func (policy *Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our AuthorizationProvidersAuthorizationsAccessPolicy_STATUS from the provided source
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(policy)
 }
 
-// ConvertStatusTo populates the provided destination from our Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS
-func (policy *Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our AuthorizationProvidersAuthorizationsAccessPolicy_STATUS
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(policy)
+}
+
+// Storage version of v1api20220801.AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

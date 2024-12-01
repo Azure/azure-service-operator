@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -42,6 +45,26 @@ func (group *PrometheusRuleGroup) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (group *PrometheusRuleGroup) SetConditions(conditions conditions.Conditions) {
 	group.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &PrometheusRuleGroup{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (group *PrometheusRuleGroup) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &PrometheusRuleGroup{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (group *PrometheusRuleGroup) SecretDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &PrometheusRuleGroup{}
@@ -92,6 +115,10 @@ func (group *PrometheusRuleGroup) NewEmptyStatus() genruntime.ConvertibleStatus 
 
 // Owner returns the ResourceReference of the owner
 func (group *PrometheusRuleGroup) Owner() *genruntime.ResourceReference {
+	if group.Spec.Owner == nil {
+		return nil
+	}
+
 	ownerGroup, ownerKind := genruntime.LookupOwnerGroupKind(group.Spec)
 	return group.Spec.Owner.AsResourceReference(ownerGroup, ownerKind)
 }
@@ -108,7 +135,7 @@ func (group *PrometheusRuleGroup) SetStatus(status genruntime.ConvertibleStatus)
 	var st PrometheusRuleGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	group.Status = st
@@ -148,13 +175,14 @@ const APIVersion_Value = APIVersion("2023-03-01")
 type PrometheusRuleGroup_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	ClusterName     *string `json:"clusterName,omitempty"`
-	Description     *string `json:"description,omitempty"`
-	Enabled         *bool   `json:"enabled,omitempty"`
-	Interval        *string `json:"interval,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string                           `json:"azureName,omitempty"`
+	ClusterName     *string                          `json:"clusterName,omitempty"`
+	Description     *string                          `json:"description,omitempty"`
+	Enabled         *bool                            `json:"enabled,omitempty"`
+	Interval        *string                          `json:"interval,omitempty"`
+	Location        *string                          `json:"location,omitempty"`
+	OperatorSpec    *PrometheusRuleGroupOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                           `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -172,7 +200,7 @@ var _ genruntime.ConvertibleSpec = &PrometheusRuleGroup_Spec{}
 // ConvertSpecFrom populates our PrometheusRuleGroup_Spec from the provided source
 func (group *PrometheusRuleGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == group {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(group)
@@ -181,7 +209,7 @@ func (group *PrometheusRuleGroup_Spec) ConvertSpecFrom(source genruntime.Convert
 // ConvertSpecTo populates the provided destination from our PrometheusRuleGroup_Spec
 func (group *PrometheusRuleGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == group {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(group)
@@ -210,7 +238,7 @@ var _ genruntime.ConvertibleStatus = &PrometheusRuleGroup_STATUS{}
 // ConvertStatusFrom populates our PrometheusRuleGroup_STATUS from the provided source
 func (group *PrometheusRuleGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == group {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(group)
@@ -219,7 +247,7 @@ func (group *PrometheusRuleGroup_STATUS) ConvertStatusFrom(source genruntime.Con
 // ConvertStatusTo populates the provided destination from our PrometheusRuleGroup_STATUS
 func (group *PrometheusRuleGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == group {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(group)
@@ -255,6 +283,14 @@ type PrometheusRule_STATUS struct {
 	Record               *string                                    `json:"record,omitempty"`
 	ResolveConfiguration *PrometheusRuleResolveConfiguration_STATUS `json:"resolveConfiguration,omitempty"`
 	Severity             *int                                       `json:"severity,omitempty"`
+}
+
+// Storage version of v1api20230301.PrometheusRuleGroupOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type PrometheusRuleGroupOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230301.SystemData_STATUS

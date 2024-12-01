@@ -5,11 +5,15 @@ package v1api20220120preview
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -29,8 +33,8 @@ import (
 type FlexibleServersConfiguration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServers_Configuration_Spec   `json:"spec,omitempty"`
-	Status            FlexibleServers_Configuration_STATUS `json:"status,omitempty"`
+	Spec              FlexibleServersConfiguration_Spec   `json:"spec,omitempty"`
+	Status            FlexibleServersConfiguration_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServersConfiguration{}
@@ -54,12 +58,12 @@ func (configuration *FlexibleServersConfiguration) ConvertFrom(hub conversion.Hu
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = configuration.AssignProperties_From_FlexibleServersConfiguration(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to configuration")
+		return eris.Wrap(err, "converting from source to configuration")
 	}
 
 	return nil
@@ -71,11 +75,11 @@ func (configuration *FlexibleServersConfiguration) ConvertTo(hub conversion.Hub)
 	var destination storage.FlexibleServersConfiguration
 	err := configuration.AssignProperties_To_FlexibleServersConfiguration(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from configuration")
+		return eris.Wrap(err, "converting to destination from configuration")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -103,6 +107,26 @@ func (configuration *FlexibleServersConfiguration) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the FlexibleServersConfiguration resource
 func (configuration *FlexibleServersConfiguration) defaultImpl() { configuration.defaultAzureName() }
+
+var _ configmaps.Exporter = &FlexibleServersConfiguration{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (configuration *FlexibleServersConfiguration) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return configuration.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FlexibleServersConfiguration{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (configuration *FlexibleServersConfiguration) SecretDestinationExpressions() []*core.DestinationExpression {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return configuration.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &FlexibleServersConfiguration{}
 
@@ -146,11 +170,15 @@ func (configuration *FlexibleServersConfiguration) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (configuration *FlexibleServersConfiguration) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &FlexibleServers_Configuration_STATUS{}
+	return &FlexibleServersConfiguration_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (configuration *FlexibleServersConfiguration) Owner() *genruntime.ResourceReference {
+	if configuration.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(configuration.Spec)
 	return configuration.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -158,16 +186,16 @@ func (configuration *FlexibleServersConfiguration) Owner() *genruntime.ResourceR
 // SetStatus sets the status of this resource
 func (configuration *FlexibleServersConfiguration) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*FlexibleServers_Configuration_STATUS); ok {
+	if st, ok := status.(*FlexibleServersConfiguration_STATUS); ok {
 		configuration.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st FlexibleServers_Configuration_STATUS
+	var st FlexibleServersConfiguration_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	configuration.Status = st
@@ -210,7 +238,7 @@ func (configuration *FlexibleServersConfiguration) ValidateUpdate(old runtime.Ob
 
 // createValidations validates the creation of the resource
 func (configuration *FlexibleServersConfiguration) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){configuration.validateResourceReferences, configuration.validateOwnerReference}
+	return []func() (admission.Warnings, error){configuration.validateResourceReferences, configuration.validateOwnerReference, configuration.validateSecretDestinations, configuration.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -228,7 +256,21 @@ func (configuration *FlexibleServersConfiguration) updateValidations() []func(ol
 		func(old runtime.Object) (admission.Warnings, error) {
 			return configuration.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return configuration.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return configuration.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (configuration *FlexibleServersConfiguration) validateConfigMapDestinations() (admission.Warnings, error) {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(configuration, nil, configuration.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -243,6 +285,14 @@ func (configuration *FlexibleServersConfiguration) validateResourceReferences() 
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (configuration *FlexibleServersConfiguration) validateSecretDestinations() (admission.Warnings, error) {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(configuration, nil, configuration.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -262,18 +312,18 @@ func (configuration *FlexibleServersConfiguration) AssignProperties_From_Flexibl
 	configuration.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec FlexibleServers_Configuration_Spec
-	err := spec.AssignProperties_From_FlexibleServers_Configuration_Spec(&source.Spec)
+	var spec FlexibleServersConfiguration_Spec
+	err := spec.AssignProperties_From_FlexibleServersConfiguration_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServers_Configuration_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_FlexibleServersConfiguration_Spec() to populate field Spec")
 	}
 	configuration.Spec = spec
 
 	// Status
-	var status FlexibleServers_Configuration_STATUS
-	err = status.AssignProperties_From_FlexibleServers_Configuration_STATUS(&source.Status)
+	var status FlexibleServersConfiguration_STATUS
+	err = status.AssignProperties_From_FlexibleServersConfiguration_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServers_Configuration_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_FlexibleServersConfiguration_STATUS() to populate field Status")
 	}
 	configuration.Status = status
 
@@ -288,18 +338,18 @@ func (configuration *FlexibleServersConfiguration) AssignProperties_To_FlexibleS
 	destination.ObjectMeta = *configuration.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.FlexibleServers_Configuration_Spec
-	err := configuration.Spec.AssignProperties_To_FlexibleServers_Configuration_Spec(&spec)
+	var spec storage.FlexibleServersConfiguration_Spec
+	err := configuration.Spec.AssignProperties_To_FlexibleServersConfiguration_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Configuration_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_FlexibleServersConfiguration_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.FlexibleServers_Configuration_STATUS
-	err = configuration.Status.AssignProperties_To_FlexibleServers_Configuration_STATUS(&status)
+	var status storage.FlexibleServersConfiguration_STATUS
+	err = configuration.Status.AssignProperties_To_FlexibleServersConfiguration_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Configuration_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_FlexibleServersConfiguration_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -326,10 +376,14 @@ type FlexibleServersConfigurationList struct {
 	Items           []FlexibleServersConfiguration `json:"items"`
 }
 
-type FlexibleServers_Configuration_Spec struct {
+type FlexibleServersConfiguration_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *FlexibleServersConfigurationOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -344,21 +398,21 @@ type FlexibleServers_Configuration_Spec struct {
 	Value *string `json:"value,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &FlexibleServers_Configuration_Spec{}
+var _ genruntime.ARMTransformer = &FlexibleServersConfiguration_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (configuration *FlexibleServers_Configuration_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (configuration *FlexibleServersConfiguration_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &FlexibleServers_Configuration_Spec_ARM{}
+	result := &arm.FlexibleServersConfiguration_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if configuration.Source != nil || configuration.Value != nil {
-		result.Properties = &ConfigurationProperties_ARM{}
+		result.Properties = &arm.ConfigurationProperties{}
 	}
 	if configuration.Source != nil {
 		source := *configuration.Source
@@ -372,19 +426,21 @@ func (configuration *FlexibleServers_Configuration_Spec) ConvertToARM(resolved g
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (configuration *FlexibleServers_Configuration_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServers_Configuration_Spec_ARM{}
+func (configuration *FlexibleServersConfiguration_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.FlexibleServersConfiguration_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (configuration *FlexibleServers_Configuration_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServers_Configuration_Spec_ARM)
+func (configuration *FlexibleServersConfiguration_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.FlexibleServersConfiguration_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_Configuration_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FlexibleServersConfiguration_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
 	configuration.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	configuration.Owner = &genruntime.KnownResourceReference{
@@ -414,61 +470,73 @@ func (configuration *FlexibleServers_Configuration_Spec) PopulateFromARM(owner g
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServers_Configuration_Spec{}
+var _ genruntime.ConvertibleSpec = &FlexibleServersConfiguration_Spec{}
 
-// ConvertSpecFrom populates our FlexibleServers_Configuration_Spec from the provided source
-func (configuration *FlexibleServers_Configuration_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.FlexibleServers_Configuration_Spec)
+// ConvertSpecFrom populates our FlexibleServersConfiguration_Spec from the provided source
+func (configuration *FlexibleServersConfiguration_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.FlexibleServersConfiguration_Spec)
 	if ok {
 		// Populate our instance from source
-		return configuration.AssignProperties_From_FlexibleServers_Configuration_Spec(src)
+		return configuration.AssignProperties_From_FlexibleServersConfiguration_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.FlexibleServers_Configuration_Spec{}
+	src = &storage.FlexibleServersConfiguration_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = configuration.AssignProperties_From_FlexibleServers_Configuration_Spec(src)
+	err = configuration.AssignProperties_From_FlexibleServersConfiguration_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServers_Configuration_Spec
-func (configuration *FlexibleServers_Configuration_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.FlexibleServers_Configuration_Spec)
+// ConvertSpecTo populates the provided destination from our FlexibleServersConfiguration_Spec
+func (configuration *FlexibleServersConfiguration_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.FlexibleServersConfiguration_Spec)
 	if ok {
 		// Populate destination from our instance
-		return configuration.AssignProperties_To_FlexibleServers_Configuration_Spec(dst)
+		return configuration.AssignProperties_To_FlexibleServersConfiguration_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.FlexibleServers_Configuration_Spec{}
-	err := configuration.AssignProperties_To_FlexibleServers_Configuration_Spec(dst)
+	dst = &storage.FlexibleServersConfiguration_Spec{}
+	err := configuration.AssignProperties_To_FlexibleServersConfiguration_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_FlexibleServers_Configuration_Spec populates our FlexibleServers_Configuration_Spec from the provided source FlexibleServers_Configuration_Spec
-func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_From_FlexibleServers_Configuration_Spec(source *storage.FlexibleServers_Configuration_Spec) error {
+// AssignProperties_From_FlexibleServersConfiguration_Spec populates our FlexibleServersConfiguration_Spec from the provided source FlexibleServersConfiguration_Spec
+func (configuration *FlexibleServersConfiguration_Spec) AssignProperties_From_FlexibleServersConfiguration_Spec(source *storage.FlexibleServersConfiguration_Spec) error {
 
 	// AzureName
 	configuration.AzureName = source.AzureName
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec FlexibleServersConfigurationOperatorSpec
+		err := operatorSpec.AssignProperties_From_FlexibleServersConfigurationOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_FlexibleServersConfigurationOperatorSpec() to populate field OperatorSpec")
+		}
+		configuration.OperatorSpec = &operatorSpec
+	} else {
+		configuration.OperatorSpec = nil
+	}
 
 	// Owner
 	if source.Owner != nil {
@@ -488,13 +556,25 @@ func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_From_F
 	return nil
 }
 
-// AssignProperties_To_FlexibleServers_Configuration_Spec populates the provided destination FlexibleServers_Configuration_Spec from our FlexibleServers_Configuration_Spec
-func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_To_FlexibleServers_Configuration_Spec(destination *storage.FlexibleServers_Configuration_Spec) error {
+// AssignProperties_To_FlexibleServersConfiguration_Spec populates the provided destination FlexibleServersConfiguration_Spec from our FlexibleServersConfiguration_Spec
+func (configuration *FlexibleServersConfiguration_Spec) AssignProperties_To_FlexibleServersConfiguration_Spec(destination *storage.FlexibleServersConfiguration_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
 	destination.AzureName = configuration.AzureName
+
+	// OperatorSpec
+	if configuration.OperatorSpec != nil {
+		var operatorSpec storage.FlexibleServersConfigurationOperatorSpec
+		err := configuration.OperatorSpec.AssignProperties_To_FlexibleServersConfigurationOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_FlexibleServersConfigurationOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = configuration.OriginalVersion()
@@ -525,16 +605,16 @@ func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_To_Fle
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (configuration *FlexibleServers_Configuration_Spec) OriginalVersion() string {
+func (configuration *FlexibleServersConfiguration_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (configuration *FlexibleServers_Configuration_Spec) SetAzureName(azureName string) {
+func (configuration *FlexibleServersConfiguration_Spec) SetAzureName(azureName string) {
 	configuration.AzureName = azureName
 }
 
-type FlexibleServers_Configuration_STATUS struct {
+type FlexibleServersConfiguration_STATUS struct {
 	// AllowedValues: Allowed values of the configuration.
 	AllowedValues *string `json:"allowedValues,omitempty"`
 
@@ -585,68 +665,68 @@ type FlexibleServers_Configuration_STATUS struct {
 	Value *string `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &FlexibleServers_Configuration_STATUS{}
+var _ genruntime.ConvertibleStatus = &FlexibleServersConfiguration_STATUS{}
 
-// ConvertStatusFrom populates our FlexibleServers_Configuration_STATUS from the provided source
-func (configuration *FlexibleServers_Configuration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.FlexibleServers_Configuration_STATUS)
+// ConvertStatusFrom populates our FlexibleServersConfiguration_STATUS from the provided source
+func (configuration *FlexibleServersConfiguration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.FlexibleServersConfiguration_STATUS)
 	if ok {
 		// Populate our instance from source
-		return configuration.AssignProperties_From_FlexibleServers_Configuration_STATUS(src)
+		return configuration.AssignProperties_From_FlexibleServersConfiguration_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.FlexibleServers_Configuration_STATUS{}
+	src = &storage.FlexibleServersConfiguration_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = configuration.AssignProperties_From_FlexibleServers_Configuration_STATUS(src)
+	err = configuration.AssignProperties_From_FlexibleServersConfiguration_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our FlexibleServers_Configuration_STATUS
-func (configuration *FlexibleServers_Configuration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.FlexibleServers_Configuration_STATUS)
+// ConvertStatusTo populates the provided destination from our FlexibleServersConfiguration_STATUS
+func (configuration *FlexibleServersConfiguration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.FlexibleServersConfiguration_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return configuration.AssignProperties_To_FlexibleServers_Configuration_STATUS(dst)
+		return configuration.AssignProperties_To_FlexibleServersConfiguration_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.FlexibleServers_Configuration_STATUS{}
-	err := configuration.AssignProperties_To_FlexibleServers_Configuration_STATUS(dst)
+	dst = &storage.FlexibleServersConfiguration_STATUS{}
+	err := configuration.AssignProperties_To_FlexibleServersConfiguration_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &FlexibleServers_Configuration_STATUS{}
+var _ genruntime.FromARMConverter = &FlexibleServersConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (configuration *FlexibleServers_Configuration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServers_Configuration_STATUS_ARM{}
+func (configuration *FlexibleServersConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.FlexibleServersConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (configuration *FlexibleServers_Configuration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServers_Configuration_STATUS_ARM)
+func (configuration *FlexibleServersConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.FlexibleServersConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_Configuration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FlexibleServersConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "AllowedValues":
@@ -785,8 +865,8 @@ func (configuration *FlexibleServers_Configuration_STATUS) PopulateFromARM(owner
 	return nil
 }
 
-// AssignProperties_From_FlexibleServers_Configuration_STATUS populates our FlexibleServers_Configuration_STATUS from the provided source FlexibleServers_Configuration_STATUS
-func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_From_FlexibleServers_Configuration_STATUS(source *storage.FlexibleServers_Configuration_STATUS) error {
+// AssignProperties_From_FlexibleServersConfiguration_STATUS populates our FlexibleServersConfiguration_STATUS from the provided source FlexibleServersConfiguration_STATUS
+func (configuration *FlexibleServersConfiguration_STATUS) AssignProperties_From_FlexibleServersConfiguration_STATUS(source *storage.FlexibleServersConfiguration_STATUS) error {
 
 	// AllowedValues
 	configuration.AllowedValues = genruntime.ClonePointerToString(source.AllowedValues)
@@ -850,7 +930,7 @@ func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_From
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		configuration.SystemData = &systemDatum
 	} else {
@@ -870,8 +950,8 @@ func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_From
 	return nil
 }
 
-// AssignProperties_To_FlexibleServers_Configuration_STATUS populates the provided destination FlexibleServers_Configuration_STATUS from our FlexibleServers_Configuration_STATUS
-func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_To_FlexibleServers_Configuration_STATUS(destination *storage.FlexibleServers_Configuration_STATUS) error {
+// AssignProperties_To_FlexibleServersConfiguration_STATUS populates the provided destination FlexibleServersConfiguration_STATUS from our FlexibleServersConfiguration_STATUS
+func (configuration *FlexibleServersConfiguration_STATUS) AssignProperties_To_FlexibleServersConfiguration_STATUS(destination *storage.FlexibleServersConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -936,7 +1016,7 @@ func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_To_F
 		var systemDatum storage.SystemData_STATUS
 		err := configuration.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -978,6 +1058,110 @@ var configurationProperties_DataType_STATUS_Values = map[string]ConfigurationPro
 	"enumeration": ConfigurationProperties_DataType_STATUS_Enumeration,
 	"integer":     ConfigurationProperties_DataType_STATUS_Integer,
 	"numeric":     ConfigurationProperties_DataType_STATUS_Numeric,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FlexibleServersConfigurationOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_FlexibleServersConfigurationOperatorSpec populates our FlexibleServersConfigurationOperatorSpec from the provided source FlexibleServersConfigurationOperatorSpec
+func (operator *FlexibleServersConfigurationOperatorSpec) AssignProperties_From_FlexibleServersConfigurationOperatorSpec(source *storage.FlexibleServersConfigurationOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FlexibleServersConfigurationOperatorSpec populates the provided destination FlexibleServersConfigurationOperatorSpec from our FlexibleServersConfigurationOperatorSpec
+func (operator *FlexibleServersConfigurationOperatorSpec) AssignProperties_To_FlexibleServersConfigurationOperatorSpec(destination *storage.FlexibleServersConfigurationOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

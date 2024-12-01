@@ -8,9 +8,8 @@ package functions
 import (
 	"reflect"
 
-	"github.com/pkg/errors"
-
 	"github.com/dave/dst"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -100,7 +99,7 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 ) (*dst.FuncDecl, error) {
 	krType, err := astmodel.NewArrayType(astmodel.KubernetesResourceType).AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", astmodel.KubernetesResourceType)
+		return nil, eris.Wrapf(err, "creating type expression for %s", astmodel.KubernetesResourceType)
 	}
 
 	krLiteral := astbuilder.NewCompositeLiteralBuilder(krType).Build()
@@ -110,7 +109,7 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 		var resourceExpr dst.Expr
 		resourceExpr, err = resource.AsTypeExpr(codeGenerationContext)
 		if err != nil {
-			return nil, errors.Wrapf(err, "creating type expression for %s", resource)
+			return nil, eris.Wrapf(err, "creating type expression for %s", resource)
 		}
 
 		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(resourceExpr).Build())
@@ -121,7 +120,7 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 	receiverName := ext.idFactory.CreateReceiver(receiver.Name())
 	receiverType, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+		return nil, eris.Wrapf(err, "creating type expression for %s", receiver)
 	}
 
 	funcDetails := &astbuilder.FuncDetails{

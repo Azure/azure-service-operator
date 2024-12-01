@@ -8,7 +8,7 @@ package codegen
 import (
 	"strconv"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
@@ -40,5 +40,5 @@ func (dr *debugReporter) ReportStage(stage int, description string, state *pipel
 	filename := dr.settings.CreateFileName(name)
 
 	err := tcr.SaveTo(filename)
-	return errors.Wrapf(err, "failed to save type catalog to %s", filename)
+	return eris.Wrapf(err, "failed to save type catalog to %s", filename)
 }

@@ -11,12 +11,12 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
@@ -188,7 +188,7 @@ func createDeeplyNestedResource(rgName string, parentName string, name string) r
 			Name:      name,
 			Namespace: testNamespace,
 		},
-		Spec: storage.StorageAccounts_BlobService_Spec{
+		Spec: storage.StorageAccountsBlobService_Spec{
 			Owner: &genruntime.KnownResourceReference{
 				Name: parentName,
 			},
@@ -208,7 +208,7 @@ func createChildResourceOwnedByARMID(armID string, name string) genruntime.ARMMe
 			Name:      name,
 			Namespace: testNamespace,
 		},
-		Spec: storage.StorageAccounts_BlobService_Spec{
+		Spec: storage.StorageAccountsBlobService_Spec{
 			Owner: &genruntime.KnownResourceReference{
 				ARMID: armID,
 			},

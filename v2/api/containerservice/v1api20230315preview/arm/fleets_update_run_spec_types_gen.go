@@ -5,27 +5,27 @@ package arm
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Fleets_UpdateRun_Spec struct {
+type FleetsUpdateRun_Spec struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The resource-specific properties for this resource.
 	Properties *UpdateRunProperties `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Fleets_UpdateRun_Spec{}
+var _ genruntime.ARMResourceSpec = &FleetsUpdateRun_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-03-15-preview"
-func (updateRun Fleets_UpdateRun_Spec) GetAPIVersion() string {
+func (updateRun FleetsUpdateRun_Spec) GetAPIVersion() string {
 	return "2023-03-15-preview"
 }
 
 // GetName returns the Name of the resource
-func (updateRun *Fleets_UpdateRun_Spec) GetName() string {
+func (updateRun *FleetsUpdateRun_Spec) GetName() string {
 	return updateRun.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/fleets/updateRuns"
-func (updateRun *Fleets_UpdateRun_Spec) GetType() string {
+func (updateRun *FleetsUpdateRun_Spec) GetType() string {
 	return "Microsoft.ContainerService/fleets/updateRuns"
 }
 

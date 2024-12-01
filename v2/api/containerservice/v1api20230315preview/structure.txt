@@ -16,7 +16,9 @@ Fleet: Resource
 │   │       ├── Rule 1: MinLength: 1
 │   │       └── Rule 2: Pattern: "^[a-zA-Z0-9]$|^[a-zA-Z0-9][a-zA-Z0-9-]{0,52}[a-zA-Z0-9]$"
 │   ├── Location: *string
-│   ├── OperatorSpec: *Object (1 property)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (1 property)
 │   │       └── UserCredentials: *genruntime.SecretDestination
 │   ├── Owner: *genruntime.KnownResourceReference
@@ -57,7 +59,7 @@ Fleet: Resource
     └── Type: *string
 FleetsMember: Resource
 ├── Owner: Fleet
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── AzureName: Validated<string> (3 rules)
 │   │   ├── Rule 0: MaxLength: 50
 │   │   ├── Rule 1: MinLength: 1
@@ -67,6 +69,9 @@ FleetsMember: Resource
 │   │   ├── Rule 0: MaxLength: 50
 │   │   ├── Rule 1: MinLength: 1
 │   │   └── Rule 2: Pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   └── Owner: *genruntime.KnownResourceReference
 └── Status: Object (9 properties)
     ├── ClusterResourceId: *string
@@ -100,7 +105,7 @@ FleetsMember: Resource
     └── Type: *string
 FleetsUpdateRun: Resource
 ├── Owner: Fleet
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── AzureName: Validated<string> (3 rules)
 │   │   ├── Rule 0: MaxLength: 50
 │   │   ├── Rule 1: MinLength: 1
@@ -111,6 +116,9 @@ FleetsUpdateRun: Resource
 │   │       └── Type: *Enum (2 values)
 │   │           ├── "Full"
 │   │           └── "NodeImageOnly"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── Strategy: *Object (1 property)
 │       └── Stages: Object (3 properties)[]

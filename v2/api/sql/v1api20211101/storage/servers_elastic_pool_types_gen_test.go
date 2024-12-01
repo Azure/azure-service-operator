@@ -198,24 +198,24 @@ func ServersElasticPoolGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForServersElasticPool is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServersElasticPool(gens map[string]gopter.Gen) {
-	gens["Spec"] = Servers_ElasticPool_SpecGenerator()
-	gens["Status"] = Servers_ElasticPool_STATUSGenerator()
+	gens["Spec"] = ServersElasticPool_SpecGenerator()
+	gens["Status"] = ServersElasticPool_STATUSGenerator()
 }
 
-func Test_Servers_ElasticPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersElasticPoolOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_ElasticPool_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_ElasticPool_STATUS, Servers_ElasticPool_STATUSGenerator()))
+		"Round trip of ServersElasticPoolOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersElasticPoolOperatorSpec, ServersElasticPoolOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_ElasticPool_STATUS runs a test to see if a specific instance of Servers_ElasticPool_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_ElasticPool_STATUS(subject Servers_ElasticPool_STATUS) string {
+// RunJSONSerializationTestForServersElasticPoolOperatorSpec runs a test to see if a specific instance of ServersElasticPoolOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersElasticPoolOperatorSpec(subject ServersElasticPoolOperatorSpec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -223,7 +223,7 @@ func RunJSONSerializationTestForServers_ElasticPool_STATUS(subject Servers_Elast
 	}
 
 	// Deserialize back into memory
-	var actual Servers_ElasticPool_STATUS
+	var actual ServersElasticPoolOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -241,34 +241,89 @@ func RunJSONSerializationTestForServers_ElasticPool_STATUS(subject Servers_Elast
 	return ""
 }
 
-// Generator of Servers_ElasticPool_STATUS instances for property testing - lazily instantiated by
-// Servers_ElasticPool_STATUSGenerator()
-var servers_ElasticPool_STATUSGenerator gopter.Gen
+// Generator of ServersElasticPoolOperatorSpec instances for property testing - lazily instantiated by
+// ServersElasticPoolOperatorSpecGenerator()
+var serversElasticPoolOperatorSpecGenerator gopter.Gen
 
-// Servers_ElasticPool_STATUSGenerator returns a generator of Servers_ElasticPool_STATUS instances for property testing.
-// We first initialize servers_ElasticPool_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Servers_ElasticPool_STATUSGenerator() gopter.Gen {
-	if servers_ElasticPool_STATUSGenerator != nil {
-		return servers_ElasticPool_STATUSGenerator
+// ServersElasticPoolOperatorSpecGenerator returns a generator of ServersElasticPoolOperatorSpec instances for property testing.
+func ServersElasticPoolOperatorSpecGenerator() gopter.Gen {
+	if serversElasticPoolOperatorSpecGenerator != nil {
+		return serversElasticPoolOperatorSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_ElasticPool_STATUS(generators)
-	servers_ElasticPool_STATUSGenerator = gen.Struct(reflect.TypeOf(Servers_ElasticPool_STATUS{}), generators)
+	serversElasticPoolOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServersElasticPoolOperatorSpec{}), generators)
+
+	return serversElasticPoolOperatorSpecGenerator
+}
+
+func Test_ServersElasticPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServersElasticPool_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersElasticPool_STATUS, ServersElasticPool_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServersElasticPool_STATUS runs a test to see if a specific instance of ServersElasticPool_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersElasticPool_STATUS(subject ServersElasticPool_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServersElasticPool_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServersElasticPool_STATUS instances for property testing - lazily instantiated by
+// ServersElasticPool_STATUSGenerator()
+var serversElasticPool_STATUSGenerator gopter.Gen
+
+// ServersElasticPool_STATUSGenerator returns a generator of ServersElasticPool_STATUS instances for property testing.
+// We first initialize serversElasticPool_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServersElasticPool_STATUSGenerator() gopter.Gen {
+	if serversElasticPool_STATUSGenerator != nil {
+		return serversElasticPool_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServersElasticPool_STATUS(generators)
+	serversElasticPool_STATUSGenerator = gen.Struct(reflect.TypeOf(ServersElasticPool_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_ElasticPool_STATUS(generators)
-	AddRelatedPropertyGeneratorsForServers_ElasticPool_STATUS(generators)
-	servers_ElasticPool_STATUSGenerator = gen.Struct(reflect.TypeOf(Servers_ElasticPool_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForServersElasticPool_STATUS(generators)
+	AddRelatedPropertyGeneratorsForServersElasticPool_STATUS(generators)
+	serversElasticPool_STATUSGenerator = gen.Struct(reflect.TypeOf(ServersElasticPool_STATUS{}), generators)
 
-	return servers_ElasticPool_STATUSGenerator
+	return serversElasticPool_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_ElasticPool_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_ElasticPool_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServersElasticPool_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersElasticPool_STATUS(gens map[string]gopter.Gen) {
 	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["HighAvailabilityReplicaCount"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -287,26 +342,26 @@ func AddIndependentPropertyGeneratorsForServers_ElasticPool_STATUS(gens map[stri
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForServers_ElasticPool_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServers_ElasticPool_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForServersElasticPool_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServersElasticPool_STATUS(gens map[string]gopter.Gen) {
 	gens["PerDatabaseSettings"] = gen.PtrOf(ElasticPoolPerDatabaseSettings_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
 }
 
-func Test_Servers_ElasticPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersElasticPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_ElasticPool_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_ElasticPool_Spec, Servers_ElasticPool_SpecGenerator()))
+		"Round trip of ServersElasticPool_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersElasticPool_Spec, ServersElasticPool_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_ElasticPool_Spec runs a test to see if a specific instance of Servers_ElasticPool_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_ElasticPool_Spec(subject Servers_ElasticPool_Spec) string {
+// RunJSONSerializationTestForServersElasticPool_Spec runs a test to see if a specific instance of ServersElasticPool_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersElasticPool_Spec(subject ServersElasticPool_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -314,7 +369,7 @@ func RunJSONSerializationTestForServers_ElasticPool_Spec(subject Servers_Elastic
 	}
 
 	// Deserialize back into memory
-	var actual Servers_ElasticPool_Spec
+	var actual ServersElasticPool_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -332,34 +387,34 @@ func RunJSONSerializationTestForServers_ElasticPool_Spec(subject Servers_Elastic
 	return ""
 }
 
-// Generator of Servers_ElasticPool_Spec instances for property testing - lazily instantiated by
-// Servers_ElasticPool_SpecGenerator()
-var servers_ElasticPool_SpecGenerator gopter.Gen
+// Generator of ServersElasticPool_Spec instances for property testing - lazily instantiated by
+// ServersElasticPool_SpecGenerator()
+var serversElasticPool_SpecGenerator gopter.Gen
 
-// Servers_ElasticPool_SpecGenerator returns a generator of Servers_ElasticPool_Spec instances for property testing.
-// We first initialize servers_ElasticPool_SpecGenerator with a simplified generator based on the
+// ServersElasticPool_SpecGenerator returns a generator of ServersElasticPool_Spec instances for property testing.
+// We first initialize serversElasticPool_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Servers_ElasticPool_SpecGenerator() gopter.Gen {
-	if servers_ElasticPool_SpecGenerator != nil {
-		return servers_ElasticPool_SpecGenerator
+func ServersElasticPool_SpecGenerator() gopter.Gen {
+	if serversElasticPool_SpecGenerator != nil {
+		return serversElasticPool_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_ElasticPool_Spec(generators)
-	servers_ElasticPool_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_ElasticPool_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForServersElasticPool_Spec(generators)
+	serversElasticPool_SpecGenerator = gen.Struct(reflect.TypeOf(ServersElasticPool_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_ElasticPool_Spec(generators)
-	AddRelatedPropertyGeneratorsForServers_ElasticPool_Spec(generators)
-	servers_ElasticPool_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_ElasticPool_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForServersElasticPool_Spec(generators)
+	AddRelatedPropertyGeneratorsForServersElasticPool_Spec(generators)
+	serversElasticPool_SpecGenerator = gen.Struct(reflect.TypeOf(ServersElasticPool_Spec{}), generators)
 
-	return servers_ElasticPool_SpecGenerator
+	return serversElasticPool_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_ElasticPool_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_ElasticPool_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServersElasticPool_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersElasticPool_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["HighAvailabilityReplicaCount"] = gen.PtrOf(gen.Int())
 	gens["LicenseType"] = gen.PtrOf(gen.AlphaString())
@@ -374,8 +429,9 @@ func AddIndependentPropertyGeneratorsForServers_ElasticPool_Spec(gens map[string
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForServers_ElasticPool_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServers_ElasticPool_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForServersElasticPool_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServersElasticPool_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(ServersElasticPoolOperatorSpecGenerator())
 	gens["PerDatabaseSettings"] = gen.PtrOf(ElasticPoolPerDatabaseSettingsGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
 }

@@ -5,8 +5,9 @@ package storage
 
 import (
 	"encoding/json"
-	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
+	v20231001sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage/compat"
 	v20231102ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231102preview/storage"
+	v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -18,6 +19,48 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_AdvancedNetworking_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AdvancedNetworking to AdvancedNetworking via AssignProperties_To_AdvancedNetworking & AssignProperties_From_AdvancedNetworking returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedNetworking, AdvancedNetworkingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAdvancedNetworking tests if a specific instance of AdvancedNetworking can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForAdvancedNetworking(subject AdvancedNetworking) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001sc.AdvancedNetworking
+	err := copied.AssignProperties_To_AdvancedNetworking(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AdvancedNetworking
+	err = actual.AssignProperties_From_AdvancedNetworking(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_AdvancedNetworking_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +120,48 @@ func AdvancedNetworkingGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForAdvancedNetworking is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAdvancedNetworking(gens map[string]gopter.Gen) {
 	gens["Observability"] = gen.PtrOf(AdvancedNetworkingObservabilityGenerator())
+}
+
+func Test_AdvancedNetworkingObservability_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AdvancedNetworkingObservability to AdvancedNetworkingObservability via AssignProperties_To_AdvancedNetworkingObservability & AssignProperties_From_AdvancedNetworkingObservability returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedNetworkingObservability, AdvancedNetworkingObservabilityGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAdvancedNetworkingObservability tests if a specific instance of AdvancedNetworkingObservability can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForAdvancedNetworkingObservability(subject AdvancedNetworkingObservability) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001sc.AdvancedNetworkingObservability
+	err := copied.AssignProperties_To_AdvancedNetworkingObservability(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AdvancedNetworkingObservability
+	err = actual.AssignProperties_From_AdvancedNetworkingObservability(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AdvancedNetworkingObservability_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -140,6 +225,48 @@ func AddIndependentPropertyGeneratorsForAdvancedNetworkingObservability(gens map
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
+func Test_AdvancedNetworkingObservability_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AdvancedNetworkingObservability_STATUS to AdvancedNetworkingObservability_STATUS via AssignProperties_To_AdvancedNetworkingObservability_STATUS & AssignProperties_From_AdvancedNetworkingObservability_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedNetworkingObservability_STATUS, AdvancedNetworkingObservability_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAdvancedNetworkingObservability_STATUS tests if a specific instance of AdvancedNetworkingObservability_STATUS can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForAdvancedNetworkingObservability_STATUS(subject AdvancedNetworkingObservability_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001sc.AdvancedNetworkingObservability_STATUS
+	err := copied.AssignProperties_To_AdvancedNetworkingObservability_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AdvancedNetworkingObservability_STATUS
+	err = actual.AssignProperties_From_AdvancedNetworkingObservability_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AdvancedNetworkingObservability_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -199,6 +326,48 @@ func AdvancedNetworkingObservability_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedNetworkingObservability_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedNetworkingObservability_STATUS(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_AdvancedNetworking_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AdvancedNetworking_STATUS to AdvancedNetworking_STATUS via AssignProperties_To_AdvancedNetworking_STATUS & AssignProperties_From_AdvancedNetworking_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedNetworking_STATUS, AdvancedNetworking_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAdvancedNetworking_STATUS tests if a specific instance of AdvancedNetworking_STATUS can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForAdvancedNetworking_STATUS(subject AdvancedNetworking_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001sc.AdvancedNetworking_STATUS
+	err := copied.AssignProperties_To_AdvancedNetworking_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AdvancedNetworking_STATUS
+	err = actual.AssignProperties_From_AdvancedNetworking_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AdvancedNetworking_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3948,7 +4117,7 @@ func RunResourceConversionTestForManagedCluster(subject ManagedCluster) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20231001s.ManagedCluster
+	var hub v20240901s.ManagedCluster
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

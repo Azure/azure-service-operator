@@ -232,20 +232,20 @@ func AddRelatedPropertyGeneratorsForErrorDetail_STATUS_Unrolled(gens map[string]
 	gens["AdditionalInfo"] = gen.SliceOf(ErrorAdditionalInfo_STATUSGenerator())
 }
 
-func Test_Fleets_UpdateRun_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_FleetsUpdateRun_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Fleets_UpdateRun_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleets_UpdateRun_STATUS, Fleets_UpdateRun_STATUSGenerator()))
+		"Round trip of FleetsUpdateRun_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFleetsUpdateRun_STATUS, FleetsUpdateRun_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFleets_UpdateRun_STATUS runs a test to see if a specific instance of Fleets_UpdateRun_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleets_UpdateRun_STATUS(subject Fleets_UpdateRun_STATUS) string {
+// RunJSONSerializationTestForFleetsUpdateRun_STATUS runs a test to see if a specific instance of FleetsUpdateRun_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForFleetsUpdateRun_STATUS(subject FleetsUpdateRun_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -253,7 +253,7 @@ func RunJSONSerializationTestForFleets_UpdateRun_STATUS(subject Fleets_UpdateRun
 	}
 
 	// Deserialize back into memory
-	var actual Fleets_UpdateRun_STATUS
+	var actual FleetsUpdateRun_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -271,42 +271,42 @@ func RunJSONSerializationTestForFleets_UpdateRun_STATUS(subject Fleets_UpdateRun
 	return ""
 }
 
-// Generator of Fleets_UpdateRun_STATUS instances for property testing - lazily instantiated by
-// Fleets_UpdateRun_STATUSGenerator()
-var fleets_UpdateRun_STATUSGenerator gopter.Gen
+// Generator of FleetsUpdateRun_STATUS instances for property testing - lazily instantiated by
+// FleetsUpdateRun_STATUSGenerator()
+var fleetsUpdateRun_STATUSGenerator gopter.Gen
 
-// Fleets_UpdateRun_STATUSGenerator returns a generator of Fleets_UpdateRun_STATUS instances for property testing.
-// We first initialize fleets_UpdateRun_STATUSGenerator with a simplified generator based on the
+// FleetsUpdateRun_STATUSGenerator returns a generator of FleetsUpdateRun_STATUS instances for property testing.
+// We first initialize fleetsUpdateRun_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Fleets_UpdateRun_STATUSGenerator() gopter.Gen {
-	if fleets_UpdateRun_STATUSGenerator != nil {
-		return fleets_UpdateRun_STATUSGenerator
+func FleetsUpdateRun_STATUSGenerator() gopter.Gen {
+	if fleetsUpdateRun_STATUSGenerator != nil {
+		return fleetsUpdateRun_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleets_UpdateRun_STATUS(generators)
-	fleets_UpdateRun_STATUSGenerator = gen.Struct(reflect.TypeOf(Fleets_UpdateRun_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForFleetsUpdateRun_STATUS(generators)
+	fleetsUpdateRun_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetsUpdateRun_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleets_UpdateRun_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFleets_UpdateRun_STATUS(generators)
-	fleets_UpdateRun_STATUSGenerator = gen.Struct(reflect.TypeOf(Fleets_UpdateRun_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForFleetsUpdateRun_STATUS(generators)
+	AddRelatedPropertyGeneratorsForFleetsUpdateRun_STATUS(generators)
+	fleetsUpdateRun_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetsUpdateRun_STATUS{}), generators)
 
-	return fleets_UpdateRun_STATUSGenerator
+	return fleetsUpdateRun_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFleets_UpdateRun_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleets_UpdateRun_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFleetsUpdateRun_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFleetsUpdateRun_STATUS(gens map[string]gopter.Gen) {
 	gens["ETag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForFleets_UpdateRun_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleets_UpdateRun_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForFleetsUpdateRun_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFleetsUpdateRun_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(UpdateRunProperties_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

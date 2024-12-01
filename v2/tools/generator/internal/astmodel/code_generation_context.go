@@ -8,7 +8,7 @@ package astmodel
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 )
 
 // CodeGenerationContext stores context about the location code-generation is occurring.
@@ -67,7 +67,7 @@ func (ctx *CodeGenerationContext) UsedPackageImports() *PackageImportSet {
 func (ctx *CodeGenerationContext) GetImportedPackageName(reference PackageReference) (string, error) {
 	packageImport, ok := ctx.packageImports.ImportFor(reference)
 	if !ok {
-		return "", errors.Errorf("package %s not imported", reference)
+		return "", eris.Errorf("package %s not imported", reference)
 	}
 
 	ctx.usedImports.AddImport(packageImport)
@@ -95,7 +95,7 @@ func (ctx *CodeGenerationContext) GetGeneratedPackage(reference InternalPackageR
 
 	packageDef, ok := ctx.generatedPackages[reference]
 	if !ok {
-		return nil, errors.Errorf("%s not imported", reference)
+		return nil, eris.Errorf("%s not imported", reference)
 	}
 	return packageDef, nil
 }

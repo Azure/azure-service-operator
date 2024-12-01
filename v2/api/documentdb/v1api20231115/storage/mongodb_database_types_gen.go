@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_MongodbDatabase_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccounts_MongodbDatabase_STATUS `json:"status,omitempty"`
+	Spec              MongodbDatabase_Spec   `json:"spec,omitempty"`
+	Status            MongodbDatabase_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabase{}
@@ -42,6 +45,26 @@ func (database *MongodbDatabase) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (database *MongodbDatabase) SetConditions(conditions conditions.Conditions) {
 	database.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &MongodbDatabase{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (database *MongodbDatabase) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if database.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return database.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &MongodbDatabase{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (database *MongodbDatabase) SecretDestinationExpressions() []*core.DestinationExpression {
+	if database.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return database.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &MongodbDatabase{}
@@ -87,11 +110,15 @@ func (database *MongodbDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *MongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccounts_MongodbDatabase_STATUS{}
+	return &MongodbDatabase_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (database *MongodbDatabase) Owner() *genruntime.ResourceReference {
+	if database.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(database.Spec)
 	return database.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (database *MongodbDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *MongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccounts_MongodbDatabase_STATUS); ok {
+	if st, ok := status.(*MongodbDatabase_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccounts_MongodbDatabase_STATUS
+	var st MongodbDatabase_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	database.Status = st
@@ -138,14 +165,15 @@ type MongodbDatabaseList struct {
 	Items           []MongodbDatabase `json:"items"`
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_MongodbDatabase_Spec
-type DatabaseAccounts_MongodbDatabase_Spec struct {
+// Storage version of v1api20231115.MongodbDatabase_Spec
+type MongodbDatabase_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string               `json:"azureName,omitempty"`
-	Location        *string              `json:"location,omitempty"`
-	Options         *CreateUpdateOptions `json:"options,omitempty"`
-	OriginalVersion string               `json:"originalVersion,omitempty"`
+	AzureName       string                       `json:"azureName,omitempty"`
+	Location        *string                      `json:"location,omitempty"`
+	OperatorSpec    *MongodbDatabaseOperatorSpec `json:"operatorSpec,omitempty"`
+	Options         *CreateUpdateOptions         `json:"options,omitempty"`
+	OriginalVersion string                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -157,28 +185,28 @@ type DatabaseAccounts_MongodbDatabase_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_MongodbDatabase_Spec{}
+var _ genruntime.ConvertibleSpec = &MongodbDatabase_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_MongodbDatabase_Spec from the provided source
-func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our MongodbDatabase_Spec from the provided source
+func (database *MongodbDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(database)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_MongodbDatabase_Spec
-func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our MongodbDatabase_Spec
+func (database *MongodbDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(database)
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_MongodbDatabase_STATUS
-type DatabaseAccounts_MongodbDatabase_STATUS struct {
+// Storage version of v1api20231115.MongodbDatabase_STATUS
+type MongodbDatabase_STATUS struct {
 	Conditions  []conditions.Condition                        `json:"conditions,omitempty"`
 	Id          *string                                       `json:"id,omitempty"`
 	Location    *string                                       `json:"location,omitempty"`
@@ -190,21 +218,21 @@ type DatabaseAccounts_MongodbDatabase_STATUS struct {
 	Type        *string                                       `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccounts_MongodbDatabase_STATUS{}
+var _ genruntime.ConvertibleStatus = &MongodbDatabase_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccounts_MongodbDatabase_STATUS from the provided source
-func (database *DatabaseAccounts_MongodbDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our MongodbDatabase_STATUS from the provided source
+func (database *MongodbDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(database)
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccounts_MongodbDatabase_STATUS
-func (database *DatabaseAccounts_MongodbDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our MongodbDatabase_STATUS
+func (database *MongodbDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(database)
@@ -228,6 +256,14 @@ type MongoDBDatabaseGetProperties_Resource_STATUS struct {
 	RestoreParameters *RestoreParametersBase_STATUS `json:"restoreParameters,omitempty"`
 	Rid               *string                       `json:"_rid,omitempty"`
 	Ts                *float64                      `json:"_ts,omitempty"`
+}
+
+// Storage version of v1api20231115.MongodbDatabaseOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type MongodbDatabaseOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20231115.MongoDBDatabaseResource

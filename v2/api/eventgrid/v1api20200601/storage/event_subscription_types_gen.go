@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -42,6 +45,26 @@ func (subscription *EventSubscription) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (subscription *EventSubscription) SetConditions(conditions conditions.Conditions) {
 	subscription.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &EventSubscription{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (subscription *EventSubscription) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return subscription.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &EventSubscription{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (subscription *EventSubscription) SecretDestinationExpressions() []*core.DestinationExpression {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return subscription.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &EventSubscription{}
@@ -92,6 +115,10 @@ func (subscription *EventSubscription) NewEmptyStatus() genruntime.ConvertibleSt
 
 // Owner returns the ResourceReference of the owner
 func (subscription *EventSubscription) Owner() *genruntime.ResourceReference {
+	if subscription.Spec.Owner == nil {
+		return nil
+	}
+
 	return subscription.Spec.Owner.AsResourceReference()
 }
 
@@ -107,7 +134,7 @@ func (subscription *EventSubscription) SetStatus(status genruntime.ConvertibleSt
 	var st EventSubscription_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	subscription.Status = st
@@ -141,14 +168,15 @@ type EventSubscriptionList struct {
 type EventSubscription_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName             string                        `json:"azureName,omitempty"`
-	DeadLetterDestination *DeadLetterDestination        `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestination `json:"destination,omitempty"`
-	EventDeliverySchema   *string                       `json:"eventDeliverySchema,omitempty"`
-	ExpirationTimeUtc     *string                       `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilter      `json:"filter,omitempty"`
-	Labels                []string                      `json:"labels,omitempty"`
-	OriginalVersion       string                        `json:"originalVersion,omitempty"`
+	AzureName             string                         `json:"azureName,omitempty"`
+	DeadLetterDestination *DeadLetterDestination         `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination  `json:"destination,omitempty"`
+	EventDeliverySchema   *string                        `json:"eventDeliverySchema,omitempty"`
+	ExpirationTimeUtc     *string                        `json:"expirationTimeUtc,omitempty"`
+	Filter                *EventSubscriptionFilter       `json:"filter,omitempty"`
+	Labels                []string                       `json:"labels,omitempty"`
+	OperatorSpec          *EventSubscriptionOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion       string                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -164,7 +192,7 @@ var _ genruntime.ConvertibleSpec = &EventSubscription_Spec{}
 // ConvertSpecFrom populates our EventSubscription_Spec from the provided source
 func (subscription *EventSubscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(subscription)
@@ -173,7 +201,7 @@ func (subscription *EventSubscription_Spec) ConvertSpecFrom(source genruntime.Co
 // ConvertSpecTo populates the provided destination from our EventSubscription_Spec
 func (subscription *EventSubscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(subscription)
@@ -204,7 +232,7 @@ var _ genruntime.ConvertibleStatus = &EventSubscription_STATUS{}
 // ConvertStatusFrom populates our EventSubscription_STATUS from the provided source
 func (subscription *EventSubscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(subscription)
@@ -213,7 +241,7 @@ func (subscription *EventSubscription_STATUS) ConvertStatusFrom(source genruntim
 // ConvertStatusTo populates the provided destination from our EventSubscription_STATUS
 func (subscription *EventSubscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(subscription)
@@ -275,6 +303,14 @@ type EventSubscriptionFilter_STATUS struct {
 	PropertyBag            genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 	SubjectBeginsWith      *string                 `json:"subjectBeginsWith,omitempty"`
 	SubjectEndsWith        *string                 `json:"subjectEndsWith,omitempty"`
+}
+
+// Storage version of v1api20200601.EventSubscriptionOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type EventSubscriptionOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20200601.RetryPolicy

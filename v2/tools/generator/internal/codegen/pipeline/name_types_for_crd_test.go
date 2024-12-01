@@ -8,9 +8,10 @@ package pipeline
 import (
 	"testing"
 
+	. "github.com/onsi/gomega"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
-	. "github.com/onsi/gomega"
 )
 
 func Test_NewNameHint(t *testing.T) {
@@ -46,17 +47,10 @@ func Test_NewNameHint(t *testing.T) {
 		},
 		{
 			"Simple TypeName",
-			astmodel.MakeInternalTypeName(test.Pkg2020, "Person"+astmodel.ARMSuffix),
+			astmodel.MakeInternalTypeName(test.Pkg2020, "Person"+astmodel.StatusSuffix),
 			"Person",
-			"ARM",
-			"Person_ARM",
-		},
-		{
-			"Simple TypeName",
-			astmodel.MakeInternalTypeName(test.Pkg2020, "Person"+astmodel.StatusSuffix+astmodel.ARMSuffix),
-			"Person",
-			"STATUS_ARM",
-			"Person_STATUS_ARM",
+			"STATUS",
+			"Person_STATUS",
 		},
 	}
 

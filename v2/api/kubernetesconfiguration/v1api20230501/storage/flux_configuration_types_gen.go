@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -42,6 +45,26 @@ func (configuration *FluxConfiguration) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (configuration *FluxConfiguration) SetConditions(conditions conditions.Conditions) {
 	configuration.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &FluxConfiguration{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (configuration *FluxConfiguration) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return configuration.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FluxConfiguration{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (configuration *FluxConfiguration) SecretDestinationExpressions() []*core.DestinationExpression {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return configuration.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &FluxConfiguration{}
@@ -92,6 +115,10 @@ func (configuration *FluxConfiguration) NewEmptyStatus() genruntime.ConvertibleS
 
 // Owner returns the ResourceReference of the owner
 func (configuration *FluxConfiguration) Owner() *genruntime.ResourceReference {
+	if configuration.Spec.Owner == nil {
+		return nil
+	}
+
 	return configuration.Spec.Owner.AsResourceReference()
 }
 
@@ -107,7 +134,7 @@ func (configuration *FluxConfiguration) SetStatus(status genruntime.ConvertibleS
 	var st FluxConfiguration_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	configuration.Status = st
@@ -149,6 +176,7 @@ type FluxConfiguration_Spec struct {
 	GitRepository                  *GitRepositoryDefinition           `json:"gitRepository,omitempty"`
 	Kustomizations                 map[string]KustomizationDefinition `json:"kustomizations,omitempty"`
 	Namespace                      *string                            `json:"namespace,omitempty"`
+	OperatorSpec                   *FluxConfigurationOperatorSpec     `json:"operatorSpec,omitempty"`
 	OriginalVersion                string                             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -169,7 +197,7 @@ var _ genruntime.ConvertibleSpec = &FluxConfiguration_Spec{}
 // ConvertSpecFrom populates our FluxConfiguration_Spec from the provided source
 func (configuration *FluxConfiguration_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == configuration {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(configuration)
@@ -178,7 +206,7 @@ func (configuration *FluxConfiguration_Spec) ConvertSpecFrom(source genruntime.C
 // ConvertSpecTo populates the provided destination from our FluxConfiguration_Spec
 func (configuration *FluxConfiguration_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == configuration {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(configuration)
@@ -218,7 +246,7 @@ var _ genruntime.ConvertibleStatus = &FluxConfiguration_STATUS{}
 // ConvertStatusFrom populates our FluxConfiguration_STATUS from the provided source
 func (configuration *FluxConfiguration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == configuration {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(configuration)
@@ -227,7 +255,7 @@ func (configuration *FluxConfiguration_STATUS) ConvertStatusFrom(source genrunti
 // ConvertStatusTo populates the provided destination from our FluxConfiguration_STATUS
 func (configuration *FluxConfiguration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == configuration {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(configuration)
@@ -284,6 +312,14 @@ type BucketDefinition_STATUS struct {
 	SyncIntervalInSeconds *int                   `json:"syncIntervalInSeconds,omitempty"`
 	TimeoutInSeconds      *int                   `json:"timeoutInSeconds,omitempty"`
 	Url                   *string                `json:"url,omitempty"`
+}
+
+// Storage version of v1api20230501.FluxConfigurationOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FluxConfigurationOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230501.GitRepositoryDefinition

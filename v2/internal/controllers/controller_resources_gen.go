@@ -5,6 +5,8 @@ package controllers
 
 import (
 	alertsmanagement_customizations "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/customizations"
+	alertsmanagement_v20210401 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401"
+	alertsmanagement_v20210401s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401/storage"
 	alertsmanagement_v20230301 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301"
 	alertsmanagement_v20230301s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/storage"
 	apimanagement_customizations "github.com/Azure/azure-service-operator/v2/api/apimanagement/customizations"
@@ -71,6 +73,8 @@ import (
 	containerservice_v20231102ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231102preview/storage"
 	containerservice_v20240402p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview"
 	containerservice_v20240402ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/storage"
+	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
+	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
 	datafactory_v20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
 	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
@@ -119,6 +123,8 @@ import (
 	insights_v20180501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180501preview/storage"
 	insights_v20200202 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202"
 	insights_v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/storage"
+	insights_v20210501p "github.com/Azure/azure-service-operator/v2/api/insights/v1api20210501preview"
+	insights_v20210501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20210501preview/storage"
 	insights_v20220615 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615"
 	insights_v20220615s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
 	insights_v20221001 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001"
@@ -166,6 +172,10 @@ import (
 	network_v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	network_v20240101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101"
 	network_v20240101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
+	network_v20240301 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
+	network_v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	network_v20240601 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601"
+	network_v20240601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
 	operationalinsights_customizations "github.com/Azure/azure-service-operator/v2/api/operationalinsights/customizations"
 	operationalinsights_v20210601 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601"
 	operationalinsights_v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
@@ -218,6 +228,7 @@ import (
 // getKnownStorageTypes returns the list of storage types which can be reconciled.
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
+	result = append(result, &registration.StorageType{Obj: new(alertsmanagement_v20210401s.SmartDetectorAlertRule)})
 	result = append(result, &registration.StorageType{Obj: new(alertsmanagement_v20230301s.PrometheusRuleGroup)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Api)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.ApiVersionSet)})
@@ -532,8 +543,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.Fleet)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.FleetsMember)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.FleetsUpdateRun)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20240901s.MaintenanceConfiguration)})
 	result = append(result, &registration.StorageType{
-		Obj: new(containerservice_v20231001s.ManagedCluster),
+		Obj: new(containerservice_v20240901s.ManagedCluster),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.windowsProfile.adminPassword",
@@ -547,12 +559,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.servicePrincipalProfile.secret", ".spec.windowsProfile.adminPassword"}, &containerservice_v20231001s.ManagedClusterList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.servicePrincipalProfile.secret", ".spec.windowsProfile.adminPassword"}, &containerservice_v20240901s.ManagedClusterList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20231001s.ManagedClustersAgentPool)})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20231001s.TrustedAccessRoleBinding)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20240901s.ManagedClustersAgentPool)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20240901s.TrustedAccessRoleBinding)})
 	result = append(result, &registration.StorageType{Obj: new(datafactory_v20180601s.Factory)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVault)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVaultsBackupInstance)})
@@ -724,6 +736,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.NamespacesEventhubsConsumerGroup)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20180301s.MetricAlert)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20200202s.Component)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20210501ps.DiagnosticSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.ScheduledQueryRule)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.Webtest)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.AutoscaleSetting)})
@@ -825,6 +838,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20240401s.Registry)})
 	result = append(result, &registration.StorageType{
 		Obj: new(machinelearningservices_v20240401s.Workspace),
 		Indexes: []registration.Index{
@@ -1037,27 +1051,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZonesPTRRecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZonesSRVRecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZonesTXTRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20180901s.PrivateDnsZone)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesAAAARecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesARecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesCNAMERecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesMXRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesPTRRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesSRVRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesTXTRecord)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesVirtualNetworkLink)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.LoadBalancer)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.LoadBalancersInboundNatRule)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.NetworkInterface)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.NetworkSecurityGroup)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.NetworkSecurityGroupsSecurityRule)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.PublicIPAddress)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.RouteTable)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.RouteTablesRoute)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetwork)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworkGateway)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworksSubnet)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworksVirtualNetworkPeering)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfile)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesAzureEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesExternalEndpoint)})
@@ -1093,7 +1086,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.BastionHost)})
 	result = append(result, &registration.StorageType{
 		Obj: new(network_v20220701s.DnsForwardingRuleSetsForwardingRule),
 		Indexes: []registration.Index{
@@ -1109,16 +1101,40 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsForwardingRuleSetsVirtualNetworkLink)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsForwardingRuleset)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsResolver)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsResolversInboundEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsResolversOutboundEndpoint)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.NatGateway)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateEndpoint)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateEndpointsPrivateDnsZoneGroup)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateLinkService)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PublicIPPrefix)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240101s.ApplicationSecurityGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240101s.WebApplicationFirewallPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.BastionHost)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.LoadBalancer)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.LoadBalancersInboundNatRule)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.NatGateway)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.NetworkInterface)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.NetworkSecurityGroup)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.NetworkSecurityGroupsSecurityRule)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PrivateEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PrivateEndpointsPrivateDnsZoneGroup)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PrivateLinkService)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PublicIPAddress)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PublicIPPrefix)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.RouteTable)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.RouteTablesRoute)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetwork)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetworkGateway)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetworksSubnet)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetworksVirtualNetworkPeering)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZone)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesAAAARecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesARecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesCNAMERecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesMXRecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesPTRRecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesSRVRecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesTXTRecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesVirtualNetworkLink)})
 	result = append(result, &registration.StorageType{Obj: new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20210601s.Workspace)})
 	result = append(result, &registration.StorageType{
@@ -1376,6 +1392,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 // getKnownTypes returns the list of all types.
 func getKnownTypes() []client.Object {
 	var result []client.Object
+	result = append(result, new(alertsmanagement_v20210401.SmartDetectorAlertRule))
+	result = append(result, new(alertsmanagement_v20210401s.SmartDetectorAlertRule))
 	result = append(result, new(alertsmanagement_v20230301.PrometheusRuleGroup))
 	result = append(result, new(alertsmanagement_v20230301s.PrometheusRuleGroup))
 	result = append(
@@ -1648,6 +1666,18 @@ func getKnownTypes() []client.Object {
 		new(containerservice_v20240402ps.ManagedCluster),
 		new(containerservice_v20240402ps.ManagedClustersAgentPool),
 		new(containerservice_v20240402ps.TrustedAccessRoleBinding))
+	result = append(
+		result,
+		new(containerservice_v20240901.MaintenanceConfiguration),
+		new(containerservice_v20240901.ManagedCluster),
+		new(containerservice_v20240901.ManagedClustersAgentPool),
+		new(containerservice_v20240901.TrustedAccessRoleBinding))
+	result = append(
+		result,
+		new(containerservice_v20240901s.MaintenanceConfiguration),
+		new(containerservice_v20240901s.ManagedCluster),
+		new(containerservice_v20240901s.ManagedClustersAgentPool),
+		new(containerservice_v20240901s.TrustedAccessRoleBinding))
 	result = append(result, new(datafactory_v20180601.Factory))
 	result = append(result, new(datafactory_v20180601s.Factory))
 	result = append(
@@ -1852,6 +1882,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20180501ps.Webtest))
 	result = append(result, new(insights_v20200202.Component))
 	result = append(result, new(insights_v20200202s.Component))
+	result = append(result, new(insights_v20210501p.DiagnosticSetting))
+	result = append(result, new(insights_v20210501ps.DiagnosticSetting))
 	result = append(
 		result,
 		new(insights_v20220615.ScheduledQueryRule),
@@ -1888,11 +1920,13 @@ func getKnownTypes() []client.Object {
 		new(machinelearningservices_v20210701s.WorkspacesConnection))
 	result = append(
 		result,
+		new(machinelearningservices_v20240401.Registry),
 		new(machinelearningservices_v20240401.Workspace),
 		new(machinelearningservices_v20240401.WorkspacesCompute),
 		new(machinelearningservices_v20240401.WorkspacesConnection))
 	result = append(
 		result,
+		new(machinelearningservices_v20240401s.Registry),
 		new(machinelearningservices_v20240401s.Workspace),
 		new(machinelearningservices_v20240401s.WorkspacesCompute),
 		new(machinelearningservices_v20240401s.WorkspacesConnection))
@@ -2001,6 +2035,7 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701.ApplicationGateway),
 		new(network_v20220701.BastionHost),
 		new(network_v20220701.DnsForwardingRuleSetsForwardingRule),
+		new(network_v20220701.DnsForwardingRuleSetsVirtualNetworkLink),
 		new(network_v20220701.DnsForwardingRuleset),
 		new(network_v20220701.DnsResolver),
 		new(network_v20220701.DnsResolversInboundEndpoint),
@@ -2015,6 +2050,7 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701s.ApplicationGateway),
 		new(network_v20220701s.BastionHost),
 		new(network_v20220701s.DnsForwardingRuleSetsForwardingRule),
+		new(network_v20220701s.DnsForwardingRuleSetsVirtualNetworkLink),
 		new(network_v20220701s.DnsForwardingRuleset),
 		new(network_v20220701s.DnsResolver),
 		new(network_v20220701s.DnsResolversInboundEndpoint),
@@ -2024,8 +2060,76 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701s.PrivateEndpointsPrivateDnsZoneGroup),
 		new(network_v20220701s.PrivateLinkService),
 		new(network_v20220701s.PublicIPPrefix))
-	result = append(result, new(network_v20240101.WebApplicationFirewallPolicy))
-	result = append(result, new(network_v20240101s.WebApplicationFirewallPolicy))
+	result = append(
+		result,
+		new(network_v20240101.ApplicationSecurityGroup),
+		new(network_v20240101.WebApplicationFirewallPolicy))
+	result = append(
+		result,
+		new(network_v20240101s.ApplicationSecurityGroup),
+		new(network_v20240101s.WebApplicationFirewallPolicy))
+	result = append(
+		result,
+		new(network_v20240301.BastionHost),
+		new(network_v20240301.LoadBalancer),
+		new(network_v20240301.LoadBalancersInboundNatRule),
+		new(network_v20240301.NatGateway),
+		new(network_v20240301.NetworkInterface),
+		new(network_v20240301.NetworkSecurityGroup),
+		new(network_v20240301.NetworkSecurityGroupsSecurityRule),
+		new(network_v20240301.PrivateEndpoint),
+		new(network_v20240301.PrivateEndpointsPrivateDnsZoneGroup),
+		new(network_v20240301.PrivateLinkService),
+		new(network_v20240301.PublicIPAddress),
+		new(network_v20240301.PublicIPPrefix),
+		new(network_v20240301.RouteTable),
+		new(network_v20240301.RouteTablesRoute),
+		new(network_v20240301.VirtualNetwork),
+		new(network_v20240301.VirtualNetworkGateway),
+		new(network_v20240301.VirtualNetworksSubnet),
+		new(network_v20240301.VirtualNetworksVirtualNetworkPeering))
+	result = append(
+		result,
+		new(network_v20240301s.BastionHost),
+		new(network_v20240301s.LoadBalancer),
+		new(network_v20240301s.LoadBalancersInboundNatRule),
+		new(network_v20240301s.NatGateway),
+		new(network_v20240301s.NetworkInterface),
+		new(network_v20240301s.NetworkSecurityGroup),
+		new(network_v20240301s.NetworkSecurityGroupsSecurityRule),
+		new(network_v20240301s.PrivateEndpoint),
+		new(network_v20240301s.PrivateEndpointsPrivateDnsZoneGroup),
+		new(network_v20240301s.PrivateLinkService),
+		new(network_v20240301s.PublicIPAddress),
+		new(network_v20240301s.PublicIPPrefix),
+		new(network_v20240301s.RouteTable),
+		new(network_v20240301s.RouteTablesRoute),
+		new(network_v20240301s.VirtualNetwork),
+		new(network_v20240301s.VirtualNetworkGateway),
+		new(network_v20240301s.VirtualNetworksSubnet),
+		new(network_v20240301s.VirtualNetworksVirtualNetworkPeering))
+	result = append(
+		result,
+		new(network_v20240601.PrivateDnsZone),
+		new(network_v20240601.PrivateDnsZonesAAAARecord),
+		new(network_v20240601.PrivateDnsZonesARecord),
+		new(network_v20240601.PrivateDnsZonesCNAMERecord),
+		new(network_v20240601.PrivateDnsZonesMXRecord),
+		new(network_v20240601.PrivateDnsZonesPTRRecord),
+		new(network_v20240601.PrivateDnsZonesSRVRecord),
+		new(network_v20240601.PrivateDnsZonesTXTRecord),
+		new(network_v20240601.PrivateDnsZonesVirtualNetworkLink))
+	result = append(
+		result,
+		new(network_v20240601s.PrivateDnsZone),
+		new(network_v20240601s.PrivateDnsZonesAAAARecord),
+		new(network_v20240601s.PrivateDnsZonesARecord),
+		new(network_v20240601s.PrivateDnsZonesCNAMERecord),
+		new(network_v20240601s.PrivateDnsZonesMXRecord),
+		new(network_v20240601s.PrivateDnsZonesPTRRecord),
+		new(network_v20240601s.PrivateDnsZonesSRVRecord),
+		new(network_v20240601s.PrivateDnsZonesTXTRecord),
+		new(network_v20240601s.PrivateDnsZonesVirtualNetworkLink))
 	result = append(result, new(networkfrontdoor_v20220501.WebApplicationFirewallPolicy))
 	result = append(result, new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy))
 	result = append(result, new(operationalinsights_v20210601.Workspace))
@@ -2223,6 +2327,8 @@ func getKnownTypes() []client.Object {
 func createScheme() *runtime.Scheme {
 	scheme := runtime.NewScheme()
 	_ = clientgoscheme.AddToScheme(scheme)
+	_ = alertsmanagement_v20210401.AddToScheme(scheme)
+	_ = alertsmanagement_v20210401s.AddToScheme(scheme)
 	_ = alertsmanagement_v20230301.AddToScheme(scheme)
 	_ = alertsmanagement_v20230301s.AddToScheme(scheme)
 	_ = apimanagement_v20220801.AddToScheme(scheme)
@@ -2279,6 +2385,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20231102ps.AddToScheme(scheme)
 	_ = containerservice_v20240402p.AddToScheme(scheme)
 	_ = containerservice_v20240402ps.AddToScheme(scheme)
+	_ = containerservice_v20240901.AddToScheme(scheme)
+	_ = containerservice_v20240901s.AddToScheme(scheme)
 	_ = datafactory_v20180601.AddToScheme(scheme)
 	_ = datafactory_v20180601s.AddToScheme(scheme)
 	_ = dataprotection_v20230101.AddToScheme(scheme)
@@ -2317,6 +2425,8 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20180501ps.AddToScheme(scheme)
 	_ = insights_v20200202.AddToScheme(scheme)
 	_ = insights_v20200202s.AddToScheme(scheme)
+	_ = insights_v20210501p.AddToScheme(scheme)
+	_ = insights_v20210501ps.AddToScheme(scheme)
 	_ = insights_v20220615.AddToScheme(scheme)
 	_ = insights_v20220615s.AddToScheme(scheme)
 	_ = insights_v20221001.AddToScheme(scheme)
@@ -2355,6 +2465,10 @@ func createScheme() *runtime.Scheme {
 	_ = network_v20220701s.AddToScheme(scheme)
 	_ = network_v20240101.AddToScheme(scheme)
 	_ = network_v20240101s.AddToScheme(scheme)
+	_ = network_v20240301.AddToScheme(scheme)
+	_ = network_v20240301s.AddToScheme(scheme)
+	_ = network_v20240601.AddToScheme(scheme)
+	_ = network_v20240601s.AddToScheme(scheme)
 	_ = networkfrontdoor_v20220501.AddToScheme(scheme)
 	_ = networkfrontdoor_v20220501s.AddToScheme(scheme)
 	_ = operationalinsights_v20210601.AddToScheme(scheme)
@@ -2394,6 +2508,7 @@ func createScheme() *runtime.Scheme {
 func getResourceExtensions() []genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
 	result = append(result, &alertsmanagement_customizations.PrometheusRuleGroupExtension{})
+	result = append(result, &alertsmanagement_customizations.SmartDetectorAlertRuleExtension{})
 	result = append(result, &apimanagement_customizations.ApiExtension{})
 	result = append(result, &apimanagement_customizations.ApiVersionSetExtension{})
 	result = append(result, &apimanagement_customizations.AuthorizationProviderExtension{})
@@ -2443,6 +2558,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &containerservice_customizations.FleetExtension{})
 	result = append(result, &containerservice_customizations.FleetsMemberExtension{})
 	result = append(result, &containerservice_customizations.FleetsUpdateRunExtension{})
+	result = append(result, &containerservice_customizations.MaintenanceConfigurationExtension{})
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
 	result = append(result, &containerservice_customizations.TrustedAccessRoleBindingExtension{})
@@ -2488,12 +2604,14 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &insights_customizations.ActionGroupExtension{})
 	result = append(result, &insights_customizations.AutoscaleSettingExtension{})
 	result = append(result, &insights_customizations.ComponentExtension{})
+	result = append(result, &insights_customizations.DiagnosticSettingExtension{})
 	result = append(result, &insights_customizations.MetricAlertExtension{})
 	result = append(result, &insights_customizations.ScheduledQueryRuleExtension{})
 	result = append(result, &insights_customizations.WebtestExtension{})
 	result = append(result, &keyvault_customizations.VaultExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.ExtensionExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.FluxConfigurationExtension{})
+	result = append(result, &machinelearningservices_customizations.RegistryExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspaceExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesComputeExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})
@@ -2501,8 +2619,10 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
 	result = append(result, &monitor_customizations.AccountExtension{})
 	result = append(result, &network_customizations.ApplicationGatewayExtension{})
+	result = append(result, &network_customizations.ApplicationSecurityGroupExtension{})
 	result = append(result, &network_customizations.BastionHostExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsForwardingRuleExtension{})
+	result = append(result, &network_customizations.DnsForwardingRuleSetsVirtualNetworkLinkExtension{})
 	result = append(result, &network_customizations.DnsForwardingRulesetExtension{})
 	result = append(result, &network_customizations.DnsResolverExtension{})
 	result = append(result, &network_customizations.DnsResolversInboundEndpointExtension{})
@@ -3076,9 +3196,9 @@ func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []st
 	return obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Index()
 }
 
-// indexContainerserviceManagedClusterAdminPassword an index function for containerservice_v20231001s.ManagedCluster .spec.windowsProfile.adminPassword
+// indexContainerserviceManagedClusterAdminPassword an index function for containerservice_v20240901s.ManagedCluster .spec.windowsProfile.adminPassword
 func indexContainerserviceManagedClusterAdminPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20231001s.ManagedCluster)
+	obj, ok := rawObj.(*containerservice_v20240901s.ManagedCluster)
 	if !ok {
 		return nil
 	}
@@ -3091,9 +3211,9 @@ func indexContainerserviceManagedClusterAdminPassword(rawObj client.Object) []st
 	return obj.Spec.WindowsProfile.AdminPassword.Index()
 }
 
-// indexContainerserviceManagedClusterSecret an index function for containerservice_v20231001s.ManagedCluster .spec.servicePrincipalProfile.secret
+// indexContainerserviceManagedClusterSecret an index function for containerservice_v20240901s.ManagedCluster .spec.servicePrincipalProfile.secret
 func indexContainerserviceManagedClusterSecret(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20231001s.ManagedCluster)
+	obj, ok := rawObj.(*containerservice_v20240901s.ManagedCluster)
 	if !ok {
 		return nil
 	}

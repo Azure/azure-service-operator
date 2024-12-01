@@ -31,7 +31,7 @@ supportedResourcesReport:
   # resourcePath is a template used for generating a file path for checking whether docs for a resource have been generated
   # specified relative to the directory of outputPath, and supports the same placeholders
   resourcePathTemplate: "{group}/{version}.md"
-  currentRelease: v2.9.0
+  currentRelease: v2.11.0
 
 #
 # These filters are used early in the processing pipeline. 
@@ -87,6 +87,11 @@ typeFilters:
     because: This version of APIM is created in a matter of minutes
 
   - action: include
+    group: insights
+    version: v*20210501preview
+    because: We're using DiagnosticSetting from this.
+
+  - action: include
     group: common
     because: we need these for common resource properties
 
@@ -128,6 +133,22 @@ typeFilters:
   - action: prune
     group: costmanagement
     because: QueryFilter is a self-referential, infinitely recursive type. We can't easily unroll it and controller-gen doesn't support recursive types
+
+#
+# When loading resources, it's possible for us to end up with a name collision if two resources 
+# specify similar URLs (we derive the names from the structure of the ARM URL specified for the 
+# resource). This is an extremely rare event.
+# Because this happens so early in the operation of our pipeline, our existing mechanisms for 
+# disambiguation and renaming can't be applied, so we special case them here.
+#
+# This is configuration of last resort; in most cases, you should use the objectModelConfiguration
+# to rename things as it is much more flexible.
+#
+typeLoaderRenames:
+  - group: insights
+    name: DiagnosticSetting
+    scope: Location
+    renameTo: SubscriptionDiagnosticSetting
 
 # Exclusions for packages that currently produce types including AnyType.
 # TODO: get rid of these, either by chasing the teams generating
@@ -368,6 +389,18 @@ typeTransformers:
   - group: machinelearningservices
     name: EncryptionProperty
     property: Status
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+
+  - group: machinelearningservices
+    name: SystemCreatedStorageAccount
+    property: ArmResourceId
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+
+  - group: machinelearningservices
+    name: SystemCreatedAcrAccount
+    property: ArmResourceId
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
 
@@ -827,6 +860,11 @@ status:
 #     If you have two names differing only by letter case, use a TypeTransform
 #     to selectively rename one of the types.
 #
+# $stripDocumentation: <bool>
+#     Strips documentation from the specified resource and all objects referenced by the resource
+#     recursively. Should not be used unless completely necessary - usually to reduce the size of
+#     a CRD to below the Kubernetes CRD size limit.
+#
 # $supportedFrom: <version>
 #     Gives the version number of the first release of ASO that provides 
 #     support for this resource.
@@ -856,6 +894,9 @@ status:
 #     Set to 'true' to confirm the property is an ARM reference.
 #     Set to 'false' to disable our heuristics if a property is incorrectly 
 #     identified as an ARM reference.
+#
+# $description: <string>
+#     Overrides the property description with the provided value.
 #
 # $importConfigMapMode: <optional|required>
 #     Specifies that the property can be imported from a config map.
@@ -893,6 +934,19 @@ status:
 #
 objectModelConfiguration:
   alertsmanagement:
+    2021-04-01:
+      SmartDetectorAlertRule:
+        $export: true
+        $supportedFrom: v2.11.0
+      AlertRuleProperties:
+        Scope:
+          $armReference: true
+      ActionGroupsInformation:
+        GroupIds:
+          $armReference: true
+      Detector:
+        Id:
+          $armReference: false
     2023-03-01:
       PrometheusRuleGroup:
         $export: true
@@ -1333,6 +1387,9 @@ objectModelConfiguration:
         $isResource: false
       DeepCreatedOriginProperties_STATUS:
         $isResource: false
+      DomainValidationProperties:
+        ValidationToken:
+          $isSecret: false # Not a conventional secret; this is the token someone must provide to prove they own the domain
       Profile:
         $export: true
         $supportedFrom: v2.6.0
@@ -1426,6 +1483,12 @@ objectModelConfiguration:
         $isResource: false
       NetworkInterfaceReference_STATUS:
         $isResource: false
+      SshPublicKeySpec:
+        KeyData:
+          $isSecret: false
+      SshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
       VirtualMachine:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
@@ -1489,6 +1552,12 @@ objectModelConfiguration:
         $isResource: false
       NetworkProfile_STATUS:
         $isResource: false
+      SshPublicKeySpec:
+        KeyData:
+          $isSecret: false
+      SshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
       VMGalleryApplication:
         PackageReferenceId:
           $armReference: true
@@ -1603,9 +1672,16 @@ objectModelConfiguration:
   containerservice:
     $payloadType: explicitCollections
     2021-05-01:
+      ContainerServiceSshPublicKey:
+        KeyData:
+          $isSecret: false
+      ContainerServiceSshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
       ManagedCluster:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+        $stripDocumentation: true
         $azureGeneratedSecrets:
           - AdminCredentials
           - UserCredentials
@@ -1643,9 +1719,16 @@ objectModelConfiguration:
         Id:
           $armReference: true
     2023-02-01:
+      ContainerServiceSshPublicKey:
+        KeyData:
+          $isSecret: false
+      ContainerServiceSshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
       ManagedCluster:
         $export: true
         $supportedFrom: v2.0.0
+        $stripDocumentation: true
         $azureGeneratedSecrets:
           - AdminCredentials
           - UserCredentials
@@ -1696,6 +1779,9 @@ objectModelConfiguration:
     2023-10-01:
       ContainerServiceNetworkProfile_NetworkPlugin:
         $renameTo: NetworkPlugin
+      ContainerServiceSshPublicKey:
+        KeyData:
+          $isSecret: false
       DelegatedResource:
         ResourceId:
           $armReference: true
@@ -1734,19 +1820,26 @@ objectModelConfiguration:
       ManagedClusterWindowsProfile:
         AdminPassword:
           $isSecret: true
-      PrivateLinkResource:
-        Id:
-          $armReference: true
       ManagedClusters_TrustedAccessRoleBinding:
         $exportAs: TrustedAccessRoleBinding
         $supportedFrom: v2.8.0
+      PrivateLinkResource:
+        Id:
+          $armReference: true
     2023-11-02-preview:
+      ContainerServiceSshPublicKey:
+        KeyData:
+          $isSecret: false
+      ContainerServiceSshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
       DelegatedResource:
         ResourceId:
           $armReference: true
       ManagedCluster:
         $export: true
         $supportedFrom: v2.6.0
+        $stripDocumentation: true
         $azureGeneratedSecrets:
           - AdminCredentials
           - UserCredentials
@@ -1782,6 +1875,12 @@ objectModelConfiguration:
         Id:
           $armReference: true
     2024-04-02-preview:
+      ContainerServiceSshPublicKey:
+        KeyData:
+          $isSecret: false
+      ContainerServiceSshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
       DelegatedResource:
         ResourceId:
           $armReference: true
@@ -1819,12 +1918,65 @@ objectModelConfiguration:
       ManagedClusterWindowsProfile:
         AdminPassword:
           $isSecret: true
+      ManagedClusters_TrustedAccessRoleBinding:
+        $exportAs: TrustedAccessRoleBinding
+        $supportedFrom: v2.8.0
+      PrivateLinkResource:
+        Id:
+          $armReference: true
+    2024-09-01:
+      ContainerServiceSshPublicKey:
+        KeyData:
+          $isSecret: false
+      ContainerServiceSshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
+      DelegatedResource:
+        ResourceId:
+          $armReference: true
+      ManagedCluster:
+        $export: true
+        $supportedFrom: v2.11.0
+        $azureGeneratedSecrets:
+          - AdminCredentials
+          - UserCredentials
+        $generatedConfigs:
+          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+      ManagedCluster_Spec:
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusterAgentPoolProfile:
+        NodeLabels:
+          $payloadType: explicitEmptyCollections
+        NodeTaints:
+          $payloadType: explicitEmptyCollections
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusterAgentPoolProfileProperties:
+        NodeLabels:
+          $payloadType: explicitEmptyCollections
+        NodeTaints:
+          $payloadType: explicitEmptyCollections
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusters_AgentPool:
+        $exportAs: ManagedClustersAgentPool
+        $supportedFrom: v2.11.0
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
+      ManagedClusterWindowsProfile:
+        AdminPassword:
+          $isSecret: true
       PrivateLinkResource:
         Id:
           $armReference: true
       ManagedClusters_TrustedAccessRoleBinding:
         $exportAs: TrustedAccessRoleBinding
-        $supportedFrom: v2.8.0
+        $supportedFrom: v2.11.0
+      ManagedClusters_MaintenanceConfiguration:
+        $exportAs: MaintenanceConfiguration
+        $supportedFrom: v2.11.0
   datafactory:
     2018-06-01:
       PurviewConfiguration:
@@ -2343,6 +2495,8 @@ objectModelConfiguration:
           $armReference: false
     2020-02-02:
       ApplicationInsightsComponentProperties:
+        HockeyAppToken:
+          $isSecret: false
         WorkspaceResourceId:
           $armReference: true
       Component:
@@ -2403,6 +2557,20 @@ objectModelConfiguration:
       WebTestGeolocation:
         Id:
           $armReference: false
+    2021-05-01-preview:
+      DiagnosticSetting:
+        $export: true
+        $supportedFrom: v2.11.0
+      DiagnosticSettings:
+        MarketplacePartnerId:
+          $armReference: true
+        WorkspaceId:
+          $armReference: true
+        EventHubAuthorizationRuleId:
+          $armReference: true
+        StorageAccountId:
+          $armReference: true
+
   keyvault:
     2021-04-01-preview:
       Vault:
@@ -2554,6 +2722,9 @@ objectModelConfiguration:
       Databricks:
         ResourceId:
           $armReference: true
+      DatabricksProperties:
+        DatabricksAccessToken:
+          $isSecret: true
       AKS:
         ResourceId:
           $armReference: true
@@ -2583,9 +2754,6 @@ objectModelConfiguration:
         PrivateKeyData:
           $isSecret: true
         PublicKeyData:
-          $isSecret: true
-      DatabricksProperties:
-        DatabricksAccessToken:
           $isSecret: true
       Workspaces_Connection:
         $exportAs: WorkspacesConnection
@@ -2693,14 +2861,10 @@ objectModelConfiguration:
       UserAccountCredentials:
         AdminUserPassword:
           $isSecret: true
-        AdminUserSshPublicKey:
-          $isSecret: true
       VirtualMachineSshCredentials:
         Password:
           $isSecret: true
         PrivateKeyData:
-          $isSecret: true
-        PublicKeyData:
           $isSecret: true
       Workspaces_Connection:
         $exportAs: WorkspacesConnection
@@ -2744,6 +2908,21 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         TenantId:
           $importConfigMapMode: optional
+      Registry:
+        $export: true
+        $supportedFrom: v2.10.0
+        $generatedConfigs:
+          DiscoveryUrl: $.Status.DiscoveryUrl
+          MlFlowRegistryUri: $.Status.MlFlowRegistryUri
+      PrivateEndpointResource:
+        SubnetArmId:
+          $armReference: true
+      ArmResourceId:
+        ResourceId:
+          $armReference: true
+      RegistryPrivateEndpointConnection:
+        Id:
+          $armReference: true
   monitor:
     2023-04-03:
       Account:
@@ -2904,6 +3083,8 @@ objectModelConfiguration:
       VirtualNetworkGatewayPropertiesFormat:
         VNetExtendedLocationResourceId:
           $armReference: true
+      VirtualNetworkGateway_STATUS:
+        $nameInNextVersion: VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded # TODO: See if we can get rid of this
       VirtualNetworkGatewayIPConfiguration:
         $resourceEmbeddedInParent: VirtualNetworkGateway
       VirtualNetworkGatewayIPConfiguration_STATUS:
@@ -2926,10 +3107,14 @@ objectModelConfiguration:
       VirtualNetworks_Subnet: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
         $exportAs: VirtualNetworksSubnet
         $supportedFrom: v2.0.0-alpha.1
+      VirtualNetworksSubnet_STATUS:
+        IpConfigurations:
+          $description: "An array of references to the network interface IP configurations using subnet. This field is not included if there are more than 2000 entries."
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
     2022-04-01:
+      # Note that this is versioned separately from other networking resources (https://github.com/Azure/azure-rest-api-specs/tree/main/specification/trafficmanager/resource-manager/Microsoft.Network/stable)
       TrafficManagerProfile:
         # Hacking around here to use camel case. Normally the resource gets exported as Trafficmanagerprofile
         $exportAs: TrafficManagerProfile
@@ -3015,6 +3200,7 @@ objectModelConfiguration:
         $supportedFrom: v2.1.0
       BastionHostIPConfiguration:
         $resourceEmbeddedInParent: BastionHost
+      # DNSResolver and related resources are versioned differently than main networking resources, see https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dnsresolver/resource-manager/Microsoft.Network
       DnsResolver:
         $export: true
         $supportedFrom: v2.2.0
@@ -3030,6 +3216,9 @@ objectModelConfiguration:
       DnsForwardingRuleSets_ForwardingRule:
         $exportAs: DnsForwardingRuleSetsForwardingRule
         $supportedFrom: v2.2.0
+      DnsForwardingRuleSets_VirtualNetworkLink:
+        $exportAs: DnsForwardingRuleSetsVirtualNetworkLink
+        $supportedFrom: v2.10.0
       TargetDnsServer:
         IpAddress:
           $importConfigMapMode: optional
@@ -3067,10 +3256,200 @@ objectModelConfiguration:
         PrivateDnsZoneId:
           $armReference: true
     2024-01-01:
-      # TODO: Add other networking resources here too?
       ApplicationGatewayWebApplicationFirewallPolicy:
         $exportAs: WebApplicationFirewallPolicy
         $supportedFrom: v2.10.0
+      ApplicationSecurityGroup:
+        $export: true
+        $supportedFrom: v2.10.0
+    2024-03-01:
+      BastionHost:
+        $export: true
+        $supportedFrom: v2.11.0
+      BastionHostIPConfiguration:
+        $resourceEmbeddedInParent: BastionHost
+      NatGateway:
+        $export: true
+        $supportedFrom: v2.11.0
+      PublicIPPrefix:
+        $export: true
+        $supportedFrom: v2.11.0
+      PrivateEndpoint:
+        $export: true
+        $supportedFrom: v2.11.0
+        $manualConfigs:
+          - PrimaryNicPrivateIpAddress
+      PrivateLinkService:
+        $export: true
+        $supportedFrom: v2.11.0
+        $generatedConfigs:
+          Alias: $.Status.Alias
+      PrivateLinkServiceConnection:
+        $resourceEmbeddedInParent: PrivateEndpoint
+      PrivateLinkServiceConnection_STATUS:
+        $resourceEmbeddedInParent: PrivateEndpoint
+      PrivateLinkServiceConnectionProperties:
+        PrivateLinkServiceId:
+          $armReference: true
+      PrivateLinkServiceIpConfiguration:
+        $resourceEmbeddedInParent: PrivateLinkService
+      PrivateLinkServiceIpConfiguration_STATUS:
+        $resourceEmbeddedInParent: PrivateLinkService
+      PrivateEndpoints_PrivateDnsZoneGroup:
+        $exportAs: PrivateEndpointsPrivateDnsZoneGroup
+        $supportedFrom: v2.11.0
+      PrivateDnsZonePropertiesFormat:
+        PrivateDnsZoneId:
+          $armReference: true
+      BackendAddressPool:
+        # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
+        # but we didn't model it that way initially, so marking it as not a resource for now to maintain backcompat
+        $resourceEmbeddedInParent: LoadBalancer
+      BackendAddressPool_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      Delegation:
+        $isResource: false
+        #$resourceEmbeddedInParent: VirtualNetworks_Subnet
+      Delegation_STATUS:
+        $isResource: false
+        #$resourceEmbeddedInParent: VirtualNetworks_Subnet
+      FrontendIPConfiguration:
+        $resourceEmbeddedInParent: LoadBalancer # Can GET (has ID) but can't create
+      FrontendIPConfiguration_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      LoadBalancers_InboundNatRule: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
+        $exportAs: LoadBalancersInboundNatRule
+        $supportedFrom: v2.11.0
+      InboundNatRule:
+        # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
+        # but we didn't model it that way initially, so marking it as not a resource for now to maintain backcompat
+        $resourceEmbeddedInParent: LoadBalancer
+      InboundNatRule_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      InboundNatPool:
+        $resourceEmbeddedInParent: LoadBalancer # This is not a real resource
+      InboundNatPool_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      LoadBalancer:
+        $export: true
+        $supportedFrom: v2.11.0
+      LoadBalancingRule:
+        $resourceEmbeddedInParent: LoadBalancer # This is not a real resource, can GET but can't PUT
+      LoadBalancingRule_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      NetworkInterface:
+        $export: true
+        $supportedFrom: v2.11.0
+      NetworkInterfaceIPConfiguration:
+        $resourceEmbeddedInParent: NetworkInterface  # Not a real resource, can GET but not PUT
+      NetworkInterfaceIPConfiguration_STATUS:
+        $resourceEmbeddedInParent: NetworkInterface
+      NetworkSecurityGroup:
+        $export: true
+        $supportedFrom: v2.11.0
+      NetworkSecurityGroups_SecurityRule:
+        $exportAs: NetworkSecurityGroupsSecurityRule
+        $supportedFrom: v2.11.0
+      NetworkSecurityGroupPropertiesFormat:
+        SecurityRules:
+          $resourceLifecycleOwnedByParent: NetworkSecurityGroup
+      NetworkSecurityGroupPropertiesFormat_STATUS:
+        FlowLogs:
+          $resourceLifecycleOwnedByParent: NetworkSecurityGroup
+      OutboundRule:
+        $resourceEmbeddedInParent: LoadBalancer  # Not a real resource, can GET but not PUT
+      OutboundRule_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      Probe:
+        $resourceEmbeddedInParent: LoadBalancer  # Not a real resource, can GET but not PUT
+      Probe_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      PublicIPAddress:
+        $exportAs: PublicIPAddress
+        $supportedFrom: v2.11.0
+      RouteTable:
+        $export: true
+        $supportedFrom: v2.11.0
+      RouteTablePropertiesFormat:
+        Routes:
+          $resourceLifecycleOwnedByParent: RouteTable
+      RouteTables_Route: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
+        $exportAs: RouteTablesRoute
+        $supportedFrom: v2.11.0
+      VirtualNetwork:
+        $export: true
+        $supportedFrom: v2.11.0
+      VirtualNetworkGateway:
+        $export: true
+        $supportedFrom: v2.11.0
+      VirtualNetworkGatewayPropertiesFormat:
+        VNetExtendedLocationResourceId:
+          $armReference: true
+      VirtualNetworkGatewayIPConfiguration:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkGatewayIPConfiguration_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRevokedCertificate:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRevokedCertificate_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRootCertificate:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRootCertificate_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkGatewayNatRule:  # TODO: New resource, should add?
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkGatewayNatRule_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkGatewayPolicyGroup:  # TODO: New resource, should add?
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkGatewayPolicyGroup_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkPropertiesFormat:
+        Subnets:
+          $resourceLifecycleOwnedByParent: VirtualNetwork
+        VirtualNetworkPeerings:
+          # Technically this resource behaves fine (updating the vnet doesn't delete these if they
+          # aren't included in the payload). Marking it here so that the pruning takes effect.
+          $resourceLifecycleOwnedByParent: VirtualNetwork
+      VirtualNetworks_Subnet: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
+        $exportAs: VirtualNetworksSubnet
+        $supportedFrom: v2.11.0
+      VirtualNetworksSubnet_STATUS:
+        IpConfigurations:
+          $description: "An array of references to the network interface IP configurations using subnet. This field is not included if there are more than 2000 entries."
+      VirtualNetworks_VirtualNetworkPeering:
+        $exportAs: VirtualNetworksVirtualNetworkPeering
+        $supportedFrom: v2.11.0
+    2024-06-01:
+      # Private DNS Zone + related -- this is versioned separately than most of the rest of Microsoft.Network (https://github.com/Azure/azure-rest-api-specs/tree/main/specification/privatedns/resource-manager/Microsoft.Network/stable)
+      PrivateDnsZone:
+        $export: true
+        $supportedFrom: v2.11.0
+      PrivateDnsZones_VirtualNetworkLink:
+        $exportAs: PrivateDnsZonesVirtualNetworkLink
+        $supportedFrom: v2.11.0
+      PrivateDnsZones_A:
+        $exportAs: PrivateDnsZonesARecord
+        $supportedFrom: v2.11.0
+      PrivateDnsZones_AAAA:
+        $exportAs: PrivateDnsZonesAAAARecord
+        $supportedFrom: v2.11.0
+      PrivateDnsZones_CNAME:
+        $exportAs: PrivateDnsZonesCNAMERecord
+        $supportedFrom: v2.11.0
+      PrivateDnsZones_MX:
+        $exportAs: PrivateDnsZonesMXRecord
+        $supportedFrom: v2.11.0
+      PrivateDnsZones_SRV:
+        $exportAs: PrivateDnsZonesSRVRecord
+        $supportedFrom: v2.11.0
+      PrivateDnsZones_PTR:
+        $exportAs: PrivateDnsZonesPTRRecord
+        $supportedFrom: v2.11.0
+      PrivateDnsZones_TXT:
+        $exportAs: PrivateDnsZonesTXTRecord
+        $supportedFrom: v2.11.0
   network.frontdoor:
     2022-05-01:
       FrontDoorWebApplicationFirewallPolicy:
@@ -3550,6 +3929,7 @@ objectModelConfiguration:
         $export: true
         $exportAs: WorkspacesBigDataPool
         $supportedFrom: v2.0.0
+
   web:
     2022-03-01:
       ApiManagementConfig:

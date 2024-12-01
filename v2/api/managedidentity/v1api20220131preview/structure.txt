@@ -5,11 +5,14 @@ APIVersion: Enum (1 value)
 └── "2022-01-31-preview"
 FederatedIdentityCredential: Resource
 ├── Owner: UserAssignedIdentity
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── Audiences: string[]
 │   ├── AzureName: string
 │   ├── Issuer: *string
 │   ├── IssuerFromConfig: *genruntime.ConfigMapReference
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Subject: *string
 │   └── SubjectFromConfig: *genruntime.ConfigMapReference
@@ -21,17 +24,3 @@ FederatedIdentityCredential: Resource
     ├── Name: *string
     ├── Subject: *string
     └── Type: *string
-UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (3 properties)
-│   ├── Audiences: string[]
-│   ├── Issuer: *string
-│   └── Subject: *string
-└── Type: *string
-UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (3 properties)
-    ├── Audiences: string[]
-    ├── Issuer: *string
-    └── Subject: *string

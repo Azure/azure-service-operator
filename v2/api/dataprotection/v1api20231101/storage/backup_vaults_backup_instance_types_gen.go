@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type BackupVaultsBackupInstance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BackupVaults_BackupInstance_Spec   `json:"spec,omitempty"`
-	Status            BackupVaults_BackupInstance_STATUS `json:"status,omitempty"`
+	Spec              BackupVaultsBackupInstance_Spec   `json:"spec,omitempty"`
+	Status            BackupVaultsBackupInstance_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &BackupVaultsBackupInstance{}
@@ -42,6 +45,26 @@ func (instance *BackupVaultsBackupInstance) GetConditions() conditions.Condition
 // SetConditions sets the conditions on the resource status
 func (instance *BackupVaultsBackupInstance) SetConditions(conditions conditions.Conditions) {
 	instance.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &BackupVaultsBackupInstance{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (instance *BackupVaultsBackupInstance) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if instance.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return instance.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &BackupVaultsBackupInstance{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (instance *BackupVaultsBackupInstance) SecretDestinationExpressions() []*core.DestinationExpression {
+	if instance.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return instance.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &BackupVaultsBackupInstance{}
@@ -87,11 +110,15 @@ func (instance *BackupVaultsBackupInstance) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (instance *BackupVaultsBackupInstance) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &BackupVaults_BackupInstance_STATUS{}
+	return &BackupVaultsBackupInstance_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (instance *BackupVaultsBackupInstance) Owner() *genruntime.ResourceReference {
+	if instance.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(instance.Spec)
 	return instance.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (instance *BackupVaultsBackupInstance) Owner() *genruntime.ResourceReferenc
 // SetStatus sets the status of this resource
 func (instance *BackupVaultsBackupInstance) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*BackupVaults_BackupInstance_STATUS); ok {
+	if st, ok := status.(*BackupVaultsBackupInstance_STATUS); ok {
 		instance.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st BackupVaults_BackupInstance_STATUS
+	var st BackupVaultsBackupInstance_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	instance.Status = st
@@ -138,12 +165,13 @@ type BackupVaultsBackupInstanceList struct {
 	Items           []BackupVaultsBackupInstance `json:"items"`
 }
 
-// Storage version of v1api20231101.BackupVaults_BackupInstance_Spec
-type BackupVaults_BackupInstance_Spec struct {
+// Storage version of v1api20231101.BackupVaultsBackupInstance_Spec
+type BackupVaultsBackupInstance_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string `json:"azureName,omitempty"`
-	OriginalVersion string `json:"originalVersion,omitempty"`
+	AzureName       string                                  `json:"azureName,omitempty"`
+	OperatorSpec    *BackupVaultsBackupInstanceOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -155,28 +183,28 @@ type BackupVaults_BackupInstance_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &BackupVaults_BackupInstance_Spec{}
+var _ genruntime.ConvertibleSpec = &BackupVaultsBackupInstance_Spec{}
 
-// ConvertSpecFrom populates our BackupVaults_BackupInstance_Spec from the provided source
-func (instance *BackupVaults_BackupInstance_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our BackupVaultsBackupInstance_Spec from the provided source
+func (instance *BackupVaultsBackupInstance_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == instance {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(instance)
 }
 
-// ConvertSpecTo populates the provided destination from our BackupVaults_BackupInstance_Spec
-func (instance *BackupVaults_BackupInstance_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our BackupVaultsBackupInstance_Spec
+func (instance *BackupVaultsBackupInstance_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == instance {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(instance)
 }
 
-// Storage version of v1api20231101.BackupVaults_BackupInstance_STATUS
-type BackupVaults_BackupInstance_STATUS struct {
+// Storage version of v1api20231101.BackupVaultsBackupInstance_STATUS
+type BackupVaultsBackupInstance_STATUS struct {
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -187,21 +215,21 @@ type BackupVaults_BackupInstance_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &BackupVaults_BackupInstance_STATUS{}
+var _ genruntime.ConvertibleStatus = &BackupVaultsBackupInstance_STATUS{}
 
-// ConvertStatusFrom populates our BackupVaults_BackupInstance_STATUS from the provided source
-func (instance *BackupVaults_BackupInstance_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our BackupVaultsBackupInstance_STATUS from the provided source
+func (instance *BackupVaultsBackupInstance_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == instance {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(instance)
 }
 
-// ConvertStatusTo populates the provided destination from our BackupVaults_BackupInstance_STATUS
-func (instance *BackupVaults_BackupInstance_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our BackupVaultsBackupInstance_STATUS
+func (instance *BackupVaultsBackupInstance_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == instance {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(instance)
@@ -237,6 +265,14 @@ type BackupInstance_STATUS struct {
 	ProtectionStatus          *ProtectionStatusDetails_STATUS `json:"protectionStatus,omitempty"`
 	ProvisioningState         *string                         `json:"provisioningState,omitempty"`
 	ValidationType            *string                         `json:"validationType,omitempty"`
+}
+
+// Storage version of v1api20231101.BackupVaultsBackupInstanceOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type BackupVaultsBackupInstanceOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20231101.AuthCredentials

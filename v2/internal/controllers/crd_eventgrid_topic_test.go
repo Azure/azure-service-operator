@@ -111,7 +111,7 @@ func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 
 	queueService := &storage.StorageAccountsQueueService{
 		ObjectMeta: tc.MakeObjectMeta("qservice"),
-		Spec: storage.StorageAccounts_QueueService_Spec{
+		Spec: storage.StorageAccountsQueueService_Spec{
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
@@ -120,7 +120,7 @@ func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 
 	queue := &storage.StorageAccountsQueueServicesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
-		Spec: storage.StorageAccounts_QueueServices_Queue_Spec{
+		Spec: storage.StorageAccountsQueueServicesQueue_Spec{
 			Owner: testcommon.AsOwner(queueService),
 		},
 	}

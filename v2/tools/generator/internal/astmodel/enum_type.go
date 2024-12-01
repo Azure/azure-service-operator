@@ -12,10 +12,9 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/pkg/errors"
-	"golang.org/x/exp/slices"
-
 	"github.com/dave/dst"
+	"github.com/rotisserie/eris"
+	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -100,7 +99,7 @@ func (enum *EnumType) AsDeclarations(
 	valuesDeclaration := enum.createValuesDeclaration(declContext)
 	mapperDeclaration, err := enum.createMappingDeclaration(declContext.Name, codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating mapping declaration")
+		return nil, eris.Wrap(err, "creating mapping declaration")
 	}
 
 	return astbuilder.Declarations(
@@ -175,12 +174,12 @@ func (enum *EnumType) createMappingDeclaration(
 
 	baseTypeExpr, err := enum.baseType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating base type expression")
+		return nil, eris.Wrap(err, "creating base type expression")
 	}
 
 	nameExpr, err := name.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating name expression")
+		return nil, eris.Wrap(err, "creating name expression")
 	}
 
 	literal := astbuilder.NewMapLiteral(
@@ -220,7 +219,7 @@ func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) dst
 // AsType implements Type for EnumType
 func (enum *EnumType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	// this should "never" happen as we name all enums; panic if it does
-	panic(errors.New("Emitting unnamed enum, something’s awry"))
+	panic(eris.New("Emitting unnamed enum, something’s awry"))
 }
 
 // AsZero renders an expression for the "zero" value of the type,

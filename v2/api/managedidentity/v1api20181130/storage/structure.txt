@@ -8,13 +8,15 @@ UserAssignedIdentity: Resource
 ├── Spec: Object (7 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── ConfigMaps: *Object (4 properties)
 │   │   │   ├── ClientId: *genruntime.ConfigMapDestination
 │   │   │   ├── PrincipalId: *genruntime.ConfigMapDestination
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── TenantId: *genruntime.ConfigMapDestination
-│   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag

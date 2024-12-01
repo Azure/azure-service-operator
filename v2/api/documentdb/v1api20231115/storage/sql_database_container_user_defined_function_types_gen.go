@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type SqlDatabaseContainerUserDefinedFunction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS `json:"status,omitempty"`
+	Spec              SqlDatabaseContainerUserDefinedFunction_Spec   `json:"spec,omitempty"`
+	Status            SqlDatabaseContainerUserDefinedFunction_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerUserDefinedFunction{}
@@ -42,6 +45,26 @@ func (function *SqlDatabaseContainerUserDefinedFunction) GetConditions() conditi
 // SetConditions sets the conditions on the resource status
 func (function *SqlDatabaseContainerUserDefinedFunction) SetConditions(conditions conditions.Conditions) {
 	function.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &SqlDatabaseContainerUserDefinedFunction{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (function *SqlDatabaseContainerUserDefinedFunction) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if function.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return function.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &SqlDatabaseContainerUserDefinedFunction{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (function *SqlDatabaseContainerUserDefinedFunction) SecretDestinationExpressions() []*core.DestinationExpression {
+	if function.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return function.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerUserDefinedFunction{}
@@ -87,11 +110,15 @@ func (function *SqlDatabaseContainerUserDefinedFunction) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (function *SqlDatabaseContainerUserDefinedFunction) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS{}
+	return &SqlDatabaseContainerUserDefinedFunction_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (function *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.ResourceReference {
+	if function.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(function.Spec)
 	return function.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (function *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.Res
 // SetStatus sets the status of this resource
 func (function *SqlDatabaseContainerUserDefinedFunction) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS); ok {
+	if st, ok := status.(*SqlDatabaseContainerUserDefinedFunction_STATUS); ok {
 		function.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
+	var st SqlDatabaseContainerUserDefinedFunction_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	function.Status = st
@@ -138,14 +165,15 @@ type SqlDatabaseContainerUserDefinedFunctionList struct {
 	Items           []SqlDatabaseContainerUserDefinedFunction `json:"items"`
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
-type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec struct {
+// Storage version of v1api20231115.SqlDatabaseContainerUserDefinedFunction_Spec
+type SqlDatabaseContainerUserDefinedFunction_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string               `json:"azureName,omitempty"`
-	Location        *string              `json:"location,omitempty"`
-	Options         *CreateUpdateOptions `json:"options,omitempty"`
-	OriginalVersion string               `json:"originalVersion,omitempty"`
+	AzureName       string                                               `json:"azureName,omitempty"`
+	Location        *string                                              `json:"location,omitempty"`
+	OperatorSpec    *SqlDatabaseContainerUserDefinedFunctionOperatorSpec `json:"operatorSpec,omitempty"`
+	Options         *CreateUpdateOptions                                 `json:"options,omitempty"`
+	OriginalVersion string                                               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -157,28 +185,28 @@ type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec{}
+var _ genruntime.ConvertibleSpec = &SqlDatabaseContainerUserDefinedFunction_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec from the provided source
-func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our SqlDatabaseContainerUserDefinedFunction_Spec from the provided source
+func (function *SqlDatabaseContainerUserDefinedFunction_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == function {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(function)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
-func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our SqlDatabaseContainerUserDefinedFunction_Spec
+func (function *SqlDatabaseContainerUserDefinedFunction_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == function {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(function)
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
-type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS struct {
+// Storage version of v1api20231115.SqlDatabaseContainerUserDefinedFunction_STATUS
+type SqlDatabaseContainerUserDefinedFunction_STATUS struct {
 	Conditions  []conditions.Condition                               `json:"conditions,omitempty"`
 	Id          *string                                              `json:"id,omitempty"`
 	Location    *string                                              `json:"location,omitempty"`
@@ -189,24 +217,32 @@ type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS struct 
 	Type        *string                                              `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS{}
+var _ genruntime.ConvertibleStatus = &SqlDatabaseContainerUserDefinedFunction_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS from the provided source
-func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our SqlDatabaseContainerUserDefinedFunction_STATUS from the provided source
+func (function *SqlDatabaseContainerUserDefinedFunction_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == function {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(function)
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
-func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our SqlDatabaseContainerUserDefinedFunction_STATUS
+func (function *SqlDatabaseContainerUserDefinedFunction_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == function {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(function)
+}
+
+// Storage version of v1api20231115.SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SqlDatabaseContainerUserDefinedFunctionOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20231115.SqlUserDefinedFunctionGetProperties_Resource_STATUS

@@ -5,11 +5,15 @@ package v1api20210701
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -30,8 +34,8 @@ import (
 type WorkspacesCompute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Workspaces_Compute_Spec   `json:"spec,omitempty"`
-	Status            Workspaces_Compute_STATUS `json:"status,omitempty"`
+	Spec              WorkspacesCompute_Spec   `json:"spec,omitempty"`
+	Status            WorkspacesCompute_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WorkspacesCompute{}
@@ -55,12 +59,12 @@ func (compute *WorkspacesCompute) ConvertFrom(hub conversion.Hub) error {
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
 	err = compute.AssignProperties_From_WorkspacesCompute(&source)
 	if err != nil {
-		return errors.Wrap(err, "converting from source to compute")
+		return eris.Wrap(err, "converting from source to compute")
 	}
 
 	return nil
@@ -72,11 +76,11 @@ func (compute *WorkspacesCompute) ConvertTo(hub conversion.Hub) error {
 	var destination storage.WorkspacesCompute
 	err := compute.AssignProperties_To_WorkspacesCompute(&destination)
 	if err != nil {
-		return errors.Wrap(err, "converting to destination from compute")
+		return eris.Wrap(err, "converting to destination from compute")
 	}
 	err = destination.ConvertTo(hub)
 	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
 	return nil
@@ -104,6 +108,26 @@ func (compute *WorkspacesCompute) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the WorkspacesCompute resource
 func (compute *WorkspacesCompute) defaultImpl() { compute.defaultAzureName() }
+
+var _ configmaps.Exporter = &WorkspacesCompute{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (compute *WorkspacesCompute) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if compute.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return compute.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &WorkspacesCompute{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (compute *WorkspacesCompute) SecretDestinationExpressions() []*core.DestinationExpression {
+	if compute.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return compute.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &WorkspacesCompute{}
 
@@ -148,11 +172,15 @@ func (compute *WorkspacesCompute) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (compute *WorkspacesCompute) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Workspaces_Compute_STATUS{}
+	return &WorkspacesCompute_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (compute *WorkspacesCompute) Owner() *genruntime.ResourceReference {
+	if compute.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(compute.Spec)
 	return compute.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -160,16 +188,16 @@ func (compute *WorkspacesCompute) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (compute *WorkspacesCompute) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Workspaces_Compute_STATUS); ok {
+	if st, ok := status.(*WorkspacesCompute_STATUS); ok {
 		compute.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Workspaces_Compute_STATUS
+	var st WorkspacesCompute_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	compute.Status = st
@@ -212,7 +240,7 @@ func (compute *WorkspacesCompute) ValidateUpdate(old runtime.Object) (admission.
 
 // createValidations validates the creation of the resource
 func (compute *WorkspacesCompute) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){compute.validateResourceReferences, compute.validateOwnerReference}
+	return []func() (admission.Warnings, error){compute.validateResourceReferences, compute.validateOwnerReference, compute.validateSecretDestinations, compute.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -230,7 +258,21 @@ func (compute *WorkspacesCompute) updateValidations() []func(old runtime.Object)
 		func(old runtime.Object) (admission.Warnings, error) {
 			return compute.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return compute.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return compute.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (compute *WorkspacesCompute) validateConfigMapDestinations() (admission.Warnings, error) {
+	if compute.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(compute, nil, compute.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -245,6 +287,14 @@ func (compute *WorkspacesCompute) validateResourceReferences() (admission.Warnin
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (compute *WorkspacesCompute) validateSecretDestinations() (admission.Warnings, error) {
+	if compute.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(compute, nil, compute.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -264,18 +314,18 @@ func (compute *WorkspacesCompute) AssignProperties_From_WorkspacesCompute(source
 	compute.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Workspaces_Compute_Spec
-	err := spec.AssignProperties_From_Workspaces_Compute_Spec(&source.Spec)
+	var spec WorkspacesCompute_Spec
+	err := spec.AssignProperties_From_WorkspacesCompute_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspaces_Compute_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_WorkspacesCompute_Spec() to populate field Spec")
 	}
 	compute.Spec = spec
 
 	// Status
-	var status Workspaces_Compute_STATUS
-	err = status.AssignProperties_From_Workspaces_Compute_STATUS(&source.Status)
+	var status WorkspacesCompute_STATUS
+	err = status.AssignProperties_From_WorkspacesCompute_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspaces_Compute_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_WorkspacesCompute_STATUS() to populate field Status")
 	}
 	compute.Status = status
 
@@ -290,18 +340,18 @@ func (compute *WorkspacesCompute) AssignProperties_To_WorkspacesCompute(destinat
 	destination.ObjectMeta = *compute.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Workspaces_Compute_Spec
-	err := compute.Spec.AssignProperties_To_Workspaces_Compute_Spec(&spec)
+	var spec storage.WorkspacesCompute_Spec
+	err := compute.Spec.AssignProperties_To_WorkspacesCompute_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Compute_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_WorkspacesCompute_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Workspaces_Compute_STATUS
-	err = compute.Status.AssignProperties_To_Workspaces_Compute_STATUS(&status)
+	var status storage.WorkspacesCompute_STATUS
+	err = compute.Status.AssignProperties_To_WorkspacesCompute_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Compute_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_WorkspacesCompute_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -328,7 +378,7 @@ type WorkspacesComputeList struct {
 	Items           []WorkspacesCompute `json:"items"`
 }
 
-type Workspaces_Compute_Spec struct {
+type WorkspacesCompute_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -338,6 +388,10 @@ type Workspaces_Compute_Spec struct {
 
 	// Location: Specifies the location of the resource.
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *WorkspacesComputeOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -358,14 +412,14 @@ type Workspaces_Compute_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Workspaces_Compute_Spec{}
+var _ genruntime.ARMTransformer = &WorkspacesCompute_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (compute *Workspaces_Compute_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (compute *WorkspacesCompute_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if compute == nil {
 		return nil, nil
 	}
-	result := &Workspaces_Compute_Spec_ARM{}
+	result := &arm.WorkspacesCompute_Spec{}
 
 	// Set property "Identity":
 	if compute.Identity != nil {
@@ -373,7 +427,7 @@ func (compute *Workspaces_Compute_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*Identity_ARM)
+		identity := *identity_ARM.(*arm.Identity)
 		result.Identity = &identity
 	}
 
@@ -392,7 +446,7 @@ func (compute *Workspaces_Compute_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*Compute_ARM)
+		properties := *properties_ARM.(*arm.Compute)
 		result.Properties = &properties
 	}
 
@@ -402,7 +456,7 @@ func (compute *Workspaces_Compute_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*Sku_ARM)
+		sku := *sku_ARM.(*arm.Sku)
 		result.Sku = &sku
 	}
 
@@ -412,7 +466,7 @@ func (compute *Workspaces_Compute_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		systemData := *systemData_ARM.(*SystemData_ARM)
+		systemData := *systemData_ARM.(*arm.SystemData)
 		result.SystemData = &systemData
 	}
 
@@ -427,15 +481,15 @@ func (compute *Workspaces_Compute_Spec) ConvertToARM(resolved genruntime.Convert
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (compute *Workspaces_Compute_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspaces_Compute_Spec_ARM{}
+func (compute *WorkspacesCompute_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.WorkspacesCompute_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (compute *Workspaces_Compute_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspaces_Compute_Spec_ARM)
+func (compute *WorkspacesCompute_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.WorkspacesCompute_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Compute_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspacesCompute_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -457,6 +511,8 @@ func (compute *Workspaces_Compute_Spec) PopulateFromARM(owner genruntime.Arbitra
 		location := *typedInput.Location
 		compute.Location = &location
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	compute.Owner = &genruntime.KnownResourceReference{
@@ -509,58 +565,58 @@ func (compute *Workspaces_Compute_Spec) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Workspaces_Compute_Spec{}
+var _ genruntime.ConvertibleSpec = &WorkspacesCompute_Spec{}
 
-// ConvertSpecFrom populates our Workspaces_Compute_Spec from the provided source
-func (compute *Workspaces_Compute_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Workspaces_Compute_Spec)
+// ConvertSpecFrom populates our WorkspacesCompute_Spec from the provided source
+func (compute *WorkspacesCompute_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.WorkspacesCompute_Spec)
 	if ok {
 		// Populate our instance from source
-		return compute.AssignProperties_From_Workspaces_Compute_Spec(src)
+		return compute.AssignProperties_From_WorkspacesCompute_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Workspaces_Compute_Spec{}
+	src = &storage.WorkspacesCompute_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = compute.AssignProperties_From_Workspaces_Compute_Spec(src)
+	err = compute.AssignProperties_From_WorkspacesCompute_Spec(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Workspaces_Compute_Spec
-func (compute *Workspaces_Compute_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Workspaces_Compute_Spec)
+// ConvertSpecTo populates the provided destination from our WorkspacesCompute_Spec
+func (compute *WorkspacesCompute_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.WorkspacesCompute_Spec)
 	if ok {
 		// Populate destination from our instance
-		return compute.AssignProperties_To_Workspaces_Compute_Spec(dst)
+		return compute.AssignProperties_To_WorkspacesCompute_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Workspaces_Compute_Spec{}
-	err := compute.AssignProperties_To_Workspaces_Compute_Spec(dst)
+	dst = &storage.WorkspacesCompute_Spec{}
+	err := compute.AssignProperties_To_WorkspacesCompute_Spec(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
 	}
 
 	return nil
 }
 
-// AssignProperties_From_Workspaces_Compute_Spec populates our Workspaces_Compute_Spec from the provided source Workspaces_Compute_Spec
-func (compute *Workspaces_Compute_Spec) AssignProperties_From_Workspaces_Compute_Spec(source *storage.Workspaces_Compute_Spec) error {
+// AssignProperties_From_WorkspacesCompute_Spec populates our WorkspacesCompute_Spec from the provided source WorkspacesCompute_Spec
+func (compute *WorkspacesCompute_Spec) AssignProperties_From_WorkspacesCompute_Spec(source *storage.WorkspacesCompute_Spec) error {
 
 	// AzureName
 	compute.AzureName = source.AzureName
@@ -570,7 +626,7 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_From_Workspaces_Compute
 		var identity Identity
 		err := identity.AssignProperties_From_Identity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Identity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_Identity() to populate field Identity")
 		}
 		compute.Identity = &identity
 	} else {
@@ -579,6 +635,18 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_From_Workspaces_Compute
 
 	// Location
 	compute.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec WorkspacesComputeOperatorSpec
+		err := operatorSpec.AssignProperties_From_WorkspacesComputeOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_WorkspacesComputeOperatorSpec() to populate field OperatorSpec")
+		}
+		compute.OperatorSpec = &operatorSpec
+	} else {
+		compute.OperatorSpec = nil
+	}
 
 	// Owner
 	if source.Owner != nil {
@@ -593,7 +661,7 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_From_Workspaces_Compute
 		var property Compute
 		err := property.AssignProperties_From_Compute(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Compute() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_Compute() to populate field Properties")
 		}
 		compute.Properties = &property
 	} else {
@@ -605,7 +673,7 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_From_Workspaces_Compute
 		var sku Sku
 		err := sku.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
 		compute.Sku = &sku
 	} else {
@@ -617,7 +685,7 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_From_Workspaces_Compute
 		var systemDatum SystemData
 		err := systemDatum.AssignProperties_From_SystemData(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData() to populate field SystemData")
 		}
 		compute.SystemData = &systemDatum
 	} else {
@@ -631,8 +699,8 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_From_Workspaces_Compute
 	return nil
 }
 
-// AssignProperties_To_Workspaces_Compute_Spec populates the provided destination Workspaces_Compute_Spec from our Workspaces_Compute_Spec
-func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_Spec(destination *storage.Workspaces_Compute_Spec) error {
+// AssignProperties_To_WorkspacesCompute_Spec populates the provided destination WorkspacesCompute_Spec from our WorkspacesCompute_Spec
+func (compute *WorkspacesCompute_Spec) AssignProperties_To_WorkspacesCompute_Spec(destination *storage.WorkspacesCompute_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -644,7 +712,7 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_S
 		var identity storage.Identity
 		err := compute.Identity.AssignProperties_To_Identity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -653,6 +721,18 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_S
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(compute.Location)
+
+	// OperatorSpec
+	if compute.OperatorSpec != nil {
+		var operatorSpec storage.WorkspacesComputeOperatorSpec
+		err := compute.OperatorSpec.AssignProperties_To_WorkspacesComputeOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_WorkspacesComputeOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = compute.OriginalVersion()
@@ -670,7 +750,7 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_S
 		var property storage.Compute
 		err := compute.Properties.AssignProperties_To_Compute(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Compute() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_Compute() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -682,7 +762,7 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_S
 		var sku storage.Sku
 		err := compute.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -694,7 +774,7 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_S
 		var systemDatum storage.SystemData
 		err := compute.SystemData.AssignProperties_To_SystemData(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -716,14 +796,14 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_S
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (compute *Workspaces_Compute_Spec) OriginalVersion() string {
+func (compute *WorkspacesCompute_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (compute *Workspaces_Compute_Spec) SetAzureName(azureName string) { compute.AzureName = azureName }
+func (compute *WorkspacesCompute_Spec) SetAzureName(azureName string) { compute.AzureName = azureName }
 
-type Workspaces_Compute_STATUS struct {
+type WorkspacesCompute_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -756,68 +836,68 @@ type Workspaces_Compute_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Workspaces_Compute_STATUS{}
+var _ genruntime.ConvertibleStatus = &WorkspacesCompute_STATUS{}
 
-// ConvertStatusFrom populates our Workspaces_Compute_STATUS from the provided source
-func (compute *Workspaces_Compute_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Workspaces_Compute_STATUS)
+// ConvertStatusFrom populates our WorkspacesCompute_STATUS from the provided source
+func (compute *WorkspacesCompute_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.WorkspacesCompute_STATUS)
 	if ok {
 		// Populate our instance from source
-		return compute.AssignProperties_From_Workspaces_Compute_STATUS(src)
+		return compute.AssignProperties_From_WorkspacesCompute_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Workspaces_Compute_STATUS{}
+	src = &storage.WorkspacesCompute_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = compute.AssignProperties_From_Workspaces_Compute_STATUS(src)
+	err = compute.AssignProperties_From_WorkspacesCompute_STATUS(src)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Workspaces_Compute_STATUS
-func (compute *Workspaces_Compute_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Workspaces_Compute_STATUS)
+// ConvertStatusTo populates the provided destination from our WorkspacesCompute_STATUS
+func (compute *WorkspacesCompute_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.WorkspacesCompute_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return compute.AssignProperties_To_Workspaces_Compute_STATUS(dst)
+		return compute.AssignProperties_To_WorkspacesCompute_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Workspaces_Compute_STATUS{}
-	err := compute.AssignProperties_To_Workspaces_Compute_STATUS(dst)
+	dst = &storage.WorkspacesCompute_STATUS{}
+	err := compute.AssignProperties_To_WorkspacesCompute_STATUS(dst)
 	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
 	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
 	}
 
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Workspaces_Compute_STATUS{}
+var _ genruntime.FromARMConverter = &WorkspacesCompute_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (compute *Workspaces_Compute_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspaces_Compute_STATUS_ARM{}
+func (compute *WorkspacesCompute_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.WorkspacesCompute_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (compute *Workspaces_Compute_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspaces_Compute_STATUS_ARM)
+func (compute *WorkspacesCompute_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.WorkspacesCompute_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Compute_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspacesCompute_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -902,8 +982,8 @@ func (compute *Workspaces_Compute_STATUS) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignProperties_From_Workspaces_Compute_STATUS populates our Workspaces_Compute_STATUS from the provided source Workspaces_Compute_STATUS
-func (compute *Workspaces_Compute_STATUS) AssignProperties_From_Workspaces_Compute_STATUS(source *storage.Workspaces_Compute_STATUS) error {
+// AssignProperties_From_WorkspacesCompute_STATUS populates our WorkspacesCompute_STATUS from the provided source WorkspacesCompute_STATUS
+func (compute *WorkspacesCompute_STATUS) AssignProperties_From_WorkspacesCompute_STATUS(source *storage.WorkspacesCompute_STATUS) error {
 
 	// Conditions
 	compute.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -916,7 +996,7 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_From_Workspaces_Compu
 		var identity Identity_STATUS
 		err := identity.AssignProperties_From_Identity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Identity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_Identity_STATUS() to populate field Identity")
 		}
 		compute.Identity = &identity
 	} else {
@@ -934,7 +1014,7 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_From_Workspaces_Compu
 		var property Compute_STATUS
 		err := property.AssignProperties_From_Compute_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Compute_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_Compute_STATUS() to populate field Properties")
 		}
 		compute.Properties = &property
 	} else {
@@ -946,7 +1026,7 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_From_Workspaces_Compu
 		var sku Sku_STATUS
 		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		compute.Sku = &sku
 	} else {
@@ -958,7 +1038,7 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_From_Workspaces_Compu
 		var systemDatum SystemData_STATUS
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		compute.SystemData = &systemDatum
 	} else {
@@ -975,8 +1055,8 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_From_Workspaces_Compu
 	return nil
 }
 
-// AssignProperties_To_Workspaces_Compute_STATUS populates the provided destination Workspaces_Compute_STATUS from our Workspaces_Compute_STATUS
-func (compute *Workspaces_Compute_STATUS) AssignProperties_To_Workspaces_Compute_STATUS(destination *storage.Workspaces_Compute_STATUS) error {
+// AssignProperties_To_WorkspacesCompute_STATUS populates the provided destination WorkspacesCompute_STATUS from our WorkspacesCompute_STATUS
+func (compute *WorkspacesCompute_STATUS) AssignProperties_To_WorkspacesCompute_STATUS(destination *storage.WorkspacesCompute_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -991,7 +1071,7 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_To_Workspaces_Compute
 		var identity storage.Identity_STATUS
 		err := compute.Identity.AssignProperties_To_Identity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1009,7 +1089,7 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_To_Workspaces_Compute
 		var property storage.Compute_STATUS
 		err := compute.Properties.AssignProperties_To_Compute_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Compute_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_Compute_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -1021,7 +1101,7 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_To_Workspaces_Compute
 		var sku storage.Sku_STATUS
 		err := compute.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1033,7 +1113,7 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_To_Workspaces_Compute
 		var systemDatum storage.SystemData_STATUS
 		err := compute.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1096,7 +1176,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if compute == nil {
 		return nil, nil
 	}
-	result := &Compute_ARM{}
+	result := &arm.Compute{}
 
 	// Set property "AKS":
 	if compute.AKS != nil {
@@ -1104,7 +1184,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		aks := *aks_ARM.(*AKS_ARM)
+		aks := *aks_ARM.(*arm.AKS)
 		result.AKS = &aks
 	}
 
@@ -1114,7 +1194,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		amlCompute := *amlCompute_ARM.(*AmlCompute_ARM)
+		amlCompute := *amlCompute_ARM.(*arm.AmlCompute)
 		result.AmlCompute = &amlCompute
 	}
 
@@ -1124,7 +1204,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		computeInstance := *computeInstance_ARM.(*ComputeInstance_ARM)
+		computeInstance := *computeInstance_ARM.(*arm.ComputeInstance)
 		result.ComputeInstance = &computeInstance
 	}
 
@@ -1134,7 +1214,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		dataFactory := *dataFactory_ARM.(*DataFactory_ARM)
+		dataFactory := *dataFactory_ARM.(*arm.DataFactory)
 		result.DataFactory = &dataFactory
 	}
 
@@ -1144,7 +1224,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		dataLakeAnalytics := *dataLakeAnalytics_ARM.(*DataLakeAnalytics_ARM)
+		dataLakeAnalytics := *dataLakeAnalytics_ARM.(*arm.DataLakeAnalytics)
 		result.DataLakeAnalytics = &dataLakeAnalytics
 	}
 
@@ -1154,7 +1234,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		databricks := *databricks_ARM.(*Databricks_ARM)
+		databricks := *databricks_ARM.(*arm.Databricks)
 		result.Databricks = &databricks
 	}
 
@@ -1164,7 +1244,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		hdInsight := *hdInsight_ARM.(*HDInsight_ARM)
+		hdInsight := *hdInsight_ARM.(*arm.HDInsight)
 		result.HDInsight = &hdInsight
 	}
 
@@ -1174,7 +1254,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		kubernetes := *kubernetes_ARM.(*Kubernetes_ARM)
+		kubernetes := *kubernetes_ARM.(*arm.Kubernetes)
 		result.Kubernetes = &kubernetes
 	}
 
@@ -1184,7 +1264,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		synapseSpark := *synapseSpark_ARM.(*SynapseSpark_ARM)
+		synapseSpark := *synapseSpark_ARM.(*arm.SynapseSpark)
 		result.SynapseSpark = &synapseSpark
 	}
 
@@ -1194,7 +1274,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		virtualMachine := *virtualMachine_ARM.(*VirtualMachine_ARM)
+		virtualMachine := *virtualMachine_ARM.(*arm.VirtualMachine)
 		result.VirtualMachine = &virtualMachine
 	}
 	return result, nil
@@ -1202,14 +1282,14 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (compute *Compute) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Compute_ARM{}
+	return &arm.Compute{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (compute *Compute) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Compute_ARM)
+	typedInput, ok := armInput.(arm.Compute)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Compute_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Compute, got %T", armInput)
 	}
 
 	// Set property "AKS":
@@ -1334,7 +1414,7 @@ func (compute *Compute) AssignProperties_From_Compute(source *storage.Compute) e
 		var aks AKS
 		err := aks.AssignProperties_From_AKS(source.AKS)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AKS() to populate field AKS")
+			return eris.Wrap(err, "calling AssignProperties_From_AKS() to populate field AKS")
 		}
 		compute.AKS = &aks
 	} else {
@@ -1346,7 +1426,7 @@ func (compute *Compute) AssignProperties_From_Compute(source *storage.Compute) e
 		var amlCompute AmlCompute
 		err := amlCompute.AssignProperties_From_AmlCompute(source.AmlCompute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AmlCompute() to populate field AmlCompute")
+			return eris.Wrap(err, "calling AssignProperties_From_AmlCompute() to populate field AmlCompute")
 		}
 		compute.AmlCompute = &amlCompute
 	} else {
@@ -1358,7 +1438,7 @@ func (compute *Compute) AssignProperties_From_Compute(source *storage.Compute) e
 		var computeInstance ComputeInstance
 		err := computeInstance.AssignProperties_From_ComputeInstance(source.ComputeInstance)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ComputeInstance() to populate field ComputeInstance")
+			return eris.Wrap(err, "calling AssignProperties_From_ComputeInstance() to populate field ComputeInstance")
 		}
 		compute.ComputeInstance = &computeInstance
 	} else {
@@ -1370,7 +1450,7 @@ func (compute *Compute) AssignProperties_From_Compute(source *storage.Compute) e
 		var dataFactory DataFactory
 		err := dataFactory.AssignProperties_From_DataFactory(source.DataFactory)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataFactory() to populate field DataFactory")
+			return eris.Wrap(err, "calling AssignProperties_From_DataFactory() to populate field DataFactory")
 		}
 		compute.DataFactory = &dataFactory
 	} else {
@@ -1382,7 +1462,7 @@ func (compute *Compute) AssignProperties_From_Compute(source *storage.Compute) e
 		var dataLakeAnalytic DataLakeAnalytics
 		err := dataLakeAnalytic.AssignProperties_From_DataLakeAnalytics(source.DataLakeAnalytics)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataLakeAnalytics() to populate field DataLakeAnalytics")
+			return eris.Wrap(err, "calling AssignProperties_From_DataLakeAnalytics() to populate field DataLakeAnalytics")
 		}
 		compute.DataLakeAnalytics = &dataLakeAnalytic
 	} else {
@@ -1394,7 +1474,7 @@ func (compute *Compute) AssignProperties_From_Compute(source *storage.Compute) e
 		var databrick Databricks
 		err := databrick.AssignProperties_From_Databricks(source.Databricks)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Databricks() to populate field Databricks")
+			return eris.Wrap(err, "calling AssignProperties_From_Databricks() to populate field Databricks")
 		}
 		compute.Databricks = &databrick
 	} else {
@@ -1406,7 +1486,7 @@ func (compute *Compute) AssignProperties_From_Compute(source *storage.Compute) e
 		var hdInsight HDInsight
 		err := hdInsight.AssignProperties_From_HDInsight(source.HDInsight)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HDInsight() to populate field HDInsight")
+			return eris.Wrap(err, "calling AssignProperties_From_HDInsight() to populate field HDInsight")
 		}
 		compute.HDInsight = &hdInsight
 	} else {
@@ -1418,7 +1498,7 @@ func (compute *Compute) AssignProperties_From_Compute(source *storage.Compute) e
 		var kubernete Kubernetes
 		err := kubernete.AssignProperties_From_Kubernetes(source.Kubernetes)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Kubernetes() to populate field Kubernetes")
+			return eris.Wrap(err, "calling AssignProperties_From_Kubernetes() to populate field Kubernetes")
 		}
 		compute.Kubernetes = &kubernete
 	} else {
@@ -1430,7 +1510,7 @@ func (compute *Compute) AssignProperties_From_Compute(source *storage.Compute) e
 		var synapseSpark SynapseSpark
 		err := synapseSpark.AssignProperties_From_SynapseSpark(source.SynapseSpark)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SynapseSpark() to populate field SynapseSpark")
+			return eris.Wrap(err, "calling AssignProperties_From_SynapseSpark() to populate field SynapseSpark")
 		}
 		compute.SynapseSpark = &synapseSpark
 	} else {
@@ -1442,7 +1522,7 @@ func (compute *Compute) AssignProperties_From_Compute(source *storage.Compute) e
 		var virtualMachine VirtualMachine
 		err := virtualMachine.AssignProperties_From_VirtualMachine(source.VirtualMachine)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine() to populate field VirtualMachine")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualMachine() to populate field VirtualMachine")
 		}
 		compute.VirtualMachine = &virtualMachine
 	} else {
@@ -1463,7 +1543,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *storage.Compute
 		var aks storage.AKS
 		err := compute.AKS.AssignProperties_To_AKS(&aks)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AKS() to populate field AKS")
+			return eris.Wrap(err, "calling AssignProperties_To_AKS() to populate field AKS")
 		}
 		destination.AKS = &aks
 	} else {
@@ -1475,7 +1555,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *storage.Compute
 		var amlCompute storage.AmlCompute
 		err := compute.AmlCompute.AssignProperties_To_AmlCompute(&amlCompute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AmlCompute() to populate field AmlCompute")
+			return eris.Wrap(err, "calling AssignProperties_To_AmlCompute() to populate field AmlCompute")
 		}
 		destination.AmlCompute = &amlCompute
 	} else {
@@ -1487,7 +1567,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *storage.Compute
 		var computeInstance storage.ComputeInstance
 		err := compute.ComputeInstance.AssignProperties_To_ComputeInstance(&computeInstance)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstance() to populate field ComputeInstance")
+			return eris.Wrap(err, "calling AssignProperties_To_ComputeInstance() to populate field ComputeInstance")
 		}
 		destination.ComputeInstance = &computeInstance
 	} else {
@@ -1499,7 +1579,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *storage.Compute
 		var dataFactory storage.DataFactory
 		err := compute.DataFactory.AssignProperties_To_DataFactory(&dataFactory)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataFactory() to populate field DataFactory")
+			return eris.Wrap(err, "calling AssignProperties_To_DataFactory() to populate field DataFactory")
 		}
 		destination.DataFactory = &dataFactory
 	} else {
@@ -1511,7 +1591,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *storage.Compute
 		var dataLakeAnalytic storage.DataLakeAnalytics
 		err := compute.DataLakeAnalytics.AssignProperties_To_DataLakeAnalytics(&dataLakeAnalytic)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataLakeAnalytics() to populate field DataLakeAnalytics")
+			return eris.Wrap(err, "calling AssignProperties_To_DataLakeAnalytics() to populate field DataLakeAnalytics")
 		}
 		destination.DataLakeAnalytics = &dataLakeAnalytic
 	} else {
@@ -1523,7 +1603,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *storage.Compute
 		var databrick storage.Databricks
 		err := compute.Databricks.AssignProperties_To_Databricks(&databrick)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Databricks() to populate field Databricks")
+			return eris.Wrap(err, "calling AssignProperties_To_Databricks() to populate field Databricks")
 		}
 		destination.Databricks = &databrick
 	} else {
@@ -1535,7 +1615,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *storage.Compute
 		var hdInsight storage.HDInsight
 		err := compute.HDInsight.AssignProperties_To_HDInsight(&hdInsight)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HDInsight() to populate field HDInsight")
+			return eris.Wrap(err, "calling AssignProperties_To_HDInsight() to populate field HDInsight")
 		}
 		destination.HDInsight = &hdInsight
 	} else {
@@ -1547,7 +1627,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *storage.Compute
 		var kubernete storage.Kubernetes
 		err := compute.Kubernetes.AssignProperties_To_Kubernetes(&kubernete)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Kubernetes() to populate field Kubernetes")
+			return eris.Wrap(err, "calling AssignProperties_To_Kubernetes() to populate field Kubernetes")
 		}
 		destination.Kubernetes = &kubernete
 	} else {
@@ -1559,7 +1639,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *storage.Compute
 		var synapseSpark storage.SynapseSpark
 		err := compute.SynapseSpark.AssignProperties_To_SynapseSpark(&synapseSpark)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SynapseSpark() to populate field SynapseSpark")
+			return eris.Wrap(err, "calling AssignProperties_To_SynapseSpark() to populate field SynapseSpark")
 		}
 		destination.SynapseSpark = &synapseSpark
 	} else {
@@ -1571,7 +1651,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *storage.Compute
 		var virtualMachine storage.VirtualMachine
 		err := compute.VirtualMachine.AssignProperties_To_VirtualMachine(&virtualMachine)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine() to populate field VirtualMachine")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualMachine() to populate field VirtualMachine")
 		}
 		destination.VirtualMachine = &virtualMachine
 	} else {
@@ -1625,14 +1705,14 @@ var _ genruntime.FromARMConverter = &Compute_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (compute *Compute_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Compute_STATUS_ARM{}
+	return &arm.Compute_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (compute *Compute_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Compute_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Compute_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Compute_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Compute_STATUS, got %T", armInput)
 	}
 
 	// Set property "AKS":
@@ -1757,7 +1837,7 @@ func (compute *Compute_STATUS) AssignProperties_From_Compute_STATUS(source *stor
 		var aks AKS_STATUS
 		err := aks.AssignProperties_From_AKS_STATUS(source.AKS)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AKS_STATUS() to populate field AKS")
+			return eris.Wrap(err, "calling AssignProperties_From_AKS_STATUS() to populate field AKS")
 		}
 		compute.AKS = &aks
 	} else {
@@ -1769,7 +1849,7 @@ func (compute *Compute_STATUS) AssignProperties_From_Compute_STATUS(source *stor
 		var amlCompute AmlCompute_STATUS
 		err := amlCompute.AssignProperties_From_AmlCompute_STATUS(source.AmlCompute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AmlCompute_STATUS() to populate field AmlCompute")
+			return eris.Wrap(err, "calling AssignProperties_From_AmlCompute_STATUS() to populate field AmlCompute")
 		}
 		compute.AmlCompute = &amlCompute
 	} else {
@@ -1781,7 +1861,7 @@ func (compute *Compute_STATUS) AssignProperties_From_Compute_STATUS(source *stor
 		var computeInstance ComputeInstance_STATUS
 		err := computeInstance.AssignProperties_From_ComputeInstance_STATUS(source.ComputeInstance)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ComputeInstance_STATUS() to populate field ComputeInstance")
+			return eris.Wrap(err, "calling AssignProperties_From_ComputeInstance_STATUS() to populate field ComputeInstance")
 		}
 		compute.ComputeInstance = &computeInstance
 	} else {
@@ -1793,7 +1873,7 @@ func (compute *Compute_STATUS) AssignProperties_From_Compute_STATUS(source *stor
 		var dataFactory DataFactory_STATUS
 		err := dataFactory.AssignProperties_From_DataFactory_STATUS(source.DataFactory)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataFactory_STATUS() to populate field DataFactory")
+			return eris.Wrap(err, "calling AssignProperties_From_DataFactory_STATUS() to populate field DataFactory")
 		}
 		compute.DataFactory = &dataFactory
 	} else {
@@ -1805,7 +1885,7 @@ func (compute *Compute_STATUS) AssignProperties_From_Compute_STATUS(source *stor
 		var dataLakeAnalytic DataLakeAnalytics_STATUS
 		err := dataLakeAnalytic.AssignProperties_From_DataLakeAnalytics_STATUS(source.DataLakeAnalytics)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataLakeAnalytics_STATUS() to populate field DataLakeAnalytics")
+			return eris.Wrap(err, "calling AssignProperties_From_DataLakeAnalytics_STATUS() to populate field DataLakeAnalytics")
 		}
 		compute.DataLakeAnalytics = &dataLakeAnalytic
 	} else {
@@ -1817,7 +1897,7 @@ func (compute *Compute_STATUS) AssignProperties_From_Compute_STATUS(source *stor
 		var databrick Databricks_STATUS
 		err := databrick.AssignProperties_From_Databricks_STATUS(source.Databricks)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Databricks_STATUS() to populate field Databricks")
+			return eris.Wrap(err, "calling AssignProperties_From_Databricks_STATUS() to populate field Databricks")
 		}
 		compute.Databricks = &databrick
 	} else {
@@ -1829,7 +1909,7 @@ func (compute *Compute_STATUS) AssignProperties_From_Compute_STATUS(source *stor
 		var hdInsight HDInsight_STATUS
 		err := hdInsight.AssignProperties_From_HDInsight_STATUS(source.HDInsight)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HDInsight_STATUS() to populate field HDInsight")
+			return eris.Wrap(err, "calling AssignProperties_From_HDInsight_STATUS() to populate field HDInsight")
 		}
 		compute.HDInsight = &hdInsight
 	} else {
@@ -1841,7 +1921,7 @@ func (compute *Compute_STATUS) AssignProperties_From_Compute_STATUS(source *stor
 		var kubernete Kubernetes_STATUS
 		err := kubernete.AssignProperties_From_Kubernetes_STATUS(source.Kubernetes)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Kubernetes_STATUS() to populate field Kubernetes")
+			return eris.Wrap(err, "calling AssignProperties_From_Kubernetes_STATUS() to populate field Kubernetes")
 		}
 		compute.Kubernetes = &kubernete
 	} else {
@@ -1853,7 +1933,7 @@ func (compute *Compute_STATUS) AssignProperties_From_Compute_STATUS(source *stor
 		var synapseSpark SynapseSpark_STATUS
 		err := synapseSpark.AssignProperties_From_SynapseSpark_STATUS(source.SynapseSpark)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SynapseSpark_STATUS() to populate field SynapseSpark")
+			return eris.Wrap(err, "calling AssignProperties_From_SynapseSpark_STATUS() to populate field SynapseSpark")
 		}
 		compute.SynapseSpark = &synapseSpark
 	} else {
@@ -1865,7 +1945,7 @@ func (compute *Compute_STATUS) AssignProperties_From_Compute_STATUS(source *stor
 		var virtualMachine VirtualMachine_STATUS
 		err := virtualMachine.AssignProperties_From_VirtualMachine_STATUS(source.VirtualMachine)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_STATUS() to populate field VirtualMachine")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualMachine_STATUS() to populate field VirtualMachine")
 		}
 		compute.VirtualMachine = &virtualMachine
 	} else {
@@ -1886,7 +1966,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *s
 		var aks storage.AKS_STATUS
 		err := compute.AKS.AssignProperties_To_AKS_STATUS(&aks)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AKS_STATUS() to populate field AKS")
+			return eris.Wrap(err, "calling AssignProperties_To_AKS_STATUS() to populate field AKS")
 		}
 		destination.AKS = &aks
 	} else {
@@ -1898,7 +1978,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *s
 		var amlCompute storage.AmlCompute_STATUS
 		err := compute.AmlCompute.AssignProperties_To_AmlCompute_STATUS(&amlCompute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AmlCompute_STATUS() to populate field AmlCompute")
+			return eris.Wrap(err, "calling AssignProperties_To_AmlCompute_STATUS() to populate field AmlCompute")
 		}
 		destination.AmlCompute = &amlCompute
 	} else {
@@ -1910,7 +1990,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *s
 		var computeInstance storage.ComputeInstance_STATUS
 		err := compute.ComputeInstance.AssignProperties_To_ComputeInstance_STATUS(&computeInstance)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstance_STATUS() to populate field ComputeInstance")
+			return eris.Wrap(err, "calling AssignProperties_To_ComputeInstance_STATUS() to populate field ComputeInstance")
 		}
 		destination.ComputeInstance = &computeInstance
 	} else {
@@ -1922,7 +2002,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *s
 		var dataFactory storage.DataFactory_STATUS
 		err := compute.DataFactory.AssignProperties_To_DataFactory_STATUS(&dataFactory)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataFactory_STATUS() to populate field DataFactory")
+			return eris.Wrap(err, "calling AssignProperties_To_DataFactory_STATUS() to populate field DataFactory")
 		}
 		destination.DataFactory = &dataFactory
 	} else {
@@ -1934,7 +2014,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *s
 		var dataLakeAnalytic storage.DataLakeAnalytics_STATUS
 		err := compute.DataLakeAnalytics.AssignProperties_To_DataLakeAnalytics_STATUS(&dataLakeAnalytic)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataLakeAnalytics_STATUS() to populate field DataLakeAnalytics")
+			return eris.Wrap(err, "calling AssignProperties_To_DataLakeAnalytics_STATUS() to populate field DataLakeAnalytics")
 		}
 		destination.DataLakeAnalytics = &dataLakeAnalytic
 	} else {
@@ -1946,7 +2026,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *s
 		var databrick storage.Databricks_STATUS
 		err := compute.Databricks.AssignProperties_To_Databricks_STATUS(&databrick)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Databricks_STATUS() to populate field Databricks")
+			return eris.Wrap(err, "calling AssignProperties_To_Databricks_STATUS() to populate field Databricks")
 		}
 		destination.Databricks = &databrick
 	} else {
@@ -1958,7 +2038,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *s
 		var hdInsight storage.HDInsight_STATUS
 		err := compute.HDInsight.AssignProperties_To_HDInsight_STATUS(&hdInsight)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HDInsight_STATUS() to populate field HDInsight")
+			return eris.Wrap(err, "calling AssignProperties_To_HDInsight_STATUS() to populate field HDInsight")
 		}
 		destination.HDInsight = &hdInsight
 	} else {
@@ -1970,7 +2050,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *s
 		var kubernete storage.Kubernetes_STATUS
 		err := compute.Kubernetes.AssignProperties_To_Kubernetes_STATUS(&kubernete)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Kubernetes_STATUS() to populate field Kubernetes")
+			return eris.Wrap(err, "calling AssignProperties_To_Kubernetes_STATUS() to populate field Kubernetes")
 		}
 		destination.Kubernetes = &kubernete
 	} else {
@@ -1982,7 +2062,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *s
 		var synapseSpark storage.SynapseSpark_STATUS
 		err := compute.SynapseSpark.AssignProperties_To_SynapseSpark_STATUS(&synapseSpark)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SynapseSpark_STATUS() to populate field SynapseSpark")
+			return eris.Wrap(err, "calling AssignProperties_To_SynapseSpark_STATUS() to populate field SynapseSpark")
 		}
 		destination.SynapseSpark = &synapseSpark
 	} else {
@@ -1994,11 +2074,115 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *s
 		var virtualMachine storage.VirtualMachine_STATUS
 		err := compute.VirtualMachine.AssignProperties_To_VirtualMachine_STATUS(&virtualMachine)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_STATUS() to populate field VirtualMachine")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualMachine_STATUS() to populate field VirtualMachine")
 		}
 		destination.VirtualMachine = &virtualMachine
 	} else {
 		destination.VirtualMachine = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WorkspacesComputeOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_WorkspacesComputeOperatorSpec populates our WorkspacesComputeOperatorSpec from the provided source WorkspacesComputeOperatorSpec
+func (operator *WorkspacesComputeOperatorSpec) AssignProperties_From_WorkspacesComputeOperatorSpec(source *storage.WorkspacesComputeOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WorkspacesComputeOperatorSpec populates the provided destination WorkspacesComputeOperatorSpec from our WorkspacesComputeOperatorSpec
+func (operator *WorkspacesComputeOperatorSpec) AssignProperties_To_WorkspacesComputeOperatorSpec(destination *storage.WorkspacesComputeOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag
@@ -2041,7 +2225,7 @@ func (aks *AKS) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if aks == nil {
 		return nil, nil
 	}
-	result := &AKS_ARM{}
+	result := &arm.AKS{}
 
 	// Set property "ComputeLocation":
 	if aks.ComputeLocation != nil {
@@ -2051,10 +2235,10 @@ func (aks *AKS) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 	// Set property "ComputeType":
 	if aks.ComputeType != nil {
-		var temp AKS_ComputeType_ARM
+		var temp arm.AKS_ComputeType
 		var temp1 string
 		temp1 = string(*aks.ComputeType)
-		temp = AKS_ComputeType_ARM(temp1)
+		temp = arm.AKS_ComputeType(temp1)
 		result.ComputeType = temp
 	}
 
@@ -2076,7 +2260,7 @@ func (aks *AKS) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*AKS_Properties_ARM)
+		properties := *properties_ARM.(*arm.AKS_Properties)
 		result.Properties = &properties
 	}
 
@@ -2094,14 +2278,14 @@ func (aks *AKS) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (aks *AKS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AKS_ARM{}
+	return &arm.AKS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (aks *AKS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AKS_ARM)
+	typedInput, ok := armInput.(arm.AKS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AKS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AKS, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -2177,7 +2361,7 @@ func (aks *AKS) AssignProperties_From_AKS(source *storage.AKS) error {
 		var property AKS_Properties
 		err := property.AssignProperties_From_AKS_Properties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AKS_Properties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_AKS_Properties() to populate field Properties")
 		}
 		aks.Properties = &property
 	} else {
@@ -2228,7 +2412,7 @@ func (aks *AKS) AssignProperties_To_AKS(destination *storage.AKS) error {
 		var property storage.AKS_Properties
 		err := aks.Properties.AssignProperties_To_AKS_Properties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AKS_Properties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_AKS_Properties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -2296,14 +2480,14 @@ var _ genruntime.FromARMConverter = &AKS_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (aks *AKS_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AKS_STATUS_ARM{}
+	return &arm.AKS_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (aks *AKS_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AKS_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AKS_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AKS_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AKS_STATUS, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -2433,7 +2617,7 @@ func (aks *AKS_STATUS) AssignProperties_From_AKS_STATUS(source *storage.AKS_STAT
 		var property AKS_Properties_STATUS
 		err := property.AssignProperties_From_AKS_Properties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AKS_Properties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_AKS_Properties_STATUS() to populate field Properties")
 		}
 		aks.Properties = &property
 	} else {
@@ -2449,7 +2633,7 @@ func (aks *AKS_STATUS) AssignProperties_From_AKS_STATUS(source *storage.AKS_STAT
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -2520,7 +2704,7 @@ func (aks *AKS_STATUS) AssignProperties_To_AKS_STATUS(destination *storage.AKS_S
 		var property storage.AKS_Properties_STATUS
 		err := aks.Properties.AssignProperties_To_AKS_Properties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AKS_Properties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_AKS_Properties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -2536,7 +2720,7 @@ func (aks *AKS_STATUS) AssignProperties_To_AKS_STATUS(destination *storage.AKS_S
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -2596,7 +2780,7 @@ func (compute *AmlCompute) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if compute == nil {
 		return nil, nil
 	}
-	result := &AmlCompute_ARM{}
+	result := &arm.AmlCompute{}
 
 	// Set property "ComputeLocation":
 	if compute.ComputeLocation != nil {
@@ -2606,10 +2790,10 @@ func (compute *AmlCompute) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "ComputeType":
 	if compute.ComputeType != nil {
-		var temp AmlCompute_ComputeType_ARM
+		var temp arm.AmlCompute_ComputeType
 		var temp1 string
 		temp1 = string(*compute.ComputeType)
-		temp = AmlCompute_ComputeType_ARM(temp1)
+		temp = arm.AmlCompute_ComputeType(temp1)
 		result.ComputeType = temp
 	}
 
@@ -2631,7 +2815,7 @@ func (compute *AmlCompute) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*AmlComputeProperties_ARM)
+		properties := *properties_ARM.(*arm.AmlComputeProperties)
 		result.Properties = &properties
 	}
 
@@ -2649,14 +2833,14 @@ func (compute *AmlCompute) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (compute *AmlCompute) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AmlCompute_ARM{}
+	return &arm.AmlCompute{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (compute *AmlCompute) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AmlCompute_ARM)
+	typedInput, ok := armInput.(arm.AmlCompute)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AmlCompute_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AmlCompute, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -2732,7 +2916,7 @@ func (compute *AmlCompute) AssignProperties_From_AmlCompute(source *storage.AmlC
 		var property AmlComputeProperties
 		err := property.AssignProperties_From_AmlComputeProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AmlComputeProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_AmlComputeProperties() to populate field Properties")
 		}
 		compute.Properties = &property
 	} else {
@@ -2783,7 +2967,7 @@ func (compute *AmlCompute) AssignProperties_To_AmlCompute(destination *storage.A
 		var property storage.AmlComputeProperties
 		err := compute.Properties.AssignProperties_To_AmlComputeProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AmlComputeProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_AmlComputeProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -2851,14 +3035,14 @@ var _ genruntime.FromARMConverter = &AmlCompute_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (compute *AmlCompute_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AmlCompute_STATUS_ARM{}
+	return &arm.AmlCompute_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (compute *AmlCompute_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AmlCompute_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AmlCompute_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AmlCompute_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AmlCompute_STATUS, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -2988,7 +3172,7 @@ func (compute *AmlCompute_STATUS) AssignProperties_From_AmlCompute_STATUS(source
 		var property AmlComputeProperties_STATUS
 		err := property.AssignProperties_From_AmlComputeProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AmlComputeProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_AmlComputeProperties_STATUS() to populate field Properties")
 		}
 		compute.Properties = &property
 	} else {
@@ -3004,7 +3188,7 @@ func (compute *AmlCompute_STATUS) AssignProperties_From_AmlCompute_STATUS(source
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -3075,7 +3259,7 @@ func (compute *AmlCompute_STATUS) AssignProperties_To_AmlCompute_STATUS(destinat
 		var property storage.AmlComputeProperties_STATUS
 		err := compute.Properties.AssignProperties_To_AmlComputeProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AmlComputeProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_AmlComputeProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -3091,7 +3275,7 @@ func (compute *AmlCompute_STATUS) AssignProperties_To_AmlCompute_STATUS(destinat
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -3151,7 +3335,7 @@ func (instance *ComputeInstance) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if instance == nil {
 		return nil, nil
 	}
-	result := &ComputeInstance_ARM{}
+	result := &arm.ComputeInstance{}
 
 	// Set property "ComputeLocation":
 	if instance.ComputeLocation != nil {
@@ -3161,10 +3345,10 @@ func (instance *ComputeInstance) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "ComputeType":
 	if instance.ComputeType != nil {
-		var temp ComputeInstance_ComputeType_ARM
+		var temp arm.ComputeInstance_ComputeType
 		var temp1 string
 		temp1 = string(*instance.ComputeType)
-		temp = ComputeInstance_ComputeType_ARM(temp1)
+		temp = arm.ComputeInstance_ComputeType(temp1)
 		result.ComputeType = temp
 	}
 
@@ -3186,7 +3370,7 @@ func (instance *ComputeInstance) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*ComputeInstanceProperties_ARM)
+		properties := *properties_ARM.(*arm.ComputeInstanceProperties)
 		result.Properties = &properties
 	}
 
@@ -3204,14 +3388,14 @@ func (instance *ComputeInstance) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (instance *ComputeInstance) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ComputeInstance_ARM{}
+	return &arm.ComputeInstance{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (instance *ComputeInstance) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ComputeInstance_ARM)
+	typedInput, ok := armInput.(arm.ComputeInstance)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ComputeInstance_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ComputeInstance, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -3287,7 +3471,7 @@ func (instance *ComputeInstance) AssignProperties_From_ComputeInstance(source *s
 		var property ComputeInstanceProperties
 		err := property.AssignProperties_From_ComputeInstanceProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ComputeInstanceProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_ComputeInstanceProperties() to populate field Properties")
 		}
 		instance.Properties = &property
 	} else {
@@ -3338,7 +3522,7 @@ func (instance *ComputeInstance) AssignProperties_To_ComputeInstance(destination
 		var property storage.ComputeInstanceProperties
 		err := instance.Properties.AssignProperties_To_ComputeInstanceProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_ComputeInstanceProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -3406,14 +3590,14 @@ var _ genruntime.FromARMConverter = &ComputeInstance_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (instance *ComputeInstance_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ComputeInstance_STATUS_ARM{}
+	return &arm.ComputeInstance_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (instance *ComputeInstance_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ComputeInstance_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ComputeInstance_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ComputeInstance_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ComputeInstance_STATUS, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -3543,7 +3727,7 @@ func (instance *ComputeInstance_STATUS) AssignProperties_From_ComputeInstance_ST
 		var property ComputeInstanceProperties_STATUS
 		err := property.AssignProperties_From_ComputeInstanceProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ComputeInstanceProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_ComputeInstanceProperties_STATUS() to populate field Properties")
 		}
 		instance.Properties = &property
 	} else {
@@ -3559,7 +3743,7 @@ func (instance *ComputeInstance_STATUS) AssignProperties_From_ComputeInstance_ST
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -3630,7 +3814,7 @@ func (instance *ComputeInstance_STATUS) AssignProperties_To_ComputeInstance_STAT
 		var property storage.ComputeInstanceProperties_STATUS
 		err := instance.Properties.AssignProperties_To_ComputeInstanceProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_ComputeInstanceProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -3646,7 +3830,7 @@ func (instance *ComputeInstance_STATUS) AssignProperties_To_ComputeInstance_STAT
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -3706,7 +3890,7 @@ func (databricks *Databricks) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if databricks == nil {
 		return nil, nil
 	}
-	result := &Databricks_ARM{}
+	result := &arm.Databricks{}
 
 	// Set property "ComputeLocation":
 	if databricks.ComputeLocation != nil {
@@ -3716,10 +3900,10 @@ func (databricks *Databricks) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "ComputeType":
 	if databricks.ComputeType != nil {
-		var temp Databricks_ComputeType_ARM
+		var temp arm.Databricks_ComputeType
 		var temp1 string
 		temp1 = string(*databricks.ComputeType)
-		temp = Databricks_ComputeType_ARM(temp1)
+		temp = arm.Databricks_ComputeType(temp1)
 		result.ComputeType = temp
 	}
 
@@ -3741,7 +3925,7 @@ func (databricks *Databricks) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*DatabricksProperties_ARM)
+		properties := *properties_ARM.(*arm.DatabricksProperties)
 		result.Properties = &properties
 	}
 
@@ -3759,14 +3943,14 @@ func (databricks *Databricks) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (databricks *Databricks) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Databricks_ARM{}
+	return &arm.Databricks{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (databricks *Databricks) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Databricks_ARM)
+	typedInput, ok := armInput.(arm.Databricks)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Databricks_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Databricks, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -3842,7 +4026,7 @@ func (databricks *Databricks) AssignProperties_From_Databricks(source *storage.D
 		var property DatabricksProperties
 		err := property.AssignProperties_From_DatabricksProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DatabricksProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_DatabricksProperties() to populate field Properties")
 		}
 		databricks.Properties = &property
 	} else {
@@ -3893,7 +4077,7 @@ func (databricks *Databricks) AssignProperties_To_Databricks(destination *storag
 		var property storage.DatabricksProperties
 		err := databricks.Properties.AssignProperties_To_DatabricksProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DatabricksProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_DatabricksProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -3961,14 +4145,14 @@ var _ genruntime.FromARMConverter = &Databricks_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (databricks *Databricks_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Databricks_STATUS_ARM{}
+	return &arm.Databricks_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (databricks *Databricks_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Databricks_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Databricks_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Databricks_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Databricks_STATUS, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -4098,7 +4282,7 @@ func (databricks *Databricks_STATUS) AssignProperties_From_Databricks_STATUS(sou
 		var property DatabricksProperties_STATUS
 		err := property.AssignProperties_From_DatabricksProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DatabricksProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_DatabricksProperties_STATUS() to populate field Properties")
 		}
 		databricks.Properties = &property
 	} else {
@@ -4114,7 +4298,7 @@ func (databricks *Databricks_STATUS) AssignProperties_From_Databricks_STATUS(sou
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -4185,7 +4369,7 @@ func (databricks *Databricks_STATUS) AssignProperties_To_Databricks_STATUS(desti
 		var property storage.DatabricksProperties_STATUS
 		err := databricks.Properties.AssignProperties_To_DatabricksProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DatabricksProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_DatabricksProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -4201,7 +4385,7 @@ func (databricks *Databricks_STATUS) AssignProperties_To_Databricks_STATUS(desti
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -4258,7 +4442,7 @@ func (factory *DataFactory) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if factory == nil {
 		return nil, nil
 	}
-	result := &DataFactory_ARM{}
+	result := &arm.DataFactory{}
 
 	// Set property "ComputeLocation":
 	if factory.ComputeLocation != nil {
@@ -4268,10 +4452,10 @@ func (factory *DataFactory) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "ComputeType":
 	if factory.ComputeType != nil {
-		var temp DataFactory_ComputeType_ARM
+		var temp arm.DataFactory_ComputeType
 		var temp1 string
 		temp1 = string(*factory.ComputeType)
-		temp = DataFactory_ComputeType_ARM(temp1)
+		temp = arm.DataFactory_ComputeType(temp1)
 		result.ComputeType = temp
 	}
 
@@ -4301,14 +4485,14 @@ func (factory *DataFactory) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (factory *DataFactory) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DataFactory_ARM{}
+	return &arm.DataFactory{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (factory *DataFactory) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DataFactory_ARM)
+	typedInput, ok := armInput.(arm.DataFactory)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataFactory_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DataFactory, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -4465,14 +4649,14 @@ var _ genruntime.FromARMConverter = &DataFactory_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (factory *DataFactory_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DataFactory_STATUS_ARM{}
+	return &arm.DataFactory_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (factory *DataFactory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DataFactory_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DataFactory_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataFactory_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DataFactory_STATUS, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -4595,7 +4779,7 @@ func (factory *DataFactory_STATUS) AssignProperties_From_DataFactory_STATUS(sour
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -4670,7 +4854,7 @@ func (factory *DataFactory_STATUS) AssignProperties_To_DataFactory_STATUS(destin
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -4728,7 +4912,7 @@ func (analytics *DataLakeAnalytics) ConvertToARM(resolved genruntime.ConvertToAR
 	if analytics == nil {
 		return nil, nil
 	}
-	result := &DataLakeAnalytics_ARM{}
+	result := &arm.DataLakeAnalytics{}
 
 	// Set property "ComputeLocation":
 	if analytics.ComputeLocation != nil {
@@ -4738,10 +4922,10 @@ func (analytics *DataLakeAnalytics) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "ComputeType":
 	if analytics.ComputeType != nil {
-		var temp DataLakeAnalytics_ComputeType_ARM
+		var temp arm.DataLakeAnalytics_ComputeType
 		var temp1 string
 		temp1 = string(*analytics.ComputeType)
-		temp = DataLakeAnalytics_ComputeType_ARM(temp1)
+		temp = arm.DataLakeAnalytics_ComputeType(temp1)
 		result.ComputeType = temp
 	}
 
@@ -4763,7 +4947,7 @@ func (analytics *DataLakeAnalytics) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*DataLakeAnalytics_Properties_ARM)
+		properties := *properties_ARM.(*arm.DataLakeAnalytics_Properties)
 		result.Properties = &properties
 	}
 
@@ -4781,14 +4965,14 @@ func (analytics *DataLakeAnalytics) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (analytics *DataLakeAnalytics) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DataLakeAnalytics_ARM{}
+	return &arm.DataLakeAnalytics{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (analytics *DataLakeAnalytics) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DataLakeAnalytics_ARM)
+	typedInput, ok := armInput.(arm.DataLakeAnalytics)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataLakeAnalytics_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DataLakeAnalytics, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -4864,7 +5048,7 @@ func (analytics *DataLakeAnalytics) AssignProperties_From_DataLakeAnalytics(sour
 		var property DataLakeAnalytics_Properties
 		err := property.AssignProperties_From_DataLakeAnalytics_Properties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataLakeAnalytics_Properties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_DataLakeAnalytics_Properties() to populate field Properties")
 		}
 		analytics.Properties = &property
 	} else {
@@ -4915,7 +5099,7 @@ func (analytics *DataLakeAnalytics) AssignProperties_To_DataLakeAnalytics(destin
 		var property storage.DataLakeAnalytics_Properties
 		err := analytics.Properties.AssignProperties_To_DataLakeAnalytics_Properties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataLakeAnalytics_Properties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_DataLakeAnalytics_Properties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -4981,14 +5165,14 @@ var _ genruntime.FromARMConverter = &DataLakeAnalytics_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (analytics *DataLakeAnalytics_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DataLakeAnalytics_STATUS_ARM{}
+	return &arm.DataLakeAnalytics_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (analytics *DataLakeAnalytics_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DataLakeAnalytics_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DataLakeAnalytics_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataLakeAnalytics_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DataLakeAnalytics_STATUS, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -5118,7 +5302,7 @@ func (analytics *DataLakeAnalytics_STATUS) AssignProperties_From_DataLakeAnalyti
 		var property DataLakeAnalytics_Properties_STATUS
 		err := property.AssignProperties_From_DataLakeAnalytics_Properties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DataLakeAnalytics_Properties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_DataLakeAnalytics_Properties_STATUS() to populate field Properties")
 		}
 		analytics.Properties = &property
 	} else {
@@ -5134,7 +5318,7 @@ func (analytics *DataLakeAnalytics_STATUS) AssignProperties_From_DataLakeAnalyti
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -5205,7 +5389,7 @@ func (analytics *DataLakeAnalytics_STATUS) AssignProperties_To_DataLakeAnalytics
 		var property storage.DataLakeAnalytics_Properties_STATUS
 		err := analytics.Properties.AssignProperties_To_DataLakeAnalytics_Properties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DataLakeAnalytics_Properties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_DataLakeAnalytics_Properties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -5221,7 +5405,7 @@ func (analytics *DataLakeAnalytics_STATUS) AssignProperties_To_DataLakeAnalytics
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -5281,7 +5465,7 @@ func (insight *HDInsight) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if insight == nil {
 		return nil, nil
 	}
-	result := &HDInsight_ARM{}
+	result := &arm.HDInsight{}
 
 	// Set property "ComputeLocation":
 	if insight.ComputeLocation != nil {
@@ -5291,10 +5475,10 @@ func (insight *HDInsight) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "ComputeType":
 	if insight.ComputeType != nil {
-		var temp HDInsight_ComputeType_ARM
+		var temp arm.HDInsight_ComputeType
 		var temp1 string
 		temp1 = string(*insight.ComputeType)
-		temp = HDInsight_ComputeType_ARM(temp1)
+		temp = arm.HDInsight_ComputeType(temp1)
 		result.ComputeType = temp
 	}
 
@@ -5316,7 +5500,7 @@ func (insight *HDInsight) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*HDInsightProperties_ARM)
+		properties := *properties_ARM.(*arm.HDInsightProperties)
 		result.Properties = &properties
 	}
 
@@ -5334,14 +5518,14 @@ func (insight *HDInsight) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (insight *HDInsight) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HDInsight_ARM{}
+	return &arm.HDInsight{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (insight *HDInsight) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HDInsight_ARM)
+	typedInput, ok := armInput.(arm.HDInsight)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HDInsight_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.HDInsight, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -5417,7 +5601,7 @@ func (insight *HDInsight) AssignProperties_From_HDInsight(source *storage.HDInsi
 		var property HDInsightProperties
 		err := property.AssignProperties_From_HDInsightProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HDInsightProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_HDInsightProperties() to populate field Properties")
 		}
 		insight.Properties = &property
 	} else {
@@ -5468,7 +5652,7 @@ func (insight *HDInsight) AssignProperties_To_HDInsight(destination *storage.HDI
 		var property storage.HDInsightProperties
 		err := insight.Properties.AssignProperties_To_HDInsightProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HDInsightProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_HDInsightProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -5536,14 +5720,14 @@ var _ genruntime.FromARMConverter = &HDInsight_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (insight *HDInsight_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HDInsight_STATUS_ARM{}
+	return &arm.HDInsight_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (insight *HDInsight_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HDInsight_STATUS_ARM)
+	typedInput, ok := armInput.(arm.HDInsight_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HDInsight_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.HDInsight_STATUS, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -5673,7 +5857,7 @@ func (insight *HDInsight_STATUS) AssignProperties_From_HDInsight_STATUS(source *
 		var property HDInsightProperties_STATUS
 		err := property.AssignProperties_From_HDInsightProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HDInsightProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_HDInsightProperties_STATUS() to populate field Properties")
 		}
 		insight.Properties = &property
 	} else {
@@ -5689,7 +5873,7 @@ func (insight *HDInsight_STATUS) AssignProperties_From_HDInsight_STATUS(source *
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -5760,7 +5944,7 @@ func (insight *HDInsight_STATUS) AssignProperties_To_HDInsight_STATUS(destinatio
 		var property storage.HDInsightProperties_STATUS
 		err := insight.Properties.AssignProperties_To_HDInsightProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HDInsightProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_HDInsightProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -5776,7 +5960,7 @@ func (insight *HDInsight_STATUS) AssignProperties_To_HDInsight_STATUS(destinatio
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -5836,7 +6020,7 @@ func (kubernetes *Kubernetes) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if kubernetes == nil {
 		return nil, nil
 	}
-	result := &Kubernetes_ARM{}
+	result := &arm.Kubernetes{}
 
 	// Set property "ComputeLocation":
 	if kubernetes.ComputeLocation != nil {
@@ -5846,10 +6030,10 @@ func (kubernetes *Kubernetes) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "ComputeType":
 	if kubernetes.ComputeType != nil {
-		var temp Kubernetes_ComputeType_ARM
+		var temp arm.Kubernetes_ComputeType
 		var temp1 string
 		temp1 = string(*kubernetes.ComputeType)
-		temp = Kubernetes_ComputeType_ARM(temp1)
+		temp = arm.Kubernetes_ComputeType(temp1)
 		result.ComputeType = temp
 	}
 
@@ -5871,7 +6055,7 @@ func (kubernetes *Kubernetes) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*KubernetesProperties_ARM)
+		properties := *properties_ARM.(*arm.KubernetesProperties)
 		result.Properties = &properties
 	}
 
@@ -5889,14 +6073,14 @@ func (kubernetes *Kubernetes) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (kubernetes *Kubernetes) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Kubernetes_ARM{}
+	return &arm.Kubernetes{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (kubernetes *Kubernetes) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Kubernetes_ARM)
+	typedInput, ok := armInput.(arm.Kubernetes)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Kubernetes_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Kubernetes, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -5972,7 +6156,7 @@ func (kubernetes *Kubernetes) AssignProperties_From_Kubernetes(source *storage.K
 		var property KubernetesProperties
 		err := property.AssignProperties_From_KubernetesProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KubernetesProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_KubernetesProperties() to populate field Properties")
 		}
 		kubernetes.Properties = &property
 	} else {
@@ -6023,7 +6207,7 @@ func (kubernetes *Kubernetes) AssignProperties_To_Kubernetes(destination *storag
 		var property storage.KubernetesProperties
 		err := kubernetes.Properties.AssignProperties_To_KubernetesProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KubernetesProperties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_KubernetesProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -6091,14 +6275,14 @@ var _ genruntime.FromARMConverter = &Kubernetes_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (kubernetes *Kubernetes_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Kubernetes_STATUS_ARM{}
+	return &arm.Kubernetes_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (kubernetes *Kubernetes_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Kubernetes_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Kubernetes_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Kubernetes_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Kubernetes_STATUS, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -6228,7 +6412,7 @@ func (kubernetes *Kubernetes_STATUS) AssignProperties_From_Kubernetes_STATUS(sou
 		var property KubernetesProperties_STATUS
 		err := property.AssignProperties_From_KubernetesProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KubernetesProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_KubernetesProperties_STATUS() to populate field Properties")
 		}
 		kubernetes.Properties = &property
 	} else {
@@ -6244,7 +6428,7 @@ func (kubernetes *Kubernetes_STATUS) AssignProperties_From_Kubernetes_STATUS(sou
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -6315,7 +6499,7 @@ func (kubernetes *Kubernetes_STATUS) AssignProperties_To_Kubernetes_STATUS(desti
 		var property storage.KubernetesProperties_STATUS
 		err := kubernetes.Properties.AssignProperties_To_KubernetesProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KubernetesProperties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_KubernetesProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -6331,7 +6515,7 @@ func (kubernetes *Kubernetes_STATUS) AssignProperties_To_Kubernetes_STATUS(desti
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -6389,7 +6573,7 @@ func (spark *SynapseSpark) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if spark == nil {
 		return nil, nil
 	}
-	result := &SynapseSpark_ARM{}
+	result := &arm.SynapseSpark{}
 
 	// Set property "ComputeLocation":
 	if spark.ComputeLocation != nil {
@@ -6399,10 +6583,10 @@ func (spark *SynapseSpark) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "ComputeType":
 	if spark.ComputeType != nil {
-		var temp SynapseSpark_ComputeType_ARM
+		var temp arm.SynapseSpark_ComputeType
 		var temp1 string
 		temp1 = string(*spark.ComputeType)
-		temp = SynapseSpark_ComputeType_ARM(temp1)
+		temp = arm.SynapseSpark_ComputeType(temp1)
 		result.ComputeType = temp
 	}
 
@@ -6424,7 +6608,7 @@ func (spark *SynapseSpark) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*SynapseSpark_Properties_ARM)
+		properties := *properties_ARM.(*arm.SynapseSpark_Properties)
 		result.Properties = &properties
 	}
 
@@ -6442,14 +6626,14 @@ func (spark *SynapseSpark) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (spark *SynapseSpark) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SynapseSpark_ARM{}
+	return &arm.SynapseSpark{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (spark *SynapseSpark) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SynapseSpark_ARM)
+	typedInput, ok := armInput.(arm.SynapseSpark)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SynapseSpark_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SynapseSpark, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -6525,7 +6709,7 @@ func (spark *SynapseSpark) AssignProperties_From_SynapseSpark(source *storage.Sy
 		var property SynapseSpark_Properties
 		err := property.AssignProperties_From_SynapseSpark_Properties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SynapseSpark_Properties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_SynapseSpark_Properties() to populate field Properties")
 		}
 		spark.Properties = &property
 	} else {
@@ -6576,7 +6760,7 @@ func (spark *SynapseSpark) AssignProperties_To_SynapseSpark(destination *storage
 		var property storage.SynapseSpark_Properties
 		err := spark.Properties.AssignProperties_To_SynapseSpark_Properties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SynapseSpark_Properties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_SynapseSpark_Properties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -6642,14 +6826,14 @@ var _ genruntime.FromARMConverter = &SynapseSpark_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (spark *SynapseSpark_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SynapseSpark_STATUS_ARM{}
+	return &arm.SynapseSpark_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (spark *SynapseSpark_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SynapseSpark_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SynapseSpark_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SynapseSpark_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SynapseSpark_STATUS, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -6779,7 +6963,7 @@ func (spark *SynapseSpark_STATUS) AssignProperties_From_SynapseSpark_STATUS(sour
 		var property SynapseSpark_Properties_STATUS
 		err := property.AssignProperties_From_SynapseSpark_Properties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SynapseSpark_Properties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_SynapseSpark_Properties_STATUS() to populate field Properties")
 		}
 		spark.Properties = &property
 	} else {
@@ -6795,7 +6979,7 @@ func (spark *SynapseSpark_STATUS) AssignProperties_From_SynapseSpark_STATUS(sour
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -6866,7 +7050,7 @@ func (spark *SynapseSpark_STATUS) AssignProperties_To_SynapseSpark_STATUS(destin
 		var property storage.SynapseSpark_Properties_STATUS
 		err := spark.Properties.AssignProperties_To_SynapseSpark_Properties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SynapseSpark_Properties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_SynapseSpark_Properties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -6882,7 +7066,7 @@ func (spark *SynapseSpark_STATUS) AssignProperties_To_SynapseSpark_STATUS(destin
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -6940,7 +7124,7 @@ func (machine *VirtualMachine) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if machine == nil {
 		return nil, nil
 	}
-	result := &VirtualMachine_ARM{}
+	result := &arm.VirtualMachine{}
 
 	// Set property "ComputeLocation":
 	if machine.ComputeLocation != nil {
@@ -6950,10 +7134,10 @@ func (machine *VirtualMachine) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "ComputeType":
 	if machine.ComputeType != nil {
-		var temp VirtualMachine_ComputeType_ARM
+		var temp arm.VirtualMachine_ComputeType
 		var temp1 string
 		temp1 = string(*machine.ComputeType)
-		temp = VirtualMachine_ComputeType_ARM(temp1)
+		temp = arm.VirtualMachine_ComputeType(temp1)
 		result.ComputeType = temp
 	}
 
@@ -6975,7 +7159,7 @@ func (machine *VirtualMachine) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*VirtualMachine_Properties_ARM)
+		properties := *properties_ARM.(*arm.VirtualMachine_Properties)
 		result.Properties = &properties
 	}
 
@@ -6993,14 +7177,14 @@ func (machine *VirtualMachine) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (machine *VirtualMachine) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachine_ARM{}
+	return &arm.VirtualMachine{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (machine *VirtualMachine) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachine_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachine)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachine, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -7076,7 +7260,7 @@ func (machine *VirtualMachine) AssignProperties_From_VirtualMachine(source *stor
 		var property VirtualMachine_Properties
 		err := property.AssignProperties_From_VirtualMachine_Properties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties() to populate field Properties")
 		}
 		machine.Properties = &property
 	} else {
@@ -7127,7 +7311,7 @@ func (machine *VirtualMachine) AssignProperties_To_VirtualMachine(destination *s
 		var property storage.VirtualMachine_Properties
 		err := machine.Properties.AssignProperties_To_VirtualMachine_Properties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -7193,14 +7377,14 @@ var _ genruntime.FromARMConverter = &VirtualMachine_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (machine *VirtualMachine_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachine_STATUS_ARM{}
+	return &arm.VirtualMachine_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (machine *VirtualMachine_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachine_STATUS_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachine_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachine_STATUS, got %T", armInput)
 	}
 
 	// Set property "ComputeLocation":
@@ -7330,7 +7514,7 @@ func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATU
 		var property VirtualMachine_Properties_STATUS
 		err := property.AssignProperties_From_VirtualMachine_Properties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_STATUS() to populate field Properties")
 		}
 		machine.Properties = &property
 	} else {
@@ -7346,7 +7530,7 @@ func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATU
 			var provisioningError ErrorResponse_STATUS
 			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -7417,7 +7601,7 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 		var property storage.VirtualMachine_Properties_STATUS
 		err := machine.Properties.AssignProperties_To_VirtualMachine_Properties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_STATUS() to populate field Properties")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -7433,7 +7617,7 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 			var provisioningError storage.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -7517,7 +7701,7 @@ func (properties *AKS_Properties) ConvertToARM(resolved genruntime.ConvertToARMR
 	if properties == nil {
 		return nil, nil
 	}
-	result := &AKS_Properties_ARM{}
+	result := &arm.AKS_Properties{}
 
 	// Set property "AgentCount":
 	if properties.AgentCount != nil {
@@ -7537,7 +7721,7 @@ func (properties *AKS_Properties) ConvertToARM(resolved genruntime.ConvertToARMR
 		if err != nil {
 			return nil, err
 		}
-		aksNetworkingConfiguration := *aksNetworkingConfiguration_ARM.(*AksNetworkingConfiguration_ARM)
+		aksNetworkingConfiguration := *aksNetworkingConfiguration_ARM.(*arm.AksNetworkingConfiguration)
 		result.AksNetworkingConfiguration = &aksNetworkingConfiguration
 	}
 
@@ -7551,7 +7735,7 @@ func (properties *AKS_Properties) ConvertToARM(resolved genruntime.ConvertToARMR
 	if properties.ClusterPurpose != nil {
 		var temp string
 		temp = string(*properties.ClusterPurpose)
-		clusterPurpose := AKS_Properties_ClusterPurpose_ARM(temp)
+		clusterPurpose := arm.AKS_Properties_ClusterPurpose(temp)
 		result.ClusterPurpose = &clusterPurpose
 	}
 
@@ -7565,7 +7749,7 @@ func (properties *AKS_Properties) ConvertToARM(resolved genruntime.ConvertToARMR
 	if properties.LoadBalancerType != nil {
 		var temp string
 		temp = string(*properties.LoadBalancerType)
-		loadBalancerType := AKS_Properties_LoadBalancerType_ARM(temp)
+		loadBalancerType := arm.AKS_Properties_LoadBalancerType(temp)
 		result.LoadBalancerType = &loadBalancerType
 	}
 
@@ -7575,7 +7759,7 @@ func (properties *AKS_Properties) ConvertToARM(resolved genruntime.ConvertToARMR
 		if err != nil {
 			return nil, err
 		}
-		sslConfiguration := *sslConfiguration_ARM.(*SslConfiguration_ARM)
+		sslConfiguration := *sslConfiguration_ARM.(*arm.SslConfiguration)
 		result.SslConfiguration = &sslConfiguration
 	}
 	return result, nil
@@ -7583,14 +7767,14 @@ func (properties *AKS_Properties) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AKS_Properties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AKS_Properties_ARM{}
+	return &arm.AKS_Properties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AKS_Properties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AKS_Properties_ARM)
+	typedInput, ok := armInput.(arm.AKS_Properties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AKS_Properties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AKS_Properties, got %T", armInput)
 	}
 
 	// Set property "AgentCount":
@@ -7678,7 +7862,7 @@ func (properties *AKS_Properties) AssignProperties_From_AKS_Properties(source *s
 		var aksNetworkingConfiguration AksNetworkingConfiguration
 		err := aksNetworkingConfiguration.AssignProperties_From_AksNetworkingConfiguration(source.AksNetworkingConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AksNetworkingConfiguration() to populate field AksNetworkingConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_AksNetworkingConfiguration() to populate field AksNetworkingConfiguration")
 		}
 		properties.AksNetworkingConfiguration = &aksNetworkingConfiguration
 	} else {
@@ -7714,7 +7898,7 @@ func (properties *AKS_Properties) AssignProperties_From_AKS_Properties(source *s
 		var sslConfiguration SslConfiguration
 		err := sslConfiguration.AssignProperties_From_SslConfiguration(source.SslConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SslConfiguration() to populate field SslConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_SslConfiguration() to populate field SslConfiguration")
 		}
 		properties.SslConfiguration = &sslConfiguration
 	} else {
@@ -7746,7 +7930,7 @@ func (properties *AKS_Properties) AssignProperties_To_AKS_Properties(destination
 		var aksNetworkingConfiguration storage.AksNetworkingConfiguration
 		err := properties.AksNetworkingConfiguration.AssignProperties_To_AksNetworkingConfiguration(&aksNetworkingConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AksNetworkingConfiguration() to populate field AksNetworkingConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_AksNetworkingConfiguration() to populate field AksNetworkingConfiguration")
 		}
 		destination.AksNetworkingConfiguration = &aksNetworkingConfiguration
 	} else {
@@ -7780,7 +7964,7 @@ func (properties *AKS_Properties) AssignProperties_To_AKS_Properties(destination
 		var sslConfiguration storage.SslConfiguration
 		err := properties.SslConfiguration.AssignProperties_To_SslConfiguration(&sslConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SslConfiguration() to populate field SslConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_SslConfiguration() to populate field SslConfiguration")
 		}
 		destination.SslConfiguration = &sslConfiguration
 	} else {
@@ -7831,14 +8015,14 @@ var _ genruntime.FromARMConverter = &AKS_Properties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AKS_Properties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AKS_Properties_STATUS_ARM{}
+	return &arm.AKS_Properties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AKS_Properties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AKS_Properties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AKS_Properties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AKS_Properties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AKS_Properties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AgentCount":
@@ -7931,7 +8115,7 @@ func (properties *AKS_Properties_STATUS) AssignProperties_From_AKS_Properties_ST
 		var aksNetworkingConfiguration AksNetworkingConfiguration_STATUS
 		err := aksNetworkingConfiguration.AssignProperties_From_AksNetworkingConfiguration_STATUS(source.AksNetworkingConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AksNetworkingConfiguration_STATUS() to populate field AksNetworkingConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_AksNetworkingConfiguration_STATUS() to populate field AksNetworkingConfiguration")
 		}
 		properties.AksNetworkingConfiguration = &aksNetworkingConfiguration
 	} else {
@@ -7967,7 +8151,7 @@ func (properties *AKS_Properties_STATUS) AssignProperties_From_AKS_Properties_ST
 		var sslConfiguration SslConfiguration_STATUS
 		err := sslConfiguration.AssignProperties_From_SslConfiguration_STATUS(source.SslConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SslConfiguration_STATUS() to populate field SslConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_SslConfiguration_STATUS() to populate field SslConfiguration")
 		}
 		properties.SslConfiguration = &sslConfiguration
 	} else {
@@ -7983,7 +8167,7 @@ func (properties *AKS_Properties_STATUS) AssignProperties_From_AKS_Properties_ST
 			var systemService SystemService_STATUS
 			err := systemService.AssignProperties_From_SystemService_STATUS(&systemServiceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SystemService_STATUS() to populate field SystemServices")
+				return eris.Wrap(err, "calling AssignProperties_From_SystemService_STATUS() to populate field SystemServices")
 			}
 			systemServiceList[systemServiceIndex] = systemService
 		}
@@ -8012,7 +8196,7 @@ func (properties *AKS_Properties_STATUS) AssignProperties_To_AKS_Properties_STAT
 		var aksNetworkingConfiguration storage.AksNetworkingConfiguration_STATUS
 		err := properties.AksNetworkingConfiguration.AssignProperties_To_AksNetworkingConfiguration_STATUS(&aksNetworkingConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AksNetworkingConfiguration_STATUS() to populate field AksNetworkingConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_AksNetworkingConfiguration_STATUS() to populate field AksNetworkingConfiguration")
 		}
 		destination.AksNetworkingConfiguration = &aksNetworkingConfiguration
 	} else {
@@ -8046,7 +8230,7 @@ func (properties *AKS_Properties_STATUS) AssignProperties_To_AKS_Properties_STAT
 		var sslConfiguration storage.SslConfiguration_STATUS
 		err := properties.SslConfiguration.AssignProperties_To_SslConfiguration_STATUS(&sslConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SslConfiguration_STATUS() to populate field SslConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_SslConfiguration_STATUS() to populate field SslConfiguration")
 		}
 		destination.SslConfiguration = &sslConfiguration
 	} else {
@@ -8062,7 +8246,7 @@ func (properties *AKS_Properties_STATUS) AssignProperties_To_AKS_Properties_STAT
 			var systemService storage.SystemService_STATUS
 			err := systemServiceItem.AssignProperties_To_SystemService_STATUS(&systemService)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SystemService_STATUS() to populate field SystemServices")
+				return eris.Wrap(err, "calling AssignProperties_To_SystemService_STATUS() to populate field SystemServices")
 			}
 			systemServiceList[systemServiceIndex] = systemService
 		}
@@ -8193,7 +8377,7 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 	if properties == nil {
 		return nil, nil
 	}
-	result := &AmlComputeProperties_ARM{}
+	result := &arm.AmlComputeProperties{}
 
 	// Set property "EnableNodePublicIp":
 	if properties.EnableNodePublicIp != nil {
@@ -8211,7 +8395,7 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 	if properties.OsType != nil {
 		var temp string
 		temp = string(*properties.OsType)
-		osType := AmlComputeProperties_OsType_ARM(temp)
+		osType := arm.AmlComputeProperties_OsType(temp)
 		result.OsType = &osType
 	}
 
@@ -8219,7 +8403,7 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 	if properties.RemoteLoginPortPublicAccess != nil {
 		var temp string
 		temp = string(*properties.RemoteLoginPortPublicAccess)
-		remoteLoginPortPublicAccess := AmlComputeProperties_RemoteLoginPortPublicAccess_ARM(temp)
+		remoteLoginPortPublicAccess := arm.AmlComputeProperties_RemoteLoginPortPublicAccess(temp)
 		result.RemoteLoginPortPublicAccess = &remoteLoginPortPublicAccess
 	}
 
@@ -8229,7 +8413,7 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		scaleSettings := *scaleSettings_ARM.(*ScaleSettings_ARM)
+		scaleSettings := *scaleSettings_ARM.(*arm.ScaleSettings)
 		result.ScaleSettings = &scaleSettings
 	}
 
@@ -8239,7 +8423,7 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnet_ARM.(*ResourceId_ARM)
+		subnet := *subnet_ARM.(*arm.ResourceId)
 		result.Subnet = &subnet
 	}
 
@@ -8249,7 +8433,7 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		userAccountCredentials := *userAccountCredentials_ARM.(*UserAccountCredentials_ARM)
+		userAccountCredentials := *userAccountCredentials_ARM.(*arm.UserAccountCredentials)
 		result.UserAccountCredentials = &userAccountCredentials
 	}
 
@@ -8259,7 +8443,7 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		virtualMachineImage := *virtualMachineImage_ARM.(*VirtualMachineImage_ARM)
+		virtualMachineImage := *virtualMachineImage_ARM.(*arm.VirtualMachineImage)
 		result.VirtualMachineImage = &virtualMachineImage
 	}
 
@@ -8267,7 +8451,7 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 	if properties.VmPriority != nil {
 		var temp string
 		temp = string(*properties.VmPriority)
-		vmPriority := AmlComputeProperties_VmPriority_ARM(temp)
+		vmPriority := arm.AmlComputeProperties_VmPriority(temp)
 		result.VmPriority = &vmPriority
 	}
 
@@ -8281,14 +8465,14 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AmlComputeProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AmlComputeProperties_ARM{}
+	return &arm.AmlComputeProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AmlComputeProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AmlComputeProperties_ARM)
+	typedInput, ok := armInput.(arm.AmlComputeProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AmlComputeProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AmlComputeProperties, got %T", armInput)
 	}
 
 	// Set property "EnableNodePublicIp":
@@ -8423,7 +8607,7 @@ func (properties *AmlComputeProperties) AssignProperties_From_AmlComputeProperti
 		var scaleSetting ScaleSettings
 		err := scaleSetting.AssignProperties_From_ScaleSettings(source.ScaleSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScaleSettings() to populate field ScaleSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_ScaleSettings() to populate field ScaleSettings")
 		}
 		properties.ScaleSettings = &scaleSetting
 	} else {
@@ -8435,7 +8619,7 @@ func (properties *AmlComputeProperties) AssignProperties_From_AmlComputeProperti
 		var subnet ResourceId
 		err := subnet.AssignProperties_From_ResourceId(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceId() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceId() to populate field Subnet")
 		}
 		properties.Subnet = &subnet
 	} else {
@@ -8447,7 +8631,7 @@ func (properties *AmlComputeProperties) AssignProperties_From_AmlComputeProperti
 		var userAccountCredential UserAccountCredentials
 		err := userAccountCredential.AssignProperties_From_UserAccountCredentials(source.UserAccountCredentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_UserAccountCredentials() to populate field UserAccountCredentials")
+			return eris.Wrap(err, "calling AssignProperties_From_UserAccountCredentials() to populate field UserAccountCredentials")
 		}
 		properties.UserAccountCredentials = &userAccountCredential
 	} else {
@@ -8459,7 +8643,7 @@ func (properties *AmlComputeProperties) AssignProperties_From_AmlComputeProperti
 		var virtualMachineImage VirtualMachineImage
 		err := virtualMachineImage.AssignProperties_From_VirtualMachineImage(source.VirtualMachineImage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineImage() to populate field VirtualMachineImage")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualMachineImage() to populate field VirtualMachineImage")
 		}
 		properties.VirtualMachineImage = &virtualMachineImage
 	} else {
@@ -8524,7 +8708,7 @@ func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties
 		var scaleSetting storage.ScaleSettings
 		err := properties.ScaleSettings.AssignProperties_To_ScaleSettings(&scaleSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScaleSettings() to populate field ScaleSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_ScaleSettings() to populate field ScaleSettings")
 		}
 		destination.ScaleSettings = &scaleSetting
 	} else {
@@ -8536,7 +8720,7 @@ func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties
 		var subnet storage.ResourceId
 		err := properties.Subnet.AssignProperties_To_ResourceId(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceId() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceId() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -8548,7 +8732,7 @@ func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties
 		var userAccountCredential storage.UserAccountCredentials
 		err := properties.UserAccountCredentials.AssignProperties_To_UserAccountCredentials(&userAccountCredential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_UserAccountCredentials() to populate field UserAccountCredentials")
+			return eris.Wrap(err, "calling AssignProperties_To_UserAccountCredentials() to populate field UserAccountCredentials")
 		}
 		destination.UserAccountCredentials = &userAccountCredential
 	} else {
@@ -8560,7 +8744,7 @@ func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties
 		var virtualMachineImage storage.VirtualMachineImage
 		err := properties.VirtualMachineImage.AssignProperties_To_VirtualMachineImage(&virtualMachineImage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineImage() to populate field VirtualMachineImage")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualMachineImage() to populate field VirtualMachineImage")
 		}
 		destination.VirtualMachineImage = &virtualMachineImage
 	} else {
@@ -8655,14 +8839,14 @@ var _ genruntime.FromARMConverter = &AmlComputeProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AmlComputeProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AmlComputeProperties_STATUS_ARM{}
+	return &arm.AmlComputeProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AmlComputeProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AmlComputeProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AmlComputeProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AmlComputeProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AmlComputeProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AllocationState":
@@ -8837,7 +9021,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_From_AmlComputeP
 			var error ErrorResponse_STATUS
 			err := error.AssignProperties_From_ErrorResponse_STATUS(&errorItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field Errors")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field Errors")
 			}
 			errorList[errorIndex] = error
 		}
@@ -8859,7 +9043,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_From_AmlComputeP
 		var nodeStateCount NodeStateCounts_STATUS
 		err := nodeStateCount.AssignProperties_From_NodeStateCounts_STATUS(source.NodeStateCounts)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NodeStateCounts_STATUS() to populate field NodeStateCounts")
+			return eris.Wrap(err, "calling AssignProperties_From_NodeStateCounts_STATUS() to populate field NodeStateCounts")
 		}
 		properties.NodeStateCounts = &nodeStateCount
 	} else {
@@ -8889,7 +9073,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_From_AmlComputeP
 		var scaleSetting ScaleSettings_STATUS
 		err := scaleSetting.AssignProperties_From_ScaleSettings_STATUS(source.ScaleSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScaleSettings_STATUS() to populate field ScaleSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_ScaleSettings_STATUS() to populate field ScaleSettings")
 		}
 		properties.ScaleSettings = &scaleSetting
 	} else {
@@ -8901,7 +9085,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_From_AmlComputeP
 		var subnet ResourceId_STATUS
 		err := subnet.AssignProperties_From_ResourceId_STATUS(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceId_STATUS() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceId_STATUS() to populate field Subnet")
 		}
 		properties.Subnet = &subnet
 	} else {
@@ -8916,7 +9100,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_From_AmlComputeP
 		var userAccountCredential UserAccountCredentials_STATUS
 		err := userAccountCredential.AssignProperties_From_UserAccountCredentials_STATUS(source.UserAccountCredentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_UserAccountCredentials_STATUS() to populate field UserAccountCredentials")
+			return eris.Wrap(err, "calling AssignProperties_From_UserAccountCredentials_STATUS() to populate field UserAccountCredentials")
 		}
 		properties.UserAccountCredentials = &userAccountCredential
 	} else {
@@ -8928,7 +9112,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_From_AmlComputeP
 		var virtualMachineImage VirtualMachineImage_STATUS
 		err := virtualMachineImage.AssignProperties_From_VirtualMachineImage_STATUS(source.VirtualMachineImage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineImage_STATUS() to populate field VirtualMachineImage")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualMachineImage_STATUS() to populate field VirtualMachineImage")
 		}
 		properties.VirtualMachineImage = &virtualMachineImage
 	} else {
@@ -8987,7 +9171,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 			var error storage.ErrorResponse_STATUS
 			err := errorItem.AssignProperties_To_ErrorResponse_STATUS(&error)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field Errors")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field Errors")
 			}
 			errorList[errorIndex] = error
 		}
@@ -9009,7 +9193,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 		var nodeStateCount storage.NodeStateCounts_STATUS
 		err := properties.NodeStateCounts.AssignProperties_To_NodeStateCounts_STATUS(&nodeStateCount)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NodeStateCounts_STATUS() to populate field NodeStateCounts")
+			return eris.Wrap(err, "calling AssignProperties_To_NodeStateCounts_STATUS() to populate field NodeStateCounts")
 		}
 		destination.NodeStateCounts = &nodeStateCount
 	} else {
@@ -9037,7 +9221,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 		var scaleSetting storage.ScaleSettings_STATUS
 		err := properties.ScaleSettings.AssignProperties_To_ScaleSettings_STATUS(&scaleSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScaleSettings_STATUS() to populate field ScaleSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_ScaleSettings_STATUS() to populate field ScaleSettings")
 		}
 		destination.ScaleSettings = &scaleSetting
 	} else {
@@ -9049,7 +9233,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 		var subnet storage.ResourceId_STATUS
 		err := properties.Subnet.AssignProperties_To_ResourceId_STATUS(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceId_STATUS() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceId_STATUS() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -9064,7 +9248,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 		var userAccountCredential storage.UserAccountCredentials_STATUS
 		err := properties.UserAccountCredentials.AssignProperties_To_UserAccountCredentials_STATUS(&userAccountCredential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_UserAccountCredentials_STATUS() to populate field UserAccountCredentials")
+			return eris.Wrap(err, "calling AssignProperties_To_UserAccountCredentials_STATUS() to populate field UserAccountCredentials")
 		}
 		destination.UserAccountCredentials = &userAccountCredential
 	} else {
@@ -9076,7 +9260,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 		var virtualMachineImage storage.VirtualMachineImage_STATUS
 		err := properties.VirtualMachineImage.AssignProperties_To_VirtualMachineImage_STATUS(&virtualMachineImage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineImage_STATUS() to populate field VirtualMachineImage")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualMachineImage_STATUS() to populate field VirtualMachineImage")
 		}
 		destination.VirtualMachineImage = &virtualMachineImage
 	} else {
@@ -9180,13 +9364,13 @@ func (properties *ComputeInstanceProperties) ConvertToARM(resolved genruntime.Co
 	if properties == nil {
 		return nil, nil
 	}
-	result := &ComputeInstanceProperties_ARM{}
+	result := &arm.ComputeInstanceProperties{}
 
 	// Set property "ApplicationSharingPolicy":
 	if properties.ApplicationSharingPolicy != nil {
 		var temp string
 		temp = string(*properties.ApplicationSharingPolicy)
-		applicationSharingPolicy := ComputeInstanceProperties_ApplicationSharingPolicy_ARM(temp)
+		applicationSharingPolicy := arm.ComputeInstanceProperties_ApplicationSharingPolicy(temp)
 		result.ApplicationSharingPolicy = &applicationSharingPolicy
 	}
 
@@ -9194,7 +9378,7 @@ func (properties *ComputeInstanceProperties) ConvertToARM(resolved genruntime.Co
 	if properties.ComputeInstanceAuthorizationType != nil {
 		var temp string
 		temp = string(*properties.ComputeInstanceAuthorizationType)
-		computeInstanceAuthorizationType := ComputeInstanceProperties_ComputeInstanceAuthorizationType_ARM(temp)
+		computeInstanceAuthorizationType := arm.ComputeInstanceProperties_ComputeInstanceAuthorizationType(temp)
 		result.ComputeInstanceAuthorizationType = &computeInstanceAuthorizationType
 	}
 
@@ -9204,7 +9388,7 @@ func (properties *ComputeInstanceProperties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		personalComputeInstanceSettings := *personalComputeInstanceSettings_ARM.(*PersonalComputeInstanceSettings_ARM)
+		personalComputeInstanceSettings := *personalComputeInstanceSettings_ARM.(*arm.PersonalComputeInstanceSettings)
 		result.PersonalComputeInstanceSettings = &personalComputeInstanceSettings
 	}
 
@@ -9214,7 +9398,7 @@ func (properties *ComputeInstanceProperties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		setupScripts := *setupScripts_ARM.(*SetupScripts_ARM)
+		setupScripts := *setupScripts_ARM.(*arm.SetupScripts)
 		result.SetupScripts = &setupScripts
 	}
 
@@ -9224,7 +9408,7 @@ func (properties *ComputeInstanceProperties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		sshSettings := *sshSettings_ARM.(*ComputeInstanceSshSettings_ARM)
+		sshSettings := *sshSettings_ARM.(*arm.ComputeInstanceSshSettings)
 		result.SshSettings = &sshSettings
 	}
 
@@ -9234,7 +9418,7 @@ func (properties *ComputeInstanceProperties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnet_ARM.(*ResourceId_ARM)
+		subnet := *subnet_ARM.(*arm.ResourceId)
 		result.Subnet = &subnet
 	}
 
@@ -9248,14 +9432,14 @@ func (properties *ComputeInstanceProperties) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *ComputeInstanceProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ComputeInstanceProperties_ARM{}
+	return &arm.ComputeInstanceProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *ComputeInstanceProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ComputeInstanceProperties_ARM)
+	typedInput, ok := armInput.(arm.ComputeInstanceProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ComputeInstanceProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ComputeInstanceProperties, got %T", armInput)
 	}
 
 	// Set property "ApplicationSharingPolicy":
@@ -9354,7 +9538,7 @@ func (properties *ComputeInstanceProperties) AssignProperties_From_ComputeInstan
 		var personalComputeInstanceSetting PersonalComputeInstanceSettings
 		err := personalComputeInstanceSetting.AssignProperties_From_PersonalComputeInstanceSettings(source.PersonalComputeInstanceSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PersonalComputeInstanceSettings() to populate field PersonalComputeInstanceSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_PersonalComputeInstanceSettings() to populate field PersonalComputeInstanceSettings")
 		}
 		properties.PersonalComputeInstanceSettings = &personalComputeInstanceSetting
 	} else {
@@ -9366,7 +9550,7 @@ func (properties *ComputeInstanceProperties) AssignProperties_From_ComputeInstan
 		var setupScript SetupScripts
 		err := setupScript.AssignProperties_From_SetupScripts(source.SetupScripts)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SetupScripts() to populate field SetupScripts")
+			return eris.Wrap(err, "calling AssignProperties_From_SetupScripts() to populate field SetupScripts")
 		}
 		properties.SetupScripts = &setupScript
 	} else {
@@ -9378,7 +9562,7 @@ func (properties *ComputeInstanceProperties) AssignProperties_From_ComputeInstan
 		var sshSetting ComputeInstanceSshSettings
 		err := sshSetting.AssignProperties_From_ComputeInstanceSshSettings(source.SshSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ComputeInstanceSshSettings() to populate field SshSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_ComputeInstanceSshSettings() to populate field SshSettings")
 		}
 		properties.SshSettings = &sshSetting
 	} else {
@@ -9390,7 +9574,7 @@ func (properties *ComputeInstanceProperties) AssignProperties_From_ComputeInstan
 		var subnet ResourceId
 		err := subnet.AssignProperties_From_ResourceId(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceId() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceId() to populate field Subnet")
 		}
 		properties.Subnet = &subnet
 	} else {
@@ -9430,7 +9614,7 @@ func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstance
 		var personalComputeInstanceSetting storage.PersonalComputeInstanceSettings
 		err := properties.PersonalComputeInstanceSettings.AssignProperties_To_PersonalComputeInstanceSettings(&personalComputeInstanceSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PersonalComputeInstanceSettings() to populate field PersonalComputeInstanceSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_PersonalComputeInstanceSettings() to populate field PersonalComputeInstanceSettings")
 		}
 		destination.PersonalComputeInstanceSettings = &personalComputeInstanceSetting
 	} else {
@@ -9442,7 +9626,7 @@ func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstance
 		var setupScript storage.SetupScripts
 		err := properties.SetupScripts.AssignProperties_To_SetupScripts(&setupScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SetupScripts() to populate field SetupScripts")
+			return eris.Wrap(err, "calling AssignProperties_To_SetupScripts() to populate field SetupScripts")
 		}
 		destination.SetupScripts = &setupScript
 	} else {
@@ -9454,7 +9638,7 @@ func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstance
 		var sshSetting storage.ComputeInstanceSshSettings
 		err := properties.SshSettings.AssignProperties_To_ComputeInstanceSshSettings(&sshSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceSshSettings() to populate field SshSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_ComputeInstanceSshSettings() to populate field SshSettings")
 		}
 		destination.SshSettings = &sshSetting
 	} else {
@@ -9466,7 +9650,7 @@ func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstance
 		var subnet storage.ResourceId
 		err := properties.Subnet.AssignProperties_To_ResourceId(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceId() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceId() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -9535,14 +9719,14 @@ var _ genruntime.FromARMConverter = &ComputeInstanceProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *ComputeInstanceProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ComputeInstanceProperties_STATUS_ARM{}
+	return &arm.ComputeInstanceProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *ComputeInstanceProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ComputeInstanceProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ComputeInstanceProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ComputeInstanceProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ComputeInstanceProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "ApplicationSharingPolicy":
@@ -9697,7 +9881,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 			var application ComputeInstanceApplication_STATUS
 			err := application.AssignProperties_From_ComputeInstanceApplication_STATUS(&applicationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ComputeInstanceApplication_STATUS() to populate field Applications")
+				return eris.Wrap(err, "calling AssignProperties_From_ComputeInstanceApplication_STATUS() to populate field Applications")
 			}
 			applicationList[applicationIndex] = application
 		}
@@ -9720,7 +9904,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 		var connectivityEndpoint ComputeInstanceConnectivityEndpoints_STATUS
 		err := connectivityEndpoint.AssignProperties_From_ComputeInstanceConnectivityEndpoints_STATUS(source.ConnectivityEndpoints)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ComputeInstanceConnectivityEndpoints_STATUS() to populate field ConnectivityEndpoints")
+			return eris.Wrap(err, "calling AssignProperties_From_ComputeInstanceConnectivityEndpoints_STATUS() to populate field ConnectivityEndpoints")
 		}
 		properties.ConnectivityEndpoints = &connectivityEndpoint
 	} else {
@@ -9732,7 +9916,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 		var createdBy ComputeInstanceCreatedBy_STATUS
 		err := createdBy.AssignProperties_From_ComputeInstanceCreatedBy_STATUS(source.CreatedBy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ComputeInstanceCreatedBy_STATUS() to populate field CreatedBy")
+			return eris.Wrap(err, "calling AssignProperties_From_ComputeInstanceCreatedBy_STATUS() to populate field CreatedBy")
 		}
 		properties.CreatedBy = &createdBy
 	} else {
@@ -9748,7 +9932,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 			var error ErrorResponse_STATUS
 			err := error.AssignProperties_From_ErrorResponse_STATUS(&errorItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field Errors")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field Errors")
 			}
 			errorList[errorIndex] = error
 		}
@@ -9762,7 +9946,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 		var lastOperation ComputeInstanceLastOperation_STATUS
 		err := lastOperation.AssignProperties_From_ComputeInstanceLastOperation_STATUS(source.LastOperation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ComputeInstanceLastOperation_STATUS() to populate field LastOperation")
+			return eris.Wrap(err, "calling AssignProperties_From_ComputeInstanceLastOperation_STATUS() to populate field LastOperation")
 		}
 		properties.LastOperation = &lastOperation
 	} else {
@@ -9774,7 +9958,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 		var personalComputeInstanceSetting PersonalComputeInstanceSettings_STATUS
 		err := personalComputeInstanceSetting.AssignProperties_From_PersonalComputeInstanceSettings_STATUS(source.PersonalComputeInstanceSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PersonalComputeInstanceSettings_STATUS() to populate field PersonalComputeInstanceSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_PersonalComputeInstanceSettings_STATUS() to populate field PersonalComputeInstanceSettings")
 		}
 		properties.PersonalComputeInstanceSettings = &personalComputeInstanceSetting
 	} else {
@@ -9786,7 +9970,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 		var setupScript SetupScripts_STATUS
 		err := setupScript.AssignProperties_From_SetupScripts_STATUS(source.SetupScripts)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SetupScripts_STATUS() to populate field SetupScripts")
+			return eris.Wrap(err, "calling AssignProperties_From_SetupScripts_STATUS() to populate field SetupScripts")
 		}
 		properties.SetupScripts = &setupScript
 	} else {
@@ -9798,7 +9982,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 		var sshSetting ComputeInstanceSshSettings_STATUS
 		err := sshSetting.AssignProperties_From_ComputeInstanceSshSettings_STATUS(source.SshSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ComputeInstanceSshSettings_STATUS() to populate field SshSettings")
+			return eris.Wrap(err, "calling AssignProperties_From_ComputeInstanceSshSettings_STATUS() to populate field SshSettings")
 		}
 		properties.SshSettings = &sshSetting
 	} else {
@@ -9819,7 +10003,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 		var subnet ResourceId_STATUS
 		err := subnet.AssignProperties_From_ResourceId_STATUS(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceId_STATUS() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceId_STATUS() to populate field Subnet")
 		}
 		properties.Subnet = &subnet
 	} else {
@@ -9855,7 +10039,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 			var application storage.ComputeInstanceApplication_STATUS
 			err := applicationItem.AssignProperties_To_ComputeInstanceApplication_STATUS(&application)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceApplication_STATUS() to populate field Applications")
+				return eris.Wrap(err, "calling AssignProperties_To_ComputeInstanceApplication_STATUS() to populate field Applications")
 			}
 			applicationList[applicationIndex] = application
 		}
@@ -9877,7 +10061,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 		var connectivityEndpoint storage.ComputeInstanceConnectivityEndpoints_STATUS
 		err := properties.ConnectivityEndpoints.AssignProperties_To_ComputeInstanceConnectivityEndpoints_STATUS(&connectivityEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceConnectivityEndpoints_STATUS() to populate field ConnectivityEndpoints")
+			return eris.Wrap(err, "calling AssignProperties_To_ComputeInstanceConnectivityEndpoints_STATUS() to populate field ConnectivityEndpoints")
 		}
 		destination.ConnectivityEndpoints = &connectivityEndpoint
 	} else {
@@ -9889,7 +10073,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 		var createdBy storage.ComputeInstanceCreatedBy_STATUS
 		err := properties.CreatedBy.AssignProperties_To_ComputeInstanceCreatedBy_STATUS(&createdBy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceCreatedBy_STATUS() to populate field CreatedBy")
+			return eris.Wrap(err, "calling AssignProperties_To_ComputeInstanceCreatedBy_STATUS() to populate field CreatedBy")
 		}
 		destination.CreatedBy = &createdBy
 	} else {
@@ -9905,7 +10089,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 			var error storage.ErrorResponse_STATUS
 			err := errorItem.AssignProperties_To_ErrorResponse_STATUS(&error)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field Errors")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field Errors")
 			}
 			errorList[errorIndex] = error
 		}
@@ -9919,7 +10103,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 		var lastOperation storage.ComputeInstanceLastOperation_STATUS
 		err := properties.LastOperation.AssignProperties_To_ComputeInstanceLastOperation_STATUS(&lastOperation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceLastOperation_STATUS() to populate field LastOperation")
+			return eris.Wrap(err, "calling AssignProperties_To_ComputeInstanceLastOperation_STATUS() to populate field LastOperation")
 		}
 		destination.LastOperation = &lastOperation
 	} else {
@@ -9931,7 +10115,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 		var personalComputeInstanceSetting storage.PersonalComputeInstanceSettings_STATUS
 		err := properties.PersonalComputeInstanceSettings.AssignProperties_To_PersonalComputeInstanceSettings_STATUS(&personalComputeInstanceSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PersonalComputeInstanceSettings_STATUS() to populate field PersonalComputeInstanceSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_PersonalComputeInstanceSettings_STATUS() to populate field PersonalComputeInstanceSettings")
 		}
 		destination.PersonalComputeInstanceSettings = &personalComputeInstanceSetting
 	} else {
@@ -9943,7 +10127,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 		var setupScript storage.SetupScripts_STATUS
 		err := properties.SetupScripts.AssignProperties_To_SetupScripts_STATUS(&setupScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SetupScripts_STATUS() to populate field SetupScripts")
+			return eris.Wrap(err, "calling AssignProperties_To_SetupScripts_STATUS() to populate field SetupScripts")
 		}
 		destination.SetupScripts = &setupScript
 	} else {
@@ -9955,7 +10139,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 		var sshSetting storage.ComputeInstanceSshSettings_STATUS
 		err := properties.SshSettings.AssignProperties_To_ComputeInstanceSshSettings_STATUS(&sshSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceSshSettings_STATUS() to populate field SshSettings")
+			return eris.Wrap(err, "calling AssignProperties_To_ComputeInstanceSshSettings_STATUS() to populate field SshSettings")
 		}
 		destination.SshSettings = &sshSetting
 	} else {
@@ -9975,7 +10159,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 		var subnet storage.ResourceId_STATUS
 		err := properties.Subnet.AssignProperties_To_ResourceId_STATUS(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceId_STATUS() to populate field Subnet")
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceId_STATUS() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -10054,13 +10238,13 @@ func (properties *DatabricksProperties) ConvertToARM(resolved genruntime.Convert
 	if properties == nil {
 		return nil, nil
 	}
-	result := &DatabricksProperties_ARM{}
+	result := &arm.DatabricksProperties{}
 
 	// Set property "DatabricksAccessToken":
 	if properties.DatabricksAccessToken != nil {
 		databricksAccessTokenSecret, err := resolved.ResolvedSecrets.Lookup(*properties.DatabricksAccessToken)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property DatabricksAccessToken")
+			return nil, eris.Wrap(err, "looking up secret for property DatabricksAccessToken")
 		}
 		databricksAccessToken := databricksAccessTokenSecret
 		result.DatabricksAccessToken = &databricksAccessToken
@@ -10076,14 +10260,14 @@ func (properties *DatabricksProperties) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *DatabricksProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabricksProperties_ARM{}
+	return &arm.DatabricksProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *DatabricksProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabricksProperties_ARM)
+	typedInput, ok := armInput.(arm.DatabricksProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabricksProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DatabricksProperties, got %T", armInput)
 	}
 
 	// no assignment for property "DatabricksAccessToken"
@@ -10153,14 +10337,14 @@ var _ genruntime.FromARMConverter = &DatabricksProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *DatabricksProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabricksProperties_STATUS_ARM{}
+	return &arm.DatabricksProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *DatabricksProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabricksProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DatabricksProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabricksProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DatabricksProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "WorkspaceUrl":
@@ -10275,7 +10459,7 @@ func (properties *DataLakeAnalytics_Properties) ConvertToARM(resolved genruntime
 	if properties == nil {
 		return nil, nil
 	}
-	result := &DataLakeAnalytics_Properties_ARM{}
+	result := &arm.DataLakeAnalytics_Properties{}
 
 	// Set property "DataLakeStoreAccountName":
 	if properties.DataLakeStoreAccountName != nil {
@@ -10287,14 +10471,14 @@ func (properties *DataLakeAnalytics_Properties) ConvertToARM(resolved genruntime
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *DataLakeAnalytics_Properties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DataLakeAnalytics_Properties_ARM{}
+	return &arm.DataLakeAnalytics_Properties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *DataLakeAnalytics_Properties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DataLakeAnalytics_Properties_ARM)
+	typedInput, ok := armInput.(arm.DataLakeAnalytics_Properties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataLakeAnalytics_Properties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DataLakeAnalytics_Properties, got %T", armInput)
 	}
 
 	// Set property "DataLakeStoreAccountName":
@@ -10345,14 +10529,14 @@ var _ genruntime.FromARMConverter = &DataLakeAnalytics_Properties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *DataLakeAnalytics_Properties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DataLakeAnalytics_Properties_STATUS_ARM{}
+	return &arm.DataLakeAnalytics_Properties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *DataLakeAnalytics_Properties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DataLakeAnalytics_Properties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DataLakeAnalytics_Properties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataLakeAnalytics_Properties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DataLakeAnalytics_Properties_STATUS, got %T", armInput)
 	}
 
 	// Set property "DataLakeStoreAccountName":
@@ -10428,14 +10612,14 @@ var _ genruntime.FromARMConverter = &ErrorResponse_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (response *ErrorResponse_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ErrorResponse_STATUS_ARM{}
+	return &arm.ErrorResponse_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (response *ErrorResponse_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ErrorResponse_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ErrorResponse_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ErrorResponse_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ErrorResponse_STATUS, got %T", armInput)
 	}
 
 	// Set property "Error":
@@ -10461,7 +10645,7 @@ func (response *ErrorResponse_STATUS) AssignProperties_From_ErrorResponse_STATUS
 		var error ErrorDetail_STATUS
 		err := error.AssignProperties_From_ErrorDetail_STATUS(source.Error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ErrorDetail_STATUS() to populate field Error")
+			return eris.Wrap(err, "calling AssignProperties_From_ErrorDetail_STATUS() to populate field Error")
 		}
 		response.Error = &error
 	} else {
@@ -10482,7 +10666,7 @@ func (response *ErrorResponse_STATUS) AssignProperties_To_ErrorResponse_STATUS(d
 		var error storage.ErrorDetail_STATUS
 		err := response.Error.AssignProperties_To_ErrorDetail_STATUS(&error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ErrorDetail_STATUS() to populate field Error")
+			return eris.Wrap(err, "calling AssignProperties_To_ErrorDetail_STATUS() to populate field Error")
 		}
 		destination.Error = &error
 	} else {
@@ -10561,7 +10745,7 @@ func (properties *HDInsightProperties) ConvertToARM(resolved genruntime.ConvertT
 	if properties == nil {
 		return nil, nil
 	}
-	result := &HDInsightProperties_ARM{}
+	result := &arm.HDInsightProperties{}
 
 	// Set property "Address":
 	if properties.Address != nil {
@@ -10575,7 +10759,7 @@ func (properties *HDInsightProperties) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		administratorAccount := *administratorAccount_ARM.(*VirtualMachineSshCredentials_ARM)
+		administratorAccount := *administratorAccount_ARM.(*arm.VirtualMachineSshCredentials)
 		result.AdministratorAccount = &administratorAccount
 	}
 
@@ -10589,14 +10773,14 @@ func (properties *HDInsightProperties) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *HDInsightProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HDInsightProperties_ARM{}
+	return &arm.HDInsightProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *HDInsightProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HDInsightProperties_ARM)
+	typedInput, ok := armInput.(arm.HDInsightProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HDInsightProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.HDInsightProperties, got %T", armInput)
 	}
 
 	// Set property "Address":
@@ -10637,7 +10821,7 @@ func (properties *HDInsightProperties) AssignProperties_From_HDInsightProperties
 		var administratorAccount VirtualMachineSshCredentials
 		err := administratorAccount.AssignProperties_From_VirtualMachineSshCredentials(source.AdministratorAccount)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineSshCredentials() to populate field AdministratorAccount")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualMachineSshCredentials() to populate field AdministratorAccount")
 		}
 		properties.AdministratorAccount = &administratorAccount
 	} else {
@@ -10664,7 +10848,7 @@ func (properties *HDInsightProperties) AssignProperties_To_HDInsightProperties(d
 		var administratorAccount storage.VirtualMachineSshCredentials
 		err := properties.AdministratorAccount.AssignProperties_To_VirtualMachineSshCredentials(&administratorAccount)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineSshCredentials() to populate field AdministratorAccount")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualMachineSshCredentials() to populate field AdministratorAccount")
 		}
 		destination.AdministratorAccount = &administratorAccount
 	} else {
@@ -10701,14 +10885,14 @@ var _ genruntime.FromARMConverter = &HDInsightProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *HDInsightProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HDInsightProperties_STATUS_ARM{}
+	return &arm.HDInsightProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *HDInsightProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HDInsightProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.HDInsightProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HDInsightProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.HDInsightProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "Address":
@@ -10749,7 +10933,7 @@ func (properties *HDInsightProperties_STATUS) AssignProperties_From_HDInsightPro
 		var administratorAccount VirtualMachineSshCredentials_STATUS
 		err := administratorAccount.AssignProperties_From_VirtualMachineSshCredentials_STATUS(source.AdministratorAccount)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineSshCredentials_STATUS() to populate field AdministratorAccount")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualMachineSshCredentials_STATUS() to populate field AdministratorAccount")
 		}
 		properties.AdministratorAccount = &administratorAccount
 	} else {
@@ -10776,7 +10960,7 @@ func (properties *HDInsightProperties_STATUS) AssignProperties_To_HDInsightPrope
 		var administratorAccount storage.VirtualMachineSshCredentials_STATUS
 		err := properties.AdministratorAccount.AssignProperties_To_VirtualMachineSshCredentials_STATUS(&administratorAccount)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineSshCredentials_STATUS() to populate field AdministratorAccount")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualMachineSshCredentials_STATUS() to populate field AdministratorAccount")
 		}
 		destination.AdministratorAccount = &administratorAccount
 	} else {
@@ -10873,7 +11057,7 @@ func (properties *KubernetesProperties) ConvertToARM(resolved genruntime.Convert
 	if properties == nil {
 		return nil, nil
 	}
-	result := &KubernetesProperties_ARM{}
+	result := &arm.KubernetesProperties{}
 
 	// Set property "DefaultInstanceType":
 	if properties.DefaultInstanceType != nil {
@@ -10895,13 +11079,13 @@ func (properties *KubernetesProperties) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "InstanceTypes":
 	if properties.InstanceTypes != nil {
-		result.InstanceTypes = make(map[string]InstanceTypeSchema_ARM, len(properties.InstanceTypes))
+		result.InstanceTypes = make(map[string]arm.InstanceTypeSchema, len(properties.InstanceTypes))
 		for key, value := range properties.InstanceTypes {
 			value_ARM, err := value.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			result.InstanceTypes[key] = *value_ARM.(*InstanceTypeSchema_ARM)
+			result.InstanceTypes[key] = *value_ARM.(*arm.InstanceTypeSchema)
 		}
 	}
 
@@ -10915,7 +11099,7 @@ func (properties *KubernetesProperties) ConvertToARM(resolved genruntime.Convert
 	if properties.RelayConnectionString != nil {
 		relayConnectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.RelayConnectionString)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property RelayConnectionString")
+			return nil, eris.Wrap(err, "looking up secret for property RelayConnectionString")
 		}
 		relayConnectionString := relayConnectionStringSecret
 		result.RelayConnectionString = &relayConnectionString
@@ -10925,7 +11109,7 @@ func (properties *KubernetesProperties) ConvertToARM(resolved genruntime.Convert
 	if properties.ServiceBusConnectionString != nil {
 		serviceBusConnectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ServiceBusConnectionString)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property ServiceBusConnectionString")
+			return nil, eris.Wrap(err, "looking up secret for property ServiceBusConnectionString")
 		}
 		serviceBusConnectionString := serviceBusConnectionStringSecret
 		result.ServiceBusConnectionString = &serviceBusConnectionString
@@ -10941,14 +11125,14 @@ func (properties *KubernetesProperties) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *KubernetesProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KubernetesProperties_ARM{}
+	return &arm.KubernetesProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *KubernetesProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KubernetesProperties_ARM)
+	typedInput, ok := armInput.(arm.KubernetesProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KubernetesProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.KubernetesProperties, got %T", armInput)
 	}
 
 	// Set property "DefaultInstanceType":
@@ -11023,7 +11207,7 @@ func (properties *KubernetesProperties) AssignProperties_From_KubernetesProperti
 			var instanceType InstanceTypeSchema
 			err := instanceType.AssignProperties_From_InstanceTypeSchema(&instanceTypeValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_InstanceTypeSchema() to populate field InstanceTypes")
+				return eris.Wrap(err, "calling AssignProperties_From_InstanceTypeSchema() to populate field InstanceTypes")
 			}
 			instanceTypeMap[instanceTypeKey] = instanceType
 		}
@@ -11081,7 +11265,7 @@ func (properties *KubernetesProperties) AssignProperties_To_KubernetesProperties
 			var instanceType storage.InstanceTypeSchema
 			err := instanceTypeValue.AssignProperties_To_InstanceTypeSchema(&instanceType)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_InstanceTypeSchema() to populate field InstanceTypes")
+				return eris.Wrap(err, "calling AssignProperties_To_InstanceTypeSchema() to populate field InstanceTypes")
 			}
 			instanceTypeMap[instanceTypeKey] = instanceType
 		}
@@ -11148,14 +11332,14 @@ var _ genruntime.FromARMConverter = &KubernetesProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *KubernetesProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KubernetesProperties_STATUS_ARM{}
+	return &arm.KubernetesProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *KubernetesProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KubernetesProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.KubernetesProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KubernetesProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.KubernetesProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "DefaultInstanceType":
@@ -11226,7 +11410,7 @@ func (properties *KubernetesProperties_STATUS) AssignProperties_From_KubernetesP
 			var instanceType InstanceTypeSchema_STATUS
 			err := instanceType.AssignProperties_From_InstanceTypeSchema_STATUS(&instanceTypeValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_InstanceTypeSchema_STATUS() to populate field InstanceTypes")
+				return eris.Wrap(err, "calling AssignProperties_From_InstanceTypeSchema_STATUS() to populate field InstanceTypes")
 			}
 			instanceTypeMap[instanceTypeKey] = instanceType
 		}
@@ -11268,7 +11452,7 @@ func (properties *KubernetesProperties_STATUS) AssignProperties_To_KubernetesPro
 			var instanceType storage.InstanceTypeSchema_STATUS
 			err := instanceTypeValue.AssignProperties_To_InstanceTypeSchema_STATUS(&instanceType)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_InstanceTypeSchema_STATUS() to populate field InstanceTypes")
+				return eris.Wrap(err, "calling AssignProperties_To_InstanceTypeSchema_STATUS() to populate field InstanceTypes")
 			}
 			instanceTypeMap[instanceTypeKey] = instanceType
 		}
@@ -11352,7 +11536,7 @@ func (properties *SynapseSpark_Properties) ConvertToARM(resolved genruntime.Conv
 	if properties == nil {
 		return nil, nil
 	}
-	result := &SynapseSpark_Properties_ARM{}
+	result := &arm.SynapseSpark_Properties{}
 
 	// Set property "AutoPauseProperties":
 	if properties.AutoPauseProperties != nil {
@@ -11360,7 +11544,7 @@ func (properties *SynapseSpark_Properties) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		autoPauseProperties := *autoPauseProperties_ARM.(*AutoPauseProperties_ARM)
+		autoPauseProperties := *autoPauseProperties_ARM.(*arm.AutoPauseProperties)
 		result.AutoPauseProperties = &autoPauseProperties
 	}
 
@@ -11370,7 +11554,7 @@ func (properties *SynapseSpark_Properties) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		autoScaleProperties := *autoScaleProperties_ARM.(*AutoScaleProperties_ARM)
+		autoScaleProperties := *autoScaleProperties_ARM.(*arm.AutoScaleProperties)
 		result.AutoScaleProperties = &autoScaleProperties
 	}
 
@@ -11426,14 +11610,14 @@ func (properties *SynapseSpark_Properties) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *SynapseSpark_Properties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SynapseSpark_Properties_ARM{}
+	return &arm.SynapseSpark_Properties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *SynapseSpark_Properties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SynapseSpark_Properties_ARM)
+	typedInput, ok := armInput.(arm.SynapseSpark_Properties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SynapseSpark_Properties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SynapseSpark_Properties, got %T", armInput)
 	}
 
 	// Set property "AutoPauseProperties":
@@ -11518,7 +11702,7 @@ func (properties *SynapseSpark_Properties) AssignProperties_From_SynapseSpark_Pr
 		var autoPauseProperty AutoPauseProperties
 		err := autoPauseProperty.AssignProperties_From_AutoPauseProperties(source.AutoPauseProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoPauseProperties() to populate field AutoPauseProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoPauseProperties() to populate field AutoPauseProperties")
 		}
 		properties.AutoPauseProperties = &autoPauseProperty
 	} else {
@@ -11530,7 +11714,7 @@ func (properties *SynapseSpark_Properties) AssignProperties_From_SynapseSpark_Pr
 		var autoScaleProperty AutoScaleProperties
 		err := autoScaleProperty.AssignProperties_From_AutoScaleProperties(source.AutoScaleProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoScaleProperties() to populate field AutoScaleProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoScaleProperties() to populate field AutoScaleProperties")
 		}
 		properties.AutoScaleProperties = &autoScaleProperty
 	} else {
@@ -11575,7 +11759,7 @@ func (properties *SynapseSpark_Properties) AssignProperties_To_SynapseSpark_Prop
 		var autoPauseProperty storage.AutoPauseProperties
 		err := properties.AutoPauseProperties.AssignProperties_To_AutoPauseProperties(&autoPauseProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoPauseProperties() to populate field AutoPauseProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoPauseProperties() to populate field AutoPauseProperties")
 		}
 		destination.AutoPauseProperties = &autoPauseProperty
 	} else {
@@ -11587,7 +11771,7 @@ func (properties *SynapseSpark_Properties) AssignProperties_To_SynapseSpark_Prop
 		var autoScaleProperty storage.AutoScaleProperties
 		err := properties.AutoScaleProperties.AssignProperties_To_AutoScaleProperties(&autoScaleProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoScaleProperties() to populate field AutoScaleProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoScaleProperties() to populate field AutoScaleProperties")
 		}
 		destination.AutoScaleProperties = &autoScaleProperty
 	} else {
@@ -11665,14 +11849,14 @@ var _ genruntime.FromARMConverter = &SynapseSpark_Properties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *SynapseSpark_Properties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SynapseSpark_Properties_STATUS_ARM{}
+	return &arm.SynapseSpark_Properties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *SynapseSpark_Properties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SynapseSpark_Properties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SynapseSpark_Properties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SynapseSpark_Properties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SynapseSpark_Properties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AutoPauseProperties":
@@ -11757,7 +11941,7 @@ func (properties *SynapseSpark_Properties_STATUS) AssignProperties_From_SynapseS
 		var autoPauseProperty AutoPauseProperties_STATUS
 		err := autoPauseProperty.AssignProperties_From_AutoPauseProperties_STATUS(source.AutoPauseProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoPauseProperties_STATUS() to populate field AutoPauseProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoPauseProperties_STATUS() to populate field AutoPauseProperties")
 		}
 		properties.AutoPauseProperties = &autoPauseProperty
 	} else {
@@ -11769,7 +11953,7 @@ func (properties *SynapseSpark_Properties_STATUS) AssignProperties_From_SynapseS
 		var autoScaleProperty AutoScaleProperties_STATUS
 		err := autoScaleProperty.AssignProperties_From_AutoScaleProperties_STATUS(source.AutoScaleProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoScaleProperties_STATUS() to populate field AutoScaleProperties")
+			return eris.Wrap(err, "calling AssignProperties_From_AutoScaleProperties_STATUS() to populate field AutoScaleProperties")
 		}
 		properties.AutoScaleProperties = &autoScaleProperty
 	} else {
@@ -11814,7 +11998,7 @@ func (properties *SynapseSpark_Properties_STATUS) AssignProperties_To_SynapseSpa
 		var autoPauseProperty storage.AutoPauseProperties_STATUS
 		err := properties.AutoPauseProperties.AssignProperties_To_AutoPauseProperties_STATUS(&autoPauseProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoPauseProperties_STATUS() to populate field AutoPauseProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoPauseProperties_STATUS() to populate field AutoPauseProperties")
 		}
 		destination.AutoPauseProperties = &autoPauseProperty
 	} else {
@@ -11826,7 +12010,7 @@ func (properties *SynapseSpark_Properties_STATUS) AssignProperties_To_SynapseSpa
 		var autoScaleProperty storage.AutoScaleProperties_STATUS
 		err := properties.AutoScaleProperties.AssignProperties_To_AutoScaleProperties_STATUS(&autoScaleProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoScaleProperties_STATUS() to populate field AutoScaleProperties")
+			return eris.Wrap(err, "calling AssignProperties_To_AutoScaleProperties_STATUS() to populate field AutoScaleProperties")
 		}
 		destination.AutoScaleProperties = &autoScaleProperty
 	} else {
@@ -11934,7 +12118,7 @@ func (properties *VirtualMachine_Properties) ConvertToARM(resolved genruntime.Co
 	if properties == nil {
 		return nil, nil
 	}
-	result := &VirtualMachine_Properties_ARM{}
+	result := &arm.VirtualMachine_Properties{}
 
 	// Set property "Address":
 	if properties.Address != nil {
@@ -11948,7 +12132,7 @@ func (properties *VirtualMachine_Properties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		administratorAccount := *administratorAccount_ARM.(*VirtualMachineSshCredentials_ARM)
+		administratorAccount := *administratorAccount_ARM.(*arm.VirtualMachineSshCredentials)
 		result.AdministratorAccount = &administratorAccount
 	}
 
@@ -11974,14 +12158,14 @@ func (properties *VirtualMachine_Properties) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *VirtualMachine_Properties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachine_Properties_ARM{}
+	return &arm.VirtualMachine_Properties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *VirtualMachine_Properties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachine_Properties_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachine_Properties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Properties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachine_Properties, got %T", armInput)
 	}
 
 	// Set property "Address":
@@ -12034,7 +12218,7 @@ func (properties *VirtualMachine_Properties) AssignProperties_From_VirtualMachin
 		var administratorAccount VirtualMachineSshCredentials
 		err := administratorAccount.AssignProperties_From_VirtualMachineSshCredentials(source.AdministratorAccount)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineSshCredentials() to populate field AdministratorAccount")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualMachineSshCredentials() to populate field AdministratorAccount")
 		}
 		properties.AdministratorAccount = &administratorAccount
 	} else {
@@ -12072,7 +12256,7 @@ func (properties *VirtualMachine_Properties) AssignProperties_To_VirtualMachine_
 		var administratorAccount storage.VirtualMachineSshCredentials
 		err := properties.AdministratorAccount.AssignProperties_To_VirtualMachineSshCredentials(&administratorAccount)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineSshCredentials() to populate field AdministratorAccount")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualMachineSshCredentials() to populate field AdministratorAccount")
 		}
 		destination.AdministratorAccount = &administratorAccount
 	} else {
@@ -12125,14 +12309,14 @@ var _ genruntime.FromARMConverter = &VirtualMachine_Properties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *VirtualMachine_Properties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachine_Properties_STATUS_ARM{}
+	return &arm.VirtualMachine_Properties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *VirtualMachine_Properties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachine_Properties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachine_Properties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Properties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachine_Properties_STATUS, got %T", armInput)
 	}
 
 	// Set property "Address":
@@ -12185,7 +12369,7 @@ func (properties *VirtualMachine_Properties_STATUS) AssignProperties_From_Virtua
 		var administratorAccount VirtualMachineSshCredentials_STATUS
 		err := administratorAccount.AssignProperties_From_VirtualMachineSshCredentials_STATUS(source.AdministratorAccount)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineSshCredentials_STATUS() to populate field AdministratorAccount")
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualMachineSshCredentials_STATUS() to populate field AdministratorAccount")
 		}
 		properties.AdministratorAccount = &administratorAccount
 	} else {
@@ -12223,7 +12407,7 @@ func (properties *VirtualMachine_Properties_STATUS) AssignProperties_To_VirtualM
 		var administratorAccount storage.VirtualMachineSshCredentials_STATUS
 		err := properties.AdministratorAccount.AssignProperties_To_VirtualMachineSshCredentials_STATUS(&administratorAccount)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineSshCredentials_STATUS() to populate field AdministratorAccount")
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualMachineSshCredentials_STATUS() to populate field AdministratorAccount")
 		}
 		destination.AdministratorAccount = &administratorAccount
 	} else {
@@ -12364,7 +12548,7 @@ func (configuration *AksNetworkingConfiguration) ConvertToARM(resolved genruntim
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &AksNetworkingConfiguration_ARM{}
+	result := &arm.AksNetworkingConfiguration{}
 
 	// Set property "DnsServiceIP":
 	if configuration.DnsServiceIP != nil {
@@ -12398,14 +12582,14 @@ func (configuration *AksNetworkingConfiguration) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *AksNetworkingConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AksNetworkingConfiguration_ARM{}
+	return &arm.AksNetworkingConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *AksNetworkingConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AksNetworkingConfiguration_ARM)
+	typedInput, ok := armInput.(arm.AksNetworkingConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AksNetworkingConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AksNetworkingConfiguration, got %T", armInput)
 	}
 
 	// Set property "DnsServiceIP":
@@ -12541,14 +12725,14 @@ var _ genruntime.FromARMConverter = &AksNetworkingConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *AksNetworkingConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AksNetworkingConfiguration_STATUS_ARM{}
+	return &arm.AksNetworkingConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *AksNetworkingConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AksNetworkingConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AksNetworkingConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AksNetworkingConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AksNetworkingConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "DnsServiceIP":
@@ -12737,7 +12921,7 @@ func (properties *AutoPauseProperties) ConvertToARM(resolved genruntime.ConvertT
 	if properties == nil {
 		return nil, nil
 	}
-	result := &AutoPauseProperties_ARM{}
+	result := &arm.AutoPauseProperties{}
 
 	// Set property "DelayInMinutes":
 	if properties.DelayInMinutes != nil {
@@ -12755,14 +12939,14 @@ func (properties *AutoPauseProperties) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AutoPauseProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoPauseProperties_ARM{}
+	return &arm.AutoPauseProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AutoPauseProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoPauseProperties_ARM)
+	typedInput, ok := armInput.(arm.AutoPauseProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoPauseProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutoPauseProperties, got %T", armInput)
 	}
 
 	// Set property "DelayInMinutes":
@@ -12836,14 +13020,14 @@ var _ genruntime.FromARMConverter = &AutoPauseProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AutoPauseProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoPauseProperties_STATUS_ARM{}
+	return &arm.AutoPauseProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AutoPauseProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoPauseProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AutoPauseProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoPauseProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutoPauseProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "DelayInMinutes":
@@ -12921,7 +13105,7 @@ func (properties *AutoScaleProperties) ConvertToARM(resolved genruntime.ConvertT
 	if properties == nil {
 		return nil, nil
 	}
-	result := &AutoScaleProperties_ARM{}
+	result := &arm.AutoScaleProperties{}
 
 	// Set property "Enabled":
 	if properties.Enabled != nil {
@@ -12945,14 +13129,14 @@ func (properties *AutoScaleProperties) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AutoScaleProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoScaleProperties_ARM{}
+	return &arm.AutoScaleProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AutoScaleProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoScaleProperties_ARM)
+	typedInput, ok := armInput.(arm.AutoScaleProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoScaleProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutoScaleProperties, got %T", armInput)
 	}
 
 	// Set property "Enabled":
@@ -13039,14 +13223,14 @@ var _ genruntime.FromARMConverter = &AutoScaleProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AutoScaleProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoScaleProperties_STATUS_ARM{}
+	return &arm.AutoScaleProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AutoScaleProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoScaleProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AutoScaleProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoScaleProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutoScaleProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "Enabled":
@@ -13135,14 +13319,14 @@ var _ genruntime.FromARMConverter = &ComputeInstanceApplication_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (application *ComputeInstanceApplication_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ComputeInstanceApplication_STATUS_ARM{}
+	return &arm.ComputeInstanceApplication_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (application *ComputeInstanceApplication_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ComputeInstanceApplication_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ComputeInstanceApplication_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ComputeInstanceApplication_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ComputeInstanceApplication_STATUS, got %T", armInput)
 	}
 
 	// Set property "DisplayName":
@@ -13210,14 +13394,14 @@ var _ genruntime.FromARMConverter = &ComputeInstanceConnectivityEndpoints_STATUS
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoints *ComputeInstanceConnectivityEndpoints_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ComputeInstanceConnectivityEndpoints_STATUS_ARM{}
+	return &arm.ComputeInstanceConnectivityEndpoints_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoints *ComputeInstanceConnectivityEndpoints_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ComputeInstanceConnectivityEndpoints_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ComputeInstanceConnectivityEndpoints_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ComputeInstanceConnectivityEndpoints_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ComputeInstanceConnectivityEndpoints_STATUS, got %T", armInput)
 	}
 
 	// Set property "PrivateIpAddress":
@@ -13287,14 +13471,14 @@ var _ genruntime.FromARMConverter = &ComputeInstanceCreatedBy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (createdBy *ComputeInstanceCreatedBy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ComputeInstanceCreatedBy_STATUS_ARM{}
+	return &arm.ComputeInstanceCreatedBy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (createdBy *ComputeInstanceCreatedBy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ComputeInstanceCreatedBy_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ComputeInstanceCreatedBy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ComputeInstanceCreatedBy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ComputeInstanceCreatedBy_STATUS, got %T", armInput)
 	}
 
 	// Set property "UserId":
@@ -13376,14 +13560,14 @@ var _ genruntime.FromARMConverter = &ComputeInstanceLastOperation_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (operation *ComputeInstanceLastOperation_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ComputeInstanceLastOperation_STATUS_ARM{}
+	return &arm.ComputeInstanceLastOperation_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (operation *ComputeInstanceLastOperation_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ComputeInstanceLastOperation_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ComputeInstanceLastOperation_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ComputeInstanceLastOperation_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ComputeInstanceLastOperation_STATUS, got %T", armInput)
 	}
 
 	// Set property "OperationName":
@@ -13540,7 +13724,7 @@ func (settings *ComputeInstanceSshSettings) ConvertToARM(resolved genruntime.Con
 	if settings == nil {
 		return nil, nil
 	}
-	result := &ComputeInstanceSshSettings_ARM{}
+	result := &arm.ComputeInstanceSshSettings{}
 
 	// Set property "AdminPublicKey":
 	if settings.AdminPublicKey != nil {
@@ -13552,7 +13736,7 @@ func (settings *ComputeInstanceSshSettings) ConvertToARM(resolved genruntime.Con
 	if settings.SshPublicAccess != nil {
 		var temp string
 		temp = string(*settings.SshPublicAccess)
-		sshPublicAccess := ComputeInstanceSshSettings_SshPublicAccess_ARM(temp)
+		sshPublicAccess := arm.ComputeInstanceSshSettings_SshPublicAccess(temp)
 		result.SshPublicAccess = &sshPublicAccess
 	}
 	return result, nil
@@ -13560,14 +13744,14 @@ func (settings *ComputeInstanceSshSettings) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *ComputeInstanceSshSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ComputeInstanceSshSettings_ARM{}
+	return &arm.ComputeInstanceSshSettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *ComputeInstanceSshSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ComputeInstanceSshSettings_ARM)
+	typedInput, ok := armInput.(arm.ComputeInstanceSshSettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ComputeInstanceSshSettings_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ComputeInstanceSshSettings, got %T", armInput)
 	}
 
 	// Set property "AdminPublicKey":
@@ -13656,14 +13840,14 @@ var _ genruntime.FromARMConverter = &ComputeInstanceSshSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *ComputeInstanceSshSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ComputeInstanceSshSettings_STATUS_ARM{}
+	return &arm.ComputeInstanceSshSettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *ComputeInstanceSshSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ComputeInstanceSshSettings_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ComputeInstanceSshSettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ComputeInstanceSshSettings_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ComputeInstanceSshSettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "AdminPublicKey":
@@ -13816,14 +14000,14 @@ var _ genruntime.FromARMConverter = &ErrorDetail_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (detail *ErrorDetail_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ErrorDetail_STATUS_ARM{}
+	return &arm.ErrorDetail_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (detail *ErrorDetail_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ErrorDetail_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ErrorDetail_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ErrorDetail_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ErrorDetail_STATUS, got %T", armInput)
 	}
 
 	// Set property "AdditionalInfo":
@@ -13880,7 +14064,7 @@ func (detail *ErrorDetail_STATUS) AssignProperties_From_ErrorDetail_STATUS(sourc
 			var additionalInfo ErrorAdditionalInfo_STATUS
 			err := additionalInfo.AssignProperties_From_ErrorAdditionalInfo_STATUS(&additionalInfoItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
 			}
 			additionalInfoList[additionalInfoIndex] = additionalInfo
 		}
@@ -13901,7 +14085,7 @@ func (detail *ErrorDetail_STATUS) AssignProperties_From_ErrorDetail_STATUS(sourc
 			var detailLocal ErrorDetail_STATUS_Unrolled
 			err := detailLocal.AssignProperties_From_ErrorDetail_STATUS_Unrolled(&detailItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorDetail_STATUS_Unrolled() to populate field Details")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorDetail_STATUS_Unrolled() to populate field Details")
 			}
 			detailList[detailIndex] = detailLocal
 		}
@@ -13934,7 +14118,7 @@ func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destina
 			var additionalInfo storage.ErrorAdditionalInfo_STATUS
 			err := additionalInfoItem.AssignProperties_To_ErrorAdditionalInfo_STATUS(&additionalInfo)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
 			}
 			additionalInfoList[additionalInfoIndex] = additionalInfo
 		}
@@ -13955,7 +14139,7 @@ func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destina
 			var detailLocal storage.ErrorDetail_STATUS_Unrolled
 			err := detailItem.AssignProperties_To_ErrorDetail_STATUS_Unrolled(&detailLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorDetail_STATUS_Unrolled() to populate field Details")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorDetail_STATUS_Unrolled() to populate field Details")
 			}
 			detailList[detailIndex] = detailLocal
 		}
@@ -13997,7 +14181,7 @@ func (schema *InstanceTypeSchema) ConvertToARM(resolved genruntime.ConvertToARMR
 	if schema == nil {
 		return nil, nil
 	}
-	result := &InstanceTypeSchema_ARM{}
+	result := &arm.InstanceTypeSchema{}
 
 	// Set property "NodeSelector":
 	if schema.NodeSelector != nil {
@@ -14013,7 +14197,7 @@ func (schema *InstanceTypeSchema) ConvertToARM(resolved genruntime.ConvertToARMR
 		if err != nil {
 			return nil, err
 		}
-		resources := *resources_ARM.(*InstanceTypeSchema_Resources_ARM)
+		resources := *resources_ARM.(*arm.InstanceTypeSchema_Resources)
 		result.Resources = &resources
 	}
 	return result, nil
@@ -14021,14 +14205,14 @@ func (schema *InstanceTypeSchema) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (schema *InstanceTypeSchema) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InstanceTypeSchema_ARM{}
+	return &arm.InstanceTypeSchema{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (schema *InstanceTypeSchema) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InstanceTypeSchema_ARM)
+	typedInput, ok := armInput.(arm.InstanceTypeSchema)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InstanceTypeSchema_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.InstanceTypeSchema, got %T", armInput)
 	}
 
 	// Set property "NodeSelector":
@@ -14065,7 +14249,7 @@ func (schema *InstanceTypeSchema) AssignProperties_From_InstanceTypeSchema(sourc
 		var resource InstanceTypeSchema_Resources
 		err := resource.AssignProperties_From_InstanceTypeSchema_Resources(source.Resources)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_InstanceTypeSchema_Resources() to populate field Resources")
+			return eris.Wrap(err, "calling AssignProperties_From_InstanceTypeSchema_Resources() to populate field Resources")
 		}
 		schema.Resources = &resource
 	} else {
@@ -14089,7 +14273,7 @@ func (schema *InstanceTypeSchema) AssignProperties_To_InstanceTypeSchema(destina
 		var resource storage.InstanceTypeSchema_Resources
 		err := schema.Resources.AssignProperties_To_InstanceTypeSchema_Resources(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_InstanceTypeSchema_Resources() to populate field Resources")
+			return eris.Wrap(err, "calling AssignProperties_To_InstanceTypeSchema_Resources() to populate field Resources")
 		}
 		destination.Resources = &resource
 	} else {
@@ -14120,14 +14304,14 @@ var _ genruntime.FromARMConverter = &InstanceTypeSchema_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (schema *InstanceTypeSchema_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InstanceTypeSchema_STATUS_ARM{}
+	return &arm.InstanceTypeSchema_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (schema *InstanceTypeSchema_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InstanceTypeSchema_STATUS_ARM)
+	typedInput, ok := armInput.(arm.InstanceTypeSchema_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InstanceTypeSchema_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.InstanceTypeSchema_STATUS, got %T", armInput)
 	}
 
 	// Set property "NodeSelector":
@@ -14164,7 +14348,7 @@ func (schema *InstanceTypeSchema_STATUS) AssignProperties_From_InstanceTypeSchem
 		var resource InstanceTypeSchema_Resources_STATUS
 		err := resource.AssignProperties_From_InstanceTypeSchema_Resources_STATUS(source.Resources)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_InstanceTypeSchema_Resources_STATUS() to populate field Resources")
+			return eris.Wrap(err, "calling AssignProperties_From_InstanceTypeSchema_Resources_STATUS() to populate field Resources")
 		}
 		schema.Resources = &resource
 	} else {
@@ -14188,7 +14372,7 @@ func (schema *InstanceTypeSchema_STATUS) AssignProperties_To_InstanceTypeSchema_
 		var resource storage.InstanceTypeSchema_Resources_STATUS
 		err := schema.Resources.AssignProperties_To_InstanceTypeSchema_Resources_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_InstanceTypeSchema_Resources_STATUS() to populate field Resources")
+			return eris.Wrap(err, "calling AssignProperties_To_InstanceTypeSchema_Resources_STATUS() to populate field Resources")
 		}
 		destination.Resources = &resource
 	} else {
@@ -14231,14 +14415,14 @@ var _ genruntime.FromARMConverter = &NodeStateCounts_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (counts *NodeStateCounts_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NodeStateCounts_STATUS_ARM{}
+	return &arm.NodeStateCounts_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (counts *NodeStateCounts_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NodeStateCounts_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NodeStateCounts_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NodeStateCounts_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NodeStateCounts_STATUS, got %T", armInput)
 	}
 
 	// Set property "IdleNodeCount":
@@ -14353,7 +14537,7 @@ func (settings *PersonalComputeInstanceSettings) ConvertToARM(resolved genruntim
 	if settings == nil {
 		return nil, nil
 	}
-	result := &PersonalComputeInstanceSettings_ARM{}
+	result := &arm.PersonalComputeInstanceSettings{}
 
 	// Set property "AssignedUser":
 	if settings.AssignedUser != nil {
@@ -14361,7 +14545,7 @@ func (settings *PersonalComputeInstanceSettings) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		assignedUser := *assignedUser_ARM.(*AssignedUser_ARM)
+		assignedUser := *assignedUser_ARM.(*arm.AssignedUser)
 		result.AssignedUser = &assignedUser
 	}
 	return result, nil
@@ -14369,14 +14553,14 @@ func (settings *PersonalComputeInstanceSettings) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *PersonalComputeInstanceSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PersonalComputeInstanceSettings_ARM{}
+	return &arm.PersonalComputeInstanceSettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *PersonalComputeInstanceSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PersonalComputeInstanceSettings_ARM)
+	typedInput, ok := armInput.(arm.PersonalComputeInstanceSettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PersonalComputeInstanceSettings_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PersonalComputeInstanceSettings, got %T", armInput)
 	}
 
 	// Set property "AssignedUser":
@@ -14402,7 +14586,7 @@ func (settings *PersonalComputeInstanceSettings) AssignProperties_From_PersonalC
 		var assignedUser AssignedUser
 		err := assignedUser.AssignProperties_From_AssignedUser(source.AssignedUser)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AssignedUser() to populate field AssignedUser")
+			return eris.Wrap(err, "calling AssignProperties_From_AssignedUser() to populate field AssignedUser")
 		}
 		settings.AssignedUser = &assignedUser
 	} else {
@@ -14423,7 +14607,7 @@ func (settings *PersonalComputeInstanceSettings) AssignProperties_To_PersonalCom
 		var assignedUser storage.AssignedUser
 		err := settings.AssignedUser.AssignProperties_To_AssignedUser(&assignedUser)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AssignedUser() to populate field AssignedUser")
+			return eris.Wrap(err, "calling AssignProperties_To_AssignedUser() to populate field AssignedUser")
 		}
 		destination.AssignedUser = &assignedUser
 	} else {
@@ -14451,14 +14635,14 @@ var _ genruntime.FromARMConverter = &PersonalComputeInstanceSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *PersonalComputeInstanceSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PersonalComputeInstanceSettings_STATUS_ARM{}
+	return &arm.PersonalComputeInstanceSettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *PersonalComputeInstanceSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PersonalComputeInstanceSettings_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PersonalComputeInstanceSettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PersonalComputeInstanceSettings_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PersonalComputeInstanceSettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "AssignedUser":
@@ -14484,7 +14668,7 @@ func (settings *PersonalComputeInstanceSettings_STATUS) AssignProperties_From_Pe
 		var assignedUser AssignedUser_STATUS
 		err := assignedUser.AssignProperties_From_AssignedUser_STATUS(source.AssignedUser)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AssignedUser_STATUS() to populate field AssignedUser")
+			return eris.Wrap(err, "calling AssignProperties_From_AssignedUser_STATUS() to populate field AssignedUser")
 		}
 		settings.AssignedUser = &assignedUser
 	} else {
@@ -14505,7 +14689,7 @@ func (settings *PersonalComputeInstanceSettings_STATUS) AssignProperties_To_Pers
 		var assignedUser storage.AssignedUser_STATUS
 		err := settings.AssignedUser.AssignProperties_To_AssignedUser_STATUS(&assignedUser)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AssignedUser_STATUS() to populate field AssignedUser")
+			return eris.Wrap(err, "calling AssignProperties_To_AssignedUser_STATUS() to populate field AssignedUser")
 		}
 		destination.AssignedUser = &assignedUser
 	} else {
@@ -14537,7 +14721,7 @@ func (resourceId *ResourceId) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if resourceId == nil {
 		return nil, nil
 	}
-	result := &ResourceId_ARM{}
+	result := &arm.ResourceId{}
 
 	// Set property "Id":
 	if resourceId.Reference != nil {
@@ -14553,14 +14737,14 @@ func (resourceId *ResourceId) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resourceId *ResourceId) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceId_ARM{}
+	return &arm.ResourceId{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resourceId *ResourceId) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(ResourceId_ARM)
+	_, ok := armInput.(arm.ResourceId)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceId_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceId, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -14618,14 +14802,14 @@ var _ genruntime.FromARMConverter = &ResourceId_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resourceId *ResourceId_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceId_STATUS_ARM{}
+	return &arm.ResourceId_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resourceId *ResourceId_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceId_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ResourceId_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceId_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceId_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -14687,7 +14871,7 @@ func (settings *ScaleSettings) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if settings == nil {
 		return nil, nil
 	}
-	result := &ScaleSettings_ARM{}
+	result := &arm.ScaleSettings{}
 
 	// Set property "MaxNodeCount":
 	if settings.MaxNodeCount != nil {
@@ -14711,14 +14895,14 @@ func (settings *ScaleSettings) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *ScaleSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScaleSettings_ARM{}
+	return &arm.ScaleSettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *ScaleSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScaleSettings_ARM)
+	typedInput, ok := armInput.(arm.ScaleSettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScaleSettings_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScaleSettings, got %T", armInput)
 	}
 
 	// Set property "MaxNodeCount":
@@ -14800,14 +14984,14 @@ var _ genruntime.FromARMConverter = &ScaleSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *ScaleSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScaleSettings_STATUS_ARM{}
+	return &arm.ScaleSettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *ScaleSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScaleSettings_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ScaleSettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScaleSettings_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScaleSettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "MaxNodeCount":
@@ -14886,7 +15070,7 @@ func (scripts *SetupScripts) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if scripts == nil {
 		return nil, nil
 	}
-	result := &SetupScripts_ARM{}
+	result := &arm.SetupScripts{}
 
 	// Set property "Scripts":
 	if scripts.Scripts != nil {
@@ -14894,7 +15078,7 @@ func (scripts *SetupScripts) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		scripts1 := *scripts_ARM.(*ScriptsToExecute_ARM)
+		scripts1 := *scripts_ARM.(*arm.ScriptsToExecute)
 		result.Scripts = &scripts1
 	}
 	return result, nil
@@ -14902,14 +15086,14 @@ func (scripts *SetupScripts) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (scripts *SetupScripts) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SetupScripts_ARM{}
+	return &arm.SetupScripts{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (scripts *SetupScripts) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SetupScripts_ARM)
+	typedInput, ok := armInput.(arm.SetupScripts)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SetupScripts_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SetupScripts, got %T", armInput)
 	}
 
 	// Set property "Scripts":
@@ -14935,7 +15119,7 @@ func (scripts *SetupScripts) AssignProperties_From_SetupScripts(source *storage.
 		var script ScriptsToExecute
 		err := script.AssignProperties_From_ScriptsToExecute(source.Scripts)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScriptsToExecute() to populate field Scripts")
+			return eris.Wrap(err, "calling AssignProperties_From_ScriptsToExecute() to populate field Scripts")
 		}
 		scripts.Scripts = &script
 	} else {
@@ -14956,7 +15140,7 @@ func (scripts *SetupScripts) AssignProperties_To_SetupScripts(destination *stora
 		var script storage.ScriptsToExecute
 		err := scripts.Scripts.AssignProperties_To_ScriptsToExecute(&script)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScriptsToExecute() to populate field Scripts")
+			return eris.Wrap(err, "calling AssignProperties_To_ScriptsToExecute() to populate field Scripts")
 		}
 		destination.Scripts = &script
 	} else {
@@ -14984,14 +15168,14 @@ var _ genruntime.FromARMConverter = &SetupScripts_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (scripts *SetupScripts_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SetupScripts_STATUS_ARM{}
+	return &arm.SetupScripts_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (scripts *SetupScripts_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SetupScripts_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SetupScripts_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SetupScripts_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SetupScripts_STATUS, got %T", armInput)
 	}
 
 	// Set property "Scripts":
@@ -15017,7 +15201,7 @@ func (scripts *SetupScripts_STATUS) AssignProperties_From_SetupScripts_STATUS(so
 		var script ScriptsToExecute_STATUS
 		err := script.AssignProperties_From_ScriptsToExecute_STATUS(source.Scripts)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScriptsToExecute_STATUS() to populate field Scripts")
+			return eris.Wrap(err, "calling AssignProperties_From_ScriptsToExecute_STATUS() to populate field Scripts")
 		}
 		scripts.Scripts = &script
 	} else {
@@ -15038,7 +15222,7 @@ func (scripts *SetupScripts_STATUS) AssignProperties_To_SetupScripts_STATUS(dest
 		var script storage.ScriptsToExecute_STATUS
 		err := scripts.Scripts.AssignProperties_To_ScriptsToExecute_STATUS(&script)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScriptsToExecute_STATUS() to populate field Scripts")
+			return eris.Wrap(err, "calling AssignProperties_To_ScriptsToExecute_STATUS() to populate field Scripts")
 		}
 		destination.Scripts = &script
 	} else {
@@ -15084,13 +15268,13 @@ func (configuration *SslConfiguration) ConvertToARM(resolved genruntime.ConvertT
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &SslConfiguration_ARM{}
+	result := &arm.SslConfiguration{}
 
 	// Set property "Cert":
 	if configuration.Cert != nil {
 		certSecret, err := resolved.ResolvedSecrets.Lookup(*configuration.Cert)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Cert")
+			return nil, eris.Wrap(err, "looking up secret for property Cert")
 		}
 		cert := certSecret
 		result.Cert = &cert
@@ -15106,7 +15290,7 @@ func (configuration *SslConfiguration) ConvertToARM(resolved genruntime.ConvertT
 	if configuration.Key != nil {
 		keySecret, err := resolved.ResolvedSecrets.Lookup(*configuration.Key)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Key")
+			return nil, eris.Wrap(err, "looking up secret for property Key")
 		}
 		key := keySecret
 		result.Key = &key
@@ -15128,7 +15312,7 @@ func (configuration *SslConfiguration) ConvertToARM(resolved genruntime.ConvertT
 	if configuration.Status != nil {
 		var temp string
 		temp = string(*configuration.Status)
-		status := SslConfiguration_Status_ARM(temp)
+		status := arm.SslConfiguration_Status(temp)
 		result.Status = &status
 	}
 	return result, nil
@@ -15136,14 +15320,14 @@ func (configuration *SslConfiguration) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *SslConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SslConfiguration_ARM{}
+	return &arm.SslConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *SslConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SslConfiguration_ARM)
+	typedInput, ok := armInput.(arm.SslConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SslConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SslConfiguration, got %T", armInput)
 	}
 
 	// no assignment for property "Cert"
@@ -15299,14 +15483,14 @@ var _ genruntime.FromARMConverter = &SslConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *SslConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SslConfiguration_STATUS_ARM{}
+	return &arm.SslConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *SslConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SslConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SslConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SslConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SslConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "Cname":
@@ -15423,14 +15607,14 @@ var _ genruntime.FromARMConverter = &SystemService_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (service *SystemService_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemService_STATUS_ARM{}
+	return &arm.SystemService_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (service *SystemService_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemService_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemService_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemService_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemService_STATUS, got %T", armInput)
 	}
 
 	// Set property "PublicIpAddress":
@@ -15516,7 +15700,7 @@ func (credentials *UserAccountCredentials) ConvertToARM(resolved genruntime.Conv
 	if credentials == nil {
 		return nil, nil
 	}
-	result := &UserAccountCredentials_ARM{}
+	result := &arm.UserAccountCredentials{}
 
 	// Set property "AdminUserName":
 	if credentials.AdminUserName != nil {
@@ -15528,7 +15712,7 @@ func (credentials *UserAccountCredentials) ConvertToARM(resolved genruntime.Conv
 	if credentials.AdminUserPassword != nil {
 		adminUserPasswordSecret, err := resolved.ResolvedSecrets.Lookup(*credentials.AdminUserPassword)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property AdminUserPassword")
+			return nil, eris.Wrap(err, "looking up secret for property AdminUserPassword")
 		}
 		adminUserPassword := adminUserPasswordSecret
 		result.AdminUserPassword = &adminUserPassword
@@ -15538,7 +15722,7 @@ func (credentials *UserAccountCredentials) ConvertToARM(resolved genruntime.Conv
 	if credentials.AdminUserSshPublicKey != nil {
 		adminUserSshPublicKeySecret, err := resolved.ResolvedSecrets.Lookup(*credentials.AdminUserSshPublicKey)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property AdminUserSshPublicKey")
+			return nil, eris.Wrap(err, "looking up secret for property AdminUserSshPublicKey")
 		}
 		adminUserSshPublicKey := adminUserSshPublicKeySecret
 		result.AdminUserSshPublicKey = &adminUserSshPublicKey
@@ -15548,14 +15732,14 @@ func (credentials *UserAccountCredentials) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (credentials *UserAccountCredentials) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAccountCredentials_ARM{}
+	return &arm.UserAccountCredentials{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (credentials *UserAccountCredentials) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAccountCredentials_ARM)
+	typedInput, ok := armInput.(arm.UserAccountCredentials)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAccountCredentials_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserAccountCredentials, got %T", armInput)
 	}
 
 	// Set property "AdminUserName":
@@ -15643,14 +15827,14 @@ var _ genruntime.FromARMConverter = &UserAccountCredentials_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (credentials *UserAccountCredentials_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAccountCredentials_STATUS_ARM{}
+	return &arm.UserAccountCredentials_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (credentials *UserAccountCredentials_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAccountCredentials_STATUS_ARM)
+	typedInput, ok := armInput.(arm.UserAccountCredentials_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAccountCredentials_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserAccountCredentials_STATUS, got %T", armInput)
 	}
 
 	// Set property "AdminUserName":
@@ -15706,7 +15890,7 @@ func (image *VirtualMachineImage) ConvertToARM(resolved genruntime.ConvertToARMR
 	if image == nil {
 		return nil, nil
 	}
-	result := &VirtualMachineImage_ARM{}
+	result := &arm.VirtualMachineImage{}
 
 	// Set property "Id":
 	if image.Reference != nil {
@@ -15722,14 +15906,14 @@ func (image *VirtualMachineImage) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (image *VirtualMachineImage) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineImage_ARM{}
+	return &arm.VirtualMachineImage{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (image *VirtualMachineImage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(VirtualMachineImage_ARM)
+	_, ok := armInput.(arm.VirtualMachineImage)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineImage_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachineImage, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -15787,14 +15971,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineImage_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (image *VirtualMachineImage_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineImage_STATUS_ARM{}
+	return &arm.VirtualMachineImage_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (image *VirtualMachineImage_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineImage_STATUS_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachineImage_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineImage_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachineImage_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -15858,13 +16042,13 @@ func (credentials *VirtualMachineSshCredentials) ConvertToARM(resolved genruntim
 	if credentials == nil {
 		return nil, nil
 	}
-	result := &VirtualMachineSshCredentials_ARM{}
+	result := &arm.VirtualMachineSshCredentials{}
 
 	// Set property "Password":
 	if credentials.Password != nil {
 		passwordSecret, err := resolved.ResolvedSecrets.Lookup(*credentials.Password)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Password")
+			return nil, eris.Wrap(err, "looking up secret for property Password")
 		}
 		password := passwordSecret
 		result.Password = &password
@@ -15874,7 +16058,7 @@ func (credentials *VirtualMachineSshCredentials) ConvertToARM(resolved genruntim
 	if credentials.PrivateKeyData != nil {
 		privateKeyDataSecret, err := resolved.ResolvedSecrets.Lookup(*credentials.PrivateKeyData)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property PrivateKeyData")
+			return nil, eris.Wrap(err, "looking up secret for property PrivateKeyData")
 		}
 		privateKeyData := privateKeyDataSecret
 		result.PrivateKeyData = &privateKeyData
@@ -15884,7 +16068,7 @@ func (credentials *VirtualMachineSshCredentials) ConvertToARM(resolved genruntim
 	if credentials.PublicKeyData != nil {
 		publicKeyDataSecret, err := resolved.ResolvedSecrets.Lookup(*credentials.PublicKeyData)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property PublicKeyData")
+			return nil, eris.Wrap(err, "looking up secret for property PublicKeyData")
 		}
 		publicKeyData := publicKeyDataSecret
 		result.PublicKeyData = &publicKeyData
@@ -15900,14 +16084,14 @@ func (credentials *VirtualMachineSshCredentials) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (credentials *VirtualMachineSshCredentials) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineSshCredentials_ARM{}
+	return &arm.VirtualMachineSshCredentials{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (credentials *VirtualMachineSshCredentials) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineSshCredentials_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachineSshCredentials)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineSshCredentials_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachineSshCredentials, got %T", armInput)
 	}
 
 	// no assignment for property "Password"
@@ -16013,14 +16197,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineSshCredentials_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (credentials *VirtualMachineSshCredentials_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineSshCredentials_STATUS_ARM{}
+	return &arm.VirtualMachineSshCredentials_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (credentials *VirtualMachineSshCredentials_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineSshCredentials_STATUS_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachineSshCredentials_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineSshCredentials_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachineSshCredentials_STATUS, got %T", armInput)
 	}
 
 	// Set property "Username":
@@ -16080,7 +16264,7 @@ func (user *AssignedUser) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if user == nil {
 		return nil, nil
 	}
-	result := &AssignedUser_ARM{}
+	result := &arm.AssignedUser{}
 
 	// Set property "ObjectId":
 	if user.ObjectId != nil {
@@ -16098,14 +16282,14 @@ func (user *AssignedUser) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (user *AssignedUser) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AssignedUser_ARM{}
+	return &arm.AssignedUser{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (user *AssignedUser) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AssignedUser_ARM)
+	typedInput, ok := armInput.(arm.AssignedUser)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AssignedUser_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AssignedUser, got %T", armInput)
 	}
 
 	// Set property "ObjectId":
@@ -16172,14 +16356,14 @@ var _ genruntime.FromARMConverter = &AssignedUser_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (user *AssignedUser_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AssignedUser_STATUS_ARM{}
+	return &arm.AssignedUser_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (user *AssignedUser_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AssignedUser_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AssignedUser_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AssignedUser_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AssignedUser_STATUS, got %T", armInput)
 	}
 
 	// Set property "ObjectId":
@@ -16319,14 +16503,14 @@ var _ genruntime.FromARMConverter = &ErrorAdditionalInfo_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (info *ErrorAdditionalInfo_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ErrorAdditionalInfo_STATUS_ARM{}
+	return &arm.ErrorAdditionalInfo_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (info *ErrorAdditionalInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ErrorAdditionalInfo_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ErrorAdditionalInfo_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ErrorAdditionalInfo_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ErrorAdditionalInfo_STATUS, got %T", armInput)
 	}
 
 	// Set property "Info":
@@ -16420,14 +16604,14 @@ var _ genruntime.FromARMConverter = &ErrorDetail_STATUS_Unrolled{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (unrolled *ErrorDetail_STATUS_Unrolled) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ErrorDetail_STATUS_Unrolled_ARM{}
+	return &arm.ErrorDetail_STATUS_Unrolled{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (unrolled *ErrorDetail_STATUS_Unrolled) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ErrorDetail_STATUS_Unrolled_ARM)
+	typedInput, ok := armInput.(arm.ErrorDetail_STATUS_Unrolled)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ErrorDetail_STATUS_Unrolled_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ErrorDetail_STATUS_Unrolled, got %T", armInput)
 	}
 
 	// Set property "AdditionalInfo":
@@ -16474,7 +16658,7 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_From_ErrorDetail_S
 			var additionalInfo ErrorAdditionalInfo_STATUS
 			err := additionalInfo.AssignProperties_From_ErrorAdditionalInfo_STATUS(&additionalInfoItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
+				return eris.Wrap(err, "calling AssignProperties_From_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
 			}
 			additionalInfoList[additionalInfoIndex] = additionalInfo
 		}
@@ -16510,7 +16694,7 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_To_ErrorDetail_STA
 			var additionalInfo storage.ErrorAdditionalInfo_STATUS
 			err := additionalInfoItem.AssignProperties_To_ErrorAdditionalInfo_STATUS(&additionalInfo)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
+				return eris.Wrap(err, "calling AssignProperties_To_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
 			}
 			additionalInfoList[additionalInfoIndex] = additionalInfo
 		}
@@ -16554,7 +16738,7 @@ func (resources *InstanceTypeSchema_Resources) ConvertToARM(resolved genruntime.
 	if resources == nil {
 		return nil, nil
 	}
-	result := &InstanceTypeSchema_Resources_ARM{}
+	result := &arm.InstanceTypeSchema_Resources{}
 
 	// Set property "Limits":
 	if resources.Limits != nil {
@@ -16576,14 +16760,14 @@ func (resources *InstanceTypeSchema_Resources) ConvertToARM(resolved genruntime.
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resources *InstanceTypeSchema_Resources) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InstanceTypeSchema_Resources_ARM{}
+	return &arm.InstanceTypeSchema_Resources{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resources *InstanceTypeSchema_Resources) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InstanceTypeSchema_Resources_ARM)
+	typedInput, ok := armInput.(arm.InstanceTypeSchema_Resources)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InstanceTypeSchema_Resources_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.InstanceTypeSchema_Resources, got %T", armInput)
 	}
 
 	// Set property "Limits":
@@ -16653,14 +16837,14 @@ var _ genruntime.FromARMConverter = &InstanceTypeSchema_Resources_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resources *InstanceTypeSchema_Resources_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InstanceTypeSchema_Resources_STATUS_ARM{}
+	return &arm.InstanceTypeSchema_Resources_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resources *InstanceTypeSchema_Resources_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InstanceTypeSchema_Resources_STATUS_ARM)
+	typedInput, ok := armInput.(arm.InstanceTypeSchema_Resources_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InstanceTypeSchema_Resources_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.InstanceTypeSchema_Resources_STATUS, got %T", armInput)
 	}
 
 	// Set property "Limits":
@@ -16734,7 +16918,7 @@ func (execute *ScriptsToExecute) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if execute == nil {
 		return nil, nil
 	}
-	result := &ScriptsToExecute_ARM{}
+	result := &arm.ScriptsToExecute{}
 
 	// Set property "CreationScript":
 	if execute.CreationScript != nil {
@@ -16742,7 +16926,7 @@ func (execute *ScriptsToExecute) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		creationScript := *creationScript_ARM.(*ScriptReference_ARM)
+		creationScript := *creationScript_ARM.(*arm.ScriptReference)
 		result.CreationScript = &creationScript
 	}
 
@@ -16752,7 +16936,7 @@ func (execute *ScriptsToExecute) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		startupScript := *startupScript_ARM.(*ScriptReference_ARM)
+		startupScript := *startupScript_ARM.(*arm.ScriptReference)
 		result.StartupScript = &startupScript
 	}
 	return result, nil
@@ -16760,14 +16944,14 @@ func (execute *ScriptsToExecute) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (execute *ScriptsToExecute) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScriptsToExecute_ARM{}
+	return &arm.ScriptsToExecute{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (execute *ScriptsToExecute) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScriptsToExecute_ARM)
+	typedInput, ok := armInput.(arm.ScriptsToExecute)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScriptsToExecute_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScriptsToExecute, got %T", armInput)
 	}
 
 	// Set property "CreationScript":
@@ -16804,7 +16988,7 @@ func (execute *ScriptsToExecute) AssignProperties_From_ScriptsToExecute(source *
 		var creationScript ScriptReference
 		err := creationScript.AssignProperties_From_ScriptReference(source.CreationScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScriptReference() to populate field CreationScript")
+			return eris.Wrap(err, "calling AssignProperties_From_ScriptReference() to populate field CreationScript")
 		}
 		execute.CreationScript = &creationScript
 	} else {
@@ -16816,7 +17000,7 @@ func (execute *ScriptsToExecute) AssignProperties_From_ScriptsToExecute(source *
 		var startupScript ScriptReference
 		err := startupScript.AssignProperties_From_ScriptReference(source.StartupScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScriptReference() to populate field StartupScript")
+			return eris.Wrap(err, "calling AssignProperties_From_ScriptReference() to populate field StartupScript")
 		}
 		execute.StartupScript = &startupScript
 	} else {
@@ -16837,7 +17021,7 @@ func (execute *ScriptsToExecute) AssignProperties_To_ScriptsToExecute(destinatio
 		var creationScript storage.ScriptReference
 		err := execute.CreationScript.AssignProperties_To_ScriptReference(&creationScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScriptReference() to populate field CreationScript")
+			return eris.Wrap(err, "calling AssignProperties_To_ScriptReference() to populate field CreationScript")
 		}
 		destination.CreationScript = &creationScript
 	} else {
@@ -16849,7 +17033,7 @@ func (execute *ScriptsToExecute) AssignProperties_To_ScriptsToExecute(destinatio
 		var startupScript storage.ScriptReference
 		err := execute.StartupScript.AssignProperties_To_ScriptReference(&startupScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScriptReference() to populate field StartupScript")
+			return eris.Wrap(err, "calling AssignProperties_To_ScriptReference() to populate field StartupScript")
 		}
 		destination.StartupScript = &startupScript
 	} else {
@@ -16880,14 +17064,14 @@ var _ genruntime.FromARMConverter = &ScriptsToExecute_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (execute *ScriptsToExecute_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScriptsToExecute_STATUS_ARM{}
+	return &arm.ScriptsToExecute_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (execute *ScriptsToExecute_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScriptsToExecute_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ScriptsToExecute_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScriptsToExecute_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScriptsToExecute_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreationScript":
@@ -16924,7 +17108,7 @@ func (execute *ScriptsToExecute_STATUS) AssignProperties_From_ScriptsToExecute_S
 		var creationScript ScriptReference_STATUS
 		err := creationScript.AssignProperties_From_ScriptReference_STATUS(source.CreationScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScriptReference_STATUS() to populate field CreationScript")
+			return eris.Wrap(err, "calling AssignProperties_From_ScriptReference_STATUS() to populate field CreationScript")
 		}
 		execute.CreationScript = &creationScript
 	} else {
@@ -16936,7 +17120,7 @@ func (execute *ScriptsToExecute_STATUS) AssignProperties_From_ScriptsToExecute_S
 		var startupScript ScriptReference_STATUS
 		err := startupScript.AssignProperties_From_ScriptReference_STATUS(source.StartupScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScriptReference_STATUS() to populate field StartupScript")
+			return eris.Wrap(err, "calling AssignProperties_From_ScriptReference_STATUS() to populate field StartupScript")
 		}
 		execute.StartupScript = &startupScript
 	} else {
@@ -16957,7 +17141,7 @@ func (execute *ScriptsToExecute_STATUS) AssignProperties_To_ScriptsToExecute_STA
 		var creationScript storage.ScriptReference_STATUS
 		err := execute.CreationScript.AssignProperties_To_ScriptReference_STATUS(&creationScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScriptReference_STATUS() to populate field CreationScript")
+			return eris.Wrap(err, "calling AssignProperties_To_ScriptReference_STATUS() to populate field CreationScript")
 		}
 		destination.CreationScript = &creationScript
 	} else {
@@ -16969,7 +17153,7 @@ func (execute *ScriptsToExecute_STATUS) AssignProperties_To_ScriptsToExecute_STA
 		var startupScript storage.ScriptReference_STATUS
 		err := execute.StartupScript.AssignProperties_To_ScriptReference_STATUS(&startupScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScriptReference_STATUS() to populate field StartupScript")
+			return eris.Wrap(err, "calling AssignProperties_To_ScriptReference_STATUS() to populate field StartupScript")
 		}
 		destination.StartupScript = &startupScript
 	} else {
@@ -17040,7 +17224,7 @@ func (reference *ScriptReference) ConvertToARM(resolved genruntime.ConvertToARMR
 	if reference == nil {
 		return nil, nil
 	}
-	result := &ScriptReference_ARM{}
+	result := &arm.ScriptReference{}
 
 	// Set property "ScriptArguments":
 	if reference.ScriptArguments != nil {
@@ -17070,14 +17254,14 @@ func (reference *ScriptReference) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *ScriptReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScriptReference_ARM{}
+	return &arm.ScriptReference{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *ScriptReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScriptReference_ARM)
+	typedInput, ok := armInput.(arm.ScriptReference)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScriptReference_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScriptReference, got %T", armInput)
 	}
 
 	// Set property "ScriptArguments":
@@ -17174,14 +17358,14 @@ var _ genruntime.FromARMConverter = &ScriptReference_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *ScriptReference_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScriptReference_STATUS_ARM{}
+	return &arm.ScriptReference_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *ScriptReference_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScriptReference_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ScriptReference_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScriptReference_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScriptReference_STATUS, got %T", armInput)
 	}
 
 	// Set property "ScriptArguments":

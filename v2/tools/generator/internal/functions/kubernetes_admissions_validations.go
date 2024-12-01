@@ -9,7 +9,7 @@ import (
 	"go/token"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -60,7 +60,7 @@ func validateResourceReferences(
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	fn := &astbuilder.FuncDetails{
@@ -119,7 +119,7 @@ func validateOwnerReferences(
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating receiver type expression for %s", receiver)
+		return nil, eris.Wrapf(err, "creating receiver type expression for %s", receiver)
 	}
 
 	admissionPkg := codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission)
@@ -165,14 +165,14 @@ func validateWriteOncePropertiesFunction(
 	receiverIdent := resourceFn.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating receiver type expression for %s", receiver)
+		return nil, eris.Wrapf(err, "creating receiver type expression for %s", receiver)
 	}
 
 	runtimePackage := codeGenerationContext.MustGetImportedPackageName(astmodel.APIMachineryRuntimeReference)
 
 	body, err := validateWriteOncePropertiesFunctionBody(receiver, codeGenerationContext, receiverIdent)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating function body for %s", methodName)
+		return nil, eris.Wrapf(err, "creating function body for %s", methodName)
 	}
 
 	fn := &astbuilder.FuncDetails{
@@ -209,7 +209,7 @@ func validateWriteOncePropertiesFunctionBody(
 
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating receiver type expression for %s", receiver)
+		return nil, eris.Wrapf(err, "creating receiver type expression for %s", receiver)
 	}
 
 	cast := astbuilder.TypeAssert(obj, dst.NewIdent("old"), astbuilder.PointerTo(receiverExpr))
@@ -238,7 +238,7 @@ func validateOptionalConfigMapReferences(
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating receiver type expression")
+		return nil, eris.Wrap(err, "creating receiver type expression")
 	}
 
 	fn := &astbuilder.FuncDetails{

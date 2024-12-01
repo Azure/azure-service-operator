@@ -15,7 +15,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/go-openapi/spec"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"golang.org/x/exp/slices"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
@@ -70,6 +70,7 @@ type ResourceDefinition struct {
 	ARMType             string // e.g. Microsoft.XYZ/resourceThings
 	ARMURI              string
 	SupportedOperations set.Set[astmodel.ResourceOperation]
+	Scope               astmodel.ResourceScope
 	// TODO: use ARMURI for generating Resource URIs (only used for documentation & ownership at the moment)
 }
 
@@ -87,19 +88,19 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 
 	err := extractor.ExtractResourceTypes(ctx, scanner, result)
 	if err != nil {
-		return SwaggerTypes{}, errors.Wrap(err, "error extracting resource types")
+		return SwaggerTypes{}, eris.Wrap(err, "error extracting resource types")
 	}
 
 	err = extractor.ExtractOneOfTypes(ctx, scanner, result)
 	if err != nil {
-		return SwaggerTypes{}, errors.Wrap(err, "error extracting one-of option types")
+		return SwaggerTypes{}, eris.Wrap(err, "error extracting one-of option types")
 	}
 
 	for _, def := range scanner.Definitions() {
 		// Add additional type definitions required by the resources
 		if existingDef, ok := result.OtherDefinitions[def.Name()]; ok {
 			if !astmodel.TypeEquals(existingDef.Type(), def.Type()) {
-				return SwaggerTypes{}, errors.Errorf("type already defined differently: %s\nwas %s is %s\ndiff:\n%s",
+				return SwaggerTypes{}, eris.Errorf("type already defined differently: %s\nwas %s is %s\ndiff:\n%s",
 					def.Name(),
 					existingDef.Type(),
 					def.Type(),
@@ -222,11 +223,11 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 	} else {
 		resourceSpec, err = scanner.RunHandlerForSchema(ctx, *specSchema)
 		if err != nil {
-			if errors.Is(err, context.Canceled) {
+			if eris.Is(err, context.Canceled) {
 				return err
 			}
 
-			return errors.Wrapf(err, "unable to produce spec type for resource %s", resourceName)
+			return eris.Wrapf(err, "unable to produce spec type for resource %s", resourceName)
 		}
 	}
 
@@ -251,18 +252,18 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 	} else {
 		resourceStatus, err = scanner.RunHandlerForSchema(ctx, *statusSchema)
 		if err != nil {
-			if errors.Is(err, context.Canceled) {
+			if eris.Is(err, context.Canceled) {
 				return err
 			}
 
-			return errors.Wrapf(err, "unable to produce status type for resource %s", resourceName)
+			return eris.Wrapf(err, "unable to produce status type for resource %s", resourceName)
 		}
 	}
 
 	if existingResource, ok := result.ResourceDefinitions[resourceName]; ok {
 		// TODO: check status types as well
 		if !astmodel.TypeEquals(existingResource.SpecType, resourceSpec) {
-			return errors.Errorf("resource already defined differently: %s\ndiff:\n%s",
+			return eris.Errorf("resource already defined differently: %s\ndiff:\n%s",
 				resourceName,
 				astmodel.DiffTypes(existingResource.SpecType, resourceSpec))
 		}
@@ -278,6 +279,7 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 			ARMType:             armType,
 			ARMURI:              operationPath,
 			SupportedOperations: supportedOperations,
+			Scope:               categorizeResourceScope(operationPath),
 		}
 	}
 
@@ -314,7 +316,7 @@ func (extractor *SwaggerTypeExtractor) ExtractOneOfTypes(
 		// Run a handler to generate our type
 		t, err := scanner.RunHandlerForSchema(ctx, schema)
 		if err != nil {
-			errs = append(errs, errors.Wrapf(err, "unable to produce type for definition %s", name))
+			errs = append(errs, eris.Wrapf(err, "unable to produce type for definition %s", name))
 			continue
 		}
 
@@ -759,7 +761,7 @@ func (extractor *SwaggerTypeExtractor) expandAndCanonicalizePath(
 func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPath string) (string, astmodel.InternalTypeName, error) {
 	group, resource, name, err := extractor.inferNameFromURLPath(operationPath)
 	if err != nil {
-		return "", astmodel.InternalTypeName{}, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
+		return "", astmodel.InternalTypeName{}, eris.Wrapf(err, "unable to infer name from path %q", operationPath)
 	}
 
 	return group + "/" + resource, astmodel.MakeInternalTypeName(extractor.outputPackage, name), nil
@@ -781,7 +783,7 @@ func (extractor *SwaggerTypeExtractor) extractResourceSubpath(operationPath stri
 		}
 	}
 
-	return "", "", errors.Errorf("no group name (‘Microsoft…’) found in %s", operationPath)
+	return "", "", eris.Errorf("no group name (‘Microsoft…’) found in %s", operationPath)
 }
 
 // inferNameFromURLPath attempts to extract a name from a Swagger operation path
@@ -820,7 +822,7 @@ func (extractor *SwaggerTypeExtractor) inferNameFromURLPath(operationPath string
 			// this is a URL parameter
 			if skippedLast {
 				// this means two {parameters} in a row
-				return "", "", "", errors.Errorf("multiple parameters in path")
+				return "", "", "", eris.Errorf("multiple parameters in path")
 			}
 
 			skippedLast = true
@@ -832,7 +834,7 @@ func (extractor *SwaggerTypeExtractor) inferNameFromURLPath(operationPath string
 	}
 
 	if len(nameParts) == 0 {
-		return "", "", "", errors.Errorf("couldn’t infer name")
+		return "", "", "", eris.Errorf("couldn’t infer name")
 	}
 
 	resource := strings.Join(nameParts, "/") // capture this before uppercasing/singularizing
@@ -952,4 +954,40 @@ func makeSchemaFromSimpleSchemaParam(param schemaAndValidations) *spec.Schema {
 	schema = schema.WithValidations(param.Validations())
 
 	return schema
+}
+
+var (
+	resourceGroupScopeRegex = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/resourcegroups/[^/]+/.*`)
+	locationScopeRegex      = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/.*`)
+	extensionScopePrefixes  = []string{
+		"/{scope}/",
+		"/{resourceUri}/",
+	}
+)
+
+func categorizeResourceScope(armURI string) astmodel.ResourceScope {
+	// this is a bit of a hack, eventually we should have better scope support.
+	// at the moment we assume that a resource is an extension if it has a specific prefix
+	for _, prefix := range extensionScopePrefixes {
+		// Case-insensitive prefix check, as befits a heuristic
+		if strings.EqualFold(prefix, armURI[:len(prefix)]) {
+			return astmodel.ResourceScopeExtension
+		}
+	}
+
+	// Assume that a resource is an extension if armURI contains more than 1 provider:
+	if strings.Count(armURI, "providers") > 1 {
+		return astmodel.ResourceScopeExtension
+	}
+
+	if resourceGroupScopeRegex.MatchString(armURI) {
+		return astmodel.ResourceScopeResourceGroup
+	}
+
+	if locationScopeRegex.MatchString(armURI) {
+		return astmodel.ResourceScopeLocation
+	}
+
+	// TODO: Not currently possible to generate a resource with scope Location, we should fix that
+	return astmodel.ResourceScopeTenant
 }

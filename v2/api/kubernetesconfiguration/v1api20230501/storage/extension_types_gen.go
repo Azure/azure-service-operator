@@ -9,8 +9,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -50,10 +52,30 @@ func (extension *Extension) SetConditions(conditions conditions.Conditions) {
 	extension.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesExporter = &Extension{}
+var _ configmaps.Exporter = &Extension{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (extension *Extension) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (extension *Extension) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if extension.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return extension.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Extension{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (extension *Extension) SecretDestinationExpressions() []*core.DestinationExpression {
+	if extension.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return extension.Spec.OperatorSpec.SecretExpressions
+}
+
+var _ genruntime.KubernetesConfigExporter = &Extension{}
+
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (extension *Extension) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(extension.Namespace)
 	if extension.Spec.OperatorSpec != nil && extension.Spec.OperatorSpec.ConfigMaps != nil {
 		if extension.Status.AksAssignedIdentity != nil {
@@ -117,6 +139,10 @@ func (extension *Extension) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (extension *Extension) Owner() *genruntime.ResourceReference {
+	if extension.Spec.Owner == nil {
+		return nil
+	}
+
 	return extension.Spec.Owner.AsResourceReference()
 }
 
@@ -132,7 +158,7 @@ func (extension *Extension) SetStatus(status genruntime.ConvertibleStatus) error
 	var st Extension_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	extension.Status = st
@@ -201,7 +227,7 @@ var _ genruntime.ConvertibleSpec = &Extension_Spec{}
 // ConvertSpecFrom populates our Extension_Spec from the provided source
 func (extension *Extension_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == extension {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(extension)
@@ -210,7 +236,7 @@ func (extension *Extension_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 // ConvertSpecTo populates the provided destination from our Extension_Spec
 func (extension *Extension_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == extension {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(extension)
@@ -249,7 +275,7 @@ var _ genruntime.ConvertibleStatus = &Extension_STATUS{}
 // ConvertStatusFrom populates our Extension_STATUS from the provided source
 func (extension *Extension_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == extension {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(extension)
@@ -258,7 +284,7 @@ func (extension *Extension_STATUS) ConvertStatusFrom(source genruntime.Convertib
 // ConvertStatusTo populates the provided destination from our Extension_STATUS
 func (extension *Extension_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == extension {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(extension)
@@ -292,8 +318,10 @@ type Extension_Properties_AksAssignedIdentity_STATUS struct {
 // Storage version of v1api20230501.ExtensionOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ExtensionOperatorSpec struct {
-	ConfigMaps  *ExtensionOperatorConfigMaps `json:"configMaps,omitempty"`
-	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	ConfigMaps           *ExtensionOperatorConfigMaps  `json:"configMaps,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230501.ExtensionStatus_STATUS

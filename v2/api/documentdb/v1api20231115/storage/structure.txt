@@ -92,8 +92,10 @@ DatabaseAccount: Resource
 │   ├── MinimalTlsVersion: *string
 │   ├── NetworkAclBypass: *string
 │   ├── NetworkAclBypassResourceReferences: genruntime.ResourceReference[]
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (6 properties)
 │   │       ├── DocumentEndpoint: *genruntime.SecretDestination
 │   │       ├── PrimaryMasterKey: *genruntime.SecretDestination
@@ -292,9 +294,13 @@ DatabaseAccount: Resource
         └── ProvisioningState: *string
 MongodbDatabase: Resource
 ├── Owner: documentdb/v1api20231115.DatabaseAccount
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Options: *Object (3 properties)
 │   │   ├── AutoscaleSettings: *Object (2 properties)
 │   │   │   ├── MaxThroughput: *int
@@ -340,9 +346,13 @@ MongodbDatabase: Resource
     └── Type: *string
 MongodbDatabaseCollection: Resource
 ├── Owner: documentdb/v1api20231115.MongodbDatabase
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Options: *Object (3 properties)
 │   │   ├── AutoscaleSettings: *Object (2 properties)
 │   │   │   ├── MaxThroughput: *int
@@ -410,8 +420,12 @@ MongodbDatabaseCollection: Resource
     └── Type: *string
 MongodbDatabaseCollectionThroughputSetting: Resource
 ├── Owner: documentdb/v1api20231115.MongodbDatabaseCollection
-├── Spec: Object (6 properties)
+├── Spec: Object (7 properties)
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -458,8 +472,12 @@ MongodbDatabaseCollectionThroughputSetting: Resource
     └── Type: *string
 MongodbDatabaseThroughputSetting: Resource
 ├── Owner: documentdb/v1api20231115.MongodbDatabase
-├── Spec: Object (6 properties)
+├── Spec: Object (7 properties)
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -506,9 +524,13 @@ MongodbDatabaseThroughputSetting: Resource
     └── Type: *string
 SqlDatabase: Resource
 ├── Owner: documentdb/v1api20231115.DatabaseAccount
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Options: *Object (3 properties)
 │   │   ├── AutoscaleSettings: *Object (2 properties)
 │   │   │   ├── MaxThroughput: *int
@@ -556,9 +578,13 @@ SqlDatabase: Resource
     └── Type: *string
 SqlDatabaseContainer: Resource
 ├── Owner: documentdb/v1api20231115.SqlDatabase
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Options: *Object (3 properties)
 │   │   ├── AutoscaleSettings: *Object (2 properties)
 │   │   │   ├── MaxThroughput: *int
@@ -711,9 +737,13 @@ SqlDatabaseContainer: Resource
     └── Type: *string
 SqlDatabaseContainerStoredProcedure: Resource
 ├── Owner: documentdb/v1api20231115.SqlDatabaseContainer
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Options: *Object (3 properties)
 │   │   ├── AutoscaleSettings: *Object (2 properties)
 │   │   │   ├── MaxThroughput: *int
@@ -745,8 +775,12 @@ SqlDatabaseContainerStoredProcedure: Resource
     └── Type: *string
 SqlDatabaseContainerThroughputSetting: Resource
 ├── Owner: documentdb/v1api20231115.SqlDatabaseContainer
-├── Spec: Object (6 properties)
+├── Spec: Object (7 properties)
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -793,9 +827,13 @@ SqlDatabaseContainerThroughputSetting: Resource
     └── Type: *string
 SqlDatabaseContainerTrigger: Resource
 ├── Owner: documentdb/v1api20231115.SqlDatabaseContainer
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Options: *Object (3 properties)
 │   │   ├── AutoscaleSettings: *Object (2 properties)
 │   │   │   ├── MaxThroughput: *int
@@ -831,9 +869,13 @@ SqlDatabaseContainerTrigger: Resource
     └── Type: *string
 SqlDatabaseContainerUserDefinedFunction: Resource
 ├── Owner: documentdb/v1api20231115.SqlDatabaseContainer
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Options: *Object (3 properties)
 │   │   ├── AutoscaleSettings: *Object (2 properties)
 │   │   │   ├── MaxThroughput: *int
@@ -865,8 +907,12 @@ SqlDatabaseContainerUserDefinedFunction: Resource
     └── Type: *string
 SqlDatabaseThroughputSetting: Resource
 ├── Owner: documentdb/v1api20231115.SqlDatabase
-├── Spec: Object (6 properties)
+├── Spec: Object (7 properties)
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -913,8 +959,12 @@ SqlDatabaseThroughputSetting: Resource
     └── Type: *string
 SqlRoleAssignment: Resource
 ├── Owner: documentdb/v1api20231115.DatabaseAccount
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PrincipalId: *string

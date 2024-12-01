@@ -75,24 +75,24 @@ func ServersIPV6FirewallRuleGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForServersIPV6FirewallRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServersIPV6FirewallRule(gens map[string]gopter.Gen) {
-	gens["Spec"] = Servers_Ipv6FirewallRule_SpecGenerator()
-	gens["Status"] = Servers_Ipv6FirewallRule_STATUSGenerator()
+	gens["Spec"] = ServersIPV6FirewallRule_SpecGenerator()
+	gens["Status"] = ServersIPV6FirewallRule_STATUSGenerator()
 }
 
-func Test_Servers_Ipv6FirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersIPV6FirewallRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_Ipv6FirewallRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_Ipv6FirewallRule_STATUS, Servers_Ipv6FirewallRule_STATUSGenerator()))
+		"Round trip of ServersIPV6FirewallRuleOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersIPV6FirewallRuleOperatorSpec, ServersIPV6FirewallRuleOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_Ipv6FirewallRule_STATUS runs a test to see if a specific instance of Servers_Ipv6FirewallRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_Ipv6FirewallRule_STATUS(subject Servers_Ipv6FirewallRule_STATUS) string {
+// RunJSONSerializationTestForServersIPV6FirewallRuleOperatorSpec runs a test to see if a specific instance of ServersIPV6FirewallRuleOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersIPV6FirewallRuleOperatorSpec(subject ServersIPV6FirewallRuleOperatorSpec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -100,7 +100,7 @@ func RunJSONSerializationTestForServers_Ipv6FirewallRule_STATUS(subject Servers_
 	}
 
 	// Deserialize back into memory
-	var actual Servers_Ipv6FirewallRule_STATUS
+	var actual ServersIPV6FirewallRuleOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -118,25 +118,80 @@ func RunJSONSerializationTestForServers_Ipv6FirewallRule_STATUS(subject Servers_
 	return ""
 }
 
-// Generator of Servers_Ipv6FirewallRule_STATUS instances for property testing - lazily instantiated by
-// Servers_Ipv6FirewallRule_STATUSGenerator()
-var servers_Ipv6FirewallRule_STATUSGenerator gopter.Gen
+// Generator of ServersIPV6FirewallRuleOperatorSpec instances for property testing - lazily instantiated by
+// ServersIPV6FirewallRuleOperatorSpecGenerator()
+var serversIPV6FirewallRuleOperatorSpecGenerator gopter.Gen
 
-// Servers_Ipv6FirewallRule_STATUSGenerator returns a generator of Servers_Ipv6FirewallRule_STATUS instances for property testing.
-func Servers_Ipv6FirewallRule_STATUSGenerator() gopter.Gen {
-	if servers_Ipv6FirewallRule_STATUSGenerator != nil {
-		return servers_Ipv6FirewallRule_STATUSGenerator
+// ServersIPV6FirewallRuleOperatorSpecGenerator returns a generator of ServersIPV6FirewallRuleOperatorSpec instances for property testing.
+func ServersIPV6FirewallRuleOperatorSpecGenerator() gopter.Gen {
+	if serversIPV6FirewallRuleOperatorSpecGenerator != nil {
+		return serversIPV6FirewallRuleOperatorSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_Ipv6FirewallRule_STATUS(generators)
-	servers_Ipv6FirewallRule_STATUSGenerator = gen.Struct(reflect.TypeOf(Servers_Ipv6FirewallRule_STATUS{}), generators)
+	serversIPV6FirewallRuleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServersIPV6FirewallRuleOperatorSpec{}), generators)
 
-	return servers_Ipv6FirewallRule_STATUSGenerator
+	return serversIPV6FirewallRuleOperatorSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_Ipv6FirewallRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_Ipv6FirewallRule_STATUS(gens map[string]gopter.Gen) {
+func Test_ServersIPV6FirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServersIPV6FirewallRule_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersIPV6FirewallRule_STATUS, ServersIPV6FirewallRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServersIPV6FirewallRule_STATUS runs a test to see if a specific instance of ServersIPV6FirewallRule_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersIPV6FirewallRule_STATUS(subject ServersIPV6FirewallRule_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServersIPV6FirewallRule_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServersIPV6FirewallRule_STATUS instances for property testing - lazily instantiated by
+// ServersIPV6FirewallRule_STATUSGenerator()
+var serversIPV6FirewallRule_STATUSGenerator gopter.Gen
+
+// ServersIPV6FirewallRule_STATUSGenerator returns a generator of ServersIPV6FirewallRule_STATUS instances for property testing.
+func ServersIPV6FirewallRule_STATUSGenerator() gopter.Gen {
+	if serversIPV6FirewallRule_STATUSGenerator != nil {
+		return serversIPV6FirewallRule_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServersIPV6FirewallRule_STATUS(generators)
+	serversIPV6FirewallRule_STATUSGenerator = gen.Struct(reflect.TypeOf(ServersIPV6FirewallRule_STATUS{}), generators)
+
+	return serversIPV6FirewallRule_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServersIPV6FirewallRule_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersIPV6FirewallRule_STATUS(gens map[string]gopter.Gen) {
 	gens["EndIPv6Address"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -144,20 +199,20 @@ func AddIndependentPropertyGeneratorsForServers_Ipv6FirewallRule_STATUS(gens map
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Servers_Ipv6FirewallRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersIPV6FirewallRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_Ipv6FirewallRule_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_Ipv6FirewallRule_Spec, Servers_Ipv6FirewallRule_SpecGenerator()))
+		"Round trip of ServersIPV6FirewallRule_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersIPV6FirewallRule_Spec, ServersIPV6FirewallRule_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_Ipv6FirewallRule_Spec runs a test to see if a specific instance of Servers_Ipv6FirewallRule_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_Ipv6FirewallRule_Spec(subject Servers_Ipv6FirewallRule_Spec) string {
+// RunJSONSerializationTestForServersIPV6FirewallRule_Spec runs a test to see if a specific instance of ServersIPV6FirewallRule_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersIPV6FirewallRule_Spec(subject ServersIPV6FirewallRule_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -165,7 +220,7 @@ func RunJSONSerializationTestForServers_Ipv6FirewallRule_Spec(subject Servers_Ip
 	}
 
 	// Deserialize back into memory
-	var actual Servers_Ipv6FirewallRule_Spec
+	var actual ServersIPV6FirewallRule_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -183,27 +238,41 @@ func RunJSONSerializationTestForServers_Ipv6FirewallRule_Spec(subject Servers_Ip
 	return ""
 }
 
-// Generator of Servers_Ipv6FirewallRule_Spec instances for property testing - lazily instantiated by
-// Servers_Ipv6FirewallRule_SpecGenerator()
-var servers_Ipv6FirewallRule_SpecGenerator gopter.Gen
+// Generator of ServersIPV6FirewallRule_Spec instances for property testing - lazily instantiated by
+// ServersIPV6FirewallRule_SpecGenerator()
+var serversIPV6FirewallRule_SpecGenerator gopter.Gen
 
-// Servers_Ipv6FirewallRule_SpecGenerator returns a generator of Servers_Ipv6FirewallRule_Spec instances for property testing.
-func Servers_Ipv6FirewallRule_SpecGenerator() gopter.Gen {
-	if servers_Ipv6FirewallRule_SpecGenerator != nil {
-		return servers_Ipv6FirewallRule_SpecGenerator
+// ServersIPV6FirewallRule_SpecGenerator returns a generator of ServersIPV6FirewallRule_Spec instances for property testing.
+// We first initialize serversIPV6FirewallRule_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServersIPV6FirewallRule_SpecGenerator() gopter.Gen {
+	if serversIPV6FirewallRule_SpecGenerator != nil {
+		return serversIPV6FirewallRule_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_Ipv6FirewallRule_Spec(generators)
-	servers_Ipv6FirewallRule_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_Ipv6FirewallRule_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForServersIPV6FirewallRule_Spec(generators)
+	serversIPV6FirewallRule_SpecGenerator = gen.Struct(reflect.TypeOf(ServersIPV6FirewallRule_Spec{}), generators)
 
-	return servers_Ipv6FirewallRule_SpecGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServersIPV6FirewallRule_Spec(generators)
+	AddRelatedPropertyGeneratorsForServersIPV6FirewallRule_Spec(generators)
+	serversIPV6FirewallRule_SpecGenerator = gen.Struct(reflect.TypeOf(ServersIPV6FirewallRule_Spec{}), generators)
+
+	return serversIPV6FirewallRule_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_Ipv6FirewallRule_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_Ipv6FirewallRule_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServersIPV6FirewallRule_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersIPV6FirewallRule_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["EndIPv6Address"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["StartIPv6Address"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForServersIPV6FirewallRule_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServersIPV6FirewallRule_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(ServersIPV6FirewallRuleOperatorSpecGenerator())
 }

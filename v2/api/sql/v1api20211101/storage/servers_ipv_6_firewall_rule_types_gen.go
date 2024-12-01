@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -28,8 +31,8 @@ import (
 type ServersIPV6FirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Ipv6FirewallRule_Spec   `json:"spec,omitempty"`
-	Status            Servers_Ipv6FirewallRule_STATUS `json:"status,omitempty"`
+	Spec              ServersIPV6FirewallRule_Spec   `json:"spec,omitempty"`
+	Status            ServersIPV6FirewallRule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersIPV6FirewallRule{}
@@ -42,6 +45,26 @@ func (rule *ServersIPV6FirewallRule) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (rule *ServersIPV6FirewallRule) SetConditions(conditions conditions.Conditions) {
 	rule.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ServersIPV6FirewallRule{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (rule *ServersIPV6FirewallRule) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersIPV6FirewallRule{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (rule *ServersIPV6FirewallRule) SecretDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ServersIPV6FirewallRule{}
@@ -87,11 +110,15 @@ func (rule *ServersIPV6FirewallRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *ServersIPV6FirewallRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_Ipv6FirewallRule_STATUS{}
+	return &ServersIPV6FirewallRule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
 func (rule *ServersIPV6FirewallRule) Owner() *genruntime.ResourceReference {
+	if rule.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
 	return rule.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -99,16 +126,16 @@ func (rule *ServersIPV6FirewallRule) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (rule *ServersIPV6FirewallRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_Ipv6FirewallRule_STATUS); ok {
+	if st, ok := status.(*ServersIPV6FirewallRule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_Ipv6FirewallRule_STATUS
+	var st ServersIPV6FirewallRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	rule.Status = st
@@ -138,13 +165,14 @@ type ServersIPV6FirewallRuleList struct {
 	Items           []ServersIPV6FirewallRule `json:"items"`
 }
 
-// Storage version of v1api20211101.Servers_Ipv6FirewallRule_Spec
-type Servers_Ipv6FirewallRule_Spec struct {
+// Storage version of v1api20211101.ServersIPV6FirewallRule_Spec
+type ServersIPV6FirewallRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	EndIPv6Address  *string `json:"endIPv6Address,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string                               `json:"azureName,omitempty"`
+	EndIPv6Address  *string                              `json:"endIPv6Address,omitempty"`
+	OperatorSpec    *ServersIPV6FirewallRuleOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -155,28 +183,28 @@ type Servers_Ipv6FirewallRule_Spec struct {
 	StartIPv6Address *string                            `json:"startIPv6Address,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_Ipv6FirewallRule_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersIPV6FirewallRule_Spec{}
 
-// ConvertSpecFrom populates our Servers_Ipv6FirewallRule_Spec from the provided source
-func (rule *Servers_Ipv6FirewallRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our ServersIPV6FirewallRule_Spec from the provided source
+func (rule *ServersIPV6FirewallRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(rule)
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_Ipv6FirewallRule_Spec
-func (rule *Servers_Ipv6FirewallRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our ServersIPV6FirewallRule_Spec
+func (rule *ServersIPV6FirewallRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(rule)
 }
 
-// Storage version of v1api20211101.Servers_Ipv6FirewallRule_STATUS
-type Servers_Ipv6FirewallRule_STATUS struct {
+// Storage version of v1api20211101.ServersIPV6FirewallRule_STATUS
+type ServersIPV6FirewallRule_STATUS struct {
 	Conditions       []conditions.Condition `json:"conditions,omitempty"`
 	EndIPv6Address   *string                `json:"endIPv6Address,omitempty"`
 	Id               *string                `json:"id,omitempty"`
@@ -186,24 +214,32 @@ type Servers_Ipv6FirewallRule_STATUS struct {
 	Type             *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_Ipv6FirewallRule_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersIPV6FirewallRule_STATUS{}
 
-// ConvertStatusFrom populates our Servers_Ipv6FirewallRule_STATUS from the provided source
-func (rule *Servers_Ipv6FirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ServersIPV6FirewallRule_STATUS from the provided source
+func (rule *ServersIPV6FirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(rule)
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_Ipv6FirewallRule_STATUS
-func (rule *Servers_Ipv6FirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ServersIPV6FirewallRule_STATUS
+func (rule *ServersIPV6FirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(rule)
+}
+
+// Storage version of v1api20211101.ServersIPV6FirewallRuleOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersIPV6FirewallRuleOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {
