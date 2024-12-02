@@ -227,7 +227,7 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 		// ARM ID. That check was removed as with ARM ID-based owners the subscription the resource is being
 		// deployed to is pretty obvious (it's directly in the ID) so we felt the chances of mistakenly deploying to
 		// an incorrect subscription with kube-based ownership.
-		
+
 		// Rooting to an ARM ID means that some of the resourceTypes may not actually be included explicitly in our
 		// hierarchy (because they're instead in the ARM ID itself). We filter these out of resourceTypes by
 		// removing types that aren't included in the hierarchy.
