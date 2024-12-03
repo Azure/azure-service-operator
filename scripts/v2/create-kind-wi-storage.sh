@@ -41,13 +41,13 @@ RESOURCE_GROUP="${PREFIX}-rg-wi$(openssl rand -hex 6)"
 # If somehow the files already exist then the resource also already exists and we shouldn't do anything
 if [ -f "$DIR/azure/oidcid.txt" ]; then
   # Nothing to do, no existing rg
-  echo "Using existing OIDC key $(cat ${DIR}/azure/oidcid.txt)"
+  echo "[INF] Using existing OIDC key $(cat ${DIR}/azure/oidcid.txt)"
   exit 0
 fi
 
 if [ -f "$DIR/azure/rg.txt" ]; then
    # Nothing to do, no existing rg
-  echo "Using existing RG $(cat ${DIR}/azure/rg.txt)"
+  echo "[INF] Using existing RG $(cat ${DIR}/azure/rg.txt)"
   exit 0
 fi
 
@@ -65,12 +65,17 @@ openssl genrsa -out "$DIR/sa.key" 2048
 openssl rsa -in "$DIR/sa.key" -pubout -out "$DIR/sa.pub"
 
 if [ -z "${KIND_OIDC_STORAGE_ACCOUNT_SUBSCRIPTION-}" ]; then
+  echo "[DBG] KIND_OIDC_STORAGE_ACCOUNT_SUBSCRIPTION is not set, fetching the current subscription"
   KIND_OIDC_STORAGE_ACCOUNT_SUBSCRIPTION=$(az account show --output tsv --query id)
 fi
 
+echo "[DBG] KIND_OIDC_STORAGE_ACCOUNT_SUBSCRIPTION: ${KIND_OIDC_STORAGE_ACCOUNT_SUBSCRIPTION}"
+
 # There's already a trailing / so we don't need to add one between the web endpoint and the OIDC Identifier
+echo "[DBG] Retrieving OIDC issuer URL"
 ISSUER_URL="$(az storage account show --subscription ${KIND_OIDC_STORAGE_ACCOUNT_SUBSCRIPTION} --name "${KIND_OIDC_STORAGE_ACCOUNT}" -o json | jq -r .primaryEndpoints.web)${OIDC_IDENTIFIER}"
 echo "${ISSUER_URL}" > "${DIR}/azure/saissuer.txt"
+echo "[DBG] OIDC issuer URL: ${ISSUER_URL}"
 
 cat <<EOF > "${DIR}/openid-configuration.json"
 {
@@ -90,7 +95,14 @@ EOF
 
 CREATION_TIME="$(date --utc +"%Y-%m-%dT%H:%M:%SZ")"
 
+echo "[INF] Creating resource group ${RESOURCE_GROUP}"
 az group create -l westus -n "${RESOURCE_GROUP}" --tags "CreatedAt=${CREATION_TIME}"
+
+echo "[INF] Uploading OIDC configuration to storage account"
+echo "[DBG] KIND_OIDC_STORAGE_ACCOUNT: ${KIND_OIDC_STORAGE_ACCOUNT}"
+echo "[DBG] KIND_OIDC_STORAGE_CONTAINER: ${KIND_OIDC_STORAGE_CONTAINER}"
+echo "[DBG] OIDC_IDENTIFIER: ${OIDC_IDENTIFIER}"
+echo "[DBG] CREATION_TIME: ${CREATION_TIME}"
 
 az storage blob upload \
   --account-name "${KIND_OIDC_STORAGE_ACCOUNT}" \
