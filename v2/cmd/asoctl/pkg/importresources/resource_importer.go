@@ -152,8 +152,8 @@ func (ri *ResourceImporter) startDeduplicator(
 	uniqueResources := make(chan ImportableResource)
 
 	waitgroup.Go(func() {
-		running := true
-		for running {
+	run:
+		for {
 			// Dequeue from our internal buffer if needed
 			if current == nil && len(queue) > 0 {
 				current = queue[0]
@@ -170,7 +170,7 @@ func (ri *ResourceImporter) startDeduplicator(
 			case rsrc, ok := <-resources:
 				if !ok {
 					// Channel closed
-					running = false
+					break run
 				} else if seen.Contains(rsrc.ID()) {
 					// We've already seen this resource (we've already queued it for import)
 					// So remove it from our count of work to be done
@@ -235,7 +235,6 @@ func (ri *ResourceImporter) startWorkers(
 // pending is a source of resources to import.
 // completed is where we send the result of a successful import.
 // failed is where we send the error from a failed import.
-// done is a channel we signal when we're finished.
 func (ri *ResourceImporter) importWorker(
 	ctx context.Context,
 	pending <-chan ImportableResource,
