@@ -300,7 +300,7 @@ func Test_ResourceHierarchy_OwnerARMIDAnotherWrongType_ReturnsError(t *testing.T
 	g.Expect(err).To(MatchError("expected owner ARM ID to be for a resource group, but was \"Microsoft.Storage/cats\""))
 }
 
-func Test_ResourceHierarchy_OwnerARMIDWrongSubscription_ReturnsError(t *testing.T) {
+func Test_ResourceHierarchy_OwnerARMIDDistinctSubscription_ReturnsSuccess(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -313,7 +313,7 @@ func Test_ResourceHierarchy_OwnerARMIDWrongSubscription_ReturnsError(t *testing.
 	hierarchy := resolver.ResourceHierarchy{resource}
 
 	_, err := hierarchy.FullyQualifiedARMID("00000000-0000-0000-0000-000000000000")
-	g.Expect(err).To(MatchError(fmt.Sprintf("resource subscription \"00000000-0000-0000-0000-000000000000\" does not match parent subscription \"%s\"", uuid)))
+	g.Expect(err).To(BeNil())
 }
 
 func Test_ResourceHierarchy_OwnerARMIDWithExtension(t *testing.T) {
