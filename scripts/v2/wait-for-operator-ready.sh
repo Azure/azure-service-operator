@@ -28,27 +28,31 @@ function all_crds_have_cabundle() {
   for crd in $(kubectl get crd -l "app.kubernetes.io/name == azure-service-operator" -o name); do
     cabundle=$(kubectl get "$crd" -o jsonpath='{.spec.conversion.webhook.clientConfig.caBundle}')
     if [ -z "$cabundle" ]; then
-      echo "$crd has no CA bundle"
+      echo "[INF] $crd has no CA bundle"
       return 1
     fi
+
+    echo "[INF] $crd has CA bundle"
   done
   return 0
 }
 
 function wait_for_crds_cabundle() {
+  echo "[INF] Waiting for all CRDs to have CA bundle..."
   until all_crds_have_cabundle; do
     sleep 5
   done
 }
 
 function wait_for_crds_established() {
-    until kubectl wait --for=condition=established --timeout=1m crd -l 'app.kubernetes.io/name == azure-service-operator'; do
+    until kubectl wait --for=condition=established --timeout=3m crd -l 'app.kubernetes.io/name == azure-service-operator'; do
+      echo "[INF] CRDs not yet established, retrying..."
       sleep 5
     done
 }
 
 if [[ "$CHECK_ESTABLISHED" -eq 1 ]]; then
-  echo "Waiting for CRDs established..."
+  echo "[INF] Waiting for CRDs to be established..."
   # This has to be a timeout wrapping kubectl wait as we're racing with CRDs being added, and kubectl wait will fail if nothing matches the -l filter
   export -f wait_for_crds_established
   timeout 2m bash -c wait_for_crds_established
@@ -60,7 +64,7 @@ kubectl wait --for=condition=ready --timeout=3m pod -n "$OPERATOR_NAMESPACE" -l 
 echo "Waiting for CRD cabundle..."
 export -f all_crds_have_cabundle
 export -f wait_for_crds_cabundle
-timeout 2m bash -c wait_for_crds_cabundle
+timeout 8m bash -c wait_for_crds_cabundle
 
 echo "The operator is ready"
 exit 0

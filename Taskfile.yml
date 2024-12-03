@@ -102,8 +102,9 @@ tasks:
     desc: Ensure all code is formatted
     dir: v2
     cmds:
-      - golangci-lint run --fix ./... --timeout 5m  # I don't know why fix doesn't use the configured timeout
-      - gofumpt -l -w .
+      - task: asoctl:format-code
+      - task: generator:format-code
+      - task: controller:format-code
 
   build-docs-site:
     cmds:
@@ -162,6 +163,13 @@ tasks:
             INPUT_FILE: '{{.TEST_OUT}}/asoctl-unit-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/asoctl-unit-tests.md'
       - go test ./... -tags=noexit -race -covermode atomic -coverprofile='{{.TEST_OUT}}/asoctl-coverage.out' -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > '{{.TEST_OUT}}/asoctl-unit-tests.json'
+
+  asoctl:format-code:
+    desc: Ensure all code for asoctl is formatted
+    dir: v2/cmd/asoctl/
+    cmds:
+      - golangci-lint run --fix ./... --timeout 5m  --verbose
+      - gofumpt -l -w .
 
   asoctl:lint:
     desc: Run {{.ASOCTL_APP}} fast lint checks.
@@ -246,6 +254,13 @@ tasks:
     cmds:
       - go test ./... -run ^TestGolden -update
 
+  generator:format-code:
+    desc: Ensure all code for the code generator is formatted
+    dir: v2/tools/generator
+    cmds:
+      - golangci-lint run --fix ./... --timeout 5m  --verbose
+      - gofumpt -l -w .
+
   generator:lint:
     desc: Run {{.GENERATOR_APP}} fast lint checks.
     dir: '{{.GENERATOR_ROOT}}'
@@ -296,6 +311,13 @@ tasks:
       - task: controller:test-integration-ci-live
       - task: basic-checks
       - task: controller:lint
+
+  controller:format-code:
+    desc: Ensure all code for the controller is formatted
+    dir: v2
+    cmds:
+      - golangci-lint run --fix ./... --timeout 5m --verbose
+      - gofumpt -l -w .
 
   controller:lint:
     desc: Run fast lint checks.
@@ -844,9 +866,12 @@ tasks:
     deps: 
       - az-login
     cmds:
+      - echo "Cleaning {{.KIND_WORKLOAD_IDENTITY_PATH}}"
       - "rm -rf {{.KIND_WORKLOAD_IDENTITY_PATH}}"
       - "mkdir -p {{.KIND_WORKLOAD_IDENTITY_PATH}}"
+      - echo "Calling create-kind-wi-storage.sh"
       - "{{.SCRIPTS_ROOT}}/create-kind-wi-storage.sh -d {{.KIND_WORKLOAD_IDENTITY_PATH}} -p {{.TEST_LIVE_RESOURCE_PREFIX}}"
+      - echo "Calling kind-with-registry.sh"
       - "export KIND_CLUSTER_NAME=asov2-wi && \
             export SERVICE_ACCOUNT_ISSUER=$(cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/saissuer.txt) && \
             {{.SCRIPTS_ROOT}}/kind-with-registry.sh"
