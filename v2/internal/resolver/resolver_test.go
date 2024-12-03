@@ -11,12 +11,12 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
@@ -410,7 +410,7 @@ func Test_ResolveResourceHierarchy_ReturnsReferenceNotFound(t *testing.T) {
 	_, err = test.resolver.ResolveResourceHierarchy(ctx, b)
 	g.Expect(err).To(HaveOccurred())
 
-	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&core.ReferenceNotFound{}))
+	g.Expect(eris.Unwrap(err)).To(BeAssignableToTypeOf(&core.ReferenceNotFound{}))
 }
 
 func Test_ResolveReference_FindsReference(t *testing.T) {
@@ -570,7 +570,7 @@ func Test_ResolveSecrets_ReturnsReferenceNotFound(t *testing.T) {
 
 	_, err = test.resolver.ResolveSecretReferences(ctx, set.Make(namespacedRef))
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&core.SecretNotFound{}))
+	g.Expect(eris.Unwrap(err)).To(BeAssignableToTypeOf(&core.SecretNotFound{}))
 }
 
 func Test_ResolveSecretMaps_ReturnsExpectedSecretValues(t *testing.T) {
@@ -639,7 +639,7 @@ func Test_ResolveSecretMaps_ReturnsReferenceNotFound(t *testing.T) {
 
 	_, err = test.resolver.ResolveSecretMapReferences(ctx, set.Make(namespacedRef))
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&core.SecretNotFound{}))
+	g.Expect(eris.Unwrap(err)).To(BeAssignableToTypeOf(&core.SecretNotFound{}))
 }
 
 func Test_ResolveConfigMaps_ReturnsExpectedValue(t *testing.T) {
@@ -703,7 +703,7 @@ func Test_ResolveConfigMaps_ReturnsReferenceNotFound(t *testing.T) {
 
 	_, err = test.resolver.ResolveConfigMapReferences(ctx, set.Make(namespacedRef))
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&core.ConfigMapNotFound{}))
+	g.Expect(eris.Unwrap(err)).To(BeAssignableToTypeOf(&core.ConfigMapNotFound{}))
 }
 
 func createTestScheme() *runtime.Scheme {
