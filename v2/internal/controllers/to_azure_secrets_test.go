@@ -47,10 +47,14 @@ func Test_MissingSecret_ReturnsError_ReconcilesSuccessfullyWhenSecretAdded(t *te
 	vm := newVirtualMachine20201201(tc, rg, networkInterface, secretRef)
 
 	tc.CreateResourceAndWaitForState(vm, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
+
 	// We expect the ready condition to include details of the error
-	tc.Expect(vm.Status.Conditions[0].Reason).To(Equal(conditions.ReasonSecretNotFound.Name))
-	tc.Expect(vm.Status.Conditions[0].Message).To(
-		ContainSubstring("failed resolving secret references: %s/%s does not exist", tc.Namespace, secretRef.Name))
+	reason := vm.Status.Conditions[0].Reason
+	tc.Expect(reason).To(Equal(conditions.ReasonSecretNotFound.Name))
+
+	message := vm.Status.Conditions[0].Message
+	tc.Expect(message).To(ContainSubstring("failed resolving secret references"))
+	tc.Expect(message).To(ContainSubstring("%s/%s does not exist", tc.Namespace, secretRef.Name))
 
 	// Now create the secret
 	secret := &v1.Secret{
@@ -118,10 +122,14 @@ func Test_UserSecretInDifferentNamespace_SecretNotFound(t *testing.T) {
 	vm := newVirtualMachine20201201(tc, rg, networkInterface, secretInDiffNamespace)
 
 	tc.CreateResourceAndWaitForState(vm, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
+
 	// We expect the ready condition to include details of the error
-	tc.Expect(vm.Status.Conditions[0].Reason).To(Equal(conditions.ReasonSecretNotFound.Name))
-	tc.Expect(vm.Status.Conditions[0].Message).To(
-		ContainSubstring("failed resolving secret references: %s/%s does not exist", tc.Namespace, secretInDiffNamespace.Name))
+	reason := vm.Status.Conditions[0].Reason
+	tc.Expect(reason).To(Equal(conditions.ReasonSecretNotFound.Name))
+
+	message := vm.Status.Conditions[0].Message
+	tc.Expect(message).To(ContainSubstring("failed resolving secret references"))
+	tc.Expect(message).To(ContainSubstring("%s/%s does not exist", tc.Namespace, secretInDiffNamespace.Name))
 
 	// Delete VM and resources.
 	tc.DeleteResourcesAndWait(vm, networkInterface, subnet, vnet, rg)
