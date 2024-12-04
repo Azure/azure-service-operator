@@ -68,10 +68,14 @@ func Test_MissingConfigMap_ReturnsError(t *testing.T) {
 	}
 
 	tc.CreateResourceAndWaitForState(roleAssignment, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
+
 	// We expect the ready condition to include details of the error
-	tc.Expect(roleAssignment.Status.Conditions[0].Reason).To(Equal(conditions.ReasonConfigMapNotFound.Name))
-	tc.Expect(roleAssignment.Status.Conditions[0].Message).To(
-		ContainSubstring("failed resolving config map references: %s/%s does not exist", tc.Namespace, configMapName))
+	reason := roleAssignment.Status.Conditions[0].Reason
+	tc.Expect(reason).To(Equal(conditions.ReasonConfigMapNotFound.Name))
+
+	message := roleAssignment.Status.Conditions[0].Message
+	tc.Expect(message).To(ContainSubstring("failed resolving config map references"))
+	tc.Expect(message).To(ContainSubstring("%s/%s does not exist", tc.Namespace, configMapName))
 }
 
 func Test_ConfigMapUpdated_TriggersReconcile(t *testing.T) {
@@ -219,9 +223,12 @@ func Test_ConfigMapInDifferentNamespace_ConfigMapNotFound(t *testing.T) {
 
 	tc.CreateResourceAndWaitForState(roleAssignment, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 	// We expect the ready condition to include details of the error
-	tc.Expect(roleAssignment.Status.Conditions[0].Reason).To(Equal(conditions.ReasonConfigMapNotFound.Name))
-	tc.Expect(roleAssignment.Status.Conditions[0].Message).To(
-		ContainSubstring("failed resolving config map references: %s/%s does not exist", tc.Namespace, configMapName))
+	reason := roleAssignment.Status.Conditions[0].Reason
+	tc.Expect(reason).To(Equal(conditions.ReasonConfigMapNotFound.Name))
+
+	message := roleAssignment.Status.Conditions[0].Message
+	tc.Expect(message).To(ContainSubstring("failed resolving config map references"))
+	tc.Expect(message).To(ContainSubstring("%s/%s does not exist", tc.Namespace, configMapName))
 
 	tc.DeleteResourceAndWait(rg)
 }

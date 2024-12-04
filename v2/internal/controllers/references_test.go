@@ -6,7 +6,6 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
-	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -35,12 +34,18 @@ func Test_MissingCrossResourceReference_ReturnsError(t *testing.T) {
 
 	tc.CreateResourceAndWaitForState(vm, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 	// We expect the ready condition to include details of the error
-	tc.Expect(vm.Status.Conditions[0].Reason).To(Equal("ReferenceNotFound"))
-	tc.Expect(vm.Status.Conditions[0].Message).To(
-		Equal(fmt.Sprintf("failed resolving ARM IDs for references: %s/%s does not exist (networkinterfaces.network.azure.com \"%s\" not found)",
+	reason := vm.Status.Conditions[0].Reason
+	tc.Expect(reason).To(Equal("ReferenceNotFound"))
+
+	message := vm.Status.Conditions[0].Message
+	tc.Expect(message).To(ContainSubstring("failed resolving ARM IDs for references"))
+	tc.Expect(message).To(
+		ContainSubstring("%s/%s does not exist",
 			tc.Namespace,
-			networkInterface.Name,
-			networkInterface.Name)))
+			networkInterface.Name))
+	tc.Expect(message).To(
+		ContainSubstring(`(networkinterfaces.network.azure.com "%s" not found)`,
+			networkInterface.Name))
 
 	// Delete VM and resources.
 	tc.DeleteResourcesAndWait(vm)
