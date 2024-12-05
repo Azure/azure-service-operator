@@ -142,11 +142,11 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 		},
 	}
 
-	factory := importableARMResource{
-		importableResource: importableResource{
-			scheme: api.CreateScheme(),
-		},
+	factory := &importFactory{
+		scheme: api.CreateScheme(),
 	}
+
+	armRsrc := importableARMResource{}
 
 	for _, c := range cases {
 		c := c
@@ -158,7 +158,7 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 			id, err := arm.ParseResourceID(c.armId)
 			g.Expect(err).To(BeNil())
 
-			gvk, err := factory.groupVersionKindFromID(id)
+			gvk, err := armRsrc.groupVersionKindFromID(id, factory)
 			g.Expect(err).To(BeNil())
 
 			// If the asserts fail, check to see whether we've introduced a new version of the resource
@@ -166,54 +166,6 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 			g.Expect(gvk.Group).To(Equal(c.expectedGroup))
 			g.Expect(gvk.Kind).To(Equal(c.expectedKind))
 			g.Expect(gvk.Version).To(Equal(c.expectedVersion))
-		})
-	}
-}
-
-func Test_safeResourceName_GivenName_ReturnsExpectedResult(t *testing.T) {
-	t.Parallel()
-
-	cases := map[string]struct {
-		name     string
-		expected string
-	}{
-		"simple": {
-			name:     "simple",
-			expected: "simple",
-		},
-		"with spaces": {
-			name:     "with spaces",
-			expected: "with-spaces",
-		},
-		"with special characters": {
-			name:     "with!@#$%^&*()_+special characters",
-			expected: "with-special-characters",
-		},
-		"with underscores": {
-			name:     "with_underscores",
-			expected: "with-underscores",
-		},
-		"with multiple spaces": {
-			name:     "with    multiple    spaces",
-			expected: "with-multiple-spaces",
-		},
-		"with linux style paths": {
-			name:     "/path/to/resource",
-			expected: "path-to-resource",
-		},
-		"with windows style paths": {
-			name:     "\\path\\to\\resource",
-			expected: "path-to-resource",
-		},
-	}
-
-	for name, c := range cases {
-		c := c
-		t.Run(name, func(t *testing.T) {
-			t.Parallel()
-
-			g := NewGomegaWithT(t)
-			g.Expect(safeResourceName(c.name)).To(Equal(c.expected))
 		})
 	}
 }
