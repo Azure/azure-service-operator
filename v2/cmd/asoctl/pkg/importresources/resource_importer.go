@@ -151,6 +151,9 @@ func (ri *ResourceImporter) startDeduplicator(
 
 	uniqueResources := make(chan ImportableResource)
 
+	// Close the channel when we're done, so that workers shut down too
+	defer close(uniqueResources)
+
 	waitgroup.Go(func() {
 	run:
 		for {
@@ -189,9 +192,6 @@ func (ri *ResourceImporter) startDeduplicator(
 				current = nil
 			}
 		}
-
-		// Close the channel when we're done, so that workers shut down too
-		close(uniqueResources)
 	})
 
 	return uniqueResources
@@ -292,10 +292,7 @@ func (ri *ResourceImporter) startCollationOfResults(
 			report.AddSuccessfulImport(gk)
 			ri.imported[rsrc.ID()] = rsrc
 
-			// Flag the main resource as complete
-			// We do this after everything else because it might indicate we're finished
-			ri.reporter.Completed(1)
-			watchdog.stopped()
+			ri.completed(watchdog)
 		}
 	})
 }
@@ -326,10 +323,16 @@ func (ri *ResourceImporter) startCollationOfErrors(
 				report.AddFailedImport(ie.gk, ie.err.Error())
 			}
 
-			ri.reporter.Completed(1)
-			watchdog.stopped()
+			ri.completed(watchdog)
 		}
 	})
+}
+
+// completed is used to indicate a resource has been fully processed.
+// We do this after everything else because it might indicate we're completed the entire process.
+func (ri *ResourceImporter) completed(watchdog *watchdog) {
+	ri.reporter.Completed(1)
+	watchdog.stopped()
 }
 
 func (ri *ResourceImporter) importResource(
