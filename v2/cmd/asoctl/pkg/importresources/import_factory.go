@@ -166,7 +166,6 @@ func (f *importFactory) createKubernetesName(
 	buffer := make([]rune, 0, len(name))
 
 	for _, r := range name {
-
 		switch {
 		case unicode.IsLetter(r):
 			// Transform letters to lowercase
