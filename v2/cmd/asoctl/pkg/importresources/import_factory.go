@@ -6,6 +6,10 @@
 package importresources
 
 import (
+	"regexp"
+	"strings"
+	"unicode"
+
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -81,4 +85,48 @@ func (f *importFactory) selectVersionFromGK(gk schema.GroupKind) (schema.GroupVe
 	}
 
 	return *result, nil
+}
+
+var kubernetesNameRegex = regexp.MustCompile("-+")
+
+// createKubernetesName creates a name compliant with kubernetes naming conventions.
+func (f *importFactory) createKubernetesName(
+	name string,
+) string {
+	// Most resource types require a name that can be used as a DNS subdomain name as defined in RFC 1123.
+	// This means the name must:
+	// o contain no more than 253 characters
+	// o contain only lowercase alphanumeric characters, '-' or '.'
+	// o start with an alphanumeric character
+	// o end with an alphanumeric character
+	// See https://kubernetes.io/docs/concepts/overview/working-with-objects/names/
+
+	buffer := make([]rune, 0, len(name))
+
+	for _, r := range name {
+
+		switch {
+		case unicode.IsLetter(r):
+			// Transform letters to lowercase
+			buffer = append(buffer, unicode.ToLower(r))
+
+		case unicode.IsNumber(r):
+			// Keep numbers as they are
+			buffer = append(buffer, r)
+
+		default:
+			// Any other characters are converted to hyphens
+			buffer = append(buffer, '-')
+		}
+	}
+
+	result := string(buffer)
+
+	// Collapse any sequences of hyphens into a single hyphen
+	result = kubernetesNameRegex.ReplaceAllString(result, "-")
+
+	// Remove any leading or trailing hyphens
+	result = strings.Trim(result, "-")
+
+	return result
 }

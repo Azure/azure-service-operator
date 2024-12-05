@@ -109,3 +109,65 @@ func Test_createBlankObjectFromGVK_GivenGVK_returnsExpectedInstance(t *testing.T
 		})
 	}
 }
+
+func Test_createKubernetesName_givenResourceNames_returnsExpectedName(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		name     string
+		expected string
+	}{
+		"Simple Name": {
+			name:     "simple-name",
+			expected: "simple-name",
+		},
+		"Guid": {
+			name:     "760b841c-091e-43fa-92c3-03b38f5d680e",
+			expected: "760b841c-091e-43fa-92c3-03b38f5d680e",
+		},
+		"Name with underscores": {
+			name:     "testpgb01-authentication_timeout",
+			expected: "testpgb01-authentication-timeout",
+		},
+		"simple": {
+			name:     "simple",
+			expected: "simple",
+		},
+		"with spaces": {
+			name:     "with spaces",
+			expected: "with-spaces",
+		},
+		"with special characters": {
+			name:     "with!@#$%^&*()_+special characters",
+			expected: "with-special-characters",
+		},
+		"with underscores": {
+			name:     "with_underscores",
+			expected: "with-underscores",
+		},
+		"with multiple spaces": {
+			name:     "with    multiple    spaces",
+			expected: "with-multiple-spaces",
+		},
+		"with linux style paths": {
+			name:     "/path/to/resource",
+			expected: "path-to-resource",
+		},
+		"with windows style paths": {
+			name:     "\\path\\to\\resource",
+			expected: "path-to-resource",
+		},
+	}
+
+	factory := newImportFactory(api.CreateScheme())
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			result := factory.createKubernetesName(c.name)
+			g.Expect(result).To(Equal(c.expected))
+		})
+	}
+}
