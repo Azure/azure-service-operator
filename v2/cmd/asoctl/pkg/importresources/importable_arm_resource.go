@@ -431,7 +431,7 @@ func (i *importableARMResource) createImportableObjectFromID(
 
 	i.SetAzureName(armID.Name, importable)
 
-	kubernetesName := factory.createKubernetesName(armID.Name)
+	kubernetesName := factory.createUniqueKubernetesName(armID.Name, gvk.GroupKind())
 	i.SetName(kubernetesName, importable)
 
 	if owner != nil {

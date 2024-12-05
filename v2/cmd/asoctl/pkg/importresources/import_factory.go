@@ -6,27 +6,34 @@
 package importresources
 
 import (
+	"crypto/rand"
+	"math/big"
 	"regexp"
 	"strings"
+	"sync"
 	"unicode"
 
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 // importFactory is a helper struct that's used to create things.
 type importFactory struct {
-	scheme *runtime.Scheme
+	scheme        *runtime.Scheme
+	usedNames     map[schema.GroupKind]set.Set[string]
+	usedNamesLock sync.Mutex
 }
 
 func newImportFactory(
 	scheme *runtime.Scheme,
 ) *importFactory {
 	return &importFactory{
-		scheme: scheme,
+		scheme:    scheme,
+		usedNames: make(map[schema.GroupKind]set.Set[string]),
 	}
 }
 
@@ -85,6 +92,61 @@ func (f *importFactory) selectVersionFromGK(gk schema.GroupKind) (schema.GroupVe
 	}
 
 	return *result, nil
+}
+
+// createUniqueKubernetesName creates a name that is unique within a given resource type.
+func (f *importFactory) createUniqueKubernetesName(
+	name string,
+	gk schema.GroupKind,
+) string {
+	// Only one object of a given kind can have a given name at a time.
+	// See https://kubernetes.io/docs/concepts/overview/working-with-objects/names/
+
+	// Protect against concurrent access to the usedNames map
+	f.usedNamesLock.Lock()
+	defer f.usedNamesLock.Unlock()
+
+	used, knownGK := f.usedNames[gk]
+	if !knownGK {
+		used = set.Make[string]()
+		f.usedNames[gk] = used
+	}
+
+	baseName := f.createKubernetesName(name)
+	suffix := ""
+	for {
+		uniqueName := baseName
+		if suffix != "" {
+			uniqueName = baseName + "-" + suffix
+		}
+
+		if !used.Contains(uniqueName) {
+			used.Add(uniqueName)
+			return uniqueName
+		}
+
+		suffix = f.createSuffix(6)
+	}
+}
+
+var suffixRunes = []rune("abcdefghijklmnopqrstuvwxyz")
+
+func (f *importFactory) createSuffix(size int) string {
+	buffer := make([]rune, 0, size)
+
+	for range size {
+		rnge := big.NewInt(int64(len(suffixRunes)))
+		index, err := rand.Int(rand.Reader, rnge)
+		if err != nil {
+			// This should never happen
+			panic(err)
+		}
+
+		i := int(index.Int64())
+		buffer = append(buffer, suffixRunes[i])
+	}
+
+	return string(buffer)
 }
 
 var kubernetesNameRegex = regexp.MustCompile("-+")
