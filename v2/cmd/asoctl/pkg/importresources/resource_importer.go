@@ -23,7 +23,7 @@ import (
 // ResourceImporter is the entry point for importing resources.
 // Factory methods here provide ways to instantiate importers for different kinds of resources.
 type ResourceImporter struct {
-	scheme    *runtime.Scheme                 // a reference to the scheme used by asoctl
+	factory   *importFactory                  // Shared factory used to create resources and other things
 	client    *genericarmclient.GenericClient // Client to use when talking to ARM
 	resources []ImportableResource            // A slice of resources to be imported
 	imported  map[string]ImportedResource     // A set of importers that have been successfully imported
@@ -52,7 +52,7 @@ func New(
 	options ResourceImporterOptions,
 ) *ResourceImporter {
 	return &ResourceImporter{
-		scheme:   scheme,
+		factory:  newImportFactory(scheme),
 		client:   client,
 		imported: make(map[string]ImportedResource),
 		log:      log,
@@ -68,7 +68,7 @@ func (ri *ResourceImporter) Add(importer ImportableResource) {
 
 // AddARMID adds an ARM ID to the list of resources to import.
 func (ri *ResourceImporter) AddARMID(armID string) error {
-	importer, err := NewImportableARMResource(armID, nil /* no owner */, ri.client, ri.scheme)
+	importer, err := NewImportableARMResource(armID, nil /* no owner */, ri.client)
 	if err != nil {
 		return eris.Wrapf(err, "failed to create importer for %q", armID)
 	}
@@ -355,7 +355,7 @@ func (ri *ResourceImporter) importResource(
 	defer progress.Completed(1)
 
 	// Import the resource itself
-	if imported, err := rsrc.Import(ctx, progress, ri.log); err != nil {
+	if imported, err := rsrc.Import(ctx, progress, ri.factory, ri.log); err != nil {
 		return ImportResourceResult{}, eris.Wrapf(err, "importing %s", name)
 	} else {
 		return imported, nil

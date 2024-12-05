@@ -9,12 +9,9 @@ import (
 	"context"
 
 	"github.com/go-logr/logr"
-	"github.com/rotisserie/eris"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 // ImportableResource is an interface that wraps a Kubernetes resource that can be imported.
@@ -38,6 +35,7 @@ type ImportableResource interface {
 	Import(
 		ctx context.Context,
 		reporter importreporter.Interface,
+		factory *importFactory,
 		log logr.Logger,
 	) (ImportResourceResult, error)
 }
