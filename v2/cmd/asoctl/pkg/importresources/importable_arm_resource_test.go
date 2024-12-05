@@ -142,11 +142,11 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 		},
 	}
 
-	factory := importableARMResource{
-		importableResource: importableResource{
-			scheme: api.CreateScheme(),
-		},
+	factory := &importFactory{
+		scheme: api.CreateScheme(),
 	}
+
+	armRsrc := importableARMResource{}
 
 	for _, c := range cases {
 		c := c
@@ -158,7 +158,7 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 			id, err := arm.ParseResourceID(c.armId)
 			g.Expect(err).To(BeNil())
 
-			gvk, err := factory.groupVersionKindFromID(id)
+			gvk, err := armRsrc.groupVersionKindFromID(id, factory)
 			g.Expect(err).To(BeNil())
 
 			// If the asserts fail, check to see whether we've introduced a new version of the resource

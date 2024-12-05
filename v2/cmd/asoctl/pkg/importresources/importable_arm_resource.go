@@ -19,7 +19,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
@@ -33,7 +32,6 @@ import (
 )
 
 type importableARMResource struct {
-	importableResource
 	armID    *arm.ResourceID                  // The ARM ID of the resource to import
 	owner    *genruntime.ResourceReference    // The owner of the resource we're importing
 	client   *genericarmclient.GenericClient  // client for talking to ARM
@@ -50,12 +48,10 @@ var (
 // id is the ARM ID of the resource to import.
 // owner is the resource that owns this resource (if any).
 // client is the client to use to talk to ARM.
-// scheme is the scheme to use to create the resource.
 func NewImportableARMResource(
 	id string,
 	owner *genruntime.ResourceReference,
 	client *genericarmclient.GenericClient,
-	scheme *runtime.Scheme,
 ) (ImportableResource, error) {
 	// Parse id into a more useful form
 	armID, err := arm.ParseResourceID(id)
@@ -64,9 +60,6 @@ func NewImportableARMResource(
 	}
 
 	return &importableARMResource{
-		importableResource: importableResource{
-			scheme: scheme,
-		},
 		armID:  armID,
 		owner:  owner,
 		client: client,
@@ -101,10 +94,11 @@ func (i *importableARMResource) Resource() genruntime.MetaObject {
 func (i *importableARMResource) Import(
 	ctx context.Context,
 	progress importreporter.Interface,
+	factory *importFactory,
 	_ logr.Logger,
 ) (ImportResourceResult, error) {
 	// Create an importable blank object into which we capture the current state of the resource
-	importable, err := i.createImportableObjectFromID(i.owner, i.armID)
+	importable, err := i.createImportableObjectFromID(i.owner, i.armID, factory)
 	if err != nil {
 		// Error doesn't need additional context
 		return ImportResourceResult{}, err
@@ -112,7 +106,7 @@ func (i *importableARMResource) Import(
 
 	// Our resource might have an extension that can customize the import process,
 	// so we have a factory to create the loader function we call.
-	loader := i.createImportFunction(importable)
+	loader := i.createImportFunction(importable, factory)
 	loaderResult, err := loader(ctx, importable, i.owner)
 	if err != nil {
 		i.err = err
@@ -130,7 +124,7 @@ func (i *importableARMResource) Import(
 		resource: i,
 	}
 
-	if children, err := i.findChildren(ctx, progress); err != nil {
+	if children, err := i.findChildren(ctx, progress, factory); err != nil {
 		return result, err
 	} else {
 		result.pending = children
@@ -146,6 +140,7 @@ func (i *importableARMResource) Import(
 func (i *importableARMResource) findChildren(
 	ctx context.Context,
 	progress importreporter.Interface,
+	factory *importFactory,
 ) ([]ImportableResource, error) {
 	if i.resource == nil {
 		// Nothing to do
@@ -186,7 +181,7 @@ func (i *importableARMResource) findChildren(
 	var result []ImportableResource
 	var errs []error
 	for _, subType := range childTypes {
-		childResources, err := i.importChildResources(ctx, ref, subType)
+		childResources, err := i.importChildResources(ctx, ref, subType, factory)
 		if ctx.Err() != nil {
 			// Aborting, don't do anything
 		} else if err != nil {
@@ -210,13 +205,14 @@ func (i *importableARMResource) findChildren(
 
 func (i *importableARMResource) createImportFunction(
 	instance genruntime.ImportableARMResource,
+	factory *importFactory,
 ) extensions.ImporterFunc {
 	// Loader is a function that does the actual loading, populating both the Spec and Status of the resource
-	loader := i.loader()
+	loader := i.loader(factory)
 
 	// Check to see if we have an extension to customize loading, and if we do, wrap importFn to call the extension
 	gvk := instance.GetObjectKind().GroupVersionKind()
-	if ex, ok := i.GetResourceExtension(gvk); ok {
+	if ex, ok := i.GetResourceExtension(gvk, factory); ok {
 		next := loader
 		loader = func(
 			ctx context.Context,
@@ -228,12 +224,14 @@ func (i *importableARMResource) createImportFunction(
 	}
 
 	// Lastly, we need to wrap importFn to remove Status so that it doesn't get included when we export the YAML
-	loader = i.clearStatus(loader)
+	loader = i.clearStatus(loader, factory)
 
 	return loader
 }
 
-func (i *importableARMResource) loader() extensions.ImporterFunc {
+func (i *importableARMResource) loader(
+	factory *importFactory,
+) extensions.ImporterFunc {
 	return func(
 		ctx context.Context,
 		resource genruntime.ImportableResource,
@@ -246,7 +244,7 @@ func (i *importableARMResource) loader() extensions.ImporterFunc {
 		}
 
 		// Get the current status of the object from ARM
-		status, err := i.getStatus(ctx, i.armID.String(), importable)
+		status, err := i.getStatus(ctx, i.armID.String(), importable, factory)
 		if err != nil {
 			// If the error is non-fatal, we can skip the resource but still process the rest
 			if reason, nonfatal := i.classifyError(err); nonfatal {
@@ -274,7 +272,10 @@ func (i *importableARMResource) loader() extensions.ImporterFunc {
 	}
 }
 
-func (i *importableARMResource) clearStatus(next extensions.ImporterFunc) extensions.ImporterFunc {
+func (i *importableARMResource) clearStatus(
+	next extensions.ImporterFunc,
+	factory *importFactory,
+) extensions.ImporterFunc {
 	return func(
 		ctx context.Context,
 		resource genruntime.ImportableResource,
@@ -292,7 +293,7 @@ func (i *importableARMResource) clearStatus(next extensions.ImporterFunc) extens
 		}
 
 		// Clear the status
-		status, err := genruntime.NewEmptyVersionedStatus(rsrc, i.scheme)
+		status, err := genruntime.NewEmptyVersionedStatus(rsrc, factory.scheme)
 		if err != nil {
 			return extensions.ImportResult{},
 				eris.Wrapf(err, "constructing status object for resource: %s", i.armID)
@@ -311,6 +312,7 @@ func (i *importableARMResource) importChildResources(
 	ctx context.Context,
 	owner genruntime.ResourceReference,
 	childResourceType string,
+	factory *importFactory,
 ) ([]ImportableResource, error) {
 	// Look up the GK for the child resource type we're importing
 	childResourceGK, ok := FindGroupKindForResourceType(childResourceType)
@@ -319,13 +321,13 @@ func (i *importableARMResource) importChildResources(
 	}
 
 	// Expand from the GK to GVK
-	childResourceGVK, err := i.selectVersionFromGK(childResourceGK)
+	childResourceGVK, err := factory.selectVersionFromGK(childResourceGK)
 	if err != nil {
 		return nil, eris.Wrapf(err, "unable to find GVK for type %subType", childResourceType)
 	}
 
 	// Create an empty instance from the GVK, so we can find the ARM API version needed for the list call
-	obj, err := i.createBlankObjectFromGVK(childResourceGVK)
+	obj, err := factory.createBlankObjectFromGVK(childResourceGVK)
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to create blank resource")
 	}
@@ -353,7 +355,7 @@ func (i *importableARMResource) importChildResources(
 
 	subResources := make([]ImportableResource, 0, len(childResourceReferences))
 	for _, ref := range childResourceReferences {
-		importer, err := NewImportableARMResource(ref.ID, &owner, i.client, i.scheme)
+		importer, err := NewImportableARMResource(ref.ID, &owner, i.client)
 		if err != nil {
 			return nil, eris.Wrapf(err, "unable to create importable resource for %s", ref.ID)
 		}
@@ -404,6 +406,7 @@ func (*importableARMResource) classifyError(err error) (string, bool) {
 func (i *importableARMResource) createImportableObjectFromID(
 	owner *genruntime.ResourceReference,
 	armID *arm.ResourceID,
+	factory *importFactory,
 ) (resource genruntime.ImportableARMResource, err error) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -412,12 +415,12 @@ func (i *importableARMResource) createImportableObjectFromID(
 		}
 	}()
 
-	gvk, gvkErr := i.groupVersionKindFromID(armID)
+	gvk, gvkErr := i.groupVersionKindFromID(armID, factory)
 	if gvkErr != nil {
 		return nil, eris.Wrap(gvkErr, "unable to determine GVK of resource")
 	}
 
-	obj, objErr := i.createBlankObjectFromGVK(gvk)
+	obj, objErr := factory.createBlankObjectFromGVK(gvk)
 	if objErr != nil {
 		return nil, eris.Wrap(objErr, "unable to create blank resource")
 	}
@@ -442,9 +445,10 @@ func (i *importableARMResource) getStatus(
 	ctx context.Context,
 	armID string,
 	importable genruntime.ImportableARMResource,
+	factory *importFactory,
 ) (genruntime.ConvertibleStatus, error) {
 	// Create an empty ARM status object into which we capture the current state of the resource
-	armStatus, err := genruntime.NewEmptyARMStatus(importable, i.scheme)
+	armStatus, err := genruntime.NewEmptyARMStatus(importable, factory.scheme)
 	if err != nil {
 		return nil, eris.Wrapf(err, "constructing ARM status for resource: %q", armID)
 	}
@@ -456,7 +460,7 @@ func (i *importableARMResource) getStatus(
 	}
 
 	// Convert the ARM shape to the Kube shape
-	status, err := genruntime.NewEmptyVersionedStatus(importable, i.scheme)
+	status, err := genruntime.NewEmptyVersionedStatus(importable, factory.scheme)
 	if err != nil {
 		return nil, eris.Wrapf(err, "constructing Kube status object for resource: %q", armID)
 	}
@@ -485,13 +489,16 @@ func (i *importableARMResource) getStatus(
 }
 
 // groupVersionKindFromID returns the GroupVersionKind for the resource we're importing
-func (i *importableARMResource) groupVersionKindFromID(id *arm.ResourceID) (schema.GroupVersionKind, error) {
+func (i *importableARMResource) groupVersionKindFromID(
+	id *arm.ResourceID,
+	factory *importFactory,
+) (schema.GroupVersionKind, error) {
 	gk, err := i.groupKindFromID(id)
 	if err != nil {
 		return schema.GroupVersionKind{}, err
 	}
 
-	return i.selectVersionFromGK(gk)
+	return factory.selectVersionFromGK(gk)
 }
 
 // groupKindFromID parses a GroupKind from the resource URL, allowing us to look up the actual resource
@@ -643,10 +650,13 @@ var (
 	resourceExtensionsOnce sync.Once
 )
 
-func (i *importableARMResource) GetResourceExtension(gvk schema.GroupVersionKind) (extensions.Importer, bool) {
+func (i *importableARMResource) GetResourceExtension(
+	gvk schema.GroupVersionKind,
+	factory *importFactory,
+) (extensions.Importer, bool) {
 	resourceExtensionsOnce.Do(func() {
 		var err error
-		resourceExtensions, err = controllers.GetResourceExtensions(i.scheme)
+		resourceExtensions, err = controllers.GetResourceExtensions(factory.scheme)
 		if err != nil {
 			panic(err)
 		}
