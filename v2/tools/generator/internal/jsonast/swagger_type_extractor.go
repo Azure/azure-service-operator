@@ -786,6 +786,10 @@ func (extractor *SwaggerTypeExtractor) extractResourceSubpath(operationPath stri
 	return "", "", eris.Errorf("no group name (‘Microsoft…’) found in %s", operationPath)
 }
 
+// Some services hardcode default into their URLs like : blobService/default/containers/{containerName}
+// and we don't want the "default" name to be part of the resource type name for those cases, so we detect these hard coded names.
+var hardCodedNames = set.Make("default", "web")
+
 // inferNameFromURLPath attempts to extract a name from a Swagger operation path
 // for example “…/Microsoft.GroupName/resourceType/{resourceId}” would result
 // in the name “ResourceType”. Child resources are treated by converting (e.g.)
@@ -805,31 +809,31 @@ func (extractor *SwaggerTypeExtractor) inferNameFromURLPath(operationPath string
 	}
 
 	urlParts := strings.Split(subpath, "/")
-	skippedLast := false
+	expectingKind := true
 	for _, urlPart := range urlParts {
 		if len(urlPart) == 0 {
 			// skip empty parts
 			continue
 		}
 
-		// If default was defined as an enum in the Swagger, this check is not needed as it wouldn't have been expanded by
-		// the expandEnumsInPath method, but some services hardcode default into their URLs like : blobService/default/containers/{containerName}
-		// and we don't want the "default" name to be part of the resource type name for those cases, so we ignore it here.
-		if strings.EqualFold(urlPart, "default") {
-			// skip; shouldn’t be part of name
-			// TODO: I haven’t yet found where this is done in autorest/autorest.armresource to document this
-		} else if urlPart[0] == '{' {
-			// this is a URL parameter
-			if skippedLast {
-				// this means two {parameters} in a row
+		if expectingKind {
+			// Expecting a resource kind
+			if urlPart[0] == '{' {
+				// But we have a parameter, which means two parameters in a row
 				return "", "", "", eris.Errorf("multiple parameters in path")
 			}
 
-			skippedLast = true
-		} else {
-			// normal part of path, uppercase first character
+			// Add the resource kind to the name of this resource
 			nameParts = append(nameParts, urlPart)
-			skippedLast = false
+			expectingKind = false
+		} else {
+			// Expecting a parameter
+			if urlPart[0] != '{' && !hardCodedNames.Contains(strings.ToLower(urlPart)) {
+				// We didn't expect this name to be hard-coded
+				return "", "", "", eris.Errorf("unexpected hard coded name %q in path %s", urlPart, operationPath)
+			}
+
+			expectingKind = true
 		}
 	}
 
