@@ -18,93 +18,78 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
-func Test_InferNameFromURLPath_ParentResource(t *testing.T) {
+func Test_InferNameFromPath_GivenURL_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
-	g := NewGomegaWithT(t)
+
+	cases := map[string]struct {
+		path     string
+		group    string
+		resource string
+		name     string
+		err      string
+	}{
+		"ParentResource": {
+			path:     "/Microsoft.GroupName/resourceName/{resourceId}",
+			group:    "Microsoft.GroupName",
+			resource: "resourceName",
+			name:     "ResourceName",
+		},
+		"ChildResources": {
+			path:     "/Microsoft.GroupName/resourceName/{resourceId}/someChild/{childId}",
+			group:    "Microsoft.GroupName",
+			resource: "resourceName/someChild",
+			name:     "ResourceName_SomeChild",
+		},
+		"FailsWithMultipleParametersInARow": {
+			path: "/Microsoft.GroupName/resourceName/{resourceId}/{anotherParameter}",
+			err:  "multiple parameters",
+		},
+		"FailsWithNoGroupName": {
+			path: "/resourceName/{resourceId}/{anotherParameter}",
+			err:  "no group name",
+		},
+		"SkipsDefault": {
+			path:     "Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
+			group:    "Microsoft.Storage",
+			resource: "storageAccounts/blobServices/containers",
+			name:     "StorageAccounts_BlobServices_Container",
+		},
+		"SkipsWeb": {
+			path:     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/sourcecontrols/web",
+			group:    "Microsoft.Web",
+			resource: "sites/slots/sourcecontrols",
+			name:     "Sites_Slots_Sourcecontrol",
+		},
+		"ExtensionResource": {
+			path:     "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+			group:    "Microsoft.Authorization",
+			resource: "roleAssignments",
+			name:     "RoleAssignment",
+		},
+	}
 
 	extractor := &SwaggerTypeExtractor{
 		idFactory: astmodel.NewIdentifierFactory(),
 	}
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
 
-	group, resource, name, err := extractor.inferNameFromURLPath("/Microsoft.GroupName/resourceName/{resourceId}")
-	t.Logf("%s/%s: %s", group, resource, name)
-	// Output: Microsoft.GroupName/resourceName: ResourceName
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(group).To(Equal("Microsoft.GroupName"))
-	g.Expect(resource).To(Equal("resourceName"))
-	g.Expect(name).To(Equal("ResourceName"))
-}
+			group, resource, name, err := extractor.inferNameFromURLPath(c.path)
+			t.Logf("%s/%s: %s", group, resource, name)
 
-func Test_InferNameFromURLPath_ChildResources(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	extractor := &SwaggerTypeExtractor{
-		idFactory: astmodel.NewIdentifierFactory(),
+			if c.err != "" {
+				g.Expect(err).To(HaveOccurred())
+				g.Expect(err.Error()).To(ContainSubstring(c.err))
+			} else {
+				g.Expect(err).ToNot(HaveOccurred())
+				g.Expect(group).To(Equal(c.group))
+				g.Expect(resource).To(Equal(c.resource))
+				g.Expect(name).To(Equal(c.name))
+			}
+		})
 	}
-
-	group, resource, name, err := extractor.inferNameFromURLPath("/Microsoft.GroupName/resourceName/{resourceId}/someChild/{childId}")
-	t.Logf("%s/%s: %s", group, resource, name)
-	// Output: Microsoft.GroupName/resourceName/someChild: ResourceName_SomeChild
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(group).To(Equal("Microsoft.GroupName"))
-	g.Expect(resource).To(Equal("resourceName/someChild"))
-	g.Expect(name).To(Equal("ResourceName_SomeChild"))
-}
-
-func Test_InferNameFromURLPath_FailsWithMultipleParametersInARow(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-	extractor := &SwaggerTypeExtractor{
-		idFactory: astmodel.NewIdentifierFactory(),
-	}
-
-	_, _, _, err := extractor.inferNameFromURLPath("/Microsoft.GroupName/resourceName/{resourceId}/{anotherParameter}")
-	g.Expect(err).To(Not(BeNil()))
-	g.Expect(err.Error()).To(ContainSubstring("multiple parameters"))
-}
-
-func Test_InferNameFromURLPath_FailsWithNoGroupName(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	extractor := &SwaggerTypeExtractor{
-		idFactory: astmodel.NewIdentifierFactory(),
-	}
-
-	_, _, _, err := extractor.inferNameFromURLPath("/resourceName/{resourceId}/{anotherParameter}")
-	g.Expect(err).To(Not(BeNil()))
-	g.Expect(err.Error()).To(ContainSubstring("no group name"))
-}
-
-func Test_InferNameFromURLPath_SkipsDefault(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	extractor := &SwaggerTypeExtractor{
-		idFactory: astmodel.NewIdentifierFactory(),
-	}
-
-	group, resource, name, err := extractor.inferNameFromURLPath("Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}")
-	g.Expect(err).To(BeNil())
-	g.Expect(group).To(Equal("Microsoft.Storage"))
-	g.Expect(resource).To(Equal("storageAccounts/blobServices/containers"))
-	g.Expect(name).To(Equal("StorageAccounts_BlobServices_Container"))
-}
-
-func Test_InferNameFromURLPath_ExtensionResource(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	extractor := &SwaggerTypeExtractor{
-		idFactory: astmodel.NewIdentifierFactory(),
-	}
-
-	group, resource, name, err := extractor.inferNameFromURLPath("/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}")
-	g.Expect(err).To(BeNil())
-	g.Expect(group).To(Equal("Microsoft.Authorization"))
-	g.Expect(resource).To(Equal("roleAssignments"))
-	g.Expect(name).To(Equal("RoleAssignment"))
 }
 
 func Test_extractLastPathParam_ExtractsParameter(t *testing.T) {
