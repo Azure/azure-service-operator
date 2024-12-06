@@ -1,0 +1,13 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: pdb
+  namespace: system
+  labels:
+    app.kubernetes.io/name: azure-service-operator
+    control-plane: controller-manager
+spec:
+  selector:
+    matchLabels:
+      control-plane: controller-manager
+  minAvailable: 50%
