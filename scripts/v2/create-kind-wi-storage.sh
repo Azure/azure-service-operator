@@ -88,7 +88,7 @@ cat <<EOF > "${DIR}/openid-configuration.json"
 }
 EOF
 
-CREATION_TIME="$(date --utc +"%Y-%m-%dT%H:%M:%SZ")"
+CREATION_TIME="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 
 az group create -l westus -n "${RESOURCE_GROUP}" --tags "CreatedAt=${CREATION_TIME}"
 
