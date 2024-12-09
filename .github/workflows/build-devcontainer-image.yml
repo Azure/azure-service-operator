@@ -24,6 +24,9 @@ jobs:
       packages: write
       contents: read
 
+    # Only run this scheduled job on the main repo, it can't work elsewhere
+    if: ${{ github.repository == 'Azure/azure-service-operator' }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pinned to 4.1.7
