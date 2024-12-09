@@ -8,6 +8,7 @@ import string
 import argparse
 import time
 import datetime
+import ast
 
 
 def create_role_assignment(subscription_id: str, object_id: str) -> str:
@@ -83,26 +84,27 @@ def main():
         parser.print_help()
         exit(1)
 
-    subscription_id = os.getenv("AZURE_SUBSCRIPTION_ID")
-
-    # TODO: Might almost be easier to use the Azure SDK here...
-    identities = subprocess.check_output(
-        ["az", "identity", "list", "--resource-group", resource_group, "--output", "table"])
-    identities = identities.rstrip()
-    if identities:
-        print("An identity already exists, not creating another one")
-        exit(0)
-
-    identity_name = os.getenv("AZURE_IDENTITY_NAME")
     existing_identity = False
+
+    subscription_id = os.getenv("AZURE_SUBSCRIPTION_ID")
+    identity_name = os.getenv("AZURE_IDENTITY_NAME")
     if identity_name:
         existing_identity = True
         resource_group = os.getenv("AZURE_IDENTITY_RG")
     else:
-        identity_name = f"mi{generate_random_string()}"
-        print(f"Generated new identity name: {identity_name}")
+        # TODO: Might almost be easier to use the Azure SDK here...
+        identities = subprocess.check_output(
+            ["az", "identity", "list", "--resource-group", resource_group, "--query", "[].name"])
+        identities = identities.decode('utf-8')
+        identities = ast.literal_eval(identities)
+        if len(identities) > 0:
+            identity_name = identities[0]
+            print(f"An identity '{identity_name}' already exists, not creating another one")
+            existing_identity = True
 
     if not existing_identity:
+        identity_name = f"mi{generate_random_string()}"
+        print(f"Generated new identity name: {identity_name}")
         subprocess.run(
             ["az", "identity", "create", "--name", identity_name, "--resource-group", resource_group],
             check=True)
@@ -147,13 +149,13 @@ def main():
         role_assignment_id = retry_create_role_assignment(subscription_id, user_assigned_object_id)
         with open(os.path.join(directory, "azure/roleassignmentid.txt"), "w") as f:
             f.write(role_assignment_id)
+    else:
+        with open(os.path.join(directory, "azure/fic.txt"), "w") as f:
+            f.write("fic")
 
     with open(os.path.join(directory, "azure/miclientid.txt"), "w") as f:
         f.write(user_assigned_client_id)
 
-    if existing_identity:
-        with open(os.path.join(directory, "azure/fic.txt"), "w") as f:
-            f.write("fic")
 
 
 if __name__ == "__main__":
