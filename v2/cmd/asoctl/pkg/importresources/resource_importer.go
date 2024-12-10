@@ -268,7 +268,7 @@ func (ri *ResourceImporter) importWorker(
 // report is the report to write to.
 func (ri *ResourceImporter) startCollationOfResults(
 	completed <-chan ImportResourceResult, // completed imports for us to collate
-	candidates chan<- ImportableResource,  // additional candidates for importing
+	candidates chan<- ImportableResource, // additional candidates for importing
 	watchdog *watchdog,
 	waitgroup *conc.WaitGroup,
 	report *resourceImportReport, // report to write to
