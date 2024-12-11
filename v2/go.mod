@@ -45,7 +45,7 @@ require (
 	github.com/samber/lo v1.47.0
 	github.com/spf13/cobra v1.8.1
 	go.uber.org/zap v1.27.0
-	golang.org/x/crypto v0.30.0
+	golang.org/x/crypto v0.31.0
 	golang.org/x/exp v0.0.0-20240823005443-9b4947da3948
 	golang.org/x/sync v0.10.0
 	golang.org/x/text v0.21.0
