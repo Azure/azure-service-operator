@@ -34,6 +34,12 @@
 | Experiments_STATUS                             | v1api20220301 |
 | ExtendedLocation                               | v1api20220301 |
 | ExtendedLocation_STATUS                        | v1api20220301 |
+| GitHubActionCodeConfiguration                  | v1api20220301 |
+| GitHubActionCodeConfiguration_STATUS           | v1api20220301 |
+| GitHubActionConfiguration                      | v1api20220301 |
+| GitHubActionConfiguration_STATUS               | v1api20220301 |
+| GitHubActionContainerConfiguration             | v1api20220301 |
+| GitHubActionContainerConfiguration_STATUS      | v1api20220301 |
 | HandlerMapping                                 | v1api20220301 |
 | HandlerMapping_STATUS                          | v1api20220301 |
 | HostNameSslState                               | v1api20220301 |
@@ -99,6 +105,12 @@
 | Site_Properties_UsageState_STATUS              | v1api20220301 |
 | Site_STATUS                                    | v1api20220301 |
 | Site_Spec                                      | v1api20220301 |
+| SitesSourcecontrol                             | v1api20220301 |
+| SitesSourcecontrol_STATUS                      | v1api20220301 |
+| SitesSourcecontrol_Spec                        | v1api20220301 |
+| Sites_Sourcecontrol_Name_Spec                  | v1api20220301 |
+| Sites_Sourcecontrol_Properties_STATUS          | v1api20220301 |
+| Sites_Sourcecontrol_Properties_Spec            | v1api20220301 |
 | SkuCapacity                                    | v1api20220301 |
 | SkuCapacity_STATUS                             | v1api20220301 |
 | SkuDescription                                 | v1api20220301 |

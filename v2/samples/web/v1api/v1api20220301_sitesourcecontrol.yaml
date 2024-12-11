@@ -1,0 +1,11 @@
+apiVersion: web.azure.com/v1api20220301
+kind: SitesSourcecontrol
+metadata:
+  name: aso-sample-sitesourcecontrol
+  namespace: default
+spec:
+  repoUrl: https://github.com/splunk/azure-functions-splunk.git
+  branch: master
+  isManualIntegration: true
+  owner:
+    name: aso-sample-function-angtr
