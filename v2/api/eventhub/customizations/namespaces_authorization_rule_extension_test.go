@@ -11,7 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	eventhub "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
+	eventhub "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
 )
@@ -30,6 +30,8 @@ func Test_NamespaceAuthorizationRuleSecretsSpecified_AllSecretsSpecifiedAllSecre
 			},
 		},
 	}
+
+	// If this doesn't compile, check that the version of eventhub imported is the hub version
 	secretNames := namespacesAuthorizationRuleSecretsSpecified(obj)
 	expectedTags := reflecthelpers.GetJSONTags(reflect.TypeOf(eventhub.NamespacesAuthorizationRuleOperatorSecrets{}))
 	expectedTags.Remove("$propertyBag")
