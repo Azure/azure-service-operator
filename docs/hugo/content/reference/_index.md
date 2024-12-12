@@ -404,13 +404,13 @@ To install the CRDs for these resources, your ASO configuration must include `ev
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                             | ARM Version | CRD Version   | Supported From | Sample |
-|--------------------------------------|-------------|---------------|----------------|--------|
-| Namespace                            | 2024-01-01  | v1api20240101 | v2.12.0        | -      |
-| NamespacesAuthorizationRule          | 2024-01-01  | v1api20240101 | v2.12.0        | -      |
-| NamespacesEventhub                   | 2024-01-01  | v1api20240101 | v2.12.0        | -      |
-| NamespacesEventhubsAuthorizationRule | 2024-01-01  | v1api20240101 | v2.12.0        | -      |
-| NamespacesEventhubsConsumerGroup     | 2024-01-01  | v1api20240101 | v2.12.0        | -      |
+| Resource                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                      |
+|--------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Namespace                            | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api20240101/v1api20240101_namespace.yaml)                            |
+| NamespacesAuthorizationRule          | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api20240101/v1api20240101_namespacesauthorizationrule.yaml)          |
+| NamespacesEventhub                   | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api20240101/v1api20240101_namespaceseventhub.yaml)                   |
+| NamespacesEventhubsAuthorizationRule | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api20240101/v1api20240101_namespaceseventhubsauthorizationrule.yaml) |
+| NamespacesEventhubsConsumerGroup     | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api20240101/v1api20240101_namespaceseventhubsconsumergroup.yaml)     |
 
 ### Released
 
