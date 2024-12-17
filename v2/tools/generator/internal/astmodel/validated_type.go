@@ -243,14 +243,14 @@ func equalRegexpSlices(left []*regexp.Regexp, right []*regexp.Regexp) bool {
 }
 
 // Unwrap returns the type contained within the validated type
-func (v ValidatedType) Unwrap() Type {
+func (v *ValidatedType) Unwrap() Type {
 	return v.element
 }
 
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types
 // definitions is a dictionary for resolving named types
-func (v ValidatedType) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
+func (v *ValidatedType) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	builder.WriteString("Validated[")
 	if v.element != nil {
 		v.element.WriteDebugDescription(builder, currentPackage)

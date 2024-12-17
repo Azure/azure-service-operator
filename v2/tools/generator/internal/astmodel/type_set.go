@@ -80,7 +80,7 @@ func (ts *TypeSet) Remove(t Type) bool {
 }
 
 // Contains checks if the set already contains the type
-func (ts TypeSet) Contains(t Type, overrides EqualityOverrides) bool {
+func (ts *TypeSet) Contains(t Type, overrides EqualityOverrides) bool {
 	// this is slow, but what can you do?
 	for _, other := range ts.types {
 		if t.Equals(other, overrides) {
@@ -92,7 +92,7 @@ func (ts TypeSet) Contains(t Type, overrides EqualityOverrides) bool {
 }
 
 // Equals returns true if both sets contain the same types
-func (ts TypeSet) Equals(other TypeSet, overrides ...EqualityOverrides) bool {
+func (ts *TypeSet) Equals(other TypeSet, overrides ...EqualityOverrides) bool {
 	if len(ts.types) != len(other.types) {
 		return false
 	}
@@ -116,12 +116,12 @@ func (ts TypeSet) Equals(other TypeSet, overrides ...EqualityOverrides) bool {
 }
 
 // Len returns the number of items in the set
-func (ts TypeSet) Len() int {
+func (ts *TypeSet) Len() int {
 	return len(ts.types)
 }
 
 // Single returns the only item in the set, and true, if it contains exactly one; otherwise it returns nil and false.
-func (ts TypeSet) Single() (Type, bool) {
+func (ts *TypeSet) Single() (Type, bool) {
 	if len(ts.types) != 1 {
 		return nil, false
 	}
@@ -130,12 +130,12 @@ func (ts TypeSet) Single() (Type, bool) {
 }
 
 // Copy returns a copy of this set that can then be modified.
-func (ts TypeSet) Copy() TypeSet {
+func (ts *TypeSet) Copy() TypeSet {
 	return MakeTypeSet(ts.types...)
 }
 
 // AsSlice returns the content of this set as a slice
-func (ts TypeSet) AsSlice() []Type {
+func (ts *TypeSet) AsSlice() []Type {
 	result := make([]Type, 0, len(ts.types))
 	result = append(result, ts.types...)
 	return result
