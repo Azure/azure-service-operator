@@ -3966,3 +3966,6 @@ objectModelConfiguration:
           $armReference: true
         VirtualNetworkSubnetId:
           $armReference: true
+      Sites_Sourcecontrol:
+        $exportAs: SitesSourcecontrol
+        $supportedFrom: v2.12.0

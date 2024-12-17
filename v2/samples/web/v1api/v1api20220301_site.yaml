@@ -1,7 +1,7 @@
 apiVersion: web.azure.com/v1api20220301
 kind: Site
 metadata:
-  name: aso-sample-function
+  name: aso-sample-function-angtr
   namespace: default
 spec:
   enabled: true
