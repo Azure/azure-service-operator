@@ -21,7 +21,6 @@ import (
 )
 
 // KnownResourceReference is a resource reference to a known type.
-// nolint:recvcheck
 // +kubebuilder:object:generate=true
 type KnownResourceReference struct {
 	// TODO: In practice this type is used only for Owner fields and so might more appropriately have been called OwnerReference
@@ -74,7 +73,6 @@ func (ref *KubernetesOwnerReference) AsResourceReference(group string, kind stri
 
 // TODO: This type and ResourceReference are almost exactly the same now...
 // ArbitraryOwnerReference is an owner reference to an unknown type.
-// nolint:recvcheck
 // +kubebuilder:object:generate=true
 type ArbitraryOwnerReference struct {
 	// This is the name of the Kubernetes resource to reference.
@@ -101,7 +99,7 @@ func (ref *ArbitraryOwnerReference) AsResourceReference() *ResourceReference {
 	}
 }
 
-var _ fmt.Stringer = &ResourceReference{}
+var _ fmt.Stringer = ResourceReference{}
 
 // ResourceReference represents a resource reference, either to a Kubernetes resource or directly to an Azure resource via ARMID
 // nolint:recvcheck
