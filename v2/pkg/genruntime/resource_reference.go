@@ -21,6 +21,7 @@ import (
 )
 
 // KnownResourceReference is a resource reference to a known type.
+// nolint:recvcheck
 // +kubebuilder:object:generate=true
 type KnownResourceReference struct {
 	// TODO: In practice this type is used only for Owner fields and so might more appropriately have been called OwnerReference
@@ -39,7 +40,7 @@ type KnownResourceReference struct {
 }
 
 // AsResourceReference transforms this KnownResourceReference into a ResourceReference
-func (ref KnownResourceReference) AsResourceReference(group string, kind string) *ResourceReference {
+func (ref *KnownResourceReference) AsResourceReference(group string, kind string) *ResourceReference {
 	if ref.Name == "" {
 		group = ""
 		kind = ""
@@ -63,7 +64,7 @@ type KubernetesOwnerReference struct {
 }
 
 // AsResourceReference transforms this KnownResourceReference into a ResourceReference
-func (ref KubernetesOwnerReference) AsResourceReference(group string, kind string) *ResourceReference {
+func (ref *KubernetesOwnerReference) AsResourceReference(group string, kind string) *ResourceReference {
 	return &ResourceReference{
 		Group: group,
 		Kind:  kind,
@@ -73,6 +74,7 @@ func (ref KubernetesOwnerReference) AsResourceReference(group string, kind strin
 
 // TODO: This type and ResourceReference are almost exactly the same now...
 // ArbitraryOwnerReference is an owner reference to an unknown type.
+// nolint:recvcheck
 // +kubebuilder:object:generate=true
 type ArbitraryOwnerReference struct {
 	// This is the name of the Kubernetes resource to reference.
@@ -90,7 +92,7 @@ type ArbitraryOwnerReference struct {
 }
 
 // AsResourceReference transforms this ArbitraryOwnerReference into a ResourceReference
-func (ref ArbitraryOwnerReference) AsResourceReference() *ResourceReference {
+func (ref *ArbitraryOwnerReference) AsResourceReference() *ResourceReference {
 	return &ResourceReference{
 		Group: ref.Group,
 		Kind:  ref.Kind,
@@ -99,9 +101,10 @@ func (ref ArbitraryOwnerReference) AsResourceReference() *ResourceReference {
 	}
 }
 
-var _ fmt.Stringer = ResourceReference{}
+var _ fmt.Stringer = &ResourceReference{}
 
 // ResourceReference represents a resource reference, either to a Kubernetes resource or directly to an Azure resource via ARMID
+// nolint:recvcheck
 // +kubebuilder:object:generate=true
 type ResourceReference struct {
 	// Group is the Kubernetes group of the resource.
@@ -131,12 +134,12 @@ func CreateResourceReferenceFromARMID(armID string) ResourceReference {
 }
 
 // IsDirectARMReference returns true if this ResourceReference is referring to an ARMID directly.
-func (ref ResourceReference) IsDirectARMReference() bool {
+func (ref *ResourceReference) IsDirectARMReference() bool {
 	return ref.ARMID != "" && ref.Name == "" && ref.Group == "" && ref.Kind == ""
 }
 
 // IsKubernetesReference returns true if this ResourceReference is referring to a Kubernetes resource.
-func (ref ResourceReference) IsKubernetesReference() bool {
+func (ref *ResourceReference) IsKubernetesReference() bool {
 	return ref.ARMID == "" && ref.Name != "" && ref.Group != "" && ref.Kind != ""
 }
 
@@ -155,7 +158,7 @@ func (ref ResourceReference) String() string {
 
 // TODO: We wouldn't need this if controller-gen supported DUs or OneOf better, see: https://github.com/kubernetes-sigs/controller-tools/issues/461
 // Validate validates the ResourceReference to ensure that it is structurally valid.
-func (ref ResourceReference) Validate() (admission.Warnings, error) {
+func (ref *ResourceReference) Validate() (admission.Warnings, error) {
 	if ref.ARMID == "" && ref.Name == "" && ref.Group == "" && ref.Kind == "" {
 		return nil, eris.Errorf("at least one of ['ARMID'] or ['Group', 'Kind', 'Namespace', 'Name'] must be set for ResourceReference")
 	}
@@ -172,22 +175,22 @@ func (ref ResourceReference) Validate() (admission.Warnings, error) {
 }
 
 // AsNamespacedRef creates a NamespacedResourceReference from this reference.
-func (ref ResourceReference) AsNamespacedRef(namespace string) NamespacedResourceReference {
+func (ref *ResourceReference) AsNamespacedRef(namespace string) NamespacedResourceReference {
 	// If this is a direct ARM reference, don't append a namespace as it reads weird
 	if ref.IsDirectARMReference() {
 		return NamespacedResourceReference{
-			ResourceReference: ref,
+			ResourceReference: *ref,
 		}
 	}
 
 	return NamespacedResourceReference{
-		ResourceReference: ref,
+		ResourceReference: *ref,
 		Namespace:         namespace,
 	}
 }
 
 // GroupKind returns the GroupKind of the resource reference
-func (ref ResourceReference) GroupKind() schema.GroupKind {
+func (ref *ResourceReference) GroupKind() schema.GroupKind {
 	return schema.GroupKind{
 		Group: ref.Group,
 		Kind:  ref.Kind,
@@ -214,13 +217,13 @@ func LookupOwnerGroupKind(v interface{}) (string, string) {
 }
 
 // Copy makes an independent copy of the KnownResourceReference
-func (ref KnownResourceReference) Copy() KnownResourceReference {
-	return ref
+func (ref *KnownResourceReference) Copy() KnownResourceReference {
+	return *ref
 }
 
 // Copy makes an independent copy of the ArbitraryOwnerReference
-func (ref ArbitraryOwnerReference) Copy() ArbitraryOwnerReference {
-	return ref
+func (ref *ArbitraryOwnerReference) Copy() ArbitraryOwnerReference {
+	return *ref
 }
 
 // Copy makes an independent copy of the ResourceReference
@@ -229,8 +232,8 @@ func (ref ResourceReference) Copy() ResourceReference {
 }
 
 // Copy makes an independent copy of the KubernetesOwnerReference
-func (ref KubernetesOwnerReference) Copy() KubernetesOwnerReference {
-	return ref
+func (ref *KubernetesOwnerReference) Copy() KubernetesOwnerReference {
+	return *ref
 }
 
 // ValidateResourceReferences calls Validate on each ResourceReference
