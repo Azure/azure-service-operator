@@ -75,6 +75,7 @@ const (
 var _ fmt.Stringer = Condition{}
 
 // Condition defines an extension to status (an observation) of a resource
+// nolint:recvcheck
 // +kubebuilder:object:generate=true
 type Condition struct {
 	// Type of condition.
@@ -117,7 +118,7 @@ type Condition struct {
 
 // IsEquivalent returns true if this condition is equivalent to the passed in condition.
 // Two conditions are equivalent if all of their fields EXCEPT LastTransitionTime are the same.
-func (c Condition) IsEquivalent(other Condition) bool {
+func (c *Condition) IsEquivalent(other Condition) bool {
 	return c.Type == other.Type &&
 		c.Status == other.Status &&
 		c.Severity == other.Severity &&
@@ -127,7 +128,7 @@ func (c Condition) IsEquivalent(other Condition) bool {
 }
 
 // ShouldOverwrite determines if this condition should overwrite the other condition.
-func (c Condition) ShouldOverwrite(other Condition) bool {
+func (c *Condition) ShouldOverwrite(other Condition) bool {
 	// Safety check that the two conditions are of the same type. If not they certainly shouldn't overwrite
 	if c.Type != other.Type {
 		return false
@@ -161,7 +162,7 @@ func (c Condition) ShouldOverwrite(other Condition) bool {
 //
 // Keep in mind that this priority is specifically for comparing Conditions with the same ObservedGeneration. If the ObservedGeneration
 // is different, the newer one always wins.
-func (c Condition) priority() int {
+func (c *Condition) priority() int {
 	switch c.Status {
 	case metav1.ConditionTrue:
 		return 5
@@ -188,10 +189,10 @@ func (c Condition) priority() int {
 }
 
 // Copy returns an independent copy of the Condition
-func (c Condition) Copy() Condition {
+func (c *Condition) Copy() Condition {
 	// NB: If you change this to a non-simple copy
 	// you will need to update genruntime.CloneSliceOfCondition
-	return c
+	return *c
 }
 
 // String returns a string representation of this condition
