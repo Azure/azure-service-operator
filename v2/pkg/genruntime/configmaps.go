@@ -13,6 +13,7 @@ import (
 
 // ConfigMapReference is a reference to a Kubernetes configmap and key in the same namespace as
 // the resource it is on.
+// nolint:recvcheck
 // +kubebuilder:object:generate=true
 type ConfigMapReference struct {
 	// Name is the name of the Kubernetes configmap being referenced.

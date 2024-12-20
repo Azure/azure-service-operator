@@ -55,7 +55,7 @@ type KubePerTestContext struct {
 	tracker *ResourceTracker
 }
 
-func (tc KubePerTestContext) CreateTestNamespace(namespaceName string) error {
+func (tc *KubePerTestContext) CreateTestNamespace(namespaceName string) error {
 	ns := &corev1.Namespace{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: namespaceName,
@@ -72,22 +72,22 @@ func (tc KubePerTestContext) CreateTestNamespace(namespaceName string) error {
 	return nil
 }
 
-func (tc KubePerTestContext) createTestNamespace() error {
+func (tc *KubePerTestContext) createTestNamespace() error {
 	return tc.CreateTestNamespace(tc.Namespace)
 }
 
-func (tc KubePerTestContext) MakeObjectMeta(prefix string) ctrl.ObjectMeta {
+func (tc *KubePerTestContext) MakeObjectMeta(prefix string) ctrl.ObjectMeta {
 	return tc.MakeObjectMetaWithName(tc.Namer.GenerateName(prefix))
 }
 
-func (tc KubePerTestContext) MakeObjectMetaWithName(name string) ctrl.ObjectMeta {
+func (tc *KubePerTestContext) MakeObjectMetaWithName(name string) ctrl.ObjectMeta {
 	return ctrl.ObjectMeta{
 		Name:      name,
 		Namespace: tc.Namespace,
 	}
 }
 
-func (tc KubePerTestContext) MakeObjectMetaWithNameAndCredentialFrom(name string, credentialFrom string) ctrl.ObjectMeta {
+func (tc *KubePerTestContext) MakeObjectMetaWithNameAndCredentialFrom(name string, credentialFrom string) ctrl.ObjectMeta {
 	return ctrl.ObjectMeta{
 		Name:      name,
 		Namespace: tc.Namespace,
@@ -97,7 +97,7 @@ func (tc KubePerTestContext) MakeObjectMetaWithNameAndCredentialFrom(name string
 	}
 }
 
-func (tc KubePerTestContext) MakeReferenceFromResource(resource client.Object) *genruntime.ResourceReference {
+func (tc *KubePerTestContext) MakeReferenceFromResource(resource client.Object) *genruntime.ResourceReference {
 	gvk, err := apiutil.GVKForObject(resource, tc.scheme)
 	if err != nil {
 		tc.T.Fatal(err)
@@ -110,7 +110,7 @@ func (tc KubePerTestContext) MakeReferenceFromResource(resource client.Object) *
 	}
 }
 
-func (tc KubePerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
+func (tc *KubePerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
 	return &resources.ResourceGroup{
 		ObjectMeta: tc.MakeObjectMeta("rg"),
 		Spec: resources.ResourceGroup_Spec{

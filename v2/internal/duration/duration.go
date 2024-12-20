@@ -29,7 +29,7 @@ Duration marshalling
 TODO: remove after go v2: https://github.com/golang/go/issues/10275
 */
 
-func (d ISO8601) MarshalJSON() ([]byte, error) {
+func (d *ISO8601) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf(`"%s"`, d.String())), nil
 }
 
@@ -55,7 +55,7 @@ func (d *ISO8601) UnmarshalJSON(b []byte) error {
 	}
 }
 
-func (d ISO8601) String() string {
+func (d *ISO8601) String() string {
 	if d.Duration == time.Duration(0) {
 		return "PT0S"
 	}
