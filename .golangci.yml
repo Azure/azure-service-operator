@@ -20,6 +20,7 @@ linters:
     # The below rules are disabled due to bug with go1.18 and generics: https://github.com/golangci/golangci-lint/issues/2859
     - stylecheck
     - musttag # Extremely slow, at least on CI machines
+    - recvcheck
 
 linters-settings:
   exhaustive:
