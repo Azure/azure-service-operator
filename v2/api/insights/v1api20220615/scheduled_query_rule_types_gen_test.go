@@ -5,7 +5,8 @@ package v1api20220615
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
+	v20220615s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
+	v20231201s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20231201/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForActions(subject Actions) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Actions
+	var other v20220615s.Actions
 	err := copied.AssignProperties_To_Actions(&other)
 	if err != nil {
 		return err.Error()
@@ -139,7 +140,7 @@ func RunPropertyAssignmentTestForActions_STATUS(subject Actions_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Actions_STATUS
+	var other v20220615s.Actions_STATUS
 	err := copied.AssignProperties_To_Actions_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -244,7 +245,7 @@ func RunPropertyAssignmentTestForCondition(subject Condition) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Condition
+	var other v20220615s.Condition
 	err := copied.AssignProperties_To_Condition(&other)
 	if err != nil {
 		return err.Error()
@@ -376,7 +377,7 @@ func RunPropertyAssignmentTestForCondition_FailingPeriods(subject Condition_Fail
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Condition_FailingPeriods
+	var other v20220615s.Condition_FailingPeriods
 	err := copied.AssignProperties_To_Condition_FailingPeriods(&other)
 	if err != nil {
 		return err.Error()
@@ -480,7 +481,7 @@ func RunPropertyAssignmentTestForCondition_FailingPeriods_STATUS(subject Conditi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Condition_FailingPeriods_STATUS
+	var other v20220615s.Condition_FailingPeriods_STATUS
 	err := copied.AssignProperties_To_Condition_FailingPeriods_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -584,7 +585,7 @@ func RunPropertyAssignmentTestForCondition_STATUS(subject Condition_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Condition_STATUS
+	var other v20220615s.Condition_STATUS
 	err := copied.AssignProperties_To_Condition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -717,7 +718,7 @@ func RunPropertyAssignmentTestForDimension(subject Dimension) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Dimension
+	var other v20220615s.Dimension
 	err := copied.AssignProperties_To_Dimension(&other)
 	if err != nil {
 		return err.Error()
@@ -821,7 +822,7 @@ func RunPropertyAssignmentTestForDimension_STATUS(subject Dimension_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Dimension_STATUS
+	var other v20220615s.Dimension_STATUS
 	err := copied.AssignProperties_To_Dimension_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -926,7 +927,7 @@ func RunResourceConversionTestForScheduledQueryRule(subject ScheduledQueryRule) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ScheduledQueryRule
+	var hub v20231201s.ScheduledQueryRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -968,7 +969,7 @@ func RunPropertyAssignmentTestForScheduledQueryRule(subject ScheduledQueryRule) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ScheduledQueryRule
+	var other v20220615s.ScheduledQueryRule
 	err := copied.AssignProperties_To_ScheduledQueryRule(&other)
 	if err != nil {
 		return err.Error()
@@ -1071,7 +1072,7 @@ func RunPropertyAssignmentTestForScheduledQueryRuleCriteria(subject ScheduledQue
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ScheduledQueryRuleCriteria
+	var other v20220615s.ScheduledQueryRuleCriteria
 	err := copied.AssignProperties_To_ScheduledQueryRuleCriteria(&other)
 	if err != nil {
 		return err.Error()
@@ -1174,7 +1175,7 @@ func RunPropertyAssignmentTestForScheduledQueryRuleCriteria_STATUS(subject Sched
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ScheduledQueryRuleCriteria_STATUS
+	var other v20220615s.ScheduledQueryRuleCriteria_STATUS
 	err := copied.AssignProperties_To_ScheduledQueryRuleCriteria_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1277,7 +1278,7 @@ func RunPropertyAssignmentTestForScheduledQueryRuleOperatorSpec(subject Schedule
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ScheduledQueryRuleOperatorSpec
+	var other v20220615s.ScheduledQueryRuleOperatorSpec
 	err := copied.AssignProperties_To_ScheduledQueryRuleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -1374,7 +1375,7 @@ func RunPropertyAssignmentTestForScheduledQueryRule_STATUS(subject ScheduledQuer
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ScheduledQueryRule_STATUS
+	var other v20220615s.ScheduledQueryRule_STATUS
 	err := copied.AssignProperties_To_ScheduledQueryRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1522,7 +1523,7 @@ func RunPropertyAssignmentTestForScheduledQueryRule_Spec(subject ScheduledQueryR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ScheduledQueryRule_Spec
+	var other v20220615s.ScheduledQueryRule_Spec
 	err := copied.AssignProperties_To_ScheduledQueryRule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1663,7 +1664,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
+	var other v20220615s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
