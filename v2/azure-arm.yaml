@@ -2570,6 +2570,19 @@ objectModelConfiguration:
           $armReference: true
         StorageAccountId:
           $armReference: true
+    2023-12-01:
+      ScheduledQueryRule:
+        $export: true
+        $supportedFrom: v2.12.0
+      Actions:
+        ActionGroups:
+          $armReference: true
+      Condition:
+        ResourceIdColumn:
+          $armReference: true
+      ScheduledQueryRuleProperties:
+        Scopes:
+          $armReference: true
 
   keyvault:
     2021-04-01-preview:
