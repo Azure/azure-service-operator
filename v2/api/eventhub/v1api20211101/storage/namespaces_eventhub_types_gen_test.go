@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,48 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_CaptureDescription_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CaptureDescription to CaptureDescription via AssignProperties_To_CaptureDescription & AssignProperties_From_CaptureDescription returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCaptureDescription, CaptureDescriptionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCaptureDescription tests if a specific instance of CaptureDescription can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCaptureDescription(subject CaptureDescription) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CaptureDescription
+	err := copied.AssignProperties_To_CaptureDescription(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CaptureDescription
+	err = actual.AssignProperties_From_CaptureDescription(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_CaptureDescription_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -93,6 +136,48 @@ func AddIndependentPropertyGeneratorsForCaptureDescription(gens map[string]gopte
 // AddRelatedPropertyGeneratorsForCaptureDescription is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForCaptureDescription(gens map[string]gopter.Gen) {
 	gens["Destination"] = gen.PtrOf(DestinationGenerator())
+}
+
+func Test_CaptureDescription_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CaptureDescription_STATUS to CaptureDescription_STATUS via AssignProperties_To_CaptureDescription_STATUS & AssignProperties_From_CaptureDescription_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCaptureDescription_STATUS, CaptureDescription_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCaptureDescription_STATUS tests if a specific instance of CaptureDescription_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCaptureDescription_STATUS(subject CaptureDescription_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CaptureDescription_STATUS
+	err := copied.AssignProperties_To_CaptureDescription_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CaptureDescription_STATUS
+	err = actual.AssignProperties_From_CaptureDescription_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_CaptureDescription_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -174,6 +259,48 @@ func AddRelatedPropertyGeneratorsForCaptureDescription_STATUS(gens map[string]go
 	gens["Destination"] = gen.PtrOf(Destination_STATUSGenerator())
 }
 
+func Test_Destination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Destination to Destination via AssignProperties_To_Destination & AssignProperties_From_Destination returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDestination, DestinationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDestination tests if a specific instance of Destination can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDestination(subject Destination) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Destination
+	err := copied.AssignProperties_To_Destination(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Destination
+	err = actual.AssignProperties_From_Destination(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Destination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -237,6 +364,48 @@ func AddIndependentPropertyGeneratorsForDestination(gens map[string]gopter.Gen) 
 	gens["DataLakeFolderPath"] = gen.PtrOf(gen.AlphaString())
 	gens["DataLakeSubscriptionId"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Destination_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Destination_STATUS to Destination_STATUS via AssignProperties_To_Destination_STATUS & AssignProperties_From_Destination_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDestination_STATUS, Destination_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDestination_STATUS tests if a specific instance of Destination_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDestination_STATUS(subject Destination_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Destination_STATUS
+	err := copied.AssignProperties_To_Destination_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Destination_STATUS
+	err = actual.AssignProperties_From_Destination_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Destination_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -305,6 +474,91 @@ func AddIndependentPropertyGeneratorsForDestination_STATUS(gens map[string]gopte
 	gens["StorageAccountResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_NamespacesEventhub_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesEventhub to hub returns original",
+		prop.ForAll(RunResourceConversionTestForNamespacesEventhub, NamespacesEventhubGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForNamespacesEventhub tests if a specific instance of NamespacesEventhub round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForNamespacesEventhub(subject NamespacesEventhub) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.NamespacesEventhub
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual NamespacesEventhub
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NamespacesEventhub_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesEventhub to NamespacesEventhub via AssignProperties_To_NamespacesEventhub & AssignProperties_From_NamespacesEventhub returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesEventhub, NamespacesEventhubGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesEventhub tests if a specific instance of NamespacesEventhub can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNamespacesEventhub(subject NamespacesEventhub) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NamespacesEventhub
+	err := copied.AssignProperties_To_NamespacesEventhub(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesEventhub
+	err = actual.AssignProperties_From_NamespacesEventhub(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NamespacesEventhub_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -366,6 +620,48 @@ func AddRelatedPropertyGeneratorsForNamespacesEventhub(gens map[string]gopter.Ge
 	gens["Status"] = NamespacesEventhub_STATUSGenerator()
 }
 
+func Test_NamespacesEventhubOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesEventhubOperatorSpec to NamespacesEventhubOperatorSpec via AssignProperties_To_NamespacesEventhubOperatorSpec & AssignProperties_From_NamespacesEventhubOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesEventhubOperatorSpec, NamespacesEventhubOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesEventhubOperatorSpec tests if a specific instance of NamespacesEventhubOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNamespacesEventhubOperatorSpec(subject NamespacesEventhubOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NamespacesEventhubOperatorSpec
+	err := copied.AssignProperties_To_NamespacesEventhubOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesEventhubOperatorSpec
+	err = actual.AssignProperties_From_NamespacesEventhubOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NamespacesEventhubOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -419,6 +715,48 @@ func NamespacesEventhubOperatorSpecGenerator() gopter.Gen {
 	namespacesEventhubOperatorSpecGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubOperatorSpec{}), generators)
 
 	return namespacesEventhubOperatorSpecGenerator
+}
+
+func Test_NamespacesEventhub_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesEventhub_STATUS to NamespacesEventhub_STATUS via AssignProperties_To_NamespacesEventhub_STATUS & AssignProperties_From_NamespacesEventhub_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesEventhub_STATUS, NamespacesEventhub_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesEventhub_STATUS tests if a specific instance of NamespacesEventhub_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNamespacesEventhub_STATUS(subject NamespacesEventhub_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NamespacesEventhub_STATUS
+	err := copied.AssignProperties_To_NamespacesEventhub_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesEventhub_STATUS
+	err = actual.AssignProperties_From_NamespacesEventhub_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NamespacesEventhub_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -504,6 +842,48 @@ func AddIndependentPropertyGeneratorsForNamespacesEventhub_STATUS(gens map[strin
 func AddRelatedPropertyGeneratorsForNamespacesEventhub_STATUS(gens map[string]gopter.Gen) {
 	gens["CaptureDescription"] = gen.PtrOf(CaptureDescription_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_NamespacesEventhub_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesEventhub_Spec to NamespacesEventhub_Spec via AssignProperties_To_NamespacesEventhub_Spec & AssignProperties_From_NamespacesEventhub_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesEventhub_Spec, NamespacesEventhub_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesEventhub_Spec tests if a specific instance of NamespacesEventhub_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNamespacesEventhub_Spec(subject NamespacesEventhub_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NamespacesEventhub_Spec
+	err := copied.AssignProperties_To_NamespacesEventhub_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesEventhub_Spec
+	err = actual.AssignProperties_From_NamespacesEventhub_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NamespacesEventhub_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
