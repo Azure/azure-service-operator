@@ -731,3 +731,46 @@ Site_Spec: Object (7 properties)
 │   ├── VnetImagePullEnabled: *bool
 │   └── VnetRouteAllEnabled: *bool
 └── Tags: map[string]string
+SitesSourcecontrol_STATUS: Object (5 properties)
+├── Id: *string
+├── Kind: *string
+├── Name: *string
+├── Properties: *Object (7 properties)
+│   ├── Branch: *string
+│   ├── DeploymentRollbackEnabled: *bool
+│   ├── GitHubActionConfiguration: *Object (4 properties)
+│   │   ├── CodeConfiguration: *Object (2 properties)
+│   │   │   ├── RuntimeStack: *string
+│   │   │   └── RuntimeVersion: *string
+│   │   ├── ContainerConfiguration: *Object (3 properties)
+│   │   │   ├── ImageName: *string
+│   │   │   ├── ServerUrl: *string
+│   │   │   └── Username: *string
+│   │   ├── GenerateWorkflowFile: *bool
+│   │   └── IsLinux: *bool
+│   ├── IsGitHubAction: *bool
+│   ├── IsManualIntegration: *bool
+│   ├── IsMercurial: *bool
+│   └── RepoUrl: *string
+└── Type: *string
+SitesSourcecontrol_Spec: Object (3 properties)
+├── Kind: *string
+├── Name: string
+└── Properties: *Object (7 properties)
+    ├── Branch: *string
+    ├── DeploymentRollbackEnabled: *bool
+    ├── GitHubActionConfiguration: *Object (4 properties)
+    │   ├── CodeConfiguration: *Object (2 properties)
+    │   │   ├── RuntimeStack: *string
+    │   │   └── RuntimeVersion: *string
+    │   ├── ContainerConfiguration: *Object (4 properties)
+    │   │   ├── ImageName: *string
+    │   │   ├── Password: *string
+    │   │   ├── ServerUrl: *string
+    │   │   └── Username: *string
+    │   ├── GenerateWorkflowFile: *bool
+    │   └── IsLinux: *bool
+    ├── IsGitHubAction: *bool
+    ├── IsManualIntegration: *bool
+    ├── IsMercurial: *bool
+    └── RepoUrl: *string
