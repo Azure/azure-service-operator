@@ -221,13 +221,13 @@ go-install setup-envtest sigs.k8s.io/controller-runtime/tools/setup-envtest@late
 go-install gofumpt mvdan.cc/gofumpt@latest
 
 # Install golangci-lint
-#doc# | golangci-lint | 1.61.0 | https://github.com/golangci/golangci-lint |
+#doc# | golangci-lint | 1.62.0 | https://github.com/golangci/golangci-lint |
 write-verbose "Checking for $TOOL_DEST/golangci-lint"
 if should-install "$TOOL_DEST/golangci-lint"; then
     write-info "Installing golangci-lint"
     # golangci-lint is provided by base image if in devcontainer
     # this command copied from there
-    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.61.0 2>&1
+    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.62.0 2>&1
 fi
 
 # Install Task
