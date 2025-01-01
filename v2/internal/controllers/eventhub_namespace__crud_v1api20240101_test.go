@@ -18,7 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_EventHub_Namespace_20211101_CRUD(t *testing.T) {
+func Test_EventHub_Namespace_v20240101_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -58,7 +58,7 @@ func Test_EventHub_Namespace_20211101_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Namespace_SecretsWrittenToSameKubeSecret",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				Namespace_SecretsWrittenToSameKubeSecret(tc, namespace)
+				Namespace_SecretsWrittenToSameKubeSecret_v20240101(tc, namespace)
 			},
 		},
 	)
@@ -68,13 +68,13 @@ func Test_EventHub_Namespace_20211101_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "EventHub CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				EventHub_CRUD(tc, namespace)
+				EventHub_CRUD_v20240101(tc, namespace)
 			},
 		},
 		testcommon.Subtest{
 			Name: "EventHub namespace auth rule CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				Namespace_AuthorizationRules_CRUD(tc, namespace)
+				Namespace_AuthorizationRules_CRUD_v20240101(tc, namespace)
 			},
 		},
 	)
@@ -85,7 +85,7 @@ func Test_EventHub_Namespace_20211101_CRUD(t *testing.T) {
 	tc.ExpectResourceIsDeletedInAzure(armId, string(eventhub.APIVersion_Value))
 }
 
-func Namespace_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, ns *eventhub.Namespace) {
+func Namespace_SecretsWrittenToSameKubeSecret_v20240101(tc *testcommon.KubePerTestContext, ns *eventhub.Namespace) {
 	old := ns.DeepCopy()
 	//nolint:gosec
 	nsSecretName := "namespacesecret"
@@ -102,7 +102,7 @@ func Namespace_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext,
 	tc.ExpectSecretHasKeys(nsSecretName, "primary-key", "primary-connection-string", "secondary-key", "secondary-connection-string")
 }
 
-func EventHub_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
+func EventHub_CRUD_v20240101(tc *testcommon.KubePerTestContext, namespace client.Object) {
 	eh := &eventhub.NamespacesEventhub{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
 		Spec: eventhub.NamespacesEventhub_Spec{
@@ -126,13 +126,13 @@ func EventHub_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 		testcommon.Subtest{
 			Name: "EventHub auth rule CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				EventHub_AuthorizationRules_CRUD(tc, eh)
+				EventHub_AuthorizationRules_CRUD_v20240101(tc, eh)
 			},
 		},
 		testcommon.Subtest{
 			Name: "EventHub consumer group CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				EventHub_ConsumerGroup_CRUD(tc, eh)
+				EventHub_ConsumerGroup_CRUD_v20240101(tc, eh)
 			},
 		},
 	)
@@ -144,7 +144,7 @@ func EventHub_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 	tc.Expect(eh.Status.MessageRetentionInDays).To(Equal(to.Ptr(3)))
 }
 
-func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
+func Namespace_AuthorizationRules_CRUD_v20240101(tc *testcommon.KubePerTestContext, namespace client.Object) {
 	rule := &eventhub.NamespacesAuthorizationRule{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
 		Spec: eventhub.NamespacesAuthorizationRule_Spec{
@@ -166,7 +166,7 @@ func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namesp
 		testcommon.Subtest{
 			Name: "NamespacesAuthorizationRule_SecretsWrittenToSameKubeSecret",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				NamespacesAuthorizationRule_SecretsWrittenToSameKubeSecret(tc, rule)
+				NamespacesAuthorizationRule_SecretsWrittenToSameKubeSecret_v20240101(tc, rule)
 			},
 		},
 	)
@@ -175,7 +175,7 @@ func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namesp
 	tc.Expect(rule.Status.Rights).To(HaveLen(2))
 }
 
-func NamespacesAuthorizationRule_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, ns *eventhub.NamespacesAuthorizationRule) {
+func NamespacesAuthorizationRule_SecretsWrittenToSameKubeSecret_v20240101(tc *testcommon.KubePerTestContext, ns *eventhub.NamespacesAuthorizationRule) {
 	old := ns.DeepCopy()
 	//nolint:gosec
 	namespaceAuthRuleSecretName := "namespaceauthrulesecret"
@@ -192,7 +192,7 @@ func NamespacesAuthorizationRule_SecretsWrittenToSameKubeSecret(tc *testcommon.K
 	tc.ExpectSecretHasKeys(namespaceAuthRuleSecretName, "primary-key", "primary-connection-string", "secondary-key", "secondary-connection-string")
 }
 
-func EventHub_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, eh client.Object) {
+func EventHub_AuthorizationRules_CRUD_v20240101(tc *testcommon.KubePerTestContext, eh client.Object) {
 	rule := &eventhub.NamespacesEventhubsAuthorizationRule{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
 		Spec: eventhub.NamespacesEventhubsAuthorizationRule_Spec{
@@ -214,7 +214,7 @@ func EventHub_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, eh clie
 		testcommon.Subtest{
 			Name: "EventHubAuthorizationRule_SecretsWrittenToSameKubeSecret",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				EventHubAuthorizationRule_SecretsWrittenToSameKubeSecret(tc, rule)
+				EventHubAuthorizationRule_SecretsWrittenToSameKubeSecret_v20240101(tc, rule)
 			},
 		},
 	)
@@ -223,7 +223,7 @@ func EventHub_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, eh clie
 	tc.Expect(rule.Status.Rights).To(HaveLen(2))
 }
 
-func EventHubAuthorizationRule_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, ns *eventhub.NamespacesEventhubsAuthorizationRule) {
+func EventHubAuthorizationRule_SecretsWrittenToSameKubeSecret_v20240101(tc *testcommon.KubePerTestContext, ns *eventhub.NamespacesEventhubsAuthorizationRule) {
 	old := ns.DeepCopy()
 	//nolint:gosec
 	eventHubAuthRuleSecretName := "eventhubauthrulesecret"
@@ -240,7 +240,7 @@ func EventHubAuthorizationRule_SecretsWrittenToSameKubeSecret(tc *testcommon.Kub
 	tc.ExpectSecretHasKeys(eventHubAuthRuleSecretName, "primary-key", "primary-connection-string", "secondary-key", "secondary-connection-string")
 }
 
-func EventHub_ConsumerGroup_CRUD(tc *testcommon.KubePerTestContext, eh client.Object) {
+func EventHub_ConsumerGroup_CRUD_v20240101(tc *testcommon.KubePerTestContext, eh client.Object) {
 	userMetadata := to.Ptr("This is some fun metadata")
 	consumerGroup := &eventhub.NamespacesEventhubsConsumerGroup{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),

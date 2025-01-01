@@ -53,22 +53,36 @@ var _ conversion.Convertible = &NamespacesEventhub{}
 
 // ConvertFrom populates our NamespacesEventhub from the provided hub NamespacesEventhub
 func (eventhub *NamespacesEventhub) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NamespacesEventhub)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20211101/storage/NamespacesEventhub but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NamespacesEventhub
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return eventhub.AssignProperties_From_NamespacesEventhub(source)
+	err = eventhub.AssignProperties_From_NamespacesEventhub(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to eventhub")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesEventhub from our NamespacesEventhub
 func (eventhub *NamespacesEventhub) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NamespacesEventhub)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20211101/storage/NamespacesEventhub but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NamespacesEventhub
+	err := eventhub.AssignProperties_To_NamespacesEventhub(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from eventhub")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return eventhub.AssignProperties_To_NamespacesEventhub(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1api20211101-namespaceseventhub,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubs,verbs=create;update,versions=v1api20211101,name=default.v1api20211101.namespaceseventhubs.eventhub.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (eventhub *NamespacesEventhub) SecretDestinationExpressions() []*core.Desti
 		return nil
 	}
 	return eventhub.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &NamespacesEventhub{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (eventhub *NamespacesEventhub) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*NamespacesEventhub_STATUS); ok {
-		return eventhub.Spec.Initialize_From_NamespacesEventhub_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type NamespacesEventhub_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &NamespacesEventhub{}
@@ -671,41 +674,6 @@ func (eventhub *NamespacesEventhub_Spec) AssignProperties_To_NamespacesEventhub_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NamespacesEventhub_STATUS populates our NamespacesEventhub_Spec from the provided source NamespacesEventhub_STATUS
-func (eventhub *NamespacesEventhub_Spec) Initialize_From_NamespacesEventhub_STATUS(source *NamespacesEventhub_STATUS) error {
-
-	// CaptureDescription
-	if source.CaptureDescription != nil {
-		var captureDescription CaptureDescription
-		err := captureDescription.Initialize_From_CaptureDescription_STATUS(source.CaptureDescription)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CaptureDescription_STATUS() to populate field CaptureDescription")
-		}
-		eventhub.CaptureDescription = &captureDescription
-	} else {
-		eventhub.CaptureDescription = nil
-	}
-
-	// MessageRetentionInDays
-	if source.MessageRetentionInDays != nil {
-		messageRetentionInDay := *source.MessageRetentionInDays
-		eventhub.MessageRetentionInDays = &messageRetentionInDay
-	} else {
-		eventhub.MessageRetentionInDays = nil
-	}
-
-	// PartitionCount
-	if source.PartitionCount != nil {
-		partitionCount := *source.PartitionCount
-		eventhub.PartitionCount = &partitionCount
-	} else {
-		eventhub.PartitionCount = nil
 	}
 
 	// No error
@@ -1330,55 +1298,6 @@ func (description *CaptureDescription) AssignProperties_To_CaptureDescription(de
 	return nil
 }
 
-// Initialize_From_CaptureDescription_STATUS populates our CaptureDescription from the provided source CaptureDescription_STATUS
-func (description *CaptureDescription) Initialize_From_CaptureDescription_STATUS(source *CaptureDescription_STATUS) error {
-
-	// Destination
-	if source.Destination != nil {
-		var destination Destination
-		err := destination.Initialize_From_Destination_STATUS(source.Destination)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Destination_STATUS() to populate field Destination")
-		}
-		description.Destination = &destination
-	} else {
-		description.Destination = nil
-	}
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		description.Enabled = &enabled
-	} else {
-		description.Enabled = nil
-	}
-
-	// Encoding
-	if source.Encoding != nil {
-		encoding := genruntime.ToEnum(string(*source.Encoding), captureDescription_Encoding_Values)
-		description.Encoding = &encoding
-	} else {
-		description.Encoding = nil
-	}
-
-	// IntervalInSeconds
-	description.IntervalInSeconds = genruntime.ClonePointerToInt(source.IntervalInSeconds)
-
-	// SizeLimitInBytes
-	description.SizeLimitInBytes = genruntime.ClonePointerToInt(source.SizeLimitInBytes)
-
-	// SkipEmptyArchives
-	if source.SkipEmptyArchives != nil {
-		skipEmptyArchive := *source.SkipEmptyArchives
-		description.SkipEmptyArchives = &skipEmptyArchive
-	} else {
-		description.SkipEmptyArchives = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Properties to configure capture description for eventhub
 type CaptureDescription_STATUS struct {
 	// Destination: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
@@ -1960,44 +1879,6 @@ func (destination *Destination) AssignProperties_To_Destination(target *storage.
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Destination_STATUS populates our Destination from the provided source Destination_STATUS
-func (destination *Destination) Initialize_From_Destination_STATUS(source *Destination_STATUS) error {
-
-	// ArchiveNameFormat
-	destination.ArchiveNameFormat = genruntime.ClonePointerToString(source.ArchiveNameFormat)
-
-	// BlobContainer
-	destination.BlobContainer = genruntime.ClonePointerToString(source.BlobContainer)
-
-	// DataLakeAccountName
-	destination.DataLakeAccountName = genruntime.ClonePointerToString(source.DataLakeAccountName)
-
-	// DataLakeFolderPath
-	destination.DataLakeFolderPath = genruntime.ClonePointerToString(source.DataLakeFolderPath)
-
-	// DataLakeSubscriptionId
-	if source.DataLakeSubscriptionId != nil {
-		dataLakeSubscriptionId := *source.DataLakeSubscriptionId
-		destination.DataLakeSubscriptionId = &dataLakeSubscriptionId
-	} else {
-		destination.DataLakeSubscriptionId = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(source.Name)
-
-	// StorageAccountResourceReference
-	if source.StorageAccountResourceId != nil {
-		storageAccountResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.StorageAccountResourceId)
-		destination.StorageAccountResourceReference = &storageAccountResourceReference
-	} else {
-		destination.StorageAccountResourceReference = nil
 	}
 
 	// No error
