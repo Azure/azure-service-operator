@@ -11,6 +11,7 @@ import (
 
 // SecretReference is a reference to a Kubernetes secret and key in the same namespace as
 // the resource it is on.
+// nolint:recvcheck
 // +kubebuilder:object:generate=true
 type SecretReference struct {
 	// Name is the name of the Kubernetes secret being referenced.
@@ -62,6 +63,7 @@ func (s NamespacedSecretReference) String() string {
 
 // SecretMapReference is a reference to a Kubernetes secret in the same namespace as
 // the resource it is on.
+// nolint:recvcheck
 // +kubebuilder:object:generate=true
 type SecretMapReference struct {
 	// Name is the name of the Kubernetes secret being referenced.
