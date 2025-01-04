@@ -53,36 +53,22 @@ var _ conversion.Convertible = &ScheduledQueryRule{}
 
 // ConvertFrom populates our ScheduledQueryRule from the provided hub ScheduledQueryRule
 func (rule *ScheduledQueryRule) ConvertFrom(hub conversion.Hub) error {
-	// intermediate variable for conversion
-	var source storage.ScheduledQueryRule
-
-	err := source.ConvertFrom(hub)
-	if err != nil {
-		return eris.Wrap(err, "converting from hub to source")
+	source, ok := hub.(*storage.ScheduledQueryRule)
+	if !ok {
+		return fmt.Errorf("expected insights/v1api20220615/storage/ScheduledQueryRule but received %T instead", hub)
 	}
 
-	err = rule.AssignProperties_From_ScheduledQueryRule(&source)
-	if err != nil {
-		return eris.Wrap(err, "converting from source to rule")
-	}
-
-	return nil
+	return rule.AssignProperties_From_ScheduledQueryRule(source)
 }
 
 // ConvertTo populates the provided hub ScheduledQueryRule from our ScheduledQueryRule
 func (rule *ScheduledQueryRule) ConvertTo(hub conversion.Hub) error {
-	// intermediate variable for conversion
-	var destination storage.ScheduledQueryRule
-	err := rule.AssignProperties_To_ScheduledQueryRule(&destination)
-	if err != nil {
-		return eris.Wrap(err, "converting to destination from rule")
-	}
-	err = destination.ConvertTo(hub)
-	if err != nil {
-		return eris.Wrap(err, "converting from destination to hub")
+	destination, ok := hub.(*storage.ScheduledQueryRule)
+	if !ok {
+		return fmt.Errorf("expected insights/v1api20220615/storage/ScheduledQueryRule but received %T instead", hub)
 	}
 
-	return nil
+	return rule.AssignProperties_To_ScheduledQueryRule(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-insights-azure-com-v1api20220615-scheduledqueryrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=scheduledqueryrules,verbs=create;update,versions=v1api20220615,name=default.v1api20220615.scheduledqueryrules.insights.azure.com,admissionReviewVersions=v1
@@ -126,6 +112,17 @@ func (rule *ScheduledQueryRule) SecretDestinationExpressions() []*core.Destinati
 		return nil
 	}
 	return rule.Spec.OperatorSpec.SecretExpressions
+}
+
+var _ genruntime.ImportableResource = &ScheduledQueryRule{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (rule *ScheduledQueryRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*ScheduledQueryRule_STATUS); ok {
+		return rule.Spec.Initialize_From_ScheduledQueryRule_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type ScheduledQueryRule_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ScheduledQueryRule{}
@@ -1127,6 +1124,112 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_To_ScheduledQueryRule_Spec
 	return nil
 }
 
+// Initialize_From_ScheduledQueryRule_STATUS populates our ScheduledQueryRule_Spec from the provided source ScheduledQueryRule_STATUS
+func (rule *ScheduledQueryRule_Spec) Initialize_From_ScheduledQueryRule_STATUS(source *ScheduledQueryRule_STATUS) error {
+
+	// Actions
+	if source.Actions != nil {
+		var action Actions
+		err := action.Initialize_From_Actions_STATUS(source.Actions)
+		if err != nil {
+			return eris.Wrap(err, "calling Initialize_From_Actions_STATUS() to populate field Actions")
+		}
+		rule.Actions = &action
+	} else {
+		rule.Actions = nil
+	}
+
+	// AutoMitigate
+	if source.AutoMitigate != nil {
+		autoMitigate := *source.AutoMitigate
+		rule.AutoMitigate = &autoMitigate
+	} else {
+		rule.AutoMitigate = nil
+	}
+
+	// CheckWorkspaceAlertsStorageConfigured
+	if source.CheckWorkspaceAlertsStorageConfigured != nil {
+		checkWorkspaceAlertsStorageConfigured := *source.CheckWorkspaceAlertsStorageConfigured
+		rule.CheckWorkspaceAlertsStorageConfigured = &checkWorkspaceAlertsStorageConfigured
+	} else {
+		rule.CheckWorkspaceAlertsStorageConfigured = nil
+	}
+
+	// Criteria
+	if source.Criteria != nil {
+		var criterion ScheduledQueryRuleCriteria
+		err := criterion.Initialize_From_ScheduledQueryRuleCriteria_STATUS(source.Criteria)
+		if err != nil {
+			return eris.Wrap(err, "calling Initialize_From_ScheduledQueryRuleCriteria_STATUS() to populate field Criteria")
+		}
+		rule.Criteria = &criterion
+	} else {
+		rule.Criteria = nil
+	}
+
+	// Description
+	rule.Description = genruntime.ClonePointerToString(source.Description)
+
+	// DisplayName
+	rule.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		rule.Enabled = &enabled
+	} else {
+		rule.Enabled = nil
+	}
+
+	// EvaluationFrequency
+	rule.EvaluationFrequency = genruntime.ClonePointerToString(source.EvaluationFrequency)
+
+	// Kind
+	if source.Kind != nil {
+		kind := genruntime.ToEnum(string(*source.Kind), scheduledQueryRule_Kind_Spec_Values)
+		rule.Kind = &kind
+	} else {
+		rule.Kind = nil
+	}
+
+	// Location
+	rule.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MuteActionsDuration
+	rule.MuteActionsDuration = genruntime.ClonePointerToString(source.MuteActionsDuration)
+
+	// OverrideQueryTimeRange
+	rule.OverrideQueryTimeRange = genruntime.ClonePointerToString(source.OverrideQueryTimeRange)
+
+	// Severity
+	if source.Severity != nil {
+		severity := ScheduledQueryRuleProperties_Severity(*source.Severity)
+		rule.Severity = &severity
+	} else {
+		rule.Severity = nil
+	}
+
+	// SkipQueryValidation
+	if source.SkipQueryValidation != nil {
+		skipQueryValidation := *source.SkipQueryValidation
+		rule.SkipQueryValidation = &skipQueryValidation
+	} else {
+		rule.SkipQueryValidation = nil
+	}
+
+	// Tags
+	rule.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// TargetResourceTypes
+	rule.TargetResourceTypes = genruntime.CloneSliceOfString(source.TargetResourceTypes)
+
+	// WindowSize
+	rule.WindowSize = genruntime.ClonePointerToString(source.WindowSize)
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (rule *ScheduledQueryRule_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1971,6 +2074,16 @@ func (actions *Actions) AssignProperties_To_Actions(destination *storage.Actions
 	return nil
 }
 
+// Initialize_From_Actions_STATUS populates our Actions from the provided source Actions_STATUS
+func (actions *Actions) Initialize_From_Actions_STATUS(source *Actions_STATUS) error {
+
+	// CustomProperties
+	actions.CustomProperties = genruntime.CloneMapOfStringToString(source.CustomProperties)
+
+	// No error
+	return nil
+}
+
 // Actions to invoke when the alert fires.
 type Actions_STATUS struct {
 	// ActionGroups: Action Group resource Ids to invoke when the alert fires.
@@ -2178,6 +2291,31 @@ func (criteria *ScheduledQueryRuleCriteria) AssignProperties_To_ScheduledQueryRu
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ScheduledQueryRuleCriteria_STATUS populates our ScheduledQueryRuleCriteria from the provided source ScheduledQueryRuleCriteria_STATUS
+func (criteria *ScheduledQueryRuleCriteria) Initialize_From_ScheduledQueryRuleCriteria_STATUS(source *ScheduledQueryRuleCriteria_STATUS) error {
+
+	// AllOf
+	if source.AllOf != nil {
+		allOfList := make([]Condition, len(source.AllOf))
+		for allOfIndex, allOfItem := range source.AllOf {
+			// Shadow the loop variable to avoid aliasing
+			allOfItem := allOfItem
+			var allOf Condition
+			err := allOf.Initialize_From_Condition_STATUS(&allOfItem)
+			if err != nil {
+				return eris.Wrap(err, "calling Initialize_From_Condition_STATUS() to populate field AllOf")
+			}
+			allOfList[allOfIndex] = allOf
+		}
+		criteria.AllOf = allOfList
+	} else {
+		criteria.AllOf = nil
 	}
 
 	// No error
@@ -2921,6 +3059,76 @@ func (condition *Condition) AssignProperties_To_Condition(destination *storage.C
 	return nil
 }
 
+// Initialize_From_Condition_STATUS populates our Condition from the provided source Condition_STATUS
+func (condition *Condition) Initialize_From_Condition_STATUS(source *Condition_STATUS) error {
+
+	// Dimensions
+	if source.Dimensions != nil {
+		dimensionList := make([]Dimension, len(source.Dimensions))
+		for dimensionIndex, dimensionItem := range source.Dimensions {
+			// Shadow the loop variable to avoid aliasing
+			dimensionItem := dimensionItem
+			var dimension Dimension
+			err := dimension.Initialize_From_Dimension_STATUS(&dimensionItem)
+			if err != nil {
+				return eris.Wrap(err, "calling Initialize_From_Dimension_STATUS() to populate field Dimensions")
+			}
+			dimensionList[dimensionIndex] = dimension
+		}
+		condition.Dimensions = dimensionList
+	} else {
+		condition.Dimensions = nil
+	}
+
+	// FailingPeriods
+	if source.FailingPeriods != nil {
+		var failingPeriod Condition_FailingPeriods
+		err := failingPeriod.Initialize_From_Condition_FailingPeriods_STATUS(source.FailingPeriods)
+		if err != nil {
+			return eris.Wrap(err, "calling Initialize_From_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
+		}
+		condition.FailingPeriods = &failingPeriod
+	} else {
+		condition.FailingPeriods = nil
+	}
+
+	// MetricMeasureColumn
+	condition.MetricMeasureColumn = genruntime.ClonePointerToString(source.MetricMeasureColumn)
+
+	// MetricName
+	condition.MetricName = genruntime.ClonePointerToString(source.MetricName)
+
+	// Operator
+	if source.Operator != nil {
+		operator := genruntime.ToEnum(string(*source.Operator), condition_Operator_Values)
+		condition.Operator = &operator
+	} else {
+		condition.Operator = nil
+	}
+
+	// Query
+	condition.Query = genruntime.ClonePointerToString(source.Query)
+
+	// Threshold
+	if source.Threshold != nil {
+		threshold := *source.Threshold
+		condition.Threshold = &threshold
+	} else {
+		condition.Threshold = nil
+	}
+
+	// TimeAggregation
+	if source.TimeAggregation != nil {
+		timeAggregation := genruntime.ToEnum(string(*source.TimeAggregation), condition_TimeAggregation_Values)
+		condition.TimeAggregation = &timeAggregation
+	} else {
+		condition.TimeAggregation = nil
+	}
+
+	// No error
+	return nil
+}
+
 // A condition of the scheduled query rule.
 type Condition_STATUS struct {
 	// Dimensions: List of Dimensions conditions
@@ -3326,6 +3534,19 @@ func (periods *Condition_FailingPeriods) AssignProperties_To_Condition_FailingPe
 	return nil
 }
 
+// Initialize_From_Condition_FailingPeriods_STATUS populates our Condition_FailingPeriods from the provided source Condition_FailingPeriods_STATUS
+func (periods *Condition_FailingPeriods) Initialize_From_Condition_FailingPeriods_STATUS(source *Condition_FailingPeriods_STATUS) error {
+
+	// MinFailingPeriodsToAlert
+	periods.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(source.MinFailingPeriodsToAlert)
+
+	// NumberOfEvaluationPeriods
+	periods.NumberOfEvaluationPeriods = genruntime.ClonePointerToInt(source.NumberOfEvaluationPeriods)
+
+	// No error
+	return nil
+}
+
 type Condition_FailingPeriods_STATUS struct {
 	// MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
 	// numberOfEvaluationPeriods. Default value is 1
@@ -3606,6 +3827,27 @@ func (dimension *Dimension) AssignProperties_To_Dimension(destination *storage.D
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Dimension_STATUS populates our Dimension from the provided source Dimension_STATUS
+func (dimension *Dimension) Initialize_From_Dimension_STATUS(source *Dimension_STATUS) error {
+
+	// Name
+	dimension.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Operator
+	if source.Operator != nil {
+		operator := genruntime.ToEnum(string(*source.Operator), dimension_Operator_Values)
+		dimension.Operator = &operator
+	} else {
+		dimension.Operator = nil
+	}
+
+	// Values
+	dimension.Values = genruntime.CloneSliceOfString(source.Values)
 
 	// No error
 	return nil

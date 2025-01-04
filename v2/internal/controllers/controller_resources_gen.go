@@ -131,8 +131,8 @@ import (
 	insights_v20221001s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001/storage"
 	insights_v20230101 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101"
 	insights_v20230101s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/storage"
-	insights_v20231201 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20231201"
-	insights_v20231201s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20231201/storage"
+	insights_v20240101p "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview"
+	insights_v20240101ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview/storage"
 	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
 	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
 	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/storage"
@@ -739,10 +739,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(insights_v20180301s.MetricAlert)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20200202s.Component)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20210501ps.DiagnosticSetting)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.ScheduledQueryRule)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.Webtest)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.AutoscaleSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230101s.ActionGroup)})
-	result = append(result, &registration.StorageType{Obj: new(insights_v20231201s.ScheduledQueryRule)})
 	result = append(result, &registration.StorageType{
 		Obj: new(keyvault_v20230701s.Vault),
 		Indexes: []registration.Index{
@@ -1898,8 +1898,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20221001s.AutoscaleSetting))
 	result = append(result, new(insights_v20230101.ActionGroup))
 	result = append(result, new(insights_v20230101s.ActionGroup))
-	result = append(result, new(insights_v20231201.ScheduledQueryRule))
-	result = append(result, new(insights_v20231201s.ScheduledQueryRule))
+	result = append(result, new(insights_v20240101p.ScheduledQueryRule))
+	result = append(result, new(insights_v20240101ps.ScheduledQueryRule))
 	result = append(result, new(keyvault_v20210401p.Vault))
 	result = append(result, new(keyvault_v20210401ps.Vault))
 	result = append(result, new(keyvault_v20230701.Vault))
@@ -2437,8 +2437,8 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20221001s.AddToScheme(scheme)
 	_ = insights_v20230101.AddToScheme(scheme)
 	_ = insights_v20230101s.AddToScheme(scheme)
-	_ = insights_v20231201.AddToScheme(scheme)
-	_ = insights_v20231201s.AddToScheme(scheme)
+	_ = insights_v20240101p.AddToScheme(scheme)
+	_ = insights_v20240101ps.AddToScheme(scheme)
 	_ = keyvault_v20210401p.AddToScheme(scheme)
 	_ = keyvault_v20210401ps.AddToScheme(scheme)
 	_ = keyvault_v20230701.AddToScheme(scheme)

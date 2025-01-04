@@ -59,14 +59,16 @@ type Identity_STATUS struct {
 type ScheduledQueryRule_Kind_STATUS string
 
 const (
-	ScheduledQueryRule_Kind_STATUS_LogAlert    = ScheduledQueryRule_Kind_STATUS("LogAlert")
-	ScheduledQueryRule_Kind_STATUS_LogToMetric = ScheduledQueryRule_Kind_STATUS("LogToMetric")
+	ScheduledQueryRule_Kind_STATUS_EventLogAlert = ScheduledQueryRule_Kind_STATUS("EventLogAlert")
+	ScheduledQueryRule_Kind_STATUS_LogAlert      = ScheduledQueryRule_Kind_STATUS("LogAlert")
+	ScheduledQueryRule_Kind_STATUS_LogToMetric   = ScheduledQueryRule_Kind_STATUS("LogToMetric")
 )
 
 // Mapping from string to ScheduledQueryRule_Kind_STATUS
 var scheduledQueryRule_Kind_STATUS_Values = map[string]ScheduledQueryRule_Kind_STATUS{
-	"logalert":    ScheduledQueryRule_Kind_STATUS_LogAlert,
-	"logtometric": ScheduledQueryRule_Kind_STATUS_LogToMetric,
+	"eventlogalert": ScheduledQueryRule_Kind_STATUS_EventLogAlert,
+	"logalert":      ScheduledQueryRule_Kind_STATUS_LogAlert,
+	"logtometric":   ScheduledQueryRule_Kind_STATUS_LogToMetric,
 }
 
 // scheduled query rule Definition
@@ -260,12 +262,24 @@ type UserIdentityProperties_STATUS struct {
 
 // A condition of the scheduled query rule.
 type Condition_STATUS struct {
+	// AlertSensitivity: The extent of deviation required to trigger an alert. Allowed values are 'Low', 'Medium' and 'High'.
+	// This will affect how tight the threshold is to the metric series pattern. Relevant and required only for dynamic
+	// threshold rules of the kind LogAlert.
+	AlertSensitivity *string `json:"alertSensitivity,omitempty"`
+
+	// CriterionType: Specifies the type of threshold criteria
+	CriterionType *Condition_CriterionType_STATUS `json:"criterionType,omitempty"`
+
 	// Dimensions: List of Dimensions conditions
 	Dimensions []Dimension_STATUS `json:"dimensions,omitempty"`
 
 	// FailingPeriods: The minimum number of violations required within the selected lookback time window required to raise an
 	// alert. Relevant only for rules of the kind LogAlert.
 	FailingPeriods *Condition_FailingPeriods_STATUS `json:"failingPeriods,omitempty"`
+
+	// IgnoreDataBefore: Use this option to set the date from which to start learning the metric historical data and calculate
+	// the dynamic thresholds (in ISO8601 format). Relevant only for dynamic threshold rules of the kind LogAlert.
+	IgnoreDataBefore *string `json:"ignoreDataBefore,omitempty"`
 
 	// MetricMeasureColumn: The column containing the metric measure number. Relevant only for rules of the kind LogAlert.
 	MetricMeasureColumn *string `json:"metricMeasureColumn,omitempty"`
@@ -283,12 +297,25 @@ type Condition_STATUS struct {
 	// id. Relevant only for rules of the kind LogAlert.
 	ResourceIdColumn *string `json:"resourceIdColumn,omitempty"`
 
-	// Threshold: the criteria threshold value that activates the alert. Relevant and required only for rules of the kind
-	// LogAlert.
+	// Threshold: the criteria threshold value that activates the alert. Relevant and required only for static threshold rules
+	// of the kind LogAlert.
 	Threshold *float64 `json:"threshold,omitempty"`
 
 	// TimeAggregation: Aggregation type. Relevant and required only for rules of the kind LogAlert.
 	TimeAggregation *Condition_TimeAggregation_STATUS `json:"timeAggregation,omitempty"`
+}
+
+type Condition_CriterionType_STATUS string
+
+const (
+	Condition_CriterionType_STATUS_DynamicThresholdCriterion = Condition_CriterionType_STATUS("DynamicThresholdCriterion")
+	Condition_CriterionType_STATUS_StaticThresholdCriterion  = Condition_CriterionType_STATUS("StaticThresholdCriterion")
+)
+
+// Mapping from string to Condition_CriterionType_STATUS
+var condition_CriterionType_STATUS_Values = map[string]Condition_CriterionType_STATUS{
+	"dynamicthresholdcriterion": Condition_CriterionType_STATUS_DynamicThresholdCriterion,
+	"staticthresholdcriterion":  Condition_CriterionType_STATUS_StaticThresholdCriterion,
 }
 
 type Condition_FailingPeriods_STATUS struct {
@@ -305,6 +332,7 @@ type Condition_Operator_STATUS string
 
 const (
 	Condition_Operator_STATUS_Equals             = Condition_Operator_STATUS("Equals")
+	Condition_Operator_STATUS_GreaterOrLessThan  = Condition_Operator_STATUS("GreaterOrLessThan")
 	Condition_Operator_STATUS_GreaterThan        = Condition_Operator_STATUS("GreaterThan")
 	Condition_Operator_STATUS_GreaterThanOrEqual = Condition_Operator_STATUS("GreaterThanOrEqual")
 	Condition_Operator_STATUS_LessThan           = Condition_Operator_STATUS("LessThan")
@@ -314,6 +342,7 @@ const (
 // Mapping from string to Condition_Operator_STATUS
 var condition_Operator_STATUS_Values = map[string]Condition_Operator_STATUS{
 	"equals":             Condition_Operator_STATUS_Equals,
+	"greaterorlessthan":  Condition_Operator_STATUS_GreaterOrLessThan,
 	"greaterthan":        Condition_Operator_STATUS_GreaterThan,
 	"greaterthanorequal": Condition_Operator_STATUS_GreaterThanOrEqual,
 	"lessthan":           Condition_Operator_STATUS_LessThan,

@@ -420,9 +420,9 @@ To install the CRDs for these resources, your ASO configuration must include `in
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                            |
-|--------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------|
-| ScheduledQueryRule | 2023-12-01  | v1api20231201 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20231201_scheduledqueryrule.yaml) |
+| Resource           | ARM Version        | CRD Version          | Supported From | Sample |
+|--------------------|--------------------|----------------------|----------------|--------|
+| ScheduledQueryRule | 2024-01-01-preview | v1api20240101preview | v2.12.0        | -      |
 
 ### Released
 

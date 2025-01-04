@@ -206,18 +206,4 @@ Webtest: Resource
         ├── PropertyBag: genruntime.PropertyBag
         ├── SSLCertRemainingLifetimeCheck: *int
         └── SSLCheck: *bool
-augmentConversionForActions: Interface
-augmentConversionForActions_STATUS: Interface
-augmentConversionForCondition: Interface
-augmentConversionForCondition_FailingPeriods: Interface
-augmentConversionForCondition_FailingPeriods_STATUS: Interface
-augmentConversionForCondition_STATUS: Interface
-augmentConversionForDimension: Interface
-augmentConversionForDimension_STATUS: Interface
-augmentConversionForScheduledQueryRule: Interface
-augmentConversionForScheduledQueryRuleCriteria: Interface
-augmentConversionForScheduledQueryRuleCriteria_STATUS: Interface
-augmentConversionForScheduledQueryRuleOperatorSpec: Interface
-augmentConversionForScheduledQueryRule_STATUS: Interface
-augmentConversionForScheduledQueryRule_Spec: Interface
 augmentConversionForSystemData_STATUS: Interface

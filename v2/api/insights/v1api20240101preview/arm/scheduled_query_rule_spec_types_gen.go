@@ -25,9 +25,9 @@ type ScheduledQueryRule_Spec struct {
 
 var _ genruntime.ARMResourceSpec = &ScheduledQueryRule_Spec{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2023-12-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2024-01-01-preview"
 func (rule ScheduledQueryRule_Spec) GetAPIVersion() string {
-	return "2023-12-01"
+	return "2024-01-01-preview"
 }
 
 // GetName returns the Name of the resource
@@ -47,18 +47,20 @@ type Identity struct {
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"LogAlert","LogToMetric"}
+// +kubebuilder:validation:Enum={"EventLogAlert","LogAlert","LogToMetric"}
 type ScheduledQueryRule_Kind_Spec string
 
 const (
-	ScheduledQueryRule_Kind_Spec_LogAlert    = ScheduledQueryRule_Kind_Spec("LogAlert")
-	ScheduledQueryRule_Kind_Spec_LogToMetric = ScheduledQueryRule_Kind_Spec("LogToMetric")
+	ScheduledQueryRule_Kind_Spec_EventLogAlert = ScheduledQueryRule_Kind_Spec("EventLogAlert")
+	ScheduledQueryRule_Kind_Spec_LogAlert      = ScheduledQueryRule_Kind_Spec("LogAlert")
+	ScheduledQueryRule_Kind_Spec_LogToMetric   = ScheduledQueryRule_Kind_Spec("LogToMetric")
 )
 
 // Mapping from string to ScheduledQueryRule_Kind_Spec
 var scheduledQueryRule_Kind_Spec_Values = map[string]ScheduledQueryRule_Kind_Spec{
-	"logalert":    ScheduledQueryRule_Kind_Spec_LogAlert,
-	"logtometric": ScheduledQueryRule_Kind_Spec_LogToMetric,
+	"eventlogalert": ScheduledQueryRule_Kind_Spec_EventLogAlert,
+	"logalert":      ScheduledQueryRule_Kind_Spec_LogAlert,
+	"logtometric":   ScheduledQueryRule_Kind_Spec_LogToMetric,
 }
 
 // scheduled query rule Definition
@@ -181,12 +183,24 @@ type UserAssignedIdentityDetails struct {
 
 // A condition of the scheduled query rule.
 type Condition struct {
+	// AlertSensitivity: The extent of deviation required to trigger an alert. Allowed values are 'Low', 'Medium' and 'High'.
+	// This will affect how tight the threshold is to the metric series pattern. Relevant and required only for dynamic
+	// threshold rules of the kind LogAlert.
+	AlertSensitivity *string `json:"alertSensitivity,omitempty"`
+
+	// CriterionType: Specifies the type of threshold criteria
+	CriterionType *Condition_CriterionType `json:"criterionType,omitempty"`
+
 	// Dimensions: List of Dimensions conditions
 	Dimensions []Dimension `json:"dimensions,omitempty"`
 
 	// FailingPeriods: The minimum number of violations required within the selected lookback time window required to raise an
 	// alert. Relevant only for rules of the kind LogAlert.
 	FailingPeriods *Condition_FailingPeriods `json:"failingPeriods,omitempty"`
+
+	// IgnoreDataBefore: Use this option to set the date from which to start learning the metric historical data and calculate
+	// the dynamic thresholds (in ISO8601 format). Relevant only for dynamic threshold rules of the kind LogAlert.
+	IgnoreDataBefore *string `json:"ignoreDataBefore,omitempty"`
 
 	// MetricMeasureColumn: The column containing the metric measure number. Relevant only for rules of the kind LogAlert.
 	MetricMeasureColumn *string `json:"metricMeasureColumn,omitempty"`
@@ -201,12 +215,26 @@ type Condition struct {
 	Query            *string `json:"query,omitempty"`
 	ResourceIdColumn *string `json:"resourceIdColumn,omitempty"`
 
-	// Threshold: the criteria threshold value that activates the alert. Relevant and required only for rules of the kind
-	// LogAlert.
+	// Threshold: the criteria threshold value that activates the alert. Relevant and required only for static threshold rules
+	// of the kind LogAlert.
 	Threshold *float64 `json:"threshold,omitempty"`
 
 	// TimeAggregation: Aggregation type. Relevant and required only for rules of the kind LogAlert.
 	TimeAggregation *Condition_TimeAggregation `json:"timeAggregation,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"DynamicThresholdCriterion","StaticThresholdCriterion"}
+type Condition_CriterionType string
+
+const (
+	Condition_CriterionType_DynamicThresholdCriterion = Condition_CriterionType("DynamicThresholdCriterion")
+	Condition_CriterionType_StaticThresholdCriterion  = Condition_CriterionType("StaticThresholdCriterion")
+)
+
+// Mapping from string to Condition_CriterionType
+var condition_CriterionType_Values = map[string]Condition_CriterionType{
+	"dynamicthresholdcriterion": Condition_CriterionType_DynamicThresholdCriterion,
+	"staticthresholdcriterion":  Condition_CriterionType_StaticThresholdCriterion,
 }
 
 type Condition_FailingPeriods struct {
@@ -219,11 +247,12 @@ type Condition_FailingPeriods struct {
 	NumberOfEvaluationPeriods *int `json:"numberOfEvaluationPeriods,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Equals","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual"}
+// +kubebuilder:validation:Enum={"Equals","GreaterOrLessThan","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual"}
 type Condition_Operator string
 
 const (
 	Condition_Operator_Equals             = Condition_Operator("Equals")
+	Condition_Operator_GreaterOrLessThan  = Condition_Operator("GreaterOrLessThan")
 	Condition_Operator_GreaterThan        = Condition_Operator("GreaterThan")
 	Condition_Operator_GreaterThanOrEqual = Condition_Operator("GreaterThanOrEqual")
 	Condition_Operator_LessThan           = Condition_Operator("LessThan")
@@ -233,6 +262,7 @@ const (
 // Mapping from string to Condition_Operator
 var condition_Operator_Values = map[string]Condition_Operator{
 	"equals":             Condition_Operator_Equals,
+	"greaterorlessthan":  Condition_Operator_GreaterOrLessThan,
 	"greaterthan":        Condition_Operator_GreaterThan,
 	"greaterthanorequal": Condition_Operator_GreaterThanOrEqual,
 	"lessthan":           Condition_Operator_LessThan,

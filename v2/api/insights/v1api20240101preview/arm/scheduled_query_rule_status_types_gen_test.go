@@ -211,10 +211,14 @@ func Condition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCondition_STATUS(gens map[string]gopter.Gen) {
+	gens["AlertSensitivity"] = gen.PtrOf(gen.AlphaString())
+	gens["CriterionType"] = gen.PtrOf(gen.OneConstOf(Condition_CriterionType_STATUS_DynamicThresholdCriterion, Condition_CriterionType_STATUS_StaticThresholdCriterion))
+	gens["IgnoreDataBefore"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricMeasureColumn"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
 		Condition_Operator_STATUS_Equals,
+		Condition_Operator_STATUS_GreaterOrLessThan,
 		Condition_Operator_STATUS_GreaterThan,
 		Condition_Operator_STATUS_GreaterThanOrEqual,
 		Condition_Operator_STATUS_LessThan,
@@ -665,7 +669,7 @@ func ScheduledQueryRule_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForScheduledQueryRule_STATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ScheduledQueryRule_Kind_STATUS_LogAlert, ScheduledQueryRule_Kind_STATUS_LogToMetric))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ScheduledQueryRule_Kind_STATUS_EventLogAlert, ScheduledQueryRule_Kind_STATUS_LogAlert, ScheduledQueryRule_Kind_STATUS_LogToMetric))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(
