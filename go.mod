@@ -1,4 +1,4 @@
-module github.com/AndreiBarbuOz/azure-service-operator
+module github.com/Azure/azure-service-operator
 
 go 1.20
 
