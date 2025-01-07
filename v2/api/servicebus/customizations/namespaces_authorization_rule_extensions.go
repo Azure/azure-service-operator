@@ -70,7 +70,7 @@ func (ext *NamespacesAuthorizationRuleExtension) ExportKubernetesSecrets(
 
 	client := clientFactory.NewNamespacesClient()
 	options := armservicebus.NamespacesClientListKeysOptions{}
-	response, err := client.ListKeys(ctx, id.ResourceGroupName, namespaceID.Name, rule.Name, &options)
+	response, err := client.ListKeys(ctx, id.ResourceGroupName, namespaceID.Name, id.Name, &options)
 	if err != nil {
 		return nil, eris.Wrapf(
 			err,
