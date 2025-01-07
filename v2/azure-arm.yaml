@@ -1172,6 +1172,54 @@ objectModelConfiguration:
       VirtualNetworkConfiguration:
         SubnetResourceId:
           $armReference: true
+  app:
+    2024-03-01:
+      ContainerApp:
+        $export: true
+        $supportedFrom: v2.12.0
+        $generatedConfigs:
+          EventStreamEndpoint: $.Status.EventStreamEndpoint
+          Fqdn: $.Status.LatestRevisionFqdn
+      ContainerApps_AuthConfig:
+        $exportAs: AuthConfig
+        $supportedFrom: v2.12.0
+      RegistryCredentials:
+        passwordSecretRef:
+          $isSecret: false
+        Identity:
+          $armReference: true
+      ServiceBind:
+        ServiceId:
+          $armReference: true
+      Secret:
+        Identity:
+          $armReference: true
+      ContainerApp_Spec:
+        ManagedBy:
+          $armReference: true
+      ContainerApp_Properties_Spec:
+        EnvironmentId:
+          $armReference: true
+        ManagedEnvironmentId:
+          $armReference: true
+      CustomDomain:
+        CertificateId:
+          $armReference: true
+      OpenIdConnectConfig:
+        TokenEndpoint:
+          $isSecret: false
+      ManagedEnvironment:
+        $export: true
+        $supportedFrom: 2.12.0
+      VnetConfiguration:
+        InfrastructureSubnetId:
+          $armReference: true
+      Job:
+        $export: true
+        $supportedFrom: v2.12.0
+      Job_Properties_Spec:
+        EnvironmentId:
+          $armReference: true
   appconfiguration:
     2022-05-01:
       ConfigurationStore:
