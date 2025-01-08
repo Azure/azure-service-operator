@@ -50,7 +50,6 @@ func Test_App_Job_CRUD(t *testing.T) {
 				},
 			},
 		},
-		Status: app.Job_STATUS{},
 	}
 
 	tc.CreateResourcesAndWait(job)

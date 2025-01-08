@@ -24,7 +24,6 @@ func Test_App_ManagedEnvironment_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	managedEnv := newManagedEnvironment(tc, rg)
-
 	tc.CreateResourcesAndWait(managedEnv)
 
 	tc.Expect(managedEnv.Status.Id).ToNot(BeNil())

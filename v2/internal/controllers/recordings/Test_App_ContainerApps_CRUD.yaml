@@ -57,7 +57,7 @@ interactions:
                 - 'Ref A: 81F66F06EABE42C9867A1B3363CEE8E7 Ref B: MAA201060515017 Ref C: 2025-01-07T08:48:06Z'
         status: 200 OK
         code: 200
-        duration: 5.945943125s
+        duration: 945.943125ms
     - id: 1
       request:
         proto: HTTP/1.1
@@ -299,7 +299,7 @@ interactions:
                 - ASP.NET
         status: 201 Created
         code: 201
-        duration: 3.832839667s
+        duration: 832.839667ms
     - id: 5
       request:
         proto: HTTP/1.1
@@ -596,7 +596,7 @@ interactions:
                 - ASP.NET
         status: 201 Created
         code: 201
-        duration: 4.076550583s
+        duration: 476.550583ms
     - id: 10
       request:
         proto: HTTP/1.1
@@ -946,7 +946,7 @@ interactions:
                 - ASP.NET
         status: 200 OK
         code: 200
-        duration: 2.52959225s
+        duration: 529.592258ms
     - id: 16
       request:
         proto: HTTP/1.1
@@ -1064,7 +1064,7 @@ interactions:
                 - ASP.NET
         status: 202 Accepted
         code: 202
-        duration: 3.054608s
+        duration: 305.460876ms
     - id: 18
       request:
         proto: HTTP/1.1
@@ -1223,7 +1223,7 @@ interactions:
                 - 'Ref A: 54805B373C654723BF51460280ABFA2F Ref B: MAA201060515017 Ref C: 2025-01-07T08:50:00Z'
         status: 202 Accepted
         code: 202
-        duration: 6.795004083s
+        duration: 795.004083ms
     - id: 21
       request:
         proto: HTTP/1.1
@@ -1541,7 +1541,7 @@ interactions:
                 - 'Ref A: 180AACC23BA641FF81EA6EE4D6075024 Ref B: MAA201060515017 Ref C: 2025-01-07T08:51:56Z'
         status: 202 Accepted
         code: 202
-        duration: 1.137142458s
+        duration: 137.142458ms
     - id: 27
       request:
         proto: HTTP/1.1
@@ -1700,7 +1700,7 @@ interactions:
                 - 'Ref A: 950ED5CDCD7241FDBC14367A8BE969D0 Ref B: MAA201060515017 Ref C: 2025-01-07T08:52:48Z'
         status: 202 Accepted
         code: 202
-        duration: 1.24539125s
+        duration: 245.391257ms
     - id: 30
       request:
         proto: HTTP/1.1
@@ -1806,7 +1806,7 @@ interactions:
                 - 'Ref A: CC50099E87A240C99F265B47AAD6FED2 Ref B: MAA201060515017 Ref C: 2025-01-07T08:53:23Z'
         status: 202 Accepted
         code: 202
-        duration: 1.163444375s
+        duration: 163.444375ms
     - id: 32
       request:
         proto: HTTP/1.1
@@ -2124,7 +2124,7 @@ interactions:
                 - 'Ref A: 9AFE2CB6B07F4E5F911F0487C4C01454 Ref B: MAA201060515017 Ref C: 2025-01-07T08:55:07Z'
         status: 202 Accepted
         code: 202
-        duration: 1.181833916s
+        duration: 181.833916ms
     - id: 38
       request:
         proto: HTTP/1.1
@@ -2866,7 +2866,7 @@ interactions:
                 - 'Ref A: E782198CD0024F4993560E1FAEAE8DB8 Ref B: MAA201060515017 Ref C: 2025-01-07T08:59:08Z'
         status: 202 Accepted
         code: 202
-        duration: 1.123900292s
+        duration: 123.900292ms
     - id: 52
       request:
         proto: HTTP/1.1
@@ -3661,7 +3661,7 @@ interactions:
                 - 'Ref A: 0F142F51314B4A2DBBCAA3612BA8C50C Ref B: MAA201060515017 Ref C: 2025-01-07T09:03:28Z'
         status: 202 Accepted
         code: 202
-        duration: 1.125164291s
+        duration: 125.164291ms
     - id: 67
       request:
         proto: HTTP/1.1
@@ -4085,7 +4085,7 @@ interactions:
                 - 'Ref A: 0EEFD242EB9A4AB0A32761A7AD4A9B93 Ref B: MAA201060515017 Ref C: 2025-01-07T09:05:48Z'
         status: 202 Accepted
         code: 202
-        duration: 1.343226167s
+        duration: 343.226167ms
     - id: 75
       request:
         proto: HTTP/1.1

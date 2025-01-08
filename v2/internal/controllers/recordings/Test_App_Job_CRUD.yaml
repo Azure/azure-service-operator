@@ -57,7 +57,7 @@ interactions:
                 - 'Ref A: 6A4B165DF6BA4B819029DEB90BB32175 Ref B: MAA201060514051 Ref C: 2025-01-07T11:11:17Z'
         status: 201 Created
         code: 201
-        duration: 5.605473917s
+        duration: 605.473917ms
     - id: 1
       request:
         proto: HTTP/1.1
@@ -177,7 +177,7 @@ interactions:
                 - ASP.NET
         status: 201 Created
         code: 201
-        duration: 5.204974417s
+        duration: 204.974417ms
     - id: 3
       request:
         proto: HTTP/1.1
@@ -816,7 +816,7 @@ interactions:
                 - ASP.NET
         status: 201 Created
         code: 201
-        duration: 4.932001s
+        duration: 332.246001ms
     - id: 14
       request:
         proto: HTTP/1.1
@@ -1052,7 +1052,7 @@ interactions:
                 - ASP.NET
         status: 500 Internal Server Error
         code: 500
-        duration: 7.301121125s
+        duration: 301.121125ms
     - id: 18
       request:
         proto: HTTP/1.1
@@ -1119,7 +1119,7 @@ interactions:
                 - ASP.NET
         status: 201 Created
         code: 201
-        duration: 5.383345417s
+        duration: 383.345417ms
     - id: 19
       request:
         proto: HTTP/1.1
@@ -1510,7 +1510,7 @@ interactions:
                 - 'Ref A: 105EBBDCD033469186610F60BCF32955 Ref B: MAA201060514051 Ref C: 2025-01-07T11:17:34Z'
         status: 202 Accepted
         code: 202
-        duration: 5.667671542s
+        duration: 667.671542ms
     - id: 26
       request:
         proto: HTTP/1.1
@@ -1616,7 +1616,7 @@ interactions:
                 - 'Ref A: 99C443CA047C43849EFBD257E26084C8 Ref B: MAA201060514051 Ref C: 2025-01-07T11:18:18Z'
         status: 202 Accepted
         code: 202
-        duration: 1.300230708s
+        duration: 300.230708ms
     - id: 28
       request:
         proto: HTTP/1.1
@@ -1669,7 +1669,7 @@ interactions:
                 - 'Ref A: AA260B0BEE904750B89AB07CC94B98D9 Ref B: MAA201060514051 Ref C: 2025-01-07T11:18:36Z'
         status: 202 Accepted
         code: 202
-        duration: 1.206464s
+        duration: 206.456464ms
     - id: 29
       request:
         proto: HTTP/1.1
@@ -1722,7 +1722,7 @@ interactions:
                 - 'Ref A: 1CAB7E06D233450A8939D25CEA3B0DDA Ref B: MAA201060514051 Ref C: 2025-01-07T11:18:54Z'
         status: 202 Accepted
         code: 202
-        duration: 1.3766015s
+        duration: 376.8796015ms
     - id: 30
       request:
         proto: HTTP/1.1
