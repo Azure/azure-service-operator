@@ -42,7 +42,6 @@ func Test_App_ManagedEnvironment_CRUD(t *testing.T) {
 		string(app.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
-
 }
 
 func newManagedEnvironment(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *app.ManagedEnvironment {
