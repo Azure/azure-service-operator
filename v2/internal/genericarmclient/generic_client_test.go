@@ -219,3 +219,62 @@ func Test_NewResourceGroup_SubscriptionNotRegisteredError(t *testing.T) {
 	g.Expect(err).To(HaveOccurred())
 	g.Expect(err.Error()).To(Equal("registering Resource Provider Microsoft.Fake with subscription. Try again later"))
 }
+
+var rpMalformedConflictError = `
+{
+  "code": "OperationNotAllowed",
+  "message": "The operation is not allowed."
+}`
+
+func Test_NewResourceGroup_ConflictWithMalformedErrorShape(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.Background()
+
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPut {
+			if r.URL.Path == "/subscriptions/12345/resourceGroups/myrg/providers/Microsoft.Fake/fakeResource/fake" {
+				w.WriteHeader(http.StatusConflict)
+				g.Expect(w.Write([]byte(rpMalformedConflictError))).ToNot(BeZero())
+				return
+			}
+		}
+
+		g.Fail(fmt.Sprintf("unknown request attempted. Method: %s, URL: %s", r.Method, r.URL))
+	}))
+	defer server.Close()
+
+	cfg := cloud.Configuration{
+		Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
+			cloud.ResourceManager: {
+				Endpoint: server.URL,
+				Audience: cloud.AzurePublic.Services[cloud.ResourceManager].Audience,
+			},
+		},
+	}
+	subscriptionId := "12345"
+
+	metrics := asometrics.NewARMClientMetrics()
+	options := &genericarmclient.GenericClientOptions{
+		HttpClient: server.Client(),
+		Metrics:    metrics,
+	}
+	client, err := genericarmclient.NewGenericClient(cfg, creds.MockTokenCredential{}, options)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	resourceURI := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Fake/fakeResource/fake", subscriptionId, "myrg")
+	apiVersion := "2019-01-01"
+	resource := &resources.ResourceGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "name",
+		},
+		Spec: resources.ResourceGroup_Spec{
+			Location: to.Ptr("westus"),
+		},
+	}
+
+	_, err = client.BeginCreateOrUpdateByID(ctx, resourceURI, apiVersion, resource)
+	g.Expect(err).To(MatchError(ContainSubstring("409 Conflict")))
+	g.Expect(err).To(MatchError(ContainSubstring("OperationNotAllowed")))
+	g.Expect(err).To(MatchError(ContainSubstring("The operation is not allowed")))
+}
