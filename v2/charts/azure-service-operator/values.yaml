@@ -166,6 +166,13 @@ nodeSelector:
 # podAnnotations contain the pod annotations for Azure Service Operator
 podAnnotations: {}
 
+# Enable the pod disruption budget
+# Specifies the minimum number of pods that must be available at any given time during the disruption.
+# Ref: https://kubernetes.io/docs/concepts/workloads/pods/disruptions/
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 50%
+
 # Labels to be added to the pod
 podLabels: {}
 
@@ -175,6 +182,9 @@ podSecurityContext: {}
 
 # Assign a PriorityClassName to pods if set
 priorityClassName: ""
+
+# Number of pod replicas to create for the deployment
+replicaCount: 2
 
 # Recomended initial values for resources
 # adjust them as necessary

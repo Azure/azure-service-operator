@@ -92,7 +92,7 @@ func BuildAllOfType(types ...Type) Type {
 // Types returns what types the AllOf can be.
 // Exposed as ReadonlyTypeSet so caller can't break invariants.
 func (allOf *AllOfType) Types() ReadonlyTypeSet {
-	return allOf.types
+	return &allOf.types
 }
 
 // References returns any type referenced by the AllOf types

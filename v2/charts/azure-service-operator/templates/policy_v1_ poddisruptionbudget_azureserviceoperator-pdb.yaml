@@ -1,0 +1,15 @@
+{{- if .Values.podDisruptionBudget.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  labels:
+    app.kubernetes.io/name: azure-service-operator
+    control-plane: controller-manager
+  name: azureserviceoperator-pdb
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      control-plane: controller-manager
+  minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
+{{- end }}

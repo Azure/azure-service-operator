@@ -115,7 +115,7 @@ func (oneOf *OneOfType) WithTypes(types []Type) *OneOfType {
 // Types returns what subtypes the OneOf may be.
 // Exposed as ReadonlyTypeSet so caller cannot break invariants.
 func (oneOf *OneOfType) Types() ReadonlyTypeSet {
-	return oneOf.types
+	return &oneOf.types
 }
 
 // PropertyObjects returns all the ObjectTypes that define the properties of this OneOf
