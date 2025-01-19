@@ -29,7 +29,7 @@ require (
 	github.com/sethvargo/go-password v0.2.0
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/crypto v0.31.0
-	golang.org/x/net v0.21.0
+	golang.org/x/net v0.33.0
 	k8s.io/api v0.28.3
 	k8s.io/apimachinery v0.28.3
 	k8s.io/client-go v0.28.3
