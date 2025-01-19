@@ -75,7 +75,7 @@ func (ext *NamespacesEventhubsAuthorizationRuleExtension) ExportKubernetesSecret
 			return nil, eris.Wrapf(err, "failed to create new EventHubsClient")
 		}
 
-		res, err = confClient.ListKeys(ctx, id.ResourceGroupName, id.Parent.Parent.Name, id.Parent.Name, typedObj.Name, nil)
+		res, err = confClient.ListKeys(ctx, id.ResourceGroupName, id.Parent.Parent.Name, id.Parent.Name, id.Name, nil)
 		if err != nil {
 			return nil, eris.Wrapf(err, "failed to retreive response")
 		}
