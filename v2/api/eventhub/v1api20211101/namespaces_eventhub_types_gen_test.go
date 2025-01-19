@@ -5,7 +5,8 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
+	v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForCaptureDescription(subject CaptureDescription) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CaptureDescription
+	var other v20211101s.CaptureDescription
 	err := copied.AssignProperties_To_CaptureDescription(&other)
 	if err != nil {
 		return err.Error()
@@ -155,7 +156,7 @@ func RunPropertyAssignmentTestForCaptureDescription_STATUS(subject CaptureDescri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CaptureDescription_STATUS
+	var other v20211101s.CaptureDescription_STATUS
 	err := copied.AssignProperties_To_CaptureDescription_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -276,7 +277,7 @@ func RunPropertyAssignmentTestForDestination(subject Destination) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Destination
+	var other v20211101s.Destination
 	err := copied.AssignProperties_To_Destination(&other)
 	if err != nil {
 		return err.Error()
@@ -383,7 +384,7 @@ func RunPropertyAssignmentTestForDestination_STATUS(subject Destination_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Destination_STATUS
+	var other v20211101s.Destination_STATUS
 	err := copied.AssignProperties_To_Destination_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -492,7 +493,7 @@ func RunResourceConversionTestForNamespacesEventhub(subject NamespacesEventhub) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.NamespacesEventhub
+	var hub v20240101s.NamespacesEventhub
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -534,7 +535,7 @@ func RunPropertyAssignmentTestForNamespacesEventhub(subject NamespacesEventhub) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesEventhub
+	var other v20211101s.NamespacesEventhub
 	err := copied.AssignProperties_To_NamespacesEventhub(&other)
 	if err != nil {
 		return err.Error()
@@ -637,7 +638,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubOperatorSpec(subject Namespac
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesEventhubOperatorSpec
+	var other v20211101s.NamespacesEventhubOperatorSpec
 	err := copied.AssignProperties_To_NamespacesEventhubOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -734,7 +735,7 @@ func RunPropertyAssignmentTestForNamespacesEventhub_STATUS(subject NamespacesEve
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesEventhub_STATUS
+	var other v20211101s.NamespacesEventhub_STATUS
 	err := copied.AssignProperties_To_NamespacesEventhub_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -870,7 +871,7 @@ func RunPropertyAssignmentTestForNamespacesEventhub_Spec(subject NamespacesEvent
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesEventhub_Spec
+	var other v20211101s.NamespacesEventhub_Spec
 	err := copied.AssignProperties_To_NamespacesEventhub_Spec(&other)
 	if err != nil {
 		return err.Error()

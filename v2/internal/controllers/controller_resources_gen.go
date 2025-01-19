@@ -116,6 +116,8 @@ import (
 	eventhub_customizations "github.com/Azure/azure-service-operator/v2/api/eventhub/customizations"
 	eventhub_v20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
 	eventhub_v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
+	eventhub_v20240101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101"
+	eventhub_v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
 	insights_customizations "github.com/Azure/azure-service-operator/v2/api/insights/customizations"
 	insights_v20180301 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301"
 	insights_v20180301s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301/storage"
@@ -729,11 +731,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.Topic)})
-	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.Namespace)})
-	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.NamespacesAuthorizationRule)})
-	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.NamespacesEventhub)})
-	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.NamespacesEventhubsAuthorizationRule)})
-	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.NamespacesEventhubsConsumerGroup)})
+	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.Namespace)})
+	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.NamespacesAuthorizationRule)})
+	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.NamespacesEventhub)})
+	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.NamespacesEventhubsAuthorizationRule)})
+	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.NamespacesEventhubsConsumerGroup)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20180301s.MetricAlert)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20200202s.Component)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20210501ps.DiagnosticSetting)})
@@ -1876,6 +1878,20 @@ func getKnownTypes() []client.Object {
 		new(eventhub_v20211101s.NamespacesEventhub),
 		new(eventhub_v20211101s.NamespacesEventhubsAuthorizationRule),
 		new(eventhub_v20211101s.NamespacesEventhubsConsumerGroup))
+	result = append(
+		result,
+		new(eventhub_v20240101.Namespace),
+		new(eventhub_v20240101.NamespacesAuthorizationRule),
+		new(eventhub_v20240101.NamespacesEventhub),
+		new(eventhub_v20240101.NamespacesEventhubsAuthorizationRule),
+		new(eventhub_v20240101.NamespacesEventhubsConsumerGroup))
+	result = append(
+		result,
+		new(eventhub_v20240101s.Namespace),
+		new(eventhub_v20240101s.NamespacesAuthorizationRule),
+		new(eventhub_v20240101s.NamespacesEventhub),
+		new(eventhub_v20240101s.NamespacesEventhubsAuthorizationRule),
+		new(eventhub_v20240101s.NamespacesEventhubsConsumerGroup))
 	result = append(result, new(insights_v20180301.MetricAlert))
 	result = append(result, new(insights_v20180301s.MetricAlert))
 	result = append(result, new(insights_v20180501p.Webtest))
@@ -2419,6 +2435,8 @@ func createScheme() *runtime.Scheme {
 	_ = eventgrid_v20200601s.AddToScheme(scheme)
 	_ = eventhub_v20211101.AddToScheme(scheme)
 	_ = eventhub_v20211101s.AddToScheme(scheme)
+	_ = eventhub_v20240101.AddToScheme(scheme)
+	_ = eventhub_v20240101s.AddToScheme(scheme)
 	_ = insights_v20180301.AddToScheme(scheme)
 	_ = insights_v20180301s.AddToScheme(scheme)
 	_ = insights_v20180501p.AddToScheme(scheme)
