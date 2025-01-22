@@ -60,6 +60,8 @@ import (
 	containerregistry_customizations "github.com/Azure/azure-service-operator/v2/api/containerregistry/customizations"
 	containerregistry_v20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901"
 	containerregistry_v20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901/storage"
+	containerregistry_v20230701 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701"
+	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
 	containerservice_customizations "github.com/Azure/azure-service-operator/v2/api/containerservice/customizations"
 	containerservice_v20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501"
 	containerservice_v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501/storage"
@@ -541,7 +543,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20210901s.Registry)})
+	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20230701s.RegistriesReplication)})
+	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20230701s.Registry)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.Fleet)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.FleetsMember)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.FleetsUpdateRun)})
@@ -1631,6 +1634,14 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(containerregistry_v20210901s.Registry))
 	result = append(
 		result,
+		new(containerregistry_v20230701.RegistriesReplication),
+		new(containerregistry_v20230701.Registry))
+	result = append(
+		result,
+		new(containerregistry_v20230701s.RegistriesReplication),
+		new(containerregistry_v20230701s.Registry))
+	result = append(
+		result,
 		new(containerservice_v20210501.ManagedCluster),
 		new(containerservice_v20210501.ManagedClustersAgentPool))
 	result = append(
@@ -2406,6 +2417,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerinstance_v20211001s.AddToScheme(scheme)
 	_ = containerregistry_v20210901.AddToScheme(scheme)
 	_ = containerregistry_v20210901s.AddToScheme(scheme)
+	_ = containerregistry_v20230701.AddToScheme(scheme)
+	_ = containerregistry_v20230701s.AddToScheme(scheme)
 	_ = containerservice_v20210501.AddToScheme(scheme)
 	_ = containerservice_v20210501s.AddToScheme(scheme)
 	_ = containerservice_v20230201.AddToScheme(scheme)
@@ -2589,6 +2602,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &compute_customizations.VirtualMachineScaleSetsExtensionExtension{})
 	result = append(result, &compute_customizations.VirtualMachinesExtensionExtension{})
 	result = append(result, &containerinstance_customizations.ContainerGroupExtension{})
+	result = append(result, &containerregistry_customizations.RegistriesReplicationExtension{})
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
 	result = append(result, &containerservice_customizations.FleetExtension{})
 	result = append(result, &containerservice_customizations.FleetsMemberExtension{})
