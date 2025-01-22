@@ -1210,7 +1210,7 @@ objectModelConfiguration:
           $isSecret: false
       ManagedEnvironment:
         $export: true
-        $supportedFrom: 2.12.0
+        $supportedFrom: v2.12.0
       VnetConfiguration:
         InfrastructureSubnetId:
           $armReference: true
