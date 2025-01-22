@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_RegistriesReplication_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RegistryReplication_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RegistriesReplication_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRegistriesReplication_STATUS, RegistriesReplication_STATUSGenerator()))
+		"Round trip of RegistryReplication_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRegistryReplication_STATUS, RegistryReplication_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRegistriesReplication_STATUS runs a test to see if a specific instance of RegistriesReplication_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRegistriesReplication_STATUS(subject RegistriesReplication_STATUS) string {
+// RunJSONSerializationTestForRegistryReplication_STATUS runs a test to see if a specific instance of RegistryReplication_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForRegistryReplication_STATUS(subject RegistryReplication_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForRegistriesReplication_STATUS(subject RegistriesR
 	}
 
 	// Deserialize back into memory
-	var actual RegistriesReplication_STATUS
+	var actual RegistryReplication_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,34 +56,34 @@ func RunJSONSerializationTestForRegistriesReplication_STATUS(subject RegistriesR
 	return ""
 }
 
-// Generator of RegistriesReplication_STATUS instances for property testing - lazily instantiated by
-// RegistriesReplication_STATUSGenerator()
-var registriesReplication_STATUSGenerator gopter.Gen
+// Generator of RegistryReplication_STATUS instances for property testing - lazily instantiated by
+// RegistryReplication_STATUSGenerator()
+var registryReplication_STATUSGenerator gopter.Gen
 
-// RegistriesReplication_STATUSGenerator returns a generator of RegistriesReplication_STATUS instances for property testing.
-// We first initialize registriesReplication_STATUSGenerator with a simplified generator based on the
+// RegistryReplication_STATUSGenerator returns a generator of RegistryReplication_STATUS instances for property testing.
+// We first initialize registryReplication_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RegistriesReplication_STATUSGenerator() gopter.Gen {
-	if registriesReplication_STATUSGenerator != nil {
-		return registriesReplication_STATUSGenerator
+func RegistryReplication_STATUSGenerator() gopter.Gen {
+	if registryReplication_STATUSGenerator != nil {
+		return registryReplication_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRegistriesReplication_STATUS(generators)
-	registriesReplication_STATUSGenerator = gen.Struct(reflect.TypeOf(RegistriesReplication_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForRegistryReplication_STATUS(generators)
+	registryReplication_STATUSGenerator = gen.Struct(reflect.TypeOf(RegistryReplication_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRegistriesReplication_STATUS(generators)
-	AddRelatedPropertyGeneratorsForRegistriesReplication_STATUS(generators)
-	registriesReplication_STATUSGenerator = gen.Struct(reflect.TypeOf(RegistriesReplication_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForRegistryReplication_STATUS(generators)
+	AddRelatedPropertyGeneratorsForRegistryReplication_STATUS(generators)
+	registryReplication_STATUSGenerator = gen.Struct(reflect.TypeOf(RegistryReplication_STATUS{}), generators)
 
-	return registriesReplication_STATUSGenerator
+	return registryReplication_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRegistriesReplication_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRegistriesReplication_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRegistryReplication_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRegistryReplication_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -93,8 +93,8 @@ func AddIndependentPropertyGeneratorsForRegistriesReplication_STATUS(gens map[st
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRegistriesReplication_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRegistriesReplication_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForRegistryReplication_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRegistryReplication_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ReplicationProperties_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

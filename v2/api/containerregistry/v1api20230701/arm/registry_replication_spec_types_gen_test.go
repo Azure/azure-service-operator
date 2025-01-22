@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_RegistriesReplication_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RegistryReplication_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RegistriesReplication_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRegistriesReplication_Spec, RegistriesReplication_SpecGenerator()))
+		"Round trip of RegistryReplication_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRegistryReplication_Spec, RegistryReplication_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRegistriesReplication_Spec runs a test to see if a specific instance of RegistriesReplication_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRegistriesReplication_Spec(subject RegistriesReplication_Spec) string {
+// RunJSONSerializationTestForRegistryReplication_Spec runs a test to see if a specific instance of RegistryReplication_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRegistryReplication_Spec(subject RegistryReplication_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForRegistriesReplication_Spec(subject RegistriesRep
 	}
 
 	// Deserialize back into memory
-	var actual RegistriesReplication_Spec
+	var actual RegistryReplication_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,34 +56,34 @@ func RunJSONSerializationTestForRegistriesReplication_Spec(subject RegistriesRep
 	return ""
 }
 
-// Generator of RegistriesReplication_Spec instances for property testing - lazily instantiated by
-// RegistriesReplication_SpecGenerator()
-var registriesReplication_SpecGenerator gopter.Gen
+// Generator of RegistryReplication_Spec instances for property testing - lazily instantiated by
+// RegistryReplication_SpecGenerator()
+var registryReplication_SpecGenerator gopter.Gen
 
-// RegistriesReplication_SpecGenerator returns a generator of RegistriesReplication_Spec instances for property testing.
-// We first initialize registriesReplication_SpecGenerator with a simplified generator based on the
+// RegistryReplication_SpecGenerator returns a generator of RegistryReplication_Spec instances for property testing.
+// We first initialize registryReplication_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RegistriesReplication_SpecGenerator() gopter.Gen {
-	if registriesReplication_SpecGenerator != nil {
-		return registriesReplication_SpecGenerator
+func RegistryReplication_SpecGenerator() gopter.Gen {
+	if registryReplication_SpecGenerator != nil {
+		return registryReplication_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRegistriesReplication_Spec(generators)
-	registriesReplication_SpecGenerator = gen.Struct(reflect.TypeOf(RegistriesReplication_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRegistryReplication_Spec(generators)
+	registryReplication_SpecGenerator = gen.Struct(reflect.TypeOf(RegistryReplication_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRegistriesReplication_Spec(generators)
-	AddRelatedPropertyGeneratorsForRegistriesReplication_Spec(generators)
-	registriesReplication_SpecGenerator = gen.Struct(reflect.TypeOf(RegistriesReplication_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRegistryReplication_Spec(generators)
+	AddRelatedPropertyGeneratorsForRegistryReplication_Spec(generators)
+	registryReplication_SpecGenerator = gen.Struct(reflect.TypeOf(RegistryReplication_Spec{}), generators)
 
-	return registriesReplication_SpecGenerator
+	return registryReplication_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRegistriesReplication_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRegistriesReplication_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRegistryReplication_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRegistryReplication_Spec(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(
@@ -91,8 +91,8 @@ func AddIndependentPropertyGeneratorsForRegistriesReplication_Spec(gens map[stri
 		gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRegistriesReplication_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRegistriesReplication_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForRegistryReplication_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRegistryReplication_Spec(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ReplicationPropertiesGenerator())
 }
 

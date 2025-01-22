@@ -543,8 +543,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20230701s.RegistriesReplication)})
 	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20230701s.Registry)})
+	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.Fleet)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.FleetsMember)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.FleetsUpdateRun)})
@@ -1634,12 +1634,12 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(containerregistry_v20210901s.Registry))
 	result = append(
 		result,
-		new(containerregistry_v20230701.RegistriesReplication),
-		new(containerregistry_v20230701.Registry))
+		new(containerregistry_v20230701.Registry),
+		new(containerregistry_v20230701.RegistryReplication))
 	result = append(
 		result,
-		new(containerregistry_v20230701s.RegistriesReplication),
-		new(containerregistry_v20230701s.Registry))
+		new(containerregistry_v20230701s.Registry),
+		new(containerregistry_v20230701s.RegistryReplication))
 	result = append(
 		result,
 		new(containerservice_v20210501.ManagedCluster),
@@ -2602,8 +2602,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &compute_customizations.VirtualMachineScaleSetsExtensionExtension{})
 	result = append(result, &compute_customizations.VirtualMachinesExtensionExtension{})
 	result = append(result, &containerinstance_customizations.ContainerGroupExtension{})
-	result = append(result, &containerregistry_customizations.RegistriesReplicationExtension{})
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
+	result = append(result, &containerregistry_customizations.RegistryReplicationExtension{})
 	result = append(result, &containerservice_customizations.FleetExtension{})
 	result = append(result, &containerservice_customizations.FleetsMemberExtension{})
 	result = append(result, &containerservice_customizations.FleetsUpdateRunExtension{})

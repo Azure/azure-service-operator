@@ -3,45 +3,6 @@ github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/s
 --------------------------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2023-07-01"
-RegistriesReplication: Resource
-├── Owner: containerregistry/v1api20230701.Registry
-├── Spec: Object (9 properties)
-│   ├── AzureName: string
-│   ├── Location: *string
-│   ├── OperatorSpec: *Object (3 properties)
-│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── SecretExpressions: *core.DestinationExpression[]
-│   ├── OriginalVersion: string
-│   ├── Owner: *genruntime.KnownResourceReference
-│   ├── PropertyBag: genruntime.PropertyBag
-│   ├── RegionEndpointEnabled: *bool
-│   ├── Tags: map[string]string
-│   └── ZoneRedundancy: *string
-└── Status: Object (12 properties)
-    ├── Conditions: conditions.Condition[]
-    ├── Id: *string
-    ├── Location: *string
-    ├── Name: *string
-    ├── PropertyBag: genruntime.PropertyBag
-    ├── ProvisioningState: *string
-    ├── RegionEndpointEnabled: *bool
-    ├── Status: *Object (4 properties)
-    │   ├── DisplayStatus: *string
-    │   ├── Message: *string
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── Timestamp: *string
-    ├── SystemData: *Object (7 properties)
-    │   ├── CreatedAt: *string
-    │   ├── CreatedBy: *string
-    │   ├── CreatedByType: *string
-    │   ├── LastModifiedAt: *string
-    │   ├── LastModifiedBy: *string
-    │   ├── LastModifiedByType: *string
-    │   └── PropertyBag: genruntime.PropertyBag
-    ├── Tags: map[string]string
-    ├── Type: *string
-    └── ZoneRedundancy: *string
 Registry: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (17 properties)
@@ -163,6 +124,45 @@ Registry: Resource
     │   ├── Name: *string
     │   ├── PropertyBag: genruntime.PropertyBag
     │   └── Tier: *string
+    ├── Status: *Object (4 properties)
+    │   ├── DisplayStatus: *string
+    │   ├── Message: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   └── Timestamp: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── Tags: map[string]string
+    ├── Type: *string
+    └── ZoneRedundancy: *string
+RegistryReplication: Resource
+├── Owner: containerregistry/v1api20230701.Registry
+├── Spec: Object (9 properties)
+│   ├── AzureName: string
+│   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── RegionEndpointEnabled: *bool
+│   ├── Tags: map[string]string
+│   └── ZoneRedundancy: *string
+└── Status: Object (12 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Location: *string
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── ProvisioningState: *string
+    ├── RegionEndpointEnabled: *bool
     ├── Status: *Object (4 properties)
     │   ├── DisplayStatus: *string
     │   ├── Message: *string

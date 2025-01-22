@@ -1674,7 +1674,7 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.12.0
       Registries_Replication:
-        $exportAs: RegistriesReplication
+        $exportAs: RegistryReplication
         $supportedFrom: v2.12.0
   containerservice:
     $payloadType: explicitCollections

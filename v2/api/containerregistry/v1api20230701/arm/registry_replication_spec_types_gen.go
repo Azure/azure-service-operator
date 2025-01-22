@@ -5,7 +5,7 @@ package arm
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type RegistriesReplication_Spec struct {
+type RegistryReplication_Spec struct {
 	// Location: The location of the resource. This cannot be changed after the resource is created.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
@@ -17,20 +17,20 @@ type RegistriesReplication_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &RegistriesReplication_Spec{}
+var _ genruntime.ARMResourceSpec = &RegistryReplication_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-07-01"
-func (replication RegistriesReplication_Spec) GetAPIVersion() string {
+func (replication RegistryReplication_Spec) GetAPIVersion() string {
 	return "2023-07-01"
 }
 
 // GetName returns the Name of the resource
-func (replication *RegistriesReplication_Spec) GetName() string {
+func (replication *RegistryReplication_Spec) GetName() string {
 	return replication.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerRegistry/registries/replications"
-func (replication *RegistriesReplication_Spec) GetType() string {
+func (replication *RegistryReplication_Spec) GetType() string {
 	return "Microsoft.ContainerRegistry/registries/replications"
 }
 

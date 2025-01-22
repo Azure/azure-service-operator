@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package arm
 
-type RegistriesReplication_STATUS struct {
+type RegistryReplication_STATUS struct {
 	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
 

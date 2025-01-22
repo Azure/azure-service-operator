@@ -30,53 +30,53 @@ import (
 // Generator information:
 // - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/containerregistry.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}
-type RegistriesReplication struct {
+type RegistryReplication struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RegistriesReplication_Spec   `json:"spec,omitempty"`
-	Status            RegistriesReplication_STATUS `json:"status,omitempty"`
+	Spec              RegistryReplication_Spec   `json:"spec,omitempty"`
+	Status            RegistryReplication_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &RegistriesReplication{}
+var _ conditions.Conditioner = &RegistryReplication{}
 
 // GetConditions returns the conditions of the resource
-func (replication *RegistriesReplication) GetConditions() conditions.Conditions {
+func (replication *RegistryReplication) GetConditions() conditions.Conditions {
 	return replication.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (replication *RegistriesReplication) SetConditions(conditions conditions.Conditions) {
+func (replication *RegistryReplication) SetConditions(conditions conditions.Conditions) {
 	replication.Status.Conditions = conditions
 }
 
-var _ conversion.Convertible = &RegistriesReplication{}
+var _ conversion.Convertible = &RegistryReplication{}
 
-// ConvertFrom populates our RegistriesReplication from the provided hub RegistriesReplication
-func (replication *RegistriesReplication) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RegistriesReplication)
+// ConvertFrom populates our RegistryReplication from the provided hub RegistryReplication
+func (replication *RegistryReplication) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.RegistryReplication)
 	if !ok {
-		return fmt.Errorf("expected containerregistry/v1api20230701/storage/RegistriesReplication but received %T instead", hub)
+		return fmt.Errorf("expected containerregistry/v1api20230701/storage/RegistryReplication but received %T instead", hub)
 	}
 
-	return replication.AssignProperties_From_RegistriesReplication(source)
+	return replication.AssignProperties_From_RegistryReplication(source)
 }
 
-// ConvertTo populates the provided hub RegistriesReplication from our RegistriesReplication
-func (replication *RegistriesReplication) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RegistriesReplication)
+// ConvertTo populates the provided hub RegistryReplication from our RegistryReplication
+func (replication *RegistryReplication) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.RegistryReplication)
 	if !ok {
-		return fmt.Errorf("expected containerregistry/v1api20230701/storage/RegistriesReplication but received %T instead", hub)
+		return fmt.Errorf("expected containerregistry/v1api20230701/storage/RegistryReplication but received %T instead", hub)
 	}
 
-	return replication.AssignProperties_To_RegistriesReplication(destination)
+	return replication.AssignProperties_To_RegistryReplication(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-containerregistry-azure-com-v1api20230701-registriesreplication,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registriesreplications,verbs=create;update,versions=v1api20230701,name=default.v1api20230701.registriesreplications.containerregistry.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-containerregistry-azure-com-v1api20230701-registryreplication,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registryreplications,verbs=create;update,versions=v1api20230701,name=default.v1api20230701.registryreplications.containerregistry.azure.com,admissionReviewVersions=v1
 
-var _ admission.Defaulter = &RegistriesReplication{}
+var _ admission.Defaulter = &RegistryReplication{}
 
-// Default applies defaults to the RegistriesReplication resource
-func (replication *RegistriesReplication) Default() {
+// Default applies defaults to the RegistryReplication resource
+func (replication *RegistryReplication) Default() {
 	replication.defaultImpl()
 	var temp any = replication
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
@@ -85,75 +85,75 @@ func (replication *RegistriesReplication) Default() {
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (replication *RegistriesReplication) defaultAzureName() {
+func (replication *RegistryReplication) defaultAzureName() {
 	if replication.Spec.AzureName == "" {
 		replication.Spec.AzureName = replication.Name
 	}
 }
 
-// defaultImpl applies the code generated defaults to the RegistriesReplication resource
-func (replication *RegistriesReplication) defaultImpl() { replication.defaultAzureName() }
+// defaultImpl applies the code generated defaults to the RegistryReplication resource
+func (replication *RegistryReplication) defaultImpl() { replication.defaultAzureName() }
 
-var _ configmaps.Exporter = &RegistriesReplication{}
+var _ configmaps.Exporter = &RegistryReplication{}
 
 // ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
-func (replication *RegistriesReplication) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+func (replication *RegistryReplication) ConfigMapDestinationExpressions() []*core.DestinationExpression {
 	if replication.Spec.OperatorSpec == nil {
 		return nil
 	}
 	return replication.Spec.OperatorSpec.ConfigMapExpressions
 }
 
-var _ secrets.Exporter = &RegistriesReplication{}
+var _ secrets.Exporter = &RegistryReplication{}
 
 // SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
-func (replication *RegistriesReplication) SecretDestinationExpressions() []*core.DestinationExpression {
+func (replication *RegistryReplication) SecretDestinationExpressions() []*core.DestinationExpression {
 	if replication.Spec.OperatorSpec == nil {
 		return nil
 	}
 	return replication.Spec.OperatorSpec.SecretExpressions
 }
 
-var _ genruntime.ImportableResource = &RegistriesReplication{}
+var _ genruntime.ImportableResource = &RegistryReplication{}
 
 // InitializeSpec initializes the spec for this resource from the given status
-func (replication *RegistriesReplication) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RegistriesReplication_STATUS); ok {
-		return replication.Spec.Initialize_From_RegistriesReplication_STATUS(s)
+func (replication *RegistryReplication) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*RegistryReplication_STATUS); ok {
+		return replication.Spec.Initialize_From_RegistryReplication_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type RegistriesReplication_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type RegistryReplication_STATUS but received %T instead", status)
 }
 
-var _ genruntime.KubernetesResource = &RegistriesReplication{}
+var _ genruntime.KubernetesResource = &RegistryReplication{}
 
 // AzureName returns the Azure name of the resource
-func (replication *RegistriesReplication) AzureName() string {
+func (replication *RegistryReplication) AzureName() string {
 	return replication.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-07-01"
-func (replication RegistriesReplication) GetAPIVersion() string {
+func (replication RegistryReplication) GetAPIVersion() string {
 	return "2023-07-01"
 }
 
 // GetResourceScope returns the scope of the resource
-func (replication *RegistriesReplication) GetResourceScope() genruntime.ResourceScope {
+func (replication *RegistryReplication) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (replication *RegistriesReplication) GetSpec() genruntime.ConvertibleSpec {
+func (replication *RegistryReplication) GetSpec() genruntime.ConvertibleSpec {
 	return &replication.Spec
 }
 
 // GetStatus returns the status of this resource
-func (replication *RegistriesReplication) GetStatus() genruntime.ConvertibleStatus {
+func (replication *RegistryReplication) GetStatus() genruntime.ConvertibleStatus {
 	return &replication.Status
 }
 
 // GetSupportedOperations returns the operations supported by the resource
-func (replication *RegistriesReplication) GetSupportedOperations() []genruntime.ResourceOperation {
+func (replication *RegistryReplication) GetSupportedOperations() []genruntime.ResourceOperation {
 	return []genruntime.ResourceOperation{
 		genruntime.ResourceOperationDelete,
 		genruntime.ResourceOperationGet,
@@ -162,17 +162,17 @@ func (replication *RegistriesReplication) GetSupportedOperations() []genruntime.
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerRegistry/registries/replications"
-func (replication *RegistriesReplication) GetType() string {
+func (replication *RegistryReplication) GetType() string {
 	return "Microsoft.ContainerRegistry/registries/replications"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (replication *RegistriesReplication) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RegistriesReplication_STATUS{}
+func (replication *RegistryReplication) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &RegistryReplication_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (replication *RegistriesReplication) Owner() *genruntime.ResourceReference {
+func (replication *RegistryReplication) Owner() *genruntime.ResourceReference {
 	if replication.Spec.Owner == nil {
 		return nil
 	}
@@ -182,15 +182,15 @@ func (replication *RegistriesReplication) Owner() *genruntime.ResourceReference 
 }
 
 // SetStatus sets the status of this resource
-func (replication *RegistriesReplication) SetStatus(status genruntime.ConvertibleStatus) error {
+func (replication *RegistryReplication) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RegistriesReplication_STATUS); ok {
+	if st, ok := status.(*RegistryReplication_STATUS); ok {
 		replication.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RegistriesReplication_STATUS
+	var st RegistryReplication_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return eris.Wrap(err, "failed to convert status")
@@ -200,12 +200,12 @@ func (replication *RegistriesReplication) SetStatus(status genruntime.Convertibl
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-containerregistry-azure-com-v1api20230701-registriesreplication,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registriesreplications,verbs=create;update,versions=v1api20230701,name=validate.v1api20230701.registriesreplications.containerregistry.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-containerregistry-azure-com-v1api20230701-registryreplication,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registryreplications,verbs=create;update,versions=v1api20230701,name=validate.v1api20230701.registryreplications.containerregistry.azure.com,admissionReviewVersions=v1
 
-var _ admission.Validator = &RegistriesReplication{}
+var _ admission.Validator = &RegistryReplication{}
 
 // ValidateCreate validates the creation of the resource
-func (replication *RegistriesReplication) ValidateCreate() (admission.Warnings, error) {
+func (replication *RegistryReplication) ValidateCreate() (admission.Warnings, error) {
 	validations := replication.createValidations()
 	var temp any = replication
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
@@ -215,7 +215,7 @@ func (replication *RegistriesReplication) ValidateCreate() (admission.Warnings, 
 }
 
 // ValidateDelete validates the deletion of the resource
-func (replication *RegistriesReplication) ValidateDelete() (admission.Warnings, error) {
+func (replication *RegistryReplication) ValidateDelete() (admission.Warnings, error) {
 	validations := replication.deleteValidations()
 	var temp any = replication
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
@@ -225,7 +225,7 @@ func (replication *RegistriesReplication) ValidateDelete() (admission.Warnings, 
 }
 
 // ValidateUpdate validates an update of the resource
-func (replication *RegistriesReplication) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
+func (replication *RegistryReplication) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := replication.updateValidations()
 	var temp any = replication
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
@@ -235,17 +235,17 @@ func (replication *RegistriesReplication) ValidateUpdate(old runtime.Object) (ad
 }
 
 // createValidations validates the creation of the resource
-func (replication *RegistriesReplication) createValidations() []func() (admission.Warnings, error) {
+func (replication *RegistryReplication) createValidations() []func() (admission.Warnings, error) {
 	return []func() (admission.Warnings, error){replication.validateResourceReferences, replication.validateOwnerReference, replication.validateSecretDestinations, replication.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
-func (replication *RegistriesReplication) deleteValidations() []func() (admission.Warnings, error) {
+func (replication *RegistryReplication) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (replication *RegistriesReplication) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+func (replication *RegistryReplication) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
 	return []func(old runtime.Object) (admission.Warnings, error){
 		func(old runtime.Object) (admission.Warnings, error) {
 			return replication.validateResourceReferences()
@@ -264,7 +264,7 @@ func (replication *RegistriesReplication) updateValidations() []func(old runtime
 }
 
 // validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (replication *RegistriesReplication) validateConfigMapDestinations() (admission.Warnings, error) {
+func (replication *RegistryReplication) validateConfigMapDestinations() (admission.Warnings, error) {
 	if replication.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
@@ -272,12 +272,12 @@ func (replication *RegistriesReplication) validateConfigMapDestinations() (admis
 }
 
 // validateOwnerReference validates the owner field
-func (replication *RegistriesReplication) validateOwnerReference() (admission.Warnings, error) {
+func (replication *RegistryReplication) validateOwnerReference() (admission.Warnings, error) {
 	return genruntime.ValidateOwner(replication)
 }
 
 // validateResourceReferences validates all resource references
-func (replication *RegistriesReplication) validateResourceReferences() (admission.Warnings, error) {
+func (replication *RegistryReplication) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&replication.Spec)
 	if err != nil {
 		return nil, err
@@ -286,7 +286,7 @@ func (replication *RegistriesReplication) validateResourceReferences() (admissio
 }
 
 // validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (replication *RegistriesReplication) validateSecretDestinations() (admission.Warnings, error) {
+func (replication *RegistryReplication) validateSecretDestinations() (admission.Warnings, error) {
 	if replication.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
@@ -294,8 +294,8 @@ func (replication *RegistriesReplication) validateSecretDestinations() (admissio
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (replication *RegistriesReplication) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*RegistriesReplication)
+func (replication *RegistryReplication) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
+	oldObj, ok := old.(*RegistryReplication)
 	if !ok {
 		return nil, nil
 	}
@@ -303,25 +303,25 @@ func (replication *RegistriesReplication) validateWriteOnceProperties(old runtim
 	return genruntime.ValidateWriteOnceProperties(oldObj, replication)
 }
 
-// AssignProperties_From_RegistriesReplication populates our RegistriesReplication from the provided source RegistriesReplication
-func (replication *RegistriesReplication) AssignProperties_From_RegistriesReplication(source *storage.RegistriesReplication) error {
+// AssignProperties_From_RegistryReplication populates our RegistryReplication from the provided source RegistryReplication
+func (replication *RegistryReplication) AssignProperties_From_RegistryReplication(source *storage.RegistryReplication) error {
 
 	// ObjectMeta
 	replication.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec RegistriesReplication_Spec
-	err := spec.AssignProperties_From_RegistriesReplication_Spec(&source.Spec)
+	var spec RegistryReplication_Spec
+	err := spec.AssignProperties_From_RegistryReplication_Spec(&source.Spec)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_RegistriesReplication_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_RegistryReplication_Spec() to populate field Spec")
 	}
 	replication.Spec = spec
 
 	// Status
-	var status RegistriesReplication_STATUS
-	err = status.AssignProperties_From_RegistriesReplication_STATUS(&source.Status)
+	var status RegistryReplication_STATUS
+	err = status.AssignProperties_From_RegistryReplication_STATUS(&source.Status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_RegistriesReplication_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_RegistryReplication_STATUS() to populate field Status")
 	}
 	replication.Status = status
 
@@ -329,25 +329,25 @@ func (replication *RegistriesReplication) AssignProperties_From_RegistriesReplic
 	return nil
 }
 
-// AssignProperties_To_RegistriesReplication populates the provided destination RegistriesReplication from our RegistriesReplication
-func (replication *RegistriesReplication) AssignProperties_To_RegistriesReplication(destination *storage.RegistriesReplication) error {
+// AssignProperties_To_RegistryReplication populates the provided destination RegistryReplication from our RegistryReplication
+func (replication *RegistryReplication) AssignProperties_To_RegistryReplication(destination *storage.RegistryReplication) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *replication.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.RegistriesReplication_Spec
-	err := replication.Spec.AssignProperties_To_RegistriesReplication_Spec(&spec)
+	var spec storage.RegistryReplication_Spec
+	err := replication.Spec.AssignProperties_To_RegistryReplication_Spec(&spec)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_RegistriesReplication_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_RegistryReplication_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.RegistriesReplication_STATUS
-	err = replication.Status.AssignProperties_To_RegistriesReplication_STATUS(&status)
+	var status storage.RegistryReplication_STATUS
+	err = replication.Status.AssignProperties_To_RegistryReplication_STATUS(&status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_RegistriesReplication_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_RegistryReplication_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -356,11 +356,11 @@ func (replication *RegistriesReplication) AssignProperties_To_RegistriesReplicat
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (replication *RegistriesReplication) OriginalGVK() *schema.GroupVersionKind {
+func (replication *RegistryReplication) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
 		Version: replication.Spec.OriginalVersion(),
-		Kind:    "RegistriesReplication",
+		Kind:    "RegistryReplication",
 	}
 }
 
@@ -368,18 +368,13 @@ func (replication *RegistriesReplication) OriginalGVK() *schema.GroupVersionKind
 // Generator information:
 // - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/containerregistry.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}
-type RegistriesReplicationList struct {
+type RegistryReplicationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []RegistriesReplication `json:"items"`
+	Items           []RegistryReplication `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2023-07-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2023-07-01")
-
-type RegistriesReplication_Spec struct {
+type RegistryReplication_Spec struct {
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=5
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]*$"
@@ -393,7 +388,7 @@ type RegistriesReplication_Spec struct {
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
-	OperatorSpec *RegistriesReplicationOperatorSpec `json:"operatorSpec,omitempty"`
+	OperatorSpec *RegistryReplicationOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -412,14 +407,14 @@ type RegistriesReplication_Spec struct {
 	ZoneRedundancy *ReplicationProperties_ZoneRedundancy `json:"zoneRedundancy,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &RegistriesReplication_Spec{}
+var _ genruntime.ARMTransformer = &RegistryReplication_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (replication *RegistriesReplication_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (replication *RegistryReplication_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if replication == nil {
 		return nil, nil
 	}
-	result := &arm.RegistriesReplication_Spec{}
+	result := &arm.RegistryReplication_Spec{}
 
 	// Set property "Location":
 	if replication.Location != nil {
@@ -456,15 +451,15 @@ func (replication *RegistriesReplication_Spec) ConvertToARM(resolved genruntime.
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (replication *RegistriesReplication_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.RegistriesReplication_Spec{}
+func (replication *RegistryReplication_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.RegistryReplication_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (replication *RegistriesReplication_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.RegistriesReplication_Spec)
+func (replication *RegistryReplication_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.RegistryReplication_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RegistriesReplication_Spec, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RegistryReplication_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -516,25 +511,25 @@ func (replication *RegistriesReplication_Spec) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &RegistriesReplication_Spec{}
+var _ genruntime.ConvertibleSpec = &RegistryReplication_Spec{}
 
-// ConvertSpecFrom populates our RegistriesReplication_Spec from the provided source
-func (replication *RegistriesReplication_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.RegistriesReplication_Spec)
+// ConvertSpecFrom populates our RegistryReplication_Spec from the provided source
+func (replication *RegistryReplication_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.RegistryReplication_Spec)
 	if ok {
 		// Populate our instance from source
-		return replication.AssignProperties_From_RegistriesReplication_Spec(src)
+		return replication.AssignProperties_From_RegistryReplication_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.RegistriesReplication_Spec{}
+	src = &storage.RegistryReplication_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = replication.AssignProperties_From_RegistriesReplication_Spec(src)
+	err = replication.AssignProperties_From_RegistryReplication_Spec(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -542,17 +537,17 @@ func (replication *RegistriesReplication_Spec) ConvertSpecFrom(source genruntime
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our RegistriesReplication_Spec
-func (replication *RegistriesReplication_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.RegistriesReplication_Spec)
+// ConvertSpecTo populates the provided destination from our RegistryReplication_Spec
+func (replication *RegistryReplication_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.RegistryReplication_Spec)
 	if ok {
 		// Populate destination from our instance
-		return replication.AssignProperties_To_RegistriesReplication_Spec(dst)
+		return replication.AssignProperties_To_RegistryReplication_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.RegistriesReplication_Spec{}
-	err := replication.AssignProperties_To_RegistriesReplication_Spec(dst)
+	dst = &storage.RegistryReplication_Spec{}
+	err := replication.AssignProperties_To_RegistryReplication_Spec(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -566,8 +561,8 @@ func (replication *RegistriesReplication_Spec) ConvertSpecTo(destination genrunt
 	return nil
 }
 
-// AssignProperties_From_RegistriesReplication_Spec populates our RegistriesReplication_Spec from the provided source RegistriesReplication_Spec
-func (replication *RegistriesReplication_Spec) AssignProperties_From_RegistriesReplication_Spec(source *storage.RegistriesReplication_Spec) error {
+// AssignProperties_From_RegistryReplication_Spec populates our RegistryReplication_Spec from the provided source RegistryReplication_Spec
+func (replication *RegistryReplication_Spec) AssignProperties_From_RegistryReplication_Spec(source *storage.RegistryReplication_Spec) error {
 
 	// AzureName
 	replication.AzureName = source.AzureName
@@ -577,10 +572,10 @@ func (replication *RegistriesReplication_Spec) AssignProperties_From_RegistriesR
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
-		var operatorSpec RegistriesReplicationOperatorSpec
-		err := operatorSpec.AssignProperties_From_RegistriesReplicationOperatorSpec(source.OperatorSpec)
+		var operatorSpec RegistryReplicationOperatorSpec
+		err := operatorSpec.AssignProperties_From_RegistryReplicationOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_RegistriesReplicationOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_RegistryReplicationOperatorSpec() to populate field OperatorSpec")
 		}
 		replication.OperatorSpec = &operatorSpec
 	} else {
@@ -619,8 +614,8 @@ func (replication *RegistriesReplication_Spec) AssignProperties_From_RegistriesR
 	return nil
 }
 
-// AssignProperties_To_RegistriesReplication_Spec populates the provided destination RegistriesReplication_Spec from our RegistriesReplication_Spec
-func (replication *RegistriesReplication_Spec) AssignProperties_To_RegistriesReplication_Spec(destination *storage.RegistriesReplication_Spec) error {
+// AssignProperties_To_RegistryReplication_Spec populates the provided destination RegistryReplication_Spec from our RegistryReplication_Spec
+func (replication *RegistryReplication_Spec) AssignProperties_To_RegistryReplication_Spec(destination *storage.RegistryReplication_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -632,10 +627,10 @@ func (replication *RegistriesReplication_Spec) AssignProperties_To_RegistriesRep
 
 	// OperatorSpec
 	if replication.OperatorSpec != nil {
-		var operatorSpec storage.RegistriesReplicationOperatorSpec
-		err := replication.OperatorSpec.AssignProperties_To_RegistriesReplicationOperatorSpec(&operatorSpec)
+		var operatorSpec storage.RegistryReplicationOperatorSpec
+		err := replication.OperatorSpec.AssignProperties_To_RegistryReplicationOperatorSpec(&operatorSpec)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_RegistriesReplicationOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_RegistryReplicationOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -683,8 +678,8 @@ func (replication *RegistriesReplication_Spec) AssignProperties_To_RegistriesRep
 	return nil
 }
 
-// Initialize_From_RegistriesReplication_STATUS populates our RegistriesReplication_Spec from the provided source RegistriesReplication_STATUS
-func (replication *RegistriesReplication_Spec) Initialize_From_RegistriesReplication_STATUS(source *RegistriesReplication_STATUS) error {
+// Initialize_From_RegistryReplication_STATUS populates our RegistryReplication_Spec from the provided source RegistryReplication_STATUS
+func (replication *RegistryReplication_Spec) Initialize_From_RegistryReplication_STATUS(source *RegistryReplication_STATUS) error {
 
 	// Location
 	replication.Location = genruntime.ClonePointerToString(source.Location)
@@ -713,16 +708,16 @@ func (replication *RegistriesReplication_Spec) Initialize_From_RegistriesReplica
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (replication *RegistriesReplication_Spec) OriginalVersion() string {
+func (replication *RegistryReplication_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (replication *RegistriesReplication_Spec) SetAzureName(azureName string) {
+func (replication *RegistryReplication_Spec) SetAzureName(azureName string) {
 	replication.AzureName = azureName
 }
 
-type RegistriesReplication_STATUS struct {
+type RegistryReplication_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -758,25 +753,25 @@ type RegistriesReplication_STATUS struct {
 	ZoneRedundancy *ReplicationProperties_ZoneRedundancy_STATUS `json:"zoneRedundancy,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RegistriesReplication_STATUS{}
+var _ genruntime.ConvertibleStatus = &RegistryReplication_STATUS{}
 
-// ConvertStatusFrom populates our RegistriesReplication_STATUS from the provided source
-func (replication *RegistriesReplication_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.RegistriesReplication_STATUS)
+// ConvertStatusFrom populates our RegistryReplication_STATUS from the provided source
+func (replication *RegistryReplication_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.RegistryReplication_STATUS)
 	if ok {
 		// Populate our instance from source
-		return replication.AssignProperties_From_RegistriesReplication_STATUS(src)
+		return replication.AssignProperties_From_RegistryReplication_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.RegistriesReplication_STATUS{}
+	src = &storage.RegistryReplication_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = replication.AssignProperties_From_RegistriesReplication_STATUS(src)
+	err = replication.AssignProperties_From_RegistryReplication_STATUS(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -784,17 +779,17 @@ func (replication *RegistriesReplication_STATUS) ConvertStatusFrom(source genrun
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our RegistriesReplication_STATUS
-func (replication *RegistriesReplication_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.RegistriesReplication_STATUS)
+// ConvertStatusTo populates the provided destination from our RegistryReplication_STATUS
+func (replication *RegistryReplication_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.RegistryReplication_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return replication.AssignProperties_To_RegistriesReplication_STATUS(dst)
+		return replication.AssignProperties_To_RegistryReplication_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.RegistriesReplication_STATUS{}
-	err := replication.AssignProperties_To_RegistriesReplication_STATUS(dst)
+	dst = &storage.RegistryReplication_STATUS{}
+	err := replication.AssignProperties_To_RegistryReplication_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -808,18 +803,18 @@ func (replication *RegistriesReplication_STATUS) ConvertStatusTo(destination gen
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &RegistriesReplication_STATUS{}
+var _ genruntime.FromARMConverter = &RegistryReplication_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (replication *RegistriesReplication_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.RegistriesReplication_STATUS{}
+func (replication *RegistryReplication_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.RegistryReplication_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (replication *RegistriesReplication_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.RegistriesReplication_STATUS)
+func (replication *RegistryReplication_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.RegistryReplication_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RegistriesReplication_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RegistryReplication_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -916,8 +911,8 @@ func (replication *RegistriesReplication_STATUS) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignProperties_From_RegistriesReplication_STATUS populates our RegistriesReplication_STATUS from the provided source RegistriesReplication_STATUS
-func (replication *RegistriesReplication_STATUS) AssignProperties_From_RegistriesReplication_STATUS(source *storage.RegistriesReplication_STATUS) error {
+// AssignProperties_From_RegistryReplication_STATUS populates our RegistryReplication_STATUS from the provided source RegistryReplication_STATUS
+func (replication *RegistryReplication_STATUS) AssignProperties_From_RegistryReplication_STATUS(source *storage.RegistryReplication_STATUS) error {
 
 	// Conditions
 	replication.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -991,8 +986,8 @@ func (replication *RegistriesReplication_STATUS) AssignProperties_From_Registrie
 	return nil
 }
 
-// AssignProperties_To_RegistriesReplication_STATUS populates the provided destination RegistriesReplication_STATUS from our RegistriesReplication_STATUS
-func (replication *RegistriesReplication_STATUS) AssignProperties_To_RegistriesReplication_STATUS(destination *storage.RegistriesReplication_STATUS) error {
+// AssignProperties_To_RegistryReplication_STATUS populates the provided destination RegistryReplication_STATUS from our RegistryReplication_STATUS
+func (replication *RegistryReplication_STATUS) AssignProperties_To_RegistryReplication_STATUS(destination *storage.RegistryReplication_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1074,7 +1069,7 @@ func (replication *RegistriesReplication_STATUS) AssignProperties_To_RegistriesR
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
-type RegistriesReplicationOperatorSpec struct {
+type RegistryReplicationOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 
@@ -1082,8 +1077,8 @@ type RegistriesReplicationOperatorSpec struct {
 	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
-// AssignProperties_From_RegistriesReplicationOperatorSpec populates our RegistriesReplicationOperatorSpec from the provided source RegistriesReplicationOperatorSpec
-func (operator *RegistriesReplicationOperatorSpec) AssignProperties_From_RegistriesReplicationOperatorSpec(source *storage.RegistriesReplicationOperatorSpec) error {
+// AssignProperties_From_RegistryReplicationOperatorSpec populates our RegistryReplicationOperatorSpec from the provided source RegistryReplicationOperatorSpec
+func (operator *RegistryReplicationOperatorSpec) AssignProperties_From_RegistryReplicationOperatorSpec(source *storage.RegistryReplicationOperatorSpec) error {
 
 	// ConfigMapExpressions
 	if source.ConfigMapExpressions != nil {
@@ -1125,8 +1120,8 @@ func (operator *RegistriesReplicationOperatorSpec) AssignProperties_From_Registr
 	return nil
 }
 
-// AssignProperties_To_RegistriesReplicationOperatorSpec populates the provided destination RegistriesReplicationOperatorSpec from our RegistriesReplicationOperatorSpec
-func (operator *RegistriesReplicationOperatorSpec) AssignProperties_To_RegistriesReplicationOperatorSpec(destination *storage.RegistriesReplicationOperatorSpec) error {
+// AssignProperties_To_RegistryReplicationOperatorSpec populates the provided destination RegistryReplicationOperatorSpec from our RegistryReplicationOperatorSpec
+func (operator *RegistryReplicationOperatorSpec) AssignProperties_To_RegistryReplicationOperatorSpec(destination *storage.RegistryReplicationOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1225,289 +1220,6 @@ var replicationProperties_ZoneRedundancy_STATUS_Values = map[string]ReplicationP
 	"enabled":  ReplicationProperties_ZoneRedundancy_STATUS_Enabled,
 }
 
-// The status of an Azure resource at the time the operation was called.
-type Status_STATUS struct {
-	// DisplayStatus: The short label for the status.
-	DisplayStatus *string `json:"displayStatus,omitempty"`
-
-	// Message: The detailed message for the status, including alerts and error messages.
-	Message *string `json:"message,omitempty"`
-
-	// Timestamp: The timestamp when the status was changed to the current value.
-	Timestamp *string `json:"timestamp,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &Status_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (status *Status_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Status_STATUS{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (status *Status_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Status_STATUS)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Status_STATUS, got %T", armInput)
-	}
-
-	// Set property "DisplayStatus":
-	if typedInput.DisplayStatus != nil {
-		displayStatus := *typedInput.DisplayStatus
-		status.DisplayStatus = &displayStatus
-	}
-
-	// Set property "Message":
-	if typedInput.Message != nil {
-		message := *typedInput.Message
-		status.Message = &message
-	}
-
-	// Set property "Timestamp":
-	if typedInput.Timestamp != nil {
-		timestamp := *typedInput.Timestamp
-		status.Timestamp = &timestamp
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_Status_STATUS populates our Status_STATUS from the provided source Status_STATUS
-func (status *Status_STATUS) AssignProperties_From_Status_STATUS(source *storage.Status_STATUS) error {
-
-	// DisplayStatus
-	status.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
-
-	// Message
-	status.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Timestamp
-	status.Timestamp = genruntime.ClonePointerToString(source.Timestamp)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Status_STATUS populates the provided destination Status_STATUS from our Status_STATUS
-func (status *Status_STATUS) AssignProperties_To_Status_STATUS(destination *storage.Status_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// DisplayStatus
-	destination.DisplayStatus = genruntime.ClonePointerToString(status.DisplayStatus)
-
-	// Message
-	destination.Message = genruntime.ClonePointerToString(status.Message)
-
-	// Timestamp
-	destination.Timestamp = genruntime.ClonePointerToString(status.Timestamp)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData_STATUS struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource modification (UTC).
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &SystemData_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.SystemData_STATUS{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.SystemData_STATUS)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
-	}
-
-	// Set property "CreatedAt":
-	if typedInput.CreatedAt != nil {
-		createdAt := *typedInput.CreatedAt
-		data.CreatedAt = &createdAt
-	}
-
-	// Set property "CreatedBy":
-	if typedInput.CreatedBy != nil {
-		createdBy := *typedInput.CreatedBy
-		data.CreatedBy = &createdBy
-	}
-
-	// Set property "CreatedByType":
-	if typedInput.CreatedByType != nil {
-		var temp string
-		temp = string(*typedInput.CreatedByType)
-		createdByType := SystemData_CreatedByType_STATUS(temp)
-		data.CreatedByType = &createdByType
-	}
-
-	// Set property "LastModifiedAt":
-	if typedInput.LastModifiedAt != nil {
-		lastModifiedAt := *typedInput.LastModifiedAt
-		data.LastModifiedAt = &lastModifiedAt
-	}
-
-	// Set property "LastModifiedBy":
-	if typedInput.LastModifiedBy != nil {
-		lastModifiedBy := *typedInput.LastModifiedBy
-		data.LastModifiedBy = &lastModifiedBy
-	}
-
-	// Set property "LastModifiedByType":
-	if typedInput.LastModifiedByType != nil {
-		var temp string
-		temp = string(*typedInput.LastModifiedByType)
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
-		data.LastModifiedByType = &lastModifiedByType
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := *source.CreatedByType
-		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
-		data.CreatedByType = &createdByTypeTemp
-	} else {
-		data.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := *source.LastModifiedByType
-		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
-		data.LastModifiedByType = &lastModifiedByTypeTemp
-	} else {
-		data.LastModifiedByType = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
-
-	// CreatedByType
-	if data.CreatedByType != nil {
-		createdByType := string(*data.CreatedByType)
-		destination.CreatedByType = &createdByType
-	} else {
-		destination.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
-
-	// LastModifiedByType
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := string(*data.LastModifiedByType)
-		destination.LastModifiedByType = &lastModifiedByType
-	} else {
-		destination.LastModifiedByType = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type SystemData_CreatedByType_STATUS string
-
-const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
-)
-
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
-}
-
-type SystemData_LastModifiedByType_STATUS string
-
-const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
-)
-
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
-}
-
 func init() {
-	SchemeBuilder.Register(&RegistriesReplication{}, &RegistriesReplicationList{})
+	SchemeBuilder.Register(&RegistryReplication{}, &RegistryReplicationList{})
 }

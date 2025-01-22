@@ -3,60 +3,6 @@ github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701
 ------------------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2023-07-01"
-RegistriesReplication: Resource
-├── Owner: Registry
-├── Spec: Object (7 properties)
-│   ├── AzureName: Validated<string> (3 rules)
-│   │   ├── Rule 0: MaxLength: 50
-│   │   ├── Rule 1: MinLength: 5
-│   │   └── Rule 2: Pattern: "^[a-zA-Z0-9]*$"
-│   ├── Location: *string
-│   ├── OperatorSpec: *Object (2 properties)
-│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   └── SecretExpressions: *core.DestinationExpression[]
-│   ├── Owner: *genruntime.KnownResourceReference
-│   ├── RegionEndpointEnabled: *bool
-│   ├── Tags: map[string]string
-│   └── ZoneRedundancy: *Enum (2 values)
-│       ├── "Disabled"
-│       └── "Enabled"
-└── Status: Object (11 properties)
-    ├── Conditions: conditions.Condition[]
-    ├── Id: *string
-    ├── Location: *string
-    ├── Name: *string
-    ├── ProvisioningState: *Enum (6 values)
-    │   ├── "Canceled"
-    │   ├── "Creating"
-    │   ├── "Deleting"
-    │   ├── "Failed"
-    │   ├── "Succeeded"
-    │   └── "Updating"
-    ├── RegionEndpointEnabled: *bool
-    ├── Status: *Object (3 properties)
-    │   ├── DisplayStatus: *string
-    │   ├── Message: *string
-    │   └── Timestamp: *string
-    ├── SystemData: *Object (6 properties)
-    │   ├── CreatedAt: *string
-    │   ├── CreatedBy: *string
-    │   ├── CreatedByType: *Enum (4 values)
-    │   │   ├── "Application"
-    │   │   ├── "Key"
-    │   │   ├── "ManagedIdentity"
-    │   │   └── "User"
-    │   ├── LastModifiedAt: *string
-    │   ├── LastModifiedBy: *string
-    │   └── LastModifiedByType: *Enum (4 values)
-    │       ├── "Application"
-    │       ├── "Key"
-    │       ├── "ManagedIdentity"
-    │       └── "User"
-    ├── Tags: map[string]string
-    ├── Type: *string
-    └── ZoneRedundancy: *Enum (2 values)
-        ├── "Disabled"
-        └── "Enabled"
 Registry: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (15 properties)
@@ -216,6 +162,60 @@ Registry: Resource
     │       ├── "Classic"
     │       ├── "Premium"
     │       └── "Standard"
+    ├── Status: *Object (3 properties)
+    │   ├── DisplayStatus: *string
+    │   ├── Message: *string
+    │   └── Timestamp: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    ├── Tags: map[string]string
+    ├── Type: *string
+    └── ZoneRedundancy: *Enum (2 values)
+        ├── "Disabled"
+        └── "Enabled"
+RegistryReplication: Resource
+├── Owner: Registry
+├── Spec: Object (7 properties)
+│   ├── AzureName: Validated<string> (3 rules)
+│   │   ├── Rule 0: MaxLength: 50
+│   │   ├── Rule 1: MinLength: 5
+│   │   └── Rule 2: Pattern: "^[a-zA-Z0-9]*$"
+│   ├── Location: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── RegionEndpointEnabled: *bool
+│   ├── Tags: map[string]string
+│   └── ZoneRedundancy: *Enum (2 values)
+│       ├── "Disabled"
+│       └── "Enabled"
+└── Status: Object (11 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Location: *string
+    ├── Name: *string
+    ├── ProvisioningState: *Enum (6 values)
+    │   ├── "Canceled"
+    │   ├── "Creating"
+    │   ├── "Deleting"
+    │   ├── "Failed"
+    │   ├── "Succeeded"
+    │   └── "Updating"
+    ├── RegionEndpointEnabled: *bool
     ├── Status: *Object (3 properties)
     │   ├── DisplayStatus: *string
     │   ├── Message: *string

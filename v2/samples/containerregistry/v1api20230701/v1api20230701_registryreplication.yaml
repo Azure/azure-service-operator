@@ -1,5 +1,5 @@
 apiVersion: containerregistry.azure.com/v1api20230701
-kind: RegistriesReplication
+kind: RegistryReplication
 metadata:
   name: replication
   namespace: default

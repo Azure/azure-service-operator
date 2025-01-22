@@ -30,9 +30,6 @@
 | QuarantinePolicy_STATUS                            | v1api20210901 | v1api20230701 |
 | QuarantinePolicy_Status                            | v1api20210901 | v1api20230701 |
 | QuarantinePolicy_Status_STATUS                     | v1api20210901 | v1api20230701 |
-| RegistriesReplication                              |               | v1api20230701 |
-| RegistriesReplication_STATUS                       |               | v1api20230701 |
-| RegistriesReplication_Spec                         |               | v1api20230701 |
 | Registry                                           | v1api20210901 | v1api20230701 |
 | RegistryProperties                                 | v1api20210901 | v1api20230701 |
 | RegistryProperties_NetworkRuleBypassOptions        | v1api20210901 | v1api20230701 |
@@ -43,6 +40,9 @@
 | RegistryProperties_STATUS                          | v1api20210901 | v1api20230701 |
 | RegistryProperties_ZoneRedundancy                  | v1api20210901 | v1api20230701 |
 | RegistryProperties_ZoneRedundancy_STATUS           | v1api20210901 | v1api20230701 |
+| RegistryReplication                                |               | v1api20230701 |
+| RegistryReplication_STATUS                         |               | v1api20230701 |
+| RegistryReplication_Spec                           |               | v1api20230701 |
 | Registry_STATUS                                    | v1api20210901 | v1api20230701 |
 | Registry_Spec                                      | v1api20210901 | v1api20230701 |
 | ReplicationProperties                              |               | v1api20230701 |

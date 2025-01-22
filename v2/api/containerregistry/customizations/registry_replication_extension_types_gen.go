@@ -9,12 +9,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type RegistriesReplicationExtension struct {
+type RegistryReplicationExtension struct {
 }
 
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
-func (extension *RegistriesReplicationExtension) GetExtendedResources() []genruntime.KubernetesResource {
+func (extension *RegistryReplicationExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20230701.RegistriesReplication{},
-		&storage.RegistriesReplication{}}
+		&v20230701.RegistryReplication{},
+		&storage.RegistryReplication{}}
 }

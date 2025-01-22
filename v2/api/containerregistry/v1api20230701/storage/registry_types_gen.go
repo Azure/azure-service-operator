@@ -165,6 +165,12 @@ type RegistryList struct {
 	Items           []Registry `json:"items"`
 }
 
+// Storage version of v1api20230701.APIVersion
+// +kubebuilder:validation:Enum={"2023-07-01"}
+type APIVersion string
+
+const APIVersion_Value = APIVersion("2023-07-01")
+
 // Storage version of v1api20230701.Registry_Spec
 type Registry_Spec struct {
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
@@ -359,6 +365,27 @@ type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
+}
+
+// Storage version of v1api20230701.Status_STATUS
+// The status of an Azure resource at the time the operation was called.
+type Status_STATUS struct {
+	DisplayStatus *string                `json:"displayStatus,omitempty"`
+	Message       *string                `json:"message,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Timestamp     *string                `json:"timestamp,omitempty"`
+}
+
+// Storage version of v1api20230701.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_STATUS struct {
+	CreatedAt          *string                `json:"createdAt,omitempty"`
+	CreatedBy          *string                `json:"createdBy,omitempty"`
+	CreatedByType      *string                `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20230701.ExportPolicy

@@ -43,9 +43,9 @@ func Test_ContainerRegistry_Registry_20230701_CRUD(t *testing.T) {
 
 	// Create a Replication
 
-	replication := &containerregistry.RegistriesReplication{
+	replication := &containerregistry.RegistryReplication{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: containerregistry.RegistriesReplication_Spec{
+		Spec: containerregistry.RegistryReplication_Spec{
 			Location:              to.Ptr("australiaeast"), // Has to be different from tc.AzureRegion
 			Owner:                 testcommon.AsOwner(registry),
 			RegionEndpointEnabled: to.Ptr(false),
