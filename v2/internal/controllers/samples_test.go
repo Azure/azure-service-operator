@@ -48,6 +48,7 @@ var randomNameExclusions = []string{
 	"/insights/",
 	"/network/",
 	"/web/",
+	"/app/",
 }
 
 func Test_Samples_CreationAndDeletion(t *testing.T) {

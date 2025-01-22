@@ -1,0 +1,14 @@
+apiVersion: app.azure.com/v1api20240301
+kind: ManagedEnvironment
+metadata:
+  name: aso-sample-managedenv
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  workloadProfiles:
+    - maximumCount: 2
+      minimumCount: 1
+      name: profile1
+      workloadProfileType: D4

@@ -1,0 +1,24 @@
+apiVersion: app.azure.com/v1api20240301
+kind: Job
+metadata:
+  name: aso-sample-job
+  namespace: default
+spec:
+  configuration:
+    manualTriggerConfig:
+      parallelism: 1
+      replicaCompletionCount: 1
+    replicaRetryLimit: 10
+    replicaTimeout: 10
+    triggerType: Manual
+  environmentReference:
+    group: app.azure.com
+    kind: ManagedEnvironment
+    name: aso-sample-env
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  template:
+    containers:
+      - image: mcr.microsoft.com/k8se/quickstart-jobs:latest
+        name: testcontainerappsjob

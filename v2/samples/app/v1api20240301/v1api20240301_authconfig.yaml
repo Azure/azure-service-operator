@@ -1,0 +1,10 @@
+apiVersion: app.azure.com/v1api20240301
+kind: AuthConfig
+metadata:
+  name: current
+  namespace: default
+spec:
+  httpSettings:
+    requireHttps: true
+  owner:
+    name: aso-sample-app
