@@ -62,7 +62,10 @@ require (
 	sigs.k8s.io/yaml v1.4.0
 )
 
-require github.com/rotisserie/eris v0.5.4
+require (
+	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/notificationhubs/armnotificationhubs v1.2.0
+	github.com/rotisserie/eris v0.5.4
+)
 
 require (
 	cel.dev/expr v0.18.0 // indirect

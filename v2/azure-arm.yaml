@@ -487,6 +487,18 @@ typeTransformers:
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
 
+  - group: notificationhubs
+    name: NamespaceProperties
+    property: Status;ProvisioningState
+    remove: true
+    because: This property should be marked readonly
+
+  - group: notificationhubs
+    name: SharedAccessAuthorizationRuleProperties
+    property: PrimaryKey;SecondaryKey
+    remove: true
+    because: This property should be marked readonly
+
   - name: EventHubProperties;Namespaces_Eventhub_Properties_Spec
     group: eventhub
     property: Status
@@ -3498,6 +3510,35 @@ objectModelConfiguration:
       FrontDoorWebApplicationFirewallPolicy:
         $exportAs: WebApplicationFirewallPolicy
         $supportedFrom: v2.6.0
+  notificationhubs:
+    2023-09-01:
+      Namespace:
+        $export: true
+        $supportedFrom: v2.12.0
+        $azureGeneratedSecrets:
+          - PrimaryConnectionString
+          - SecondaryConnectionString
+          - PrimaryKey
+          - SecondaryKey
+        $generatedConfigs:
+          ServiceBusEndpoint: $.Status.Properties.ServiceBusEndpoint
+      Namespaces_AuthorizationRule:
+        $exportAs: NamespacesAuthorizationRule
+        $supportedFrom: v2.12.0
+      Namespaces_NotificationHub:
+        $exportAs: NotificationHub
+        $supportedFrom: v2.12.0
+        $azureGeneratedSecrets:
+          - PrimaryConnectionString
+          - SecondaryConnectionString
+          - PrimaryKey
+          - SecondaryKey
+      Namespaces_NotificationHubs_AuthorizationRule:
+        $exportAs: NotificationHubsAuthorizationRule
+        $supportedFrom: v2.12.0
+      NotificationHubProperties:
+        AuthorizationRules:
+          $isSecret: false
   operationalinsights:
     2021-06-01:
       Workspace:
