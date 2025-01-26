@@ -310,6 +310,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/eventhub/v1api20211101/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/eventhub/v1api20240101/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network.frontdoor/</loc>
