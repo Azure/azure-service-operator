@@ -225,7 +225,7 @@ type IPRule struct {
 
 type KeyVaultProperties struct {
 	// Identity: The client id of the identity which will be used to access key vault.
-	Identity *string `json:"identity,omitempty"`
+	Identity *string `json:"identity,omitempty" optionalConfigMapPair:"Identity"`
 
 	// KeyIdentifier: Key vault uri to access the encryption key.
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`

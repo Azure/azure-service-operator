@@ -13,8 +13,9 @@ Registry: Resource
 │   │   └── Rule 2: Pattern: "^[a-zA-Z0-9]*$"
 │   ├── DataEndpointEnabled: *bool
 │   ├── Encryption: *Object (2 properties)
-│   │   ├── KeyVaultProperties: *Object (2 properties)
+│   │   ├── KeyVaultProperties: *Object (3 properties)
 │   │   │   ├── Identity: *string
+│   │   │   ├── IdentityFromConfig: *genruntime.ConfigMapReference
 │   │   │   └── KeyIdentifier: *string
 │   │   └── Status: *Enum (2 values)
 │   │       ├── "disabled"

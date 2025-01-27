@@ -543,7 +543,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20230701s.Registry)})
+	result = append(result, &registration.StorageType{
+		Obj: new(containerregistry_v20230701s.Registry),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.encryption.keyVaultProperties.identityFromConfig",
+				Func: indexContainerregistryRegistryIdentityFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.encryption.keyVaultProperties.identityFromConfig"}, &containerregistry_v20230701s.RegistryList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.Fleet)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.FleetsMember)})
@@ -3244,6 +3258,24 @@ func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []st
 		return nil
 	}
 	return obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Index()
+}
+
+// indexContainerregistryRegistryIdentityFromConfig an index function for containerregistry_v20230701s.Registry .spec.encryption.keyVaultProperties.identityFromConfig
+func indexContainerregistryRegistryIdentityFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerregistry_v20230701s.Registry)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Encryption == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.KeyVaultProperties == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.KeyVaultProperties.IdentityFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Encryption.KeyVaultProperties.IdentityFromConfig.Index()
 }
 
 // indexContainerserviceManagedClusterAdminPassword an index function for containerservice_v20240901s.ManagedCluster .spec.windowsProfile.adminPassword

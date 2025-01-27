@@ -9,3 +9,4 @@ spec:
     name: sampleregistry
   regionEndpointEnabled: false
   zoneRedundancy: Disabled
+  

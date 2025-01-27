@@ -10,8 +10,9 @@ Registry: Resource
 │   ├── AzureName: string
 │   ├── DataEndpointEnabled: *bool
 │   ├── Encryption: *Object (3 properties)
-│   │   ├── KeyVaultProperties: *Object (3 properties)
+│   │   ├── KeyVaultProperties: *Object (4 properties)
 │   │   │   ├── Identity: *string
+│   │   │   ├── IdentityFromConfig: *genruntime.ConfigMapReference
 │   │   │   ├── KeyIdentifier: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── PropertyBag: genruntime.PropertyBag

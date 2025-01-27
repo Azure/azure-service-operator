@@ -2874,6 +2874,13 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 	// Identity
 	properties.Identity = genruntime.ClonePointerToString(source.Identity)
 
+	// IdentityFromConfig
+	if source.IdentityFromConfig != nil {
+		propertyBag.Add("IdentityFromConfig", *source.IdentityFromConfig)
+	} else {
+		propertyBag.Remove("IdentityFromConfig")
+	}
+
 	// KeyIdentifier
 	properties.KeyIdentifier = genruntime.ClonePointerToString(source.KeyIdentifier)
 
@@ -2904,6 +2911,19 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 
 	// Identity
 	destination.Identity = genruntime.ClonePointerToString(properties.Identity)
+
+	// IdentityFromConfig
+	if propertyBag.Contains("IdentityFromConfig") {
+		var identityFromConfig genruntime.ConfigMapReference
+		err := propertyBag.Pull("IdentityFromConfig", &identityFromConfig)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'IdentityFromConfig' from propertyBag")
+		}
+
+		destination.IdentityFromConfig = &identityFromConfig
+	} else {
+		destination.IdentityFromConfig = nil
+	}
 
 	// KeyIdentifier
 	destination.KeyIdentifier = genruntime.ClonePointerToString(properties.KeyIdentifier)

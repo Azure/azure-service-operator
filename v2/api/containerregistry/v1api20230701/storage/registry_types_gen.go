@@ -420,9 +420,10 @@ type IPRule_STATUS struct {
 
 // Storage version of v1api20230701.KeyVaultProperties
 type KeyVaultProperties struct {
-	Identity      *string                `json:"identity,omitempty"`
-	KeyIdentifier *string                `json:"keyIdentifier,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Identity           *string                        `json:"identity,omitempty" optionalConfigMapPair:"Identity"`
+	IdentityFromConfig *genruntime.ConfigMapReference `json:"identityFromConfig,omitempty" optionalConfigMapPair:"Identity"`
+	KeyIdentifier      *string                        `json:"keyIdentifier,omitempty"`
+	PropertyBag        genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20230701.KeyVaultProperties_STATUS

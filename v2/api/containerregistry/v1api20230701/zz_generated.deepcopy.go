@@ -226,6 +226,11 @@ func (in *KeyVaultProperties) DeepCopyInto(out *KeyVaultProperties) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.IdentityFromConfig != nil {
+		in, out := &in.IdentityFromConfig, &out.IdentityFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.KeyIdentifier != nil {
 		in, out := &in.KeyIdentifier, &out.KeyIdentifier
 		*out = new(string)

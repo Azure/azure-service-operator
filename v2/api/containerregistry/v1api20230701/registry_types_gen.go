@@ -236,7 +236,7 @@ func (registry *Registry) ValidateUpdate(old runtime.Object) (admission.Warnings
 
 // createValidations validates the creation of the resource
 func (registry *Registry) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){registry.validateResourceReferences, registry.validateOwnerReference, registry.validateSecretDestinations, registry.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){registry.validateResourceReferences, registry.validateOwnerReference, registry.validateSecretDestinations, registry.validateConfigMapDestinations, registry.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -260,6 +260,9 @@ func (registry *Registry) updateValidations() []func(old runtime.Object) (admiss
 		func(old runtime.Object) (admission.Warnings, error) {
 			return registry.validateConfigMapDestinations()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return registry.validateOptionalConfigMapReferences()
+		},
 	}
 }
 
@@ -269,6 +272,15 @@ func (registry *Registry) validateConfigMapDestinations() (admission.Warnings, e
 		return nil, nil
 	}
 	return configmaps.ValidateDestinations(registry, nil, registry.Spec.OperatorSpec.ConfigMapExpressions)
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (registry *Registry) validateOptionalConfigMapReferences() (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&registry.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field
@@ -4478,7 +4490,10 @@ func (rule *IPRule_STATUS) AssignProperties_To_IPRule_STATUS(destination *storag
 
 type KeyVaultProperties struct {
 	// Identity: The client id of the identity which will be used to access key vault.
-	Identity *string `json:"identity,omitempty"`
+	Identity *string `json:"identity,omitempty" optionalConfigMapPair:"Identity"`
+
+	// IdentityFromConfig: The client id of the identity which will be used to access key vault.
+	IdentityFromConfig *genruntime.ConfigMapReference `json:"identityFromConfig,omitempty" optionalConfigMapPair:"Identity"`
 
 	// KeyIdentifier: Key vault uri to access the encryption key.
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
@@ -4496,6 +4511,14 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 	// Set property "Identity":
 	if properties.Identity != nil {
 		identity := *properties.Identity
+		result.Identity = &identity
+	}
+	if properties.IdentityFromConfig != nil {
+		identityValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.IdentityFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property Identity")
+		}
+		identity := identityValue
 		result.Identity = &identity
 	}
 
@@ -4525,6 +4548,8 @@ func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.Arbitrary
 		properties.Identity = &identity
 	}
 
+	// no assignment for property "IdentityFromConfig"
+
 	// Set property "KeyIdentifier":
 	if typedInput.KeyIdentifier != nil {
 		keyIdentifier := *typedInput.KeyIdentifier
@@ -4541,6 +4566,14 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 	// Identity
 	properties.Identity = genruntime.ClonePointerToString(source.Identity)
 
+	// IdentityFromConfig
+	if source.IdentityFromConfig != nil {
+		identityFromConfig := source.IdentityFromConfig.Copy()
+		properties.IdentityFromConfig = &identityFromConfig
+	} else {
+		properties.IdentityFromConfig = nil
+	}
+
 	// KeyIdentifier
 	properties.KeyIdentifier = genruntime.ClonePointerToString(source.KeyIdentifier)
 
@@ -4555,6 +4588,14 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 
 	// Identity
 	destination.Identity = genruntime.ClonePointerToString(properties.Identity)
+
+	// IdentityFromConfig
+	if properties.IdentityFromConfig != nil {
+		identityFromConfig := properties.IdentityFromConfig.Copy()
+		destination.IdentityFromConfig = &identityFromConfig
+	} else {
+		destination.IdentityFromConfig = nil
+	}
 
 	// KeyIdentifier
 	destination.KeyIdentifier = genruntime.ClonePointerToString(properties.KeyIdentifier)
