@@ -1,0 +1,12 @@
+apiVersion: notificationhubs.azure.com/v1api20230901
+kind: NotificationHubsAuthorizationRule
+metadata:
+  name: aso-sample-hub-policy
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-hub
+  properties:
+    rights:
+      - Listen

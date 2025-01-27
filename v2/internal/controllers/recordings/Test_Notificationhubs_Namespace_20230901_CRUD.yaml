@@ -1,0 +1,1475 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 93
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-rg-ukziaz","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "93"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - b80cec51ae6d538f75bbba4480d776308ae1fed4dd66a406cf77667db507f67f
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz?api-version=2020-06-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz","name":"asotest-rg-ukziaz","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 8F05840843464738BAC94030E5C897D4 Ref B: MAA201060513033 Ref C: 2025-01-23T11:44:33Z'
+        status: 201 Created
+        code: 201
+        duration: 5.337638042s
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz","name":"asotest-rg-ukziaz","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: F985420A6A594C70BFB89E173F9D8721 Ref B: MAA201060513033 Ref C: 2025-01-23T11:44:43Z'
+        status: 200 OK
+        code: 200
+        duration: 1.626900375s
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 133
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-ns-yecpxm","properties":{"namespaceType":"NotificationHub"},"sku":{"capacity":1,"name":"Free"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "133"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 725b76c6f600edfbdcc9dab9541d9b9ddf009c185294c0b36bfc2ca48f143637
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm?api-version=2023-09-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 381
+        uncompressed: false
+        body: '{"sku":{"name":"Free","capacity":1},"properties":{"provisioningState":"InProgress","namespaceType":"NotificationHub"},"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm","name":"asotest-ns-yecpxm","type":"Microsoft.NotificationHubs/namespaces"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/operations/Q3JlYXRlTmFtZXNwYWNlLTgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZC1hc290ZXN0LW5zLXllY3B4bTtuaHByb2Rtd2gwMTAwMS1mYWJyaWM=?api-version=2023-09-01&t=638732295145655467&c=MIIHhzCCBm-gAwIBAgITfAWZnAKDvd4xEuvOGQAABZmcAjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjQxMDAzMDg1MDA1WhcNMjUwNDAxMDg1MDA1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANbsFcaJpKQloFwUPDSK63qAV4_Gh5m2LagG0Kj62uLVJqYJm9Z2rd259DxiZexsVvaA6cy_4GMgYbx0S26ToW6M7U4XDYuGtf5iceHk_uR2l-j59K0z75ltaQTyjzZ5JFPiid5YueZZzakeQyGJ9eMw5Zj97j-8NiArPd4VdGOIj-ktMNqlLFHK7x012HOwhdBIqYh2iUt-0SEXmqFESmRBK2OUctVB-yGWRQXxZo1CKX1R4aDEKnb-yTbSD2IAiKr8AL5x5ccoeX6kca0TktS3G-ncZmhjOBSQLcXScjG9DIuLQAgwmlrw-Fqubep7UWxQxDMl8B6l7vpKE1t-MrECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBRWQsUCIxUfskh8RoPMbk98Jz_QpjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAHR64fSdTm75xFWU4g_L3ZBLvpQ0yzVxQgBlg_wr8UjWRYOR2rHWxwk44sfm8W1t9vQBrIOq1x6kEdbdfrMVUeAB_YZfWHQjwGx4wJae16fgSjj6_CpTwePAf5aOUXi72mYCj-qltSdfZeL254zQy3OKLSDXb5Vf12TLz4WqyU4T8Noo787zKYGPOP5TGxp_bLL-s_6j-wGU9r3KoBVrwBDsGpfql6oF44DCM6TBrmtdo0AGb8avJ38fK_DfF1FEieKF-iojTygUMza86MkBBDaDHf51xBkBgSnkqdi3Er7HExrR0TWaACPqGp6b2-YV_BRteF_hME8rYvFOZO3tuX0&s=Zsh-nwg5dtXE-hZTokAayxv0D7rY12m1XTWhG-TXzCXa_T2JX5cXGuc4mOUtyr9lDfPDZTw6GVblMb-uYaQHym6ULxdyTGeH94TxkhNw3SLQYvvy5RBChUVto8RYYpjbaedkVjqz9ecl-duaAnPUWoiOQ9nPC_4-39Mt-grJaylmKyqPFPPwIGnhIOaEKrQdrMy_J1tfkvCLYdB9ONzsOBpBE_UOyfQ_Fjx9zkrvayREQKu-4tonVWyoucRgYpyH8CFHw-IeG282_KfbB7zyb3sf201FhM7-WiYgeoda4FsSlA3yl8mMHCi0ZKzWfVPz7xGXYEW9IH2Hv72fD7_sng&h=ZOhaA3K2g6Ud0DMNM3QZCi5Eh0MoliES1IIphqOScE4
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "381"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm?api-version=2023-09-01
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "10"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - 4091db6b-3bc4-422b-b601-8e69cf24ae3a
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "12000"
+            X-Msedge-Ref:
+                - 'Ref A: 044E727D01C149B2AD5F8D98AC3342D0 Ref B: MAA201060513033 Ref C: 2025-01-23T11:44:51Z'
+        status: 201 Created
+        code: 201
+        duration: 22.82579825s
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/operations/Q3JlYXRlTmFtZXNwYWNlLTgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZC1hc290ZXN0LW5zLXllY3B4bTtuaHByb2Rtd2gwMTAwMS1mYWJyaWM=?api-version=2023-09-01&t=638732295145655467&c=MIIHhzCCBm-gAwIBAgITfAWZnAKDvd4xEuvOGQAABZmcAjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjQxMDAzMDg1MDA1WhcNMjUwNDAxMDg1MDA1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANbsFcaJpKQloFwUPDSK63qAV4_Gh5m2LagG0Kj62uLVJqYJm9Z2rd259DxiZexsVvaA6cy_4GMgYbx0S26ToW6M7U4XDYuGtf5iceHk_uR2l-j59K0z75ltaQTyjzZ5JFPiid5YueZZzakeQyGJ9eMw5Zj97j-8NiArPd4VdGOIj-ktMNqlLFHK7x012HOwhdBIqYh2iUt-0SEXmqFESmRBK2OUctVB-yGWRQXxZo1CKX1R4aDEKnb-yTbSD2IAiKr8AL5x5ccoeX6kca0TktS3G-ncZmhjOBSQLcXScjG9DIuLQAgwmlrw-Fqubep7UWxQxDMl8B6l7vpKE1t-MrECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBRWQsUCIxUfskh8RoPMbk98Jz_QpjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAHR64fSdTm75xFWU4g_L3ZBLvpQ0yzVxQgBlg_wr8UjWRYOR2rHWxwk44sfm8W1t9vQBrIOq1x6kEdbdfrMVUeAB_YZfWHQjwGx4wJae16fgSjj6_CpTwePAf5aOUXi72mYCj-qltSdfZeL254zQy3OKLSDXb5Vf12TLz4WqyU4T8Noo787zKYGPOP5TGxp_bLL-s_6j-wGU9r3KoBVrwBDsGpfql6oF44DCM6TBrmtdo0AGb8avJ38fK_DfF1FEieKF-iojTygUMza86MkBBDaDHf51xBkBgSnkqdi3Er7HExrR0TWaACPqGp6b2-YV_BRteF_hME8rYvFOZO3tuX0&s=Zsh-nwg5dtXE-hZTokAayxv0D7rY12m1XTWhG-TXzCXa_T2JX5cXGuc4mOUtyr9lDfPDZTw6GVblMb-uYaQHym6ULxdyTGeH94TxkhNw3SLQYvvy5RBChUVto8RYYpjbaedkVjqz9ecl-duaAnPUWoiOQ9nPC_4-39Mt-grJaylmKyqPFPPwIGnhIOaEKrQdrMy_J1tfkvCLYdB9ONzsOBpBE_UOyfQ_Fjx9zkrvayREQKu-4tonVWyoucRgYpyH8CFHw-IeG282_KfbB7zyb3sf201FhM7-WiYgeoda4FsSlA3yl8mMHCi0ZKzWfVPz7xGXYEW9IH2Hv72fD7_sng&h=ZOhaA3K2g6Ud0DMNM3QZCi5Eh0MoliES1IIphqOScE4
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 582
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-ye{KEY}","name":"{KEY}","status":"Succeeded","startTime":"2001-02-03T04:05:06Z","endTime":"2001-02-03T04:05:06Z","percentComplete":0,"properties":{"state":"{}"}}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "582"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - 745c0b26-8e42-400b-9db0-b1c51a51a929
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 313A472E7D1241B083D58218DE5E6B18 Ref B: MAA201060513033 Ref C: 2025-01-23T11:45:39Z'
+        status: 200 OK
+        code: 200
+        duration: 5.998521292s
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm?api-version=2023-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 748
+        uncompressed: false
+        body: '{"sku":{"name":"Free"},"properties":{"name":"asotest-ns-yecpxm","provisioningState":"Succeeded","status":"Created","enabled":true,"critical":false,"subscriptionId":"00000000-0000-0000-0000-000000000000","createdAt":"2025-01-23T07:55:41.54+00:00","updatedAt":"2025-01-23T11:45:08.543+00:00","namespaceType":"NotificationHub","networkAcls":{},"serviceBusEndpoint":"https://asotest-ns-yecpxm.servicebus.windows.net:443/","privateEndpointConnections":[],"publicNetworkAccess":"Enabled"},"location":"West US 2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm","name":"asotest-ns-yecpxm","type":"Microsoft.NotificationHubs/namespaces"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "748"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - e2c3bd09-c49b-4d57-a12a-18912969aae8
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 8F2E6D71442A483C81CDA47F0C257EA5 Ref B: MAA201060513033 Ref C: 2025-01-23T11:45:51Z'
+        status: 200 OK
+        code: 200
+        duration: 3.226066792s
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm?api-version=2023-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 748
+        uncompressed: false
+        body: '{"sku":{"name":"Free"},"properties":{"name":"asotest-ns-yecpxm","provisioningState":"Succeeded","status":"Created","enabled":true,"critical":false,"subscriptionId":"00000000-0000-0000-0000-000000000000","createdAt":"2025-01-23T07:55:41.54+00:00","updatedAt":"2025-01-23T11:45:08.543+00:00","namespaceType":"NotificationHub","networkAcls":{},"serviceBusEndpoint":"https://asotest-ns-yecpxm.servicebus.windows.net:443/","privateEndpointConnections":[],"publicNetworkAccess":"Enabled"},"location":"West US 2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm","name":"asotest-ns-yecpxm","type":"Microsoft.NotificationHubs/namespaces"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "748"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - e772e0fa-f79f-4d9c-a584-b3c55d8e28a6
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: EC8C00C0752C4652AFC4F21572CF2540 Ref B: MAA201060513033 Ref C: 2025-01-23T11:45:57Z'
+        status: 200 OK
+        code: 200
+        duration: 3.9774895s
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 133
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-ns-yecpxm","properties":{"namespaceType":"NotificationHub"},"sku":{"capacity":1,"name":"Free"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "133"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 725b76c6f600edfbdcc9dab9541d9b9ddf009c185294c0b36bfc2ca48f143637
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm?api-version=2023-09-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 747
+        uncompressed: false
+        body: '{"sku":{"name":"Free"},"properties":{"name":"asotest-ns-yecpxm","provisioningState":"Succeeded","status":"Created","enabled":true,"critical":false,"subscriptionId":"00000000-0000-0000-0000-000000000000","createdAt":"2025-01-23T07:55:41.54+00:00","updatedAt":"2025-01-23T11:46:11.17+00:00","namespaceType":"NotificationHub","networkAcls":{},"serviceBusEndpoint":"https://asotest-ns-yecpxm.servicebus.windows.net:443/","privateEndpointConnections":[],"publicNetworkAccess":"Enabled"},"location":"West US 2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm","name":"asotest-ns-yecpxm","type":"Microsoft.NotificationHubs/namespaces"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "747"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - ab8ab529-3b47-47d2-a245-f620d1eb52a6
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "12000"
+            X-Msedge-Ref:
+                - 'Ref A: D35DCE1AE59B4DA8B46C908E17B9F310 Ref B: MAA201060513033 Ref C: 2025-01-23T11:46:06Z'
+        status: 200 OK
+        code: 200
+        duration: 7.171472375s
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "2"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm?api-version=2023-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 747
+        uncompressed: false
+        body: '{"sku":{"name":"Free"},"properties":{"name":"asotest-ns-yecpxm","provisioningState":"Succeeded","status":"Created","enabled":true,"critical":false,"subscriptionId":"00000000-0000-0000-0000-000000000000","createdAt":"2025-01-23T07:55:41.54+00:00","updatedAt":"2025-01-23T11:46:11.17+00:00","namespaceType":"NotificationHub","networkAcls":{},"serviceBusEndpoint":"https://asotest-ns-yecpxm.servicebus.windows.net:443/","privateEndpointConnections":[],"publicNetworkAccess":"Enabled"},"location":"West US 2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm","name":"asotest-ns-yecpxm","type":"Microsoft.NotificationHubs/namespaces"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "747"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - 5fb2a023-4301-4afc-89ec-29e9da134c84
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: A127B83FF3FE438FB6D84C070460ACF3 Ref B: MAA201060513033 Ref C: 2025-01-23T11:46:20Z'
+        status: 200 OK
+        code: 200
+        duration: 3.09498875s
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/AuthorizationRules/RootManageSharedAccessKey/listKeys?api-version=2017-04-01
+        method: POST
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 545
+        uncompressed: false
+        body: '{"primaryConnectionString":"Endpoint=sb://asotest-ns-yecpxm.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","secondaryConnectionString":"Endpoint=sb://asotest-ns-yecpxm.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"RootManageSharedAccessKey"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "545"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - 22d0a0a8-414c-4884-93e1-7a095d32d0be
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: BBC50734EC87442C968A44B004BD2EC7 Ref B: MAA201060513033 Ref C: 2025-01-23T11:46:27Z'
+        status: 200 OK
+        code: 200
+        duration: 1.394017167s
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 88
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-policy-gjtunu","properties":{"rights":["Listen"]}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "88"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 0b13442ff0ec6dabf3567c28772457a72eecb3f81ab0784c48d6f23ea2db3895
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/authorizationRules/asotest-policy-gjtunu?api-version=2023-09-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 431
+        uncompressed: false
+        body: '{"properties":{"rights":["Listen"],"modifiedTime":"2025-01-23T11:46:35.004767+00:00","createdTime":"2025-01-23T11:46:35.004767+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/authorizationRules/asotest-policy-gjtunu","name":"asotest-policy-gjtunu","type":"Microsoft.NotificationHubs/namespaces/authorizationRules"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "431"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - c67eed9d-7700-400c-b39d-dc4e950532e4
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 293FF10C5D2C48A8820C26BEBE3697BB Ref B: MAA201060513033 Ref C: 2025-01-23T11:46:32Z'
+        status: 200 OK
+        code: 200
+        duration: 3.145256709s
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 85
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-hub-xgoavr","sku":{"capacity":1,"name":"Free"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "85"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - beca101c636e07bbf071081b6f9192846e1d8a24b45fc67bb430eb0e475ccec3
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr?api-version=2023-09-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 435
+        uncompressed: false
+        body: '{"properties":{"name":"asotest-hub-xgoavr","registrationTtl":"10675199.02:48:05.4775807","dailyMaxActiveDevices":0},"location":"West US 2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr","name":"asotest-hub-xgoavr","type":"Microsoft.NotificationHubs/namespaces/notificationHubs"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "435"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - f5951760-47f5-4ae9-a8ae-01191d7d4ec6
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "12000"
+            X-Msedge-Ref:
+                - 'Ref A: 2D3579987FD842F5AAA7FAD8D93301A9 Ref B: MAA201060513033 Ref C: 2025-01-23T11:46:32Z'
+        status: 200 OK
+        code: 200
+        duration: 5.405449875s
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/authorizationRules/asotest-policy-gjtunu?api-version=2023-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 431
+        uncompressed: false
+        body: '{"properties":{"rights":["Listen"],"modifiedTime":"2025-01-23T11:46:35.004767+00:00","createdTime":"2025-01-23T11:46:35.004767+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/authorizationRules/asotest-policy-gjtunu","name":"asotest-policy-gjtunu","type":"Microsoft.NotificationHubs/namespaces/authorizationRules"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "431"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - 4d07434f-ebf8-4bf4-9d6f-f143c3d3b768
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 09EB45049BEB422180B2A2AA02673DAD Ref B: MAA201060513033 Ref C: 2025-01-23T11:46:38Z'
+        status: 200 OK
+        code: 200
+        duration: 1.38516s
+    - id: 12
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr?api-version=2023-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 435
+        uncompressed: false
+        body: '{"properties":{"name":"asotest-hub-xgoavr","registrationTtl":"10675199.02:48:05.4775807","dailyMaxActiveDevices":0},"location":"West US 2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr","name":"asotest-hub-xgoavr","type":"Microsoft.NotificationHubs/namespaces/notificationHubs"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "435"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - 897df9cc-0368-44f6-95d8-f7850f150728
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 71024158A20847E6837371E8AC5A8A57 Ref B: MAA201060513033 Ref C: 2025-01-23T11:46:43Z'
+        status: 200 OK
+        code: 200
+        duration: 1.189885625s
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 85
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-hub-xgoavr","sku":{"capacity":1,"name":"Free"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "85"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - beca101c636e07bbf071081b6f9192846e1d8a24b45fc67bb430eb0e475ccec3
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr?api-version=2023-09-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 435
+        uncompressed: false
+        body: '{"properties":{"name":"asotest-hub-xgoavr","registrationTtl":"10675199.02:48:05.4775807","dailyMaxActiveDevices":0},"location":"West US 2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr","name":"asotest-hub-xgoavr","type":"Microsoft.NotificationHubs/namespaces/notificationHubs"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "435"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - 3f1e90fd-4eba-461e-a3ca-e83b7471158d
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 5AB1966153574A0195919DDD6DFC2948 Ref B: MAA201060513033 Ref C: 2025-01-23T11:46:46Z'
+        status: 200 OK
+        code: 200
+        duration: 1.836449667s
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr?api-version=2023-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 435
+        uncompressed: false
+        body: '{"properties":{"name":"asotest-hub-xgoavr","registrationTtl":"10675199.02:48:05.4775807","dailyMaxActiveDevices":0},"location":"West US 2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr","name":"asotest-hub-xgoavr","type":"Microsoft.NotificationHubs/namespaces/notificationHubs"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "435"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - 67368cb7-e95c-4410-bd9d-702f46b90332
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: C00E7CF44A66434D857A55BE8E89FFD2 Ref B: MAA201060513033 Ref C: 2025-01-23T11:46:49Z'
+        status: 200 OK
+        code: 200
+        duration: 1.366668041s
+    - id: 15
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr/AuthorizationRules/DefaultFullSharedAccessSignature/listKeys?api-version=2017-04-01
+        method: POST
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 566
+        uncompressed: false
+        body: '{"primaryConnectionString":"Endpoint=sb://asotest-ns-yecpxm.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey={KEY}","secondaryConnectionString":"Endpoint=sb://asotest-ns-yecpxm.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey={KEY}","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"DefaultFullSharedAccessSignature"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "566"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - db081242-de92-4f8a-baad-288a8e2dbfcc
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: D30B1A0937B14E0887F4ED01117ECE90 Ref B: MAA201060513033 Ref C: 2025-01-23T11:46:53Z'
+        status: 200 OK
+        code: 200
+        duration: 1.504487084s
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 88
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-policy-idinhe","properties":{"rights":["Listen"]}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "88"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 32bcb60170e8f2d156348f33a1266ea1a2ece189c707b6735a9e9979855d44d8
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr/authorizationRules/asotest-policy-idinhe?api-version=2023-09-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 486
+        uncompressed: false
+        body: '{"properties":{"rights":["Listen"],"modifiedTime":"2025-01-23T11:47:04.0753273+00:00","createdTime":"2025-01-23T11:47:04.0753273+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr/authorizationRules/asotest-policy-idinhe","name":"asotest-policy-idinhe","type":"Microsoft.NotificationHubs/namespaces/notificationHubs/authorizationRules"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "486"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - 232224ef-aab1-4446-86a6-41aa87bcb979
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 66D6C252147449AD988B07E3D7EE0CBD Ref B: MAA201060513033 Ref C: 2025-01-23T11:47:02Z'
+        status: 200 OK
+        code: 200
+        duration: 2.170120375s
+    - id: 17
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr/authorizationRules/asotest-policy-idinhe?api-version=2023-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 486
+        uncompressed: false
+        body: '{"properties":{"rights":["Listen"],"modifiedTime":"2025-01-23T11:47:04.0753273+00:00","createdTime":"2025-01-23T11:47:04.0753273+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr/authorizationRules/asotest-policy-idinhe","name":"asotest-policy-idinhe","type":"Microsoft.NotificationHubs/namespaces/notificationHubs/authorizationRules"}'
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "486"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - bc69adb0-6863-4546-a84f-1ec46aabdbb1
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 9AE3F1E37BAF4CBFA1496FDFF3B30C72 Ref B: MAA201060513033 Ref C: 2025-01-23T11:47:06Z'
+        status: 200 OK
+        code: 200
+        duration: 2.379895584s
+    - id: 18
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr?api-version=2023-09-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - 3f7d1c75-aa32-49b9-9928-000ff4939b0f
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "12000"
+            X-Msedge-Ref:
+                - 'Ref A: D069C3D18F2D49799626421DF78B4129 Ref B: MAA201060513033 Ref C: 2025-01-23T11:47:16Z'
+        status: 200 OK
+        code: 200
+        duration: 10.841903083s
+    - id: 19
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "2"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr?api-version=2023-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 280
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr'' under resource group ''asotest-rg-ukziaz'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "280"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 4858369096F2448DBA30259A3AA00323 Ref B: MAA201060513033 Ref C: 2025-01-23T11:47:42Z'
+        status: 404 Not Found
+        code: 404
+        duration: 313.282834ms
+    - id: 20
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm?api-version=2023-09-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: ""
+        headers:
+            Api-Supported-Versions:
+                - 2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview, 2023-01-01-preview, 2023-09-01, 2023-10-01-preview
+            Cache-Control:
+                - no-cache
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Trackingid:
+                - 540e1364-5d2f-4589-b4c4-107fc66b419e
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "12000"
+            X-Msedge-Ref:
+                - 'Ref A: 4FF92C73CD474F93A42B49EF04F9444F Ref B: MAA201060513033 Ref C: 2025-01-23T11:47:42Z'
+        status: 204 No Content
+        code: 204
+        duration: 10.002053125s
+    - id: 21
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "3"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm?api-version=2023-09-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 244
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm'' under resource group ''asotest-rg-ukziaz'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "244"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: AB5D9A812F924EAD862F250122D30956 Ref B: MAA201060513033 Ref C: 2025-01-23T11:48:02Z'
+        status: 404 Not Found
+        code: 404
+        duration: 315.330167ms
+    - id: 22
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz?api-version=2020-06-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRVS1pJQVotV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638732296898661512&c=MIIHhzCCBm-gAwIBAgITfAWZnAKDvd4xEuvOGQAABZmcAjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjQxMDAzMDg1MDA1WhcNMjUwNDAxMDg1MDA1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANbsFcaJpKQloFwUPDSK63qAV4_Gh5m2LagG0Kj62uLVJqYJm9Z2rd259DxiZexsVvaA6cy_4GMgYbx0S26ToW6M7U4XDYuGtf5iceHk_uR2l-j59K0z75ltaQTyjzZ5JFPiid5YueZZzakeQyGJ9eMw5Zj97j-8NiArPd4VdGOIj-ktMNqlLFHK7x012HOwhdBIqYh2iUt-0SEXmqFESmRBK2OUctVB-yGWRQXxZo1CKX1R4aDEKnb-yTbSD2IAiKr8AL5x5ccoeX6kca0TktS3G-ncZmhjOBSQLcXScjG9DIuLQAgwmlrw-Fqubep7UWxQxDMl8B6l7vpKE1t-MrECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBRWQsUCIxUfskh8RoPMbk98Jz_QpjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAHR64fSdTm75xFWU4g_L3ZBLvpQ0yzVxQgBlg_wr8UjWRYOR2rHWxwk44sfm8W1t9vQBrIOq1x6kEdbdfrMVUeAB_YZfWHQjwGx4wJae16fgSjj6_CpTwePAf5aOUXi72mYCj-qltSdfZeL254zQy3OKLSDXb5Vf12TLz4WqyU4T8Noo787zKYGPOP5TGxp_bLL-s_6j-wGU9r3KoBVrwBDsGpfql6oF44DCM6TBrmtdo0AGb8avJ38fK_DfF1FEieKF-iojTygUMza86MkBBDaDHf51xBkBgSnkqdi3Er7HExrR0TWaACPqGp6b2-YV_BRteF_hME8rYvFOZO3tuX0&s=yAUwRwi260p7G8ggt7z0Ixh1bGZWDSRQ4K18eruAi_93nWp5G8o-nLKEzqBjxrL1zqWkPI9ogUy_rgPo10J5w2KlQqKOFIU_VhUCbSWvdgTUC1JPCS452fVWt-2LPDLXqdcqcJWwDODk7lcJ-7Oan1-v6dGs43iOtSK_1fgJKyJzbTrjKazMZvcaxuJW7Vqd85MnUS8RpV-aD6O678o4XNUvGWFVk13pebRbbfZwDhnHg-2geD80ydd0F4uCHHMD3gI8y2LkCtidVMNuG7SnKZnStI04v19CgiTHtN5eUsRE-fCRootK56xY3HfSUnBYKPhA_aUp1G1lX0pd232bwA&h=CNpQ1RfjECj07RwqyqMTuDq3Z8DYWBbnKGTu5FIv9ac
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "12000"
+            X-Msedge-Ref:
+                - 'Ref A: 434E444B96244835A61BEFA6A3892C45 Ref B: MAA201060513033 Ref C: 2025-01-23T11:48:03Z'
+        status: 202 Accepted
+        code: 202
+        duration: 6.284535083s
+    - id: 23
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRVS1pJQVotV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638732296898661512&c=MIIHhzCCBm-gAwIBAgITfAWZnAKDvd4xEuvOGQAABZmcAjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjQxMDAzMDg1MDA1WhcNMjUwNDAxMDg1MDA1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANbsFcaJpKQloFwUPDSK63qAV4_Gh5m2LagG0Kj62uLVJqYJm9Z2rd259DxiZexsVvaA6cy_4GMgYbx0S26ToW6M7U4XDYuGtf5iceHk_uR2l-j59K0z75ltaQTyjzZ5JFPiid5YueZZzakeQyGJ9eMw5Zj97j-8NiArPd4VdGOIj-ktMNqlLFHK7x012HOwhdBIqYh2iUt-0SEXmqFESmRBK2OUctVB-yGWRQXxZo1CKX1R4aDEKnb-yTbSD2IAiKr8AL5x5ccoeX6kca0TktS3G-ncZmhjOBSQLcXScjG9DIuLQAgwmlrw-Fqubep7UWxQxDMl8B6l7vpKE1t-MrECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBRWQsUCIxUfskh8RoPMbk98Jz_QpjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAHR64fSdTm75xFWU4g_L3ZBLvpQ0yzVxQgBlg_wr8UjWRYOR2rHWxwk44sfm8W1t9vQBrIOq1x6kEdbdfrMVUeAB_YZfWHQjwGx4wJae16fgSjj6_CpTwePAf5aOUXi72mYCj-qltSdfZeL254zQy3OKLSDXb5Vf12TLz4WqyU4T8Noo787zKYGPOP5TGxp_bLL-s_6j-wGU9r3KoBVrwBDsGpfql6oF44DCM6TBrmtdo0AGb8avJ38fK_DfF1FEieKF-iojTygUMza86MkBBDaDHf51xBkBgSnkqdi3Er7HExrR0TWaACPqGp6b2-YV_BRteF_hME8rYvFOZO3tuX0&s=yAUwRwi260p7G8ggt7z0Ixh1bGZWDSRQ4K18eruAi_93nWp5G8o-nLKEzqBjxrL1zqWkPI9ogUy_rgPo10J5w2KlQqKOFIU_VhUCbSWvdgTUC1JPCS452fVWt-2LPDLXqdcqcJWwDODk7lcJ-7Oan1-v6dGs43iOtSK_1fgJKyJzbTrjKazMZvcaxuJW7Vqd85MnUS8RpV-aD6O678o4XNUvGWFVk13pebRbbfZwDhnHg-2geD80ydd0F4uCHHMD3gI8y2LkCtidVMNuG7SnKZnStI04v19CgiTHtN5eUsRE-fCRootK56xY3HfSUnBYKPhA_aUp1G1lX0pd232bwA&h=CNpQ1RfjECj07RwqyqMTuDq3Z8DYWBbnKGTu5FIv9ac
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 2B96BE57863145ED9419FAB87741B3E1 Ref B: MAA201060513033 Ref C: 2025-01-23T11:48:31Z'
+        status: 200 OK
+        code: 200
+        duration: 1.217678042s
+    - id: 24
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/authorizationRules/asotest-policy-gjtunu?api-version=2023-09-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 244
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm'' under resource group ''asotest-rg-ukziaz'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "244"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: A3297F5662254E5C9FB9B983FDC70C96 Ref B: MAA201060513033 Ref C: 2025-01-23T11:48:33Z'
+        status: 404 Not Found
+        code: 404
+        duration: 545.433334ms
+    - id: 25
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ukziaz/providers/Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr/authorizationRules/asotest-policy-idinhe?api-version=2023-09-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 280
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.NotificationHubs/namespaces/asotest-ns-yecpxm/notificationHubs/asotest-hub-xgoavr'' under resource group ''asotest-rg-ukziaz'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "280"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: B7744CA15D4B4719ACFB719BDD5F4C02 Ref B: MAA201060513033 Ref C: 2025-01-23T11:48:38Z'
+        status: 404 Not Found
+        code: 404
+        duration: 594.950959ms

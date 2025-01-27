@@ -178,6 +178,9 @@ import (
 	network_v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	network_v20240601 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601"
 	network_v20240601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
+	notificationhubs_customizations "github.com/Azure/azure-service-operator/v2/api/notificationhubs/customizations"
+	notificationhubs_v20230901 "github.com/Azure/azure-service-operator/v2/api/notificationhubs/v1api20230901"
+	notificationhubs_v20230901s "github.com/Azure/azure-service-operator/v2/api/notificationhubs/v1api20230901/storage"
 	operationalinsights_customizations "github.com/Azure/azure-service-operator/v2/api/operationalinsights/customizations"
 	operationalinsights_v20210601 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601"
 	operationalinsights_v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
@@ -1138,6 +1141,262 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesTXTRecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesVirtualNetworkLink)})
 	result = append(result, &registration.StorageType{Obj: new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy)})
+	result = append(result, &registration.StorageType{
+		Obj: new(notificationhubs_v20230901s.Namespace),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.pnsCredentials.apnsCredential.properties.apnsCertificate",
+				Func: indexNotificationhubsNamespaceApnsCredentialApnsCertificate,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.apnsCredential.properties.appId",
+				Func: indexNotificationhubsNamespaceApnsCredentialAppId,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.apnsCredential.properties.appName",
+				Func: indexNotificationhubsNamespaceApnsCredentialAppName,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.apnsCredential.properties.certificateKey",
+				Func: indexNotificationhubsNamespaceApnsCredentialCertificateKey,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.apnsCredential.properties.endpoint",
+				Func: indexNotificationhubsNamespaceApnsCredentialEndpoint,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.apnsCredential.properties.keyId",
+				Func: indexNotificationhubsNamespaceApnsCredentialKeyId,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.apnsCredential.properties.thumbprint",
+				Func: indexNotificationhubsNamespaceApnsCredentialThumbprint,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.apnsCredential.properties.token",
+				Func: indexNotificationhubsNamespaceApnsCredentialToken,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.admCredential.properties.authTokenUrl",
+				Func: indexNotificationhubsNamespaceAuthTokenUrl,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.baiduCredential.properties.baiduApiKey",
+				Func: indexNotificationhubsNamespaceBaiduApiKey,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.baiduCredential.properties.baiduEndPoint",
+				Func: indexNotificationhubsNamespaceBaiduEndPoint,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.baiduCredential.properties.baiduSecretKey",
+				Func: indexNotificationhubsNamespaceBaiduSecretKey,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.admCredential.properties.clientId",
+				Func: indexNotificationhubsNamespaceClientId,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.admCredential.properties.clientSecret",
+				Func: indexNotificationhubsNamespaceClientSecret,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.gcmCredential.properties.gcmEndpoint",
+				Func: indexNotificationhubsNamespaceGcmEndpoint,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.gcmCredential.properties.googleApiKey",
+				Func: indexNotificationhubsNamespaceGoogleApiKey,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.mpnsCredential.properties.certificateKey",
+				Func: indexNotificationhubsNamespaceMpnsCredentialCertificateKey,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.mpnsCredential.properties.mpnsCertificate",
+				Func: indexNotificationhubsNamespaceMpnsCredentialMpnsCertificate,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.mpnsCredential.properties.thumbprint",
+				Func: indexNotificationhubsNamespaceMpnsCredentialThumbprint,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.browserCredential.properties.subject",
+				Func: indexNotificationhubsNamespaceSubject,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.browserCredential.properties.vapidPrivateKey",
+				Func: indexNotificationhubsNamespaceVapidPrivateKey,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.browserCredential.properties.vapidPublicKey",
+				Func: indexNotificationhubsNamespaceVapidPublicKey,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.wnsCredential.properties.certificateKey",
+				Func: indexNotificationhubsNamespaceWnsCredentialCertificateKey,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.wnsCredential.properties.packageSid",
+				Func: indexNotificationhubsNamespaceWnsCredentialPackageSid,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.wnsCredential.properties.secretKey",
+				Func: indexNotificationhubsNamespaceWnsCredentialSecretKey,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.wnsCredential.properties.windowsLiveEndpoint",
+				Func: indexNotificationhubsNamespaceWnsCredentialWindowsLiveEndpoint,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.wnsCredential.properties.wnsCertificate",
+				Func: indexNotificationhubsNamespaceWnsCredentialWnsCertificate,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.xiaomiCredential.properties.appSecret",
+				Func: indexNotificationhubsNamespaceXiaomiCredentialAppSecret,
+			},
+			{
+				Key:  ".spec.properties.pnsCredentials.xiaomiCredential.properties.endpoint",
+				Func: indexNotificationhubsNamespaceXiaomiCredentialEndpoint,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.pnsCredentials.admCredential.properties.authTokenUrl", ".spec.properties.pnsCredentials.admCredential.properties.clientId", ".spec.properties.pnsCredentials.admCredential.properties.clientSecret", ".spec.properties.pnsCredentials.apnsCredential.properties.apnsCertificate", ".spec.properties.pnsCredentials.apnsCredential.properties.appId", ".spec.properties.pnsCredentials.apnsCredential.properties.appName", ".spec.properties.pnsCredentials.apnsCredential.properties.certificateKey", ".spec.properties.pnsCredentials.apnsCredential.properties.endpoint", ".spec.properties.pnsCredentials.apnsCredential.properties.keyId", ".spec.properties.pnsCredentials.apnsCredential.properties.thumbprint", ".spec.properties.pnsCredentials.apnsCredential.properties.token", ".spec.properties.pnsCredentials.baiduCredential.properties.baiduApiKey", ".spec.properties.pnsCredentials.baiduCredential.properties.baiduEndPoint", ".spec.properties.pnsCredentials.baiduCredential.properties.baiduSecretKey", ".spec.properties.pnsCredentials.browserCredential.properties.subject", ".spec.properties.pnsCredentials.browserCredential.properties.vapidPrivateKey", ".spec.properties.pnsCredentials.browserCredential.properties.vapidPublicKey", ".spec.properties.pnsCredentials.gcmCredential.properties.gcmEndpoint", ".spec.properties.pnsCredentials.gcmCredential.properties.googleApiKey", ".spec.properties.pnsCredentials.mpnsCredential.properties.certificateKey", ".spec.properties.pnsCredentials.mpnsCredential.properties.mpnsCertificate", ".spec.properties.pnsCredentials.mpnsCredential.properties.thumbprint", ".spec.properties.pnsCredentials.wnsCredential.properties.certificateKey", ".spec.properties.pnsCredentials.wnsCredential.properties.packageSid", ".spec.properties.pnsCredentials.wnsCredential.properties.secretKey", ".spec.properties.pnsCredentials.wnsCredential.properties.windowsLiveEndpoint", ".spec.properties.pnsCredentials.wnsCredential.properties.wnsCertificate", ".spec.properties.pnsCredentials.xiaomiCredential.properties.appSecret", ".spec.properties.pnsCredentials.xiaomiCredential.properties.endpoint"}, &notificationhubs_v20230901s.NamespaceList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{Obj: new(notificationhubs_v20230901s.NamespacesAuthorizationRule)})
+	result = append(result, &registration.StorageType{
+		Obj: new(notificationhubs_v20230901s.NotificationHub),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.apnsCredential.properties.apnsCertificate",
+				Func: indexNotificationhubsNotificationHubApnsCredentialApnsCertificate,
+			},
+			{
+				Key:  ".spec.properties.apnsCredential.properties.appId",
+				Func: indexNotificationhubsNotificationHubApnsCredentialAppId,
+			},
+			{
+				Key:  ".spec.properties.apnsCredential.properties.appName",
+				Func: indexNotificationhubsNotificationHubApnsCredentialAppName,
+			},
+			{
+				Key:  ".spec.properties.apnsCredential.properties.certificateKey",
+				Func: indexNotificationhubsNotificationHubApnsCredentialCertificateKey,
+			},
+			{
+				Key:  ".spec.properties.apnsCredential.properties.endpoint",
+				Func: indexNotificationhubsNotificationHubApnsCredentialEndpoint,
+			},
+			{
+				Key:  ".spec.properties.apnsCredential.properties.keyId",
+				Func: indexNotificationhubsNotificationHubApnsCredentialKeyId,
+			},
+			{
+				Key:  ".spec.properties.apnsCredential.properties.thumbprint",
+				Func: indexNotificationhubsNotificationHubApnsCredentialThumbprint,
+			},
+			{
+				Key:  ".spec.properties.apnsCredential.properties.token",
+				Func: indexNotificationhubsNotificationHubApnsCredentialToken,
+			},
+			{
+				Key:  ".spec.properties.admCredential.properties.authTokenUrl",
+				Func: indexNotificationhubsNotificationHubAuthTokenUrl,
+			},
+			{
+				Key:  ".spec.properties.baiduCredential.properties.baiduApiKey",
+				Func: indexNotificationhubsNotificationHubBaiduApiKey,
+			},
+			{
+				Key:  ".spec.properties.baiduCredential.properties.baiduEndPoint",
+				Func: indexNotificationhubsNotificationHubBaiduEndPoint,
+			},
+			{
+				Key:  ".spec.properties.baiduCredential.properties.baiduSecretKey",
+				Func: indexNotificationhubsNotificationHubBaiduSecretKey,
+			},
+			{
+				Key:  ".spec.properties.admCredential.properties.clientId",
+				Func: indexNotificationhubsNotificationHubClientId,
+			},
+			{
+				Key:  ".spec.properties.admCredential.properties.clientSecret",
+				Func: indexNotificationhubsNotificationHubClientSecret,
+			},
+			{
+				Key:  ".spec.properties.gcmCredential.properties.gcmEndpoint",
+				Func: indexNotificationhubsNotificationHubGcmEndpoint,
+			},
+			{
+				Key:  ".spec.properties.gcmCredential.properties.googleApiKey",
+				Func: indexNotificationhubsNotificationHubGoogleApiKey,
+			},
+			{
+				Key:  ".spec.properties.mpnsCredential.properties.certificateKey",
+				Func: indexNotificationhubsNotificationHubMpnsCredentialCertificateKey,
+			},
+			{
+				Key:  ".spec.properties.mpnsCredential.properties.mpnsCertificate",
+				Func: indexNotificationhubsNotificationHubMpnsCredentialMpnsCertificate,
+			},
+			{
+				Key:  ".spec.properties.mpnsCredential.properties.thumbprint",
+				Func: indexNotificationhubsNotificationHubMpnsCredentialThumbprint,
+			},
+			{
+				Key:  ".spec.properties.browserCredential.properties.subject",
+				Func: indexNotificationhubsNotificationHubSubject,
+			},
+			{
+				Key:  ".spec.properties.browserCredential.properties.vapidPrivateKey",
+				Func: indexNotificationhubsNotificationHubVapidPrivateKey,
+			},
+			{
+				Key:  ".spec.properties.browserCredential.properties.vapidPublicKey",
+				Func: indexNotificationhubsNotificationHubVapidPublicKey,
+			},
+			{
+				Key:  ".spec.properties.wnsCredential.properties.certificateKey",
+				Func: indexNotificationhubsNotificationHubWnsCredentialCertificateKey,
+			},
+			{
+				Key:  ".spec.properties.wnsCredential.properties.packageSid",
+				Func: indexNotificationhubsNotificationHubWnsCredentialPackageSid,
+			},
+			{
+				Key:  ".spec.properties.wnsCredential.properties.secretKey",
+				Func: indexNotificationhubsNotificationHubWnsCredentialSecretKey,
+			},
+			{
+				Key:  ".spec.properties.wnsCredential.properties.windowsLiveEndpoint",
+				Func: indexNotificationhubsNotificationHubWnsCredentialWindowsLiveEndpoint,
+			},
+			{
+				Key:  ".spec.properties.wnsCredential.properties.wnsCertificate",
+				Func: indexNotificationhubsNotificationHubWnsCredentialWnsCertificate,
+			},
+			{
+				Key:  ".spec.properties.xiaomiCredential.properties.appSecret",
+				Func: indexNotificationhubsNotificationHubXiaomiCredentialAppSecret,
+			},
+			{
+				Key:  ".spec.properties.xiaomiCredential.properties.endpoint",
+				Func: indexNotificationhubsNotificationHubXiaomiCredentialEndpoint,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.admCredential.properties.authTokenUrl", ".spec.properties.admCredential.properties.clientId", ".spec.properties.admCredential.properties.clientSecret", ".spec.properties.apnsCredential.properties.apnsCertificate", ".spec.properties.apnsCredential.properties.appId", ".spec.properties.apnsCredential.properties.appName", ".spec.properties.apnsCredential.properties.certificateKey", ".spec.properties.apnsCredential.properties.endpoint", ".spec.properties.apnsCredential.properties.keyId", ".spec.properties.apnsCredential.properties.thumbprint", ".spec.properties.apnsCredential.properties.token", ".spec.properties.baiduCredential.properties.baiduApiKey", ".spec.properties.baiduCredential.properties.baiduEndPoint", ".spec.properties.baiduCredential.properties.baiduSecretKey", ".spec.properties.browserCredential.properties.subject", ".spec.properties.browserCredential.properties.vapidPrivateKey", ".spec.properties.browserCredential.properties.vapidPublicKey", ".spec.properties.gcmCredential.properties.gcmEndpoint", ".spec.properties.gcmCredential.properties.googleApiKey", ".spec.properties.mpnsCredential.properties.certificateKey", ".spec.properties.mpnsCredential.properties.mpnsCertificate", ".spec.properties.mpnsCredential.properties.thumbprint", ".spec.properties.wnsCredential.properties.certificateKey", ".spec.properties.wnsCredential.properties.packageSid", ".spec.properties.wnsCredential.properties.secretKey", ".spec.properties.wnsCredential.properties.windowsLiveEndpoint", ".spec.properties.wnsCredential.properties.wnsCertificate", ".spec.properties.xiaomiCredential.properties.appSecret", ".spec.properties.xiaomiCredential.properties.endpoint"}, &notificationhubs_v20230901s.NotificationHubList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{Obj: new(notificationhubs_v20230901s.NotificationHubsAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20210601s.Workspace)})
 	result = append(result, &registration.StorageType{
 		Obj: new(redhatopenshift_v20231122s.OpenShiftCluster),
@@ -2163,6 +2422,18 @@ func getKnownTypes() []client.Object {
 		new(network_v20240601s.PrivateDnsZonesVirtualNetworkLink))
 	result = append(result, new(networkfrontdoor_v20220501.WebApplicationFirewallPolicy))
 	result = append(result, new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy))
+	result = append(
+		result,
+		new(notificationhubs_v20230901.Namespace),
+		new(notificationhubs_v20230901.NamespacesAuthorizationRule),
+		new(notificationhubs_v20230901.NotificationHub),
+		new(notificationhubs_v20230901.NotificationHubsAuthorizationRule))
+	result = append(
+		result,
+		new(notificationhubs_v20230901s.Namespace),
+		new(notificationhubs_v20230901s.NamespacesAuthorizationRule),
+		new(notificationhubs_v20230901s.NotificationHub),
+		new(notificationhubs_v20230901s.NotificationHubsAuthorizationRule))
 	result = append(result, new(operationalinsights_v20210601.Workspace))
 	result = append(result, new(operationalinsights_v20210601s.Workspace))
 	result = append(result, new(redhatopenshift_v20231122.OpenShiftCluster))
@@ -2506,6 +2777,8 @@ func createScheme() *runtime.Scheme {
 	_ = network_v20240601s.AddToScheme(scheme)
 	_ = networkfrontdoor_v20220501.AddToScheme(scheme)
 	_ = networkfrontdoor_v20220501s.AddToScheme(scheme)
+	_ = notificationhubs_v20230901.AddToScheme(scheme)
+	_ = notificationhubs_v20230901s.AddToScheme(scheme)
 	_ = operationalinsights_v20210601.AddToScheme(scheme)
 	_ = operationalinsights_v20210601s.AddToScheme(scheme)
 	_ = redhatopenshift_v20231122.AddToScheme(scheme)
@@ -2704,6 +2977,10 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.VirtualNetworksVirtualNetworkPeeringExtension{})
 	result = append(result, &network_customizations.WebApplicationFirewallPolicyExtension{})
 	result = append(result, &networkfrontdoor_customizations.WebApplicationFirewallPolicyExtension{})
+	result = append(result, &notificationhubs_customizations.NamespaceExtension{})
+	result = append(result, &notificationhubs_customizations.NamespacesAuthorizationRuleExtension{})
+	result = append(result, &notificationhubs_customizations.NotificationHubExtension{})
+	result = append(result, &notificationhubs_customizations.NotificationHubsAuthorizationRuleExtension{})
 	result = append(result, &operationalinsights_customizations.WorkspaceExtension{})
 	result = append(result, &redhatopenshift_customizations.OpenShiftClusterExtension{})
 	result = append(result, &resources_customizations.ResourceGroupExtension{})
@@ -4645,6 +4922,1311 @@ func indexNetworkDnsForwardingRuleSetsForwardingRuleIpAddressFromConfig(rawObj c
 		result = append(result, targetDnsServerItem.IpAddressFromConfig.Index()...)
 	}
 	return result
+}
+
+// indexNotificationhubsNamespaceApnsCredentialApnsCertificate an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.apnsCredential.properties.apnsCertificate
+func indexNotificationhubsNamespaceApnsCredentialApnsCertificate(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.ApnsCertificate == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.ApnsCertificate.Index()
+}
+
+// indexNotificationhubsNamespaceApnsCredentialAppId an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.apnsCredential.properties.appId
+func indexNotificationhubsNamespaceApnsCredentialAppId(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.AppId == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.AppId.Index()
+}
+
+// indexNotificationhubsNamespaceApnsCredentialAppName an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.apnsCredential.properties.appName
+func indexNotificationhubsNamespaceApnsCredentialAppName(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.AppName == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.AppName.Index()
+}
+
+// indexNotificationhubsNamespaceApnsCredentialCertificateKey an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.apnsCredential.properties.certificateKey
+func indexNotificationhubsNamespaceApnsCredentialCertificateKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.CertificateKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.CertificateKey.Index()
+}
+
+// indexNotificationhubsNamespaceApnsCredentialEndpoint an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.apnsCredential.properties.endpoint
+func indexNotificationhubsNamespaceApnsCredentialEndpoint(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.Endpoint == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.Endpoint.Index()
+}
+
+// indexNotificationhubsNamespaceApnsCredentialKeyId an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.apnsCredential.properties.keyId
+func indexNotificationhubsNamespaceApnsCredentialKeyId(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.KeyId == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.KeyId.Index()
+}
+
+// indexNotificationhubsNamespaceApnsCredentialThumbprint an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.apnsCredential.properties.thumbprint
+func indexNotificationhubsNamespaceApnsCredentialThumbprint(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.Thumbprint == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.Thumbprint.Index()
+}
+
+// indexNotificationhubsNamespaceApnsCredentialToken an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.apnsCredential.properties.token
+func indexNotificationhubsNamespaceApnsCredentialToken(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.Token == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.ApnsCredential.Properties.Token.Index()
+}
+
+// indexNotificationhubsNamespaceAuthTokenUrl an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.admCredential.properties.authTokenUrl
+func indexNotificationhubsNamespaceAuthTokenUrl(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.AdmCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.AdmCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.AdmCredential.Properties.AuthTokenUrl == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.AdmCredential.Properties.AuthTokenUrl.Index()
+}
+
+// indexNotificationhubsNamespaceBaiduApiKey an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.baiduCredential.properties.baiduApiKey
+func indexNotificationhubsNamespaceBaiduApiKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BaiduCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BaiduCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BaiduCredential.Properties.BaiduApiKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.BaiduCredential.Properties.BaiduApiKey.Index()
+}
+
+// indexNotificationhubsNamespaceBaiduEndPoint an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.baiduCredential.properties.baiduEndPoint
+func indexNotificationhubsNamespaceBaiduEndPoint(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BaiduCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BaiduCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BaiduCredential.Properties.BaiduEndPoint == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.BaiduCredential.Properties.BaiduEndPoint.Index()
+}
+
+// indexNotificationhubsNamespaceBaiduSecretKey an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.baiduCredential.properties.baiduSecretKey
+func indexNotificationhubsNamespaceBaiduSecretKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BaiduCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BaiduCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BaiduCredential.Properties.BaiduSecretKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.BaiduCredential.Properties.BaiduSecretKey.Index()
+}
+
+// indexNotificationhubsNamespaceClientId an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.admCredential.properties.clientId
+func indexNotificationhubsNamespaceClientId(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.AdmCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.AdmCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.AdmCredential.Properties.ClientId == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.AdmCredential.Properties.ClientId.Index()
+}
+
+// indexNotificationhubsNamespaceClientSecret an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.admCredential.properties.clientSecret
+func indexNotificationhubsNamespaceClientSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.AdmCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.AdmCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.AdmCredential.Properties.ClientSecret == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.AdmCredential.Properties.ClientSecret.Index()
+}
+
+// indexNotificationhubsNamespaceGcmEndpoint an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.gcmCredential.properties.gcmEndpoint
+func indexNotificationhubsNamespaceGcmEndpoint(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.GcmCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.GcmCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.GcmCredential.Properties.GcmEndpoint == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.GcmCredential.Properties.GcmEndpoint.Index()
+}
+
+// indexNotificationhubsNamespaceGoogleApiKey an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.gcmCredential.properties.googleApiKey
+func indexNotificationhubsNamespaceGoogleApiKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.GcmCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.GcmCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.GcmCredential.Properties.GoogleApiKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.GcmCredential.Properties.GoogleApiKey.Index()
+}
+
+// indexNotificationhubsNamespaceMpnsCredentialCertificateKey an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.mpnsCredential.properties.certificateKey
+func indexNotificationhubsNamespaceMpnsCredentialCertificateKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.MpnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.MpnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.MpnsCredential.Properties.CertificateKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.MpnsCredential.Properties.CertificateKey.Index()
+}
+
+// indexNotificationhubsNamespaceMpnsCredentialMpnsCertificate an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.mpnsCredential.properties.mpnsCertificate
+func indexNotificationhubsNamespaceMpnsCredentialMpnsCertificate(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.MpnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.MpnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.MpnsCredential.Properties.MpnsCertificate == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.MpnsCredential.Properties.MpnsCertificate.Index()
+}
+
+// indexNotificationhubsNamespaceMpnsCredentialThumbprint an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.mpnsCredential.properties.thumbprint
+func indexNotificationhubsNamespaceMpnsCredentialThumbprint(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.MpnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.MpnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.MpnsCredential.Properties.Thumbprint == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.MpnsCredential.Properties.Thumbprint.Index()
+}
+
+// indexNotificationhubsNamespaceSubject an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.browserCredential.properties.subject
+func indexNotificationhubsNamespaceSubject(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BrowserCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BrowserCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BrowserCredential.Properties.Subject == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.BrowserCredential.Properties.Subject.Index()
+}
+
+// indexNotificationhubsNamespaceVapidPrivateKey an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.browserCredential.properties.vapidPrivateKey
+func indexNotificationhubsNamespaceVapidPrivateKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BrowserCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BrowserCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BrowserCredential.Properties.VapidPrivateKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.BrowserCredential.Properties.VapidPrivateKey.Index()
+}
+
+// indexNotificationhubsNamespaceVapidPublicKey an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.browserCredential.properties.vapidPublicKey
+func indexNotificationhubsNamespaceVapidPublicKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BrowserCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BrowserCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.BrowserCredential.Properties.VapidPublicKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.BrowserCredential.Properties.VapidPublicKey.Index()
+}
+
+// indexNotificationhubsNamespaceWnsCredentialCertificateKey an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.wnsCredential.properties.certificateKey
+func indexNotificationhubsNamespaceWnsCredentialCertificateKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential.Properties.CertificateKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.WnsCredential.Properties.CertificateKey.Index()
+}
+
+// indexNotificationhubsNamespaceWnsCredentialPackageSid an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.wnsCredential.properties.packageSid
+func indexNotificationhubsNamespaceWnsCredentialPackageSid(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential.Properties.PackageSid == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.WnsCredential.Properties.PackageSid.Index()
+}
+
+// indexNotificationhubsNamespaceWnsCredentialSecretKey an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.wnsCredential.properties.secretKey
+func indexNotificationhubsNamespaceWnsCredentialSecretKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential.Properties.SecretKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.WnsCredential.Properties.SecretKey.Index()
+}
+
+// indexNotificationhubsNamespaceWnsCredentialWindowsLiveEndpoint an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.wnsCredential.properties.windowsLiveEndpoint
+func indexNotificationhubsNamespaceWnsCredentialWindowsLiveEndpoint(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential.Properties.WindowsLiveEndpoint == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.WnsCredential.Properties.WindowsLiveEndpoint.Index()
+}
+
+// indexNotificationhubsNamespaceWnsCredentialWnsCertificate an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.wnsCredential.properties.wnsCertificate
+func indexNotificationhubsNamespaceWnsCredentialWnsCertificate(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.WnsCredential.Properties.WnsCertificate == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.WnsCredential.Properties.WnsCertificate.Index()
+}
+
+// indexNotificationhubsNamespaceXiaomiCredentialAppSecret an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.xiaomiCredential.properties.appSecret
+func indexNotificationhubsNamespaceXiaomiCredentialAppSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.XiaomiCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.XiaomiCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.XiaomiCredential.Properties.AppSecret == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.XiaomiCredential.Properties.AppSecret.Index()
+}
+
+// indexNotificationhubsNamespaceXiaomiCredentialEndpoint an index function for notificationhubs_v20230901s.Namespace .spec.properties.pnsCredentials.xiaomiCredential.properties.endpoint
+func indexNotificationhubsNamespaceXiaomiCredentialEndpoint(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.Namespace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.XiaomiCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.XiaomiCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PnsCredentials.XiaomiCredential.Properties.Endpoint == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PnsCredentials.XiaomiCredential.Properties.Endpoint.Index()
+}
+
+// indexNotificationhubsNotificationHubApnsCredentialApnsCertificate an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.apnsCredential.properties.apnsCertificate
+func indexNotificationhubsNotificationHubApnsCredentialApnsCertificate(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties.ApnsCertificate == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApnsCredential.Properties.ApnsCertificate.Index()
+}
+
+// indexNotificationhubsNotificationHubApnsCredentialAppId an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.apnsCredential.properties.appId
+func indexNotificationhubsNotificationHubApnsCredentialAppId(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties.AppId == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApnsCredential.Properties.AppId.Index()
+}
+
+// indexNotificationhubsNotificationHubApnsCredentialAppName an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.apnsCredential.properties.appName
+func indexNotificationhubsNotificationHubApnsCredentialAppName(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties.AppName == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApnsCredential.Properties.AppName.Index()
+}
+
+// indexNotificationhubsNotificationHubApnsCredentialCertificateKey an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.apnsCredential.properties.certificateKey
+func indexNotificationhubsNotificationHubApnsCredentialCertificateKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties.CertificateKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApnsCredential.Properties.CertificateKey.Index()
+}
+
+// indexNotificationhubsNotificationHubApnsCredentialEndpoint an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.apnsCredential.properties.endpoint
+func indexNotificationhubsNotificationHubApnsCredentialEndpoint(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties.Endpoint == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApnsCredential.Properties.Endpoint.Index()
+}
+
+// indexNotificationhubsNotificationHubApnsCredentialKeyId an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.apnsCredential.properties.keyId
+func indexNotificationhubsNotificationHubApnsCredentialKeyId(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties.KeyId == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApnsCredential.Properties.KeyId.Index()
+}
+
+// indexNotificationhubsNotificationHubApnsCredentialThumbprint an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.apnsCredential.properties.thumbprint
+func indexNotificationhubsNotificationHubApnsCredentialThumbprint(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties.Thumbprint == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApnsCredential.Properties.Thumbprint.Index()
+}
+
+// indexNotificationhubsNotificationHubApnsCredentialToken an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.apnsCredential.properties.token
+func indexNotificationhubsNotificationHubApnsCredentialToken(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApnsCredential.Properties.Token == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApnsCredential.Properties.Token.Index()
+}
+
+// indexNotificationhubsNotificationHubAuthTokenUrl an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.admCredential.properties.authTokenUrl
+func indexNotificationhubsNotificationHubAuthTokenUrl(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AdmCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AdmCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AdmCredential.Properties.AuthTokenUrl == nil {
+		return nil
+	}
+	return obj.Spec.Properties.AdmCredential.Properties.AuthTokenUrl.Index()
+}
+
+// indexNotificationhubsNotificationHubBaiduApiKey an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.baiduCredential.properties.baiduApiKey
+func indexNotificationhubsNotificationHubBaiduApiKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BaiduCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BaiduCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BaiduCredential.Properties.BaiduApiKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.BaiduCredential.Properties.BaiduApiKey.Index()
+}
+
+// indexNotificationhubsNotificationHubBaiduEndPoint an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.baiduCredential.properties.baiduEndPoint
+func indexNotificationhubsNotificationHubBaiduEndPoint(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BaiduCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BaiduCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BaiduCredential.Properties.BaiduEndPoint == nil {
+		return nil
+	}
+	return obj.Spec.Properties.BaiduCredential.Properties.BaiduEndPoint.Index()
+}
+
+// indexNotificationhubsNotificationHubBaiduSecretKey an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.baiduCredential.properties.baiduSecretKey
+func indexNotificationhubsNotificationHubBaiduSecretKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BaiduCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BaiduCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BaiduCredential.Properties.BaiduSecretKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.BaiduCredential.Properties.BaiduSecretKey.Index()
+}
+
+// indexNotificationhubsNotificationHubClientId an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.admCredential.properties.clientId
+func indexNotificationhubsNotificationHubClientId(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AdmCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AdmCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AdmCredential.Properties.ClientId == nil {
+		return nil
+	}
+	return obj.Spec.Properties.AdmCredential.Properties.ClientId.Index()
+}
+
+// indexNotificationhubsNotificationHubClientSecret an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.admCredential.properties.clientSecret
+func indexNotificationhubsNotificationHubClientSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AdmCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AdmCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AdmCredential.Properties.ClientSecret == nil {
+		return nil
+	}
+	return obj.Spec.Properties.AdmCredential.Properties.ClientSecret.Index()
+}
+
+// indexNotificationhubsNotificationHubGcmEndpoint an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.gcmCredential.properties.gcmEndpoint
+func indexNotificationhubsNotificationHubGcmEndpoint(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.GcmCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.GcmCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.GcmCredential.Properties.GcmEndpoint == nil {
+		return nil
+	}
+	return obj.Spec.Properties.GcmCredential.Properties.GcmEndpoint.Index()
+}
+
+// indexNotificationhubsNotificationHubGoogleApiKey an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.gcmCredential.properties.googleApiKey
+func indexNotificationhubsNotificationHubGoogleApiKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.GcmCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.GcmCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.GcmCredential.Properties.GoogleApiKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.GcmCredential.Properties.GoogleApiKey.Index()
+}
+
+// indexNotificationhubsNotificationHubMpnsCredentialCertificateKey an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.mpnsCredential.properties.certificateKey
+func indexNotificationhubsNotificationHubMpnsCredentialCertificateKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.MpnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.MpnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.MpnsCredential.Properties.CertificateKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.MpnsCredential.Properties.CertificateKey.Index()
+}
+
+// indexNotificationhubsNotificationHubMpnsCredentialMpnsCertificate an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.mpnsCredential.properties.mpnsCertificate
+func indexNotificationhubsNotificationHubMpnsCredentialMpnsCertificate(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.MpnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.MpnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.MpnsCredential.Properties.MpnsCertificate == nil {
+		return nil
+	}
+	return obj.Spec.Properties.MpnsCredential.Properties.MpnsCertificate.Index()
+}
+
+// indexNotificationhubsNotificationHubMpnsCredentialThumbprint an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.mpnsCredential.properties.thumbprint
+func indexNotificationhubsNotificationHubMpnsCredentialThumbprint(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.MpnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.MpnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.MpnsCredential.Properties.Thumbprint == nil {
+		return nil
+	}
+	return obj.Spec.Properties.MpnsCredential.Properties.Thumbprint.Index()
+}
+
+// indexNotificationhubsNotificationHubSubject an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.browserCredential.properties.subject
+func indexNotificationhubsNotificationHubSubject(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BrowserCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BrowserCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BrowserCredential.Properties.Subject == nil {
+		return nil
+	}
+	return obj.Spec.Properties.BrowserCredential.Properties.Subject.Index()
+}
+
+// indexNotificationhubsNotificationHubVapidPrivateKey an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.browserCredential.properties.vapidPrivateKey
+func indexNotificationhubsNotificationHubVapidPrivateKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BrowserCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BrowserCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BrowserCredential.Properties.VapidPrivateKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.BrowserCredential.Properties.VapidPrivateKey.Index()
+}
+
+// indexNotificationhubsNotificationHubVapidPublicKey an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.browserCredential.properties.vapidPublicKey
+func indexNotificationhubsNotificationHubVapidPublicKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BrowserCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BrowserCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BrowserCredential.Properties.VapidPublicKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.BrowserCredential.Properties.VapidPublicKey.Index()
+}
+
+// indexNotificationhubsNotificationHubWnsCredentialCertificateKey an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.wnsCredential.properties.certificateKey
+func indexNotificationhubsNotificationHubWnsCredentialCertificateKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential.Properties.CertificateKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.WnsCredential.Properties.CertificateKey.Index()
+}
+
+// indexNotificationhubsNotificationHubWnsCredentialPackageSid an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.wnsCredential.properties.packageSid
+func indexNotificationhubsNotificationHubWnsCredentialPackageSid(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential.Properties.PackageSid == nil {
+		return nil
+	}
+	return obj.Spec.Properties.WnsCredential.Properties.PackageSid.Index()
+}
+
+// indexNotificationhubsNotificationHubWnsCredentialSecretKey an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.wnsCredential.properties.secretKey
+func indexNotificationhubsNotificationHubWnsCredentialSecretKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential.Properties.SecretKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.WnsCredential.Properties.SecretKey.Index()
+}
+
+// indexNotificationhubsNotificationHubWnsCredentialWindowsLiveEndpoint an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.wnsCredential.properties.windowsLiveEndpoint
+func indexNotificationhubsNotificationHubWnsCredentialWindowsLiveEndpoint(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential.Properties.WindowsLiveEndpoint == nil {
+		return nil
+	}
+	return obj.Spec.Properties.WnsCredential.Properties.WindowsLiveEndpoint.Index()
+}
+
+// indexNotificationhubsNotificationHubWnsCredentialWnsCertificate an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.wnsCredential.properties.wnsCertificate
+func indexNotificationhubsNotificationHubWnsCredentialWnsCertificate(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.WnsCredential.Properties.WnsCertificate == nil {
+		return nil
+	}
+	return obj.Spec.Properties.WnsCredential.Properties.WnsCertificate.Index()
+}
+
+// indexNotificationhubsNotificationHubXiaomiCredentialAppSecret an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.xiaomiCredential.properties.appSecret
+func indexNotificationhubsNotificationHubXiaomiCredentialAppSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.XiaomiCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.XiaomiCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.XiaomiCredential.Properties.AppSecret == nil {
+		return nil
+	}
+	return obj.Spec.Properties.XiaomiCredential.Properties.AppSecret.Index()
+}
+
+// indexNotificationhubsNotificationHubXiaomiCredentialEndpoint an index function for notificationhubs_v20230901s.NotificationHub .spec.properties.xiaomiCredential.properties.endpoint
+func indexNotificationhubsNotificationHubXiaomiCredentialEndpoint(rawObj client.Object) []string {
+	obj, ok := rawObj.(*notificationhubs_v20230901s.NotificationHub)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.XiaomiCredential == nil {
+		return nil
+	}
+	if obj.Spec.Properties.XiaomiCredential.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.XiaomiCredential.Properties.Endpoint == nil {
+		return nil
+	}
+	return obj.Spec.Properties.XiaomiCredential.Properties.Endpoint.Index()
 }
 
 // indexRedhatopenshiftOpenShiftClusterClientIdFromConfig an index function for redhatopenshift_v20231122s.OpenShiftCluster .spec.servicePrincipalProfile.clientIdFromConfig
