@@ -37,6 +37,10 @@ For background information, check out [this Cognitect blog entry](https://www.co
 
 ADR documents should be updated over time to keep them relevant, typically by updating the *Experience Report* section.
 
+## 2025
+
+[**Improving ARM References**]({{< relref "ADR-2025-01-ARM-References" >}}) - options for remedying the problems we face when we fail to identify a property as an ARM reference prior to releasing ASO.
+
 ## 2024
 
 [**OperatorSpec Custom Properties**]({{< relref "ADR-2024-05-OperatorSpec-Custom-Properties" >}}) - injecting additional properties into OperatorSpec for additional flexibility and extensibility of resources.
