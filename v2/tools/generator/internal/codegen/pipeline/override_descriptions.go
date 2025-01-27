@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -35,7 +35,7 @@ func OverrideDescriptions(configuration *config.Configuration) *Stage {
 			}
 
 			if err := configuration.ObjectModelConfiguration.Description.VerifyConsumed(); err != nil {
-				return nil, errors.Wrap(err, "verifying description augmentation")
+				return nil, eris.Wrap(err, "verifying description augmentation")
 			}
 
 			return state.WithDefinitions(result), nil

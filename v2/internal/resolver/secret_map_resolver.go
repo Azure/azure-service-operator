@@ -8,7 +8,6 @@ package resolver
 import (
 	"context"
 
-	"github.com/pkg/errors"
 	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -65,7 +64,11 @@ func (r *kubeSecretMapResolver) ResolveSecretMapReference(
 	if err != nil {
 		if apierrors.IsNotFound(err) {
 			err := core.NewSecretNotFoundError(refNamespacedName, err)
-			return nil, errors.WithStack(err)
+			return nil, eris.Wrapf(
+				err,
+				"couldn't resolve secret collection %s/%s",
+				ref.Namespace,
+				ref.Name)
 		}
 
 		return nil, eris.Wrapf(err, "couldn't resolve secret collection %s", ref.String())

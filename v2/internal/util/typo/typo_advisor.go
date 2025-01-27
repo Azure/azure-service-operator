@@ -11,7 +11,6 @@ import (
 	"sync"
 
 	"github.com/hbollon/go-edlib"
-	"github.com/pkg/errors"
 	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -60,7 +59,7 @@ func (advisor *Advisor) Errorf(typo string, format string, args ...interface{}) 
 
 	if !advisor.HasTerms() || advisor.terms.Contains(typo) {
 		// Can't make any suggestions,
-		return errors.Errorf(format, args...)
+		return eris.Errorf(format, args...)
 	}
 
 	msg := fmt.Sprintf(format, args...)

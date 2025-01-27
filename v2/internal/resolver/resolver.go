@@ -9,7 +9,6 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
-	"github.com/pkg/errors"
 	"github.com/rotisserie/eris"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -178,8 +177,13 @@ func (r *Resolver) ResolveReference(ctx context.Context, ref genruntime.Namespac
 			if err1 == nil {
 				return nil, eris.Errorf("couldn't resolve reference %s. 'name' looks like it might be an ARM ID; did you mean 'armID: %s'?", refNamespacedName.String(), ref.Name)
 			}
+
 			err := core.NewReferenceNotFoundError(refNamespacedName, err)
-			return nil, errors.WithStack(err)
+			return nil, eris.Wrapf(
+				err,
+				"couldn't resolve reference %s/%s",
+				ref.Namespace,
+				ref.Name)
 		}
 
 		return nil, eris.Wrapf(err, "couldn't resolve reference %s", ref.String())
