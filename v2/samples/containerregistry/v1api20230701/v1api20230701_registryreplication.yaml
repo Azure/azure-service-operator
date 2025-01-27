@@ -1,0 +1,12 @@
+apiVersion: containerregistry.azure.com/v1api20230701
+kind: RegistryReplication
+metadata:
+  name: replication
+  namespace: default
+spec:
+  location: westeurope
+  owner:
+    name: sampleregistry
+  regionEndpointEnabled: false
+  zoneRedundancy: Disabled
+  

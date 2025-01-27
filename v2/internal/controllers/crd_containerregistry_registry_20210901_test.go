@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
-func Test_ContainerRegistry_Registry_CRUD(t *testing.T) {
+func Test_ContainerRegistry_Registry_20210901_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -28,7 +28,7 @@ func Test_ContainerRegistry_Registry_CRUD(t *testing.T) {
 
 	// Create a ContainerRegistry
 	skuName := containerregistry.Sku_Name_Basic
-	acct := containerregistry.Registry{
+	registry := containerregistry.Registry{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: containerregistry.Registry_Spec{
 			AdminUserEnabled:    &adminUserEnabled,
@@ -43,16 +43,19 @@ func Test_ContainerRegistry_Registry_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourcesAndWait(&acct)
-	defer tc.DeleteResourcesAndWait(&acct)
+	tc.CreateResourcesAndWait(&registry)
+	defer tc.DeleteResourcesAndWait(&registry)
 
 	// Perform some assertions on the resources we just created
-	tc.Expect(acct.Status.Id).ToNot(BeNil())
+	tc.Expect(registry.Status.Id).ToNot(BeNil())
 
-	// Update the account to ensure that works
-	tc.T.Log("updating tags on account")
-	old := acct.DeepCopy()
-	acct.Spec.Tags = map[string]string{"scratchcard": "lanyard"}
-	tc.PatchResourceAndWait(old, &acct)
-	tc.Expect(acct.Status.Tags).To(HaveKey("scratchcard"))
+	// Update the Registry to ensure that works
+	tc.T.Log("updating tags on registry")
+	old := registry.DeepCopy()
+	registry.Spec.Tags = map[string]string{
+		"scratchcard": "lanyard",
+	}
+
+	tc.PatchResourceAndWait(old, &registry)
+	tc.Expect(registry.Status.Tags).To(HaveKey("scratchcard"))
 }
