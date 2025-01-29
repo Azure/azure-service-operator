@@ -5,7 +5,8 @@ package v1api20230630
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
+	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
+	v20231230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForFlexibleServersDatabase(subject FlexibleServers
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.FlexibleServersDatabase
+	var hub v20231230s.FlexibleServersDatabase
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForFlexibleServersDatabase(subject FlexibleServers
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersDatabase
+	var other v20230630s.FlexibleServersDatabase
 	err := copied.AssignProperties_To_FlexibleServersDatabase(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForFlexibleServersDatabaseOperatorSpec(subject Fle
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersDatabaseOperatorSpec
+	var other v20230630s.FlexibleServersDatabaseOperatorSpec
 	err := copied.AssignProperties_To_FlexibleServersDatabaseOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForFlexibleServersDatabase_STATUS(subject Flexible
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersDatabase_STATUS
+	var other v20230630s.FlexibleServersDatabase_STATUS
 	err := copied.AssignProperties_To_FlexibleServersDatabase_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -400,7 +401,7 @@ func RunPropertyAssignmentTestForFlexibleServersDatabase_Spec(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersDatabase_Spec
+	var other v20230630s.FlexibleServersDatabase_Spec
 	err := copied.AssignProperties_To_FlexibleServersDatabase_Spec(&other)
 	if err != nil {
 		return err.Error()
