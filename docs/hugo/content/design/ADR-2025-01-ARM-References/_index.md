@@ -65,6 +65,11 @@ For some of these, we were able to _patch_ the problem by importing a newer vers
 
 However, we cannot apply this workaround when there is no newer version of the resource available - as has occurred with the `authorization` group, where the latest version is v1api20220401.
 
+Other examples
+
+* `MetricAlert.ActionGroupId` - [#3643](https://github.com/Azure/azure-service-operator/issues/3643) _Improvement: support action group and metric linking_
+* `ServerProperties.SourceServeResourceId` - see [#3829](https://github.com/Azure/azure-service-operator/issues/3829) _Update dbformysql to latest version_
+
 ### Aliases
 
 There are rare properties that accept more than just ARM IDs - meaning that a direct transformation to a `ResourceReference` isn't sufficient.
@@ -182,6 +187,12 @@ Similar to Option 3, but allowing set combinations of values to be specified for
 
 Possible values would be `arm`, `alias` and `other`, plus the combinations `arm+alias` and `arm+other`. Other combinations would be invalid.
 
+``` yaml
+MetricAlertAction:
+    ActionGroupId:
+        $referenceType: arm+other
+```
+
 Returning to the `PrometheusRuleGroupAction` example from above, we'd specify `$referenceType: arm+other` to get:
 
 ``` go
@@ -209,9 +220,33 @@ type RoleAssignment_Spec struct {
 * PRO: Solves all three scenarios.
 * CON: Slightly greater implementation complexity.
 
+
 ## Decision
 
 Reccommendation: Option 4
+
+Variation: We may want to YAML list syntax for clarity:
+
+``` yaml
+MetricAlertAction:
+    ActionGroupId:
+        $referenceType: 
+          - arm
+          - other
+```
+
+or 
+
+``` yaml
+MetricAlertAction:
+    ActionGroupId:
+        $referenceType: [arm, other]
+```
+
+The major downside of this is that we'd make the usual case (with just a single option) more verbose, but we could mitigate that by having two mutually exclusive options, `$referenceType` (a string) and `$referenceTypes` (a list).
+
+* We'll want to look into where we resolve IDs and make sure that implementing this as a per-resource extension is right.
+* The value `other` is a bit vague, we should try to find a better name that covers both _not a reference_ and _a reference we don't provide special support for_. Suggestions so far include `raw` and `unmodified`.
 
 ## Status
 
