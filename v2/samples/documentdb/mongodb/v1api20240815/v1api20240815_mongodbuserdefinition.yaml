@@ -1,0 +1,16 @@
+apiVersion: documentdb.azure.com/v1api20240815
+kind: MongodbUserDefinition
+metadata:
+  name: sample-mongodb-userdefinition
+  namespace: default
+spec:
+  owner:
+    name: sample-mongodb
+  userName: sample-mongodb-user
+  password: # This is the name/key of a Kubernetes secret in the same namespace
+    name: server-admin-pw
+    key: password
+  databaseName: sample-mongodb-database
+  roles:
+    - role: readWrite
+      databaseName: sample-mongodb-database

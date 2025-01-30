@@ -361,23 +361,23 @@ To install the CRDs for these resources, your ASO configuration must include `do
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                                   | ARM Version | CRD Version   | Supported From | Sample |
-|--------------------------------------------|-------------|---------------|----------------|--------|
-| DatabaseAccount                            | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
-| MongodbDatabase                            | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
-| MongodbDatabaseCollection                  | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
-| MongodbDatabaseCollectionThroughputSetting | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
-| MongodbDatabaseThroughputSetting           | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
-| MongodbRoleDefinition                      | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
-| MongodbUserDefinition                      | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
-| SqlDatabase                                | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
-| SqlDatabaseContainer                       | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
-| SqlDatabaseContainerStoredProcedure        | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
-| SqlDatabaseContainerThroughputSetting      | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
-| SqlDatabaseContainerTrigger                | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
-| SqlDatabaseContainerUserDefinedFunction    | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
-| SqlDatabaseThroughputSetting               | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
-| SqlRoleAssignment                          | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| Resource                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                                       |
+|--------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| DatabaseAccount                            | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_databaseaccount.yaml)                             |
+| MongodbDatabase                            | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabase.yaml)                             |
+| MongodbDatabaseCollection                  | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabasecollection.yaml)                   |
+| MongodbDatabaseCollectionThroughputSetting | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabasecollectionthroughputsetting.yaml)  |
+| MongodbDatabaseThroughputSetting           | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabasethroughputsetting.yaml)            |
+| MongodbRoleDefinition                      | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbroledefinition.yaml)                       |
+| MongodbUserDefinition                      | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbuserdefinition.yaml)                       |
+| SqlDatabase                                | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabase.yaml)                             |
+| SqlDatabaseContainer                       | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontainer.yaml)                    |
+| SqlDatabaseContainerStoredProcedure        | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontainerstoredprocedure.yaml)     |
+| SqlDatabaseContainerThroughputSetting      | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontainerthroughputsetting.yaml)   |
+| SqlDatabaseContainerTrigger                | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontainertrigger.yaml)             |
+| SqlDatabaseContainerUserDefinedFunction    | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontaineruserdefinedfunction.yaml) |
+| SqlDatabaseThroughputSetting               | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasethroughputsetting.yaml)            |
+| SqlRoleAssignment                          | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqlroleassignment.yaml)                       |
 
 ### Released
 

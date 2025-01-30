@@ -1,4 +1,4 @@
-apiVersion: documentdb.azure.com/v1api20241115
+apiVersion: documentdb.azure.com/v1api20240815
 kind: MongodbDatabaseThroughputSetting
 metadata:
   name: sample-mongodb-throughput
