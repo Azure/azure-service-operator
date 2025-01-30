@@ -53,22 +53,36 @@ var _ conversion.Convertible = &MongodbDatabase{}
 
 // ConvertFrom populates our MongodbDatabase from the provided hub MongodbDatabase
 func (database *MongodbDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.MongodbDatabase)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/MongodbDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.MongodbDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignProperties_From_MongodbDatabase(source)
+	err = database.AssignProperties_From_MongodbDatabase(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub MongodbDatabase from our MongodbDatabase
 func (database *MongodbDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.MongodbDatabase)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/MongodbDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.MongodbDatabase
+	err := database.AssignProperties_To_MongodbDatabase(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignProperties_To_MongodbDatabase(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1api20231115-mongodbdatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabases,verbs=create;update,versions=v1api20231115,name=default.v1api20231115.mongodbdatabases.documentdb.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (database *MongodbDatabase) SecretDestinationExpressions() []*core.Destinat
 		return nil
 	}
 	return database.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &MongodbDatabase{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (database *MongodbDatabase) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*MongodbDatabase_STATUS); ok {
-		return database.Spec.Initialize_From_MongodbDatabase_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type MongodbDatabase_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &MongodbDatabase{}
@@ -702,43 +705,6 @@ func (database *MongodbDatabase_Spec) AssignProperties_To_MongodbDatabase_Spec(d
 	return nil
 }
 
-// Initialize_From_MongodbDatabase_STATUS populates our MongodbDatabase_Spec from the provided source MongodbDatabase_STATUS
-func (database *MongodbDatabase_Spec) Initialize_From_MongodbDatabase_STATUS(source *MongodbDatabase_STATUS) error {
-
-	// Location
-	database.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Options
-	if source.Options != nil {
-		var option CreateUpdateOptions
-		err := option.Initialize_From_OptionsResource_STATUS(source.Options)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_OptionsResource_STATUS() to populate field Options")
-		}
-		database.Options = &option
-	} else {
-		database.Options = nil
-	}
-
-	// Resource
-	if source.Resource != nil {
-		var resource MongoDBDatabaseResource
-		err := resource.Initialize_From_MongoDBDatabaseGetProperties_Resource_STATUS(source.Resource)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_MongoDBDatabaseGetProperties_Resource_STATUS() to populate field Resource")
-		}
-		database.Resource = &resource
-	} else {
-		database.Resource = nil
-	}
-
-	// Tags
-	database.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (database *MongodbDatabase_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1125,28 +1091,6 @@ func (options *CreateUpdateOptions) AssignProperties_To_CreateUpdateOptions(dest
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_OptionsResource_STATUS populates our CreateUpdateOptions from the provided source OptionsResource_STATUS
-func (options *CreateUpdateOptions) Initialize_From_OptionsResource_STATUS(source *OptionsResource_STATUS) error {
-
-	// AutoscaleSettings
-	if source.AutoscaleSettings != nil {
-		var autoscaleSetting AutoscaleSettings
-		err := autoscaleSetting.Initialize_From_AutoscaleSettings_STATUS(source.AutoscaleSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AutoscaleSettings_STATUS() to populate field AutoscaleSettings")
-		}
-		options.AutoscaleSettings = &autoscaleSetting
-	} else {
-		options.AutoscaleSettings = nil
-	}
-
-	// Throughput
-	options.Throughput = genruntime.ClonePointerToInt(source.Throughput)
 
 	// No error
 	return nil
@@ -1594,36 +1538,6 @@ func (resource *MongoDBDatabaseResource) AssignProperties_To_MongoDBDatabaseReso
 	return nil
 }
 
-// Initialize_From_MongoDBDatabaseGetProperties_Resource_STATUS populates our MongoDBDatabaseResource from the provided source MongoDBDatabaseGetProperties_Resource_STATUS
-func (resource *MongoDBDatabaseResource) Initialize_From_MongoDBDatabaseGetProperties_Resource_STATUS(source *MongoDBDatabaseGetProperties_Resource_STATUS) error {
-
-	// CreateMode
-	if source.CreateMode != nil {
-		createMode := genruntime.ToEnum(string(*source.CreateMode), createMode_Values)
-		resource.CreateMode = &createMode
-	} else {
-		resource.CreateMode = nil
-	}
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// RestoreParameters
-	if source.RestoreParameters != nil {
-		var restoreParameter RestoreParametersBase
-		err := restoreParameter.Initialize_From_RestoreParametersBase_STATUS(source.RestoreParameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RestoreParametersBase_STATUS() to populate field RestoreParameters")
-		}
-		resource.RestoreParameters = &restoreParameter
-	} else {
-		resource.RestoreParameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Cosmos DB options resource object
 type OptionsResource_STATUS struct {
 	// AutoscaleSettings: Specifies the Autoscale settings.
@@ -1795,16 +1709,6 @@ func (settings *AutoscaleSettings) AssignProperties_To_AutoscaleSettings(destina
 	return nil
 }
 
-// Initialize_From_AutoscaleSettings_STATUS populates our AutoscaleSettings from the provided source AutoscaleSettings_STATUS
-func (settings *AutoscaleSettings) Initialize_From_AutoscaleSettings_STATUS(source *AutoscaleSettings_STATUS) error {
-
-	// MaxThroughput
-	settings.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
-
-	// No error
-	return nil
-}
-
 type AutoscaleSettings_STATUS struct {
 	// MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
@@ -1954,19 +1858,6 @@ func (base *RestoreParametersBase) AssignProperties_To_RestoreParametersBase(des
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RestoreParametersBase_STATUS populates our RestoreParametersBase from the provided source RestoreParametersBase_STATUS
-func (base *RestoreParametersBase) Initialize_From_RestoreParametersBase_STATUS(source *RestoreParametersBase_STATUS) error {
-
-	// RestoreSource
-	base.RestoreSource = genruntime.ClonePointerToString(source.RestoreSource)
-
-	// RestoreTimestampInUtc
-	base.RestoreTimestampInUtc = genruntime.ClonePointerToString(source.RestoreTimestampInUtc)
 
 	// No error
 	return nil

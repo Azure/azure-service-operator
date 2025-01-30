@@ -5,7 +5,8 @@ package v1api20231115
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20240815s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForSqlDatabaseContainerStoredProcedure(subject Sql
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.SqlDatabaseContainerStoredProcedure
+	var hub v20240815s.SqlDatabaseContainerStoredProcedure
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerStoredProcedure(subject Sql
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerStoredProcedure
+	var other v20231115s.SqlDatabaseContainerStoredProcedure
 	err := copied.AssignProperties_To_SqlDatabaseContainerStoredProcedure(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerStoredProcedureOperatorSpec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerStoredProcedureOperatorSpec
+	var other v20231115s.SqlDatabaseContainerStoredProcedureOperatorSpec
 	err := copied.AssignProperties_To_SqlDatabaseContainerStoredProcedureOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerStoredProcedure_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerStoredProcedure_STATUS
+	var other v20231115s.SqlDatabaseContainerStoredProcedure_STATUS
 	err := copied.AssignProperties_To_SqlDatabaseContainerStoredProcedure_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -402,7 +403,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerStoredProcedure_Spec(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerStoredProcedure_Spec
+	var other v20231115s.SqlDatabaseContainerStoredProcedure_Spec
 	err := copied.AssignProperties_To_SqlDatabaseContainerStoredProcedure_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -525,7 +526,7 @@ func RunPropertyAssignmentTestForSqlStoredProcedureGetProperties_Resource_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlStoredProcedureGetProperties_Resource_STATUS
+	var other v20231115s.SqlStoredProcedureGetProperties_Resource_STATUS
 	err := copied.AssignProperties_To_SqlStoredProcedureGetProperties_Resource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -632,7 +633,7 @@ func RunPropertyAssignmentTestForSqlStoredProcedureResource(subject SqlStoredPro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlStoredProcedureResource
+	var other v20231115s.SqlStoredProcedureResource
 	err := copied.AssignProperties_To_SqlStoredProcedureResource(&other)
 	if err != nil {
 		return err.Error()

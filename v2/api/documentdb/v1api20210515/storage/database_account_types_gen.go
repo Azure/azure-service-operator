@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &DatabaseAccount{}
 
 // ConvertFrom populates our DatabaseAccount from the provided hub DatabaseAccount
 func (account *DatabaseAccount) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.DatabaseAccount)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/DatabaseAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.DatabaseAccount
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return account.AssignProperties_From_DatabaseAccount(source)
+	err = account.AssignProperties_From_DatabaseAccount(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to account")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub DatabaseAccount from our DatabaseAccount
 func (account *DatabaseAccount) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.DatabaseAccount)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/DatabaseAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.DatabaseAccount
+	err := account.AssignProperties_To_DatabaseAccount(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from account")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return account.AssignProperties_To_DatabaseAccount(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &DatabaseAccount{}

@@ -5,6 +5,28 @@ no_list: true
 ---
 To install the CRDs for these resources, your ASO configuration must include `documentdb.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                   | ARM Version | CRD Version   | Supported From | Sample |
+|--------------------------------------------|-------------|---------------|----------------|--------|
+| DatabaseAccount                            | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| MongodbDatabase                            | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| MongodbDatabaseCollection                  | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| MongodbDatabaseCollectionThroughputSetting | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| MongodbDatabaseThroughputSetting           | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| MongodbRoleDefinition                      | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| MongodbUserDefinition                      | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| SqlDatabase                                | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| SqlDatabaseContainer                       | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| SqlDatabaseContainerStoredProcedure        | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| SqlDatabaseContainerThroughputSetting      | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| SqlDatabaseContainerTrigger                | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| SqlDatabaseContainerUserDefinedFunction    | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| SqlDatabaseThroughputSetting               | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+| SqlRoleAssignment                          | 2024-08-15  | v1api20240815 | v2.12.0        | -      |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.

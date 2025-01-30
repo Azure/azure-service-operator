@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20240815s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForSqlRoleAssignment(subject SqlRoleAssignment) st
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.SqlRoleAssignment
+	var hub v20240815s.SqlRoleAssignment
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForSqlRoleAssignment(subject SqlRoleAssignment) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlRoleAssignment
+	var other v20231115s.SqlRoleAssignment
 	err := copied.AssignProperties_To_SqlRoleAssignment(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForSqlRoleAssignmentOperatorSpec(subject SqlRoleAs
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlRoleAssignmentOperatorSpec
+	var other v20231115s.SqlRoleAssignmentOperatorSpec
 	err := copied.AssignProperties_To_SqlRoleAssignmentOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForSqlRoleAssignment_STATUS(subject SqlRoleAssignm
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlRoleAssignment_STATUS
+	var other v20231115s.SqlRoleAssignment_STATUS
 	err := copied.AssignProperties_To_SqlRoleAssignment_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -386,7 +387,7 @@ func RunPropertyAssignmentTestForSqlRoleAssignment_Spec(subject SqlRoleAssignmen
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlRoleAssignment_Spec
+	var other v20231115s.SqlRoleAssignment_Spec
 	err := copied.AssignProperties_To_SqlRoleAssignment_Spec(&other)
 	if err != nil {
 		return err.Error()

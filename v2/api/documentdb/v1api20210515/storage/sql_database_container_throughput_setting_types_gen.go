@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &SqlDatabaseContainerThroughputSetting{}
 
 // ConvertFrom populates our SqlDatabaseContainerThroughputSetting from the provided hub SqlDatabaseContainerThroughputSetting
 func (setting *SqlDatabaseContainerThroughputSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SqlDatabaseContainerThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseContainerThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.SqlDatabaseContainerThroughputSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignProperties_From_SqlDatabaseContainerThroughputSetting(source)
+	err = setting.AssignProperties_From_SqlDatabaseContainerThroughputSetting(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseContainerThroughputSetting from our SqlDatabaseContainerThroughputSetting
 func (setting *SqlDatabaseContainerThroughputSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SqlDatabaseContainerThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseContainerThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.SqlDatabaseContainerThroughputSetting
+	err := setting.AssignProperties_To_SqlDatabaseContainerThroughputSetting(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignProperties_To_SqlDatabaseContainerThroughputSetting(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &SqlDatabaseContainerThroughputSetting{}

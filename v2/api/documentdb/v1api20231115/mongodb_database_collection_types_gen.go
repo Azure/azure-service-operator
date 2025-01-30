@@ -53,22 +53,36 @@ var _ conversion.Convertible = &MongodbDatabaseCollection{}
 
 // ConvertFrom populates our MongodbDatabaseCollection from the provided hub MongodbDatabaseCollection
 func (collection *MongodbDatabaseCollection) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.MongodbDatabaseCollection)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/MongodbDatabaseCollection but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.MongodbDatabaseCollection
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return collection.AssignProperties_From_MongodbDatabaseCollection(source)
+	err = collection.AssignProperties_From_MongodbDatabaseCollection(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to collection")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub MongodbDatabaseCollection from our MongodbDatabaseCollection
 func (collection *MongodbDatabaseCollection) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.MongodbDatabaseCollection)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/MongodbDatabaseCollection but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.MongodbDatabaseCollection
+	err := collection.AssignProperties_To_MongodbDatabaseCollection(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from collection")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return collection.AssignProperties_To_MongodbDatabaseCollection(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1api20231115-mongodbdatabasecollection,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasecollections,verbs=create;update,versions=v1api20231115,name=default.v1api20231115.mongodbdatabasecollections.documentdb.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (collection *MongodbDatabaseCollection) SecretDestinationExpressions() []*c
 		return nil
 	}
 	return collection.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &MongodbDatabaseCollection{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (collection *MongodbDatabaseCollection) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*MongodbDatabaseCollection_STATUS); ok {
-		return collection.Spec.Initialize_From_MongodbDatabaseCollection_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type MongodbDatabaseCollection_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &MongodbDatabaseCollection{}
@@ -697,43 +700,6 @@ func (collection *MongodbDatabaseCollection_Spec) AssignProperties_To_MongodbDat
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_MongodbDatabaseCollection_STATUS populates our MongodbDatabaseCollection_Spec from the provided source MongodbDatabaseCollection_STATUS
-func (collection *MongodbDatabaseCollection_Spec) Initialize_From_MongodbDatabaseCollection_STATUS(source *MongodbDatabaseCollection_STATUS) error {
-
-	// Location
-	collection.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Options
-	if source.Options != nil {
-		var option CreateUpdateOptions
-		err := option.Initialize_From_OptionsResource_STATUS(source.Options)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_OptionsResource_STATUS() to populate field Options")
-		}
-		collection.Options = &option
-	} else {
-		collection.Options = nil
-	}
-
-	// Resource
-	if source.Resource != nil {
-		var resource MongoDBCollectionResource
-		err := resource.Initialize_From_MongoDBCollectionGetProperties_Resource_STATUS(source.Resource)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_MongoDBCollectionGetProperties_Resource_STATUS() to populate field Resource")
-		}
-		collection.Resource = &resource
-	} else {
-		collection.Resource = nil
-	}
-
-	// Tags
-	collection.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1531,60 +1497,6 @@ func (resource *MongoDBCollectionResource) AssignProperties_To_MongoDBCollection
 	return nil
 }
 
-// Initialize_From_MongoDBCollectionGetProperties_Resource_STATUS populates our MongoDBCollectionResource from the provided source MongoDBCollectionGetProperties_Resource_STATUS
-func (resource *MongoDBCollectionResource) Initialize_From_MongoDBCollectionGetProperties_Resource_STATUS(source *MongoDBCollectionGetProperties_Resource_STATUS) error {
-
-	// AnalyticalStorageTtl
-	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
-
-	// CreateMode
-	if source.CreateMode != nil {
-		createMode := genruntime.ToEnum(string(*source.CreateMode), createMode_Values)
-		resource.CreateMode = &createMode
-	} else {
-		resource.CreateMode = nil
-	}
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Indexes
-	if source.Indexes != nil {
-		indexList := make([]MongoIndex, len(source.Indexes))
-		for index, indexItem := range source.Indexes {
-			// Shadow the loop variable to avoid aliasing
-			indexItem := indexItem
-			var indexLocal MongoIndex
-			err := indexLocal.Initialize_From_MongoIndex_STATUS(&indexItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_MongoIndex_STATUS() to populate field Indexes")
-			}
-			indexList[index] = indexLocal
-		}
-		resource.Indexes = indexList
-	} else {
-		resource.Indexes = nil
-	}
-
-	// RestoreParameters
-	if source.RestoreParameters != nil {
-		var restoreParameter RestoreParametersBase
-		err := restoreParameter.Initialize_From_RestoreParametersBase_STATUS(source.RestoreParameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RestoreParametersBase_STATUS() to populate field RestoreParameters")
-		}
-		resource.RestoreParameters = &restoreParameter
-	} else {
-		resource.RestoreParameters = nil
-	}
-
-	// ShardKey
-	resource.ShardKey = genruntime.CloneMapOfStringToString(source.ShardKey)
-
-	// No error
-	return nil
-}
-
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type MongodbDatabaseCollectionOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
@@ -1838,37 +1750,6 @@ func (index *MongoIndex) AssignProperties_To_MongoIndex(destination *storage.Mon
 	return nil
 }
 
-// Initialize_From_MongoIndex_STATUS populates our MongoIndex from the provided source MongoIndex_STATUS
-func (index *MongoIndex) Initialize_From_MongoIndex_STATUS(source *MongoIndex_STATUS) error {
-
-	// Key
-	if source.Key != nil {
-		var key MongoIndexKeys
-		err := key.Initialize_From_MongoIndexKeys_STATUS(source.Key)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_MongoIndexKeys_STATUS() to populate field Key")
-		}
-		index.Key = &key
-	} else {
-		index.Key = nil
-	}
-
-	// Options
-	if source.Options != nil {
-		var option MongoIndexOptions
-		err := option.Initialize_From_MongoIndexOptions_STATUS(source.Options)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_MongoIndexOptions_STATUS() to populate field Options")
-		}
-		index.Options = &option
-	} else {
-		index.Options = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Cosmos DB MongoDB collection index key
 type MongoIndex_STATUS struct {
 	// Key: Cosmos DB MongoDB collection index keys
@@ -2061,16 +1942,6 @@ func (keys *MongoIndexKeys) AssignProperties_To_MongoIndexKeys(destination *stor
 	return nil
 }
 
-// Initialize_From_MongoIndexKeys_STATUS populates our MongoIndexKeys from the provided source MongoIndexKeys_STATUS
-func (keys *MongoIndexKeys) Initialize_From_MongoIndexKeys_STATUS(source *MongoIndexKeys_STATUS) error {
-
-	// Keys
-	keys.Keys = genruntime.CloneSliceOfString(source.Keys)
-
-	// No error
-	return nil
-}
-
 // Cosmos DB MongoDB collection resource object
 type MongoIndexKeys_STATUS struct {
 	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
@@ -2228,24 +2099,6 @@ func (options *MongoIndexOptions) AssignProperties_To_MongoIndexOptions(destinat
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_MongoIndexOptions_STATUS populates our MongoIndexOptions from the provided source MongoIndexOptions_STATUS
-func (options *MongoIndexOptions) Initialize_From_MongoIndexOptions_STATUS(source *MongoIndexOptions_STATUS) error {
-
-	// ExpireAfterSeconds
-	options.ExpireAfterSeconds = genruntime.ClonePointerToInt(source.ExpireAfterSeconds)
-
-	// Unique
-	if source.Unique != nil {
-		unique := *source.Unique
-		options.Unique = &unique
-	} else {
-		options.Unique = nil
 	}
 
 	// No error
