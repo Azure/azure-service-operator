@@ -260,7 +260,7 @@ tasks:
       - gofumpt -l -w .
 
   generator:lint:
-    desc: Run {{.GENERATOR_APP}} fast lint checks.
+    desc: Run {{.GENERATOR_APP}} lint checks.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
       - golangci-lint run --verbose --fix --fast=false
@@ -317,7 +317,7 @@ tasks:
       - gofumpt -l -w .
 
   controller:lint:
-    desc: Run fast lint checks.
+    desc: Run lint checks.
     deps: 
       - controller:generate-crds
     dir: "{{.CONTROLLER_ROOT}}"
