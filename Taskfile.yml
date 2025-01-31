@@ -168,7 +168,6 @@ tasks:
     desc: Ensure all code for asoctl is formatted
     dir: v2/cmd/asoctl/
     cmds:
-      - golangci-lint run --fix ./... --timeout 5m  --verbose
       - gofumpt -l -w .
 
   asoctl:lint:
@@ -258,7 +257,6 @@ tasks:
     desc: Ensure all code for the code generator is formatted
     dir: v2/tools/generator
     cmds:
-      - golangci-lint run --fix ./... --timeout 5m  --verbose
       - gofumpt -l -w .
 
   generator:lint:
@@ -316,7 +314,6 @@ tasks:
     desc: Ensure all code for the controller is formatted
     dir: v2
     cmds:
-      - golangci-lint run --fix ./... --timeout 5m --verbose
       - gofumpt -l -w .
 
   controller:lint:
