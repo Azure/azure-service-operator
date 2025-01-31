@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/design/index.xml">
+<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/design/adr-2025-01-arm-references/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,21 +18,24 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Design &amp; Specifications | Azure Service Operator</title>
-<meta name="description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/">
+<title>2025-01: Improving ARM References | Azure Service Operator</title>
+<meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2025-01-arm-references/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="Design & Specifications">
-  <meta property="og:description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
+  <meta property="og:title" content="2025-01: Improving ARM References">
+  <meta property="og:description" content="Context Many Azure Resource Manager (ARM) resources have references to other resources. When working with ARM Templates or Bison, these are almost universally handled as simple strings containing a fully qualified ARM reference.
+As a part of importing resources into Azure Service Operator (ASO), we modify these properties into formal resource references allowing them to contain either an ARM resource Id, or the GVK of a resource within the cluster.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
-  <meta itemprop="name" content="Design & Specifications">
-  <meta itemprop="description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
-  <meta itemprop="wordCount" content="1385">
+  <meta itemprop="name" content="2025-01: Improving ARM References">
+  <meta itemprop="description" content="Context Many Azure Resource Manager (ARM) resources have references to other resources. When working with ARM Templates or Bison, these are almost universally handled as simple strings containing a fully qualified ARM reference.
+As a part of importing resources into Azure Service Operator (ASO), we modify these properties into formal resource references allowing them to contain either an ARM resource Id, or the GVK of a resource within the cluster.">
+  <meta itemprop="wordCount" content="1606">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Design & Specifications">
-  <meta name="twitter:description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
+  <meta name="twitter:title" content="2025-01: Improving ARM References">
+  <meta name="twitter:description" content="Context Many Azure Resource Manager (ARM) resources have references to other resources. When working with ARM Templates or Bison, these are almost universally handled as simple strings containing a fully qualified ARM reference.
+As a part of importing resources into Azure Service Operator (ASO), we modify these properties into formal resource references allowing them to contain either an ARM resource Id, or the GVK of a resource within the cluster.">
 
 
 
@@ -632,7 +635,7 @@
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
-  <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="td-sidebar-nav-active-item">Design</span></a>
+  <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
   <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
@@ -740,13 +743,22 @@
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#2025">2025</a></li>
-    <li><a href="#2024">2024</a></li>
-    <li><a href="#2023">2023</a></li>
-    <li><a href="#2022">2022</a></li>
-    <li><a href="#2021">2021</a></li>
-    <li><a href="#2020">2020</a></li>
-    <li><a href="#older">Older</a></li>
+    <li><a href="#context">Context</a>
+      <ul>
+        <li><a href="#missed-arm-references">Missed ARM references</a></li>
+        <li><a href="#aliases">Aliases</a></li>
+        <li><a href="#friendly-names">Friendly names</a></li>
+        <li><a href="#option-1-break-existing-users">Option 1: Break existing users</a></li>
+        <li><a href="#option-2-allow-preserving-the-original-property">Option 2: Allow preserving the original property</a></li>
+        <li><a href="#option-3-custom-reference-types">Option 3: Custom reference types</a></li>
+        <li><a href="#option-4-multivalued-custom-reference-types">Option 4: Multivalued custom reference types</a></li>
+      </ul>
+    </li>
+    <li><a href="#decision">Decision</a></li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
       </div>
@@ -758,94 +770,237 @@
             
   
 
-            <nav aria-label="breadcrumb" class="td-breadcrumbs td-breadcrumbs__single">
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/azure-service-operator/design/">Design</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Design</li>
+    2025-01: Improving ARM References</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Design &amp; Specifications</h1>
-	<div class="lead">Design discussions, decisions, and specifications for Azure Service Operator v2</div>
+	<h1>2025-01: Improving ARM References</h1>
+  
 	<header class="article-meta">
 		
 </header>
-	<p>Significant changes to Azure Service Operator should be captured by an ADR (architecture design record) in this
-folder. ADRs are listed reverse chronologically by year, and should contain the following sections:</p>
+	<h2 id="context">Context</h2>
+<p>Many Azure Resource Manager (ARM) resources have references to other resources. When working with ARM Templates or Bison, these are almost universally handled as simple strings containing a fully qualified ARM reference.</p>
+<p>As a part of importing resources into Azure Service Operator (ASO), we modify these properties into formal resource references allowing them to contain either an ARM resource Id, or the GVK of a resource within the cluster.</p>
+<p>We modify a referencing property as follows:</p>
 <ul>
-<li>Context: Context for the problem. What are related issues/problems? What is the history?</li>
-<li>Requirements: A short list of goals</li>
-<li>Options optional section containing 1 or more options, w/ pros + cons. Can omit if there is only one real option.
+<li>The suffix <code>Reference</code> is added to the name (selected suffixes such as <code>Id</code> are also removed).</li>
+<li>The type of the property is changed from <strong>string</strong> to <code>genruntime.ResourceReference</code></li>
+</ul>
+<p>For example, <code>keyVaultId: string</code> becomes <code>keyVaultReference: genruntime.ResourceReference</code>.</p>
+<p>Not every such property is unambiguously annotated in the OpenAPI specifications we read, so our code generator applies a number of heuristics to identify these properties. We end up with three groups of properties:</p>
 <ul>
-<li>OR Category + Options: For more complex ADRs where there are multiple facets to the design that are somewhat
-orthogonal, you can instead give categories and then define options within those categories</li>
+<li>Those that are definitely ARM references.</li>
+<li>Those that our heuristics suggest are ARM references.</li>
+<li>All other properties.</li>
 </ul>
-</li>
-<li>Decision: Which option did you choose and why?
+<p>For those properties in the second group, we require manual configuration to indicate whether they are ARM references or not. This is done by adding an <code>$armReference</code> modifier into our configuration file. The code generator will fail with an error any property identified by our heuristics is not explicitly configured.</p>
+<p>We can also use the configuration for any property in the third group that&rsquo;s actually an ARM reference too. This is useful when we have a property that&rsquo;s not identified by our heuristics, but we know it&rsquo;s an ARM reference.</p>
+<p>For example, in this configuration fragment we can see confirmation that <code>ActionGroupsInformation.GroupIds</code> <em><strong>is</strong></em> an ARM Reference, while <code>Detector.Id</code> <em><strong>is not</strong></em>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>  <span style="color:#f92672">alertsmanagement</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">2021-04-01</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">SmartDetectorAlertRule</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">$export</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">$supportedFrom</span>: <span style="color:#ae81ff">v2.11.0</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">AlertRuleProperties</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">Scope</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">$armReference</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ActionGroupsInformation</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">GroupIds</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">$armReference</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">Detector</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">Id</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">$armReference</span>: <span style="color:#66d9ef">false</span>
+</span></span></code></pre></div><h3 id="missed-arm-references">Missed ARM references</h3>
+<p>The major failure mode of this approach is that we can sometimes (fortunately rarely) miss identifying a property as an ARM reference. When this happens, we end up with a property that is a <strong>string</strong> when it should be a <code>genruntime.ResourceReference</code>. This isn&rsquo;t a problem if we catch the problem before releasing the resource, but if the resource is already released, changing the type and name of the property is a breaking change.</p>
+<p>In <a href="https://github.com/Azure/azure-service-operator/issues/3772">#3772</a> (<em>Bug: MySQL Flexible Server property sourceServerResourceId has wrong type</em>), @theunrepentantgeek made this comment:</p>
+<blockquote>
+<p>Trying out some improvements to our heuristic and finding other properties we missed:</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Group</th>
+          <th style="text-align: left">Version</th>
+          <th style="text-align: left">Kind</th>
+          <th style="text-align: left">Property</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">authorization</td>
+          <td style="text-align: left">v1api20200801preview</td>
+          <td style="text-align: left">RoleAssignmentProperties</td>
+          <td style="text-align: left">DelegatedManagedIdentityResourceId</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">authorization</td>
+          <td style="text-align: left">v1api20220401</td>
+          <td style="text-align: left">RoleAssignmentProperties</td>
+          <td style="text-align: left">DelegatedManagedIdentityResourceId</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">dbformysql</td>
+          <td style="text-align: left">v1api20210501</td>
+          <td style="text-align: left">ServerProperties</td>
+          <td style="text-align: left">SourceServerResourceId</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">machinelearningservices</td>
+          <td style="text-align: left">v1api20210701</td>
+          <td style="text-align: left">IdentityForCmk</td>
+          <td style="text-align: left">UserAssignedIdentity</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">machinelearningservices</td>
+          <td style="text-align: left">v1api20210701</td>
+          <td style="text-align: left">KeyVaultProperties</td>
+          <td style="text-align: left">KeyVaultArmId</td>
+      </tr>
+  </tbody>
+</table>
+</blockquote>
+<p>For some of these, we were able to <em>patch</em> the problem by importing a newer version of the resource and adding conversion code to translate between the old and new versions. Users of the newer version of the resource would then see the correct property types, while users of the old version are stuck with the incorrect types.</p>
+<p>However, we cannot apply this workaround when there is no newer version of the resource available - as has occurred with the <code>authorization</code> group, where the latest version is v1api20220401.</p>
+<p>Other examples</p>
 <ul>
-<li>FAQ: Can optionally include an FAQ in this section answering common questions about the decision that weren&rsquo;t
-already answered in the options section.</li>
+<li><code>MetricAlert.ActionGroupId</code> - <a href="https://github.com/Azure/azure-service-operator/issues/3643">#3643</a> <em>Improvement: support action group and metric linking</em></li>
+<li><code>ServerProperties.SourceServeResourceId</code> - see <a href="https://github.com/Azure/azure-service-operator/issues/3829">#3829</a> <em>Update dbformysql to latest version</em></li>
 </ul>
-</li>
-<li>Status</li>
-<li>Consequences</li>
-<li>Experience Report</li>
-<li>References</li>
+<h3 id="aliases">Aliases</h3>
+<p>There are rare properties that accept more than just ARM IDs - meaning that a direct transformation to a <code>ResourceReference</code> isn&rsquo;t sufficient.</p>
+<p>One case of this is discussed in <a href="https://github.com/Azure/azure-service-operator/issues/4531">#4531</a> (<em>ResourceReference should support Alias</em>) - in the case of <code>PrivateLinkServiceConnection</code>, the value <code>privateLinkServiceId</code> that&rsquo;s used to identify a <code>PrivateLinkService</code> may be <em>either</em> a regular ARM ID or an alias.</p>
+<p>We currently have no way to represent this in ASO, as validation on the <code>armId</code> property requires values to confirm to the ARM ID format. (Loosening validation to allow aliases would delay discovery of invalid values for the majority of cases where aliases are not permitted.)</p>
+<h3 id="friendly-names">Friendly names</h3>
+<p>In <a href="https://github.com/Azure/azure-service-operator/issues/3642">#3642</a> (<em>Improvement: support for the friendly names of the builtin roles</em>) we have a request to allow friendly names like <code>Contributor</code> instead of requiring users to look up the specific GUID needed and constructing the ARM ID by hand.</p>
+<p>This is similar to <em>Alias support</em> above, except that we would be resolving the name to an ARM ID within ASO itself, instead of leaving that to ARM.</p>
+<p>Again, we currently have no way to represent this in ASO.</p>
+<h3 id="option-1-break-existing-users">Option 1: Break existing users</h3>
+<p>When we identify a property that should be treated as an ARM reference, but for which we missed setting <code>$armReference: true</code> in our configuration, update the configuration and run the code generator to <em>apply the change even if that resource has already been released</em>.</p>
+<ul>
+<li>PRO: Simple to do</li>
+<li>PRO: Familiar, as we already do this with unreleased resources</li>
+<li>PRO: Solves the <em>Missed ARM References</em> problem</li>
+<li>CON: Breaking change for any existing users, as both the name and type of the property will change.</li>
+<li>CON: Does not solve the <em>Alias support</em> or <em>Friendly names</em> problems.</li>
 </ul>
-<p>Ideally, each ADR should run to one or two pages in length. You can use the
-<a href="/azure-service-operator/design/adr-year-month-title/">simple template</a>.</p>
-<p>For complex changes that require more detail, the ADR should provide an overview. Additional detail (say, to list
-alternative solutions, detail complex edge cases, or present detailed diagrams) should be captured
-in a separate design document linked from the ADR.</p>
-<p>For background information, check out <a href="https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions">this Cognitect blog entry</a>.</p>
-<p>ADR documents should be updated over time to keep them relevant, typically by updating the <em>Experience Report</em> section.</p>
-<h2 id="2025">2025</h2>
-<p><a href="/azure-service-operator/design/adr-2025-01-arm-references/"><strong>Improving ARM References</strong></a> - options for remedying the problems we face when we fail to identify a property as an ARM reference prior to releasing ASO.</p>
-<h2 id="2024">2024</h2>
-<p><a href="/azure-service-operator/design/adr-2024-05-operatorspec-custom-properties/"><strong>OperatorSpec Custom Properties</strong></a> - injecting additional properties into OperatorSpec for additional flexibility and extensibility of resources.</p>
-<p><a href="/azure-service-operator/design/adr-2024-04-roleassignment-uuid-generation/"><strong>RoleAssignments UUID Generation</strong></a> - allowing users more control over how the GUIDs used for naming RoleAssignments are generated.</p>
-<p><a href="/azure-service-operator/design/adr-2024-02-upstream-deletion/"><strong>Upstream Deletion</strong></a> - when might deletion of an upstream resource occur and how will ASO handle it.</p>
-<h2 id="2023">2023</h2>
-<p><a href="/azure-service-operator/design/adr-2023-02-adoption-policy/"><strong>Adoption Policy</strong></a> - Understand the policy for adopting pre-existing Azure resources in Kubernetes through the Azure Service Operator, including the principles guiding resource adoption and the user&rsquo;s ability to control operator actions.</p>
-<p><a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/"><strong>Conversion Augmentation</strong></a> - Learn about the need for conversion augmentation in Kubernetes resource versions, the role of code generation, and the strategies for augmenting these conversions with hand-written code to ensure backward and forward compatibility.</p>
-<p><a href="/azure-service-operator/design/adr-2023-04-deprecation/"><strong>Deprecation</strong></a> - Understand the policy for handling Azure resource deprecation in Azure Service Operator, including the process for flagging deprecated resources, communicating changes, and removing unsupported resources.</p>
-<p><a href="/azure-service-operator/design/adr-2023-07-goal-seeking-keyvaults/"><strong>Goal Seeking KeyVaults</strong></a> - Understand the challenges posed by Azure KeyVault&rsquo;s soft-delete feature in a goal-seeking system like Azure Service Operator, and the need for a solution that prevents resources from entering permanently degraded states without manual intervention.</p>
-<p><a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/"><strong>Helm Chart Size Limitations</strong></a> - Address the Helm chart size limitations causing problems for Azure Service Operator, discussing the implications of Kubernetes secret size limits, the impact on chart installation, and potential workarounds such as splitting the Helm chart.</p>
-<p><a href="/azure-service-operator/design/adr-2023-05-installing-only-selected-crds/"><strong>Installing Only Selected CRDs</strong></a> - Understand the need for selective CRD installation in Azure Service Operator to mitigate kube-apiserver memory usage, and the requirements for a seamless upgrade experience and default configuration that fits into minimal memory environments.</p>
-<p><a href="/azure-service-operator/design/adr-2023-07-packagereferences/"><strong>Package References</strong></a> - Consider the proposal for introducing a SubPackageReference in the Azure Service Operator code generator, discussing the implications for code that consumes PackageReference and the potential impact on namespace pollution and code organization.</p>
-<p><a href="/azure-service-operator/design/adr-2023-04-patch-collections/"><strong>Patch Collections</strong></a> - Address the issue of resource drift in Azure Service Operator due to Azure Resource Providers&rsquo; PATCH-like behavior on PUT, and discuss potential solutions such as optional properties and explicit nulls to ensure the custom resource represents the complete desired state.</p>
-<p><a href="/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/"><strong>Post-Reconciliation Extensions</strong></a> - Understand the introduction of the PostReconciliationChecker extension in Azure Service Operator to handle post-reconciliation operations, allowing for custom conditions to be set on resources based on the status received from Azure Resource Manager.</p>
-<p><a href="/azure-service-operator/design/adr-2023-09-skipping-properties/"><strong>Skipping Properties</strong></a> - A design to address the problems that occur when a property skips multiple resource versions and has a different shape when it returns.</p>
-<h2 id="2022">2022</h2>
-<p><a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/"><strong>Backward Compatibility</strong></a> - As a part of planning for our first beta release consider the implications of modifying the version prefix for code-generated resources in Azure Service Operator.</p>
-<p><a href="/azure-service-operator/design/adr-2022-11-change-detection/"><strong>Change Detection</strong></a> - the challenges of change detection in Azure Service Operator, discussing the limitations of relying on Azure Resource Manager for goal state comparison, the impact of ARM throttling, and a proposal for ASO to perform its own goal state comparison to mitigate these issues.</p>
-<p><a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/"><strong>Evil Discriminator</strong></a> - Understand the challenges posed by the &rsquo;evil discriminator&rsquo; in Swagger/OpenAPI, a term coined by the Azure Service Operator team to describe the differences in defining polymorphic API payloads in Swagger compared to JSON Schema.</p>
-<p><a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/"><strong>Muliple Credential Operator</strong></a> - proposed support for multiple credentials under a global operator in Azure Service Operator, enabling management of Azure resources across multiple subscriptions, with a detailed explanation of the credential selection hierarchy and caching mechanism.</p>
-<p><a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/"><strong>Reading Status properties from other ASO resources</strong></a> - discussion of various ways to allow one ASO resource to consume information generated by another, with details on how we decided to use configmaps to do this.</p>
-<p><a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/"><strong>Reconciler Extensions</strong></a> - Understand the need for reconciler extensions in Azure Service Operator to manage inconsistencies in Azure Resource Providers&rsquo; behavior, and the proposal for precise, per-resource customization without duplicating existing functionality or risking inconsistencies.</p>
-<p><a href="/azure-service-operator/design/adr-2022-11-resource-import/"><strong>Resource Import</strong></a> - Review the strategies for migrating from Azure Service Operator v1 to v2, including version integration and resource import job, each with its pros, cons, and potential blockers.</p>
-<p><a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/"><strong>Reconciliation Extensions</strong></a> - Understand the need for reconciliation extensions in Azure Service Operator to handle resources in transient states that preclude successful PUT operations, and the proposal for an extension point to modify the reconciliation flow accordingly.</p>
-<h2 id="2021">2021</h2>
-<p><a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/"><strong>API Version Recovery</strong></a> - Identity the challenges of API version recovery in Azure Service Operator, discussing the importance of using the correct Azure API version for expected behavior, and the need to pivot back to the original version for generating the correct ARM payload.</p>
-<p><a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/"><strong>Committing Generated Code</strong></a> - Uncover the reasons and implications of committing generated code in the Azure Service Operator, discussing the benefits of traceability, easier debugging, and the ability to review generated changes.</p>
-<p><a href="/azure-service-operator/design/adr-2020-04-code-generation/"><strong>Property Conversions</strong></a> - Explore the need for codegen conversion routines in handling property conversions across different versions of a resource, with examples of how primitive types can evolve over time.</p>
-<h2 id="2020">2020</h2>
-<p><a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/"><strong>Abstract Syntax Tree Library Choice</strong></a> - background on the decision to adopt the <code>dst</code> (Decorated Syntax Tree) library in the Azure Service Operator Code Generator, addressing limitations of the standard Go `ast`` library such as unexpected comment placements, non-compliance with go fmt standards, and poor control over whitespace.</p>
-<p><a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/"><strong>Pipeline Architecture</strong></a> - the pipeline architecture of the ASO code generator, its design, and how it contributes to the overall functionality and efficiency of the system.</p>
-<p><a href="/azure-service-operator/design/adr-2020-04-code-generation/"><strong>Why Code Generation?</strong></a> - rationale and impact of adopting code generation in the Azure Service Operator, including the benefits of full feature coverage, reduced overhead for new resources, and consistent behavior across all resources.</p>
-<h2 id="older">Older</h2>
-<p><a href="/azure-service-operator/design/clarifying-object-structure/"><strong>Clarifying Object Structure</strong></a> - Dive into the challenges of differentiating Azure-specific properties from operator-specific properties in the object structure of resources, with a focus on potential solutions for Status and upcoming properties like SecretConfiguration and Credentials.</p>
-<p><a href="/azure-service-operator/design/crossplane/"><strong>CrossPlane</strong></a> - Discusses the intricacies of code generation for Crossplane, including static &ldquo;special&rdquo; properties, cross resource references, and the challenges associated with generating these references.</p>
-<p><a href="/azure-service-operator/guide/annotations/"><strong>Custom validation and defaulting</strong></a> - Delve into the proposal for custom validation and defaulting for code-generated resources, discussing the limitations of controller-runtime interfaces and suggesting a structure for autogenerated webhooks that allows for custom implementations.</p>
-<p><a href="/azure-service-operator/design/reconcile-interface/"><strong>Improving the Reconciler interface</strong></a> - Explore a proposal for improving the Reconciler interface in controller-runtime, addressing issues of code duplication and potential bugs due to differences in checks for Create vs Delete operations.</p>
-<p><a href="/azure-service-operator/design/secrets/"><strong>Managing dataplane secrets</strong></a> - managing dataplane secrets in Azure Service Operator, including the drawbacks of auto-generating secrets and the implications for secret rollover, control, security, resource adoption, and GitOps compatibility.</p>
-<p><a href="/azure-service-operator/design/resource-states/"><strong>Reporting Resource Status</strong></a> - a proposal for reporting resource status in Azure Service Operator, discussing the distinction between operator status and Azure resource state, and the current state and limitations of both handcrafted and auto-generated resources.</p>
-<p><a href="/azure-service-operator/design/type-references-and-ownership/"><strong>Type References and Ownership</strong></a> - type references and ownership in Azure Service Operator, discussing goals such as idiomatic expression of Azure resource relationships, automatic ownership, garbage collection, and interaction with non-Kubernetes managed Azure resources.</p>
+<p>The breaking change is nasty, as an upgrade of the ASO operator would result in a cluster resource that&rsquo;s silently updated incorrectly, plus any attempt to repair the resource would fail until the YAML was modified to the new structure.</p>
+<h3 id="option-2-allow-preserving-the-original-property">Option 2: Allow preserving the original property</h3>
+<p>Under normal operation (<code>$armReference: true</code>) the existing property is removed, and replaced with a new property for the reference.</p>
+<p>For example, we transform</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PrometheusRuleGroupAction</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ActionGroupId</span>    <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ActionProperties</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>to</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PrometheusRuleGroupAction</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ActionGroupReference</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">ResourceReference</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ActionProperties</span>     <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>When configured with <code>$armReference: false</code>, we leave the property as is.</p>
+<p>We could add a third option to specify the existing property is to be retained, making the result of the transformation look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PrometheusRuleGroupAction</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ActionGroupId</span>        <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ActionGroupReference</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">ResourceReference</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ActionProperties</span>     <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We already have precendent for this, with the <code>*FromConfig</code> properties that we inject for selected properties.</p>
+<p>Validation would need to ensure the two properties are mutually exclusive.</p>
+<p>When constructing the payload to send to ARM, we would need to select between the two properties, using whichever is set. We have an exisiting resource extension point we can use to implement this.</p>
+<p>Adding a third option to a boolean flag is a very bad idea (though we&rsquo;ve seen it done), so we&rsquo;d need to rename <code>$armReference</code> to something else for clarity. Fortunately, we control <code>azure_arm.yaml</code> so this is achievable. (We don&rsquo;t believe any users have their own configuration file, but we should call this out as a breaking in our release notes anyway.)</p>
+<p>One possible name for flag would be <code>$isReference</code> with values <code>arm</code>, <code>side-by-side</code> and <code>no</code>, though this phrasing is quite awkward.</p>
+<ul>
+<li>PRO: Relatively straightforward</li>
+<li>PRO: We already have precedent for side-by-side properties</li>
+<li>PRO: Solves all three scenarios.</li>
+<li>CON: Problematic to have <em>two</em> properties that handle <em>three</em> use-cases (e.g. use <code>privateLinkServiceReference</code> for GVK or ARMId, and <code>privateLinkServiceId</code> for alias).</li>
+<li>CON: No control over the naming of things</li>
+</ul>
+<h3 id="option-3-custom-reference-types">Option 3: Custom reference types</h3>
+<p>Instead of always replacing the property with a <code>genruntime.ResourceReference</code>, allow selection between a set of standard reference types.</p>
+<p>For the vast majority of reference properties, we&rsquo;d continue to use the existing <code>genruntime.ResourceReference</code>.</p>
+<p>To support the <em>Alias</em> and <em>Friendly names</em> cases, introduce a new reference type, say <code>genruntime.AliasResourceReference</code>, with the following structure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AliasResourceReference</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Group</span>     <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Kind</span>      <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Namespace</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Name</span>      <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ARMID</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Alias</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The code generator would need to be updated to support this new value.</p>
+<p>Finally, when the property isn&rsquo;t an reference at all, but just a simple string, we&rsquo;d have a value that means <em>leave this alone</em>. This is the case where we&rsquo;d currently us <code>$armReference: false</code>.</p>
+<p>Again, our current <code>$armReference</code> flag would need to be renamed to something more general. Perhaps <code>$referenceType</code> with possible values <code>arm</code>, <code>armOrAlias</code>, and <code>other</code>.</p>
+<ul>
+<li>PRO: Great YAML structure for end users of resources.</li>
+<li>PRO: Extensible for the (admittedly unlikely) scenario where we need another different kind.</li>
+<li>PRO: Cleanly handles both the <em>Alias</em> and <em>Friendly names</em> scenarios.</li>
+<li>CON: Slightly greater implementation complexity.</li>
+<li>CON: Does not solve the <em>Missed ARM References</em> problem.</li>
+</ul>
+<h3 id="option-4-multivalued-custom-reference-types">Option 4: Multivalued custom reference types</h3>
+<p>Similar to Option 3, but allowing set combinations of values to be specified for the reference type.</p>
+<p>Possible values would be <code>arm</code>, <code>alias</code> and <code>other</code>, plus the combinations <code>arm+alias</code> and <code>arm+other</code>. Other combinations would be invalid.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">MetricAlertAction</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ActionGroupId</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">$referenceType</span>: <span style="color:#ae81ff">arm+other</span>
+</span></span></code></pre></div><p>Returning to the <code>PrometheusRuleGroupAction</code> example from above, we&rsquo;d specify <code>$referenceType: arm+other</code> to get:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PrometheusRuleGroupAction</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ActionGroupId</span>        <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ActionGroupReference</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">ResourceReference</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ActionProperties</span>     <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This handles the <em>Missed ARM References</em> problem by allowing us to retain the existing property while introducing the corrected property side-by-side.</p>
+<p>In the <code>RoleAssignment</code> case, we&rsquo;d specify <code>$referenceType: arm+alias</code> to get:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">RoleAssignment_Spec</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">roleDefinitionReference</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">AliasResourceReference</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>PRO: Great YAML structure for end users.</li>
+<li>PRO: Good experience for configuration of our code generator.</li>
+<li>PRO: Extensible for the (admittedly unlikely) scenario where we need another different kind.</li>
+<li>PRO: Solves all three scenarios.</li>
+<li>CON: Slightly greater implementation complexity.</li>
+</ul>
+<h2 id="decision">Decision</h2>
+<p>Reccommendation: Option 4</p>
+<p>Variation: We may want to YAML list syntax for clarity:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">MetricAlertAction</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ActionGroupId</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">$referenceType</span>: 
+</span></span><span style="display:flex;"><span>          - <span style="color:#ae81ff">arm</span>
+</span></span><span style="display:flex;"><span>          - <span style="color:#ae81ff">other</span>
+</span></span></code></pre></div><p>or</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">MetricAlertAction</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ActionGroupId</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">$referenceType</span>: [<span style="color:#ae81ff">arm, other]</span>
+</span></span></code></pre></div><p>The major downside of this is that we&rsquo;d make the usual case (with just a single option) more verbose, but we could mitigate that by having two mutually exclusive options, <code>$referenceType</code> (a string) and <code>$referenceTypes</code> (a list).</p>
+<ul>
+<li>We&rsquo;ll want to look into where we resolve IDs and make sure that implementing this as a per-resource extension is right.</li>
+<li>The value <code>other</code> is a bit vague, we should try to find a better name that covers both <em>not a reference</em> and <em>a reference we don&rsquo;t provide special support for</em>. Suggestions so far include <code>raw</code> and <code>unmodified</code>.</li>
+</ul>
+<h2 id="status">Status</h2>
+<p>Proposed.</p>
+<h2 id="consequences">Consequences</h2>
+<p>TBC</p>
+<h2 id="experience-report">Experience Report</h2>
+<p>TBC</p>
+<h2 id="references">References</h2>
+<p>None</p>
 
-	
+  <div class="section-index">
+    
+    
+    </div>
 </div>
-
 
           </main>
         </div>
