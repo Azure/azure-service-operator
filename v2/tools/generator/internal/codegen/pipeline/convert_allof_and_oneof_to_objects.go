@@ -266,7 +266,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 	switch concreteType := t.(type) {
 	case astmodel.InternalTypeName:
 
-		if def, ok := s.defs[concreteType]; ok {
+		if def, ok := s.lookupType(concreteType); ok {
 			// TypeName represents one of our definitions; if we can get a good name from the content
 			// (say, from a OneOf discriminator), we should use that
 			names, err := s.getOneOfName(def.Type(), propIndex)
@@ -730,7 +730,7 @@ func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.T
 }
 
 func (s synthesizer) handleTypeName(leftName astmodel.InternalTypeName, right astmodel.Type) (astmodel.Type, error) {
-	found, ok := s.defs[leftName]
+	found, ok := s.lookupType(leftName)
 	if !ok {
 		return nil, eris.Errorf("couldn't find type %s", leftName)
 	}
@@ -776,7 +776,7 @@ func (s synthesizer) handleTypeName(leftName astmodel.InternalTypeName, right as
 	}
 
 	// Check to see if we've already redefined this type even though there is only one references
-	//// (this can happen with nesting of typeNames and allOfs because we process things iteratively pair-by-pair).
+	// (this can happen with nesting of typeNames and allOfs because we process things iteratively pair-by-pair).
 	// If we have, we need to merge our new changes with the changes already made.
 	redefined, ok := s.updatedDefs[leftName]
 	for ok {
@@ -936,7 +936,7 @@ func (s synthesizer) simplifyAllOfTypeNames(types []astmodel.Type) []astmodel.Ty
 	result := make([]astmodel.Type, len(types))
 	for i, t := range types {
 		if tn, ok := astmodel.AsInternalTypeName(t); ok {
-			if def, ok := s.defs[tn]; ok {
+			if def, ok := s.lookupType(tn); ok {
 				result[i] = def.Type()
 				foundName = true
 				continue
@@ -983,4 +983,16 @@ func countTypeReferences(defs astmodel.TypeDefinitionSet) map[astmodel.TypeName]
 	}
 
 	return referenceCounts
+}
+
+func (s synthesizer) lookupType(name astmodel.InternalTypeName) (*astmodel.TypeDefinition, bool) {
+	if def, ok := s.updatedDefs[name]; ok {
+		return &def, true
+	}
+
+	if def, ok := s.defs[name]; ok {
+		return &def, true
+	}
+
+	return nil, false
 }
