@@ -17,30 +17,42 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Reducing Access | Azure Service Operator</title>
-<meta name="description" content="Using a credential for ASO with reduced permissions Most examples of installing ASO suggest using an identity that has Contributor access to the Subscription. Such broadly scoped access is not required to run the operator, it&rsquo;s just the easiest way to set things up and so is often used in examples.
-Here we discuss a few approaches to restricting the access that the ASO identity has.
-Contributor access at a reduced scope In some scenarios you may know that ASO will be operating on only certain resource groups. For example, if you have two teams working in a cluster with ASO, &ldquo;Marketing&rdquo; and &ldquo;Product&rdquo;. If you know ahead of time that the only resource groups these teams will use are marketing-dev, marketing-prod, product-dev and product-prod, you can pre-create the following resources:">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/">
+<title>containerregistry.azure.com/v1api20230701 | Azure Service Operator</title>
+<meta name="description" content="containerregistry.azure.com/v1api20230701 Package v1api20230701 contains API Schema definitions for the containerregistry v1api20230701 API group
+Resource Types: APIVersion (string alias) Value Description &#34;2023-07-01&#34;
+EncryptionProperty (Appears on:Registry_Spec) Field Description keyVaultProperties KeyVaultProperties KeyVaultProperties: Key vault properties.
+status EncryptionProperty_Status Status: Indicates whether or not the encryption is enabled for container registry.
+EncryptionProperty_STATUS (Appears on:Registry_STATUS) Field Description keyVaultProperties KeyVaultProperties_STATUS KeyVaultProperties: Key vault properties.
+status EncryptionProperty_Status_STATUS Status: Indicates whether or not the encryption is enabled for container registry.">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/containerregistry/v1api20230701/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="Reducing Access">
-  <meta property="og:description" content="Using a credential for ASO with reduced permissions Most examples of installing ASO suggest using an identity that has Contributor access to the Subscription. Such broadly scoped access is not required to run the operator, it’s just the easiest way to set things up and so is often used in examples.
-Here we discuss a few approaches to restricting the access that the ASO identity has.
-Contributor access at a reduced scope In some scenarios you may know that ASO will be operating on only certain resource groups. For example, if you have two teams working in a cluster with ASO, “Marketing” and “Product”. If you know ahead of time that the only resource groups these teams will use are marketing-dev, marketing-prod, product-dev and product-prod, you can pre-create the following resources:">
+  <meta property="og:title" content="containerregistry.azure.com/v1api20230701">
+  <meta property="og:description" content="containerregistry.azure.com/v1api20230701 Package v1api20230701 contains API Schema definitions for the containerregistry v1api20230701 API group
+Resource Types: APIVersion (string alias) Value Description &#34;2023-07-01&#34;
+EncryptionProperty (Appears on:Registry_Spec) Field Description keyVaultProperties KeyVaultProperties KeyVaultProperties: Key vault properties.
+status EncryptionProperty_Status Status: Indicates whether or not the encryption is enabled for container registry.
+EncryptionProperty_STATUS (Appears on:Registry_STATUS) Field Description keyVaultProperties KeyVaultProperties_STATUS KeyVaultProperties: Key vault properties.
+status EncryptionProperty_Status_STATUS Status: Indicates whether or not the encryption is enabled for container registry.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
-    <meta property="article:section" content="guide">
+    <meta property="article:section" content="reference">
 
-  <meta itemprop="name" content="Reducing Access">
-  <meta itemprop="description" content="Using a credential for ASO with reduced permissions Most examples of installing ASO suggest using an identity that has Contributor access to the Subscription. Such broadly scoped access is not required to run the operator, it’s just the easiest way to set things up and so is often used in examples.
-Here we discuss a few approaches to restricting the access that the ASO identity has.
-Contributor access at a reduced scope In some scenarios you may know that ASO will be operating on only certain resource groups. For example, if you have two teams working in a cluster with ASO, “Marketing” and “Product”. If you know ahead of time that the only resource groups these teams will use are marketing-dev, marketing-prod, product-dev and product-prod, you can pre-create the following resources:">
-  <meta itemprop="wordCount" content="465">
+  <meta itemprop="name" content="containerregistry.azure.com/v1api20230701">
+  <meta itemprop="description" content="containerregistry.azure.com/v1api20230701 Package v1api20230701 contains API Schema definitions for the containerregistry v1api20230701 API group
+Resource Types: APIVersion (string alias) Value Description &#34;2023-07-01&#34;
+EncryptionProperty (Appears on:Registry_Spec) Field Description keyVaultProperties KeyVaultProperties KeyVaultProperties: Key vault properties.
+status EncryptionProperty_Status Status: Indicates whether or not the encryption is enabled for container registry.
+EncryptionProperty_STATUS (Appears on:Registry_STATUS) Field Description keyVaultProperties KeyVaultProperties_STATUS KeyVaultProperties: Key vault properties.
+status EncryptionProperty_Status_STATUS Status: Indicates whether or not the encryption is enabled for container registry.">
+  <meta itemprop="wordCount" content="2864">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Reducing Access">
-  <meta name="twitter:description" content="Using a credential for ASO with reduced permissions Most examples of installing ASO suggest using an identity that has Contributor access to the Subscription. Such broadly scoped access is not required to run the operator, it’s just the easiest way to set things up and so is often used in examples.
-Here we discuss a few approaches to restricting the access that the ASO identity has.
-Contributor access at a reduced scope In some scenarios you may know that ASO will be operating on only certain resource groups. For example, if you have two teams working in a cluster with ASO, “Marketing” and “Product”. If you know ahead of time that the only resource groups these teams will use are marketing-dev, marketing-prod, product-dev and product-prod, you can pre-create the following resources:">
+  <meta name="twitter:title" content="containerregistry.azure.com/v1api20230701">
+  <meta name="twitter:description" content="containerregistry.azure.com/v1api20230701 Package v1api20230701 contains API Schema definitions for the containerregistry v1api20230701 API group
+Resource Types: APIVersion (string alias) Value Description &#34;2023-07-01&#34;
+EncryptionProperty (Appears on:Registry_Spec) Field Description keyVaultProperties KeyVaultProperties KeyVaultProperties: Key vault properties.
+status EncryptionProperty_Status Status: Indicates whether or not the encryption is enabled for container registry.
+EncryptionProperty_STATUS (Appears on:Registry_STATUS) Field Description keyVaultProperties KeyVaultProperties_STATUS KeyVaultProperties: Key vault properties.
+status EncryptionProperty_Status_STATUS Status: Indicates whether or not the encryption is enabled for container registry.">
 
 
 
@@ -62,7 +74,7 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link active" href="/azure-service-operator/guide/"><span>Guide</span></a>
+        <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/tutorials/"><span>Tutorials</span></a>
@@ -71,7 +83,7 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
         <a class="nav-link" href="/azure-service-operator/tools/"><span>Tools</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
+        <a class="nav-link active" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
@@ -105,44 +117,44 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operator-li">
   <a href="/azure-service-operator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-azure-service-operator"><span class="">Azure Service Operator v2</span></a>
   <ul class="ul-1">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguide-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguide-li">
   <a href="/azure-service-operator/guide/" title="User’s Guide" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguide"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-helm-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-helm-li">
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidecrd-management-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidecrd-management-li">
   <a href="/azure-service-operator/guide/crd-management/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations understood by the operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguideauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthenticationcredential-format-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
   <a href="/azure-service-operator/guide/authentication/credential-format/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationcredential-format"><span class="">Credential Format</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthenticationcredential-scope-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-scope-li">
   <a href="/azure-service-operator/guide/authentication/credential-scope/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationcredential-scope"><span class="">Credential Scope</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthenticationmultitenant-deployment-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationmultitenant-deployment-li">
   <a href="/azure-service-operator/guide/authentication/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationmultitenant-deployment"><span class="">Multitenancy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideauthenticationreducing-access-li">
-  <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="td-sidebar-nav-active-item">Reducing Access</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationreducing-access-li">
+  <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebest-practices-li">
   <a href="/azure-service-operator/guide/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
   <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
@@ -167,25 +179,25 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidediagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problems-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideexpressions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideexpressions-li">
   <a href="/azure-service-operator/guide/expressions/" title="CEL Expressions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">Expressions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidekeyvaults-li">
   <a href="/azure-service-operator/guide/keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidekeyvaults"><span class="">KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideownership-li">
   <a href="/azure-service-operator/guide/ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideownership"><span class="">Ownership</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideasov1-asov2-migration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideasov1-asov2-migration-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideasov1-asov2-migration"><span class="">ASOv1 to ASOv2 migration guide</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
@@ -206,7 +218,7 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer"><span class="">Storage Container</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li>
   </ul>
@@ -232,10 +244,10 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/tools/generator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortoolsgenerator"><span class="">generator</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencealertsmanagement-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencealertsmanagement-li">
   <a href="/azure-service-operator/reference/alertsmanagement/" title="AlertsManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencealertsmanagement"><span class="">AlertsManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20210401-li">
@@ -244,7 +256,7 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/alertsmanagement/v1api20230301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20230301"><span class="">alertsmanagement.azure.com/v1api20230301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceapimanagement-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapimanagement-li">
   <a href="/azure-service-operator/reference/apimanagement/" title="ApiManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapimanagement"><span class="">ApiManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20220801-li">
@@ -253,14 +265,14 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview"><span class="">apimanagement.azure.com/v1api20230501preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceappconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
   <a href="/azure-service-operator/reference/appconfiguration/v1api20220501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1api20220501"><span class="">appconfiguration.azure.com/v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" title="Authorization Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">Authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
@@ -269,14 +281,14 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/authorization/v1api20220401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20220401"><span class="">authorization.azure.com/v1api20220401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" title="Batch Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">Batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
   <a href="/azure-service-operator/reference/batch/v1api20210101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1api20210101"><span class="">batch.azure.com/v1api20210101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" title="Cache Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">Cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
@@ -291,7 +303,7 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" title="Cdn Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">Cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
@@ -300,7 +312,7 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/cdn/v1api20230501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20230501"><span class="">cdn.azure.com/v1api20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
@@ -317,23 +329,23 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/compute/v1api20240302/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20240302"><span class="">compute.azure.com/v1api20240302</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" title="ContainerInstance Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">ContainerInstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
   <a href="/azure-service-operator/reference/containerinstance/v1api20211001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1api20211001"><span class="">containerinstance.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
   <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="">containerregistry.azure.com/v1api20210901</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20230701-li">
-  <a href="/azure-service-operator/reference/containerregistry/v1api20230701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20230701"><span class="">containerregistry.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencecontainerregistryv1api20230701-li">
+  <a href="/azure-service-operator/reference/containerregistry/v1api20230701/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20230701"><span class="td-sidebar-nav-active-item">containerregistry.azure.com/v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" title="ContainerService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">ContainerService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20210501-li">
@@ -352,14 +364,14 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/containerservice/v1api20240901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">containerservice.azure.com/v1api20240901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedatafactory-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
   <a href="/azure-service-operator/reference/datafactory/" title="DataFactory Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">DataFactory</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
   <a href="/azure-service-operator/reference/datafactory/v1api20180601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">datafactory.azure.com/v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedataprotection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedataprotection-li">
   <a href="/azure-service-operator/reference/dataprotection/" title="DataProtection Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedataprotection"><span class="">DataProtection</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
@@ -368,14 +380,14 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">dataprotection.azure.com/v1api20231101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" title="DBforMariaDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">DBforMariaDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
   <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">dbformariadb.azure.com/v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" title="DBforMySQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">DBforMySQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
@@ -388,7 +400,7 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/dbformysql/v1api20230630/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20230630"><span class="">dbformysql.azure.com/v1api20230630</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" title="DBforPostgreSQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">DBforPostgreSQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
@@ -403,14 +415,14 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/dbforpostgresql/v1api20230601preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview"><span class="">dbforpostgresql.azure.com/v1api20230601preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedevices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
   <a href="/azure-service-operator/reference/devices/" title="Devices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedevices"><span class="">Devices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedevicesv1api20210702-li">
   <a href="/azure-service-operator/reference/devices/v1api20210702/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">devices.azure.com/v1api20210702</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">DocumentDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
@@ -419,14 +431,14 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/documentdb/v1api20231115/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20231115"><span class="">documentdb.azure.com/v1api20231115</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" title="EventGrid Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">EventGrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
   <a href="/azure-service-operator/reference/eventgrid/v1api20200601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1api20200601"><span class="">eventgrid.azure.com/v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" title="EventHub Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">EventHub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
@@ -435,14 +447,14 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/eventhub/v1api20240101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20240101"><span class="">eventhub.azure.com/v1api20240101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
   <a href="/azure-service-operator/reference/network.frontdoor/" title="Frontdoor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetworkfrontdoor"><span class="">Frontdoor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501-li">
   <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">network.frontdoor.azure.com/v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" title="Insights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">Insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180301-li">
@@ -461,7 +473,7 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/insights/v1api20230101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230101"><span class="">insights.azure.com/v1api20230101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" title="KeyVault Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">KeyVault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
@@ -470,14 +482,14 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/keyvault/v1api20230701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20230701"><span class="">keyvault.azure.com/v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/" title="KubernetesConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekubernetesconfiguration"><span class="">KubernetesConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501"><span class="">kubernetesconfiguration.azure.com/v1api20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
@@ -486,7 +498,7 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" title="ManagedIdentity Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">ManagedIdentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
@@ -497,14 +509,14 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">managedidentity.azure.com/v1api20230131</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemonitor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemonitor-li">
   <a href="/azure-service-operator/reference/monitor/" title="Monitor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemonitor"><span class="">Monitor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemonitorv1api20230403-li">
   <a href="/azure-service-operator/reference/monitor/v1api20230403/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemonitorv1api20230403"><span class="">monitor.azure.com/v1api20230403</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
@@ -527,35 +539,35 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/network/v1api20240601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240601"><span class="">network.azure.com/v1api20240601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" title="OperationalInsights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">OperationalInsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
   <a href="/azure-service-operator/reference/operationalinsights/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601"><span class="">operationalinsights.azure.com/v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceredhatopenshift-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceredhatopenshift-li">
   <a href="/azure-service-operator/reference/redhatopenshift/" title="RedHatOpenShift Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceredhatopenshift"><span class="">RedHatOpenShift</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122-li">
   <a href="/azure-service-operator/reference/redhatopenshift/v1api20231122/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122"><span class="">redhatopenshift.azure.com/v1api20231122</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" title="Resources Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">Resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
   <a href="/azure-service-operator/reference/resources/v1api20200601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">resources.azure.com/v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesearch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
   <a href="/azure-service-operator/reference/search/v1api20220901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20220901"><span class="">search.azure.com/v1api20220901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" title="ServiceBus Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">ServiceBus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
@@ -566,14 +578,14 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/servicebus/v1api20221001preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20221001preview"><span class="">servicebus.azure.com/v1api20221001preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" title="SignalRService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">SignalRService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
   <a href="/azure-service-operator/reference/signalrservice/v1api20211001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20211001"><span class="">signalrservice.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
   <a href="/azure-service-operator/reference/sql/" title="Sql Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">Sql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1-li">
@@ -582,7 +594,7 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/sql/v1api20211101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">sql.azure.com/v1api20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" title="Storage Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">Storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
@@ -593,21 +605,21 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/reference/storage/v1api20230101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20230101"><span class="">storage.azure.com/v1api20230101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" title="Subscription Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">Subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
   <a href="/azure-service-operator/reference/subscription/v1api20211001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">subscription.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesynapse-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
   <a href="/azure-service-operator/reference/synapse/" title="Synapse Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">Synapse</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
   <a href="/azure-service-operator/reference/synapse/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">synapse.azure.com/v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceweb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
   <a href="/azure-service-operator/reference/web/" title="Web Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">Web</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
@@ -747,19 +759,7 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
 
 </div>
 
-            <div class="td-toc">
-        <nav id="TableOfContents">
-  <ul>
-    <li><a href="#using-a-credential-for-aso-with-reduced-permissions">Using a credential for ASO with reduced permissions</a>
-      <ul>
-        <li><a href="#contributor-access-at-a-reduced-scope">Contributor access at a reduced scope</a></li>
-        <li><a href="#reduced-access-at-subscription-scope">Reduced access at Subscription scope</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-      </div>
-    
+            
             
 
           </aside>
@@ -770,66 +770,3236 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/guide/">Guide</a></li>
+    <a href="/azure-service-operator/reference/">Supported Resources</a></li>
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/guide/authentication/">Authentication</a></li>
+    <a href="/azure-service-operator/reference/containerregistry/">ContainerRegistry</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Reducing Access</li>
+    containerregistry.azure.com/v1api20230701</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Reducing Access</h1>
+	<h1>containerregistry.azure.com/v1api20230701</h1>
 	
 	<header class="article-meta">
 		
 </header>
-	<h2 id="using-a-credential-for-aso-with-reduced-permissions">Using a credential for ASO with reduced permissions</h2>
-<p>Most examples of installing ASO suggest using an identity that has Contributor access to the Subscription.
-Such broadly scoped access is <em><strong>not</strong></em> required to run the operator, it&rsquo;s just the easiest way to set things up and so
-is often used in examples.</p>
-<p>Here we discuss a few approaches to restricting the access that the ASO identity has.</p>
-<h3 id="contributor-access-at-a-reduced-scope">Contributor access at a reduced scope</h3>
-<p>In some scenarios you may know that ASO will be operating on only certain resource groups. For example, if you have two
-teams working in a cluster with ASO, &ldquo;Marketing&rdquo; and &ldquo;Product&rdquo;. If you know ahead of time that the only resource groups these
-teams will use are <code>marketing-dev</code>, <code>marketing-prod</code>, <code>product-dev</code> and <code>product-prod</code>, you can pre-create the following resources:</p>
-<ul>
-<li>The 4 resource groups.</li>
-<li>An identity for use by ASO, assigned Contributor permission to each of the 4 resource groups.</li>
-</ul>
-<p>Now install ASO following the instructions above. Once ASO is installed, adopt the existing resource groups in ASO by applying a YAML in the cluster
-for each of the 4 resource groups. Now users of ASO are free to create resources in those resource groups as normal. If they attempt
-to use ASO to create a new resource group <code>foo</code> they will be rejected by Azure as the ASO identity doesn&rsquo;t have permission to create
-arbitrary resource groups in the Subscription.</p>
-<h3 id="reduced-access-at-subscription-scope">Reduced access at Subscription scope</h3>
-<p>In other scenarios, you may want to give out reduced access at the Subscription scope. This can be done by determining what resources
-in ASO you will be using and creating a custom role scoped to just those permissions.</p>
-<p>For example if you want to use ASO to manage ResourceGroups, Redis and MySQL flexible servers, but <em>not</em> anything else, you could
-<a href="https://learn.microsoft.com/azure/role-based-access-control/custom-roles-cli">create a role</a> similar to <code>aso-operator.json</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;ASO Operator&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;IsCustom&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Description&#34;</span>: <span style="color:#e6db74">&#34;Role with access to perform only the operations which we allow ASO to perform&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Actions&#34;</span>: [
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Microsoft.Resources/subscriptions/resourceGroups/*&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Microsoft.Cache/*&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Microsoft.DBforMySQL/*&#34;</span>
-</span></span><span style="display:flex;"><span>  ],
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;NotActions&#34;</span>: [
-</span></span><span style="display:flex;"><span>  ],
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;AssignableScopes&#34;</span>: [
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;/subscriptions/{subscriptionId1}&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;/subscriptions/{subscriptionId2}&#34;</span>
-</span></span><span style="display:flex;"><span>  ]
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Then use the az cli to create that custom role definition: <code>az role definition create --role-definition ~/aso-operator.json</code></p>
-<p>See <a href="https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations">list of resource provider operations</a> for a comprehensive
-list of operations.</p>
-<p><strong>Note: We strongly recommend giving full permissions to the resource types ASO will be managing.</strong> ASO needs <code>read</code>, <code>write</code>, and <code>delete</code> permissions to a resource
-to fully manage it. In some cases, it also needs <code>action</code> permissions. It&rsquo;s recommended to give <code>*</code> permissions for a given resource type which ASO
-will be managing.</p>
-<p>Once the role has been created, assign it to the ASO identity and install the operator as normal. It will be able to
-manage any resource of the types you allowed. Any other resources will fail to be created/updated/deleted with a permissions error.</p>
+	<h2 id="containerregistry.azure.com/v1api20230701">containerregistry.azure.com/v1api20230701</h2>
+<div>
+<p>Package v1api20230701 contains API Schema definitions for the containerregistry v1api20230701 API group</p>
+</div>
+Resource Types:
+<ul></ul>
+<h3 id="containerregistry.azure.com/v1api20230701.APIVersion">APIVersion
+(<code>string</code> alias)</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;2023-07-01&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.EncryptionProperty">EncryptionProperty
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_Spec">Registry_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>keyVaultProperties</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.KeyVaultProperties">
+KeyVaultProperties
+</a>
+</em>
+</td>
+<td>
+<p>KeyVaultProperties: Key vault properties.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.EncryptionProperty_Status">
+EncryptionProperty_Status
+</a>
+</em>
+</td>
+<td>
+<p>Status: Indicates whether or not the encryption is enabled for container registry.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.EncryptionProperty_STATUS">EncryptionProperty_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>keyVaultProperties</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.KeyVaultProperties_STATUS">
+KeyVaultProperties_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>KeyVaultProperties: Key vault properties.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.EncryptionProperty_Status_STATUS">
+EncryptionProperty_Status_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Status: Indicates whether or not the encryption is enabled for container registry.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.EncryptionProperty_Status">EncryptionProperty_Status
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.EncryptionProperty">EncryptionProperty</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.EncryptionProperty_Status_STATUS">EncryptionProperty_Status_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.EncryptionProperty_STATUS">EncryptionProperty_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.ExportPolicy">ExportPolicy
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Policies">Policies</a>)
+</p>
+<div>
+<p>The export policy for a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.ExportPolicy_Status">
+ExportPolicy_Status
+</a>
+</em>
+</td>
+<td>
+<p>Status: The value that indicates whether the policy is enabled or not.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.ExportPolicy_STATUS">ExportPolicy_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Policies_STATUS">Policies_STATUS</a>)
+</p>
+<div>
+<p>The export policy for a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.ExportPolicy_Status_STATUS">
+ExportPolicy_Status_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Status: The value that indicates whether the policy is enabled or not.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.ExportPolicy_Status">ExportPolicy_Status
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.ExportPolicy">ExportPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.ExportPolicy_Status_STATUS">ExportPolicy_Status_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.ExportPolicy_STATUS">ExportPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.IPRule">IPRule
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.NetworkRuleSet">NetworkRuleSet</a>)
+</p>
+<div>
+<p>IP rule with specific IP or IP range in CIDR format.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>action</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.IPRule_Action">
+IPRule_Action
+</a>
+</em>
+</td>
+<td>
+<p>Action: The action of IP ACL rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.IPRule_Action">IPRule_Action
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.IPRule">IPRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.IPRule_Action_STATUS">IPRule_Action_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.IPRule_STATUS">IPRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.IPRule_STATUS">IPRule_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>)
+</p>
+<div>
+<p>IP rule with specific IP or IP range in CIDR format.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>action</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.IPRule_Action_STATUS">
+IPRule_Action_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Action: The action of IP ACL rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.IdentityProperties">IdentityProperties
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_Spec">Registry_Spec</a>)
+</p>
+<div>
+<p>Managed identity for the resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.IdentityProperties_Type">
+IdentityProperties_Type
+</a>
+</em>
+</td>
+<td>
+<p>Type: The identity type.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>userAssignedIdentities</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.UserAssignedIdentityDetails">
+[]UserAssignedIdentityDetails
+</a>
+</em>
+</td>
+<td>
+<p>UserAssignedIdentities: The list of user identities associated with the resource. The user identity
+dictionary key references will be ARM resource ids in the form:
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;
+providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.IdentityProperties_STATUS">IdentityProperties_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+<p>Managed identity for the resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>principalId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>PrincipalId: The principal ID of resource identity.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tenantId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>TenantId: The tenant ID of resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.IdentityProperties_Type_STATUS">
+IdentityProperties_Type_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Type: The identity type.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>userAssignedIdentities</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.UserIdentityProperties_STATUS">
+map[string]./api/containerregistry/v1api20230701.UserIdentityProperties_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>UserAssignedIdentities: The list of user identities associated with the resource. The user identity
+dictionary key references will be ARM resource ids in the form:
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;
+providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.IdentityProperties_Type">IdentityProperties_Type
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.IdentityProperties">IdentityProperties</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.IdentityProperties_Type_STATUS">IdentityProperties_Type_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.IdentityProperties_STATUS">IdentityProperties_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.KeyVaultProperties">KeyVaultProperties
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.EncryptionProperty">EncryptionProperty</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>identity</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Identity: The client id of the identity which will be used to access key vault.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>identityFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+<p>IdentityFromConfig: The client id of the identity which will be used to access key vault.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>keyIdentifier</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>KeyIdentifier: Key vault uri to access the encryption key.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.KeyVaultProperties_STATUS">KeyVaultProperties_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.EncryptionProperty_STATUS">EncryptionProperty_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>identity</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Identity: The client id of the identity which will be used to access key vault.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>keyIdentifier</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>KeyIdentifier: Key vault uri to access the encryption key.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>keyRotationEnabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>KeyRotationEnabled: Auto key rotation status for a CMK enabled registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastKeyRotationTimestamp</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastKeyRotationTimestamp: Timestamp of the last successful key rotation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionedKeyIdentifier</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionedKeyIdentifier: The fully qualified key identifier that includes the version of the key that is actually used
+for encryption.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.NetworkRuleSet">NetworkRuleSet
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_Spec">Registry_Spec</a>)
+</p>
+<div>
+<p>The network rule set for a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>defaultAction</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.NetworkRuleSet_DefaultAction">
+NetworkRuleSet_DefaultAction
+</a>
+</em>
+</td>
+<td>
+<p>DefaultAction: The default action of allow or deny when no other rules match.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ipRules</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.IPRule">
+[]IPRule
+</a>
+</em>
+</td>
+<td>
+<p>IpRules: The IP ACL rules.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.NetworkRuleSet_DefaultAction">NetworkRuleSet_DefaultAction
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.NetworkRuleSet">NetworkRuleSet</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deny&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.NetworkRuleSet_DefaultAction_STATUS">NetworkRuleSet_DefaultAction_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deny&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+<p>The network rule set for a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>defaultAction</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.NetworkRuleSet_DefaultAction_STATUS">
+NetworkRuleSet_DefaultAction_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>DefaultAction: The default action of allow or deny when no other rules match.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ipRules</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.IPRule_STATUS">
+[]IPRule_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>IpRules: The IP ACL rules.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.Policies">Policies
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_Spec">Registry_Spec</a>)
+</p>
+<div>
+<p>The policies for a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>exportPolicy</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.ExportPolicy">
+ExportPolicy
+</a>
+</em>
+</td>
+<td>
+<p>ExportPolicy: The export policy for a container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>quarantinePolicy</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.QuarantinePolicy">
+QuarantinePolicy
+</a>
+</em>
+</td>
+<td>
+<p>QuarantinePolicy: The quarantine policy for a container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>retentionPolicy</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RetentionPolicy">
+RetentionPolicy
+</a>
+</em>
+</td>
+<td>
+<p>RetentionPolicy: The retention policy for a container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>trustPolicy</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.TrustPolicy">
+TrustPolicy
+</a>
+</em>
+</td>
+<td>
+<p>TrustPolicy: The content trust policy for a container registry.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.Policies_STATUS">Policies_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+<p>The policies for a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>exportPolicy</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.ExportPolicy_STATUS">
+ExportPolicy_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ExportPolicy: The export policy for a container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>quarantinePolicy</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.QuarantinePolicy_STATUS">
+QuarantinePolicy_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>QuarantinePolicy: The quarantine policy for a container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>retentionPolicy</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RetentionPolicy_STATUS">
+RetentionPolicy_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>RetentionPolicy: The retention policy for a container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>trustPolicy</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.TrustPolicy_STATUS">
+TrustPolicy_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>TrustPolicy: The content trust policy for a container registry.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+<p>An object that represents a private endpoint connection for a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: The resource ID.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.QuarantinePolicy">QuarantinePolicy
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Policies">Policies</a>)
+</p>
+<div>
+<p>The quarantine policy for a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.QuarantinePolicy_Status">
+QuarantinePolicy_Status
+</a>
+</em>
+</td>
+<td>
+<p>Status: The value that indicates whether the policy is enabled or not.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.QuarantinePolicy_STATUS">QuarantinePolicy_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Policies_STATUS">Policies_STATUS</a>)
+</p>
+<div>
+<p>The quarantine policy for a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.QuarantinePolicy_Status_STATUS">
+QuarantinePolicy_Status_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Status: The value that indicates whether the policy is enabled or not.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.QuarantinePolicy_Status">QuarantinePolicy_Status
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.QuarantinePolicy">QuarantinePolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.QuarantinePolicy_Status_STATUS">QuarantinePolicy_Status_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.QuarantinePolicy_STATUS">QuarantinePolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.Registry">Registry
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/containerregistry.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ContainerRegistry/&#x200b;registries/&#x200b;{registryName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.Registry_Spec">
+Registry_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>adminUserEnabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>AdminUserEnabled: The value that indicates whether the admin user is enabled.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dataEndpointEnabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>DataEndpointEnabled: Enable a single data endpoint per region for serving data.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>encryption</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.EncryptionProperty">
+EncryptionProperty
+</a>
+</em>
+</td>
+<td>
+<p>Encryption: The encryption settings of container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>identity</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.IdentityProperties">
+IdentityProperties
+</a>
+</em>
+</td>
+<td>
+<p>Identity: The identity of the container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>networkRuleBypassOptions</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryProperties_NetworkRuleBypassOptions">
+RegistryProperties_NetworkRuleBypassOptions
+</a>
+</em>
+</td>
+<td>
+<p>NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>networkRuleSet</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.NetworkRuleSet">
+NetworkRuleSet
+</a>
+</em>
+</td>
+<td>
+<p>NetworkRuleSet: The network rule set for a container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryOperatorSpec">
+RegistryOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>policies</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.Policies">
+Policies
+</a>
+</em>
+</td>
+<td>
+<p>Policies: The policies for a container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>publicNetworkAccess</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryProperties_PublicNetworkAccess">
+RegistryProperties_PublicNetworkAccess
+</a>
+</em>
+</td>
+<td>
+<p>PublicNetworkAccess: Whether or not public network access is allowed for the container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sku</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.Sku">
+Sku
+</a>
+</em>
+</td>
+<td>
+<p>Sku: The SKU of the container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: The tags of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>zoneRedundancy</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryProperties_ZoneRedundancy">
+RegistryProperties_ZoneRedundancy
+</a>
+</em>
+</td>
+<td>
+<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.Registry_STATUS">
+Registry_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RegistryOperatorSpec">RegistryOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_Spec">Registry_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RegistryProperties_NetworkRuleBypassOptions">RegistryProperties_NetworkRuleBypassOptions
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_Spec">Registry_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureServices&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RegistryProperties_NetworkRuleBypassOptions_STATUS">RegistryProperties_NetworkRuleBypassOptions_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureServices&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RegistryProperties_ProvisioningState_STATUS">RegistryProperties_ProvisioningState_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RegistryProperties_PublicNetworkAccess">RegistryProperties_PublicNetworkAccess
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_Spec">Registry_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RegistryProperties_PublicNetworkAccess_STATUS">RegistryProperties_PublicNetworkAccess_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RegistryProperties_ZoneRedundancy">RegistryProperties_ZoneRedundancy
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_Spec">Registry_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RegistryProperties_ZoneRedundancy_STATUS">RegistryProperties_ZoneRedundancy_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RegistryReplication">RegistryReplication
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/containerregistry.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ContainerRegistry/&#x200b;registries/&#x200b;{registryName}/&#x200b;replications/&#x200b;{replicationName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryReplication_Spec">
+RegistryReplication_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryReplicationOperatorSpec">
+RegistryReplicationOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a containerregistry.azure.com/Registry resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>regionEndpointEnabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>RegionEndpointEnabled: Specifies whether the replication&rsquo;s regional endpoint is enabled. Requests will not be routed to
+a replication whose regional endpoint is disabled, however its data will continue to be synced with other replications.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: The tags of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>zoneRedundancy</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.ReplicationProperties_ZoneRedundancy">
+ReplicationProperties_ZoneRedundancy
+</a>
+</em>
+</td>
+<td>
+<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry replication</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryReplication_STATUS">
+RegistryReplication_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RegistryReplicationOperatorSpec">RegistryReplicationOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.RegistryReplication_Spec">RegistryReplication_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RegistryReplication_STATUS">RegistryReplication_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.RegistryReplication">RegistryReplication</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: The resource ID.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.ReplicationProperties_ProvisioningState_STATUS">
+ReplicationProperties_ProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The provisioning state of the replication at the time the operation was called.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>regionEndpointEnabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>RegionEndpointEnabled: Specifies whether the replication&rsquo;s regional endpoint is enabled. Requests will not be routed to
+a replication whose regional endpoint is disabled, however its data will continue to be synced with other replications.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.Status_STATUS">
+Status_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Status: The status of the replication at the time the operation was called.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: The tags of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>zoneRedundancy</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.ReplicationProperties_ZoneRedundancy_STATUS">
+ReplicationProperties_ZoneRedundancy_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry replication</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RegistryReplication_Spec">RegistryReplication_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.RegistryReplication">RegistryReplication</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryReplicationOperatorSpec">
+RegistryReplicationOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a containerregistry.azure.com/Registry resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>regionEndpointEnabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>RegionEndpointEnabled: Specifies whether the replication&rsquo;s regional endpoint is enabled. Requests will not be routed to
+a replication whose regional endpoint is disabled, however its data will continue to be synced with other replications.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: The tags of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>zoneRedundancy</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.ReplicationProperties_ZoneRedundancy">
+ReplicationProperties_ZoneRedundancy
+</a>
+</em>
+</td>
+<td>
+<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry replication</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.Registry_STATUS">Registry_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry">Registry</a>)
+</p>
+<div>
+<p>An object that represents a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>adminUserEnabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>AdminUserEnabled: The value that indicates whether the admin user is enabled.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>creationDate</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreationDate: The creation date of the container registry in ISO8601 format.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dataEndpointEnabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>DataEndpointEnabled: Enable a single data endpoint per region for serving data.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dataEndpointHostNames</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>DataEndpointHostNames: List of host names that will serve data when dataEndpointEnabled is true.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>encryption</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.EncryptionProperty_STATUS">
+EncryptionProperty_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Encryption: The encryption settings of container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: The resource ID.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>identity</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.IdentityProperties_STATUS">
+IdentityProperties_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Identity: The identity of the container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>loginServer</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LoginServer: The URL that can be used to log into the container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>networkRuleBypassOptions</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryProperties_NetworkRuleBypassOptions_STATUS">
+RegistryProperties_NetworkRuleBypassOptions_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>networkRuleSet</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.NetworkRuleSet_STATUS">
+NetworkRuleSet_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>NetworkRuleSet: The network rule set for a container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>policies</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.Policies_STATUS">
+Policies_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Policies: The policies for a container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>privateEndpointConnections</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.PrivateEndpointConnection_STATUS">
+[]PrivateEndpointConnection_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>PrivateEndpointConnections: List of private endpoint connections for a container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryProperties_ProvisioningState_STATUS">
+RegistryProperties_ProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The provisioning state of the container registry at the time the operation was called.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>publicNetworkAccess</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryProperties_PublicNetworkAccess_STATUS">
+RegistryProperties_PublicNetworkAccess_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>PublicNetworkAccess: Whether or not public network access is allowed for the container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sku</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.Sku_STATUS">
+Sku_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Sku: The SKU of the container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.Status_STATUS">
+Status_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Status: The status of the container registry at the time the operation was called.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: The tags of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>zoneRedundancy</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryProperties_ZoneRedundancy_STATUS">
+RegistryProperties_ZoneRedundancy_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.Registry_Spec">Registry_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry">Registry</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>adminUserEnabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>AdminUserEnabled: The value that indicates whether the admin user is enabled.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dataEndpointEnabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>DataEndpointEnabled: Enable a single data endpoint per region for serving data.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>encryption</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.EncryptionProperty">
+EncryptionProperty
+</a>
+</em>
+</td>
+<td>
+<p>Encryption: The encryption settings of container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>identity</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.IdentityProperties">
+IdentityProperties
+</a>
+</em>
+</td>
+<td>
+<p>Identity: The identity of the container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>networkRuleBypassOptions</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryProperties_NetworkRuleBypassOptions">
+RegistryProperties_NetworkRuleBypassOptions
+</a>
+</em>
+</td>
+<td>
+<p>NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>networkRuleSet</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.NetworkRuleSet">
+NetworkRuleSet
+</a>
+</em>
+</td>
+<td>
+<p>NetworkRuleSet: The network rule set for a container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryOperatorSpec">
+RegistryOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>policies</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.Policies">
+Policies
+</a>
+</em>
+</td>
+<td>
+<p>Policies: The policies for a container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>publicNetworkAccess</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryProperties_PublicNetworkAccess">
+RegistryProperties_PublicNetworkAccess
+</a>
+</em>
+</td>
+<td>
+<p>PublicNetworkAccess: Whether or not public network access is allowed for the container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sku</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.Sku">
+Sku
+</a>
+</em>
+</td>
+<td>
+<p>Sku: The SKU of the container registry.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: The tags of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>zoneRedundancy</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RegistryProperties_ZoneRedundancy">
+RegistryProperties_ZoneRedundancy
+</a>
+</em>
+</td>
+<td>
+<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.ReplicationProperties_ProvisioningState_STATUS">ReplicationProperties_ProvisioningState_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.RegistryReplication_STATUS">RegistryReplication_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.ReplicationProperties_ZoneRedundancy">ReplicationProperties_ZoneRedundancy
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.RegistryReplication_Spec">RegistryReplication_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.ReplicationProperties_ZoneRedundancy_STATUS">ReplicationProperties_ZoneRedundancy_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.RegistryReplication_STATUS">RegistryReplication_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RetentionPolicy">RetentionPolicy
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Policies">Policies</a>)
+</p>
+<div>
+<p>The retention policy for a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>days</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>Days: The number of days to retain an untagged manifest after which it gets purged.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RetentionPolicy_Status">
+RetentionPolicy_Status
+</a>
+</em>
+</td>
+<td>
+<p>Status: The value that indicates whether the policy is enabled or not.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RetentionPolicy_STATUS">RetentionPolicy_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Policies_STATUS">Policies_STATUS</a>)
+</p>
+<div>
+<p>The retention policy for a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>days</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>Days: The number of days to retain an untagged manifest after which it gets purged.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastUpdatedTime</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastUpdatedTime: The timestamp when the policy was last updated.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.RetentionPolicy_Status_STATUS">
+RetentionPolicy_Status_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Status: The value that indicates whether the policy is enabled or not.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RetentionPolicy_Status">RetentionPolicy_Status
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.RetentionPolicy">RetentionPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.RetentionPolicy_Status_STATUS">RetentionPolicy_Status_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.RetentionPolicy_STATUS">RetentionPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.Sku">Sku
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_Spec">Registry_Spec</a>)
+</p>
+<div>
+<p>The SKU of a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.Sku_Name">
+Sku_Name
+</a>
+</em>
+</td>
+<td>
+<p>Name: The SKU name of the container registry. Required for registry creation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.Sku_Name">Sku_Name
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Sku">Sku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Classic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.Sku_Name_STATUS">Sku_Name_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Sku_STATUS">Sku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Classic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.Sku_STATUS">Sku_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+<p>The SKU of a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.Sku_Name_STATUS">
+Sku_Name_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Name: The SKU name of the container registry. Required for registry creation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tier</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.Sku_Tier_STATUS">
+Sku_Tier_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Tier: The SKU tier based on the SKU name.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.Sku_Tier_STATUS">Sku_Tier_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Sku_STATUS">Sku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Classic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.Status_STATUS">Status_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.RegistryReplication_STATUS">RegistryReplication_STATUS</a>, <a href="#containerregistry.azure.com/v1api20230701.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+<p>The status of an Azure resource at the time the operation was called.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>displayStatus</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayStatus: The short label for the status.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>message</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Message: The detailed message for the status, including alerts and error messages.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>timestamp</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Timestamp: The timestamp when the status was changed to the current value.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.SystemData_STATUS">SystemData_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.RegistryReplication_STATUS">RegistryReplication_STATUS</a>, <a href="#containerregistry.azure.com/v1api20230701.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+<p>Metadata pertaining to creation and last modification of the resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>createdAt</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedAt: The timestamp of resource creation (UTC).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedBy: The identity that created the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdByType</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.SystemData_CreatedByType_STATUS">
+SystemData_CreatedByType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>CreatedByType: The type of identity that created the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedAt</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastModifiedAt: The timestamp of resource modification (UTC).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastModifiedBy: The identity that last modified the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedByType</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.SystemData_LastModifiedByType_STATUS">
+SystemData_LastModifiedByType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>LastModifiedByType: The type of identity that last modified the resource.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.TrustPolicy">TrustPolicy
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Policies">Policies</a>)
+</p>
+<div>
+<p>The content trust policy for a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.TrustPolicy_Status">
+TrustPolicy_Status
+</a>
+</em>
+</td>
+<td>
+<p>Status: The value that indicates whether the policy is enabled or not.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.TrustPolicy_Type">
+TrustPolicy_Type
+</a>
+</em>
+</td>
+<td>
+<p>Type: The type of trust policy.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.TrustPolicy_STATUS">TrustPolicy_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.Policies_STATUS">Policies_STATUS</a>)
+</p>
+<div>
+<p>The content trust policy for a container registry.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.TrustPolicy_Status_STATUS">
+TrustPolicy_Status_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Status: The value that indicates whether the policy is enabled or not.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#containerregistry.azure.com/v1api20230701.TrustPolicy_Type_STATUS">
+TrustPolicy_Type_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Type: The type of trust policy.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.TrustPolicy_Status">TrustPolicy_Status
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.TrustPolicy">TrustPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.TrustPolicy_Status_STATUS">TrustPolicy_Status_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.TrustPolicy_STATUS">TrustPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.TrustPolicy_Type">TrustPolicy_Type
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.TrustPolicy">TrustPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Notary&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.TrustPolicy_Type_STATUS">TrustPolicy_Type_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.TrustPolicy_STATUS">TrustPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Notary&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.UserAssignedIdentityDetails">UserAssignedIdentityDetails
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.IdentityProperties">IdentityProperties</a>)
+</p>
+<div>
+<p>Information about the user assigned identity for the resource</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>reference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20230701.UserIdentityProperties_STATUS">UserIdentityProperties_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20230701.IdentityProperties_STATUS">IdentityProperties_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>clientId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ClientId: The client id of user assigned identity.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>principalId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>PrincipalId: The principal id of user assigned identity.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<hr/>
 
 	
 </div>

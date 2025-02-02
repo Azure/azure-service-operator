@@ -224,6 +224,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerregistry/v1api20210901/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerregistry/v1api20230701/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20210501/</loc>
