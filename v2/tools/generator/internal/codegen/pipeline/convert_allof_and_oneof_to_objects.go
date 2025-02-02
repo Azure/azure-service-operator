@@ -467,6 +467,7 @@ func init() {
 	i.AddUnordered(synthesizer.handleAnyType)
 	i.AddUnordered(synthesizer.handleAllOfType)
 	i.AddUnordered(synthesizer.handleTypeName)
+	i.AddUnordered(synthesizer.handleLeafOneOfWithObject)
 	i.AddUnordered(synthesizer.handleOneOf)
 	i.AddUnordered(synthesizer.handleARMIDAndString)
 	i.AddUnordered(synthesizer.handleFlaggedType)
@@ -696,6 +697,22 @@ func (s synthesizer) handleAllOfType(leftAllOf *astmodel.AllOfType, right astmod
 	}
 
 	return s.intersectTypes(result, right)
+}
+
+func (s synthesizer) handleLeafOneOfWithObject(
+	leaf *astmodel.OneOfType,
+	object *astmodel.ObjectType,
+) (astmodel.Type, error) {
+	if !leaf.HasDiscriminatorValue() {
+		// Not a leaf
+		return nil, nil
+	}
+
+	// We have a leaf with a discriminator value, so we need to merge the object into the leaf
+	result := leaf.WithAdditionalPropertyObject(object)
+
+	// Still have a OneOf, need to reprocess it
+	return s.oneOfToObject(result)
 }
 
 // if combining a type with a oneOf that contains that type, the result is that type
