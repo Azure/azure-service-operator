@@ -206,41 +206,8 @@ func createAzureNameFunctionHandlersForType(
 			setNameFunction: setStringAzureNameFunction,
 		}, nil
 
-	case astmodel.TypeName:
-		// resolve property type if it is a typename
-		resolvedPropType, err := definitions.FullyResolve(azureNamePropType)
-		if err != nil {
-			return createAzureNameFunctionsForTypeResult{},
-				eris.Wrapf(err, "unable to resolve type of resource Name property: %s", azureNamePropType.String())
-		}
-
-		if t, ok := resolvedPropType.(*astmodel.EnumType); ok {
-			if !astmodel.TypeEquals(t.BaseType(), astmodel.StringType) {
-				return createAzureNameFunctionsForTypeResult{},
-					eris.Errorf("unable to handle non-string enum base type in Name property")
-			}
-
-			options := t.Options()
-			if len(options) == 1 {
-				// if there is only one possible value,
-				// we make an AzureName function that returns it, and do not
-				// provide an AzureName property on the spec
-				return createAzureNameFunctionsForTypeResult{
-					getNameFunction:         fixedValueGetAzureNameFunction(options[0].Value),
-					removeAzureNameProperty: true,
-				}, nil
-			}
-
-			// with multiple values, provide an AzureName function that casts from the
-			// enum-valued AzureName property:
-			return createAzureNameFunctionsForTypeResult{
-				getNameFunction: getEnumAzureNameFunction(azureNamePropType),
-				setNameFunction: setEnumAzureNameFunction(azureNamePropType),
-			}, nil
-		}
-
-		return createAzureNameFunctionsForTypeResult{},
-			eris.Errorf("unable to produce AzureName()/SetAzureName() for Name property with type %s", resolvedPropType.String())
+	case astmodel.InternalTypeName:
+		return createAzureNameFunctionHandlersForInternalTypeName(azureNamePropType, definitions)
 
 	case *astmodel.PrimitiveType:
 		return createAzureNameFunctionHandlersForPrimitiveType(azureNamePropType)
@@ -249,6 +216,46 @@ func createAzureNameFunctionHandlersForType(
 		return createAzureNameFunctionsForTypeResult{},
 			eris.Errorf("unsupported type for AzureName property: %s", azureNamePropType.String())
 	}
+}
+
+func createAzureNameFunctionHandlersForInternalTypeName(
+	name astmodel.InternalTypeName,
+	definitions astmodel.TypeDefinitionSet,
+) (createAzureNameFunctionsForTypeResult, error) {
+	// resolve underlying property type
+	resolvedPropType, err := definitions.FullyResolve(name)
+	if err != nil {
+		return createAzureNameFunctionsForTypeResult{},
+			eris.Wrapf(err, "unable to resolve type of resource Name property: %s", name.String())
+	}
+
+	if e, ok := astmodel.AsEnumType(resolvedPropType); ok {
+		if !astmodel.TypeEquals(e.BaseType(), astmodel.StringType) {
+			return createAzureNameFunctionsForTypeResult{},
+				eris.Errorf("unable to handle non-string enum base type in Name property")
+		}
+
+		options := e.Options()
+		if len(options) == 1 {
+			// if there is only one possible value,
+			// we make an AzureName function that returns it, and do not
+			// provide an AzureName property on the spec
+			return createAzureNameFunctionsForTypeResult{
+				getNameFunction:         fixedValueGetAzureNameFunction(options[0].Value),
+				removeAzureNameProperty: true,
+			}, nil
+		}
+
+		// with multiple values, provide an AzureName function that casts from the
+		// enum-valued AzureName property:
+		return createAzureNameFunctionsForTypeResult{
+			getNameFunction: getEnumAzureNameFunction(name),
+			setNameFunction: setEnumAzureNameFunction(name),
+		}, nil
+	}
+
+	return createAzureNameFunctionsForTypeResult{},
+		eris.Errorf("unable to produce AzureName()/SetAzureName() for Name property with type %s", resolvedPropType.String())
 }
 
 func createAzureNameFunctionHandlersForPrimitiveType(
