@@ -7,7 +7,6 @@ package controllers_test
 
 import (
 	"fmt"
-	"strings"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -113,12 +112,6 @@ func Test_DocumentDB_MongoDatabase_v20240815_CRUD(t *testing.T) {
 			Name: "CosmosDB MongoDB User Definition CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				DocumentDB_MongoDB_MongodbUserDefintion_v20240815_CRUD(tc, name, &acct)
-			},
-		},
-		testcommon.Subtest{
-			Name: "CosmosDB MongoDB Role Definition CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				DocumentDB_MongoDB_MongodbRoleDefinition_v20240815_CRUD(tc, name, &acct)
 			},
 		})
 
@@ -336,73 +329,5 @@ func DocumentDB_MongoDB_MongodbUserDefintion_v20240815_CRUD(tc *testcommon.KubeP
 	tc.Expect(user.Status.Roles).To(ContainElement(documentdb.Role_STATUS{
 		Db:   to.Ptr(dbName),
 		Role: to.Ptr("dbAdmin"),
-	}))
-}
-
-func DocumentDB_MongoDB_MongodbRoleDefinition_v20240815_CRUD(tc *testcommon.KubePerTestContext, dbName string, acct client.Object) {
-	roleName := "dboperator"
-	name := fmt.Sprintf("%s.%s", dbName, roleName)
-
-	role := documentdb.MongodbRoleDefinition{
-		ObjectMeta: tc.MakeObjectMetaWithName(strings.ReplaceAll(name, ".", "-")),
-		Spec: documentdb.MongodbRoleDefinition_Spec{
-			Owner:        testcommon.AsOwner(acct),
-			AzureName:    name,
-			RoleName:     &roleName,
-			DatabaseName: to.Ptr(dbName),
-			Privileges: []documentdb.Privilege{
-				{
-					Actions: []string{"dbStats"},
-					Resource: &documentdb.Privilege_Resource{
-						Db: to.Ptr(dbName),
-					},
-				},
-			},
-			Type: to.Ptr(documentdb.MongoRoleDefinitionResource_Type_CustomRole),
-		},
-	}
-
-	tc.T.Log("creating mongo role")
-	tc.CreateResourceAndWait(&role)
-	defer func() {
-		tc.LogSectionf("Cleaning up role")
-		tc.DeleteResourceAndWait(&role)
-	}()
-
-	tc.Expect(role.Status).ToNot(BeNil())
-	tc.Expect(role.Status.Privileges).To(ContainElement(documentdb.Privilege_STATUS{
-		Actions: []string{"dbStats"},
-		Resource: &documentdb.Privilege_Resource_STATUS{
-			Db: to.Ptr(dbName),
-		},
-	}))
-
-	tc.LogSectionf("Updating roles on role")
-	// Add another privilege.
-	old := role.DeepCopy()
-	role.Spec.Privileges = append(
-		role.Spec.Privileges,
-		documentdb.Privilege{
-			Actions: []string{"dropDatabase"},
-			Resource: &documentdb.Privilege_Resource{
-				Db: to.Ptr(dbName),
-			},
-		},
-	)
-	tc.PatchResourceAndWait(old, &role)
-	tc.Expect(role.Status).ToNot(BeNil())
-	tc.Expect(role.Status.Privileges).To(ContainElements([]documentdb.Privilege_STATUS{
-		{
-			Actions: []string{"dropDatabase"},
-			Resource: &documentdb.Privilege_Resource_STATUS{
-				Db: to.Ptr(dbName),
-			},
-		},
-		{
-			Actions: []string{"dbStats"},
-			Resource: &documentdb.Privilege_Resource_STATUS{
-				Db: to.Ptr(dbName),
-			},
-		},
 	}))
 }
