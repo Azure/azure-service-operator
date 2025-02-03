@@ -175,36 +175,7 @@ func createAzureNameFunctionHandlersForType(
 	// handle different definitions of AzureName property
 	switch azureNamePropType := t.(type) {
 	case *astmodel.ValidatedType:
-		if !astmodel.TypeEquals(azureNamePropType.ElementType(), astmodel.StringType) {
-			return createAzureNameFunctionsForTypeResult{},
-				eris.Errorf("unable to handle non-string validated definitions in AzureName property")
-		}
-
-		validations := azureNamePropType.Validations().(astmodel.StringValidations)
-		if len(validations.Patterns) != 0 {
-			if len(validations.Patterns) == 1 &&
-				validations.Patterns[0].String() == "^.*/default$" {
-				// Validation requires the resource be named exactly "default"
-				return createAzureNameFunctionsForTypeResult{
-					getNameFunction:         fixedValueGetAzureNameFunction("default"),
-					removeAzureNameProperty: true,
-				}, nil
-			}
-
-			// ignoring for now:
-			log.V(1).Info("ignoring pattern validation on Name property", "pattern", validations.Patterns[0].String())
-			return createAzureNameFunctionsForTypeResult{
-				getNameFunction: getStringAzureNameFunction,
-				setNameFunction: setStringAzureNameFunction,
-			}, nil
-		}
-
-		// ignoring length validations for now
-		// return nil, errors.Errorf("unable to handle validations on Name property …TODO")
-		return createAzureNameFunctionsForTypeResult{
-			getNameFunction: getStringAzureNameFunction,
-			setNameFunction: setStringAzureNameFunction,
-		}, nil
+		return createAzureNameFunctionHandlersForValidatedType(*azureNamePropType, log)
 
 	case astmodel.InternalTypeName:
 		return createAzureNameFunctionHandlersForInternalTypeName(azureNamePropType, definitions)
@@ -216,6 +187,41 @@ func createAzureNameFunctionHandlersForType(
 		return createAzureNameFunctionsForTypeResult{},
 			eris.Errorf("unsupported type for AzureName property: %s", azureNamePropType.String())
 	}
+}
+
+func createAzureNameFunctionHandlersForValidatedType(
+	vt astmodel.ValidatedType,
+	log logr.Logger,
+) (createAzureNameFunctionsForTypeResult, error) {
+	if !astmodel.TypeEquals(vt.ElementType(), astmodel.StringType) {
+		return createAzureNameFunctionsForTypeResult{},
+			eris.Errorf("unable to handle non-string validated definitions in AzureName property")
+	}
+
+	validations := vt.Validations().(astmodel.StringValidations)
+	if len(validations.Patterns) != 0 {
+		if len(validations.Patterns) == 1 &&
+			validations.Patterns[0].String() == "^.*/default$" {
+			// Validation requires the resource be named exactly "default"
+			return createAzureNameFunctionsForTypeResult{
+				getNameFunction:         fixedValueGetAzureNameFunction("default"),
+				removeAzureNameProperty: true,
+			}, nil
+		}
+
+		// ignoring for now:
+		log.V(1).Info("ignoring pattern validation on Name property", "pattern", validations.Patterns[0].String())
+		return createAzureNameFunctionsForTypeResult{
+			getNameFunction: getStringAzureNameFunction,
+			setNameFunction: setStringAzureNameFunction,
+		}, nil
+	}
+
+	// ignoring length validations for now
+	return createAzureNameFunctionsForTypeResult{
+		getNameFunction: getStringAzureNameFunction,
+		setNameFunction: setStringAzureNameFunction,
+	}, nil
 }
 
 func createAzureNameFunctionHandlersForInternalTypeName(

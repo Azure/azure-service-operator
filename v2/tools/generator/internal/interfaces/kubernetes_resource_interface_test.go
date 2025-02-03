@@ -6,13 +6,74 @@
 package interfaces
 
 import (
+	"regexp"
 	"testing"
 
+	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
+
+func Test_createAzureNameFunctionHandlersForValidatedType_givenValidatedType_returnsExpectedResult(t *testing.T) {
+	t.Parallel()
+
+	validatedInt := astmodel.NewValidatedType(
+		astmodel.IntType,
+		astmodel.NumberValidations{})
+
+	defaultString := astmodel.NewValidatedType(
+		astmodel.StringType,
+		astmodel.StringValidations{
+			Patterns: []*regexp.Regexp{
+				regexp.MustCompile("^.*/default$"),
+			},
+		})
+
+	identifierString := astmodel.NewValidatedType(
+		astmodel.StringType,
+		astmodel.StringValidations{
+			Patterns: []*regexp.Regexp{
+				regexp.MustCompile("^[a-zA-Z_][a-zA-Z0-9_]*$"),
+			},
+		})
+
+	cases := map[string]struct {
+		validatedType           *astmodel.ValidatedType
+		expectedErrorSubstrings []string
+	}{
+		"validated int is not accepted": {
+			validatedType: validatedInt,
+			expectedErrorSubstrings: []string{
+				"unable to handle non-string validated definitions",
+			},
+		},
+		"default string works": {
+			validatedType: defaultString,
+		},
+		"identifier string works": {
+			validatedType: identifierString,
+		},
+	}
+
+	for n, c := range cases {
+		t.Run(n, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			_, err := createAzureNameFunctionHandlersForValidatedType(*c.validatedType, logr.Discard())
+			if len(c.expectedErrorSubstrings) == 0 {
+				g.Expect(err).To(BeNil())
+			} else {
+				g.Expect(err).To(HaveOccurred())
+				for _, substr := range c.expectedErrorSubstrings {
+					g.Expect(err).To(MatchError(ContainSubstring(substr)))
+				}
+			}
+		})
+	}
+}
 
 func Test_createAzureNameFunctionHandlersForInternalTypeName_givenInternalTypeName_returnsExpectedResult(t *testing.T) {
 	t.Parallel()
