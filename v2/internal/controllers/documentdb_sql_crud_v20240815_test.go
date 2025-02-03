@@ -404,11 +404,15 @@ func CosmosDB_SQL_RoleAssignment_v20240815_CRUD(tc *testcommon.KubePerTestContex
 		rg.AzureName(),
 		acct.AzureName())
 
+	// AzureName is required and it has to be a GUID
+	azureName := "00000000-0000-0000-0000-000000000000"
+
 	// Declare a role assignment
 	roleAssignment := &documentdb.SqlRoleAssignment{
 		ObjectMeta: tc.MakeObjectMeta("roleassignment"),
 		Spec: documentdb.SqlRoleAssignment_Spec{
-			Owner: testcommon.AsOwner(acct),
+			AzureName: azureName,
+			Owner:     testcommon.AsOwner(acct),
 			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
 				Name: configMapName,
 				Key:  principalIdKey,
