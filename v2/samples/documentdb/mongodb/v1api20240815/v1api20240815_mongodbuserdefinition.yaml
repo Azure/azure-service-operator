@@ -5,14 +5,14 @@ metadata:
   namespace: default
 spec:
   userName: sample-mongodb-user
-  databaseName: sample-mongodb-database
-  azureName: sample-mongodb-database.sample-mongodb-user
+  databaseName: sample-mongodb
+  azureName: sample-mongodb.sample-mongodb-user
+  mechanisms: SCRAM-SHA-256
   owner:
-    name: sample-mongodb
+    name: aso-mongodb-acc
   password: # This is the name/key of a Kubernetes secret in the same namespace
     name: server-admin-pw
     key: password
   roles:
     - role: readWrite
-      databaseName: sample-mongodb-database
-  mechanisms: SCRAM-SHA-256
+      databaseName: sample-mongodb
