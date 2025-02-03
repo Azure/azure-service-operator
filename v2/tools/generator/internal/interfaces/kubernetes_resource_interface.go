@@ -157,6 +157,12 @@ func AddKubernetesResourceInterfaceImpls(
 	return result, nil
 }
 
+type createAzureNameFunctionsForTypeResult struct {
+	getNameFunction         functions.ObjectFunctionHandler
+	setNameFunction         functions.ObjectFunctionHandler
+	removeAzureNameProperty bool
+}
+
 func createAzureNameFunctionHandlersForType(
 	t astmodel.Type,
 	definitions astmodel.TypeDefinitionSet,
@@ -237,15 +243,7 @@ func createAzureNameFunctionHandlersForType(
 			eris.Errorf("unable to produce AzureName()/SetAzureName() for Name property with type %s", resolvedPropType.String())
 
 	case *astmodel.PrimitiveType:
-		if !astmodel.TypeEquals(azureNamePropType, astmodel.StringType) {
-			return createAzureNameFunctionsForTypeResult{},
-				eris.Errorf("cannot use type %s as type of AzureName property", azureNamePropType.String())
-		}
-
-		return createAzureNameFunctionsForTypeResult{
-			getNameFunction: getStringAzureNameFunction,
-			setNameFunction: setStringAzureNameFunction,
-		}, nil
+		return createAzureNameFunctionHandlersForPrimitiveType(azureNamePropType)
 
 	default:
 		return createAzureNameFunctionsForTypeResult{},
@@ -253,10 +251,18 @@ func createAzureNameFunctionHandlersForType(
 	}
 }
 
-type createAzureNameFunctionsForTypeResult struct {
-	getNameFunction         functions.ObjectFunctionHandler
-	setNameFunction         functions.ObjectFunctionHandler
-	removeAzureNameProperty bool
+func createAzureNameFunctionHandlersForPrimitiveType(
+	t *astmodel.PrimitiveType,
+) (createAzureNameFunctionsForTypeResult, error) {
+	if !astmodel.TypeEquals(t, astmodel.StringType) {
+		return createAzureNameFunctionsForTypeResult{},
+			eris.Errorf("cannot use type %s as type of AzureName property", t.String())
+	}
+
+	return createAzureNameFunctionsForTypeResult{
+		getNameFunction: getStringAzureNameFunction,
+		setNameFunction: setStringAzureNameFunction,
+	}, nil
 }
 
 // getEnumAzureNameFunction adds an AzureName() function that casts the AzureName property
