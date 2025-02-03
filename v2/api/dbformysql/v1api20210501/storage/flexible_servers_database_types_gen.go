@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
 	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &FlexibleServersDatabase{}
 
 // ConvertFrom populates our FlexibleServersDatabase from the provided hub FlexibleServersDatabase
 func (database *FlexibleServersDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20230630s.FlexibleServersDatabase)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1api20230630/storage/FlexibleServersDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20230630s.FlexibleServersDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignProperties_From_FlexibleServersDatabase(source)
+	err = database.AssignProperties_From_FlexibleServersDatabase(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersDatabase from our FlexibleServersDatabase
 func (database *FlexibleServersDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20230630s.FlexibleServersDatabase)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1api20230630/storage/FlexibleServersDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20230630s.FlexibleServersDatabase
+	err := database.AssignProperties_To_FlexibleServersDatabase(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignProperties_To_FlexibleServersDatabase(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FlexibleServersDatabase{}

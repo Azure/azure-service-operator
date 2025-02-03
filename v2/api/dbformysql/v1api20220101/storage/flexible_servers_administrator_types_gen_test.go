@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
+	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
+	v20231230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForFlexibleServersAdministrator(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.FlexibleServersAdministrator
+	var hub v20231230s.FlexibleServersAdministrator
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForFlexibleServersAdministrator(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersAdministrator
+	var other v20230630s.FlexibleServersAdministrator
 	err := copied.AssignProperties_To_FlexibleServersAdministrator(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForFlexibleServersAdministratorOperatorSpec(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersAdministratorOperatorSpec
+	var other v20230630s.FlexibleServersAdministratorOperatorSpec
 	err := copied.AssignProperties_To_FlexibleServersAdministratorOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForFlexibleServersAdministrator_STATUS(subject Fle
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersAdministrator_STATUS
+	var other v20230630s.FlexibleServersAdministrator_STATUS
 	err := copied.AssignProperties_To_FlexibleServersAdministrator_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -403,7 +404,7 @@ func RunPropertyAssignmentTestForFlexibleServersAdministrator_Spec(subject Flexi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FlexibleServersAdministrator_Spec
+	var other v20230630s.FlexibleServersAdministrator_Spec
 	err := copied.AssignProperties_To_FlexibleServersAdministrator_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -524,7 +525,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
+	var other v20230630s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
