@@ -528,51 +528,6 @@ MongodbDatabaseThroughputSetting: Resource
     │   └── Ts: *float64
     ├── Tags: map[string]string
     └── Type: *string
-MongodbRoleDefinition: Resource
-├── Owner: documentdb/v1api20240815.DatabaseAccount
-├── Spec: Object (10 properties)
-│   ├── AzureName: string
-│   ├── DatabaseName: *string
-│   ├── OperatorSpec: *Object (3 properties)
-│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── SecretExpressions: *core.DestinationExpression[]
-│   ├── OriginalVersion: string
-│   ├── Owner: *genruntime.KnownResourceReference
-│   ├── Privileges: Object (3 properties)[]
-│   │   ├── Actions: string[]
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Resource: *Object (3 properties)
-│   │       ├── Collection: *string
-│   │       ├── Db: *string
-│   │       └── PropertyBag: genruntime.PropertyBag
-│   ├── PropertyBag: genruntime.PropertyBag
-│   ├── RoleName: *string
-│   ├── Roles: Object (3 properties)[]
-│   │   ├── Db: *string
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Role: *string
-│   └── Type: *string
-└── Status: Object (10 properties)
-    ├── Conditions: conditions.Condition[]
-    ├── DatabaseName: *string
-    ├── Id: *string
-    ├── Name: *string
-    ├── Privileges: Object (3 properties)[]
-    │   ├── Actions: string[]
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── Resource: *Object (3 properties)
-    │       ├── Collection: *string
-    │       ├── Db: *string
-    │       └── PropertyBag: genruntime.PropertyBag
-    ├── PropertiesType: *string
-    ├── PropertyBag: genruntime.PropertyBag
-    ├── RoleName: *string
-    ├── Roles: Object (3 properties)[]
-    │   ├── Db: *string
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── Role: *string
-    └── Type: *string
 MongodbUserDefinition: Resource
 ├── Owner: documentdb/v1api20240815.DatabaseAccount
 ├── Spec: Object (11 properties)

@@ -507,40 +507,6 @@ MongodbDatabase_Spec: Object (4 properties)
 │           ├── RestoreTimestampInUtc: *string
 │           └── RestoreWithTtlDisabled: *bool
 └── Tags: map[string]string
-MongodbRoleDefinition_STATUS: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (5 properties)
-│   ├── DatabaseName: *string
-│   ├── Privileges: Object (2 properties)[]
-│   │   ├── Actions: string[]
-│   │   └── Resource: *Object (2 properties)
-│   │       ├── Collection: *string
-│   │       └── Db: *string
-│   ├── RoleName: *string
-│   ├── Roles: Object (2 properties)[]
-│   │   ├── Db: *string
-│   │   └── Role: *string
-│   └── Type: *Enum (2 values)
-│       ├── "BuiltInRole"
-│       └── "CustomRole"
-└── Type: *string
-MongodbRoleDefinition_Spec: Object (2 properties)
-├── Name: string
-└── Properties: *Object (5 properties)
-    ├── DatabaseName: *string
-    ├── Privileges: Object (2 properties)[]
-    │   ├── Actions: string[]
-    │   └── Resource: *Object (2 properties)
-    │       ├── Collection: *string
-    │       └── Db: *string
-    ├── RoleName: *string
-    ├── Roles: Object (2 properties)[]
-    │   ├── Db: *string
-    │   └── Role: *string
-    └── Type: *Enum (2 values)
-        ├── "BuiltInRole"
-        └── "CustomRole"
 MongodbUserDefinition_STATUS: Object (4 properties)
 ├── Id: *string
 ├── Name: *string

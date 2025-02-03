@@ -249,6 +249,22 @@ type MongodbUserDefinitionOperatorSpec struct {
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
+// Storage version of v1api20240815.Role
+// The set of roles permitted through this Role Definition.
+type Role struct {
+	Db          *string                `json:"db,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Role        *string                `json:"role,omitempty"`
+}
+
+// Storage version of v1api20240815.Role_STATUS
+// The set of roles permitted through this Role Definition.
+type Role_STATUS struct {
+	Db          *string                `json:"db,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Role        *string                `json:"role,omitempty"`
+}
+
 func init() {
 	SchemeBuilder.Register(&MongodbUserDefinition{}, &MongodbUserDefinitionList{})
 }

@@ -552,45 +552,6 @@ MongodbDatabaseThroughputSetting: Resource
     │   └── Ts: *float64
     ├── Tags: map[string]string
     └── Type: *string
-MongodbRoleDefinition: Resource
-├── Owner: DatabaseAccount
-├── Spec: Object (8 properties)
-│   ├── AzureName: string
-│   ├── DatabaseName: *string
-│   ├── OperatorSpec: *Object (2 properties)
-│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   └── SecretExpressions: *core.DestinationExpression[]
-│   ├── Owner: *genruntime.KnownResourceReference
-│   ├── Privileges: Object (2 properties)[]
-│   │   ├── Actions: string[]
-│   │   └── Resource: *Object (2 properties)
-│   │       ├── Collection: *string
-│   │       └── Db: *string
-│   ├── RoleName: *string
-│   ├── Roles: Object (2 properties)[]
-│   │   ├── Db: *string
-│   │   └── Role: *string
-│   └── Type: *Enum (2 values)
-│       ├── "BuiltInRole"
-│       └── "CustomRole"
-└── Status: Object (9 properties)
-    ├── Conditions: conditions.Condition[]
-    ├── DatabaseName: *string
-    ├── Id: *string
-    ├── Name: *string
-    ├── Privileges: Object (2 properties)[]
-    │   ├── Actions: string[]
-    │   └── Resource: *Object (2 properties)
-    │       ├── Collection: *string
-    │       └── Db: *string
-    ├── PropertiesType: *Enum (2 values)
-    │   ├── "BuiltInRole"
-    │   └── "CustomRole"
-    ├── RoleName: *string
-    ├── Roles: Object (2 properties)[]
-    │   ├── Db: *string
-    │   └── Role: *string
-    └── Type: *string
 MongodbUserDefinition: Resource
 ├── Owner: DatabaseAccount
 ├── Spec: Object (9 properties)
