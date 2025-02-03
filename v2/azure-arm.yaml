@@ -2484,9 +2484,6 @@ objectModelConfiguration:
       DatabaseAccounts_MongodbUserDefinition:
         $exportAs: MongodbUserDefinition
         $supportedFrom: v2.12.0
-      DatabaseAccounts_MongodbRoleDefinition:
-        $exportAs: MongodbRoleDefinition
-        $supportedFrom: v2.12.0
       MongoDBCollectionResource:
         Id:
           $armReference: false
