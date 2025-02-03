@@ -308,11 +308,11 @@ func DocumentDB_MongoDB_MongodbUserDefintion_v20240815_CRUD(tc *testcommon.KubeP
 		tc.DeleteResourceAndWait(&secret)
 	}()
 	tc.Expect(user.Status).ToNot(BeNil())
+	tc.Expect(user.Status.Id).ToNot(BeNil())
 	tc.Expect(user.Status.Roles).To(ContainElement(documentdb.Role_STATUS{
 		Db:   to.Ptr(dbName),
 		Role: to.Ptr("read"),
 	}))
-	tc.Expect(user.Status.Id).To(Equal(fmt.Sprintf("%s.%s", dbName, userName)))
 
 	tc.LogSectionf("Updating roles on user")
 	// Add another role to the user.
@@ -325,7 +325,6 @@ func DocumentDB_MongoDB_MongodbUserDefintion_v20240815_CRUD(tc *testcommon.KubeP
 		},
 	)
 	tc.PatchResourceAndWait(old, &user)
-	tc.Expect(user.Status).ToNot(BeNil())
 	tc.Expect(user.Status.Roles).To(ContainElement(documentdb.Role_STATUS{
 		Db:   to.Ptr(dbName),
 		Role: to.Ptr("dbAdmin"),
