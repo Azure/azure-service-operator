@@ -7,7 +7,7 @@ To install the CRDs for these resources, your ASO configuration must include `ca
 
 ### Latest Released Versions
 
-These resource(s) are the latest versions available for use in the current release of ASO.
+These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                       | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                      |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | [Redis](https://azure.github.io/azure-service-operator/reference/cache/v1api20230801/#cache.azure.com/v1api20230801.Redis)                                     | 2023-08-01  | v1api20230801 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20230801/v1api20230801_redis.yaml)                   |
@@ -19,7 +19,7 @@ These resource(s) are the latest versions available for use in the current relea
 
 ### Other Supported Versions
 
-These are older versions of resourced still available for use in the current release of ASO.
+These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                       | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                      |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | [Redis](https://azure.github.io/azure-service-operator/reference/cache/v1api20230401/#cache.azure.com/v1api20230401.Redis)                                     | 2023-04-01  | v1api20230401 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20230401/v1api20230401_redis.yaml)                   |

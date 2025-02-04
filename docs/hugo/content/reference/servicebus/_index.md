@@ -7,7 +7,7 @@ To install the CRDs for these resources, your ASO configuration must include `se
 
 ### Latest Released Versions
 
-These resource(s) are the latest versions available for use in the current release of ASO.
+These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Namespace](https://azure.github.io/azure-service-operator/reference/servicebus/v1api20211101/#servicebus.azure.com/v1api20211101.Namespace)                                                 | 2021-11-01  | v1api20211101 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20211101/v1api20211101_namespace.yaml)                         |
@@ -19,7 +19,7 @@ These resource(s) are the latest versions available for use in the current relea
 
 ### Other Supported Versions
 
-These are older versions of resourced still available for use in the current release of ASO.
+These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                                                                   | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                                   |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Namespace](https://azure.github.io/azure-service-operator/reference/servicebus/v1api20221001preview/#servicebus.azure.com/v1api20221001preview.Namespace)                                                 | 2022-10-01-preview | v1api20221001preview | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20221001preview/v1api20221001preview_namespace.yaml)                         |

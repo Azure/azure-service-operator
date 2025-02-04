@@ -7,7 +7,7 @@ To install the CRDs for these resources, your ASO configuration must include `do
 
 ### Latest Released Versions
 
-These resource(s) are the latest versions available for use in the current release of ASO.
+These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                                                                       | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                                       |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [DatabaseAccount](https://azure.github.io/azure-service-operator/reference/documentdb/v1api20231115/#documentdb.azure.com/v1api20231115.DatabaseAccount)                                                       | 2023-11-15  | v1api20231115 | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20231115/v1api20231115_databaseaccount.yaml)                             |
@@ -26,7 +26,7 @@ These resource(s) are the latest versions available for use in the current relea
 
 ### Other Supported Versions
 
-These are older versions of resourced still available for use in the current release of ASO.
+These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                                                                       | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                                       |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [DatabaseAccount](https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.DatabaseAccount)                                                       | 2021-05-15  | v1api20210515 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20210515/v1api20210515_databaseaccount.yaml)                             |

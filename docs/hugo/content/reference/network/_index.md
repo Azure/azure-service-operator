@@ -7,7 +7,7 @@ To install the CRDs for these resources, your ASO configuration must include `ne
 
 ### Latest Released Versions
 
-These resource(s) are the latest versions available for use in the current release of ASO.
+These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                                                           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                        |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [ApplicationGateway](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.ApplicationGateway)                                           | 2022-07-01  | v1api20220701 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_applicationgateway.yaml)                      |
@@ -63,7 +63,7 @@ These resource(s) are the latest versions available for use in the current relea
 
 ### Other Supported Versions
 
-These are older versions of resourced still available for use in the current release of ASO.
+These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [BastionHost](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.BastionHost)                                                   | 2022-07-01  | v1api20220701 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_bastionhost.yaml)                          |

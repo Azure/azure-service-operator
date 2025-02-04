@@ -7,7 +7,7 @@ To install the CRDs for these resources, your ASO configuration must include `ma
 
 ### Latest Released Versions
 
-These resource(s) are the latest versions available for use in the current release of ASO.
+These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Registry](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1api20240401/#machinelearningservices.azure.com/v1api20240401.Registry)                         | 2024-04-01  | v1api20240401 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api20240401/v1api20240401_registry.yaml)             |
@@ -17,7 +17,7 @@ These resource(s) are the latest versions available for use in the current relea
 
 ### Other Supported Versions
 
-These are older versions of resourced still available for use in the current release of ASO.
+These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Workspace](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1api20210701/#machinelearningservices.azure.com/v1api20210701.Workspace)                       | 2021-07-01  | v1api20210701 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api20210701/v1api20210701_workspace.yaml)            |

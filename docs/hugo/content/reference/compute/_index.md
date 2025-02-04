@@ -7,7 +7,7 @@ To install the CRDs for these resources, your ASO configuration must include `co
 
 ### Latest Released Versions
 
-These resource(s) are the latest versions available for use in the current release of ASO.
+These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                         |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Disk](https://azure.github.io/azure-service-operator/reference/compute/v1api20240302/#compute.azure.com/v1api20240302.Disk)                                                         | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_disk.yaml)                             |
@@ -22,7 +22,7 @@ These resource(s) are the latest versions available for use in the current relea
 
 ### Other Supported Versions
 
-These are older versions of resourced still available for use in the current release of ASO.
+These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                         |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Disk](https://azure.github.io/azure-service-operator/reference/compute/v1api20200930/#compute.azure.com/v1api20200930.Disk)                                                         | 2020-09-30  | v1api20200930 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20200930_disk.yaml)                             |

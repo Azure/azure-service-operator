@@ -7,7 +7,7 @@ To install the CRDs for these resources, your ASO configuration must include `au
 
 ### Latest Released Versions
 
-These resource(s) are the latest versions available for use in the current release of ASO.
+These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                     |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 | [RoleAssignment](https://azure.github.io/azure-service-operator/reference/authorization/v1api20220401/#authorization.azure.com/v1api20220401.RoleAssignment) | 2022-04-01  | v1api20220401 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v1api20220401/v1api20220401_roleassignment.yaml) |
@@ -15,7 +15,7 @@ These resource(s) are the latest versions available for use in the current relea
 
 ### Other Supported Versions
 
-These are older versions of resourced still available for use in the current release of ASO.
+These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                                   | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                   |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [RoleAssignment](https://azure.github.io/azure-service-operator/reference/authorization/v1api20200801preview/#authorization.azure.com/v1api20200801preview.RoleAssignment) | 2020-08-01-preview | v1api20200801preview | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v1api20200801preview/v1api20200801preview_roleassignment.yaml) |
