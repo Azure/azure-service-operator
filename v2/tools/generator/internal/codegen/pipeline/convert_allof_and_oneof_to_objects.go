@@ -8,7 +8,6 @@ package pipeline
 import (
 	"context"
 	"fmt"
-	"golang.org/x/exp/slices"
 	"strings"
 
 	"github.com/rotisserie/eris"

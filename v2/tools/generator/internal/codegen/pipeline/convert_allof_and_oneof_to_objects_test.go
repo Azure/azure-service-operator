@@ -7,7 +7,6 @@ package pipeline
 
 import (
 	"context"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"testing"
 
 	. "github.com/onsi/gomega"
