@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20240815s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForAutoUpgradePolicyResource(subject AutoUpgradePo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoUpgradePolicyResource
+	var other v20231115s.AutoUpgradePolicyResource
 	err := copied.AssignProperties_To_AutoUpgradePolicyResource(&other)
 	if err != nil {
 		return err.Error()
@@ -138,7 +139,7 @@ func RunPropertyAssignmentTestForAutoUpgradePolicyResource_STATUS(subject AutoUp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoUpgradePolicyResource_STATUS
+	var other v20231115s.AutoUpgradePolicyResource_STATUS
 	err := copied.AssignProperties_To_AutoUpgradePolicyResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -241,7 +242,7 @@ func RunPropertyAssignmentTestForAutoscaleSettingsResource(subject AutoscaleSett
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoscaleSettingsResource
+	var other v20231115s.AutoscaleSettingsResource
 	err := copied.AssignProperties_To_AutoscaleSettingsResource(&other)
 	if err != nil {
 		return err.Error()
@@ -358,7 +359,7 @@ func RunPropertyAssignmentTestForAutoscaleSettingsResource_STATUS(subject Autosc
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoscaleSettingsResource_STATUS
+	var other v20231115s.AutoscaleSettingsResource_STATUS
 	err := copied.AssignProperties_To_AutoscaleSettingsResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -477,7 +478,7 @@ func RunResourceConversionTestForMongodbDatabaseCollectionThroughputSetting(subj
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.MongodbDatabaseCollectionThroughputSetting
+	var hub v20240815s.MongodbDatabaseCollectionThroughputSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -519,7 +520,7 @@ func RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MongodbDatabaseCollectionThroughputSetting
+	var other v20231115s.MongodbDatabaseCollectionThroughputSetting
 	err := copied.AssignProperties_To_MongodbDatabaseCollectionThroughputSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -623,7 +624,7 @@ func RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSettingOpera
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MongodbDatabaseCollectionThroughputSettingOperatorSpec
+	var other v20231115s.MongodbDatabaseCollectionThroughputSettingOperatorSpec
 	err := copied.AssignProperties_To_MongodbDatabaseCollectionThroughputSettingOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -720,7 +721,7 @@ func RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MongodbDatabaseCollectionThroughputSetting_STATUS
+	var other v20231115s.MongodbDatabaseCollectionThroughputSetting_STATUS
 	err := copied.AssignProperties_To_MongodbDatabaseCollectionThroughputSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -843,7 +844,7 @@ func RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting_Spec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MongodbDatabaseCollectionThroughputSetting_Spec
+	var other v20231115s.MongodbDatabaseCollectionThroughputSetting_Spec
 	err := copied.AssignProperties_To_MongodbDatabaseCollectionThroughputSetting_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -965,7 +966,7 @@ func RunPropertyAssignmentTestForThroughputPolicyResource(subject ThroughputPoli
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ThroughputPolicyResource
+	var other v20231115s.ThroughputPolicyResource
 	err := copied.AssignProperties_To_ThroughputPolicyResource(&other)
 	if err != nil {
 		return err.Error()
@@ -1069,7 +1070,7 @@ func RunPropertyAssignmentTestForThroughputPolicyResource_STATUS(subject Through
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ThroughputPolicyResource_STATUS
+	var other v20231115s.ThroughputPolicyResource_STATUS
 	err := copied.AssignProperties_To_ThroughputPolicyResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1173,7 +1174,7 @@ func RunPropertyAssignmentTestForThroughputSettingsGetProperties_Resource_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ThroughputSettingsGetProperties_Resource_STATUS
+	var other v20231115s.ThroughputSettingsGetProperties_Resource_STATUS
 	err := copied.AssignProperties_To_ThroughputSettingsGetProperties_Resource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1295,7 +1296,7 @@ func RunPropertyAssignmentTestForThroughputSettingsResource(subject ThroughputSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ThroughputSettingsResource
+	var other v20231115s.ThroughputSettingsResource
 	err := copied.AssignProperties_To_ThroughputSettingsResource(&other)
 	if err != nil {
 		return err.Error()

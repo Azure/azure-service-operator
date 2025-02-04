@@ -6,7 +6,7 @@ package v1api20210515
 import (
 	"encoding/json"
 	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
-	v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20240815s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -900,7 +900,7 @@ func RunResourceConversionTestForMongodbDatabaseCollection(subject MongodbDataba
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20231115s.MongodbDatabaseCollection
+	var hub v20240815s.MongodbDatabaseCollection
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

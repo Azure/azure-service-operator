@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &SqlDatabaseContainer{}
 
 // ConvertFrom populates our SqlDatabaseContainer from the provided hub SqlDatabaseContainer
 func (container *SqlDatabaseContainer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SqlDatabaseContainer)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseContainer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.SqlDatabaseContainer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return container.AssignProperties_From_SqlDatabaseContainer(source)
+	err = container.AssignProperties_From_SqlDatabaseContainer(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to container")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseContainer from our SqlDatabaseContainer
 func (container *SqlDatabaseContainer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SqlDatabaseContainer)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseContainer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.SqlDatabaseContainer
+	err := container.AssignProperties_To_SqlDatabaseContainer(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from container")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return container.AssignProperties_To_SqlDatabaseContainer(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &SqlDatabaseContainer{}

@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &MongodbDatabase{}
 
 // ConvertFrom populates our MongodbDatabase from the provided hub MongodbDatabase
 func (database *MongodbDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.MongodbDatabase)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/MongodbDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.MongodbDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignProperties_From_MongodbDatabase(source)
+	err = database.AssignProperties_From_MongodbDatabase(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub MongodbDatabase from our MongodbDatabase
 func (database *MongodbDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.MongodbDatabase)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/MongodbDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.MongodbDatabase
+	err := database.AssignProperties_To_MongodbDatabase(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignProperties_To_MongodbDatabase(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &MongodbDatabase{}

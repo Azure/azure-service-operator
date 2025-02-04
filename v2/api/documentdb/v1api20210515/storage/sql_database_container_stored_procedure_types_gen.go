@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &SqlDatabaseContainerStoredProcedure{}
 
 // ConvertFrom populates our SqlDatabaseContainerStoredProcedure from the provided hub SqlDatabaseContainerStoredProcedure
 func (procedure *SqlDatabaseContainerStoredProcedure) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SqlDatabaseContainerStoredProcedure)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseContainerStoredProcedure but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.SqlDatabaseContainerStoredProcedure
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return procedure.AssignProperties_From_SqlDatabaseContainerStoredProcedure(source)
+	err = procedure.AssignProperties_From_SqlDatabaseContainerStoredProcedure(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to procedure")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseContainerStoredProcedure from our SqlDatabaseContainerStoredProcedure
 func (procedure *SqlDatabaseContainerStoredProcedure) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SqlDatabaseContainerStoredProcedure)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseContainerStoredProcedure but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.SqlDatabaseContainerStoredProcedure
+	err := procedure.AssignProperties_To_SqlDatabaseContainerStoredProcedure(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from procedure")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return procedure.AssignProperties_To_SqlDatabaseContainerStoredProcedure(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &SqlDatabaseContainerStoredProcedure{}

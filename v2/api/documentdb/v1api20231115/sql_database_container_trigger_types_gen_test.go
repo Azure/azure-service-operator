@@ -5,7 +5,8 @@ package v1api20231115
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20240815s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForSqlDatabaseContainerTrigger(subject SqlDatabase
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.SqlDatabaseContainerTrigger
+	var hub v20240815s.SqlDatabaseContainerTrigger
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerTrigger(subject SqlDatabase
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerTrigger
+	var other v20231115s.SqlDatabaseContainerTrigger
 	err := copied.AssignProperties_To_SqlDatabaseContainerTrigger(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerTriggerOperatorSpec(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerTriggerOperatorSpec
+	var other v20231115s.SqlDatabaseContainerTriggerOperatorSpec
 	err := copied.AssignProperties_To_SqlDatabaseContainerTriggerOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerTrigger_STATUS(subject SqlD
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerTrigger_STATUS
+	var other v20231115s.SqlDatabaseContainerTrigger_STATUS
 	err := copied.AssignProperties_To_SqlDatabaseContainerTrigger_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -402,7 +403,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerTrigger_Spec(subject SqlDat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerTrigger_Spec
+	var other v20231115s.SqlDatabaseContainerTrigger_Spec
 	err := copied.AssignProperties_To_SqlDatabaseContainerTrigger_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -525,7 +526,7 @@ func RunPropertyAssignmentTestForSqlTriggerGetProperties_Resource_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlTriggerGetProperties_Resource_STATUS
+	var other v20231115s.SqlTriggerGetProperties_Resource_STATUS
 	err := copied.AssignProperties_To_SqlTriggerGetProperties_Resource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -639,7 +640,7 @@ func RunPropertyAssignmentTestForSqlTriggerResource(subject SqlTriggerResource) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlTriggerResource
+	var other v20231115s.SqlTriggerResource
 	err := copied.AssignProperties_To_SqlTriggerResource(&other)
 	if err != nil {
 		return err.Error()

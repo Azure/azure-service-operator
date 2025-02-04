@@ -2491,6 +2491,86 @@ objectModelConfiguration:
       SqlUserDefinedFunctionResource:
         Id:
           $armReference: false
+    2024-08-15:
+      DatabaseAccount:
+        $export: true
+        $supportedFrom: v2.12.0
+        $azureGeneratedSecrets:
+          - PrimaryMasterKey
+          - SecondaryMasterKey
+          - PrimaryReadonlyMasterKey
+          - SecondaryReadonlyMasterKey
+          - DocumentEndpoint
+      DatabaseAccountCreateUpdateProperties:
+        NetworkAclBypassResourceIds:
+          $armReference: true
+      DatabaseAccounts_MongodbDatabase:
+        $exportAs: MongodbDatabase
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_MongodbDatabases_Collection:
+        $exportAs: MongodbDatabaseCollection
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting:
+        $exportAs: MongodbDatabaseCollectionThroughputSetting
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_MongodbDatabases_ThroughputSetting:
+        $exportAs: MongodbDatabaseThroughputSetting
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlDatabase:
+        $exportAs: SqlDatabase
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlDatabases_Container:
+        $exportAs: SqlDatabaseContainer
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlDatabases_Containers_StoredProcedure:
+        $exportAs: SqlDatabaseContainerStoredProcedure
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting:
+        $exportAs: SqlDatabaseContainerThroughputSetting
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlDatabases_Containers_Trigger:
+        $exportAs: SqlDatabaseContainerTrigger
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction:
+        $exportAs: SqlDatabaseContainerUserDefinedFunction
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlDatabases_ThroughputSetting:
+        $exportAs: SqlDatabaseThroughputSetting
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlRoleAssignment:
+        $exportAs: SqlRoleAssignment
+        $supportedFrom: v2.12.0
+        $defaultAzureName: false
+      DatabaseAccounts_MongodbUserDefinition:
+        $exportAs: MongodbUserDefinition
+        $supportedFrom: v2.12.0
+      MongoDBCollectionResource:
+        Id:
+          $armReference: false
+      MongoDBDatabaseResource:
+        Id:
+          $armReference: false
+      SqlDatabaseResource:
+        Id:
+          $armReference: false
+      SqlContainerResource:
+        Id:
+          $armReference: false
+      SqlRoleAssignmentResource:
+        PrincipalId:
+          $importConfigMapMode: optional
+      SqlTriggerResource:
+        Id:
+          $armReference: false
+      SqlStoredProcedureResource:
+        Id:
+          $armReference: false
+      SqlUserDefinedFunctionResource:
+        Id:
+          $armReference: false
+      MongoUserDefinitionResource:
+        password:
+          $isSecret: true
   eventgrid:
     2020-06-01:
       Domain:

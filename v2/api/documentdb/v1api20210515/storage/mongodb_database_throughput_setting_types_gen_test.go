@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20240815s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForMongodbDatabaseThroughputSetting(subject Mongod
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.MongodbDatabaseThroughputSetting
+	var hub v20240815s.MongodbDatabaseThroughputSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForMongodbDatabaseThroughputSetting(subject Mongod
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MongodbDatabaseThroughputSetting
+	var other v20231115s.MongodbDatabaseThroughputSetting
 	err := copied.AssignProperties_To_MongodbDatabaseThroughputSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForMongodbDatabaseThroughputSettingOperatorSpec(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MongodbDatabaseThroughputSettingOperatorSpec
+	var other v20231115s.MongodbDatabaseThroughputSettingOperatorSpec
 	err := copied.AssignProperties_To_MongodbDatabaseThroughputSettingOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForMongodbDatabaseThroughputSetting_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MongodbDatabaseThroughputSetting_STATUS
+	var other v20231115s.MongodbDatabaseThroughputSetting_STATUS
 	err := copied.AssignProperties_To_MongodbDatabaseThroughputSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -402,7 +403,7 @@ func RunPropertyAssignmentTestForMongodbDatabaseThroughputSetting_Spec(subject M
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MongodbDatabaseThroughputSetting_Spec
+	var other v20231115s.MongodbDatabaseThroughputSetting_Spec
 	err := copied.AssignProperties_To_MongodbDatabaseThroughputSetting_Spec(&other)
 	if err != nil {
 		return err.Error()

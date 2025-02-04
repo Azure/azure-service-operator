@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &SqlDatabaseThroughputSetting{}
 
 // ConvertFrom populates our SqlDatabaseThroughputSetting from the provided hub SqlDatabaseThroughputSetting
 func (setting *SqlDatabaseThroughputSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SqlDatabaseThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.SqlDatabaseThroughputSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignProperties_From_SqlDatabaseThroughputSetting(source)
+	err = setting.AssignProperties_From_SqlDatabaseThroughputSetting(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseThroughputSetting from our SqlDatabaseThroughputSetting
 func (setting *SqlDatabaseThroughputSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SqlDatabaseThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.SqlDatabaseThroughputSetting
+	err := setting.AssignProperties_To_SqlDatabaseThroughputSetting(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignProperties_To_SqlDatabaseThroughputSetting(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &SqlDatabaseThroughputSetting{}

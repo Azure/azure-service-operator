@@ -5,7 +5,8 @@ package v1api20231115
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20240815s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForSqlDatabaseContainerUserDefinedFunction(subject
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.SqlDatabaseContainerUserDefinedFunction
+	var hub v20240815s.SqlDatabaseContainerUserDefinedFunction
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerUserDefinedFunction
+	var other v20231115s.SqlDatabaseContainerUserDefinedFunction
 	err := copied.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunctionOperator
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+	var other v20231115s.SqlDatabaseContainerUserDefinedFunctionOperatorSpec
 	err := copied.AssignProperties_To_SqlDatabaseContainerUserDefinedFunctionOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction_STATUS(
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerUserDefinedFunction_STATUS
+	var other v20231115s.SqlDatabaseContainerUserDefinedFunction_STATUS
 	err := copied.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -402,7 +403,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction_Spec(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerUserDefinedFunction_Spec
+	var other v20231115s.SqlDatabaseContainerUserDefinedFunction_Spec
 	err := copied.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -525,7 +526,7 @@ func RunPropertyAssignmentTestForSqlUserDefinedFunctionGetProperties_Resource_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlUserDefinedFunctionGetProperties_Resource_STATUS
+	var other v20231115s.SqlUserDefinedFunctionGetProperties_Resource_STATUS
 	err := copied.AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -632,7 +633,7 @@ func RunPropertyAssignmentTestForSqlUserDefinedFunctionResource(subject SqlUserD
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlUserDefinedFunctionResource
+	var other v20231115s.SqlUserDefinedFunctionResource
 	err := copied.AssignProperties_To_SqlUserDefinedFunctionResource(&other)
 	if err != nil {
 		return err.Error()

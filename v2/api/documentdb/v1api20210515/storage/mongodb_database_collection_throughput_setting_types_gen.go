@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &MongodbDatabaseCollectionThroughputSetting{}
 
 // ConvertFrom populates our MongodbDatabaseCollectionThroughputSetting from the provided hub MongodbDatabaseCollectionThroughputSetting
 func (setting *MongodbDatabaseCollectionThroughputSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.MongodbDatabaseCollectionThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/MongodbDatabaseCollectionThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.MongodbDatabaseCollectionThroughputSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignProperties_From_MongodbDatabaseCollectionThroughputSetting(source)
+	err = setting.AssignProperties_From_MongodbDatabaseCollectionThroughputSetting(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub MongodbDatabaseCollectionThroughputSetting from our MongodbDatabaseCollectionThroughputSetting
 func (setting *MongodbDatabaseCollectionThroughputSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.MongodbDatabaseCollectionThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/MongodbDatabaseCollectionThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.MongodbDatabaseCollectionThroughputSetting
+	err := setting.AssignProperties_To_MongodbDatabaseCollectionThroughputSetting(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignProperties_To_MongodbDatabaseCollectionThroughputSetting(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &MongodbDatabaseCollectionThroughputSetting{}

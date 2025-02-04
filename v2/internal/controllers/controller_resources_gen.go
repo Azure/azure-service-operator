@@ -115,6 +115,8 @@ import (
 	documentdb_v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
 	documentdb_v20231115 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115"
 	documentdb_v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	documentdb_v20240815 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815"
+	documentdb_v20240815s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	eventgrid_customizations "github.com/Azure/azure-service-operator/v2/api/eventgrid/customizations"
 	eventgrid_v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601"
 	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
@@ -771,20 +773,35 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.DatabaseAccount)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.MongodbDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.MongodbDatabaseCollection)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.MongodbDatabaseCollectionThroughputSetting)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.MongodbDatabaseThroughputSetting)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseContainer)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseContainerStoredProcedure)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseContainerThroughputSetting)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseContainerTrigger)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseContainerUserDefinedFunction)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseThroughputSetting)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.DatabaseAccount)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.MongodbDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.MongodbDatabaseCollection)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.MongodbDatabaseCollectionThroughputSetting)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.MongodbDatabaseThroughputSetting)})
 	result = append(result, &registration.StorageType{
-		Obj: new(documentdb_v20231115s.SqlRoleAssignment),
+		Obj: new(documentdb_v20240815s.MongodbUserDefinition),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.password",
+				Func: indexDocumentdbMongodbUserDefinitionPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.password"}, &documentdb_v20240815s.MongodbUserDefinitionList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.SqlDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.SqlDatabaseContainer)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.SqlDatabaseContainerStoredProcedure)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.SqlDatabaseContainerThroughputSetting)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.SqlDatabaseContainerTrigger)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.SqlDatabaseContainerUserDefinedFunction)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.SqlDatabaseThroughputSetting)})
+	result = append(result, &registration.StorageType{
+		Obj: new(documentdb_v20240815s.SqlRoleAssignment),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.principalIdFromConfig",
@@ -794,7 +811,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.principalIdFromConfig"}, &documentdb_v20231115s.SqlRoleAssignmentList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.principalIdFromConfig"}, &documentdb_v20240815s.SqlRoleAssignmentList{}),
 			},
 		},
 	})
@@ -2230,6 +2247,38 @@ func getKnownTypes() []client.Object {
 		new(documentdb_v20231115s.SqlRoleAssignment))
 	result = append(
 		result,
+		new(documentdb_v20240815.DatabaseAccount),
+		new(documentdb_v20240815.MongodbDatabase),
+		new(documentdb_v20240815.MongodbDatabaseCollection),
+		new(documentdb_v20240815.MongodbDatabaseCollectionThroughputSetting),
+		new(documentdb_v20240815.MongodbDatabaseThroughputSetting),
+		new(documentdb_v20240815.MongodbUserDefinition),
+		new(documentdb_v20240815.SqlDatabase),
+		new(documentdb_v20240815.SqlDatabaseContainer),
+		new(documentdb_v20240815.SqlDatabaseContainerStoredProcedure),
+		new(documentdb_v20240815.SqlDatabaseContainerThroughputSetting),
+		new(documentdb_v20240815.SqlDatabaseContainerTrigger),
+		new(documentdb_v20240815.SqlDatabaseContainerUserDefinedFunction),
+		new(documentdb_v20240815.SqlDatabaseThroughputSetting),
+		new(documentdb_v20240815.SqlRoleAssignment))
+	result = append(
+		result,
+		new(documentdb_v20240815s.DatabaseAccount),
+		new(documentdb_v20240815s.MongodbDatabase),
+		new(documentdb_v20240815s.MongodbDatabaseCollection),
+		new(documentdb_v20240815s.MongodbDatabaseCollectionThroughputSetting),
+		new(documentdb_v20240815s.MongodbDatabaseThroughputSetting),
+		new(documentdb_v20240815s.MongodbUserDefinition),
+		new(documentdb_v20240815s.SqlDatabase),
+		new(documentdb_v20240815s.SqlDatabaseContainer),
+		new(documentdb_v20240815s.SqlDatabaseContainerStoredProcedure),
+		new(documentdb_v20240815s.SqlDatabaseContainerThroughputSetting),
+		new(documentdb_v20240815s.SqlDatabaseContainerTrigger),
+		new(documentdb_v20240815s.SqlDatabaseContainerUserDefinedFunction),
+		new(documentdb_v20240815s.SqlDatabaseThroughputSetting),
+		new(documentdb_v20240815s.SqlRoleAssignment))
+	result = append(
+		result,
 		new(eventgrid_v20200601.Domain),
 		new(eventgrid_v20200601.DomainsTopic),
 		new(eventgrid_v20200601.EventSubscription),
@@ -2825,6 +2874,8 @@ func createScheme() *runtime.Scheme {
 	_ = documentdb_v20210515s.AddToScheme(scheme)
 	_ = documentdb_v20231115.AddToScheme(scheme)
 	_ = documentdb_v20231115s.AddToScheme(scheme)
+	_ = documentdb_v20240815.AddToScheme(scheme)
+	_ = documentdb_v20240815s.AddToScheme(scheme)
 	_ = eventgrid_v20200601.AddToScheme(scheme)
 	_ = eventgrid_v20200601s.AddToScheme(scheme)
 	_ = eventhub_v20211101.AddToScheme(scheme)
@@ -3003,6 +3054,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &documentdb_customizations.MongodbDatabaseCollectionThroughputSettingExtension{})
 	result = append(result, &documentdb_customizations.MongodbDatabaseExtension{})
 	result = append(result, &documentdb_customizations.MongodbDatabaseThroughputSettingExtension{})
+	result = append(result, &documentdb_customizations.MongodbUserDefinitionExtension{})
 	result = append(result, &documentdb_customizations.SqlDatabaseContainerExtension{})
 	result = append(result, &documentdb_customizations.SqlDatabaseContainerStoredProcedureExtension{})
 	result = append(result, &documentdb_customizations.SqlDatabaseContainerThroughputSettingExtension{})
@@ -3993,9 +4045,21 @@ func indexDevicesIotHubStorageEndpointsConnectionString(rawObj client.Object) []
 	return result
 }
 
-// indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig an index function for documentdb_v20231115s.SqlRoleAssignment .spec.principalIdFromConfig
+// indexDocumentdbMongodbUserDefinitionPassword an index function for documentdb_v20240815s.MongodbUserDefinition .spec.password
+func indexDocumentdbMongodbUserDefinitionPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20240815s.MongodbUserDefinition)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Password == nil {
+		return nil
+	}
+	return obj.Spec.Password.Index()
+}
+
+// indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig an index function for documentdb_v20240815s.SqlRoleAssignment .spec.principalIdFromConfig
 func indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20231115s.SqlRoleAssignment)
+	obj, ok := rawObj.(*documentdb_v20240815s.SqlRoleAssignment)
 	if !ok {
 		return nil
 	}

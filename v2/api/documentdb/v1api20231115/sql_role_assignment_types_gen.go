@@ -53,22 +53,36 @@ var _ conversion.Convertible = &SqlRoleAssignment{}
 
 // ConvertFrom populates our SqlRoleAssignment from the provided hub SqlRoleAssignment
 func (assignment *SqlRoleAssignment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SqlRoleAssignment)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlRoleAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.SqlRoleAssignment
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return assignment.AssignProperties_From_SqlRoleAssignment(source)
+	err = assignment.AssignProperties_From_SqlRoleAssignment(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to assignment")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlRoleAssignment from our SqlRoleAssignment
 func (assignment *SqlRoleAssignment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SqlRoleAssignment)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlRoleAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.SqlRoleAssignment
+	err := assignment.AssignProperties_To_SqlRoleAssignment(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from assignment")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return assignment.AssignProperties_To_SqlRoleAssignment(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1api20231115-sqlroleassignment,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqlroleassignments,verbs=create;update,versions=v1api20231115,name=default.v1api20231115.sqlroleassignments.documentdb.azure.com,admissionReviewVersions=v1
@@ -105,17 +119,6 @@ func (assignment *SqlRoleAssignment) SecretDestinationExpressions() []*core.Dest
 		return nil
 	}
 	return assignment.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &SqlRoleAssignment{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (assignment *SqlRoleAssignment) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*SqlRoleAssignment_STATUS); ok {
-		return assignment.Spec.Initialize_From_SqlRoleAssignment_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type SqlRoleAssignment_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &SqlRoleAssignment{}
@@ -659,22 +662,6 @@ func (assignment *SqlRoleAssignment_Spec) AssignProperties_To_SqlRoleAssignment_
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SqlRoleAssignment_STATUS populates our SqlRoleAssignment_Spec from the provided source SqlRoleAssignment_STATUS
-func (assignment *SqlRoleAssignment_Spec) Initialize_From_SqlRoleAssignment_STATUS(source *SqlRoleAssignment_STATUS) error {
-
-	// PrincipalId
-	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// RoleDefinitionId
-	assignment.RoleDefinitionId = genruntime.ClonePointerToString(source.RoleDefinitionId)
-
-	// Scope
-	assignment.Scope = genruntime.ClonePointerToString(source.Scope)
 
 	// No error
 	return nil
