@@ -28,11 +28,14 @@ func NewObjectFunction(
 	name string,
 	idFactory astmodel.IdentifierFactory,
 	asFunc ObjectFunctionHandler,
+	requiredPackages ...astmodel.PackageReference,
 ) *ObjectFunction {
+	packages := astmodel.NewPackageReferenceSet(requiredPackages...)
+
 	return &ObjectFunction{
 		name:             name,
 		asFunc:           asFunc,
-		requiredPackages: astmodel.NewPackageReferenceSet(),
+		requiredPackages: packages,
 		referencedTypes:  astmodel.NewTypeNameSet(),
 		idFactory:        idFactory,
 	}
