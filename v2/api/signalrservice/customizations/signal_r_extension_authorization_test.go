@@ -11,7 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	signalr "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/storage"
+	signalr "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
 )

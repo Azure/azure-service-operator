@@ -68,6 +68,10 @@ var exclusions = []string{
 	// Excluding cdn secret as it requires KV secrets
 	"secret",
 
+	// Excluding SignalR CustomDomain and CustomCertificate becaues they require KV secrets/certs
+	"customdomain",
+	"customcertificate",
+
 	// [Issue #3091] Exclude backupvaultsbackupinstance as it requires role assignments to be created after backup instance is created to make it land into protection configured state.
 	"backupvaultsbackupinstance",
 }

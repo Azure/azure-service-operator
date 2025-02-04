@@ -1,0 +1,14 @@
+apiVersion: signalrservice.azure.com/v1api20240301
+kind: CustomCertificate
+metadata:
+  name: aso-sample-signalr-customdomaincert
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-signalr
+  keyVaultBaseUri: https://contoso-key-vault.vault.azure.net
+  #keyVaultBaseUriFromConfig:
+  #  name: keyvault-details
+  #  key: baseUri
+  keyVaultSecretName: mysecret
