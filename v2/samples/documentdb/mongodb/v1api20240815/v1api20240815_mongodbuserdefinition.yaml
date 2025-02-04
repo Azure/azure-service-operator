@@ -15,4 +15,4 @@ spec:
     key: password
   roles:
     - role: readWrite
-      databaseName: sample-mongodb
+      db: sample-mongodb

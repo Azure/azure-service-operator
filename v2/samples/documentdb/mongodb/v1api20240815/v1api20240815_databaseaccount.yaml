@@ -9,11 +9,11 @@ spec:
     name: aso-sample-rg
   kind: MongoDB
   apiProperties:
-    serverVersion: 7.0
+    serverVersion: "7.0"
   capabilities:
     - name: EnableMongo
     - name: EnableMongoRoleBasedAccessControl
   databaseAccountOfferType: Standard
   locations:
-    - locationName: eastus
+    - locationName: australiaeast
   minimalTlsVersion: Tls12
