@@ -1,7 +1,7 @@
 apiVersion: authorization.azure.com/v1api20220401
 kind: RoleAssignment
 metadata:
-  name: aso-sample-sp-to-vnet
+  name: aso-sample-roleassignment
   namespace: default
 spec:
   owner:

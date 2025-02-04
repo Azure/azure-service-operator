@@ -6,13 +6,13 @@ metadata:
 spec:
   criteria:
     allOf:
-    - failingPeriods:
-        minFailingPeriodsToAlert: 1
-        numberOfEvaluationPeriods: 1
-      operator: LessThan
-      query: "requests | summarize CountByCountry=count() by client_CountryOrRegion"
-      threshold: 10
-      timeAggregation: Count
+      - failingPeriods:
+          minFailingPeriodsToAlert: 1
+          numberOfEvaluationPeriods: 1
+        operator: LessThan
+        query: "requests | summarize CountByCountry=count() by client_CountryOrRegion"
+        threshold: 10
+        timeAggregation: Count
   evaluationFrequency: PT10M
   identity:
     type: UserAssigned
@@ -25,8 +25,13 @@ spec:
   owner:
     name: aso-sample-rg
   scopesReferences:
-  - group: insights.azure.com
-    kind: Component
-    name: sampleappinsights
+    - group: insights.azure.com
+      kind: Component
+      name: sampleappinsights
   severity: 0
   windowSize: PT10M
+  actions:
+    actionGroupsReferences:
+      - group: insights.azure.com
+        kind: ActionGroup
+        name: aso-sample-actiongroup
