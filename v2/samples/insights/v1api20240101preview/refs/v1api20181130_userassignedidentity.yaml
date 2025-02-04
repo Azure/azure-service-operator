@@ -12,6 +12,9 @@ spec:
       tenantId:
         name: admin-settings
         key: tenantId
+      principalId:
+        name: admin-settings
+        key: principalId
       clientId:
         name: admin-settings
         key: clientId
