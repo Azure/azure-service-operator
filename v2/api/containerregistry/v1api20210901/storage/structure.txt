@@ -142,3 +142,34 @@ Registry: Resource
     ├── Tags: map[string]string
     ├── Type: *string
     └── ZoneRedundancy: *string
+augmentConversionForEncryptionProperty: Interface
+augmentConversionForEncryptionProperty_STATUS: Interface
+augmentConversionForExportPolicy: Interface
+augmentConversionForExportPolicy_STATUS: Interface
+augmentConversionForIPRule: Interface
+augmentConversionForIPRule_STATUS: Interface
+augmentConversionForIdentityProperties: Interface
+augmentConversionForIdentityProperties_STATUS: Interface
+augmentConversionForKeyVaultProperties: Interface
+augmentConversionForKeyVaultProperties_STATUS: Interface
+augmentConversionForNetworkRuleSet: Interface
+augmentConversionForNetworkRuleSet_STATUS: Interface
+augmentConversionForPolicies: Interface
+augmentConversionForPolicies_STATUS: Interface
+augmentConversionForPrivateEndpointConnection_STATUS: Interface
+augmentConversionForQuarantinePolicy: Interface
+augmentConversionForQuarantinePolicy_STATUS: Interface
+augmentConversionForRegistry: Interface
+augmentConversionForRegistryOperatorSpec: Interface
+augmentConversionForRegistry_STATUS: Interface
+augmentConversionForRegistry_Spec: Interface
+augmentConversionForRetentionPolicy: Interface
+augmentConversionForRetentionPolicy_STATUS: Interface
+augmentConversionForSku: Interface
+augmentConversionForSku_STATUS: Interface
+augmentConversionForStatus_STATUS: Interface
+augmentConversionForSystemData_STATUS: Interface
+augmentConversionForTrustPolicy: Interface
+augmentConversionForTrustPolicy_STATUS: Interface
+augmentConversionForUserAssignedIdentityDetails: Interface
+augmentConversionForUserIdentityProperties_STATUS: Interface

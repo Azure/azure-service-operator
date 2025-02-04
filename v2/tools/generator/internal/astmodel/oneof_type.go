@@ -187,7 +187,42 @@ func (oneOf *OneOfType) Equals(t Type, overrides EqualityOverrides) bool {
 		return false
 	}
 
-	return oneOf.types.Equals(other.types, overrides)
+	// Check for different properties
+	if oneOf.swaggerName != other.swaggerName {
+		return false
+	}
+
+	if oneOf.discriminatorProperty != other.discriminatorProperty {
+		return false
+	}
+
+	if oneOf.discriminatorValue != other.discriminatorValue {
+		return false
+	}
+
+	// Check for different options to select from
+	if !oneOf.types.Equals(other.types, overrides) {
+		return false
+	}
+
+	// Check for different common properties
+	if len(oneOf.propertyObjects) != len(other.propertyObjects) {
+		return false
+	}
+
+	// Requiring exactly the same property objects in the same order is overly
+	// strict as they're actually all merged together into a single object
+	// and the order is not significant. Moreover, two one-of types would be the
+	// same if the merge is the same, regardless of how many object types were there
+	// to start with. This is all too complex to handle here though, so we'll just
+	// use the strict check.
+	for i := range oneOf.propertyObjects {
+		if !oneOf.propertyObjects[i].Equals(other.propertyObjects[i], overrides) {
+			return false
+		}
+	}
+
+	return true
 }
 
 // String implements fmt.Stringer

@@ -1675,12 +1675,22 @@ objectModelConfiguration:
           $armReference: true
   containerregistry:
     2021-09-01:
-      Registry:
-        $export: true
-        $supportedFrom: v2.0.0-alpha.6
       IdentityProperties:
         PrincipalId:
           $armReference: false
+      Registry:
+        $export: true
+        $supportedFrom: v2.0.0-alpha.6
+    2023-07-01:
+      KeyVaultProperties:
+        Identity: 
+          $importConfigMapMode: optional
+      Registry:
+        $export: true
+        $supportedFrom: v2.12.0
+      Registries_Replication:
+        $exportAs: RegistryReplication
+        $supportedFrom: v2.12.0
   containerservice:
     $payloadType: explicitCollections
     2021-05-01:

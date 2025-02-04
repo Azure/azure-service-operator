@@ -53,22 +53,36 @@ var _ conversion.Convertible = &Registry{}
 
 // ConvertFrom populates our Registry from the provided hub Registry
 func (registry *Registry) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Registry)
-	if !ok {
-		return fmt.Errorf("expected containerregistry/v1api20210901/storage/Registry but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Registry
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return registry.AssignProperties_From_Registry(source)
+	err = registry.AssignProperties_From_Registry(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to registry")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Registry from our Registry
 func (registry *Registry) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Registry)
-	if !ok {
-		return fmt.Errorf("expected containerregistry/v1api20210901/storage/Registry but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Registry
+	err := registry.AssignProperties_To_Registry(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from registry")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return registry.AssignProperties_To_Registry(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-containerregistry-azure-com-v1api20210901-registry,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registries,verbs=create;update,versions=v1api20210901,name=default.v1api20210901.registries.containerregistry.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (registry *Registry) SecretDestinationExpressions() []*core.DestinationExpr
 		return nil
 	}
 	return registry.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Registry{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (registry *Registry) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Registry_STATUS); ok {
-		return registry.Spec.Initialize_From_Registry_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Registry_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Registry{}
@@ -1039,119 +1042,6 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *st
 	return nil
 }
 
-// Initialize_From_Registry_STATUS populates our Registry_Spec from the provided source Registry_STATUS
-func (registry *Registry_Spec) Initialize_From_Registry_STATUS(source *Registry_STATUS) error {
-
-	// AdminUserEnabled
-	if source.AdminUserEnabled != nil {
-		adminUserEnabled := *source.AdminUserEnabled
-		registry.AdminUserEnabled = &adminUserEnabled
-	} else {
-		registry.AdminUserEnabled = nil
-	}
-
-	// DataEndpointEnabled
-	if source.DataEndpointEnabled != nil {
-		dataEndpointEnabled := *source.DataEndpointEnabled
-		registry.DataEndpointEnabled = &dataEndpointEnabled
-	} else {
-		registry.DataEndpointEnabled = nil
-	}
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption EncryptionProperty
-		err := encryption.Initialize_From_EncryptionProperty_STATUS(source.Encryption)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_EncryptionProperty_STATUS() to populate field Encryption")
-		}
-		registry.Encryption = &encryption
-	} else {
-		registry.Encryption = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity IdentityProperties
-		err := identity.Initialize_From_IdentityProperties_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_IdentityProperties_STATUS() to populate field Identity")
-		}
-		registry.Identity = &identity
-	} else {
-		registry.Identity = nil
-	}
-
-	// Location
-	registry.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkRuleBypassOptions
-	if source.NetworkRuleBypassOptions != nil {
-		networkRuleBypassOption := genruntime.ToEnum(string(*source.NetworkRuleBypassOptions), registryProperties_NetworkRuleBypassOptions_Values)
-		registry.NetworkRuleBypassOptions = &networkRuleBypassOption
-	} else {
-		registry.NetworkRuleBypassOptions = nil
-	}
-
-	// NetworkRuleSet
-	if source.NetworkRuleSet != nil {
-		var networkRuleSet NetworkRuleSet
-		err := networkRuleSet.Initialize_From_NetworkRuleSet_STATUS(source.NetworkRuleSet)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
-		}
-		registry.NetworkRuleSet = &networkRuleSet
-	} else {
-		registry.NetworkRuleSet = nil
-	}
-
-	// Policies
-	if source.Policies != nil {
-		var policy Policies
-		err := policy.Initialize_From_Policies_STATUS(source.Policies)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Policies_STATUS() to populate field Policies")
-		}
-		registry.Policies = &policy
-	} else {
-		registry.Policies = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), registryProperties_PublicNetworkAccess_Values)
-		registry.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		registry.PublicNetworkAccess = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		registry.Sku = &sku
-	} else {
-		registry.Sku = nil
-	}
-
-	// Tags
-	registry.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// ZoneRedundancy
-	if source.ZoneRedundancy != nil {
-		zoneRedundancy := genruntime.ToEnum(string(*source.ZoneRedundancy), registryProperties_ZoneRedundancy_Values)
-		registry.ZoneRedundancy = &zoneRedundancy
-	} else {
-		registry.ZoneRedundancy = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (registry *Registry_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -2041,33 +1931,6 @@ func (property *EncryptionProperty) AssignProperties_To_EncryptionProperty(desti
 	return nil
 }
 
-// Initialize_From_EncryptionProperty_STATUS populates our EncryptionProperty from the provided source EncryptionProperty_STATUS
-func (property *EncryptionProperty) Initialize_From_EncryptionProperty_STATUS(source *EncryptionProperty_STATUS) error {
-
-	// KeyVaultProperties
-	if source.KeyVaultProperties != nil {
-		var keyVaultProperty KeyVaultProperties
-		err := keyVaultProperty.Initialize_From_KeyVaultProperties_STATUS(source.KeyVaultProperties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
-		}
-		property.KeyVaultProperties = &keyVaultProperty
-	} else {
-		property.KeyVaultProperties = nil
-	}
-
-	// Status
-	if source.Status != nil {
-		status := genruntime.ToEnum(string(*source.Status), encryptionProperty_Status_Values)
-		property.Status = &status
-	} else {
-		property.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
 type EncryptionProperty_STATUS struct {
 	// KeyVaultProperties: Key vault properties.
 	KeyVaultProperties *KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
@@ -2357,39 +2220,6 @@ func (properties *IdentityProperties) AssignProperties_To_IdentityProperties(des
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_IdentityProperties_STATUS populates our IdentityProperties from the provided source IdentityProperties_STATUS
-func (properties *IdentityProperties) Initialize_From_IdentityProperties_STATUS(source *IdentityProperties_STATUS) error {
-
-	// PrincipalId
-	properties.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	properties.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), identityProperties_Type_Values)
-		properties.Type = &typeVar
-	} else {
-		properties.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		properties.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		properties.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -2695,39 +2525,6 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *s
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NetworkRuleSet_STATUS populates our NetworkRuleSet from the provided source NetworkRuleSet_STATUS
-func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *NetworkRuleSet_STATUS) error {
-
-	// DefaultAction
-	if source.DefaultAction != nil {
-		defaultAction := genruntime.ToEnum(string(*source.DefaultAction), networkRuleSet_DefaultAction_Values)
-		ruleSet.DefaultAction = &defaultAction
-	} else {
-		ruleSet.DefaultAction = nil
-	}
-
-	// IpRules
-	if source.IpRules != nil {
-		ipRuleList := make([]IPRule, len(source.IpRules))
-		for ipRuleIndex, ipRuleItem := range source.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
-			var ipRule IPRule
-			err := ipRule.Initialize_From_IPRule_STATUS(&ipRuleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_IPRule_STATUS() to populate field IpRules")
-			}
-			ipRuleList[ipRuleIndex] = ipRule
-		}
-		ruleSet.IpRules = ipRuleList
-	} else {
-		ruleSet.IpRules = nil
 	}
 
 	// No error
@@ -3094,61 +2891,6 @@ func (policies *Policies) AssignProperties_To_Policies(destination *storage.Poli
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Policies_STATUS populates our Policies from the provided source Policies_STATUS
-func (policies *Policies) Initialize_From_Policies_STATUS(source *Policies_STATUS) error {
-
-	// ExportPolicy
-	if source.ExportPolicy != nil {
-		var exportPolicy ExportPolicy
-		err := exportPolicy.Initialize_From_ExportPolicy_STATUS(source.ExportPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExportPolicy_STATUS() to populate field ExportPolicy")
-		}
-		policies.ExportPolicy = &exportPolicy
-	} else {
-		policies.ExportPolicy = nil
-	}
-
-	// QuarantinePolicy
-	if source.QuarantinePolicy != nil {
-		var quarantinePolicy QuarantinePolicy
-		err := quarantinePolicy.Initialize_From_QuarantinePolicy_STATUS(source.QuarantinePolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_QuarantinePolicy_STATUS() to populate field QuarantinePolicy")
-		}
-		policies.QuarantinePolicy = &quarantinePolicy
-	} else {
-		policies.QuarantinePolicy = nil
-	}
-
-	// RetentionPolicy
-	if source.RetentionPolicy != nil {
-		var retentionPolicy RetentionPolicy
-		err := retentionPolicy.Initialize_From_RetentionPolicy_STATUS(source.RetentionPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RetentionPolicy_STATUS() to populate field RetentionPolicy")
-		}
-		policies.RetentionPolicy = &retentionPolicy
-	} else {
-		policies.RetentionPolicy = nil
-	}
-
-	// TrustPolicy
-	if source.TrustPolicy != nil {
-		var trustPolicy TrustPolicy
-		err := trustPolicy.Initialize_From_TrustPolicy_STATUS(source.TrustPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_TrustPolicy_STATUS() to populate field TrustPolicy")
-		}
-		policies.TrustPolicy = &trustPolicy
-	} else {
-		policies.TrustPolicy = nil
 	}
 
 	// No error
@@ -3706,21 +3448,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	return nil
 }
 
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), sku_Name_Values)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The SKU of a container registry.
 type Sku_STATUS struct {
 	// Name: The SKU name of the container registry. Required for registry creation.
@@ -4186,21 +3913,6 @@ func (policy *ExportPolicy) AssignProperties_To_ExportPolicy(destination *storag
 	return nil
 }
 
-// Initialize_From_ExportPolicy_STATUS populates our ExportPolicy from the provided source ExportPolicy_STATUS
-func (policy *ExportPolicy) Initialize_From_ExportPolicy_STATUS(source *ExportPolicy_STATUS) error {
-
-	// Status
-	if source.Status != nil {
-		status := genruntime.ToEnum(string(*source.Status), exportPolicy_Status_Values)
-		policy.Status = &status
-	} else {
-		policy.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The export policy for a container registry.
 type ExportPolicy_STATUS struct {
 	// Status: The value that indicates whether the policy is enabled or not.
@@ -4419,24 +4131,6 @@ func (rule *IPRule) AssignProperties_To_IPRule(destination *storage.IPRule) erro
 	return nil
 }
 
-// Initialize_From_IPRule_STATUS populates our IPRule from the provided source IPRule_STATUS
-func (rule *IPRule) Initialize_From_IPRule_STATUS(source *IPRule_STATUS) error {
-
-	// Action
-	if source.Action != nil {
-		action := genruntime.ToEnum(string(*source.Action), iPRule_Action_Values)
-		rule.Action = &action
-	} else {
-		rule.Action = nil
-	}
-
-	// Value
-	rule.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
 // IP rule with specific IP or IP range in CIDR format.
 type IPRule_STATUS struct {
 	// Action: The action of IP ACL rule.
@@ -4613,19 +4307,6 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_KeyVaultProperties_STATUS populates our KeyVaultProperties from the provided source KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties) Initialize_From_KeyVaultProperties_STATUS(source *KeyVaultProperties_STATUS) error {
-
-	// Identity
-	properties.Identity = genruntime.ClonePointerToString(source.Identity)
-
-	// KeyIdentifier
-	properties.KeyIdentifier = genruntime.ClonePointerToString(source.KeyIdentifier)
 
 	// No error
 	return nil
@@ -4876,21 +4557,6 @@ func (policy *QuarantinePolicy) AssignProperties_To_QuarantinePolicy(destination
 	return nil
 }
 
-// Initialize_From_QuarantinePolicy_STATUS populates our QuarantinePolicy from the provided source QuarantinePolicy_STATUS
-func (policy *QuarantinePolicy) Initialize_From_QuarantinePolicy_STATUS(source *QuarantinePolicy_STATUS) error {
-
-	// Status
-	if source.Status != nil {
-		status := genruntime.ToEnum(string(*source.Status), quarantinePolicy_Status_Values)
-		policy.Status = &status
-	} else {
-		policy.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The quarantine policy for a container registry.
 type QuarantinePolicy_STATUS struct {
 	// Status: The value that indicates whether the policy is enabled or not.
@@ -5067,24 +4733,6 @@ func (policy *RetentionPolicy) AssignProperties_To_RetentionPolicy(destination *
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RetentionPolicy_STATUS populates our RetentionPolicy from the provided source RetentionPolicy_STATUS
-func (policy *RetentionPolicy) Initialize_From_RetentionPolicy_STATUS(source *RetentionPolicy_STATUS) error {
-
-	// Days
-	policy.Days = genruntime.ClonePointerToInt(source.Days)
-
-	// Status
-	if source.Status != nil {
-		status := genruntime.ToEnum(string(*source.Status), retentionPolicy_Status_Values)
-		policy.Status = &status
-	} else {
-		policy.Status = nil
 	}
 
 	// No error
@@ -5398,29 +5046,6 @@ func (policy *TrustPolicy) AssignProperties_To_TrustPolicy(destination *storage.
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_TrustPolicy_STATUS populates our TrustPolicy from the provided source TrustPolicy_STATUS
-func (policy *TrustPolicy) Initialize_From_TrustPolicy_STATUS(source *TrustPolicy_STATUS) error {
-
-	// Status
-	if source.Status != nil {
-		status := genruntime.ToEnum(string(*source.Status), trustPolicy_Status_Values)
-		policy.Status = &status
-	} else {
-		policy.Status = nil
-	}
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), trustPolicy_Type_Values)
-		policy.Type = &typeVar
-	} else {
-		policy.Type = nil
 	}
 
 	// No error
