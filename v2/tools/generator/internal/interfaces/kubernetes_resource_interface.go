@@ -76,7 +76,7 @@ func AddKubernetesResourceInterfaceImpls(
 		r,
 		idFactory,
 		getOwnerFunction,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
+		astmodel.GenRuntimeReference)
 
 	getSpecFunction := functions.NewGetSpecFunction(idFactory)
 
@@ -87,14 +87,14 @@ func AddKubernetesResourceInterfaceImpls(
 		r,
 		idFactory,
 		getResourceScopeFunction,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
+		astmodel.GenRuntimeReference)
 
 	getSupportedOperationsFunc := functions.NewResourceFunction(
 		"GetSupportedOperations",
 		r,
 		idFactory,
 		getSupportedOperationsFunction,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
+		astmodel.GenRuntimeReference)
 
 	getAPIVersionFunc := functions.NewGetAPIVersionFunction(r.APIVersionEnumValue(), idFactory)
 

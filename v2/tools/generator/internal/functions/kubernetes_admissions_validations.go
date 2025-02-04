@@ -21,7 +21,8 @@ func NewValidateResourceReferencesFunction(resource *astmodel.ResourceType, idFa
 		resource,
 		idFactory,
 		validateResourceReferences,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference, astmodel.ReflectHelpersReference))
+		astmodel.GenRuntimeReference,
+		astmodel.ReflectHelpersReference)
 }
 
 func NewValidateOwnerReferenceFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
@@ -30,7 +31,7 @@ func NewValidateOwnerReferenceFunction(resource *astmodel.ResourceType, idFactor
 		resource,
 		idFactory,
 		validateOwnerReferences,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
+		astmodel.GenRuntimeReference)
 }
 
 func NewValidateWriteOncePropertiesFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
@@ -38,8 +39,7 @@ func NewValidateWriteOncePropertiesFunction(resource *astmodel.ResourceType, idF
 		"validateWriteOnceProperties",
 		resource,
 		idFactory,
-		validateWriteOncePropertiesFunction,
-		astmodel.NewPackageReferenceSet())
+		validateWriteOncePropertiesFunction)
 }
 
 func NewValidateOptionalConfigMapReferenceFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
@@ -48,7 +48,8 @@ func NewValidateOptionalConfigMapReferenceFunction(resource *astmodel.ResourceTy
 		resource,
 		idFactory,
 		validateOptionalConfigMapReferences,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeConfigMapsReference, astmodel.ReflectHelpersReference))
+		astmodel.GenRuntimeConfigMapsReference,
+		astmodel.ReflectHelpersReference)
 }
 
 func validateResourceReferences(

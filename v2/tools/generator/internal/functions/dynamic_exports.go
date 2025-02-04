@@ -91,8 +91,7 @@ func (d *PropertyExporter) ToInterfaceImplementation() *astmodel.InterfaceImplem
 			d.functionName,
 			d.resource,
 			d.idFactory,
-			d.getPropertyFunction,
-			astmodel.NewPackageReferenceSet()),
+			d.getPropertyFunction),
 	}
 
 	return astmodel.NewInterfaceImplementation(
