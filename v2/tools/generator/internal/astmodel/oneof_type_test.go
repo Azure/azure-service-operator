@@ -112,7 +112,7 @@ func TestOneOfType_WithoutAnyPropertyObjects_GivenProperties_ReturnsOneOfWithNon
 	g.Expect(result.PropertyObjects()).To(HaveLen(0))
 }
 
-func TestOneOfType_Equals_givenChange_recognisesDifference(t *testing.T) {
+func TestOneOfType_Equals_GivenChange_RecognisesDifference(t *testing.T) {
 	t.Parallel()
 
 	nameMixin := NewObjectType().WithProperties(
