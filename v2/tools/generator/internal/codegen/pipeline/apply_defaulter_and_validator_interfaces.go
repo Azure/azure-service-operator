@@ -163,7 +163,7 @@ func NewValidateSecretDestinationsFunction(resource *astmodel.ResourceType, idFa
 		resource,
 		idFactory,
 		validateSecretDestinations,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeSecretsReference))
+		astmodel.GenRuntimeSecretsReference)
 }
 
 func validateSecretDestinations(
@@ -211,7 +211,7 @@ func NewValidateConfigMapDestinationsFunction(resource *astmodel.ResourceType, i
 		resource,
 		idFactory,
 		validateConfigMapDestinations,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeConfigMapsReference))
+		astmodel.GenRuntimeConfigMapsReference)
 }
 
 func validateConfigMapDestinations(
