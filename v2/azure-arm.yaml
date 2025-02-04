@@ -3665,6 +3665,30 @@ objectModelConfiguration:
           - PrimaryConnectionString
           - SecondaryKey
           - SecondaryConnectionString
+    2024-03-01:
+      SignalR:
+        $export: true
+        $supportedFrom: v2.12.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      SignalR_Replica:
+        $exportAs: Replica
+        $supportedFrom: v2.12.0
+      SignalR_CustomDomain:
+        $exportAs: CustomDomain
+        $supportedFrom: v2.12.0
+      SignalR_CustomCertificate:
+        $exportAs: CustomCertificate
+        $supportedFrom: v2.12.0
+      CustomCertificateProperties:
+        KeyVaultBaseURI:
+          $importConfigMapMode: optional
+      ResourceReference:
+        Id:
+          $armReference: true
   sql:
     v1: # Handcrafted 
       User:

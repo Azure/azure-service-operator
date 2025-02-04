@@ -13,13 +13,13 @@ import (
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	signalrservice "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001"
+	signalrservice "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20240301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_SignalRService_SignalR_CRUD(t *testing.T) {
+func Test_SignalRService_SignalR_20240301_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
@@ -32,14 +32,14 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	connectivityLogsFlag := signalrservice.FeatureFlags_EnableConnectivityLogs
 	enableMessagingLogsFlag := signalrservice.FeatureFlags_EnableMessagingLogs
 	enableliveTraceFlag := signalrservice.FeatureFlags_EnableLiveTrace
-	signalR := signalrservice.SignalR{
+	signalR := &signalrservice.SignalR{
 		ObjectMeta: tc.MakeObjectMeta("signalr"),
 		Spec: signalrservice.SignalR_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &signalrservice.ResourceSku{
 				Capacity: to.Ptr(1),
-				Name:     to.Ptr("Standard_S1"),
+				Name:     to.Ptr("Premium_P1"),
 			},
 			Identity: &signalrservice.ManagedIdentity{
 				Type: &systemAssigned,
@@ -88,7 +88,7 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(&signalR)
+	tc.CreateResourceAndWait(signalR)
 	tc.Expect(signalR.Status.Id).ToNot(BeNil())
 	armId := *signalR.Status.Id
 
@@ -97,7 +97,7 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	signalR.Spec.Cors.AllowedOrigins = append(
 		signalR.Spec.Cors.AllowedOrigins, "https://definitelymydomain.horse",
 	)
-	tc.PatchResourceAndWait(old, &signalR)
+	tc.PatchResourceAndWait(old, signalR)
 	tc.Expect(signalR.Status.Cors).ToNot(BeNil())
 	tc.Expect(signalR.Status.Cors.AllowedOrigins).To(ContainElement("https://definitelymydomain.horse"))
 
@@ -111,18 +111,28 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "SecretsWrittenToSameKubeSecret",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				SignalR_SecretsWrittenToSameKubeSecret(tc, &signalR)
+				SignalR_SecretsWrittenToSameKubeSecret_20240301(tc, signalR)
 			},
 		},
 		testcommon.Subtest{
 			Name: "SecretsWrittenToDifferentKubeSecrets",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				SignalR_SecretsWrittenToDifferentKubeSecrets(tc, &signalR)
+				SignalR_SecretsWrittenToDifferentKubeSecrets_20240301(tc, signalR)
 			},
 		},
 	)
 
-	tc.DeleteResourcesAndWait(&signalR)
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "SignalR Replica CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				SignalR_Replica_20240301(tc, signalR)
+			},
+		},
+		// TODO: No test for custom domain/custom cert because they require a KV cert...
+	)
+
+	tc.DeleteResourcesAndWait(signalR)
 
 	// Ensure that the resource was really deleted in Azure
 	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(signalrservice.APIVersion_Value))
@@ -131,7 +141,7 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func SignalR_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, signalR *signalrservice.SignalR) {
+func SignalR_SecretsWrittenToSameKubeSecret_20240301(tc *testcommon.KubePerTestContext, signalR *signalrservice.SignalR) {
 	old := signalR.DeepCopy()
 	signalrSecret := "signalrsecret"
 	signalR.Spec.OperatorSpec = &signalrservice.SignalROperatorSpec{
@@ -159,7 +169,7 @@ func SignalR_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, s
 	tc.ExpectSecretHasKeys(signalrSecret, "primarykey", "primaryconnectionstring", "secondarykey", "secondaryconnectionstring")
 }
 
-func SignalR_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTestContext, signalR *signalrservice.SignalR) {
+func SignalR_SecretsWrittenToDifferentKubeSecrets_20240301(tc *testcommon.KubePerTestContext, signalR *signalrservice.SignalR) {
 	old := signalR.DeepCopy()
 	primaryKeySecret := "secret1"
 	primaryConnectionString := "secret2"
@@ -192,4 +202,31 @@ func SignalR_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTestCont
 	tc.ExpectSecretHasKeys(primaryConnectionString, "primaryconnectionstring")
 	tc.ExpectSecretHasKeys(secondaryKeySecret, "secondarykey")
 	tc.ExpectSecretHasKeys(secondaryConnectionString, "secondaryconnectionstring")
+}
+
+func SignalR_Replica_20240301(tc *testcommon.KubePerTestContext, signalr *signalrservice.SignalR) {
+	replica := &signalrservice.Replica{
+		ObjectMeta: tc.MakeObjectMeta("replica"),
+		Spec: signalrservice.Replica_Spec{
+			Owner: testcommon.AsOwner(signalr),
+			Sku: &signalrservice.ResourceSku{
+				Capacity: to.Ptr(1),
+				Name:     to.Ptr("Premium_P1"),
+			},
+			Location: to.Ptr("westus3"), // This must be different than tc.AzureRegion
+		},
+	}
+
+	tc.CreateResourceAndWait(replica)
+
+	tc.Expect(replica.Status.Id).ToNot(BeNil())
+	armId := *replica.Status.Id
+
+	tc.DeleteResourcesAndWait(replica)
+
+	// Ensure that the resource was really deleted in Azure
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(signalrservice.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
 }

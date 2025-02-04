@@ -1,0 +1,14 @@
+apiVersion: signalrservice.azure.com/v1api20240301
+kind: CustomDomain
+metadata:
+  name: aso-sample-signalr-customdomain
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-signalr
+  domainName: contoso.example.com
+  customCertificate:
+    group: signalrservice.azure.com
+    kind: CustomCertificate
+    name: aso-sample-signalr-customdomaincert

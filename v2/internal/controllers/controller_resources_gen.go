@@ -202,6 +202,8 @@ import (
 	signalrservice_customizations "github.com/Azure/azure-service-operator/v2/api/signalrservice/customizations"
 	signalrservice_v20211001 "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001"
 	signalrservice_v20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/storage"
+	signalrservice_v20240301 "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20240301"
+	signalrservice_v20240301s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20240301/storage"
 	sql_customizations "github.com/Azure/azure-service-operator/v2/api/sql/customizations"
 	sql_v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
 	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
@@ -1191,7 +1193,24 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.NamespacesTopic)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.NamespacesTopicsSubscription)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.NamespacesTopicsSubscriptionsRule)})
-	result = append(result, &registration.StorageType{Obj: new(signalrservice_v20211001s.SignalR)})
+	result = append(result, &registration.StorageType{
+		Obj: new(signalrservice_v20240301s.CustomCertificate),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.keyVaultBaseUriFromConfig",
+				Func: indexSignalrserviceCustomCertificateKeyVaultBaseUriFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.keyVaultBaseUriFromConfig"}, &signalrservice_v20240301s.CustomCertificateList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{Obj: new(signalrservice_v20240301s.CustomDomain)})
+	result = append(result, &registration.StorageType{Obj: new(signalrservice_v20240301s.Replica)})
+	result = append(result, &registration.StorageType{Obj: new(signalrservice_v20240301s.SignalR)})
 	result = append(result, &registration.StorageType{
 		Obj: new(sql_v20211101s.Server),
 		Indexes: []registration.Index{
@@ -2248,6 +2267,18 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(signalrservice_v20211001s.SignalR))
 	result = append(
 		result,
+		new(signalrservice_v20240301.CustomCertificate),
+		new(signalrservice_v20240301.CustomDomain),
+		new(signalrservice_v20240301.Replica),
+		new(signalrservice_v20240301.SignalR))
+	result = append(
+		result,
+		new(signalrservice_v20240301s.CustomCertificate),
+		new(signalrservice_v20240301s.CustomDomain),
+		new(signalrservice_v20240301s.Replica),
+		new(signalrservice_v20240301s.SignalR))
+	result = append(
+		result,
 		new(sql_v20211101.Server),
 		new(sql_v20211101.ServersAdministrator),
 		new(sql_v20211101.ServersAdvancedThreatProtectionSetting),
@@ -2549,6 +2580,8 @@ func createScheme() *runtime.Scheme {
 	_ = servicebus_v20221001ps.AddToScheme(scheme)
 	_ = signalrservice_v20211001.AddToScheme(scheme)
 	_ = signalrservice_v20211001s.AddToScheme(scheme)
+	_ = signalrservice_v20240301.AddToScheme(scheme)
+	_ = signalrservice_v20240301s.AddToScheme(scheme)
 	_ = sql_v20211101.AddToScheme(scheme)
 	_ = sql_v20211101s.AddToScheme(scheme)
 	_ = storage_v20210401.AddToScheme(scheme)
@@ -2742,6 +2775,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &servicebus_customizations.NamespacesTopicExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionsRuleExtension{})
+	result = append(result, &signalrservice_customizations.CustomCertificateExtension{})
+	result = append(result, &signalrservice_customizations.CustomDomainExtension{})
+	result = append(result, &signalrservice_customizations.ReplicaExtension{})
 	result = append(result, &signalrservice_customizations.SignalRExtension{})
 	result = append(result, &sql_customizations.ServerExtension{})
 	result = append(result, &sql_customizations.ServersAdministratorExtension{})
@@ -4736,6 +4772,18 @@ func indexRedhatopenshiftOpenShiftClusterPullSecret(rawObj client.Object) []stri
 		return nil
 	}
 	return obj.Spec.ClusterProfile.PullSecret.Index()
+}
+
+// indexSignalrserviceCustomCertificateKeyVaultBaseUriFromConfig an index function for signalrservice_v20240301s.CustomCertificate .spec.keyVaultBaseUriFromConfig
+func indexSignalrserviceCustomCertificateKeyVaultBaseUriFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*signalrservice_v20240301s.CustomCertificate)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.KeyVaultBaseUriFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.KeyVaultBaseUriFromConfig.Index()
 }
 
 // indexSqlServerAdministratorLoginPassword an index function for sql_v20211101s.Server .spec.administratorLoginPassword
