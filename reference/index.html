@@ -31,7 +31,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <meta itemprop="name" content="Supported Resources">
   <meta itemprop="description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 AlertsManagement To install the CRDs for these resources, your ASO configuration must include alertsmanagement.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.">
-  <meta itemprop="wordCount" content="4882">
+  <meta itemprop="wordCount" content="5056">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Supported Resources">
   <meta name="twitter:description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
@@ -248,6 +248,8 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview"><span class="">apimanagement.azure.com/v1api20230501preview</span></a>
 </li>
   </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceapp-li">
+  <a href="/azure-service-operator/reference/app/" title="App Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapp"><span class="">App</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
@@ -522,6 +524,8 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <a href="/azure-service-operator/reference/network/v1api20240601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240601"><span class="">network.azure.com/v1api20240601</span></a>
 </li>
   </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenotificationhubs-li">
+  <a href="/azure-service-operator/reference/notificationhubs/" title="NotificationHubs Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenotificationhubs"><span class="">NotificationHubs</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" title="OperationalInsights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">OperationalInsights</span></a>
   <ul class="ul-3 foldable">
@@ -755,6 +759,11 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
         <li><a href="#released-1">Released</a></li>
       </ul>
     </li>
+    <li><a href="#app">App</a>
+      <ul>
+        <li><a href="#next-release">Next Release</a></li>
+      </ul>
+    </li>
     <li><a href="#appconfiguration">AppConfiguration</a>
       <ul>
         <li><a href="#released-2">Released</a></li>
@@ -792,7 +801,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#containerregistry">ContainerRegistry</a>
       <ul>
-        <li><a href="#next-release">Next Release</a></li>
+        <li><a href="#next-release-1">Next Release</a></li>
         <li><a href="#released-9">Released</a></li>
       </ul>
     </li>
@@ -843,7 +852,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#eventhub">EventHub</a>
       <ul>
-        <li><a href="#next-release-1">Next Release</a></li>
+        <li><a href="#next-release-2">Next Release</a></li>
         <li><a href="#released-19">Released</a></li>
       </ul>
     </li>
@@ -885,6 +894,11 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     <li><a href="#network-1">Network</a>
       <ul>
         <li><a href="#released-27">Released</a></li>
+      </ul>
+    </li>
+    <li><a href="#notificationhubs">NotificationHubs</a>
+      <ul>
+        <li><a href="#next-release-3">Next Release</a></li>
       </ul>
     </li>
     <li><a href="#operationalinsights">OperationalInsights</a>
@@ -939,7 +953,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#web">Web</a>
       <ul>
-        <li><a href="#next-release-2">Next Release</a></li>
+        <li><a href="#next-release-4">Next Release</a></li>
         <li><a href="#released-38">Released</a></li>
       </ul>
     </li>
@@ -1211,6 +1225,51 @@ grouped by the originating ARM service.
           <td style="text-align: left">v1api20220801</td>
           <td style="text-align: left">v2.4.0</td>
           <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_subscription.yaml">View</a></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="app">App</h2>
+<p>To install the CRDs for these resources, your ASO configuration must include <code>app.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Resource</th>
+          <th style="text-align: left">ARM Version</th>
+          <th style="text-align: left">CRD Version</th>
+          <th style="text-align: left">Supported From</th>
+          <th style="text-align: left">Sample</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">AuthConfig</td>
+          <td style="text-align: left">2024-03-01</td>
+          <td style="text-align: left">v1api20240301</td>
+          <td style="text-align: left">v2.12.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_authconfig.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">ContainerApp</td>
+          <td style="text-align: left">2024-03-01</td>
+          <td style="text-align: left">v1api20240301</td>
+          <td style="text-align: left">v2.12.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_containerapp.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Job</td>
+          <td style="text-align: left">2024-03-01</td>
+          <td style="text-align: left">v1api20240301</td>
+          <td style="text-align: left">v2.12.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_job.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">ManagedEnvironment</td>
+          <td style="text-align: left">2024-03-01</td>
+          <td style="text-align: left">v1api20240301</td>
+          <td style="text-align: left">v2.12.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_managedenvironment.yaml">View</a></td>
       </tr>
   </tbody>
 </table>
@@ -1692,7 +1751,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="containerregistry">ContainerRegistry</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>containerregistry.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release">Next Release</h3>
+<h3 id="next-release-1">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
   <thead>
@@ -2509,7 +2568,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="eventhub">EventHub</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>eventhub.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-1">Next Release</h3>
+<h3 id="next-release-2">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
   <thead>
@@ -3459,6 +3518,51 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
+<h2 id="notificationhubs">NotificationHubs</h2>
+<p>To install the CRDs for these resources, your ASO configuration must include <code>notificationhubs.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release-3">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Resource</th>
+          <th style="text-align: left">ARM Version</th>
+          <th style="text-align: left">CRD Version</th>
+          <th style="text-align: left">Supported From</th>
+          <th style="text-align: left">Sample</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Namespace</td>
+          <td style="text-align: left">2023-09-01</td>
+          <td style="text-align: left">v1api20230901</td>
+          <td style="text-align: left">v2.12.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/notificationhubs/v1api20230901/v1api20230901_namespace.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">NamespacesAuthorizationRule</td>
+          <td style="text-align: left">2023-09-01</td>
+          <td style="text-align: left">v1api20230901</td>
+          <td style="text-align: left">v2.12.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/notificationhubs/v1api20230901/v1api20230901_namespacesauthorizationrule.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">NotificationHub</td>
+          <td style="text-align: left">2023-09-01</td>
+          <td style="text-align: left">v1api20230901</td>
+          <td style="text-align: left">v2.12.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/notificationhubs/v1api20230901/v1api20230901_notificationhub.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">NotificationHubsAuthorizationRule</td>
+          <td style="text-align: left">2023-09-01</td>
+          <td style="text-align: left">v1api20230901</td>
+          <td style="text-align: left">v2.12.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/notificationhubs/v1api20230901/v1api20230901_notificationhubsauthorizationrule.yaml">View</a></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="operationalinsights">OperationalInsights</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>operationalinsights.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
 <h3 id="released-28">Released</h3>
@@ -4157,7 +4261,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="web">Web</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>web.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-2">Next Release</h3>
+<h3 id="next-release-4">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
   <thead>

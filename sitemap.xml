@@ -156,6 +156,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v1api20230501preview/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/app/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v1api20220501/</loc>
@@ -393,6 +395,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20240601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network.frontdoor/v1api20220501/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/notificationhubs/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/</loc>
   </url><url>
