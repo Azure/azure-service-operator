@@ -45,27 +45,12 @@ func AddKubernetesResourceInterfaceImpls(
 		}
 	}
 
-	azureNameProp, ok := resolved.SpecType.Property(astmodel.AzureNameProperty)
-	if !ok {
-		return nil, eris.Errorf("resource spec doesn't have %q property", astmodel.AzureNameProperty)
-	}
-
-	nameFns, err := createAzureNameFunctionHandlersForType(azureNameProp.PropertyType(), definitions, log)
+	nameFns, err := createAzureNameFunctionHandlers(specDef, definitions, log)
 	if err != nil {
-		return nil, err
+		return nil, eris.Wrapf(err, "failed to create AzureName function handlers for resource %s", resourceDef.Name())
 	}
-
-	// Sometimes we need to remove the AzureName property from our Spec because the name is forced
-	if nameFns.removeAzureNameProperty {
-		// remove the AzureName property from the spec of the resource
-		remover := astmodel.NewPropertyRemover()
-		var updated astmodel.TypeDefinition
-		updated, err = remover.Remove(resolved.SpecDef, astmodel.AzureNameProperty)
-		if err != nil {
-			return nil, eris.Wrapf(err, "failed to remove AzureName property from resource %s", resourceDef.Name())
-		}
-
-		specDef = updated
+	if nameFns.updatedSpec != nil {
+		specDef = *nameFns.updatedSpec
 	}
 
 	getAzureNameProperty := functions.NewObjectFunction(
@@ -166,7 +151,48 @@ func AddKubernetesResourceInterfaceImpls(
 type createAzureNameFunctionsForTypeResult struct {
 	getNameFunction         functions.ObjectFunctionHandler
 	setNameFunction         functions.ObjectFunctionHandler
+	updatedSpec             *astmodel.TypeDefinition
 	removeAzureNameProperty bool
+}
+
+func createAzureNameFunctionHandlers(
+	spec astmodel.TypeDefinition,
+	definitions astmodel.TypeDefinitionSet,
+	log logr.Logger,
+) (createAzureNameFunctionsForTypeResult, error) {
+	specType, ok := astmodel.AsObjectType(spec.Type())
+	if !ok {
+		return createAzureNameFunctionsForTypeResult{},
+			eris.Errorf("resource spec %s is not an object type", spec.Name())
+	}
+
+	azureNameProp, ok := specType.Property(astmodel.AzureNameProperty)
+	if !ok {
+		return createAzureNameFunctionsForTypeResult{},
+			eris.Errorf("resource spec doesn't have %q property", astmodel.AzureNameProperty)
+	}
+
+	nameFns, err := createAzureNameFunctionHandlersForType(azureNameProp.PropertyType(), definitions, log)
+	if err != nil {
+		return createAzureNameFunctionsForTypeResult{},
+			eris.Wrapf(err, "failed to create %s AzureName function handlers for resource %s", azureNameProp.PropertyType(), spec.Name())
+	}
+
+	// Sometimes we need to remove the AzureName property from our Spec because the name is forced
+	if nameFns.removeAzureNameProperty {
+		// remove the AzureName property from the spec of the resource
+		remover := astmodel.NewPropertyRemover()
+		var updated astmodel.TypeDefinition
+		updated, err = remover.Remove(spec, astmodel.AzureNameProperty)
+		if err != nil {
+			return createAzureNameFunctionsForTypeResult{},
+				eris.Wrapf(err, "failed to remove AzureName property from resource spec %s", spec.Name())
+		}
+
+		nameFns.updatedSpec = &updated
+	}
+
+	return nameFns, nil
 }
 
 func createAzureNameFunctionHandlersForType(
