@@ -66,6 +66,21 @@ These resource(s) are available for use in the current release of ASO. Different
 | [Subscription](https://azure.github.io/azure-service-operator/reference/apimanagement/v1api20230501preview/#apimanagement.azure.com/v1api20230501preview.Subscription)                                                                         | 2023-05-01-preview | v1api20230501preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_subscription.yaml)                                     |
 | [Subscription](https://azure.github.io/azure-service-operator/reference/apimanagement/v1api20220801/#apimanagement.azure.com/v1api20220801.Subscription)                                                                                       | 2022-08-01         | v1api20220801        | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_subscription.yaml)                                                   |
 
+## App
+
+To install the CRDs for these resources, your ASO configuration must include `app.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                               |
+|--------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| AuthConfig         | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_authconfig.yaml)         |
+| ContainerApp       | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_containerapp.yaml)       |
+| Job                | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_job.yaml)                |
+| ManagedEnvironment | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_managedenvironment.yaml) |
+
 ## AppConfiguration
 
 To install the CRDs for these resources, your ASO configuration must include `appconfiguration.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
