@@ -14,10 +14,10 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 
 	"github.com/rotisserie/eris"
-	"golang.org/x/exp/slices"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -354,6 +354,12 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 	return report.writeGroupSections(info, items, buffer)
 }
 
+type resourceVersionsReportSection struct {
+	id    string
+	title string
+	kinds set.Set[ResourceVersionsReportResourceItem]
+}
+
 func (report *ResourceVersionsReport) writeGroupSections(
 	group *ResourceVersionsReportGroupInfo,
 	kinds set.Set[ResourceVersionsReportResourceItem],
@@ -362,49 +368,79 @@ func (report *ResourceVersionsReport) writeGroupSections(
 	// By default, we treat everything as released
 	releasedResources := kinds
 
-	// Pull out any deprecated resources
-	deprecatedResources := releasedResources.Where(report.isDeprecatedResource)
-	releasedResources = releasedResources.Except(deprecatedResources)
+	createSection := func(
+		id string,
+		title string,
+		kinds set.Set[ResourceVersionsReportResourceItem],
+	) resourceVersionsReportSection {
+		releasedResources = releasedResources.Except(kinds)
 
-	// Pull out any prerelease resources
-	prereleaseResources := releasedResources.Where(report.isUnreleasedResource)
-	releasedResources = releasedResources.Except(prereleaseResources)
-
-	// First list prerelease reources, if any
-	err := report.writeSection(
-		group,
-		"prerelease",
-		"### Next Release",
-		prereleaseResources,
-		buffer)
-	if err != nil {
-		return eris.Wrapf(err, "writing prerelease resources for group %s", group)
+		return resourceVersionsReportSection{
+			id:    id,
+			title: title,
+			kinds: kinds,
+		}
 	}
 
-	// Prerelease may have no usage, but we don't want that to trigger an error
-	report.typoAdvisor.AddTerm("prerelease")
-
-	err = report.writeSection(
-		group,
-		"released",
-		"### Released",
-		releasedResources,
-		buffer)
-	if err != nil {
-		return eris.Wrapf(err, "writing released resources for group %s", group)
-	}
-
-	err = report.writeSection(
-		group,
+	// Create a section for all deprecated resources (this is commonly empty)
+	deprecatedSection := createSection(
 		"deprecated",
-		"### Deprecated",
-		deprecatedResources,
-		buffer)
-	if err != nil {
-		return eris.Wrapf(err, "writing deprecated resources for group %s", group)
+		"Deprecated",
+		releasedResources.Where(report.isDeprecatedResource))
+
+	// Create a section for all prerelease resources (those not yet released)
+	prereleaseSection := createSection(
+		"prerelease",
+		"Next Release",
+		releasedResources.Where(report.isUnreleasedResource))
+
+	// Create a section for the latest versions of all supported resources
+	latestSection := createSection(
+		"latest",
+		"Latest Released Versions",
+		findRecommendedReleases(releasedResources))
+
+	// Create a section for all other supported versions
+	otherSection := createSection(
+		"other",
+		"Other Supported Versions",
+		releasedResources)
+
+	// Create an empty section for all released resources
+	// (This will initially be empty, but )
+	releasedSection := createSection(
+		"released",
+		"Released",
+		set.Make[ResourceVersionsReportResourceItem]())
+
+	// If every resource is the latest version, move them to the released section
+	if len(otherSection.kinds) == 0 {
+		releasedSection.kinds = latestSection.kinds
+		latestSection.kinds = nil
 	}
 
-	// Deprecated fragment may have no usage, but we don't want that to trigger an error
+	sections := []resourceVersionsReportSection{
+		prereleaseSection,
+		latestSection,
+		otherSection,
+		releasedSection,
+		deprecatedSection,
+	}
+
+	for _, section := range sections {
+		err := report.writeSection(
+			group,
+			section.id,
+			"### "+section.title,
+			section.kinds,
+			buffer)
+		if err != nil {
+			return eris.Wrapf(err, "writing section %s for group %s", section.id, group)
+		}
+	}
+
+	// Always flag the prerelease and deprecated fragments as used
+	report.typoAdvisor.AddTerm("prerelease")
 	report.typoAdvisor.AddTerm("deprecated")
 
 	return nil
@@ -432,6 +468,52 @@ func (report *ResourceVersionsReport) isDeprecatedResource(item ResourceVersions
 	}
 
 	result := !strings.HasPrefix(ver, astmodel.GeneratorVersion) && len(ver) > 3
+	return result
+}
+
+// findRecommendedReleases selects a single version of each resource to recommend.
+// Stable versions are preferred over preview.
+// Later versions are preferred over earlier.
+func findRecommendedReleases(
+	kinds set.Set[ResourceVersionsReportResourceItem],
+) set.Set[ResourceVersionsReportResourceItem] {
+	index := make(map[string]ResourceVersionsReportResourceItem)
+
+	for _, item := range kinds.Values() {
+		known, ok := index[item.name.Name()]
+		if !ok {
+			// First time we've seen this resource, use this version
+			index[item.name.Name()] = item
+			continue
+		}
+
+		knownVersion := known.name.InternalPackageReference()
+		itemVersion := item.name.InternalPackageReference()
+
+		if knownVersion.IsPreview() && !itemVersion.IsPreview() {
+			// Prefer stable versions over preview, so replace the preview version
+			index[item.name.Name()] = item
+			continue
+		}
+
+		if !knownVersion.IsPreview() && itemVersion.IsPreview() {
+			// Prefer stable versions over preview, so keep what we have
+			continue
+		}
+
+		// Both are either preview or stable, so compare versions
+		if astmodel.ComparePathAndVersion(itemVersion.Version(), knownVersion.Version()) > 0 {
+			// Prefer later versions
+			index[item.name.Name()] = item
+		}
+	}
+
+	result := set.Make[ResourceVersionsReportResourceItem]()
+
+	for _, item := range index {
+		result.Add(item)
+	}
+
 	return result
 }
 

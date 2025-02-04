@@ -16,7 +16,6 @@ Development of these new resources is complete and they will be available in the
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-
 | Resource                                                                                                                         | ARM Version | CRD Version   | Supported From | Sample                                                                                                               |
 |----------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------|
 | [ServerFarm](https://azure.github.io/azure-service-operator/reference/web/v1api20220301/#web.azure.com/v1api20220301.ServerFarm) | 2022-03-01  | v1api20220301 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v1api/v1api20220301_serverfarm.yaml) |

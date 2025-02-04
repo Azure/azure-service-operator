@@ -8,7 +8,6 @@ To install the CRDs for these resources, your ASO configuration must include `sq
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-
 | Resource                                                                                                                                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                            |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Server](https://azure.github.io/azure-service-operator/reference/sql/v1api20211101/#sql.azure.com/v1api20211101.Server)                                                                                   | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_server.yaml)                                          |
