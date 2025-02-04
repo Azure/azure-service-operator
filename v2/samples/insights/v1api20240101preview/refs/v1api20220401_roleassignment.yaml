@@ -13,4 +13,4 @@ spec:
     key: principalId
   roleDefinitionReference:
     # This is the ID of the built-in "Monitoring Contributor" role. See https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles for more.
-    armId: /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa
+    armId: /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c
