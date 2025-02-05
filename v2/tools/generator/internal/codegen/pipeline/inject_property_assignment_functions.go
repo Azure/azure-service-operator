@@ -79,14 +79,14 @@ func InjectPropertyAssignmentFunctions(
 					assignPropertiesToFunc := functions.NewObjectFunction(
 						"AssignPropertiesTo",
 						idFactory,
-						createAssignPropertiesOverrideStub("dst", astmodel.NewOptionalType(nextDef.Name())))
-					assignPropertiesToFunc.AddPackageReference(nextDef.Name().PackageReference())
+						createAssignPropertiesOverrideStub("dst", astmodel.NewOptionalType(nextDef.Name())),
+						nextDef.Name().PackageReference())
 
 					assignPropertiesFromFunc := functions.NewObjectFunction(
 						"AssignPropertiesFrom",
 						idFactory,
-						createAssignPropertiesOverrideStub("src", astmodel.NewOptionalType(nextDef.Name())))
-					assignPropertiesFromFunc.AddPackageReference(nextDef.Name().PackageReference())
+						createAssignPropertiesOverrideStub("src", astmodel.NewOptionalType(nextDef.Name())),
+						nextDef.Name().PackageReference())
 
 					ifaceType = ifaceType.WithFunction(assignPropertiesToFunc).WithFunction(assignPropertiesFromFunc)
 

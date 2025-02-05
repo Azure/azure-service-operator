@@ -22,9 +22,8 @@ func NewNewEmptyARMValueFunc(
 	result := NewObjectFunction(
 		"NewEmptyARMValue",
 		idFactory,
-		newEmptyARMValueBody(armType))
-
-	result.AddPackageReference(armType.InternalPackageReference())
+		newEmptyARMValueBody(armType),
+		armType.InternalPackageReference())
 
 	return result
 }

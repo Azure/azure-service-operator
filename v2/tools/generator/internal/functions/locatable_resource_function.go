@@ -21,8 +21,7 @@ func NewLocatableResource(
 		"Location",
 		resourceType,
 		idFactory,
-		locatableResourceLocationFunc,
-		astmodel.NewPackageReferenceSet())
+		locatableResourceLocationFunc)
 
 	return astmodel.NewInterfaceImplementation(astmodel.LocatableResourceInterfaceName, f)
 }

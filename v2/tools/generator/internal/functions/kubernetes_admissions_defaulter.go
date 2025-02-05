@@ -86,13 +86,13 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 			d.resource,
 			d.idFactory,
 			d.defaultFunction,
-			astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference)),
+			astmodel.GenRuntimeReference),
 		NewResourceFunction(
 			"defaultImpl",
 			d.resource,
 			d.idFactory,
 			d.localDefault,
-			astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference)),
+			astmodel.GenRuntimeReference),
 	}
 
 	// Add the actual individual default functions

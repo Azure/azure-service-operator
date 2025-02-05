@@ -74,14 +74,14 @@ func NewConditionerInterfaceImpl(
 		resource,
 		idFactory,
 		functions.GetConditionsFunction,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeConditionsReference))
+		astmodel.GenRuntimeConditionsReference)
 
 	setConditions := functions.NewResourceFunction(
 		"Set"+astmodel.ConditionsProperty,
 		resource,
 		idFactory,
 		functions.SetConditionsFunction,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeConditionsReference))
+		astmodel.GenRuntimeConditionsReference)
 
 	result := astmodel.NewInterfaceImplementation(
 		astmodel.ConditionerType,

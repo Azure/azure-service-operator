@@ -35,11 +35,6 @@ func NewInitializeSpecFunction(
 		return nil, eris.Errorf("expected %q to be a TypeName", rsrc.StatusType())
 	}
 
-	requiredPackages := astmodel.NewPackageReferenceSet(
-		astmodel.GenRuntimeReference,
-		astmodel.FmtReference,
-	)
-
 	createFn := func(
 		fn *ResourceFunction,
 		codeGenerationContext *astmodel.CodeGenerationContext,
@@ -116,5 +111,7 @@ func NewInitializeSpecFunction(
 		rsrc,
 		idFactory,
 		createFn,
-		requiredPackages), nil
+		astmodel.GenRuntimeReference,
+		astmodel.FmtReference,
+	), nil
 }

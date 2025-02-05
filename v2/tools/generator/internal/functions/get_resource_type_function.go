@@ -32,7 +32,7 @@ func NewGetTypeFunction(
 	result := NewObjectFunction(
 		"Get"+astmodel.TypeProperty,
 		idFactory,
-		createBodyReturningLiteralString(armType, comment, receiverType))
-	result.AddPackageReference(astmodel.GenRuntimeReference)
+		createBodyReturningLiteralString(armType, comment, receiverType),
+		astmodel.GenRuntimeReference)
 	return result
 }
