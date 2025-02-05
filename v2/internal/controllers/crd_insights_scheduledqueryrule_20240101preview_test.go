@@ -71,7 +71,6 @@ func Test_Insights_ScheduledQueryRule_20240101preview_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(roleAssignment)
 
 	tc.Expect(roleAssignment.Status.Id).ToNot(BeNil())
-	armId := *roleAssignment.Status.Id
 
 	rule := &insights.ScheduledQueryRule{
 		ObjectMeta: tc.MakeObjectMeta("rule"),
@@ -113,7 +112,7 @@ func Test_Insights_ScheduledQueryRule_20240101preview_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(rule)
 
 	tc.Expect(rule.Status.Id).ToNot(BeNil())
-	armId = *rule.Status.Id
+	armId := *rule.Status.Id
 
 	old := rule.DeepCopy()
 	key := "foo"
