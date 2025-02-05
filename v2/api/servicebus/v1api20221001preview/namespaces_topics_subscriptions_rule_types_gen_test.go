@@ -5,8 +5,8 @@ package v1api20221001preview
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	v20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/storage"
+	v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -472,7 +472,7 @@ func RunResourceConversionTestForNamespacesTopicsSubscriptionsRule(subject Names
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20211101s.NamespacesTopicsSubscriptionsRule
+	var hub v20240101s.NamespacesTopicsSubscriptionsRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

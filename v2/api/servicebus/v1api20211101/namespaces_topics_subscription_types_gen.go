@@ -53,22 +53,36 @@ var _ conversion.Convertible = &NamespacesTopicsSubscription{}
 
 // ConvertFrom populates our NamespacesTopicsSubscription from the provided hub NamespacesTopicsSubscription
 func (subscription *NamespacesTopicsSubscription) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NamespacesTopicsSubscription)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20211101/storage/NamespacesTopicsSubscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NamespacesTopicsSubscription
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return subscription.AssignProperties_From_NamespacesTopicsSubscription(source)
+	err = subscription.AssignProperties_From_NamespacesTopicsSubscription(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to subscription")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesTopicsSubscription from our NamespacesTopicsSubscription
 func (subscription *NamespacesTopicsSubscription) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NamespacesTopicsSubscription)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20211101/storage/NamespacesTopicsSubscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NamespacesTopicsSubscription
+	err := subscription.AssignProperties_To_NamespacesTopicsSubscription(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from subscription")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return subscription.AssignProperties_To_NamespacesTopicsSubscription(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1api20211101-namespacestopicssubscription,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacestopicssubscriptions,verbs=create;update,versions=v1api20211101,name=default.v1api20211101.namespacestopicssubscriptions.servicebus.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (subscription *NamespacesTopicsSubscription) SecretDestinationExpressions()
 		return nil
 	}
 	return subscription.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &NamespacesTopicsSubscription{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (subscription *NamespacesTopicsSubscription) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*NamespacesTopicsSubscription_STATUS); ok {
-		return subscription.Spec.Initialize_From_NamespacesTopicsSubscription_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type NamespacesTopicsSubscription_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &NamespacesTopicsSubscription{}
@@ -935,86 +938,6 @@ func (subscription *NamespacesTopicsSubscription_Spec) AssignProperties_To_Names
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NamespacesTopicsSubscription_STATUS populates our NamespacesTopicsSubscription_Spec from the provided source NamespacesTopicsSubscription_STATUS
-func (subscription *NamespacesTopicsSubscription_Spec) Initialize_From_NamespacesTopicsSubscription_STATUS(source *NamespacesTopicsSubscription_STATUS) error {
-
-	// AutoDeleteOnIdle
-	subscription.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
-
-	// ClientAffineProperties
-	if source.ClientAffineProperties != nil {
-		var clientAffineProperty SBClientAffineProperties
-		err := clientAffineProperty.Initialize_From_SBClientAffineProperties_STATUS(source.ClientAffineProperties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SBClientAffineProperties_STATUS() to populate field ClientAffineProperties")
-		}
-		subscription.ClientAffineProperties = &clientAffineProperty
-	} else {
-		subscription.ClientAffineProperties = nil
-	}
-
-	// DeadLetteringOnFilterEvaluationExceptions
-	if source.DeadLetteringOnFilterEvaluationExceptions != nil {
-		deadLetteringOnFilterEvaluationException := *source.DeadLetteringOnFilterEvaluationExceptions
-		subscription.DeadLetteringOnFilterEvaluationExceptions = &deadLetteringOnFilterEvaluationException
-	} else {
-		subscription.DeadLetteringOnFilterEvaluationExceptions = nil
-	}
-
-	// DeadLetteringOnMessageExpiration
-	if source.DeadLetteringOnMessageExpiration != nil {
-		deadLetteringOnMessageExpiration := *source.DeadLetteringOnMessageExpiration
-		subscription.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
-	} else {
-		subscription.DeadLetteringOnMessageExpiration = nil
-	}
-
-	// DefaultMessageTimeToLive
-	subscription.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
-
-	// DuplicateDetectionHistoryTimeWindow
-	subscription.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
-
-	// EnableBatchedOperations
-	if source.EnableBatchedOperations != nil {
-		enableBatchedOperation := *source.EnableBatchedOperations
-		subscription.EnableBatchedOperations = &enableBatchedOperation
-	} else {
-		subscription.EnableBatchedOperations = nil
-	}
-
-	// ForwardDeadLetteredMessagesTo
-	subscription.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(source.ForwardDeadLetteredMessagesTo)
-
-	// ForwardTo
-	subscription.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
-
-	// IsClientAffine
-	if source.IsClientAffine != nil {
-		isClientAffine := *source.IsClientAffine
-		subscription.IsClientAffine = &isClientAffine
-	} else {
-		subscription.IsClientAffine = nil
-	}
-
-	// LockDuration
-	subscription.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
-
-	// MaxDeliveryCount
-	subscription.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
-
-	// RequiresSession
-	if source.RequiresSession != nil {
-		requiresSession := *source.RequiresSession
-		subscription.RequiresSession = &requiresSession
-	} else {
-		subscription.RequiresSession = nil
 	}
 
 	// No error
@@ -1925,32 +1848,6 @@ func (properties *SBClientAffineProperties) AssignProperties_To_SBClientAffinePr
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SBClientAffineProperties_STATUS populates our SBClientAffineProperties from the provided source SBClientAffineProperties_STATUS
-func (properties *SBClientAffineProperties) Initialize_From_SBClientAffineProperties_STATUS(source *SBClientAffineProperties_STATUS) error {
-
-	// ClientId
-	properties.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// IsDurable
-	if source.IsDurable != nil {
-		isDurable := *source.IsDurable
-		properties.IsDurable = &isDurable
-	} else {
-		properties.IsDurable = nil
-	}
-
-	// IsShared
-	if source.IsShared != nil {
-		isShared := *source.IsShared
-		properties.IsShared = &isShared
-	} else {
-		properties.IsShared = nil
 	}
 
 	// No error

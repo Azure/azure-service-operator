@@ -53,22 +53,36 @@ var _ conversion.Convertible = &NamespacesTopic{}
 
 // ConvertFrom populates our NamespacesTopic from the provided hub NamespacesTopic
 func (topic *NamespacesTopic) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NamespacesTopic)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20211101/storage/NamespacesTopic but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NamespacesTopic
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return topic.AssignProperties_From_NamespacesTopic(source)
+	err = topic.AssignProperties_From_NamespacesTopic(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to topic")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesTopic from our NamespacesTopic
 func (topic *NamespacesTopic) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NamespacesTopic)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20211101/storage/NamespacesTopic but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NamespacesTopic
+	err := topic.AssignProperties_To_NamespacesTopic(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from topic")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return topic.AssignProperties_To_NamespacesTopic(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1api20211101-namespacestopic,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacestopics,verbs=create;update,versions=v1api20211101,name=default.v1api20211101.namespacestopics.servicebus.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (topic *NamespacesTopic) SecretDestinationExpressions() []*core.Destination
 		return nil
 	}
 	return topic.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &NamespacesTopic{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (topic *NamespacesTopic) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*NamespacesTopic_STATUS); ok {
-		return topic.Spec.Initialize_From_NamespacesTopic_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type NamespacesTopic_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &NamespacesTopic{}
@@ -839,68 +842,6 @@ func (topic *NamespacesTopic_Spec) AssignProperties_To_NamespacesTopic_Spec(dest
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NamespacesTopic_STATUS populates our NamespacesTopic_Spec from the provided source NamespacesTopic_STATUS
-func (topic *NamespacesTopic_Spec) Initialize_From_NamespacesTopic_STATUS(source *NamespacesTopic_STATUS) error {
-
-	// AutoDeleteOnIdle
-	topic.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
-
-	// DefaultMessageTimeToLive
-	topic.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
-
-	// DuplicateDetectionHistoryTimeWindow
-	topic.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
-
-	// EnableBatchedOperations
-	if source.EnableBatchedOperations != nil {
-		enableBatchedOperation := *source.EnableBatchedOperations
-		topic.EnableBatchedOperations = &enableBatchedOperation
-	} else {
-		topic.EnableBatchedOperations = nil
-	}
-
-	// EnableExpress
-	if source.EnableExpress != nil {
-		enableExpress := *source.EnableExpress
-		topic.EnableExpress = &enableExpress
-	} else {
-		topic.EnableExpress = nil
-	}
-
-	// EnablePartitioning
-	if source.EnablePartitioning != nil {
-		enablePartitioning := *source.EnablePartitioning
-		topic.EnablePartitioning = &enablePartitioning
-	} else {
-		topic.EnablePartitioning = nil
-	}
-
-	// MaxMessageSizeInKilobytes
-	topic.MaxMessageSizeInKilobytes = genruntime.ClonePointerToInt(source.MaxMessageSizeInKilobytes)
-
-	// MaxSizeInMegabytes
-	topic.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
-
-	// RequiresDuplicateDetection
-	if source.RequiresDuplicateDetection != nil {
-		requiresDuplicateDetection := *source.RequiresDuplicateDetection
-		topic.RequiresDuplicateDetection = &requiresDuplicateDetection
-	} else {
-		topic.RequiresDuplicateDetection = nil
-	}
-
-	// SupportOrdering
-	if source.SupportOrdering != nil {
-		supportOrdering := *source.SupportOrdering
-		topic.SupportOrdering = &supportOrdering
-	} else {
-		topic.SupportOrdering = nil
 	}
 
 	// No error

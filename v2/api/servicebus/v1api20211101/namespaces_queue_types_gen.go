@@ -53,22 +53,36 @@ var _ conversion.Convertible = &NamespacesQueue{}
 
 // ConvertFrom populates our NamespacesQueue from the provided hub NamespacesQueue
 func (queue *NamespacesQueue) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NamespacesQueue)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20211101/storage/NamespacesQueue but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NamespacesQueue
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return queue.AssignProperties_From_NamespacesQueue(source)
+	err = queue.AssignProperties_From_NamespacesQueue(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to queue")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesQueue from our NamespacesQueue
 func (queue *NamespacesQueue) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NamespacesQueue)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20211101/storage/NamespacesQueue but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NamespacesQueue
+	err := queue.AssignProperties_To_NamespacesQueue(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from queue")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return queue.AssignProperties_To_NamespacesQueue(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1api20211101-namespacesqueue,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1api20211101,name=default.v1api20211101.namespacesqueues.servicebus.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (queue *NamespacesQueue) SecretDestinationExpressions() []*core.Destination
 		return nil
 	}
 	return queue.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &NamespacesQueue{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (queue *NamespacesQueue) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*NamespacesQueue_STATUS); ok {
-		return queue.Spec.Initialize_From_NamespacesQueue_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type NamespacesQueue_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &NamespacesQueue{}
@@ -967,88 +970,6 @@ func (queue *NamespacesQueue_Spec) AssignProperties_To_NamespacesQueue_Spec(dest
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NamespacesQueue_STATUS populates our NamespacesQueue_Spec from the provided source NamespacesQueue_STATUS
-func (queue *NamespacesQueue_Spec) Initialize_From_NamespacesQueue_STATUS(source *NamespacesQueue_STATUS) error {
-
-	// AutoDeleteOnIdle
-	queue.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
-
-	// DeadLetteringOnMessageExpiration
-	if source.DeadLetteringOnMessageExpiration != nil {
-		deadLetteringOnMessageExpiration := *source.DeadLetteringOnMessageExpiration
-		queue.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
-	} else {
-		queue.DeadLetteringOnMessageExpiration = nil
-	}
-
-	// DefaultMessageTimeToLive
-	queue.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
-
-	// DuplicateDetectionHistoryTimeWindow
-	queue.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
-
-	// EnableBatchedOperations
-	if source.EnableBatchedOperations != nil {
-		enableBatchedOperation := *source.EnableBatchedOperations
-		queue.EnableBatchedOperations = &enableBatchedOperation
-	} else {
-		queue.EnableBatchedOperations = nil
-	}
-
-	// EnableExpress
-	if source.EnableExpress != nil {
-		enableExpress := *source.EnableExpress
-		queue.EnableExpress = &enableExpress
-	} else {
-		queue.EnableExpress = nil
-	}
-
-	// EnablePartitioning
-	if source.EnablePartitioning != nil {
-		enablePartitioning := *source.EnablePartitioning
-		queue.EnablePartitioning = &enablePartitioning
-	} else {
-		queue.EnablePartitioning = nil
-	}
-
-	// ForwardDeadLetteredMessagesTo
-	queue.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(source.ForwardDeadLetteredMessagesTo)
-
-	// ForwardTo
-	queue.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
-
-	// LockDuration
-	queue.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
-
-	// MaxDeliveryCount
-	queue.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
-
-	// MaxMessageSizeInKilobytes
-	queue.MaxMessageSizeInKilobytes = genruntime.ClonePointerToInt(source.MaxMessageSizeInKilobytes)
-
-	// MaxSizeInMegabytes
-	queue.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
-
-	// RequiresDuplicateDetection
-	if source.RequiresDuplicateDetection != nil {
-		requiresDuplicateDetection := *source.RequiresDuplicateDetection
-		queue.RequiresDuplicateDetection = &requiresDuplicateDetection
-	} else {
-		queue.RequiresDuplicateDetection = nil
-	}
-
-	// RequiresSession
-	if source.RequiresSession != nil {
-		requiresSession := *source.RequiresSession
-		queue.RequiresSession = &requiresSession
-	} else {
-		queue.RequiresSession = nil
 	}
 
 	// No error
