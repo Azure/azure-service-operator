@@ -11,9 +11,10 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
 	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
+
+	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 )
 
 func Test_NamespaceAuthorizationRuleSecretsSpecified_AllSecretsSpecifiedAllSecretsReturned(t *testing.T) {
