@@ -1,0 +1,16 @@
+apiVersion: authorization.azure.com/v1api20220401
+kind: RoleAssignment
+metadata:
+  name: aso-sample-roleassignment
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-rg
+    group: resources.azure.com
+    kind: ResourceGroup
+  principalIdFromConfig:
+    name: admin-settings
+    key: principalId
+  roleDefinitionReference:
+    # This is the ID of the built-in "Monitoring Contributor" role. See https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles for more.
+    armId: /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c

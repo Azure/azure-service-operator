@@ -1,0 +1,37 @@
+apiVersion: insights.azure.com/v1api20240101preview
+kind: ScheduledQueryRule
+metadata:
+  name: aso-sample-rule
+  namespace: default
+spec:
+  criteria:
+    allOf:
+      - failingPeriods:
+          minFailingPeriodsToAlert: 1
+          numberOfEvaluationPeriods: 1
+        operator: LessThan
+        query: "requests | summarize CountByCountry=count() by client_CountryOrRegion"
+        threshold: 10
+        timeAggregation: Count
+  evaluationFrequency: PT10M
+  identity:
+    type: UserAssigned
+    userAssignedIdentities:
+      - reference:
+          group: managedidentity.azure.com
+          kind: UserAssignedIdentity
+          name: adminidentity
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  scopesReferences:
+    - group: insights.azure.com
+      kind: Component
+      name: sampleappinsights
+  severity: 0
+  windowSize: PT10M
+  actions:
+    actionGroupsReferences:
+      - group: insights.azure.com
+        kind: ActionGroup
+        name: aso-sample-actiongroup

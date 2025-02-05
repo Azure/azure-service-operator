@@ -91,6 +91,12 @@ typeFilters:
     version: v*20210501preview
     because: We're using DiagnosticSetting from this.
 
+# Latest non-preview version is not supported, see https://github.com/Azure/bicep-types-az/issues/2185
+  - action: include
+    group: insights
+    version: v*20240101preview
+    because: We need ScheduledQueryRules from this.
+
   - action: include
     group: common
     because: we need these for common resource properties
@@ -2762,6 +2768,19 @@ objectModelConfiguration:
         EventHubAuthorizationRuleId:
           $armReference: true
         StorageAccountId:
+          $armReference: true
+    2024-01-01-preview:
+      ScheduledQueryRule:
+        $export: true
+        $supportedFrom: v2.12.0
+      Actions:
+        ActionGroups:
+          $armReference: true
+      Condition:
+        ResourceIdColumn:
+          $armReference: true
+      ScheduledQueryRuleProperties:
+        Scopes:
           $armReference: true
 
   keyvault:
