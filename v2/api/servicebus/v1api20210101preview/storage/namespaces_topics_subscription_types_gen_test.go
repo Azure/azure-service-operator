@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
+	v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForNamespacesTopicsSubscription(subject Namespaces
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.NamespacesTopicsSubscription
+	var hub v20240101s.NamespacesTopicsSubscription
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForNamespacesTopicsSubscription(subject Namespaces
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesTopicsSubscription
+	var other v20211101s.NamespacesTopicsSubscription
 	err := copied.AssignProperties_To_NamespacesTopicsSubscription(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForNamespacesTopicsSubscriptionOperatorSpec(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesTopicsSubscriptionOperatorSpec
+	var other v20211101s.NamespacesTopicsSubscriptionOperatorSpec
 	err := copied.AssignProperties_To_NamespacesTopicsSubscriptionOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForNamespacesTopicsSubscription_STATUS(subject Nam
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesTopicsSubscription_STATUS
+	var other v20211101s.NamespacesTopicsSubscription_STATUS
 	err := copied.AssignProperties_To_NamespacesTopicsSubscription_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -415,7 +416,7 @@ func RunPropertyAssignmentTestForNamespacesTopicsSubscription_Spec(subject Names
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesTopicsSubscription_Spec
+	var other v20211101s.NamespacesTopicsSubscription_Spec
 	err := copied.AssignProperties_To_NamespacesTopicsSubscription_Spec(&other)
 	if err != nil {
 		return err.Error()
