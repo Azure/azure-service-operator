@@ -91,6 +91,12 @@ typeFilters:
     version: v*20210501preview
     because: We're using DiagnosticSetting from this.
 
+# Latest non-preview version is not supported, see https://github.com/Azure/bicep-types-az/issues/2185
+  - action: include
+    group: insights
+    version: v*20240101preview
+    because: We need ScheduledQueryRules from this.
+
   - action: include
     group: common
     because: we need these for common resource properties
@@ -486,6 +492,18 @@ typeTransformers:
     property: CustomDnsConfigs
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
+
+  - group: notificationhubs
+    name: NamespaceProperties
+    property: Status;ProvisioningState
+    remove: true
+    because: This property should be marked readonly
+
+  - group: notificationhubs
+    name: SharedAccessAuthorizationRuleProperties
+    property: PrimaryKey;SecondaryKey
+    remove: true
+    because: This property should be marked readonly
 
   - name: EventHubProperties;Namespaces_Eventhub_Properties_Spec
     group: eventhub
@@ -1171,6 +1189,54 @@ objectModelConfiguration:
           $armReference: true
       VirtualNetworkConfiguration:
         SubnetResourceId:
+          $armReference: true
+  app:
+    2024-03-01:
+      ContainerApp:
+        $export: true
+        $supportedFrom: v2.12.0
+        $generatedConfigs:
+          EventStreamEndpoint: $.Status.EventStreamEndpoint
+          Fqdn: $.Status.LatestRevisionFqdn
+      ContainerApps_AuthConfig:
+        $exportAs: AuthConfig
+        $supportedFrom: v2.12.0
+      RegistryCredentials:
+        passwordSecretRef:
+          $isSecret: false
+        Identity:
+          $armReference: true
+      ServiceBind:
+        ServiceId:
+          $armReference: true
+      Secret:
+        Identity:
+          $armReference: true
+      ContainerApp_Spec:
+        ManagedBy:
+          $armReference: true
+      ContainerApp_Properties_Spec:
+        EnvironmentId:
+          $armReference: true
+        ManagedEnvironmentId:
+          $armReference: true
+      CustomDomain:
+        CertificateId:
+          $armReference: true
+      OpenIdConnectConfig:
+        TokenEndpoint:
+          $isSecret: false
+      ManagedEnvironment:
+        $export: true
+        $supportedFrom: v2.12.0
+      VnetConfiguration:
+        InfrastructureSubnetId:
+          $armReference: true
+      Job:
+        $export: true
+        $supportedFrom: v2.12.0
+      Job_Properties_Spec:
+        EnvironmentId:
           $armReference: true
   appconfiguration:
     2022-05-01:
@@ -2431,6 +2497,86 @@ objectModelConfiguration:
       SqlUserDefinedFunctionResource:
         Id:
           $armReference: false
+    2024-08-15:
+      DatabaseAccount:
+        $export: true
+        $supportedFrom: v2.12.0
+        $azureGeneratedSecrets:
+          - PrimaryMasterKey
+          - SecondaryMasterKey
+          - PrimaryReadonlyMasterKey
+          - SecondaryReadonlyMasterKey
+          - DocumentEndpoint
+      DatabaseAccountCreateUpdateProperties:
+        NetworkAclBypassResourceIds:
+          $armReference: true
+      DatabaseAccounts_MongodbDatabase:
+        $exportAs: MongodbDatabase
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_MongodbDatabases_Collection:
+        $exportAs: MongodbDatabaseCollection
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting:
+        $exportAs: MongodbDatabaseCollectionThroughputSetting
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_MongodbDatabases_ThroughputSetting:
+        $exportAs: MongodbDatabaseThroughputSetting
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlDatabase:
+        $exportAs: SqlDatabase
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlDatabases_Container:
+        $exportAs: SqlDatabaseContainer
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlDatabases_Containers_StoredProcedure:
+        $exportAs: SqlDatabaseContainerStoredProcedure
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting:
+        $exportAs: SqlDatabaseContainerThroughputSetting
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlDatabases_Containers_Trigger:
+        $exportAs: SqlDatabaseContainerTrigger
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction:
+        $exportAs: SqlDatabaseContainerUserDefinedFunction
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlDatabases_ThroughputSetting:
+        $exportAs: SqlDatabaseThroughputSetting
+        $supportedFrom: v2.12.0
+      DatabaseAccounts_SqlRoleAssignment:
+        $exportAs: SqlRoleAssignment
+        $supportedFrom: v2.12.0
+        $defaultAzureName: false
+      DatabaseAccounts_MongodbUserDefinition:
+        $exportAs: MongodbUserDefinition
+        $supportedFrom: v2.12.0
+      MongoDBCollectionResource:
+        Id:
+          $armReference: false
+      MongoDBDatabaseResource:
+        Id:
+          $armReference: false
+      SqlDatabaseResource:
+        Id:
+          $armReference: false
+      SqlContainerResource:
+        Id:
+          $armReference: false
+      SqlRoleAssignmentResource:
+        PrincipalId:
+          $importConfigMapMode: optional
+      SqlTriggerResource:
+        Id:
+          $armReference: false
+      SqlStoredProcedureResource:
+        Id:
+          $armReference: false
+      SqlUserDefinedFunctionResource:
+        Id:
+          $armReference: false
+      MongoUserDefinitionResource:
+        password:
+          $isSecret: true
   eventgrid:
     2020-06-01:
       Domain:
@@ -2622,6 +2768,19 @@ objectModelConfiguration:
         EventHubAuthorizationRuleId:
           $armReference: true
         StorageAccountId:
+          $armReference: true
+    2024-01-01-preview:
+      ScheduledQueryRule:
+        $export: true
+        $supportedFrom: v2.12.0
+      Actions:
+        ActionGroups:
+          $armReference: true
+      Condition:
+        ResourceIdColumn:
+          $armReference: true
+      ScheduledQueryRuleProperties:
+        Scopes:
           $armReference: true
 
   keyvault:
@@ -3508,6 +3667,35 @@ objectModelConfiguration:
       FrontDoorWebApplicationFirewallPolicy:
         $exportAs: WebApplicationFirewallPolicy
         $supportedFrom: v2.6.0
+  notificationhubs:
+    2023-09-01:
+      Namespace:
+        $export: true
+        $supportedFrom: v2.12.0
+        $azureGeneratedSecrets:
+          - PrimaryConnectionString
+          - SecondaryConnectionString
+          - PrimaryKey
+          - SecondaryKey
+        $generatedConfigs:
+          ServiceBusEndpoint: $.Status.Properties.ServiceBusEndpoint
+      Namespaces_AuthorizationRule:
+        $exportAs: NamespacesAuthorizationRule
+        $supportedFrom: v2.12.0
+      Namespaces_NotificationHub:
+        $exportAs: NotificationHub
+        $supportedFrom: v2.12.0
+        $azureGeneratedSecrets:
+          - PrimaryConnectionString
+          - SecondaryConnectionString
+          - PrimaryKey
+          - SecondaryKey
+      Namespaces_NotificationHubs_AuthorizationRule:
+        $exportAs: NotificationHubsAuthorizationRule
+        $supportedFrom: v2.12.0
+      NotificationHubProperties:
+        AuthorizationRules:
+          $isSecret: false
   operationalinsights:
     2021-06-01:
       Workspace:
@@ -3655,6 +3843,39 @@ objectModelConfiguration:
       Namespaces_Topics_Subscriptions_Rule:
         $exportAs: NamespacesTopicsSubscriptionsRule
         $supportedFrom: v2.3.0
+    2024-01-01:
+      Namespace:
+        $export: true
+        $supportedFrom: v2.12.0
+        $azureGeneratedSecrets:
+          - Endpoint
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      Namespaces_AuthorizationRule:
+        $exportAs: NamespacesAuthorizationRule
+        $supportedFrom: v2.12.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      Namespaces_Queue:
+        $exportAs: NamespacesQueue
+        $supportedFrom: v2.12.0
+      Namespaces_Topic:
+        $exportAs: NamespacesTopic
+        $supportedFrom: v2.12.0
+      UserAssignedIdentityProperties:
+        UserAssignedIdentity:
+          $armReference: true
+      Namespaces_Topics_Subscription:
+        $exportAs: NamespacesTopicsSubscription
+        $supportedFrom: v2.12.0
+      Namespaces_Topics_Subscriptions_Rule:
+        $exportAs: NamespacesTopicsSubscriptionsRule
+        $supportedFrom: v2.12.0
   signalrservice:
     2021-10-01:
       SignalR:
@@ -3665,6 +3886,30 @@ objectModelConfiguration:
           - PrimaryConnectionString
           - SecondaryKey
           - SecondaryConnectionString
+    2024-03-01:
+      SignalR:
+        $export: true
+        $supportedFrom: v2.12.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      SignalR_Replica:
+        $exportAs: Replica
+        $supportedFrom: v2.12.0
+      SignalR_CustomDomain:
+        $exportAs: CustomDomain
+        $supportedFrom: v2.12.0
+      SignalR_CustomCertificate:
+        $exportAs: CustomCertificate
+        $supportedFrom: v2.12.0
+      CustomCertificateProperties:
+        KeyVaultBaseURI:
+          $importConfigMapMode: optional
+      ResourceReference:
+        Id:
+          $armReference: true
   sql:
     v1: # Handcrafted 
       User:

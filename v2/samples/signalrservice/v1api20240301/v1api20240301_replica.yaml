@@ -1,0 +1,12 @@
+apiVersion: signalrservice.azure.com/v1api20240301
+kind: Replica
+metadata:
+  name: aso-sample-signalr-replica
+  namespace: default
+spec:
+  location: westus3
+  owner:
+    name: aso-sample-signalr
+  sku:
+    capacity: 1
+    name: Premium_P1

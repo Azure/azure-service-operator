@@ -53,22 +53,36 @@ var _ conversion.Convertible = &SqlDatabaseThroughputSetting{}
 
 // ConvertFrom populates our SqlDatabaseThroughputSetting from the provided hub SqlDatabaseThroughputSetting
 func (setting *SqlDatabaseThroughputSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SqlDatabaseThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.SqlDatabaseThroughputSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignProperties_From_SqlDatabaseThroughputSetting(source)
+	err = setting.AssignProperties_From_SqlDatabaseThroughputSetting(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseThroughputSetting from our SqlDatabaseThroughputSetting
 func (setting *SqlDatabaseThroughputSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SqlDatabaseThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.SqlDatabaseThroughputSetting
+	err := setting.AssignProperties_To_SqlDatabaseThroughputSetting(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignProperties_To_SqlDatabaseThroughputSetting(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1api20231115-sqldatabasethroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasethroughputsettings,verbs=create;update,versions=v1api20231115,name=default.v1api20231115.sqldatabasethroughputsettings.documentdb.azure.com,admissionReviewVersions=v1
@@ -105,17 +119,6 @@ func (setting *SqlDatabaseThroughputSetting) SecretDestinationExpressions() []*c
 		return nil
 	}
 	return setting.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &SqlDatabaseThroughputSetting{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (setting *SqlDatabaseThroughputSetting) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*SqlDatabaseThroughputSetting_STATUS); ok {
-		return setting.Spec.Initialize_From_SqlDatabaseThroughputSetting_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type SqlDatabaseThroughputSetting_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseThroughputSetting{}
@@ -626,31 +629,6 @@ func (setting *SqlDatabaseThroughputSetting_Spec) AssignProperties_To_SqlDatabas
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SqlDatabaseThroughputSetting_STATUS populates our SqlDatabaseThroughputSetting_Spec from the provided source SqlDatabaseThroughputSetting_STATUS
-func (setting *SqlDatabaseThroughputSetting_Spec) Initialize_From_SqlDatabaseThroughputSetting_STATUS(source *SqlDatabaseThroughputSetting_STATUS) error {
-
-	// Location
-	setting.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Resource
-	if source.Resource != nil {
-		var resource ThroughputSettingsResource
-		err := resource.Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS(source.Resource)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
-		}
-		setting.Resource = &resource
-	} else {
-		setting.Resource = nil
-	}
-
-	// Tags
-	setting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil

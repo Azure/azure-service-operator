@@ -53,22 +53,36 @@ var _ conversion.Convertible = &SqlDatabaseContainerStoredProcedure{}
 
 // ConvertFrom populates our SqlDatabaseContainerStoredProcedure from the provided hub SqlDatabaseContainerStoredProcedure
 func (procedure *SqlDatabaseContainerStoredProcedure) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SqlDatabaseContainerStoredProcedure)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseContainerStoredProcedure but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.SqlDatabaseContainerStoredProcedure
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return procedure.AssignProperties_From_SqlDatabaseContainerStoredProcedure(source)
+	err = procedure.AssignProperties_From_SqlDatabaseContainerStoredProcedure(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to procedure")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseContainerStoredProcedure from our SqlDatabaseContainerStoredProcedure
 func (procedure *SqlDatabaseContainerStoredProcedure) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SqlDatabaseContainerStoredProcedure)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseContainerStoredProcedure but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.SqlDatabaseContainerStoredProcedure
+	err := procedure.AssignProperties_To_SqlDatabaseContainerStoredProcedure(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from procedure")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return procedure.AssignProperties_To_SqlDatabaseContainerStoredProcedure(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1api20231115-sqldatabasecontainerstoredprocedure,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontainerstoredprocedures,verbs=create;update,versions=v1api20231115,name=default.v1api20231115.sqldatabasecontainerstoredprocedures.documentdb.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (procedure *SqlDatabaseContainerStoredProcedure) SecretDestinationExpressio
 		return nil
 	}
 	return procedure.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &SqlDatabaseContainerStoredProcedure{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (procedure *SqlDatabaseContainerStoredProcedure) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*SqlDatabaseContainerStoredProcedure_STATUS); ok {
-		return procedure.Spec.Initialize_From_SqlDatabaseContainerStoredProcedure_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type SqlDatabaseContainerStoredProcedure_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerStoredProcedure{}
@@ -702,31 +705,6 @@ func (procedure *SqlDatabaseContainerStoredProcedure_Spec) AssignProperties_To_S
 	return nil
 }
 
-// Initialize_From_SqlDatabaseContainerStoredProcedure_STATUS populates our SqlDatabaseContainerStoredProcedure_Spec from the provided source SqlDatabaseContainerStoredProcedure_STATUS
-func (procedure *SqlDatabaseContainerStoredProcedure_Spec) Initialize_From_SqlDatabaseContainerStoredProcedure_STATUS(source *SqlDatabaseContainerStoredProcedure_STATUS) error {
-
-	// Location
-	procedure.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Resource
-	if source.Resource != nil {
-		var resource SqlStoredProcedureResource
-		err := resource.Initialize_From_SqlStoredProcedureGetProperties_Resource_STATUS(source.Resource)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SqlStoredProcedureGetProperties_Resource_STATUS() to populate field Resource")
-		}
-		procedure.Resource = &resource
-	} else {
-		procedure.Resource = nil
-	}
-
-	// Tags
-	procedure.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (procedure *SqlDatabaseContainerStoredProcedure_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1278,19 +1256,6 @@ func (resource *SqlStoredProcedureResource) AssignProperties_To_SqlStoredProcedu
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SqlStoredProcedureGetProperties_Resource_STATUS populates our SqlStoredProcedureResource from the provided source SqlStoredProcedureGetProperties_Resource_STATUS
-func (resource *SqlStoredProcedureResource) Initialize_From_SqlStoredProcedureGetProperties_Resource_STATUS(source *SqlStoredProcedureGetProperties_Resource_STATUS) error {
-
-	// Body
-	resource.Body = genruntime.ClonePointerToString(source.Body)
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil

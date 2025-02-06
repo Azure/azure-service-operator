@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &SqlDatabaseContainerTrigger{}
 
 // ConvertFrom populates our SqlDatabaseContainerTrigger from the provided hub SqlDatabaseContainerTrigger
 func (trigger *SqlDatabaseContainerTrigger) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SqlDatabaseContainerTrigger)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseContainerTrigger but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.SqlDatabaseContainerTrigger
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return trigger.AssignProperties_From_SqlDatabaseContainerTrigger(source)
+	err = trigger.AssignProperties_From_SqlDatabaseContainerTrigger(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to trigger")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseContainerTrigger from our SqlDatabaseContainerTrigger
 func (trigger *SqlDatabaseContainerTrigger) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SqlDatabaseContainerTrigger)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseContainerTrigger but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.SqlDatabaseContainerTrigger
+	err := trigger.AssignProperties_To_SqlDatabaseContainerTrigger(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from trigger")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return trigger.AssignProperties_To_SqlDatabaseContainerTrigger(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &SqlDatabaseContainerTrigger{}

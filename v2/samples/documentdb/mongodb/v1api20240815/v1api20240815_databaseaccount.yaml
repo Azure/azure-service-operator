@@ -1,0 +1,19 @@
+apiVersion: documentdb.azure.com/v1api20240815
+kind: DatabaseAccount
+metadata:
+  name: aso-mongodb-acc
+  namespace: default
+spec:
+  location: eastus
+  owner:
+    name: aso-sample-rg
+  kind: MongoDB
+  apiProperties:
+    serverVersion: "7.0"
+  capabilities:
+    - name: EnableMongo
+    - name: EnableMongoRoleBasedAccessControl
+  databaseAccountOfferType: Standard
+  locations:
+    - locationName: australiaeast
+  minimalTlsVersion: Tls12

@@ -53,22 +53,36 @@ var _ conversion.Convertible = &MongodbDatabaseCollectionThroughputSetting{}
 
 // ConvertFrom populates our MongodbDatabaseCollectionThroughputSetting from the provided hub MongodbDatabaseCollectionThroughputSetting
 func (setting *MongodbDatabaseCollectionThroughputSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.MongodbDatabaseCollectionThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/MongodbDatabaseCollectionThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.MongodbDatabaseCollectionThroughputSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignProperties_From_MongodbDatabaseCollectionThroughputSetting(source)
+	err = setting.AssignProperties_From_MongodbDatabaseCollectionThroughputSetting(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub MongodbDatabaseCollectionThroughputSetting from our MongodbDatabaseCollectionThroughputSetting
 func (setting *MongodbDatabaseCollectionThroughputSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.MongodbDatabaseCollectionThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/MongodbDatabaseCollectionThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.MongodbDatabaseCollectionThroughputSetting
+	err := setting.AssignProperties_To_MongodbDatabaseCollectionThroughputSetting(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignProperties_To_MongodbDatabaseCollectionThroughputSetting(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1api20231115-mongodbdatabasecollectionthroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasecollectionthroughputsettings,verbs=create;update,versions=v1api20231115,name=default.v1api20231115.mongodbdatabasecollectionthroughputsettings.documentdb.azure.com,admissionReviewVersions=v1
@@ -105,17 +119,6 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) SecretDestinationExpr
 		return nil
 	}
 	return setting.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &MongodbDatabaseCollectionThroughputSetting{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (setting *MongodbDatabaseCollectionThroughputSetting) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*MongodbDatabaseCollectionThroughputSetting_STATUS); ok {
-		return setting.Spec.Initialize_From_MongodbDatabaseCollectionThroughputSetting_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type MongodbDatabaseCollectionThroughputSetting_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &MongodbDatabaseCollectionThroughputSetting{}
@@ -626,31 +629,6 @@ func (setting *MongodbDatabaseCollectionThroughputSetting_Spec) AssignProperties
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_MongodbDatabaseCollectionThroughputSetting_STATUS populates our MongodbDatabaseCollectionThroughputSetting_Spec from the provided source MongodbDatabaseCollectionThroughputSetting_STATUS
-func (setting *MongodbDatabaseCollectionThroughputSetting_Spec) Initialize_From_MongodbDatabaseCollectionThroughputSetting_STATUS(source *MongodbDatabaseCollectionThroughputSetting_STATUS) error {
-
-	// Location
-	setting.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Resource
-	if source.Resource != nil {
-		var resource ThroughputSettingsResource
-		err := resource.Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS(source.Resource)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
-		}
-		setting.Resource = &resource
-	} else {
-		setting.Resource = nil
-	}
-
-	// Tags
-	setting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1321,28 +1299,6 @@ func (resource *ThroughputSettingsResource) AssignProperties_To_ThroughputSettin
 	return nil
 }
 
-// Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS populates our ThroughputSettingsResource from the provided source ThroughputSettingsGetProperties_Resource_STATUS
-func (resource *ThroughputSettingsResource) Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS(source *ThroughputSettingsGetProperties_Resource_STATUS) error {
-
-	// AutoscaleSettings
-	if source.AutoscaleSettings != nil {
-		var autoscaleSetting AutoscaleSettingsResource
-		err := autoscaleSetting.Initialize_From_AutoscaleSettingsResource_STATUS(source.AutoscaleSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AutoscaleSettingsResource_STATUS() to populate field AutoscaleSettings")
-		}
-		resource.AutoscaleSettings = &autoscaleSetting
-	} else {
-		resource.AutoscaleSettings = nil
-	}
-
-	// Throughput
-	resource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
-
-	// No error
-	return nil
-}
-
 // Cosmos DB provisioned throughput settings object
 type AutoscaleSettingsResource struct {
 	// AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
@@ -1461,28 +1417,6 @@ func (resource *AutoscaleSettingsResource) AssignProperties_To_AutoscaleSettings
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AutoscaleSettingsResource_STATUS populates our AutoscaleSettingsResource from the provided source AutoscaleSettingsResource_STATUS
-func (resource *AutoscaleSettingsResource) Initialize_From_AutoscaleSettingsResource_STATUS(source *AutoscaleSettingsResource_STATUS) error {
-
-	// AutoUpgradePolicy
-	if source.AutoUpgradePolicy != nil {
-		var autoUpgradePolicy AutoUpgradePolicyResource
-		err := autoUpgradePolicy.Initialize_From_AutoUpgradePolicyResource_STATUS(source.AutoUpgradePolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AutoUpgradePolicyResource_STATUS() to populate field AutoUpgradePolicy")
-		}
-		resource.AutoUpgradePolicy = &autoUpgradePolicy
-	} else {
-		resource.AutoUpgradePolicy = nil
-	}
-
-	// MaxThroughput
-	resource.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
 
 	// No error
 	return nil
@@ -1702,25 +1636,6 @@ func (resource *AutoUpgradePolicyResource) AssignProperties_To_AutoUpgradePolicy
 	return nil
 }
 
-// Initialize_From_AutoUpgradePolicyResource_STATUS populates our AutoUpgradePolicyResource from the provided source AutoUpgradePolicyResource_STATUS
-func (resource *AutoUpgradePolicyResource) Initialize_From_AutoUpgradePolicyResource_STATUS(source *AutoUpgradePolicyResource_STATUS) error {
-
-	// ThroughputPolicy
-	if source.ThroughputPolicy != nil {
-		var throughputPolicy ThroughputPolicyResource
-		err := throughputPolicy.Initialize_From_ThroughputPolicyResource_STATUS(source.ThroughputPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ThroughputPolicyResource_STATUS() to populate field ThroughputPolicy")
-		}
-		resource.ThroughputPolicy = &throughputPolicy
-	} else {
-		resource.ThroughputPolicy = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Cosmos DB resource auto-upgrade policy
 type AutoUpgradePolicyResource_STATUS struct {
 	// ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade
@@ -1902,24 +1817,6 @@ func (resource *ThroughputPolicyResource) AssignProperties_To_ThroughputPolicyRe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ThroughputPolicyResource_STATUS populates our ThroughputPolicyResource from the provided source ThroughputPolicyResource_STATUS
-func (resource *ThroughputPolicyResource) Initialize_From_ThroughputPolicyResource_STATUS(source *ThroughputPolicyResource_STATUS) error {
-
-	// IncrementPercent
-	resource.IncrementPercent = genruntime.ClonePointerToInt(source.IncrementPercent)
-
-	// IsEnabled
-	if source.IsEnabled != nil {
-		isEnabled := *source.IsEnabled
-		resource.IsEnabled = &isEnabled
-	} else {
-		resource.IsEnabled = nil
 	}
 
 	// No error

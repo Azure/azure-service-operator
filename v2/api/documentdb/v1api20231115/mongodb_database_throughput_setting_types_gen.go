@@ -53,22 +53,36 @@ var _ conversion.Convertible = &MongodbDatabaseThroughputSetting{}
 
 // ConvertFrom populates our MongodbDatabaseThroughputSetting from the provided hub MongodbDatabaseThroughputSetting
 func (setting *MongodbDatabaseThroughputSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.MongodbDatabaseThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/MongodbDatabaseThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.MongodbDatabaseThroughputSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignProperties_From_MongodbDatabaseThroughputSetting(source)
+	err = setting.AssignProperties_From_MongodbDatabaseThroughputSetting(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub MongodbDatabaseThroughputSetting from our MongodbDatabaseThroughputSetting
 func (setting *MongodbDatabaseThroughputSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.MongodbDatabaseThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/MongodbDatabaseThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.MongodbDatabaseThroughputSetting
+	err := setting.AssignProperties_To_MongodbDatabaseThroughputSetting(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignProperties_To_MongodbDatabaseThroughputSetting(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1api20231115-mongodbdatabasethroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasethroughputsettings,verbs=create;update,versions=v1api20231115,name=default.v1api20231115.mongodbdatabasethroughputsettings.documentdb.azure.com,admissionReviewVersions=v1
@@ -105,17 +119,6 @@ func (setting *MongodbDatabaseThroughputSetting) SecretDestinationExpressions() 
 		return nil
 	}
 	return setting.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &MongodbDatabaseThroughputSetting{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (setting *MongodbDatabaseThroughputSetting) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*MongodbDatabaseThroughputSetting_STATUS); ok {
-		return setting.Spec.Initialize_From_MongodbDatabaseThroughputSetting_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type MongodbDatabaseThroughputSetting_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &MongodbDatabaseThroughputSetting{}
@@ -626,31 +629,6 @@ func (setting *MongodbDatabaseThroughputSetting_Spec) AssignProperties_To_Mongod
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_MongodbDatabaseThroughputSetting_STATUS populates our MongodbDatabaseThroughputSetting_Spec from the provided source MongodbDatabaseThroughputSetting_STATUS
-func (setting *MongodbDatabaseThroughputSetting_Spec) Initialize_From_MongodbDatabaseThroughputSetting_STATUS(source *MongodbDatabaseThroughputSetting_STATUS) error {
-
-	// Location
-	setting.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Resource
-	if source.Resource != nil {
-		var resource ThroughputSettingsResource
-		err := resource.Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS(source.Resource)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
-		}
-		setting.Resource = &resource
-	} else {
-		setting.Resource = nil
-	}
-
-	// Tags
-	setting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil

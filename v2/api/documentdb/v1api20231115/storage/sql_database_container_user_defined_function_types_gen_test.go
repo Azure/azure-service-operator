@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_SqlDatabaseContainerUserDefinedFunction_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseContainerUserDefinedFunction to hub returns original",
+		prop.ForAll(RunResourceConversionTestForSqlDatabaseContainerUserDefinedFunction, SqlDatabaseContainerUserDefinedFunctionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForSqlDatabaseContainerUserDefinedFunction tests if a specific instance of SqlDatabaseContainerUserDefinedFunction round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForSqlDatabaseContainerUserDefinedFunction(subject SqlDatabaseContainerUserDefinedFunction) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.SqlDatabaseContainerUserDefinedFunction
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual SqlDatabaseContainerUserDefinedFunction
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SqlDatabaseContainerUserDefinedFunction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseContainerUserDefinedFunction to SqlDatabaseContainerUserDefinedFunction via AssignProperties_To_SqlDatabaseContainerUserDefinedFunction & AssignProperties_From_SqlDatabaseContainerUserDefinedFunction returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction, SqlDatabaseContainerUserDefinedFunctionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction tests if a specific instance of SqlDatabaseContainerUserDefinedFunction can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction(subject SqlDatabaseContainerUserDefinedFunction) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SqlDatabaseContainerUserDefinedFunction
+	err := copied.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlDatabaseContainerUserDefinedFunction
+	err = actual.AssignProperties_From_SqlDatabaseContainerUserDefinedFunction(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_SqlDatabaseContainerUserDefinedFunction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -79,6 +165,48 @@ func AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction(gens
 	gens["Status"] = SqlDatabaseContainerUserDefinedFunction_STATUSGenerator()
 }
 
+func Test_SqlDatabaseContainerUserDefinedFunctionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseContainerUserDefinedFunctionOperatorSpec to SqlDatabaseContainerUserDefinedFunctionOperatorSpec via AssignProperties_To_SqlDatabaseContainerUserDefinedFunctionOperatorSpec & AssignProperties_From_SqlDatabaseContainerUserDefinedFunctionOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunctionOperatorSpec, SqlDatabaseContainerUserDefinedFunctionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunctionOperatorSpec tests if a specific instance of SqlDatabaseContainerUserDefinedFunctionOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunctionOperatorSpec(subject SqlDatabaseContainerUserDefinedFunctionOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+	err := copied.AssignProperties_To_SqlDatabaseContainerUserDefinedFunctionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+	err = actual.AssignProperties_From_SqlDatabaseContainerUserDefinedFunctionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SqlDatabaseContainerUserDefinedFunctionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -132,6 +260,48 @@ func SqlDatabaseContainerUserDefinedFunctionOperatorSpecGenerator() gopter.Gen {
 	sqlDatabaseContainerUserDefinedFunctionOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseContainerUserDefinedFunctionOperatorSpec{}), generators)
 
 	return sqlDatabaseContainerUserDefinedFunctionOperatorSpecGenerator
+}
+
+func Test_SqlDatabaseContainerUserDefinedFunction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseContainerUserDefinedFunction_STATUS to SqlDatabaseContainerUserDefinedFunction_STATUS via AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_STATUS & AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction_STATUS, SqlDatabaseContainerUserDefinedFunction_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction_STATUS tests if a specific instance of SqlDatabaseContainerUserDefinedFunction_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction_STATUS(subject SqlDatabaseContainerUserDefinedFunction_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SqlDatabaseContainerUserDefinedFunction_STATUS
+	err := copied.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlDatabaseContainerUserDefinedFunction_STATUS
+	err = actual.AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SqlDatabaseContainerUserDefinedFunction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -213,6 +383,48 @@ func AddIndependentPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction_
 // AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction_STATUS(gens map[string]gopter.Gen) {
 	gens["Resource"] = gen.PtrOf(SqlUserDefinedFunctionGetProperties_Resource_STATUSGenerator())
+}
+
+func Test_SqlDatabaseContainerUserDefinedFunction_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseContainerUserDefinedFunction_Spec to SqlDatabaseContainerUserDefinedFunction_Spec via AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_Spec & AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction_Spec, SqlDatabaseContainerUserDefinedFunction_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction_Spec tests if a specific instance of SqlDatabaseContainerUserDefinedFunction_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction_Spec(subject SqlDatabaseContainerUserDefinedFunction_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SqlDatabaseContainerUserDefinedFunction_Spec
+	err := copied.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlDatabaseContainerUserDefinedFunction_Spec
+	err = actual.AssignProperties_From_SqlDatabaseContainerUserDefinedFunction_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SqlDatabaseContainerUserDefinedFunction_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -297,6 +509,48 @@ func AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction_Spec
 	gens["Resource"] = gen.PtrOf(SqlUserDefinedFunctionResourceGenerator())
 }
 
+func Test_SqlUserDefinedFunctionGetProperties_Resource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlUserDefinedFunctionGetProperties_Resource_STATUS to SqlUserDefinedFunctionGetProperties_Resource_STATUS via AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS & AssignProperties_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlUserDefinedFunctionGetProperties_Resource_STATUS, SqlUserDefinedFunctionGetProperties_Resource_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlUserDefinedFunctionGetProperties_Resource_STATUS tests if a specific instance of SqlUserDefinedFunctionGetProperties_Resource_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSqlUserDefinedFunctionGetProperties_Resource_STATUS(subject SqlUserDefinedFunctionGetProperties_Resource_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SqlUserDefinedFunctionGetProperties_Resource_STATUS
+	err := copied.AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlUserDefinedFunctionGetProperties_Resource_STATUS
+	err = actual.AssignProperties_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SqlUserDefinedFunctionGetProperties_Resource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -360,6 +614,48 @@ func AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetProperties_Reso
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["Ts"] = gen.PtrOf(gen.Float64())
+}
+
+func Test_SqlUserDefinedFunctionResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlUserDefinedFunctionResource to SqlUserDefinedFunctionResource via AssignProperties_To_SqlUserDefinedFunctionResource & AssignProperties_From_SqlUserDefinedFunctionResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlUserDefinedFunctionResource, SqlUserDefinedFunctionResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlUserDefinedFunctionResource tests if a specific instance of SqlUserDefinedFunctionResource can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSqlUserDefinedFunctionResource(subject SqlUserDefinedFunctionResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SqlUserDefinedFunctionResource
+	err := copied.AssignProperties_To_SqlUserDefinedFunctionResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlUserDefinedFunctionResource
+	err = actual.AssignProperties_From_SqlUserDefinedFunctionResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SqlUserDefinedFunctionResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

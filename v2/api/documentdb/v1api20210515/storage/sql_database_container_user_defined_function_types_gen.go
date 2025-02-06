@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &SqlDatabaseContainerUserDefinedFunction{}
 
 // ConvertFrom populates our SqlDatabaseContainerUserDefinedFunction from the provided hub SqlDatabaseContainerUserDefinedFunction
 func (function *SqlDatabaseContainerUserDefinedFunction) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SqlDatabaseContainerUserDefinedFunction)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseContainerUserDefinedFunction but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.SqlDatabaseContainerUserDefinedFunction
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return function.AssignProperties_From_SqlDatabaseContainerUserDefinedFunction(source)
+	err = function.AssignProperties_From_SqlDatabaseContainerUserDefinedFunction(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to function")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseContainerUserDefinedFunction from our SqlDatabaseContainerUserDefinedFunction
 func (function *SqlDatabaseContainerUserDefinedFunction) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SqlDatabaseContainerUserDefinedFunction)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseContainerUserDefinedFunction but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.SqlDatabaseContainerUserDefinedFunction
+	err := function.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from function")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return function.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &SqlDatabaseContainerUserDefinedFunction{}

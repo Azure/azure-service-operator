@@ -5,7 +5,8 @@ package v1api20231115
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20240815s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForAutoscaleSettings(subject AutoscaleSettings) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoscaleSettings
+	var other v20231115s.AutoscaleSettings
 	err := copied.AssignProperties_To_AutoscaleSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -137,7 +138,7 @@ func RunPropertyAssignmentTestForAutoscaleSettings_STATUS(subject AutoscaleSetti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoscaleSettings_STATUS
+	var other v20231115s.AutoscaleSettings_STATUS
 	err := copied.AssignProperties_To_AutoscaleSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -240,7 +241,7 @@ func RunPropertyAssignmentTestForCreateUpdateOptions(subject CreateUpdateOptions
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CreateUpdateOptions
+	var other v20231115s.CreateUpdateOptions
 	err := copied.AssignProperties_To_CreateUpdateOptions(&other)
 	if err != nil {
 		return err.Error()
@@ -357,7 +358,7 @@ func RunPropertyAssignmentTestForMongoDBDatabaseGetProperties_Resource_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MongoDBDatabaseGetProperties_Resource_STATUS
+	var other v20231115s.MongoDBDatabaseGetProperties_Resource_STATUS
 	err := copied.AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -478,7 +479,7 @@ func RunPropertyAssignmentTestForMongoDBDatabaseResource(subject MongoDBDatabase
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MongoDBDatabaseResource
+	var other v20231115s.MongoDBDatabaseResource
 	err := copied.AssignProperties_To_MongoDBDatabaseResource(&other)
 	if err != nil {
 		return err.Error()
@@ -597,7 +598,7 @@ func RunResourceConversionTestForMongodbDatabase(subject MongodbDatabase) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.MongodbDatabase
+	var hub v20240815s.MongodbDatabase
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -639,7 +640,7 @@ func RunPropertyAssignmentTestForMongodbDatabase(subject MongodbDatabase) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MongodbDatabase
+	var other v20231115s.MongodbDatabase
 	err := copied.AssignProperties_To_MongodbDatabase(&other)
 	if err != nil {
 		return err.Error()
@@ -742,7 +743,7 @@ func RunPropertyAssignmentTestForMongodbDatabaseOperatorSpec(subject MongodbData
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MongodbDatabaseOperatorSpec
+	var other v20231115s.MongodbDatabaseOperatorSpec
 	err := copied.AssignProperties_To_MongodbDatabaseOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -839,7 +840,7 @@ func RunPropertyAssignmentTestForMongodbDatabase_STATUS(subject MongodbDatabase_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MongodbDatabase_STATUS
+	var other v20231115s.MongodbDatabase_STATUS
 	err := copied.AssignProperties_To_MongodbDatabase_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -963,7 +964,7 @@ func RunPropertyAssignmentTestForMongodbDatabase_Spec(subject MongodbDatabase_Sp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MongodbDatabase_Spec
+	var other v20231115s.MongodbDatabase_Spec
 	err := copied.AssignProperties_To_MongodbDatabase_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1086,7 +1087,7 @@ func RunPropertyAssignmentTestForOptionsResource_STATUS(subject OptionsResource_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.OptionsResource_STATUS
+	var other v20231115s.OptionsResource_STATUS
 	err := copied.AssignProperties_To_OptionsResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1203,7 +1204,7 @@ func RunPropertyAssignmentTestForRestoreParametersBase(subject RestoreParameters
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RestoreParametersBase
+	var other v20231115s.RestoreParametersBase
 	err := copied.AssignProperties_To_RestoreParametersBase(&other)
 	if err != nil {
 		return err.Error()
@@ -1307,7 +1308,7 @@ func RunPropertyAssignmentTestForRestoreParametersBase_STATUS(subject RestorePar
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RestoreParametersBase_STATUS
+	var other v20231115s.RestoreParametersBase_STATUS
 	err := copied.AssignProperties_To_RestoreParametersBase_STATUS(&other)
 	if err != nil {
 		return err.Error()

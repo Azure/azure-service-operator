@@ -53,22 +53,36 @@ var _ conversion.Convertible = &Namespace{}
 
 // ConvertFrom populates our Namespace from the provided hub Namespace
 func (namespace *Namespace) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Namespace)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20211101/storage/Namespace but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Namespace
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return namespace.AssignProperties_From_Namespace(source)
+	err = namespace.AssignProperties_From_Namespace(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to namespace")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Namespace from our Namespace
 func (namespace *Namespace) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Namespace)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20211101/storage/Namespace but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Namespace
+	err := namespace.AssignProperties_To_Namespace(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from namespace")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return namespace.AssignProperties_To_Namespace(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1api20211101-namespace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespaces,verbs=create;update,versions=v1api20211101,name=default.v1api20211101.namespaces.servicebus.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (namespace *Namespace) SecretDestinationExpressions() []*core.DestinationEx
 		return nil
 	}
 	return namespace.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Namespace{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (namespace *Namespace) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Namespace_STATUS); ok {
-		return namespace.Spec.Initialize_From_Namespace_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Namespace_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Namespace{}
@@ -848,74 +851,6 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Namespace_STATUS populates our Namespace_Spec from the provided source Namespace_STATUS
-func (namespace *Namespace_Spec) Initialize_From_Namespace_STATUS(source *Namespace_STATUS) error {
-
-	// AlternateName
-	namespace.AlternateName = genruntime.ClonePointerToString(source.AlternateName)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		namespace.DisableLocalAuth = &disableLocalAuth
-	} else {
-		namespace.DisableLocalAuth = nil
-	}
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption Encryption
-		err := encryption.Initialize_From_Encryption_STATUS(source.Encryption)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Encryption_STATUS() to populate field Encryption")
-		}
-		namespace.Encryption = &encryption
-	} else {
-		namespace.Encryption = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity Identity
-		err := identity.Initialize_From_Identity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Identity_STATUS() to populate field Identity")
-		}
-		namespace.Identity = &identity
-	} else {
-		namespace.Identity = nil
-	}
-
-	// Location
-	namespace.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Sku
-	if source.Sku != nil {
-		var sku SBSku
-		err := sku.Initialize_From_SBSku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SBSku_STATUS() to populate field Sku")
-		}
-		namespace.Sku = &sku
-	} else {
-		namespace.Sku = nil
-	}
-
-	// Tags
-	namespace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// ZoneRedundant
-	if source.ZoneRedundant != nil {
-		zoneRedundant := *source.ZoneRedundant
-		namespace.ZoneRedundant = &zoneRedundant
-	} else {
-		namespace.ZoneRedundant = nil
 	}
 
 	// No error
@@ -1678,47 +1613,6 @@ func (encryption *Encryption) AssignProperties_To_Encryption(destination *storag
 	return nil
 }
 
-// Initialize_From_Encryption_STATUS populates our Encryption from the provided source Encryption_STATUS
-func (encryption *Encryption) Initialize_From_Encryption_STATUS(source *Encryption_STATUS) error {
-
-	// KeySource
-	if source.KeySource != nil {
-		keySource := genruntime.ToEnum(string(*source.KeySource), encryption_KeySource_Values)
-		encryption.KeySource = &keySource
-	} else {
-		encryption.KeySource = nil
-	}
-
-	// KeyVaultProperties
-	if source.KeyVaultProperties != nil {
-		keyVaultPropertyList := make([]KeyVaultProperties, len(source.KeyVaultProperties))
-		for keyVaultPropertyIndex, keyVaultPropertyItem := range source.KeyVaultProperties {
-			// Shadow the loop variable to avoid aliasing
-			keyVaultPropertyItem := keyVaultPropertyItem
-			var keyVaultProperty KeyVaultProperties
-			err := keyVaultProperty.Initialize_From_KeyVaultProperties_STATUS(&keyVaultPropertyItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
-			}
-			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
-		}
-		encryption.KeyVaultProperties = keyVaultPropertyList
-	} else {
-		encryption.KeyVaultProperties = nil
-	}
-
-	// RequireInfrastructureEncryption
-	if source.RequireInfrastructureEncryption != nil {
-		requireInfrastructureEncryption := *source.RequireInfrastructureEncryption
-		encryption.RequireInfrastructureEncryption = &requireInfrastructureEncryption
-	} else {
-		encryption.RequireInfrastructureEncryption = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Properties to configure Encryption
 type Encryption_STATUS struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
@@ -2000,33 +1894,6 @@ func (identity *Identity) AssignProperties_To_Identity(destination *storage.Iden
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Identity_STATUS populates our Identity from the provided source Identity_STATUS
-func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), identity_Type_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -2525,32 +2392,6 @@ func (sbSku *SBSku) AssignProperties_To_SBSku(destination *storage.SBSku) error 
 	return nil
 }
 
-// Initialize_From_SBSku_STATUS populates our SBSku from the provided source SBSku_STATUS
-func (sbSku *SBSku) Initialize_From_SBSku_STATUS(source *SBSku_STATUS) error {
-
-	// Capacity
-	sbSku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), sBSku_Name_Values)
-		sbSku.Name = &name
-	} else {
-		sbSku.Name = nil
-	}
-
-	// Tier
-	if source.Tier != nil {
-		tier := genruntime.ToEnum(string(*source.Tier), sBSku_Tier_Values)
-		sbSku.Tier = &tier
-	} else {
-		sbSku.Tier = nil
-	}
-
-	// No error
-	return nil
-}
-
 // SKU of the namespace.
 type SBSku_STATUS struct {
 	// Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
@@ -3038,34 +2879,6 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_KeyVaultProperties_STATUS populates our KeyVaultProperties from the provided source KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties) Initialize_From_KeyVaultProperties_STATUS(source *KeyVaultProperties_STATUS) error {
-
-	// Identity
-	if source.Identity != nil {
-		var identity UserAssignedIdentityProperties
-		err := identity.Initialize_From_UserAssignedIdentityProperties_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UserAssignedIdentityProperties_STATUS() to populate field Identity")
-		}
-		properties.Identity = &identity
-	} else {
-		properties.Identity = nil
-	}
-
-	// KeyName
-	properties.KeyName = genruntime.ClonePointerToString(source.KeyName)
-
-	// KeyVaultUri
-	properties.KeyVaultUri = genruntime.ClonePointerToString(source.KeyVaultUri)
-
-	// KeyVersion
-	properties.KeyVersion = genruntime.ClonePointerToString(source.KeyVersion)
 
 	// No error
 	return nil
@@ -3603,13 +3416,6 @@ func (properties *UserAssignedIdentityProperties) AssignProperties_To_UserAssign
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UserAssignedIdentityProperties_STATUS populates our UserAssignedIdentityProperties from the provided source UserAssignedIdentityProperties_STATUS
-func (properties *UserAssignedIdentityProperties) Initialize_From_UserAssignedIdentityProperties_STATUS(source *UserAssignedIdentityProperties_STATUS) error {
 
 	// No error
 	return nil

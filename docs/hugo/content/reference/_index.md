@@ -70,6 +70,21 @@ These are older versions of resourced still available for use in the current rel
 | [Service](https://azure.github.io/azure-service-operator/reference/apimanagement/v1api20230501preview/#apimanagement.azure.com/v1api20230501preview.Service)                                                                                   | 2023-05-01-preview | v1api20230501preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_service.yaml)                                          |
 | [Subscription](https://azure.github.io/azure-service-operator/reference/apimanagement/v1api20230501preview/#apimanagement.azure.com/v1api20230501preview.Subscription)                                                                         | 2023-05-01-preview | v1api20230501preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_subscription.yaml)                                     |
 
+## App
+
+To install the CRDs for these resources, your ASO configuration must include `app.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                               |
+|--------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| AuthConfig         | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_authconfig.yaml)         |
+| ContainerApp       | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_containerapp.yaml)       |
+| Job                | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_job.yaml)                |
+| ManagedEnvironment | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_managedenvironment.yaml) |
+
 ## AppConfiguration
 
 To install the CRDs for these resources, your ASO configuration must include `appconfiguration.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
@@ -223,10 +238,10 @@ To install the CRDs for these resources, your ASO configuration must include `co
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource            | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                              |
-|---------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Registry            | 2023-07-01  | v1api20230701 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1api20230701/v1api20230701_registry.yaml)            |
-| RegistryReplication | 2023-07-01  | v1api20230701 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1api20230701/v1api20230701_registryreplication.yaml) |
+| Resource                                                                                                                                                                       | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                              |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Registry](https://azure.github.io/azure-service-operator/reference/containerregistry/v1api20230701/#containerregistry.azure.com/v1api20230701.Registry)                       | 2023-07-01  | v1api20230701 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1api20230701/v1api20230701_registry.yaml)            |
+| [RegistryReplication](https://azure.github.io/azure-service-operator/reference/containerregistry/v1api20230701/#containerregistry.azure.com/v1api20230701.RegistryReplication) | 2023-07-01  | v1api20230701 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1api20230701/v1api20230701_registryreplication.yaml) |
 
 ### Released
 
@@ -394,7 +409,28 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `documentdb.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Latest Released Versions
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                                       |
+|--------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| DatabaseAccount                            | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_databaseaccount.yaml)                             |
+| MongodbDatabase                            | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabase.yaml)                             |
+| MongodbDatabaseCollection                  | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabasecollection.yaml)                   |
+| MongodbDatabaseCollectionThroughputSetting | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabasecollectionthroughputsetting.yaml)  |
+| MongodbDatabaseThroughputSetting           | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabasethroughputsetting.yaml)            |
+| MongodbUserDefinition                      | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbuserdefinition.yaml)                       |
+| SqlDatabase                                | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabase.yaml)                             |
+| SqlDatabaseContainer                       | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontainer.yaml)                    |
+| SqlDatabaseContainerStoredProcedure        | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontainerstoredprocedure.yaml)     |
+| SqlDatabaseContainerThroughputSetting      | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontainerthroughputsetting.yaml)   |
+| SqlDatabaseContainerTrigger                | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontainertrigger.yaml)             |
+| SqlDatabaseContainerUserDefinedFunction    | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontaineruserdefinedfunction.yaml) |
+| SqlDatabaseThroughputSetting               | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasethroughputsetting.yaml)            |
+| SqlRoleAssignment                          | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqlroleassignment.yaml)                       |
+
+### Released
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                                                                       | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                                       |
@@ -477,7 +513,15 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `insights.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Latest Released Versions
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource           | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                  |
+|--------------------|--------------------|----------------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ScheduledQueryRule | 2024-01-01-preview | v1api20240101preview | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api20240101preview/v1api20240101preview_scheduledqueryrule.yaml) |
+
+### Released
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                               | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                 |
@@ -685,6 +729,21 @@ These resource(s) are available for use in the current release of ASO. Different
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [WebApplicationFirewallPolicy](https://azure.github.io/azure-service-operator/reference/network.frontdoor/v1api20220501/#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicy) | 2022-05-01  | v1api20220501 | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network.frontdoor/v1api/v1api20220501_webapplicationfirewallpolicy.yaml) |
 
+## NotificationHubs
+
+To install the CRDs for these resources, your ASO configuration must include `notificationhubs.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                          | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                           |
+|-----------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Namespace                         | 2023-09-01  | v1api20230901 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/notificationhubs/v1api20230901/v1api20230901_namespace.yaml)                         |
+| NamespacesAuthorizationRule       | 2023-09-01  | v1api20230901 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/notificationhubs/v1api20230901/v1api20230901_namespacesauthorizationrule.yaml)       |
+| NotificationHub                   | 2023-09-01  | v1api20230901 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/notificationhubs/v1api20230901/v1api20230901_notificationhub.yaml)                   |
+| NotificationHubsAuthorizationRule | 2023-09-01  | v1api20230901 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/notificationhubs/v1api20230901/v1api20230901_notificationhubsauthorizationrule.yaml) |
+
 ## OperationalInsights
 
 To install the CRDs for these resources, your ASO configuration must include `operationalinsights.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
@@ -735,7 +794,20 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `servicebus.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Latest Released Versions
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                          | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
+|-----------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Namespace                         | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespace.yaml)                         |
+| NamespacesAuthorizationRule       | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespacesauthorizationrule.yaml)       |
+| NamespacesQueue                   | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespacesqueue.yaml)                   |
+| NamespacesTopic                   | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespacestopic.yaml)                   |
+| NamespacesTopicsSubscription      | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespacestopicssubscription.yaml)      |
+| NamespacesTopicsSubscriptionsRule | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespacestopicssubscriptionsrule.yaml) |
+
+### Released
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
@@ -769,12 +841,24 @@ These are older versions of resourced still available for use in the current rel
 
 To install the CRDs for these resources, your ASO configuration must include `signalrservice.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource          | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                         |
+|-------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| CustomCertificate | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api20240301/v1api20240301_customcertificate.yaml) |
+| CustomDomain      | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api20240301/v1api20240301_customdomain.yaml)      |
+| Replica           | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api20240301/v1api20240301_replica.yaml)           |
+| SignalR           | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api20240301/v1api20240301_signalr.yaml)           |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                                                                                                                         | ARM Version | CRD Version   | Supported From | Sample                                                                                                                       |
-|--------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
-| [SignalR](https://azure.github.io/azure-service-operator/reference/signalrservice/v1api20211001/#signalrservice.azure.com/v1api20211001.SignalR) | 2021-10-01  | v1api20211001 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api/v1api20211001_signalr.yaml) |
+
+| Resource                                                                                                                                         | ARM Version | CRD Version   | Supported From | Sample                                                                                                                               |
+|--------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| [SignalR](https://azure.github.io/azure-service-operator/reference/signalrservice/v1api20211001/#signalrservice.azure.com/v1api20211001.SignalR) | 2021-10-01  | v1api20211001 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api20211001/v1api20211001_signalr.yaml) |
 
 ## Sql
 

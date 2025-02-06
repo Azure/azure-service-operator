@@ -53,22 +53,36 @@ var _ conversion.Convertible = &SqlDatabaseContainerUserDefinedFunction{}
 
 // ConvertFrom populates our SqlDatabaseContainerUserDefinedFunction from the provided hub SqlDatabaseContainerUserDefinedFunction
 func (function *SqlDatabaseContainerUserDefinedFunction) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SqlDatabaseContainerUserDefinedFunction)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseContainerUserDefinedFunction but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.SqlDatabaseContainerUserDefinedFunction
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return function.AssignProperties_From_SqlDatabaseContainerUserDefinedFunction(source)
+	err = function.AssignProperties_From_SqlDatabaseContainerUserDefinedFunction(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to function")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseContainerUserDefinedFunction from our SqlDatabaseContainerUserDefinedFunction
 func (function *SqlDatabaseContainerUserDefinedFunction) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SqlDatabaseContainerUserDefinedFunction)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabaseContainerUserDefinedFunction but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.SqlDatabaseContainerUserDefinedFunction
+	err := function.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from function")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return function.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1api20231115-sqldatabasecontaineruserdefinedfunction,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontaineruserdefinedfunctions,verbs=create;update,versions=v1api20231115,name=default.v1api20231115.sqldatabasecontaineruserdefinedfunctions.documentdb.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (function *SqlDatabaseContainerUserDefinedFunction) SecretDestinationExpres
 		return nil
 	}
 	return function.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &SqlDatabaseContainerUserDefinedFunction{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (function *SqlDatabaseContainerUserDefinedFunction) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*SqlDatabaseContainerUserDefinedFunction_STATUS); ok {
-		return function.Spec.Initialize_From_SqlDatabaseContainerUserDefinedFunction_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type SqlDatabaseContainerUserDefinedFunction_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerUserDefinedFunction{}
@@ -702,31 +705,6 @@ func (function *SqlDatabaseContainerUserDefinedFunction_Spec) AssignProperties_T
 	return nil
 }
 
-// Initialize_From_SqlDatabaseContainerUserDefinedFunction_STATUS populates our SqlDatabaseContainerUserDefinedFunction_Spec from the provided source SqlDatabaseContainerUserDefinedFunction_STATUS
-func (function *SqlDatabaseContainerUserDefinedFunction_Spec) Initialize_From_SqlDatabaseContainerUserDefinedFunction_STATUS(source *SqlDatabaseContainerUserDefinedFunction_STATUS) error {
-
-	// Location
-	function.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Resource
-	if source.Resource != nil {
-		var resource SqlUserDefinedFunctionResource
-		err := resource.Initialize_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS(source.Resource)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS() to populate field Resource")
-		}
-		function.Resource = &resource
-	} else {
-		function.Resource = nil
-	}
-
-	// Tags
-	function.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (function *SqlDatabaseContainerUserDefinedFunction_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1278,19 +1256,6 @@ func (resource *SqlUserDefinedFunctionResource) AssignProperties_To_SqlUserDefin
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS populates our SqlUserDefinedFunctionResource from the provided source SqlUserDefinedFunctionGetProperties_Resource_STATUS
-func (resource *SqlUserDefinedFunctionResource) Initialize_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS(source *SqlUserDefinedFunctionGetProperties_Resource_STATUS) error {
-
-	// Body
-	resource.Body = genruntime.ClonePointerToString(source.Body)
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
