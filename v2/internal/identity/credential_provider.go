@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/msi-dataplane/pkg/dataplane"
 	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -213,6 +214,7 @@ func (c *credentialProvider) getCredentialFromSecret(ctx context.Context, secret
 		return nil, err
 	}
 
+	//nolint:contextcheck
 	cred, err := c.newCredentialFromSecret(secret)
 	if err != nil {
 		return nil, eris.Wrapf(err, "failed to get credential %q", secretNamespacedName)
@@ -331,6 +333,28 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			credentialFrom:    nsName,
 			additionalTenants: additionalTenants,
 			secretData:        secret.Data,
+		}, nil
+	}
+
+	// This authentication type is similar to user assigned managed identity authentication combined with client certificate
+	// authentication. As a 1st party Microsoft application, one has access to pull a user assigned managed identity's backing
+	// certificate information from the MSI data plane. Using this data, a user can authenticate to Azure Cloud.
+	if userAssignedCredentialsPath, hasUserAssignedCredentials := secret.Data[config.AzureUserAssignedIdentityCredentials]; hasUserAssignedCredentials {
+		// Default to AzurePublic
+		options := azcore.ClientOptions{
+			Cloud: c.cloud,
+		}
+
+		tokenCredential, err := c.tokenCredentialProvider.NewUserAssignedIdentityCredentials(context.Background(), string(userAssignedCredentialsPath), dataplane.WithClientOpts(options))
+		if err != nil {
+			return nil, eris.Wrap(err, eris.Errorf("invalid User Assigned Identity Credential for %q encountered", nsName).Error())
+		}
+
+		return &Credential{
+			tokenCredential: tokenCredential,
+			subscriptionID:  string(subscriptionID),
+			credentialFrom:  nsName,
+			secretData:      secret.Data,
 		}, nil
 	}
 
