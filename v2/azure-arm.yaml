@@ -3843,6 +3843,39 @@ objectModelConfiguration:
       Namespaces_Topics_Subscriptions_Rule:
         $exportAs: NamespacesTopicsSubscriptionsRule
         $supportedFrom: v2.3.0
+    2024-01-01:
+      Namespace:
+        $export: true
+        $supportedFrom: v2.12.0
+        $azureGeneratedSecrets:
+          - Endpoint
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      Namespaces_AuthorizationRule:
+        $exportAs: NamespacesAuthorizationRule
+        $supportedFrom: v2.12.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      Namespaces_Queue:
+        $exportAs: NamespacesQueue
+        $supportedFrom: v2.12.0
+      Namespaces_Topic:
+        $exportAs: NamespacesTopic
+        $supportedFrom: v2.12.0
+      UserAssignedIdentityProperties:
+        UserAssignedIdentity:
+          $armReference: true
+      Namespaces_Topics_Subscription:
+        $exportAs: NamespacesTopicsSubscription
+        $supportedFrom: v2.12.0
+      Namespaces_Topics_Subscriptions_Rule:
+        $exportAs: NamespacesTopicsSubscriptionsRule
+        $supportedFrom: v2.12.0
   signalrservice:
     2021-10-01:
       SignalR:

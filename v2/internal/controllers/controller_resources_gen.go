@@ -209,6 +209,8 @@ import (
 	servicebus_v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	servicebus_v20221001p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview"
 	servicebus_v20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/storage"
+	servicebus_v20240101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101"
+	servicebus_v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
 	signalrservice_customizations "github.com/Azure/azure-service-operator/v2/api/signalrservice/customizations"
 	signalrservice_v20211001 "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001"
 	signalrservice_v20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/storage"
@@ -1530,12 +1532,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(resources_v20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(search_v20220901s.SearchService)})
-	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.Namespace)})
-	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.NamespacesAuthorizationRule)})
-	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.NamespacesQueue)})
-	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.NamespacesTopic)})
-	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.NamespacesTopicsSubscription)})
-	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.NamespacesTopicsSubscriptionsRule)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.Namespace)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesAuthorizationRule)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesQueue)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesTopic)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscription)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscriptionsRule)})
 	result = append(result, &registration.StorageType{
 		Obj: new(signalrservice_v20240301s.CustomCertificate),
 		Indexes: []registration.Index{
@@ -2664,6 +2666,22 @@ func getKnownTypes() []client.Object {
 		new(servicebus_v20221001ps.NamespacesTopic),
 		new(servicebus_v20221001ps.NamespacesTopicsSubscription),
 		new(servicebus_v20221001ps.NamespacesTopicsSubscriptionsRule))
+	result = append(
+		result,
+		new(servicebus_v20240101.Namespace),
+		new(servicebus_v20240101.NamespacesAuthorizationRule),
+		new(servicebus_v20240101.NamespacesQueue),
+		new(servicebus_v20240101.NamespacesTopic),
+		new(servicebus_v20240101.NamespacesTopicsSubscription),
+		new(servicebus_v20240101.NamespacesTopicsSubscriptionsRule))
+	result = append(
+		result,
+		new(servicebus_v20240101s.Namespace),
+		new(servicebus_v20240101s.NamespacesAuthorizationRule),
+		new(servicebus_v20240101s.NamespacesQueue),
+		new(servicebus_v20240101s.NamespacesTopic),
+		new(servicebus_v20240101s.NamespacesTopicsSubscription),
+		new(servicebus_v20240101s.NamespacesTopicsSubscriptionsRule))
 	result = append(result, new(signalrservice_v20211001.SignalR))
 	result = append(result, new(signalrservice_v20211001s.SignalR))
 	result = append(
@@ -2987,6 +3005,8 @@ func createScheme() *runtime.Scheme {
 	_ = servicebus_v20211101s.AddToScheme(scheme)
 	_ = servicebus_v20221001p.AddToScheme(scheme)
 	_ = servicebus_v20221001ps.AddToScheme(scheme)
+	_ = servicebus_v20240101.AddToScheme(scheme)
+	_ = servicebus_v20240101s.AddToScheme(scheme)
 	_ = signalrservice_v20211001.AddToScheme(scheme)
 	_ = signalrservice_v20211001s.AddToScheme(scheme)
 	_ = signalrservice_v20240301.AddToScheme(scheme)

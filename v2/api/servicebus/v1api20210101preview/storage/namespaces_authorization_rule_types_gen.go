@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &NamespacesAuthorizationRule{}
 
 // ConvertFrom populates our NamespacesAuthorizationRule from the provided hub NamespacesAuthorizationRule
 func (rule *NamespacesAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NamespacesAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20211101/storage/NamespacesAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NamespacesAuthorizationRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_NamespacesAuthorizationRule(source)
+	err = rule.AssignProperties_From_NamespacesAuthorizationRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesAuthorizationRule from our NamespacesAuthorizationRule
 func (rule *NamespacesAuthorizationRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NamespacesAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20211101/storage/NamespacesAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NamespacesAuthorizationRule
+	err := rule.AssignProperties_To_NamespacesAuthorizationRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_NamespacesAuthorizationRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &NamespacesAuthorizationRule{}
