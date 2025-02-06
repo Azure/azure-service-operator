@@ -18,6 +18,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/msi-dataplane/pkg/dataplane"
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
@@ -309,6 +310,22 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 		credential, err := identity.NewClientCertificateCredential(cfg.TenantID, cfg.ClientID, []byte(cert), []byte(certPassword))
 		if err != nil {
 			return nil, eris.Wrapf(err, "unable to get client certificate credential")
+		}
+
+		return credential, nil
+	}
+
+	// This authentication type is similar to user assigned managed identity authentication combined with client certificate
+	// authentication. As a 1st party Microsoft application, one has access to pull a user assigned managed identity's backing
+	// certificate information from the MSI data plane. Using this data, a user can authenticate to Azure Cloud.
+	if userAssignedCredentialsPath := os.Getenv(common.AzureUserAssignedIdentityCredentials); userAssignedCredentialsPath != "" {
+		options := azcore.ClientOptions{
+			Cloud: cfg.Cloud(),
+		}
+
+		credential, err := dataplane.NewUserAssignedIdentityCredential(context.Background(), userAssignedCredentialsPath, dataplane.WithClientOpts(options))
+		if err != nil {
+			return nil, eris.Wrapf(err, "unable to get user assigned identity credential")
 		}
 
 		return credential, nil

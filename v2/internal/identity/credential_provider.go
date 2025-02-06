@@ -7,11 +7,13 @@ package identity
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"reflect"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/msi-dataplane/pkg/dataplane"
 	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -276,6 +278,27 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		}, nil
 	}
 
+	// This authentication type is similar to user assigned managed identity authentication combined with client certificate
+	// authentication. As a 1st party Microsoft application, one has access to pull a user assigned managed identity's backing
+	// certificate information from the MSI data plane. Using this data, a user can authenticate to Azure Cloud.
+	if userAssignedCredentialsPath, hasUserAssignedCredentials := secret.Data[config.AzureUserAssignedIdentityCredentials]; hasUserAssignedCredentials {
+		options := azcore.ClientOptions{
+			Cloud: parseCloudTypeFromSecret(secret),
+		}
+
+		tokenCredential, err := c.tokenCredentialProvider.NewUserAssignedIdentityCredentials(context.Background(), string(userAssignedCredentialsPath), dataplane.WithClientOpts(options))
+		if err != nil {
+			return nil, eris.Wrap(err, eris.Errorf("invalid User Assigned Identity Credential for %q encountered", nsName).Error())
+		}
+
+		return &Credential{
+			tokenCredential: tokenCredential,
+			subscriptionID:  string(subscriptionID),
+			credentialFrom:  nsName,
+			secretData:      secret.Data,
+		}, nil
+	}
+
 	if value, hasAuthMode := secret.Data[config.AuthMode]; hasAuthMode {
 		authMode, err := authModeOrDefault(string(value))
 		if err != nil {
@@ -354,4 +377,21 @@ func authModeOrDefault(mode string) (config.AuthModeOption, error) {
 	}
 
 	return "", eris.Errorf("authorization mode %q not valid", mode)
+}
+
+// parseCloudTypeFromSecret parses a cloud.Configuration based on a secret key, AZURE_USER_ASSIGNED_IDENTITY_CLOUD_TYPE.
+// If this key is not set, defaults to cloud.AzurePublic.
+func parseCloudTypeFromSecret(secret *v1.Secret) cloud.Configuration {
+	azcloud := string(secret.Data[config.AzureUserAssignedIdentityCloudType])
+
+	switch azcloud {
+	case "AzurePublicCloud":
+		return cloud.AzurePublic
+	case "AzureChinaCloud":
+		return cloud.AzureChina
+	case "AzureUSGovernmentCloud":
+		return cloud.AzureGovernment
+	default:
+		return cloud.AzurePublic
+	}
 }
