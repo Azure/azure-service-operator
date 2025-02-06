@@ -17,7 +17,9 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/msi-dataplane/pkg/dataplane"
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
@@ -314,6 +316,19 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 		return credential, nil
 	}
 
+	if userAssignedCredentials := os.Getenv(common.AzureUserAssignedIdentityCredentials); userAssignedCredentials != "" {
+		options := azcore.ClientOptions{
+			Cloud: parseCloudTypeFromEnvironment(),
+		}
+
+		credential, err := dataplane.NewUserAssignedIdentityCredential(context.Background(), userAssignedCredentials, dataplane.WithClientOpts(options))
+		if err != nil {
+			return nil, eris.Wrapf(err, "unable to get user assigned identity credential")
+		}
+
+		return credential, nil
+	}
+
 	credential, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, eris.Wrapf(err, "unable to get default azure credential")
@@ -473,4 +488,21 @@ func newCRDManager(
 
 	crdManager := crdmanagement.NewManager(logger, kubeclient.NewClient(crdClient), leaderElection)
 	return crdManager, nil
+}
+
+// parseCloudTypeFromEnvironment parses a cloud.Configuration based on the environment variable,
+// AZURE_USER_ASSIGNED_IDENTITY_CLOUD_TYPE. If this environment variable is not set, defaults to cloud.AzurePublic.
+func parseCloudTypeFromEnvironment() cloud.Configuration {
+	azcloud := os.Getenv(common.AzureUserAssignedIdentityCloudType)
+
+	switch azcloud {
+	case "AzurePublicCloud":
+		return cloud.AzurePublic
+	case "AzureChinaCloud":
+		return cloud.AzureChina
+	case "AzureUSGovernmentCloud":
+		return cloud.AzureGovernment
+	default:
+		return cloud.AzurePublic
+	}
 }

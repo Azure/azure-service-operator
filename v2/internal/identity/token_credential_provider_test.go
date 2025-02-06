@@ -5,7 +5,13 @@
 
 package identity
 
-import "github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+import (
+	"context"
+
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/msi-dataplane/pkg/dataplane"
+)
 
 var _ TokenCredentialProvider = &mockTokenCredentialProvider{}
 
@@ -45,4 +51,8 @@ func (m *mockTokenCredentialProvider) NewWorkloadIdentityCredential(options *azi
 	m.TokenFilePath = options.TokenFilePath
 
 	return &azidentity.WorkloadIdentityCredential{}, nil
+}
+
+func (m *mockTokenCredentialProvider) NewUserAssignedIdentityCredentials(ctx context.Context, credentialPath string, opts ...dataplane.Option) (azcore.TokenCredential, error) {
+	return nil, nil
 }
