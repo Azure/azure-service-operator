@@ -158,6 +158,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/app/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/app/v1api20240301/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v1api20220501/</loc>
@@ -306,6 +308,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/v1api20231115/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/documentdb/v1api20240815/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/eventgrid/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/eventgrid/v1api20200601/</loc>
@@ -341,6 +345,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20221001/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20230101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20240101preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/keyvault/</loc>
   </url><url>
@@ -398,6 +404,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/notificationhubs/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/notificationhubs/v1api20230901/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/v1api20210601/</loc>
@@ -438,9 +446,13 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1api20221001preview/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1api20240101/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/signalrservice/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/signalrservice/v1api20211001/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/signalrservice/v1api20240301/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/sql/</loc>
   </url><url>
