@@ -3,6 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20240301
 ---------------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2024-03-01"
+
 CustomCertificate: Resource
 ├── Owner: SignalR
 ├── Spec: Object (7 properties)
@@ -48,6 +49,7 @@ CustomCertificate: Resource
     │       ├── "ManagedIdentity"
     │       └── "User"
     └── Type: *string
+
 CustomDomain: Resource
 ├── Owner: SignalR
 ├── Spec: Object (5 properties)
@@ -92,6 +94,7 @@ CustomDomain: Resource
     │       ├── "ManagedIdentity"
     │       └── "User"
     └── Type: *string
+
 Replica: Resource
 ├── Owner: SignalR
 ├── Spec: Object (8 properties)
@@ -159,6 +162,7 @@ Replica: Resource
     │       └── "User"
     ├── Tags: map[string]string
     └── Type: *string
+
 SignalR: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (21 properties)
@@ -409,3 +413,4 @@ SignalR: Resource
     │       ├── HubPattern: *string
     │       └── UrlTemplate: *string
     └── Version: *string
+
