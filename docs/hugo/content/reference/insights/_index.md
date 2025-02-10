@@ -9,9 +9,9 @@ To install the CRDs for these resources, your ASO configuration must include `in
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource           | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                  |
-|--------------------|--------------------|----------------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ScheduledQueryRule | 2024-01-01-preview | v1api20240101preview | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api20240101preview/v1api20240101preview_scheduledqueryrule.yaml) |
+| Resource                                                                                                                                                                 | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                  |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [ScheduledQueryRule](https://azure.github.io/azure-service-operator/reference/insights/v1api20240101preview/#insights.azure.com/v1api20240101preview.ScheduledQueryRule) | 2024-01-01-preview | v1api20240101preview | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api20240101preview/v1api20240101preview_scheduledqueryrule.yaml) |
 
 ### Latest Released Versions
 
