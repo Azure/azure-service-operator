@@ -7,3 +7,4 @@ TestResource: Resource
 │   └── KnownAs: string
 └── Status: Object (1 property)
     └── Status: string
+
