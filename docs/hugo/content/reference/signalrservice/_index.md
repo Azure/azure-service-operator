@@ -9,12 +9,12 @@ To install the CRDs for these resources, your ASO configuration must include `si
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource          | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                         |
-|-------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| CustomCertificate | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api20240301/v1api20240301_customcertificate.yaml) |
-| CustomDomain      | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api20240301/v1api20240301_customdomain.yaml)      |
-| Replica           | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api20240301/v1api20240301_replica.yaml)           |
-| SignalR           | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api20240301/v1api20240301_signalr.yaml)           |
+| Resource                                                                                                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                         |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| [CustomCertificate](https://azure.github.io/azure-service-operator/reference/signalrservice/v1api20240301/#signalrservice.azure.com/v1api20240301.CustomCertificate) | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api20240301/v1api20240301_customcertificate.yaml) |
+| [CustomDomain](https://azure.github.io/azure-service-operator/reference/signalrservice/v1api20240301/#signalrservice.azure.com/v1api20240301.CustomDomain)           | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api20240301/v1api20240301_customdomain.yaml)      |
+| [Replica](https://azure.github.io/azure-service-operator/reference/signalrservice/v1api20240301/#signalrservice.azure.com/v1api20240301.Replica)                     | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api20240301/v1api20240301_replica.yaml)           |
+| [SignalR](https://azure.github.io/azure-service-operator/reference/signalrservice/v1api20240301/#signalrservice.azure.com/v1api20240301.SignalR)                     | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api20240301/v1api20240301_signalr.yaml)           |
 
 ### Released
 
