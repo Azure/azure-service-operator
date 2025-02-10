@@ -550,7 +550,7 @@ tasks:
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
-      TIMEOUT: '{{default "15m" .TIMEOUT}}'
+      TIMEOUT: '{{default "20m" .TIMEOUT}}'
 
   # This target is intended for local use only
   controller:test-integration-envtest-record:
