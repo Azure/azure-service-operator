@@ -3,6 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1api20220301
 ----------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2022-03-01"
+
 ServerFarm: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (23 properties)
@@ -115,6 +116,7 @@ ServerFarm: Resource
     ├── Type: *string
     ├── WorkerTierName: *string
     └── ZoneRedundant: *bool
+
 Site: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (35 properties)
@@ -748,6 +750,7 @@ Site: Resource
     ├── VnetContentShareEnabled: *bool
     ├── VnetImagePullEnabled: *bool
     └── VnetRouteAllEnabled: *bool
+
 SitesSourcecontrol: Resource
 ├── Owner: Site
 ├── Spec: Object (10 properties)
@@ -795,3 +798,4 @@ SitesSourcecontrol: Resource
     ├── Name: *string
     ├── RepoUrl: *string
     └── Type: *string
+

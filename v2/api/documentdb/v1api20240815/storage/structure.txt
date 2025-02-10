@@ -3,6 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage
 -------------------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2024-08-15"
+
 DatabaseAccount: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (40 properties)
@@ -294,6 +295,7 @@ DatabaseAccount: Resource
         ├── LocationName: *string
         ├── PropertyBag: genruntime.PropertyBag
         └── ProvisioningState: *string
+
 MongodbDatabase: Resource
 ├── Owner: documentdb/v1api20240815.DatabaseAccount
 ├── Spec: Object (9 properties)
@@ -348,6 +350,7 @@ MongodbDatabase: Resource
     │   └── Ts: *float64
     ├── Tags: map[string]string
     └── Type: *string
+
 MongodbDatabaseCollection: Resource
 ├── Owner: documentdb/v1api20240815.MongodbDatabase
 ├── Spec: Object (9 properties)
@@ -424,6 +427,7 @@ MongodbDatabaseCollection: Resource
     │   └── Ts: *float64
     ├── Tags: map[string]string
     └── Type: *string
+
 MongodbDatabaseCollectionThroughputSetting: Resource
 ├── Owner: documentdb/v1api20240815.MongodbDatabaseCollection
 ├── Spec: Object (7 properties)
@@ -476,6 +480,7 @@ MongodbDatabaseCollectionThroughputSetting: Resource
     │   └── Ts: *float64
     ├── Tags: map[string]string
     └── Type: *string
+
 MongodbDatabaseThroughputSetting: Resource
 ├── Owner: documentdb/v1api20240815.MongodbDatabase
 ├── Spec: Object (7 properties)
@@ -528,6 +533,7 @@ MongodbDatabaseThroughputSetting: Resource
     │   └── Ts: *float64
     ├── Tags: map[string]string
     └── Type: *string
+
 MongodbUserDefinition: Resource
 ├── Owner: documentdb/v1api20240815.DatabaseAccount
 ├── Spec: Object (11 properties)
@@ -562,6 +568,7 @@ MongodbUserDefinition: Resource
     │   └── Role: *string
     ├── Type: *string
     └── UserName: *string
+
 SqlDatabase: Resource
 ├── Owner: documentdb/v1api20240815.DatabaseAccount
 ├── Spec: Object (9 properties)
@@ -618,6 +625,7 @@ SqlDatabase: Resource
     │   └── Users: *string
     ├── Tags: map[string]string
     └── Type: *string
+
 SqlDatabaseContainer: Resource
 ├── Owner: documentdb/v1api20240815.SqlDatabase
 ├── Spec: Object (9 properties)
@@ -779,6 +787,7 @@ SqlDatabaseContainer: Resource
     │           └── PropertyBag: genruntime.PropertyBag
     ├── Tags: map[string]string
     └── Type: *string
+
 SqlDatabaseContainerStoredProcedure: Resource
 ├── Owner: documentdb/v1api20240815.SqlDatabaseContainer
 ├── Spec: Object (9 properties)
@@ -817,6 +826,7 @@ SqlDatabaseContainerStoredProcedure: Resource
     │   └── Ts: *float64
     ├── Tags: map[string]string
     └── Type: *string
+
 SqlDatabaseContainerThroughputSetting: Resource
 ├── Owner: documentdb/v1api20240815.SqlDatabaseContainer
 ├── Spec: Object (7 properties)
@@ -869,6 +879,7 @@ SqlDatabaseContainerThroughputSetting: Resource
     │   └── Ts: *float64
     ├── Tags: map[string]string
     └── Type: *string
+
 SqlDatabaseContainerTrigger: Resource
 ├── Owner: documentdb/v1api20240815.SqlDatabaseContainer
 ├── Spec: Object (9 properties)
@@ -911,6 +922,7 @@ SqlDatabaseContainerTrigger: Resource
     │   └── Ts: *float64
     ├── Tags: map[string]string
     └── Type: *string
+
 SqlDatabaseContainerUserDefinedFunction: Resource
 ├── Owner: documentdb/v1api20240815.SqlDatabaseContainer
 ├── Spec: Object (9 properties)
@@ -949,6 +961,7 @@ SqlDatabaseContainerUserDefinedFunction: Resource
     │   └── Ts: *float64
     ├── Tags: map[string]string
     └── Type: *string
+
 SqlDatabaseThroughputSetting: Resource
 ├── Owner: documentdb/v1api20240815.SqlDatabase
 ├── Spec: Object (7 properties)
@@ -1001,6 +1014,7 @@ SqlDatabaseThroughputSetting: Resource
     │   └── Ts: *float64
     ├── Tags: map[string]string
     └── Type: *string
+
 SqlRoleAssignment: Resource
 ├── Owner: documentdb/v1api20240815.DatabaseAccount
 ├── Spec: Object (9 properties)
@@ -1025,3 +1039,4 @@ SqlRoleAssignment: Resource
     ├── RoleDefinitionId: *string
     ├── Scope: *string
     └── Type: *string
+

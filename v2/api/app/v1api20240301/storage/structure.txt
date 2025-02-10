@@ -3,6 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage
 ------------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2024-03-01"
+
 AuthConfig: Resource
 ├── Owner: app/v1api20240301.ContainerApp
 ├── Spec: Object (11 properties)
@@ -340,6 +341,7 @@ AuthConfig: Resource
     │   ├── LastModifiedByType: *string
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
+
 ContainerApp: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (15 properties)
@@ -789,6 +791,7 @@ ContainerApp: Resource
     │       └── StorageType: *string
     ├── Type: *string
     └── WorkloadProfileName: *string
+
 Job: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (12 properties)
@@ -1079,6 +1082,7 @@ Job: Resource
     │       └── StorageType: *string
     ├── Type: *string
     └── WorkloadProfileName: *string
+
 ManagedEnvironment: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (18 properties)
@@ -1198,3 +1202,4 @@ ManagedEnvironment: Resource
     │   ├── PropertyBag: genruntime.PropertyBag
     │   └── WorkloadProfileType: *string
     └── ZoneRedundant: *bool
+
