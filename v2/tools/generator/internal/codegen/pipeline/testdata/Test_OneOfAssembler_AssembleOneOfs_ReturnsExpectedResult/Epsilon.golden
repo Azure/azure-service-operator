@@ -12,3 +12,4 @@ Epsilon: OneOf (4 objects, 0 options)
     └── Object (1 property)
         └── Discriminator: *Enum (1 value)
             └── "Epsilon"
+
