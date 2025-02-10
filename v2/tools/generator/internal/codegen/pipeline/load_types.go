@@ -134,7 +134,9 @@ func addRequiredSpecFields(t astmodel.Type) astmodel.Type {
 // generateStatusTypes returns the statusTypes for the input Swagger types
 // all types (apart from Resources) are renamed to have "_STATUS" as a
 // suffix, to avoid name clashes.
-func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
+func generateStatusTypes(
+	swaggerTypes jsonast.SwaggerTypes,
+) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
 	resourceLookup, otherTypes, err := renamed(swaggerTypes, true, astmodel.StatusSuffix)
 	if err != nil {
 		return nil, nil, err
@@ -155,6 +157,13 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 		targetType, err := otherTypes.FullyResolve(statusTypeName)
 		if err != nil {
 			panic("didn't find type in set after renaming; shouldn't be possible")
+		}
+
+		if _, isOneOf := astmodel.AsOneOfType(targetType); isOneOf {
+			// We must avoid copying the body of a OneOf type into the status of the
+			// resource because they are currently partially formed - they won't be
+			// standalone independent types until after conversion to objects.
+			targetType = statusTypeName
 		}
 
 		err = otherTypes.AddAllowDuplicates(astmodel.MakeTypeDefinition(desiredStatusName, targetType))
@@ -215,7 +224,9 @@ func renamed(
 	return resources, otherTypes, nil
 }
 
-func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
+func generateSpecTypes(
+	swaggerTypes jsonast.SwaggerTypes,
+) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
 	// TODO: I think this should be renamed to "_Spec" for consistency, but will do in a separate PR for cleanliness #Naming
 	// the alternative is that we place them in their own package
 	resources, otherTypes, err := renamed(swaggerTypes, false, "")
