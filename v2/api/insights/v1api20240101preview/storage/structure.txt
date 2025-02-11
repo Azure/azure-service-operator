@@ -3,6 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview/sto
 ------------------------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2024-01-01-preview"
+
 ScheduledQueryRule: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (25 properties)
@@ -143,18 +144,34 @@ ScheduledQueryRule: Resource
     ├── TargetResourceTypes: string[]
     ├── Type: *string
     └── WindowSize: *string
+
 augmentConversionForActions: Interface
+
 augmentConversionForActions_STATUS: Interface
+
 augmentConversionForCondition: Interface
+
 augmentConversionForCondition_FailingPeriods: Interface
+
 augmentConversionForCondition_FailingPeriods_STATUS: Interface
+
 augmentConversionForCondition_STATUS: Interface
+
 augmentConversionForDimension: Interface
+
 augmentConversionForDimension_STATUS: Interface
+
 augmentConversionForScheduledQueryRule: Interface
+
 augmentConversionForScheduledQueryRuleCriteria: Interface
+
 augmentConversionForScheduledQueryRuleCriteria_STATUS: Interface
+
 augmentConversionForScheduledQueryRuleOperatorSpec: Interface
+
 augmentConversionForScheduledQueryRule_STATUS: Interface
+
 augmentConversionForScheduledQueryRule_Spec: Interface
+
 augmentConversionForSystemData_STATUS: Interface
+

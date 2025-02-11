@@ -7,3 +7,4 @@ WebTest: Object (4 properties)
 ├── Location: *string
 ├── Properties: WebTestProperties
 └── Tags: *interface{}
+

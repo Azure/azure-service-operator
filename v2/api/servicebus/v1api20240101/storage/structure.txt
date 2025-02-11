@@ -3,6 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage
 -------------------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2024-01-01"
+
 Namespace: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (16 properties)
@@ -109,6 +110,7 @@ Namespace: Resource
     ├── Type: *string
     ├── UpdatedAt: *string
     └── ZoneRedundant: *bool
+
 NamespacesAuthorizationRule: Resource
 ├── Owner: servicebus/v1api20240101.Namespace
 ├── Spec: Object (6 properties)
@@ -143,6 +145,7 @@ NamespacesAuthorizationRule: Resource
     │   ├── LastModifiedByType: *string
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
+
 NamespacesQueue: Resource
 ├── Owner: servicebus/v1api20240101.Namespace
 ├── Spec: Object (20 properties)
@@ -212,6 +215,7 @@ NamespacesQueue: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     ├── Type: *string
     └── UpdatedAt: *string
+
 NamespacesTopic: Resource
 ├── Owner: servicebus/v1api20240101.Namespace
 ├── Spec: Object (15 properties)
@@ -271,6 +275,7 @@ NamespacesTopic: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     ├── Type: *string
     └── UpdatedAt: *string
+
 NamespacesTopicsSubscription: Resource
 ├── Owner: servicebus/v1api20240101.NamespacesTopic
 ├── Spec: Object (18 properties)
@@ -343,6 +348,7 @@ NamespacesTopicsSubscription: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     ├── Type: *string
     └── UpdatedAt: *string
+
 NamespacesTopicsSubscriptionsRule: Resource
 ├── Owner: servicebus/v1api20240101.NamespacesTopicsSubscription
 ├── Spec: Object (9 properties)
@@ -415,3 +421,4 @@ NamespacesTopicsSubscriptionsRule: Resource
     │   ├── LastModifiedByType: *string
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
+

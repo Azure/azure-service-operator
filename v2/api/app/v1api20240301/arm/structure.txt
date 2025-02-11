@@ -145,6 +145,7 @@ AuthConfig_STATUS: Object (5 properties)
 │       ├── "ManagedIdentity"
 │       └── "User"
 └── Type: *string
+
 AuthConfig_Spec: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (6 properties)
@@ -272,6 +273,7 @@ AuthConfig_Spec: Object (2 properties)
     └── Platform: *Object (2 properties)
         ├── Enabled: *bool
         └── RuntimeVersion: *string
+
 ContainerApp_STATUS: Object (10 properties)
 ├── ExtendedLocation: *Object (2 properties)
 │   ├── Name: *string
@@ -506,6 +508,7 @@ ContainerApp_STATUS: Object (10 properties)
 │       └── "User"
 ├── Tags: map[string]string
 └── Type: *string
+
 ContainerApp_Spec: Object (7 properties)
 ├── ExtendedLocation: *Object (2 properties)
 │   ├── Name: *string
@@ -705,6 +708,7 @@ ContainerApp_Spec: Object (7 properties)
 │   │           └── "Secret"
 │   └── WorkloadProfileName: *string
 └── Tags: map[string]string
+
 Job_STATUS: Object (8 properties)
 ├── Id: *string
 ├── Identity: *Object (4 properties)
@@ -855,6 +859,7 @@ Job_STATUS: Object (8 properties)
 │       └── "User"
 ├── Tags: map[string]string
 └── Type: *string
+
 Job_Spec: Object (5 properties)
 ├── Identity: *Object (2 properties)
 │   ├── Type: *Enum (4 values)
@@ -975,6 +980,7 @@ Job_Spec: Object (5 properties)
 │   │           └── "Secret"
 │   └── WorkloadProfileName: *string
 └── Tags: map[string]string
+
 ManagedEnvironment_STATUS: Object (8 properties)
 ├── Id: *string
 ├── Kind: *string
@@ -1046,6 +1052,7 @@ ManagedEnvironment_STATUS: Object (8 properties)
 │       └── "User"
 ├── Tags: map[string]string
 └── Type: *string
+
 ManagedEnvironment_Spec: Object (5 properties)
 ├── Kind: *string
 ├── Location: *string
@@ -1082,3 +1089,4 @@ ManagedEnvironment_Spec: Object (5 properties)
 │   │   └── WorkloadProfileType: *string
 │   └── ZoneRedundant: *bool
 └── Tags: map[string]string
+

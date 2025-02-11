@@ -3,6 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/sto
 ------------------------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2023-11-22"
+
 OpenShiftCluster: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (14 properties)
@@ -138,3 +139,4 @@ OpenShiftCluster: Resource
         ├── PropertyBag: genruntime.PropertyBag
         ├── SubnetId: *string
         └── VmSize: *string
+
