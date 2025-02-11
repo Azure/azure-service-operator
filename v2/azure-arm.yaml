@@ -2209,7 +2209,7 @@ objectModelConfiguration:
           $armReference: true
       FlexibleServer:
         $export: true
-        $supportedFrom: v2.12.0
+        $supportedFrom: v2.13.0
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
         $generatedConfigs:
@@ -2217,7 +2217,7 @@ objectModelConfiguration:
           AdministratorLogin: $.Status.AdministratorLogin
       FlexibleServers_Administrator:
         $exportAs: FlexibleServersAdministrator
-        $supportedFrom: v2.12.0
+        $supportedFrom: v2.13.0
       AdministratorProperties:
         IdentityResourceId:
           $armReference: true # TODO: Upstream to Swagger
@@ -2227,13 +2227,13 @@ objectModelConfiguration:
           $importConfigMapMode: optional
       FlexibleServers_Configuration:
         $exportAs: FlexibleServersConfiguration
-        $supportedFrom: v2.12.0
+        $supportedFrom: v2.13.0
       FlexibleServers_Database:
         $exportAs: FlexibleServersDatabase
-        $supportedFrom: v2.12.0
+        $supportedFrom: v2.13.0
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
-        $supportedFrom: v2.12.0
+        $supportedFrom: v2.13.0
       Network:
         DelegatedSubnetResourceId:
           $armReference: true

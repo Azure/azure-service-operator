@@ -15,13 +15,13 @@ Development of these new resources is complete and they will be available in the
 
 | Resource                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                |
 |------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| FlexibleServer               | 2023-12-30  | v1api20231230 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserver.yaml)               |
-| FlexibleServersAdministrator | 2023-12-30  | v1api20231230 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversadministrator.yaml) |
-| FlexibleServersConfiguration | 2023-12-30  | v1api20231230 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversconfiguration.yaml) |
-| FlexibleServersDatabase      | 2023-12-30  | v1api20231230 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversdatabase.yaml)      |
-| FlexibleServersFirewallRule  | 2023-12-30  | v1api20231230 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversfirewallrule.yaml)  |
+| FlexibleServer               | 2023-12-30  | v1api20231230 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserver.yaml)               |
+| FlexibleServersAdministrator | 2023-12-30  | v1api20231230 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversadministrator.yaml) |
+| FlexibleServersConfiguration | 2023-12-30  | v1api20231230 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversconfiguration.yaml) |
+| FlexibleServersDatabase      | 2023-12-30  | v1api20231230 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversdatabase.yaml)      |
+| FlexibleServersFirewallRule  | 2023-12-30  | v1api20231230 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversfirewallrule.yaml)  |
 
-### Released
+### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                                                           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                |
