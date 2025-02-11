@@ -294,9 +294,10 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 
 	if cfg.UseWorkloadIdentityAuth {
 		credential, err := azidentity.NewWorkloadIdentityCredential(&azidentity.WorkloadIdentityCredentialOptions{
-			ClientID:      cfg.ClientID,
-			TenantID:      cfg.TenantID,
-			TokenFilePath: identity.FederatedTokenFilePath,
+			ClientID:                   cfg.ClientID,
+			TenantID:                   cfg.TenantID,
+			TokenFilePath:              identity.FederatedTokenFilePath,
+			AdditionallyAllowedTenants: cfg.AdditionalTenants,
 		})
 		if err != nil {
 			return nil, eris.Wrapf(err, "unable to get workload identity credential")
@@ -307,7 +308,14 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 
 	if cert := os.Getenv(common.AzureClientCertificate); cert != "" {
 		certPassword := os.Getenv(common.AzureClientCertificatePassword)
-		credential, err := identity.NewClientCertificateCredential(cfg.TenantID, cfg.ClientID, []byte(cert), []byte(certPassword))
+		credential, err := identity.NewClientCertificateCredential(
+			cfg.TenantID,
+			cfg.ClientID,
+			[]byte(cert),
+			[]byte(certPassword),
+			&azidentity.ClientCertificateCredentialOptions{
+				AdditionallyAllowedTenants: cfg.AdditionalTenants,
+			})
 		if err != nil {
 			return nil, eris.Wrapf(err, "unable to get client certificate credential")
 		}
@@ -315,7 +323,9 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 		return credential, nil
 	}
 
-	credential, err := azidentity.NewDefaultAzureCredential(nil)
+	credential, err := azidentity.NewDefaultAzureCredential(&azidentity.DefaultAzureCredentialOptions{
+		AdditionallyAllowedTenants: cfg.AdditionalTenants,
+	})
 	if err != nil {
 		return nil, eris.Wrapf(err, "unable to get default azure credential")
 	}
