@@ -8,7 +8,6 @@ To install the CRDs for these resources, your ASO configuration must include `al
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-
 | Resource                                                                                                                                                                           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [PrometheusRuleGroup](https://azure.github.io/azure-service-operator/reference/alertsmanagement/v1api20230301/#alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroup)       | 2023-03-01  | v1api20230301 | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/alertsmanagement/v1api20230301/v1api20230301_prometheusrulegroup.yaml)    |

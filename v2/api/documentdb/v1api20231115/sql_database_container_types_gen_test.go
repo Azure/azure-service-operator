@@ -5,7 +5,8 @@ package v1api20231115
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20240815s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForClientEncryptionIncludedPath(subject ClientEncr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ClientEncryptionIncludedPath
+	var other v20231115s.ClientEncryptionIncludedPath
 	err := copied.AssignProperties_To_ClientEncryptionIncludedPath(&other)
 	if err != nil {
 		return err.Error()
@@ -141,7 +142,7 @@ func RunPropertyAssignmentTestForClientEncryptionIncludedPath_STATUS(subject Cli
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ClientEncryptionIncludedPath_STATUS
+	var other v20231115s.ClientEncryptionIncludedPath_STATUS
 	err := copied.AssignProperties_To_ClientEncryptionIncludedPath_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -247,7 +248,7 @@ func RunPropertyAssignmentTestForClientEncryptionPolicy(subject ClientEncryption
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ClientEncryptionPolicy
+	var other v20231115s.ClientEncryptionPolicy
 	err := copied.AssignProperties_To_ClientEncryptionPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -364,7 +365,7 @@ func RunPropertyAssignmentTestForClientEncryptionPolicy_STATUS(subject ClientEnc
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ClientEncryptionPolicy_STATUS
+	var other v20231115s.ClientEncryptionPolicy_STATUS
 	err := copied.AssignProperties_To_ClientEncryptionPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -481,7 +482,7 @@ func RunPropertyAssignmentTestForCompositePath(subject CompositePath) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CompositePath
+	var other v20231115s.CompositePath
 	err := copied.AssignProperties_To_CompositePath(&other)
 	if err != nil {
 		return err.Error()
@@ -584,7 +585,7 @@ func RunPropertyAssignmentTestForCompositePath_STATUS(subject CompositePath_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CompositePath_STATUS
+	var other v20231115s.CompositePath_STATUS
 	err := copied.AssignProperties_To_CompositePath_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -688,7 +689,7 @@ func RunPropertyAssignmentTestForComputedProperty(subject ComputedProperty) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ComputedProperty
+	var other v20231115s.ComputedProperty
 	err := copied.AssignProperties_To_ComputedProperty(&other)
 	if err != nil {
 		return err.Error()
@@ -791,7 +792,7 @@ func RunPropertyAssignmentTestForComputedProperty_STATUS(subject ComputedPropert
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ComputedProperty_STATUS
+	var other v20231115s.ComputedProperty_STATUS
 	err := copied.AssignProperties_To_ComputedProperty_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -895,7 +896,7 @@ func RunPropertyAssignmentTestForConflictResolutionPolicy(subject ConflictResolu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ConflictResolutionPolicy
+	var other v20231115s.ConflictResolutionPolicy
 	err := copied.AssignProperties_To_ConflictResolutionPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -1000,7 +1001,7 @@ func RunPropertyAssignmentTestForConflictResolutionPolicy_STATUS(subject Conflic
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ConflictResolutionPolicy_STATUS
+	var other v20231115s.ConflictResolutionPolicy_STATUS
 	err := copied.AssignProperties_To_ConflictResolutionPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1105,7 +1106,7 @@ func RunPropertyAssignmentTestForContainerPartitionKey(subject ContainerPartitio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ContainerPartitionKey
+	var other v20231115s.ContainerPartitionKey
 	err := copied.AssignProperties_To_ContainerPartitionKey(&other)
 	if err != nil {
 		return err.Error()
@@ -1210,7 +1211,7 @@ func RunPropertyAssignmentTestForContainerPartitionKey_STATUS(subject ContainerP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ContainerPartitionKey_STATUS
+	var other v20231115s.ContainerPartitionKey_STATUS
 	err := copied.AssignProperties_To_ContainerPartitionKey_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1316,7 +1317,7 @@ func RunPropertyAssignmentTestForExcludedPath(subject ExcludedPath) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ExcludedPath
+	var other v20231115s.ExcludedPath
 	err := copied.AssignProperties_To_ExcludedPath(&other)
 	if err != nil {
 		return err.Error()
@@ -1418,7 +1419,7 @@ func RunPropertyAssignmentTestForExcludedPath_STATUS(subject ExcludedPath_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ExcludedPath_STATUS
+	var other v20231115s.ExcludedPath_STATUS
 	err := copied.AssignProperties_To_ExcludedPath_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1521,7 +1522,7 @@ func RunPropertyAssignmentTestForIncludedPath(subject IncludedPath) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IncludedPath
+	var other v20231115s.IncludedPath
 	err := copied.AssignProperties_To_IncludedPath(&other)
 	if err != nil {
 		return err.Error()
@@ -1637,7 +1638,7 @@ func RunPropertyAssignmentTestForIncludedPath_STATUS(subject IncludedPath_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IncludedPath_STATUS
+	var other v20231115s.IncludedPath_STATUS
 	err := copied.AssignProperties_To_IncludedPath_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1754,7 +1755,7 @@ func RunPropertyAssignmentTestForIndexes(subject Indexes) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Indexes
+	var other v20231115s.Indexes
 	err := copied.AssignProperties_To_Indexes(&other)
 	if err != nil {
 		return err.Error()
@@ -1864,7 +1865,7 @@ func RunPropertyAssignmentTestForIndexes_STATUS(subject Indexes_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Indexes_STATUS
+	var other v20231115s.Indexes_STATUS
 	err := copied.AssignProperties_To_Indexes_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1974,7 +1975,7 @@ func RunPropertyAssignmentTestForIndexingPolicy(subject IndexingPolicy) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IndexingPolicy
+	var other v20231115s.IndexingPolicy
 	err := copied.AssignProperties_To_IndexingPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -2094,7 +2095,7 @@ func RunPropertyAssignmentTestForIndexingPolicy_STATUS(subject IndexingPolicy_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IndexingPolicy_STATUS
+	var other v20231115s.IndexingPolicy_STATUS
 	err := copied.AssignProperties_To_IndexingPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2215,7 +2216,7 @@ func RunPropertyAssignmentTestForSpatialSpec(subject SpatialSpec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SpatialSpec
+	var other v20231115s.SpatialSpec
 	err := copied.AssignProperties_To_SpatialSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -2322,7 +2323,7 @@ func RunPropertyAssignmentTestForSpatialSpec_STATUS(subject SpatialSpec_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SpatialSpec_STATUS
+	var other v20231115s.SpatialSpec_STATUS
 	err := copied.AssignProperties_To_SpatialSpec_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2429,7 +2430,7 @@ func RunPropertyAssignmentTestForSqlContainerGetProperties_Resource_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlContainerGetProperties_Resource_STATUS
+	var other v20231115s.SqlContainerGetProperties_Resource_STATUS
 	err := copied.AssignProperties_To_SqlContainerGetProperties_Resource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2558,7 +2559,7 @@ func RunPropertyAssignmentTestForSqlContainerResource(subject SqlContainerResour
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlContainerResource
+	var other v20231115s.SqlContainerResource
 	err := copied.AssignProperties_To_SqlContainerResource(&other)
 	if err != nil {
 		return err.Error()
@@ -2685,7 +2686,7 @@ func RunResourceConversionTestForSqlDatabaseContainer(subject SqlDatabaseContain
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.SqlDatabaseContainer
+	var hub v20240815s.SqlDatabaseContainer
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -2727,7 +2728,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainer(subject SqlDatabaseContain
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainer
+	var other v20231115s.SqlDatabaseContainer
 	err := copied.AssignProperties_To_SqlDatabaseContainer(&other)
 	if err != nil {
 		return err.Error()
@@ -2831,7 +2832,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerOperatorSpec(subject SqlDat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerOperatorSpec
+	var other v20231115s.SqlDatabaseContainerOperatorSpec
 	err := copied.AssignProperties_To_SqlDatabaseContainerOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -2928,7 +2929,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainer_STATUS(subject SqlDatabase
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainer_STATUS
+	var other v20231115s.SqlDatabaseContainer_STATUS
 	err := copied.AssignProperties_To_SqlDatabaseContainer_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3052,7 +3053,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainer_Spec(subject SqlDatabaseCo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainer_Spec
+	var other v20231115s.SqlDatabaseContainer_Spec
 	err := copied.AssignProperties_To_SqlDatabaseContainer_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -3175,7 +3176,7 @@ func RunPropertyAssignmentTestForUniqueKey(subject UniqueKey) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UniqueKey
+	var other v20231115s.UniqueKey
 	err := copied.AssignProperties_To_UniqueKey(&other)
 	if err != nil {
 		return err.Error()
@@ -3277,7 +3278,7 @@ func RunPropertyAssignmentTestForUniqueKeyPolicy(subject UniqueKeyPolicy) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UniqueKeyPolicy
+	var other v20231115s.UniqueKeyPolicy
 	err := copied.AssignProperties_To_UniqueKeyPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -3379,7 +3380,7 @@ func RunPropertyAssignmentTestForUniqueKeyPolicy_STATUS(subject UniqueKeyPolicy_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UniqueKeyPolicy_STATUS
+	var other v20231115s.UniqueKeyPolicy_STATUS
 	err := copied.AssignProperties_To_UniqueKeyPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3482,7 +3483,7 @@ func RunPropertyAssignmentTestForUniqueKey_STATUS(subject UniqueKey_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UniqueKey_STATUS
+	var other v20231115s.UniqueKey_STATUS
 	err := copied.AssignProperties_To_UniqueKey_STATUS(&other)
 	if err != nil {
 		return err.Error()

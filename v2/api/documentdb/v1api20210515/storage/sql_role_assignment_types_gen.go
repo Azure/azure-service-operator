@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &SqlRoleAssignment{}
 
 // ConvertFrom populates our SqlRoleAssignment from the provided hub SqlRoleAssignment
 func (assignment *SqlRoleAssignment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SqlRoleAssignment)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlRoleAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.SqlRoleAssignment
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return assignment.AssignProperties_From_SqlRoleAssignment(source)
+	err = assignment.AssignProperties_From_SqlRoleAssignment(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to assignment")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlRoleAssignment from our SqlRoleAssignment
 func (assignment *SqlRoleAssignment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SqlRoleAssignment)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlRoleAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.SqlRoleAssignment
+	err := assignment.AssignProperties_To_SqlRoleAssignment(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from assignment")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return assignment.AssignProperties_To_SqlRoleAssignment(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &SqlRoleAssignment{}

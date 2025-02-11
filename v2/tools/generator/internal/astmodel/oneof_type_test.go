@@ -15,33 +15,33 @@ func TestOneOfEqualityDoesNotCareAboutOrder(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	x := NewOneOfType("x", StringType, BoolType)
-	y := NewOneOfType("y", BoolType, StringType)
+	version1 := NewOneOfType("one", StringType, BoolType)
+	version2 := NewOneOfType("one", BoolType, StringType)
 
-	g.Expect(TypeEquals(x, y)).To(BeTrue())
-	g.Expect(TypeEquals(y, x)).To(BeTrue())
+	g.Expect(TypeEquals(version1, version2)).To(BeTrue())
+	g.Expect(TypeEquals(version2, version1)).To(BeTrue())
 }
 
 func TestOneOfMustHaveAllTypesToBeEqual(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	x := NewOneOfType("x", StringType, BoolType, FloatType)
-	y := NewOneOfType("y", BoolType, StringType)
+	version1 := NewOneOfType("one", StringType, BoolType, FloatType)
+	version2 := NewOneOfType("one", BoolType, StringType)
 
-	g.Expect(TypeEquals(x, y)).To(BeFalse())
-	g.Expect(TypeEquals(y, x)).To(BeFalse())
+	g.Expect(TypeEquals(version1, version2)).To(BeFalse())
+	g.Expect(TypeEquals(version2, version1)).To(BeFalse())
 }
 
 func TestOneOfsWithDifferentTypesAreNotEqual(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	x := NewOneOfType("x", StringType, FloatType)
-	y := NewOneOfType("y", BoolType, StringType)
+	version1 := NewOneOfType("one", StringType, FloatType)
+	version2 := NewOneOfType("one", BoolType, StringType)
 
-	g.Expect(TypeEquals(x, y)).To(BeFalse())
-	g.Expect(TypeEquals(y, x)).To(BeFalse())
+	g.Expect(TypeEquals(version1, version2)).To(BeFalse())
+	g.Expect(TypeEquals(version2, version1)).To(BeFalse())
 }
 
 var expectedOneOfPanic = "OneOfType should have been replaced by generation time by 'convertAllOfAndOneOf' phase"
@@ -110,4 +110,64 @@ func TestOneOfType_WithoutAnyPropertyObjects_GivenProperties_ReturnsOneOfWithNon
 	result := oneOf.WithoutAnyPropertyObjects()
 	g.Expect(result).NotTo(BeNil())
 	g.Expect(result.PropertyObjects()).To(HaveLen(0))
+}
+
+func TestOneOfType_Equals_GivenChange_RecognisesDifference(t *testing.T) {
+	t.Parallel()
+
+	nameMixin := NewObjectType().WithProperties(
+		NewPropertyDefinition("Name", "name", StringType))
+	locationMixin := NewObjectType().WithProperties(
+		NewPropertyDefinition("Location", "location", StringType))
+
+	cases := map[string]struct {
+		change         func(*OneOfType) *OneOfType
+		expectedEquals bool
+	}{
+		"adding a property object": {
+			change: func(oneOf *OneOfType) *OneOfType {
+				return oneOf.WithAdditionalPropertyObject(locationMixin)
+			},
+			expectedEquals: false,
+		},
+		"without property objects": {
+			change: func(oneOf *OneOfType) *OneOfType {
+				return oneOf.WithoutAnyPropertyObjects()
+			},
+			expectedEquals: false,
+		},
+		"with different property object": {
+			change: func(oneOf *OneOfType) *OneOfType {
+				return oneOf.WithoutAnyPropertyObjects().WithAdditionalPropertyObject(locationMixin)
+			},
+			expectedEquals: false,
+		},
+		"with option type already present": {
+			change: func(oneOf *OneOfType) *OneOfType {
+				return oneOf.WithType(StringType)
+			},
+			expectedEquals: true,
+		},
+		"with additional option type": {
+			change: func(oneOf *OneOfType) *OneOfType {
+				return oneOf.WithType(FloatType)
+			},
+			expectedEquals: false,
+		},
+	}
+
+	for n, c := range cases {
+		t.Run(n, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			oneOf := NewOneOfType("oneOf").
+				WithType(StringType).
+				WithType(BoolType).
+				WithAdditionalPropertyObject(nameMixin)
+
+			actual := c.change(oneOf)
+			g.Expect(oneOf.Equals(actual, EqualityOverrides{})).To(Equal(c.expectedEquals))
+		})
+	}
 }

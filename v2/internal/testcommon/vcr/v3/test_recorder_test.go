@@ -9,6 +9,7 @@ import (
 	"context"
 	"io"
 	"net/http"
+	"net/http/httptest"
 	"os"
 	"testing"
 
@@ -52,14 +53,22 @@ func TestRecorder_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *testin
 	g.Expect(err).To(BeNil())
 	g.Expect(recorder.IsReplaying()).To(BeFalse())
 
-	url := "https://www.bing.com"
+	// Stand up a fake HTTP server:
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte("Hello World"))
+	}))
+
 	client := recorder.CreateClient(t)
 
 	// Make sure we can get a response from the internet
 	//nolint:noctx
-	resp, err := client.Get(url)
+	resp, err := client.Get(server.URL)
 	g.Expect(err).To(BeNil())
 	defer resp.Body.Close()
+
+	// Ensure the HTTP response is as expected
+	g.Expect(resp.StatusCode).To(Equal(http.StatusOK))
 
 	// Ensure the body is not empty
 	body, err := io.ReadAll(resp.Body)

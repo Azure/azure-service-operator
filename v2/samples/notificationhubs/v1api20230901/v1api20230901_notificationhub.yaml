@@ -1,0 +1,26 @@
+apiVersion: notificationhubs.azure.com/v1api20230901
+kind: NotificationHub
+metadata:
+  name: aso-sample-hub
+  namespace: default
+spec:
+  location: westus2
+  operatorSpec:
+    secrets:
+      primaryConnectionString:
+        key: primaryConnectionString
+        name: notificationhubkeyssecret
+      primaryKey:
+        key: primaryKey
+        name: notificationhubkeyssecret
+      secondaryConnectionString:
+        key: secondaryConnectionString
+        name: notificationhubkeyssecret
+      secondaryKey:
+        key: secondaryKey
+        name: notificationhubkeyssecret
+  owner:
+    name: aso-sample-ns
+  sku:
+    capacity: 1
+    name: Free

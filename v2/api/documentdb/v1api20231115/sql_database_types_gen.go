@@ -53,22 +53,36 @@ var _ conversion.Convertible = &SqlDatabase{}
 
 // ConvertFrom populates our SqlDatabase from the provided hub SqlDatabase
 func (database *SqlDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SqlDatabase)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.SqlDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignProperties_From_SqlDatabase(source)
+	err = database.AssignProperties_From_SqlDatabase(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabase from our SqlDatabase
 func (database *SqlDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SqlDatabase)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20231115/storage/SqlDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.SqlDatabase
+	err := database.AssignProperties_To_SqlDatabase(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignProperties_To_SqlDatabase(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1api20231115-sqldatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabases,verbs=create;update,versions=v1api20231115,name=default.v1api20231115.sqldatabases.documentdb.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (database *SqlDatabase) SecretDestinationExpressions() []*core.DestinationE
 		return nil
 	}
 	return database.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &SqlDatabase{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (database *SqlDatabase) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*SqlDatabase_STATUS); ok {
-		return database.Spec.Initialize_From_SqlDatabase_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type SqlDatabase_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabase{}
@@ -697,43 +700,6 @@ func (database *SqlDatabase_Spec) AssignProperties_To_SqlDatabase_Spec(destinati
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SqlDatabase_STATUS populates our SqlDatabase_Spec from the provided source SqlDatabase_STATUS
-func (database *SqlDatabase_Spec) Initialize_From_SqlDatabase_STATUS(source *SqlDatabase_STATUS) error {
-
-	// Location
-	database.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Options
-	if source.Options != nil {
-		var option CreateUpdateOptions
-		err := option.Initialize_From_OptionsResource_STATUS(source.Options)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_OptionsResource_STATUS() to populate field Options")
-		}
-		database.Options = &option
-	} else {
-		database.Options = nil
-	}
-
-	// Resource
-	if source.Resource != nil {
-		var resource SqlDatabaseResource
-		err := resource.Initialize_From_SqlDatabaseGetProperties_Resource_STATUS(source.Resource)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SqlDatabaseGetProperties_Resource_STATUS() to populate field Resource")
-		}
-		database.Resource = &resource
-	} else {
-		database.Resource = nil
-	}
-
-	// Tags
-	database.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1472,36 +1438,6 @@ func (resource *SqlDatabaseResource) AssignProperties_To_SqlDatabaseResource(des
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SqlDatabaseGetProperties_Resource_STATUS populates our SqlDatabaseResource from the provided source SqlDatabaseGetProperties_Resource_STATUS
-func (resource *SqlDatabaseResource) Initialize_From_SqlDatabaseGetProperties_Resource_STATUS(source *SqlDatabaseGetProperties_Resource_STATUS) error {
-
-	// CreateMode
-	if source.CreateMode != nil {
-		createMode := genruntime.ToEnum(string(*source.CreateMode), createMode_Values)
-		resource.CreateMode = &createMode
-	} else {
-		resource.CreateMode = nil
-	}
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// RestoreParameters
-	if source.RestoreParameters != nil {
-		var restoreParameter RestoreParametersBase
-		err := restoreParameter.Initialize_From_RestoreParametersBase_STATUS(source.RestoreParameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RestoreParametersBase_STATUS() to populate field RestoreParameters")
-		}
-		resource.RestoreParameters = &restoreParameter
-	} else {
-		resource.RestoreParameters = nil
 	}
 
 	// No error

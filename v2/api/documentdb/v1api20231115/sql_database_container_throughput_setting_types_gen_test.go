@@ -5,7 +5,8 @@ package v1api20231115
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	v20240815s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForSqlDatabaseContainerThroughputSetting(subject S
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.SqlDatabaseContainerThroughputSetting
+	var hub v20240815s.SqlDatabaseContainerThroughputSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerThroughputSetting(subject S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerThroughputSetting
+	var other v20231115s.SqlDatabaseContainerThroughputSetting
 	err := copied.AssignProperties_To_SqlDatabaseContainerThroughputSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerThroughputSettingOperatorSp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerThroughputSettingOperatorSpec
+	var other v20231115s.SqlDatabaseContainerThroughputSettingOperatorSpec
 	err := copied.AssignProperties_To_SqlDatabaseContainerThroughputSettingOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerThroughputSetting_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerThroughputSetting_STATUS
+	var other v20231115s.SqlDatabaseContainerThroughputSetting_STATUS
 	err := copied.AssignProperties_To_SqlDatabaseContainerThroughputSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -402,7 +403,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerThroughputSetting_Spec(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SqlDatabaseContainerThroughputSetting_Spec
+	var other v20231115s.SqlDatabaseContainerThroughputSetting_Spec
 	err := copied.AssignProperties_To_SqlDatabaseContainerThroughputSetting_Spec(&other)
 	if err != nil {
 		return err.Error()
