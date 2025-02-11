@@ -12,6 +12,10 @@ const (
 	AzureSubscriptionID = "AZURE_SUBSCRIPTION_ID"
 	// AzureTenantID is the AAD tenant that the subscription is in
 	AzureTenantID = "AZURE_TENANT_ID"
+	// AzureAdditionalTenants is the list of (comma-separated) additional tenants the operator can authenticate with.
+	// This is required when performing cross-tenant authentication. See
+	// https://learn.microsoft.com/entra/external-id/cross-tenant-access-overview for more details.
+	AzureAdditionalTenants = "AZURE_ADDITIONAL_TENANTS"
 	// AzureClientID is the client ID of the Azure Service Principal or Managed Identity to use to authenticate with Azure.
 	AzureClientID = "AZURE_CLIENT_ID"
 	// AzureClientCertificate is a PEM or PKCS12 certificate string including the private key for Azure Credential Authentication.
