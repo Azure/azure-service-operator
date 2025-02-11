@@ -243,3 +243,13 @@ RATE_LIMIT_BUCKET_SIZE is the size of the bucket. This value only has an effect 
 **Example:** `200`
 
 **Required**: False
+
+### DEFAULT_RECONCILE_POLICY
+
+DEFAULT_RECONCILE_POLICY specify which reconcile strategy to be used by the operator. If not specified, it is set to 'manage'.
+
+**Format:** `string`
+
+**Example:** `detach-on-delete`
+
+**Required**: False
