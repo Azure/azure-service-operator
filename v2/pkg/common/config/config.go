@@ -98,4 +98,7 @@ const (
 	RateLimitQPS = "RATE_LIMIT_QPS"
 	// RateLimitBucketSize is the size of the bucket. This value only has an effect if RateLimitMode is 'bucket'.
 	RateLimitBucketSize = "RATE_LIMIT_BUCKET_SIZE"
+	// DefaultReconcilePolicy allows to change default reconciliation policy to use when serviceoperator.azure.com/reconcile-policy annotation
+	// is not explicitly defined. If omitted, it will be automatically set to "manage"
+	DefaultReconcilePolicy = "DEFAULT_RECONCILE_POLICY"
 )

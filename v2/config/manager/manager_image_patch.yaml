@@ -132,6 +132,12 @@ spec:
                   key: RATE_LIMIT_BUCKET_SIZE
                   name: aso-controller-settings
                   optional: true
+            - name: DEFAULT_RECONCILE_POLICY
+              valueFrom:
+                secretKeyRef:
+                  key: DEFAULT_RECONCILE_POLICY
+                  name: aso-controller-settings
+                  optional: true
             # Used for setting the operator-namespace annotation (and
             # for aad-pod-identity once we support it).
             - name: POD_NAMESPACE

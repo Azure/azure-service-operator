@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/rotisserie/eris"
 
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	asocloud "github.com/Azure/azure-service-operator/v2/pkg/common/cloud"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 )
@@ -100,6 +101,10 @@ type Values struct {
 	MaxConcurrentReconciles int
 
 	RateLimit RateLimit
+
+	// DefaultReconcilePolicy allows to override the default reconcile policy that should be used by ASO
+	// when the annotation serviceoperator.azure.com/reconcile-policy is omitted
+	DefaultReconcilePolicy annotations.ReconcilePolicyValue
 }
 
 type RateLimitMode string
@@ -180,6 +185,7 @@ func (v Values) String() string {
 	builder.WriteString(fmt.Sprintf("UserAgentSuffix:%s/", v.UserAgentSuffix))
 	builder.WriteString(fmt.Sprintf("MaxConcurrentReconciles:%d/", v.MaxConcurrentReconciles))
 	builder.WriteString(fmt.Sprintf("RateLimit:[%s]", v.RateLimit.String()))
+	builder.WriteString(fmt.Sprintf("DefaultReconcilePolicy:[%s]", v.DefaultReconcilePolicy))
 
 	return builder.String()
 }
@@ -246,6 +252,7 @@ func ReadFromEnvironment() (Values, error) {
 	if err != nil {
 		return result, err
 	}
+	result.DefaultReconcilePolicy = annotations.ReconcilePolicyValue(envOrDefault(config.DefaultReconcilePolicy, string(annotations.ReconcilePolicyManage)))
 
 	// Not calling validate here to support using from tests where we
 	// don't require consistent settings.
@@ -276,6 +283,9 @@ func (v Values) Validate() error {
 	}
 	if v.MaxConcurrentReconciles <= 0 {
 		return eris.Errorf("%s must be at least 1", config.MaxConcurrentReconciles)
+	}
+	if !(v.DefaultReconcilePolicy == annotations.ReconcilePolicyDetachOnDelete || v.DefaultReconcilePolicy == annotations.ReconcilePolicyManage || v.DefaultReconcilePolicy == annotations.ReconcilePolicySkip) {
+		return eris.Errorf("%s must be set to any of (%s, %s, %s)", config.DefaultReconcilePolicy, annotations.ReconcilePolicyDetachOnDelete, annotations.ReconcilePolicyManage, annotations.ReconcilePolicySkip)
 	}
 	return nil
 }
