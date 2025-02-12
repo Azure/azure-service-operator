@@ -98,6 +98,19 @@ func AsEnumType(aType Type) (*EnumType, bool) {
 	return nil, false
 }
 
+// AsFlaggedType unwraps any wrappers around the provided type and returns either the underlying FlaggedType and true, or nil and false.
+func AsFlaggedType(aType Type) (*FlaggedType, bool) {
+	if flagged, ok := aType.(*FlaggedType); ok {
+		return flagged, true
+	}
+
+	if wrapper, ok := aType.(MetaType); ok {
+		return AsFlaggedType(wrapper.Unwrap())
+	}
+
+	return nil, false
+}
+
 // AsTypeName unwraps any wrappers around the provided type and returns either the underlying TypeName and true, or a
 // blank and false.
 func AsTypeName(aType Type) (TypeName, bool) {
