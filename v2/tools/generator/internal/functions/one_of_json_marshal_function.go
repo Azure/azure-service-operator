@@ -90,13 +90,12 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	finalReturnStatement := &dst.ReturnStmt{
 		Results: []dst.Expr{astbuilder.Nil(), astbuilder.Nil()},
 	}
-	statements = append(statements, finalReturnStatement)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          f.Name(),
 		ReceiverIdent: receiverName,
 		ReceiverType:  receiverExpr,
-		Body:          statements,
+		Body:          astbuilder.Statements(statements, finalReturnStatement),
 	}
 
 	fn.AddComments(fmt.Sprintf(
