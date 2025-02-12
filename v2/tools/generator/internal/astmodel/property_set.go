@@ -140,6 +140,13 @@ func (p PropertySet) Add(property *PropertyDefinition) {
 	p[property.propertyName] = property
 }
 
+// AddSet updates the set by including all the properties in the provided set
+func (p *PropertySet) AddSet(properties PropertySet) {
+	for _, prop := range properties {
+		p.Add(prop)
+	}
+}
+
 // Copy returns a new property set with the same properties as this one
 func (p PropertySet) Copy() PropertySet {
 	result := make(PropertySet, len(p))
