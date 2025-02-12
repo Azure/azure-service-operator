@@ -24,8 +24,6 @@ func Test_DBForMySQL_FlexibleServer_20231230_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
-	tc.AzureRegion = to.Ptr("canadacentral")
-
 	rg := tc.CreateTestResourceGroupAndWait()
 	secretName := "mysqlsecret"
 	adminPasswordKey := "adminPassword"
