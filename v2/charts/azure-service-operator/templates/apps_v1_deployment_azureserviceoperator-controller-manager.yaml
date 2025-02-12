@@ -67,6 +67,8 @@ spec:
         - --webhook-cert-dir={{ .Values.webhook.certDir }}
         {{- end }}
         env:
+        - name: GOMEMLIMIT
+          value: {{ .Values.go.memLimit }}
         - name: AZURE_CLIENT_ID
           valueFrom:
             secretKeyRef:

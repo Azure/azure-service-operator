@@ -69,7 +69,7 @@ spec:
         resources:
           limits:
             cpu: 500m
-            memory: 512Mi
+            memory: 512Mi  # Make sure to change the GOMEMLIMIT env variable if you change this too
           requests:
             cpu: 200m
             memory: 256Mi

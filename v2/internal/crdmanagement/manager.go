@@ -143,13 +143,19 @@ func NewManager(logger logr.Logger, kubeClient kubeclient.Client, leaderElection
 	}
 }
 
-func (m *Manager) ListCRDs(ctx context.Context) ([]apiextensions.CustomResourceDefinition, error) {
-	list := apiextensions.CustomResourceDefinitionList{}
+// ListCRDs lists ASO CRDs.
+// This accepts a list rather than returning one to allow re-using the same list object (they're large and having multiple)
+// copies of the collection results in huge memory usage.
+func (m *Manager) ListCRDs(ctx context.Context, list *apiextensions.CustomResourceDefinitionList) error {
+	// Clear the existing list, if there is one.
+	list.Items = nil
+	list.Continue = ""
+	list.ResourceVersion = ""
 
 	selector := labels.NewSelector()
 	requirement, err := labels.NewRequirement(ServiceOperatorAppLabel, selection.Equals, []string{ServiceOperatorAppValue})
 	if err != nil {
-		return nil, err
+		return err
 	}
 	selector = selector.Add(*requirement)
 
@@ -157,16 +163,16 @@ func (m *Manager) ListCRDs(ctx context.Context) ([]apiextensions.CustomResourceD
 		Selector: selector,
 	}
 
-	err = m.kubeClient.List(ctx, &list, match)
+	err = m.kubeClient.List(ctx, list, match)
 	if err != nil {
-		return nil, eris.Wrapf(err, "failed to list CRDs")
+		return eris.Wrapf(err, "failed to list CRDs")
 	}
 
 	for _, crd := range list.Items {
 		m.logger.V(Verbose).Info("Found an existing CRD", "CRD", crd.Name)
 	}
 
-	return list.Items, nil
+	return nil
 }
 
 func (m *Manager) LoadOperatorCRDs(path string, podNamespace string) ([]apiextensions.CustomResourceDefinition, error) {
@@ -345,11 +351,11 @@ func (m *Manager) applyCRDs(
 		// Double-checked locking, we need to make sure once we have the lock there's still work to do, as it may
 		// already have been done while we were waiting for the lock.
 		m.logger.V(Status).Info("Double-checked locking - ensure there's still CRDs to apply...")
-		existingCRDs, err := m.ListCRDs(ctx)
+		err := m.ListCRDs(ctx, options.ExistingCRDs)
 		if err != nil {
 			return eris.Wrap(err, "failed to list current CRDs")
 		}
-		instructions, err = m.DetermineCRDsToInstallOrUpgrade(goalCRDs, existingCRDs, options.CRDPatterns)
+		instructions, err = m.DetermineCRDsToInstallOrUpgrade(goalCRDs, options.ExistingCRDs.Items, options.CRDPatterns)
 		if err != nil {
 			return eris.Wrap(err, "failed to determine CRDs to apply")
 		}
@@ -411,7 +417,7 @@ type Options struct {
 	Path         string
 	Namespace    string
 	CRDPatterns  string
-	ExistingCRDs []apiextensions.CustomResourceDefinition
+	ExistingCRDs *apiextensions.CustomResourceDefinitionList
 }
 
 func (m *Manager) Install(ctx context.Context, options Options) error {
@@ -420,7 +426,7 @@ func (m *Manager) Install(ctx context.Context, options Options) error {
 		return eris.Wrap(err, "failed to load CRDs from disk")
 	}
 
-	installationInstructions, err := m.DetermineCRDsToInstallOrUpgrade(goalCRDs, options.ExistingCRDs, options.CRDPatterns)
+	installationInstructions, err := m.DetermineCRDsToInstallOrUpgrade(goalCRDs, options.ExistingCRDs.Items, options.CRDPatterns)
 	if err != nil {
 		return eris.Wrap(err, "failed to determine CRDs to apply")
 	}

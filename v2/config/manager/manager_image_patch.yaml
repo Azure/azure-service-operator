@@ -13,6 +13,8 @@ spec:
         - image: localhost:5000/azureserviceoperator:latest
           name: manager
           env:
+            - name: GOMEMLIMIT
+              value: 400MiB # This should be set to ~80-90% of the hard memory limit on the pod
             - name: AZURE_CLIENT_ID
               valueFrom:
                 secretKeyRef:
