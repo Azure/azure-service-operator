@@ -142,7 +142,8 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		setupLog.Error(err, "failed to initialize CRD client")
 		os.Exit(1)
 	}
-	existingCRDs, err := crdManager.ListCRDs(ctx)
+	existingCRDs := apiextensions.CustomResourceDefinitionList{}
+	err = crdManager.ListCRDs(ctx, &existingCRDs)
 	if err != nil {
 		setupLog.Error(err, "failed to list current CRDs")
 		os.Exit(1)
@@ -155,7 +156,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 			// Note that this step will restart the pod when it succeeds
 			err = crdManager.Install(ctx, crdmanagement.Options{
 				CRDPatterns:  flgs.CRDPatterns,
-				ExistingCRDs: existingCRDs,
+				ExistingCRDs: &existingCRDs,
 				Path:         crdmanagement.CRDLocation,
 				Namespace:    cfg.PodNamespace,
 			})
@@ -184,7 +185,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 	//    TODO: the nontrivial startup cost of reading the local copy of CRDs into memory. Since "none" is
 	//    TODO: us approximating the standard operator experience we don't perform this assertion currently as most
 	//    TODO: operators don't.
-	readyResources := crdmanagement.MakeCRDMap(existingCRDs)
+	readyResources := crdmanagement.MakeCRDMap(existingCRDs.Items)
 
 	if cfg.OperatorMode.IncludesWatchers() {
 		//nolint:contextcheck

@@ -186,7 +186,7 @@ priorityClassName: ""
 # Number of pod replicas to create for the deployment
 replicaCount: 2
 
-# Recomended initial values for resources
+# Recommended initial values for resources
 # adjust them as necessary
 resources:
   limits:
@@ -195,6 +195,9 @@ resources:
   requests:
     cpu: 200m
     memory: 256Mi
+
+go:
+  memLimit: 400MiB # This should be set to ~80-90% of the hard memory limit set above in resources
 
 # Number of old history to retain to allow rollback
 # Default Kubernetes value is set to 10
