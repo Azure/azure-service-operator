@@ -424,3 +424,110 @@ func TestCreateARMTypeConversionsWhenSimplifying_CreatesExpectedConversions(t *t
 		})
 	}
 }
+
+func TestCreateARMTypes_withTopLevelOneOf_GeneratesExpectedCode(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// When a spec or status type is itself a one-of type, we have a conflict between the
+	// requirement that spec and status types have specific properties defined, and the requirement
+	// that all properties on one-of types are pushed down to the leaves.
+	//
+	// We compromise by permitting a limited number of properties to remain at the top level (at
+	// the moment, just Name) but this means we need to proactively push values down when
+	// serializing to ARM, and pull those values back up again when deserializing.
+	//
+	// This test checks that the generated code correctly handles this situation.
+	// The object structure created here mirrors that for Kusto/ClusterDatabase
+
+	readWriteKind := astmodel.MakeEnumValue("ReadWrite", "ReadWrite")
+	readWriteDatabaseKind := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2022, "ReadWriteDatabaseKind"),
+		astmodel.NewEnumType(
+			astmodel.StringType,
+			readWriteKind))
+
+	readwriteDatabase := test.CreateObjectDefinition(
+		test.Pkg2022,
+		"ReadWriteDatabase",
+		astmodel.NewPropertyDefinition("Kind", "kind", readWriteDatabaseKind.Name()),
+		astmodel.NewPropertyDefinition("Location", "location", astmodel.OptionalStringType),
+		astmodel.NewPropertyDefinition("Properties", "properties", astmodel.OptionalStringType))
+
+	readOnlyFollowingKind := astmodel.MakeEnumValue("ReadOnlyFollowing", "ReadOnlyFollowing")
+	readOnlyFollowingDatabaseKind := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2022, "ReadOnlyFollowingDatabaseKind"),
+		astmodel.NewEnumType(
+			astmodel.StringType,
+			readOnlyFollowingKind))
+
+	readOnlyFollowingDatabase := test.CreateObjectDefinition(
+		test.Pkg2022,
+		"ReadOnlyFollowingDatabase",
+		astmodel.NewPropertyDefinition("Kind", "kind", readOnlyFollowingDatabaseKind.Name()),
+		astmodel.NewPropertyDefinition("Location", "location", astmodel.OptionalStringType),
+		astmodel.NewPropertyDefinition("Properties", "properties", astmodel.OptionalStringType))
+
+	// clusterDatabaseKind := astmodel.MakeTypeDefinition(
+	// 	astmodel.MakeInternalTypeName(test.Pkg2022, "ClusterDatabaseKind"),
+	// 	astmodel.NewEnumType(
+	// 		astmodel.StringType,
+	// 		readWriteKind,
+	// 		readOnlyFollowingKind))
+
+	clusterDatabaseSpec := test.CreateObjectDefinition(
+		test.Pkg2022,
+		"ClusterDatabase_Spec",
+		astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType),
+		astmodel.NewPropertyDefinition("ReadOnlyFollowing", "readOnlyFollowing", readOnlyFollowingDatabase.Name()),
+		astmodel.NewPropertyDefinition("ReadWrite", "readWrite", readwriteDatabase.Name()))
+
+	var err error
+	clusterDatabaseSpec, err = clusterDatabaseSpec.ApplyObjectTransformation(
+		func(o *astmodel.ObjectType) (astmodel.Type, error) {
+			return astmodel.OneOfFlag.ApplyTo(o), nil
+		})
+	g.Expect(err).NotTo(HaveOccurred())
+
+	clusterDatabaseStatus := test.CreateObjectDefinition(
+		test.Pkg2022,
+		"ClusterDatabase_Status",
+		astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType))
+
+	clusterResource := test.CreateResource(
+		test.Pkg2022,
+		"ClusterDatabase",
+		clusterDatabaseSpec,
+		clusterDatabaseStatus)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(
+		readwriteDatabase,
+		readOnlyFollowingDatabase,
+		clusterDatabaseSpec,
+		clusterDatabaseStatus,
+		clusterResource,
+		readWriteDatabaseKind,
+		readOnlyFollowingDatabaseKind,
+		test.Pkg2020APIVersion)
+
+	idFactory := astmodel.NewIdentifierFactory()
+
+	cfg := config.NewObjectModelConfiguration()
+	createARMTypes := CreateARMTypes(cfg, idFactory, logr.Discard())
+	applyARMConversionInterface := ApplyARMConversionInterface(idFactory, cfg)
+	flatten := FlattenProperties(logr.Discard())
+	simplify := SimplifyDefinitions()
+	strip := StripUnreferencedTypeDefinitions()
+
+	state, err := RunTestPipeline(
+		NewState(defs),
+		createARMTypes,
+		applyARMConversionInterface,
+		flatten,
+		simplify,
+		strip)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}
