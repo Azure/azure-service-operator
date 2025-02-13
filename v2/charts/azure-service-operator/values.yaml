@@ -85,7 +85,7 @@ webhook:
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.11.0
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.12.0
   pullSecrets: []
 
 # 'metrics' define settings for the metrics from controller.
