@@ -827,7 +827,7 @@
 <li>A Kubernetes cluster (at least version 1.16) <a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/">created and running</a>. You can check your cluster version with <code>kubectl version</code>. If you want to try it out quickly, spin up a local cluster using <a href="https://kind.sigs.k8s.io">Kind</a>.</li>
 <li>An Azure Subscription to provision resources into.</li>
 <li>An Azure Service Principal for the operator to use, or the <a href="https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest">Azure CLI</a> to create one. How to create a Service Principal is covered in <a href="#installation">installation</a>.
-See the <a href="https://azure.github.io/azure-service-operator/guide/authentication/credential-format/#azure-workload-identity">Azure Workload Identity</a> setup for how to use managed identity instead. We recommend using workload identity in production.</li>
+See the <a href="/azure-service-operator/guide/authentication/credential-format/#managed-identity-via-workload-identity">Azure Workload Identity</a> setup for how to use managed identity instead. We recommend using workload identity in production.</li>
 </ol>
 <h3 id="installation">Installation</h3>
 <h4 id="install-cert-manager-on-the-cluster">Install cert-manager on the cluster</h4>
@@ -847,41 +847,41 @@ See the <a href="https://azure.github.io/azure-service-operator/guide/authentica
 
 
 
-<ul class="nav nav-tabs" id="tabs-0" role="tablist">
+<ul class="nav nav-tabs" id="tabs-1" role="tablist">
   <li class="nav-item">
       <button class="nav-link disabled"
-          id="tabs-00-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-00-00" role="tab"
-          aria-controls="tabs-00-00" aria-selected="false">
+          id="tabs-01-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-01-00" role="tab"
+          aria-controls="tabs-01-00" aria-selected="false">
         <strong>Shell</strong>:
       </button>
     </li><li class="nav-item">
       <button class="nav-link active"
-          id="tabs-00-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-00-01" role="tab"
-          data-td-tp-persist="bash" aria-controls="tabs-00-01" aria-selected="true">
+          id="tabs-01-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-01-01" role="tab"
+          data-td-tp-persist="bash" aria-controls="tabs-01-01" aria-selected="true">
         bash
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-00-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-00-02" role="tab"
-          data-td-tp-persist="powershell" aria-controls="tabs-00-02" aria-selected="false">
+          id="tabs-01-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-01-02" role="tab"
+          data-td-tp-persist="powershell" aria-controls="tabs-01-02" aria-selected="false">
         PowerShell
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-00-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-00-03" role="tab"
-          data-td-tp-persist="cmd" aria-controls="tabs-00-03" aria-selected="false">
+          id="tabs-01-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-01-03" role="tab"
+          data-td-tp-persist="cmd" aria-controls="tabs-01-03" aria-selected="false">
         CMD
       </button>
     </li>
 </ul>
 
-<div class="tab-content" id="tabs-0-content">
+<div class="tab-content" id="tabs-1-content">
     <div class="tab-body tab-pane fade"
-        id="tabs-00-00" role="tabpanel" aria-labelled-by="tabs-00-00-tab" tabindex="0">
+        id="tabs-01-00" role="tabpanel" aria-labelled-by="tabs-01-00-tab" tabindex="1">
         
     </div>
     <div class="tab-body tab-pane fade show active"
-        id="tabs-00-01" role="tabpanel" aria-labelled-by="tabs-00-01-tab" tabindex="0">
+        id="tabs-01-01" role="tabpanel" aria-labelled-by="tabs-01-01-tab" tabindex="1">
         <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
 </span></span><span style="display:flex;"><span>$ helm upgrade --install aso2 aso2/azure-service-operator <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --create-namespace <span style="color:#ae81ff">\
@@ -891,7 +891,7 @@ See the <a href="https://azure.github.io/azure-service-operator/guide/authentica
 
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-00-02" role="tabpanel" aria-labelled-by="tabs-00-02-tab" tabindex="0">
+        id="tabs-01-02" role="tabpanel" aria-labelled-by="tabs-01-02-tab" tabindex="1">
         <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS&gt; helm repo add aso2 https<span style="color:#960050;background-color:#1e0010">:</span>//raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
 </span></span><span style="display:flex;"><span>PS&gt; helm upgrade --install aso2 aso2/azure-service-operator `
 </span></span><span style="display:flex;"><span>    --create-namespace `
@@ -900,7 +900,7 @@ See the <a href="https://azure.github.io/azure-service-operator/guide/authentica
 </span></span></code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-00-03" role="tabpanel" aria-labelled-by="tabs-00-03-tab" tabindex="0">
+        id="tabs-01-03" role="tabpanel" aria-labelled-by="tabs-01-03-tab" tabindex="1">
         <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>C:\<span style="color:#75715e">&gt; helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts</span>
 </span></span><span style="display:flex;"><span>C:\<span style="color:#75715e">&gt; helm upgrade --install aso2 aso2/azure-service-operator ^</span>
 </span></span><span style="display:flex;"><span>    --create-namespace <span style="color:#ae81ff">^
@@ -942,7 +942,7 @@ You&rsquo;ll need this to grant the identity or Service Principal permissions to
 <h4 class="alert-heading">Note</h4>
 
     <p>We show steps for using a Service Principal below, as it&rsquo;s easiest to get started with, but recommend using a
-Managed Identity with <a href="/azure-service-operator/guide/authentication/credential-format/#azure-workload-identity">Azure Workload Identity</a> for
+Managed Identity with <a href="/azure-service-operator/guide/authentication/credential-format/#managed-identity-via-workload-identity">Azure Workload Identity</a> for
 use-cases other than testing.</p>
 <p>See <a href="/azure-service-operator/guide/best-practices/security/">Security best practices</a> for the full list of security best practices.</p>
 
@@ -950,69 +950,6 @@ use-cases other than testing.</p>
 </div>
 
 <p>First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:</p>
-
-
-
-
-
-<ul class="nav nav-tabs" id="tabs-4" role="tablist">
-  <li class="nav-item">
-      <button class="nav-link disabled"
-          id="tabs-04-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-04-00" role="tab"
-          aria-controls="tabs-04-00" aria-selected="false">
-        <strong>Shell</strong>:
-      </button>
-    </li><li class="nav-item">
-      <button class="nav-link active"
-          id="tabs-04-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-04-01" role="tab"
-          data-td-tp-persist="bash" aria-controls="tabs-04-01" aria-selected="true">
-        bash
-      </button>
-    </li><li class="nav-item">
-      <button class="nav-link"
-          id="tabs-04-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-04-02" role="tab"
-          data-td-tp-persist="powershell" aria-controls="tabs-04-02" aria-selected="false">
-        PowerShell
-      </button>
-    </li><li class="nav-item">
-      <button class="nav-link"
-          id="tabs-04-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-04-03" role="tab"
-          data-td-tp-persist="cmd" aria-controls="tabs-04-03" aria-selected="false">
-        CMD
-      </button>
-    </li>
-</ul>
-
-<div class="tab-content" id="tabs-4-content">
-    <div class="tab-body tab-pane fade"
-        id="tabs-04-00" role="tabpanel" aria-labelled-by="tabs-04-00-tab" tabindex="4">
-        
-    </div>
-    <div class="tab-body tab-pane fade show active"
-        id="tabs-04-01" role="tabpanel" aria-labelled-by="tabs-04-01-tab" tabindex="4">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ export AZURE_TENANT_ID<span style="color:#f92672">=</span>&lt;your-tenant-id-goes-here&gt;
-</span></span><span style="display:flex;"><span>$ export AZURE_SUBSCRIPTION_ID<span style="color:#f92672">=</span>&lt;your-subscription-id-goes-here&gt;
-</span></span></code></pre></div>
-    </div>
-    <div class="tab-body tab-pane fade"
-        id="tabs-04-02" role="tabpanel" aria-labelled-by="tabs-04-02-tab" tabindex="4">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS&gt; $AZURE_TENANT_ID=&lt;your-tenant-id-goes-here&gt;
-</span></span><span style="display:flex;"><span>PS&gt; $AZURE_SUBSCRIPTION_ID=&lt;your-subscription-id-goes-here&gt;
-</span></span></code></pre></div>
-    </div>
-    <div class="tab-body tab-pane fade"
-        id="tabs-04-03" role="tabpanel" aria-labelled-by="tabs-04-03-tab" tabindex="4">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>C:\<span style="color:#75715e">&gt; SET AZURE_TENANT_ID=&lt;your-tenant-id-goes-here&gt;</span>
-</span></span><span style="display:flex;"><span>C:\<span style="color:#75715e">&gt; SET AZURE_SUBSCRIPTION_ID=&lt;your-subscription-id-goes-here&gt;</span>
-</span></span></code></pre></div>
-    </div>
-</div>
-
-<p>You can find these values by using the Azure CLI: <code>az account show</code></p>
-<p>Next, create a service principal with Contributor permissions for your subscription.</p>
-<p>You can optionally use a service principal with a more restricted permission set
-(for example contributor to just a Resource Group), but that will restrict what you can
-do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/#using-a-credential-for-aso-with-reduced-permissions">using reduced permissions</a> for more details.</p>
 
 
 
@@ -1053,31 +990,29 @@ do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/a
     </div>
     <div class="tab-body tab-pane fade show active"
         id="tabs-05-01" role="tabpanel" aria-labelled-by="tabs-05-01-tab" tabindex="5">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ az ad sp create-for-rbac -n azure-service-operator --role contributor <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ export AZURE_TENANT_ID<span style="color:#f92672">=</span>&lt;your-tenant-id-goes-here&gt;
+</span></span><span style="display:flex;"><span>$ export AZURE_SUBSCRIPTION_ID<span style="color:#f92672">=</span>&lt;your-subscription-id-goes-here&gt;
 </span></span></code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
         id="tabs-05-02" role="tabpanel" aria-labelled-by="tabs-05-02-tab" tabindex="5">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS&gt; az ad sp create-for-rbac -n azure-service-operator --role contributor `
-</span></span><span style="display:flex;"><span>    --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS&gt; $AZURE_TENANT_ID=&lt;your-tenant-id-goes-here&gt;
+</span></span><span style="display:flex;"><span>PS&gt; $AZURE_SUBSCRIPTION_ID=&lt;your-subscription-id-goes-here&gt;
 </span></span></code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
         id="tabs-05-03" role="tabpanel" aria-labelled-by="tabs-05-03-tab" tabindex="5">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>C:\<span style="color:#75715e">&gt; az ad sp create-for-rbac -n azure-service-operator --role contributor ^</span>
-</span></span><span style="display:flex;"><span>    --scopes /subscriptions/%AZURE_SUBSCRIPTION_ID%
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>C:\<span style="color:#75715e">&gt; SET AZURE_TENANT_ID=&lt;your-tenant-id-goes-here&gt;</span>
+</span></span><span style="display:flex;"><span>C:\<span style="color:#75715e">&gt; SET AZURE_SUBSCRIPTION_ID=&lt;your-subscription-id-goes-here&gt;</span>
 </span></span></code></pre></div>
     </div>
 </div>
 
-<p>This should give you output including the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#e6db74">&#34;appId&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxx&#34;</span>,
-</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;displayName&#34;</span>: <span style="color:#e6db74">&#34;azure-service-operator&#34;</span>,
-</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;http://azure-service-operator&#34;</span>,
-</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;password&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxxx&#34;</span>,
-</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;tenant&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxxxxx&#34;</span>
-</span></span></code></pre></div><p>Once you have created a service principal, set the following variables to your app ID and password values:</p>
+<p>You can find these values by using the Azure CLI: <code>az account show</code></p>
+<p>Next, create a service principal with Contributor permissions for your subscription.</p>
+<p>You can optionally use a service principal with a more restricted permission set
+(for example contributor to just a Resource Group), but that will restrict what you can
+do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/#using-a-credential-for-aso-with-reduced-permissions">using reduced permissions</a> for more details.</p>
 
 
 
@@ -1118,18 +1053,83 @@ do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/a
     </div>
     <div class="tab-body tab-pane fade show active"
         id="tabs-06-01" role="tabpanel" aria-labelled-by="tabs-06-01-tab" tabindex="6">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ az ad sp create-for-rbac -n azure-service-operator --role contributor <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
+</span></span></code></pre></div>
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-06-02" role="tabpanel" aria-labelled-by="tabs-06-02-tab" tabindex="6">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS&gt; az ad sp create-for-rbac -n azure-service-operator --role contributor `
+</span></span><span style="display:flex;"><span>    --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
+</span></span></code></pre></div>
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-06-03" role="tabpanel" aria-labelled-by="tabs-06-03-tab" tabindex="6">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>C:\<span style="color:#75715e">&gt; az ad sp create-for-rbac -n azure-service-operator --role contributor ^</span>
+</span></span><span style="display:flex;"><span>    --scopes /subscriptions/%AZURE_SUBSCRIPTION_ID%
+</span></span></code></pre></div>
+    </div>
+</div>
+
+<p>This should give you output including the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#e6db74">&#34;appId&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxx&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;displayName&#34;</span>: <span style="color:#e6db74">&#34;azure-service-operator&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;http://azure-service-operator&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;password&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxxx&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;tenant&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxxxxx&#34;</span>
+</span></span></code></pre></div><p>Once you have created a service principal, set the following variables to your app ID and password values:</p>
+
+
+
+
+
+<ul class="nav nav-tabs" id="tabs-7" role="tablist">
+  <li class="nav-item">
+      <button class="nav-link disabled"
+          id="tabs-07-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-07-00" role="tab"
+          aria-controls="tabs-07-00" aria-selected="false">
+        <strong>Shell</strong>:
+      </button>
+    </li><li class="nav-item">
+      <button class="nav-link active"
+          id="tabs-07-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-07-01" role="tab"
+          data-td-tp-persist="bash" aria-controls="tabs-07-01" aria-selected="true">
+        bash
+      </button>
+    </li><li class="nav-item">
+      <button class="nav-link"
+          id="tabs-07-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-07-02" role="tab"
+          data-td-tp-persist="powershell" aria-controls="tabs-07-02" aria-selected="false">
+        PowerShell
+      </button>
+    </li><li class="nav-item">
+      <button class="nav-link"
+          id="tabs-07-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-07-03" role="tab"
+          data-td-tp-persist="cmd" aria-controls="tabs-07-03" aria-selected="false">
+        CMD
+      </button>
+    </li>
+</ul>
+
+<div class="tab-content" id="tabs-7-content">
+    <div class="tab-body tab-pane fade"
+        id="tabs-07-00" role="tabpanel" aria-labelled-by="tabs-07-00-tab" tabindex="7">
+        
+    </div>
+    <div class="tab-body tab-pane fade show active"
+        id="tabs-07-01" role="tabpanel" aria-labelled-by="tabs-07-01-tab" tabindex="7">
         <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ export AZURE_CLIENT_ID<span style="color:#f92672">=</span>&lt;your-client-id&gt;         <span style="color:#75715e"># This is the appID from the service principal we created.</span>
 </span></span><span style="display:flex;"><span>$ export AZURE_CLIENT_SECRET<span style="color:#f92672">=</span>&lt;your-client-secret&gt; <span style="color:#75715e"># This is the password from the service principal we created.</span>
 </span></span></code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-06-02" role="tabpanel" aria-labelled-by="tabs-06-02-tab" tabindex="6">
+        id="tabs-07-02" role="tabpanel" aria-labelled-by="tabs-07-02-tab" tabindex="7">
         <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS&gt; $AZURE_CLIENT_ID=&lt;your-client-id&gt;         <span style="color:#75715e"># This is the appID from the service principal we created.</span>
 </span></span><span style="display:flex;"><span>PS&gt; $AZURE_CLIENT_SECRET=&lt;your-client-secret&gt; <span style="color:#75715e"># This is the password from the service principal we created.</span>
 </span></span></code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-06-03" role="tabpanel" aria-labelled-by="tabs-06-03-tab" tabindex="6">
+        id="tabs-07-03" role="tabpanel" aria-labelled-by="tabs-07-03-tab" tabindex="7">
         <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>C:\<span style="color:#75715e">&gt; :: This is the appID from the service principal we created.</span>
 </span></span><span style="display:flex;"><span>C:\<span style="color:#75715e">&gt; SET AZURE_CLIENT_ID=&lt;your-client-id&gt;         </span>
 </span></span><span style="display:flex;"><span>C:\<span style="color:#75715e">&gt; :: This is the password from the service principal we created.</span>
@@ -1157,41 +1157,41 @@ do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/a
 
 
 
-<ul class="nav nav-tabs" id="tabs-8" role="tablist">
+<ul class="nav nav-tabs" id="tabs-9" role="tablist">
   <li class="nav-item">
       <button class="nav-link disabled"
-          id="tabs-08-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-08-00" role="tab"
-          aria-controls="tabs-08-00" aria-selected="false">
+          id="tabs-09-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-09-00" role="tab"
+          aria-controls="tabs-09-00" aria-selected="false">
         <strong>Shell</strong>:
       </button>
     </li><li class="nav-item">
       <button class="nav-link active"
-          id="tabs-08-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-08-01" role="tab"
-          data-td-tp-persist="bash" aria-controls="tabs-08-01" aria-selected="true">
+          id="tabs-09-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-09-01" role="tab"
+          data-td-tp-persist="bash" aria-controls="tabs-09-01" aria-selected="true">
         bash
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-08-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-08-02" role="tab"
-          data-td-tp-persist="powershell" aria-controls="tabs-08-02" aria-selected="false">
+          id="tabs-09-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-09-02" role="tab"
+          data-td-tp-persist="powershell" aria-controls="tabs-09-02" aria-selected="false">
         PowerShell
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-08-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-08-03" role="tab"
-          data-td-tp-persist="cmd" aria-controls="tabs-08-03" aria-selected="false">
+          id="tabs-09-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-09-03" role="tab"
+          data-td-tp-persist="cmd" aria-controls="tabs-09-03" aria-selected="false">
         CMD
       </button>
     </li>
 </ul>
 
-<div class="tab-content" id="tabs-8-content">
+<div class="tab-content" id="tabs-9-content">
     <div class="tab-body tab-pane fade"
-        id="tabs-08-00" role="tabpanel" aria-labelled-by="tabs-08-00-tab" tabindex="8">
+        id="tabs-09-00" role="tabpanel" aria-labelled-by="tabs-09-00-tab" tabindex="9">
         
     </div>
     <div class="tab-body tab-pane fade show active"
-        id="tabs-08-01" role="tabpanel" aria-labelled-by="tabs-08-01-tab" tabindex="8">
+        id="tabs-09-01" role="tabpanel" aria-labelled-by="tabs-09-01-tab" tabindex="9">
         <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Secret
@@ -1207,7 +1207,7 @@ do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/a
 </span></span></code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-08-02" role="tabpanel" aria-labelled-by="tabs-08-02-tab" tabindex="8">
+        id="tabs-09-02" role="tabpanel" aria-labelled-by="tabs-09-02-tab" tabindex="9">
         <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#e6db74">@&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Secret
@@ -1223,7 +1223,7 @@ do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/a
 </span></span></code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-08-03" role="tabpanel" aria-labelled-by="tabs-08-03-tab" tabindex="8">
+        id="tabs-09-03" role="tabpanel" aria-labelled-by="tabs-09-03-tab" tabindex="9">
         <p>Create a file named <code>secret.yaml</code> with the following content. Replace each of the variables such as
 <code>%AZURE_SUBSCRIPTION_ID%</code> with the subscription ID, <code>%AZURE_CLIENT_SECRET%</code> with the client secret and so on.</p>
 <pre tabindex="0"><code>apiVersion: v1
