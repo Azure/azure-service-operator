@@ -12,11 +12,14 @@ IgnoreURLs:
   - /js/
   - index.xml
   - example.com
-  - "https://stackoverflow.com/questions/53866196/how-best-to-say-a-value-is-required-in-a-helm-chart" # Returns 403, even though valid
-  - "https://stackoverflow.com/questions/55503893/helm-patch-default-service-account" # Returns 403, even though valid
-  - "https://armwiki.azurewebsites.net/api_contracts/guidelines/templatedeployment.html" # Returns 404 even though valid
-  - "https://marketplace.visualstudio.com/items" # Marketplace links return 401 even if valid
-  - "https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md" # Manually checked, not a 404
-  - "https://code.visualstudio.com/docs/devcontainers/containers" # Returns 403 even though valid
-  - "azure-workload-identity" # TODO: Work out why this fails
+  - "https://armwiki.azurewebsites.net/api_contracts/guidelines/templatedeployment.html" # Returns 404 even though valid. Checked 2025-02-14
+  - "https://marketplace.visualstudio.com/items" # Marketplace links return 401 because htmltest strips the itemName parameter. All checked 2025-02-14
+  - "https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md" # Not a 404. Checked 2025-02-14
+  - "/azure-workload-identity/docs/topics/service-account-labels-and-annotations.html#service-account" # Actually starts with 'https://azure.github.io' but gets treated as internal link, which fails. Checked 2025-02-14
+  - "/azure-workload-identity/docs/installation/mutating-admission-webhook.html" # Actually starts with 'https://azure.github.io' but gets treated as internal link, which fails. Checked 2025-02-14
+  - "https://slack.k8s.io/" # Causing timeouts as of 2025-02-14
+  # These suppressions no longer seem to be required, but keeping them here for easy reinstatement if required
+  #  - "https://code.visualstudio.com/docs/devcontainers/containers" # Returns 403 even though valid. Checked 2025-02-14
+  #  - "https://stackoverflow.com/questions/55503893/helm-patch-default-service-account" # Returns 403, even though valid. Checked 2025-02-14
+  #  - "https://stackoverflow.com/questions/53866196/how-best-to-say-a-value-is-required-in-a-helm-chart" # Returns 403, even though valid. Checked 2025-02-14
 LogLevel: 3
