@@ -37,7 +37,7 @@ If you've got a question, a problem, a request, or just want to chat, here are t
 1. A Kubernetes cluster (at least version 1.16) [created and running](https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/). You can check your cluster version with `kubectl version`. If you want to try it out quickly, spin up a local cluster using [Kind](https://kind.sigs.k8s.io).
 2. An Azure Subscription to provision resources into.
 3. An Azure Service Principal for the operator to use, or the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) to create one. How to create a Service Principal is covered in [installation](#installation).
-   See the [Azure Workload Identity](https://azure.github.io/azure-service-operator/guide/authentication/credential-format/#azure-workload-identity) setup for how to use managed identity instead. We recommend using workload identity in production.
+   See the [Azure Workload Identity]( {{< relref "credential-format#managed-identity-via-workload-identity" >}} ) setup for how to use managed identity instead. We recommend using workload identity in production.
 
 ### Installation
 
@@ -118,7 +118,7 @@ You'll need this to grant the identity or Service Principal permissions to creat
 
 {{% alert title="Note" %}}
 We show steps for using a Service Principal below, as it's easiest to get started with, but recommend using a 
-Managed Identity with [Azure Workload Identity]( {{< relref "credential-format#azure-workload-identity" >}} ) for
+Managed Identity with [Azure Workload Identity]( {{< relref "credential-format#managed-identity-via-workload-identity" >}} ) for
 use-cases other than testing.
 
 See [Security best practices]({{< relref "security" >}}) for the full list of security best practices.

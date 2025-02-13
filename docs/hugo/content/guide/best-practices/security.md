@@ -22,7 +22,7 @@ We recommend making use of all 3 of these levers to fully secure a cluster runni
 
 ### General guidance
 
-✅ DO use [Azure Workload Identity]( {{< relref "credential-format#azure-workload-identity" >}} ) for all
+✅ DO use [Azure Workload Identity]( {{< relref "credential-format#managed-identity-via-workload-identity" >}} ) for all
 credentials. Other supported identity types are called out
 [in the authentication documentation]( {{< relref "authentication#credential-type" >}} ).
 
