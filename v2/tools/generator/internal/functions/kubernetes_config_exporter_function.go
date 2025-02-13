@@ -48,13 +48,12 @@ func (d *KubernetesConfigExporterBuilder) ToInterfaceImplementation() *astmodel.
 			d.resource,
 			d.idFactory,
 			d.exportKubernetesConfigMaps,
-			astmodel.NewPackageReferenceSet(
-				astmodel.GenRuntimeReference,
-				astmodel.GenRuntimeConfigMapsReference,
-				astmodel.GenericARMClientReference,
-				astmodel.LogrReference,
-				astmodel.ControllerRuntimeClient,
-				astmodel.ContextReference)),
+			astmodel.GenRuntimeReference,
+			astmodel.GenRuntimeConfigMapsReference,
+			astmodel.GenericARMClientReference,
+			astmodel.LogrReference,
+			astmodel.ControllerRuntimeClient,
+			astmodel.ContextReference),
 	}
 	return astmodel.NewInterfaceImplementation(
 		astmodel.KuberentesConfigExporterType,
