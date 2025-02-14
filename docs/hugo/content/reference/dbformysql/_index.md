@@ -9,6 +9,18 @@ Azure Database for MySQL - Single Server is on the retirement path and is [sched
 
 Existing instances of *Single Server* can be migrated to *Azure Database for MySQL - Flexible Server* using the [Azure Database migration Service](https://azure.microsoft.com/en-us/products/database-migration).
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                |
+|------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FlexibleServer               | 2023-12-30  | v1api20231230 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserver.yaml)               |
+| FlexibleServersAdministrator | 2023-12-30  | v1api20231230 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversadministrator.yaml) |
+| FlexibleServersConfiguration | 2023-12-30  | v1api20231230 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversconfiguration.yaml) |
+| FlexibleServersDatabase      | 2023-12-30  | v1api20231230 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversdatabase.yaml)      |
+| FlexibleServersFirewallRule  | 2023-12-30  | v1api20231230 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversfirewallrule.yaml)  |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.

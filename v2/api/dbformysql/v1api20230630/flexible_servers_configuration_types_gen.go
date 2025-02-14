@@ -53,22 +53,36 @@ var _ conversion.Convertible = &FlexibleServersConfiguration{}
 
 // ConvertFrom populates our FlexibleServersConfiguration from the provided hub FlexibleServersConfiguration
 func (configuration *FlexibleServersConfiguration) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FlexibleServersConfiguration)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1api20230630/storage/FlexibleServersConfiguration but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FlexibleServersConfiguration
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return configuration.AssignProperties_From_FlexibleServersConfiguration(source)
+	err = configuration.AssignProperties_From_FlexibleServersConfiguration(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to configuration")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersConfiguration from our FlexibleServersConfiguration
 func (configuration *FlexibleServersConfiguration) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FlexibleServersConfiguration)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1api20230630/storage/FlexibleServersConfiguration but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FlexibleServersConfiguration
+	err := configuration.AssignProperties_To_FlexibleServersConfiguration(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from configuration")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return configuration.AssignProperties_To_FlexibleServersConfiguration(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-dbformysql-azure-com-v1api20230630-flexibleserversconfiguration,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversconfigurations,verbs=create;update,versions=v1api20230630,name=default.v1api20230630.flexibleserversconfigurations.dbformysql.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (configuration *FlexibleServersConfiguration) SecretDestinationExpressions(
 		return nil
 	}
 	return configuration.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &FlexibleServersConfiguration{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (configuration *FlexibleServersConfiguration) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FlexibleServersConfiguration_STATUS); ok {
-		return configuration.Spec.Initialize_From_FlexibleServersConfiguration_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FlexibleServersConfiguration_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersConfiguration{}
@@ -635,27 +638,6 @@ func (configuration *FlexibleServersConfiguration_Spec) AssignProperties_To_Flex
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FlexibleServersConfiguration_STATUS populates our FlexibleServersConfiguration_Spec from the provided source FlexibleServersConfiguration_STATUS
-func (configuration *FlexibleServersConfiguration_Spec) Initialize_From_FlexibleServersConfiguration_STATUS(source *FlexibleServersConfiguration_STATUS) error {
-
-	// CurrentValue
-	configuration.CurrentValue = genruntime.ClonePointerToString(source.CurrentValue)
-
-	// Source
-	if source.Source != nil {
-		sourceAsConfigurationProperties_Source := genruntime.ToEnum(string(*source.Source), configurationProperties_Source_Values)
-		configuration.Source = &sourceAsConfigurationProperties_Source
-	} else {
-		configuration.Source = nil
-	}
-
-	// Value
-	configuration.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil
