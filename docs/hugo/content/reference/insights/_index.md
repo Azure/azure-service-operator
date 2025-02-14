@@ -5,14 +5,6 @@ no_list: true
 ---
 To install the CRDs for these resources, your ASO configuration must include `insights.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                                                                                                                 | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                  |
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [ScheduledQueryRule](https://azure.github.io/azure-service-operator/reference/insights/v1api20240101preview/#insights.azure.com/v1api20240101preview.ScheduledQueryRule) | 2024-01-01-preview | v1api20240101preview | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api20240101preview/v1api20240101preview_scheduledqueryrule.yaml) |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
@@ -29,7 +21,8 @@ These resource(s) are the latest versions available for use in the current relea
 ### Other Supported Versions
 
 These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                                                                                                                           | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                        |
-|----------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------|
-| [Webtest](https://azure.github.io/azure-service-operator/reference/insights/v1api20180501preview/#insights.azure.com/v1api20180501preview.Webtest) | 2018-05-01-preview | v1api20180501preview | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20180501preview_webtest.yaml) |
+| Resource                                                                                                                                                                 | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                  |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [ScheduledQueryRule](https://azure.github.io/azure-service-operator/reference/insights/v1api20240101preview/#insights.azure.com/v1api20240101preview.ScheduledQueryRule) | 2024-01-01-preview | v1api20240101preview | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api20240101preview/v1api20240101preview_scheduledqueryrule.yaml) |
+| [Webtest](https://azure.github.io/azure-service-operator/reference/insights/v1api20180501preview/#insights.azure.com/v1api20180501preview.Webtest)                       | 2018-05-01-preview | v1api20180501preview | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20180501preview_webtest.yaml)                           |
 
