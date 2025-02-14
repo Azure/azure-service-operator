@@ -1,8 +1,14 @@
 # Create secret or use an existing secret
 createAzureOperatorSecret: true
 
-# azureTenantID is the AAD tenant that the subscription is in
+# azureTenantID is the Entra tenant that the subscription is in
 azureTenantID: ""
+
+# azureAdditionalTenants is the list of (comma-separated) additional tenants the operator can authenticate with.
+# This is required when performing cross-tenant authentication. See
+# https://learn.microsoft.com/entra/external-id/cross-tenant-access-overview for more details.
+azureAdditionalTenants: ""
+
 # azureSubscriptionID is the Azure Subscription the operator will act against.
 azureSubscriptionID: ""
 

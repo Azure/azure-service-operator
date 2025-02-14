@@ -38,6 +38,10 @@ type Values struct {
 	// for ARM communication.
 	TenantID string
 
+	// AdditionalTenants is the set of allowed additional tenants,
+	// used for cross-tenant auth.
+	AdditionalTenants []string
+
 	// ClientID is the Azure clientID the operator will use
 	// for ARM communication.
 	ClientID string
@@ -170,6 +174,7 @@ func (v Values) String() string {
 	var builder strings.Builder
 	builder.WriteString(fmt.Sprintf("SubscriptionID:%s/", v.SubscriptionID))
 	builder.WriteString(fmt.Sprintf("TenantID:%s/", v.TenantID))
+	builder.WriteString(fmt.Sprintf("AdditionalTenants:%s/", strings.Join(v.AdditionalTenants, "|")))
 	builder.WriteString(fmt.Sprintf("ClientID:%s/", v.ClientID))
 	builder.WriteString(fmt.Sprintf("PodNamespace:%s/", v.PodNamespace))
 	builder.WriteString(fmt.Sprintf("OperatorMode:%s/", v.OperatorMode))
@@ -242,7 +247,7 @@ func ReadFromEnvironment() (Values, error) {
 
 	result.SubscriptionID = os.Getenv(config.AzureSubscriptionID)
 	result.PodNamespace = os.Getenv(config.PodNamespace)
-	result.TargetNamespaces = parseTargetNamespaces(os.Getenv(config.TargetNamespaces))
+	result.TargetNamespaces = config.ParseCommaCollection(os.Getenv(config.TargetNamespaces))
 	result.SyncPeriod, err = parseSyncPeriod()
 	if err != nil {
 		return result, eris.Wrapf(err, "parsing %q", config.SyncPeriod)
@@ -253,6 +258,7 @@ func ReadFromEnvironment() (Values, error) {
 	result.AzureAuthorityHost = envOrDefault(config.AzureAuthorityHost, DefaultAADAuthorityHost)
 	result.ClientID = os.Getenv(config.AzureClientID)
 	result.TenantID = os.Getenv(config.AzureTenantID)
+	result.AdditionalTenants = config.ParseCommaCollection(os.Getenv(config.AzureAdditionalTenants))
 	result.MaxConcurrentReconciles, err = envParseOrDefault(config.MaxConcurrentReconciles, DefaultMaxConcurrentReconciles)
 	if err != nil {
 		return result, err
@@ -305,20 +311,6 @@ func (v Values) Validate() error {
 		return eris.Errorf("%s must be at least 1", config.MaxConcurrentReconciles)
 	}
 	return nil
-}
-
-// parseTargetNamespaces splits a comma-separated string into a slice
-// of strings with spaces trimmed.
-func parseTargetNamespaces(fromEnv string) []string {
-	if len(strings.TrimSpace(fromEnv)) == 0 {
-		return nil
-	}
-	items := strings.Split(fromEnv, ",")
-	// Remove any whitespace used to separate items.
-	for i, item := range items {
-		items[i] = strings.TrimSpace(item)
-	}
-	return items
 }
 
 // parseSyncPeriod parses the sync period from the environment

@@ -36,9 +36,10 @@ const (
 
 // Credential describes a credential used to connect to Azure
 type Credential struct {
-	tokenCredential azcore.TokenCredential
-	credentialFrom  types.NamespacedName
-	subscriptionID  string
+	tokenCredential   azcore.TokenCredential
+	credentialFrom    types.NamespacedName
+	subscriptionID    string
+	additionalTenants []string
 
 	// secretData contains the secret
 	secretData map[string][]byte
@@ -58,6 +59,10 @@ func (c *Credential) SubscriptionID() string {
 
 func (c *Credential) TokenCredential() azcore.TokenCredential {
 	return c.tokenCredential
+}
+
+func (c *Credential) AdditionalTenants() []string {
+	return c.additionalTenants
 }
 
 func NewDefaultCredential(tokenCred azcore.TokenCredential, namespace string, subscriptionID string) *Credential {
@@ -226,6 +231,12 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		errs = append(errs, err)
 	}
 
+	var additionalTenants []string
+	additionalTenantsBytes, ok := secret.Data[config.AzureAdditionalTenants]
+	if ok {
+		additionalTenants = config.ParseCommaCollection(string(additionalTenantsBytes))
+	}
+
 	clientID, ok := secret.Data[config.AzureClientID]
 	if !ok {
 		err := core.NewSecretNotFoundError(
@@ -244,16 +255,23 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 	}
 
 	if clientSecret, hasClientSecret := secret.Data[config.AzureClientSecret]; hasClientSecret {
-		tokenCredential, err := c.tokenCredentialProvider.NewClientSecretCredential(string(tenantID), string(clientID), string(clientSecret), nil)
+		tokenCredential, err := c.tokenCredentialProvider.NewClientSecretCredential(
+			string(tenantID),
+			string(clientID),
+			string(clientSecret),
+			&azidentity.ClientSecretCredentialOptions{
+				AdditionallyAllowedTenants: additionalTenants,
+			})
 		if err != nil {
 			return nil, eris.Wrap(err, eris.Errorf("invalid Client Secret Credential for %q encountered", nsName).Error())
 		}
 
 		return &Credential{
-			tokenCredential: tokenCredential,
-			subscriptionID:  string(subscriptionID),
-			credentialFrom:  nsName,
-			secretData:      secret.Data,
+			tokenCredential:   tokenCredential,
+			subscriptionID:    string(subscriptionID),
+			credentialFrom:    nsName,
+			additionalTenants: additionalTenants,
+			secretData:        secret.Data,
 		}, nil
 	}
 
@@ -263,16 +281,24 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			clientCertPassword = p
 		}
 
-		tokenCredential, err := c.tokenCredentialProvider.NewClientCertificateCredential(string(tenantID), string(clientID), clientCert, clientCertPassword)
+		tokenCredential, err := c.tokenCredentialProvider.NewClientCertificateCredential(
+			string(tenantID),
+			string(clientID),
+			clientCert,
+			clientCertPassword,
+			&azidentity.ClientCertificateCredentialOptions{
+				AdditionallyAllowedTenants: additionalTenants,
+			})
 		if err != nil {
 			return nil, eris.Wrap(err, eris.Errorf("invalid Client Certificate Credential for %q encountered", nsName).Error())
 		}
 
 		return &Credential{
-			tokenCredential: tokenCredential,
-			subscriptionID:  string(subscriptionID),
-			credentialFrom:  nsName,
-			secretData:      secret.Data,
+			tokenCredential:   tokenCredential,
+			subscriptionID:    string(subscriptionID),
+			credentialFrom:    nsName,
+			additionalTenants: additionalTenants,
+			secretData:        secret.Data,
 		}, nil
 	}
 
@@ -283,6 +309,8 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		}
 
 		if authMode == config.PodIdentityAuthMode {
+			// Note: ManagedIdentityCredentials don't support additionalTenants because Managed Identities
+			// are inherently single-tenant, so we don't pass
 			tokenCredential, err := c.tokenCredentialProvider.NewManagedIdentityCredential(&azidentity.ManagedIdentityCredentialOptions{
 				ClientOptions: azcore.ClientOptions{},
 				ID:            azidentity.ClientID(clientID),
@@ -302,9 +330,10 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 
 	// Default to Workload Identity
 	tokenCredential, err := c.tokenCredentialProvider.NewWorkloadIdentityCredential(&azidentity.WorkloadIdentityCredentialOptions{
-		ClientID:      string(clientID),
-		TenantID:      string(tenantID),
-		TokenFilePath: FederatedTokenFilePath,
+		ClientID:                   string(clientID),
+		TenantID:                   string(tenantID),
+		TokenFilePath:              FederatedTokenFilePath,
+		AdditionallyAllowedTenants: additionalTenants,
 	})
 	if err != nil {
 		err = eris.Wrapf(
@@ -319,10 +348,11 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 	}
 
 	return &Credential{
-		tokenCredential: tokenCredential,
-		subscriptionID:  string(subscriptionID),
-		credentialFrom:  nsName,
-		secretData:      secret.Data,
+		tokenCredential:   tokenCredential,
+		subscriptionID:    string(subscriptionID),
+		credentialFrom:    nsName,
+		additionalTenants: additionalTenants,
+		secretData:        secret.Data,
 	}, nil
 }
 

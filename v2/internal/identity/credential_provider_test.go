@@ -7,6 +7,7 @@ package identity
 
 import (
 	"context"
+	"strings"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -320,6 +321,53 @@ func TestCredentialProvider_WorkloadIdentityCredential_IsConfiguredCorrectly(t *
 	g.Expect(res.fakeTokenCredentialProvider.ClientID).To(Equal(clientID))
 	g.Expect(res.fakeTokenCredentialProvider.TenantID).To(Equal(tenantID))
 	g.Expect(res.fakeTokenCredentialProvider.TokenFilePath).To(Equal(FederatedTokenFilePath))
+}
+
+func TestCredentialProvider_AdditionalTenants_AreConfiguredCorrectly(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	res, err := testCredentialProviderSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	clientID := uuid.New().String()
+	tenantID := uuid.New().String()
+	clientSecret := uuid.New().String()
+	additionalTenants := []string{
+		uuid.New().String(),
+		uuid.New().String(),
+		uuid.New().String(),
+	}
+
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: "test-namespace",
+			Name:      NamespacedSecretName,
+		},
+		Data: map[string][]byte{
+			config.AzureSubscriptionID:    []byte(testSubscriptionID),
+			config.AzureClientID:          []byte(clientID),
+			config.AzureTenantID:          []byte(tenantID),
+			config.AzureClientSecret:      []byte(clientSecret),
+			config.AzureAdditionalTenants: []byte(strings.Join(additionalTenants, ",")),
+		},
+	}
+	err = res.kubeClient.Create(ctx, secret)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	rg := newResourceGroup("test-namespace")
+	err = res.kubeClient.Create(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	cred, err := res.fakeProvider.GetCredential(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	g.Expect(cred.SubscriptionID()).To(BeEquivalentTo(testSubscriptionID))
+	g.Expect(res.fakeTokenCredentialProvider.ClientID).To(Equal(clientID))
+	g.Expect(res.fakeTokenCredentialProvider.TenantID).To(Equal(tenantID))
+	g.Expect(res.fakeTokenCredentialProvider.ClientSecret).To(Equal(clientSecret))
+	g.Expect(res.fakeTokenCredentialProvider.AdditionalTenants).To(Equal(additionalTenants))
 }
 
 func newResourceGroup(namespace string) *resources.ResourceGroup {
