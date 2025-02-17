@@ -54,6 +54,7 @@ func (database *ClusterDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		}
 		readOnlyFollowing := *readOnlyFollowing_ARM.(*arm.ReadOnlyFollowingDatabase)
 		result.ReadOnlyFollowing = &readOnlyFollowing
+		result.ReadOnlyFollowing.Name = database.Name
 	}
 
 	// Set property "ReadWrite":
@@ -64,6 +65,7 @@ func (database *ClusterDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		}
 		readWrite := *readWrite_ARM.(*arm.ReadWriteDatabase)
 		result.ReadWrite = &readWrite
+		result.ReadWrite.Name = database.Name
 	}
 	return result, nil
 }
@@ -92,6 +94,7 @@ func (database *ClusterDatabase_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 		readOnlyFollowing := readOnlyFollowing1
 		database.ReadOnlyFollowing = &readOnlyFollowing
+		database.Name = database.ReadOnlyFollowing.Name
 	}
 
 	// Set property "ReadWrite":
@@ -103,6 +106,7 @@ func (database *ClusterDatabase_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 		readWrite := readWrite1
 		database.ReadWrite = &readWrite
+		database.Name = database.ReadWrite.Name
 	}
 
 	// No error

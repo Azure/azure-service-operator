@@ -34,12 +34,10 @@ func (database *ClusterDatabase_Spec) GetType() string {
 // MarshalJSON defers JSON marshaling to the first non-nil property, because ClusterDatabase_Spec represents a discriminated union (JSON OneOf)
 func (database ClusterDatabase_Spec) MarshalJSON() ([]byte, error) {
 	if database.ReadOnlyFollowing != nil {
-		database.ReadOnlyFollowing.Name = database.Name
 		return json.Marshal(database.ReadOnlyFollowing)
 	}
 
 	if database.ReadWrite != nil {
-		database.ReadWrite.Name = database.Name
 		return json.Marshal(database.ReadWrite)
 	}
 
