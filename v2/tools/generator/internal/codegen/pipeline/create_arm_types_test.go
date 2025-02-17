@@ -479,8 +479,8 @@ func TestCreateARMTypes_withTopLevelOneOf_GeneratesExpectedCode(t *testing.T) {
 		test.Pkg2022,
 		"ClusterDatabase_Spec",
 		astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType),
-		astmodel.NewPropertyDefinition("ReadOnlyFollowing", "readOnlyFollowing", readOnlyFollowingDatabase.Name()),
-		astmodel.NewPropertyDefinition("ReadWrite", "readWrite", readwriteDatabase.Name()))
+		astmodel.NewPropertyDefinition("ReadOnlyFollowing", "readOnlyFollowing", astmodel.NewOptionalType(readOnlyFollowingDatabase.Name())),
+		astmodel.NewPropertyDefinition("ReadWrite", "readWrite", astmodel.NewOptionalType(readwriteDatabase.Name())))
 
 	var err error
 	clusterDatabaseSpec, err = clusterDatabaseSpec.ApplyObjectTransformation(
