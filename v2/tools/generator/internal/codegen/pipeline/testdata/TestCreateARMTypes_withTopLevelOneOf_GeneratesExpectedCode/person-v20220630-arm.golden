@@ -9,9 +9,9 @@ import (
 )
 
 type ClusterDatabase_Spec struct {
-	Name              string                    `json:"name,omitempty"`
-	ReadOnlyFollowing ReadOnlyFollowingDatabase `json:"readOnlyFollowing,omitempty"`
-	ReadWrite         ReadWriteDatabase         `json:"readWrite,omitempty"`
+	Name              string                     `conversion:"pushtoleaf" json:"name,omitempty"`
+	ReadOnlyFollowing *ReadOnlyFollowingDatabase `json:"readOnlyFollowing,omitempty"`
+	ReadWrite         *ReadWriteDatabase         `json:"readWrite,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &ClusterDatabase_Spec{}

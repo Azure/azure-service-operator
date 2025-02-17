@@ -29,9 +29,9 @@ type ClusterDatabaseList struct {
 type ClusterDatabase_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName         string                    `json:"azureName,omitempty"`
-	ReadOnlyFollowing ReadOnlyFollowingDatabase `json:"readOnlyFollowing,omitempty"`
-	ReadWrite         ReadWriteDatabase         `json:"readWrite,omitempty"`
+	AzureName         string                     `json:"azureName,omitempty"`
+	ReadOnlyFollowing *ReadOnlyFollowingDatabase `json:"readOnlyFollowing,omitempty"`
+	ReadWrite         *ReadWriteDatabase         `json:"readWrite,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ClusterDatabase_Spec{}
@@ -47,18 +47,24 @@ func (database *ClusterDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	result.Name = resolved.Name
 
 	// Set property "ReadOnlyFollowing":
-	readOnlyFollowing_ARM, err := database.ReadOnlyFollowing.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if database.ReadOnlyFollowing != nil {
+		readOnlyFollowing_ARM, err := (*database.ReadOnlyFollowing).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		readOnlyFollowing := *readOnlyFollowing_ARM.(*arm.ReadOnlyFollowingDatabase)
+		result.ReadOnlyFollowing = &readOnlyFollowing
 	}
-	result.ReadOnlyFollowing = *readOnlyFollowing_ARM.(*arm.ReadOnlyFollowingDatabase)
 
 	// Set property "ReadWrite":
-	readWrite_ARM, err := database.ReadWrite.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if database.ReadWrite != nil {
+		readWrite_ARM, err := (*database.ReadWrite).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		readWrite := *readWrite_ARM.(*arm.ReadWriteDatabase)
+		result.ReadWrite = &readWrite
 	}
-	result.ReadWrite = *readWrite_ARM.(*arm.ReadWriteDatabase)
 	return result, nil
 }
 
@@ -78,20 +84,26 @@ func (database *ClusterDatabase_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	database.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "ReadOnlyFollowing":
-	var readOnlyFollowing ReadOnlyFollowingDatabase
-	err := readOnlyFollowing.PopulateFromARM(owner, typedInput.ReadOnlyFollowing)
-	if err != nil {
-		return err
+	if typedInput.ReadOnlyFollowing != nil {
+		var readOnlyFollowing1 ReadOnlyFollowingDatabase
+		err := readOnlyFollowing1.PopulateFromARM(owner, *typedInput.ReadOnlyFollowing)
+		if err != nil {
+			return err
+		}
+		readOnlyFollowing := readOnlyFollowing1
+		database.ReadOnlyFollowing = &readOnlyFollowing
 	}
-	database.ReadOnlyFollowing = readOnlyFollowing
 
 	// Set property "ReadWrite":
-	var readWrite ReadWriteDatabase
-	err = readWrite.PopulateFromARM(owner, typedInput.ReadWrite)
-	if err != nil {
-		return err
+	if typedInput.ReadWrite != nil {
+		var readWrite1 ReadWriteDatabase
+		err := readWrite1.PopulateFromARM(owner, *typedInput.ReadWrite)
+		if err != nil {
+			return err
+		}
+		readWrite := readWrite1
+		database.ReadWrite = &readWrite
 	}
-	database.ReadWrite = readWrite
 
 	// No error
 	return nil
