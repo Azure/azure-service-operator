@@ -118,10 +118,13 @@ func (builder *convertFromARMBuilder) functionDeclaration() (*dst.FuncDecl, erro
 }
 
 func (builder *convertFromARMBuilder) functionBodyStatements() ([]dst.Stmt, error) {
+	// Find all (any!) properties where their values need to be promoted from the nested ARM type
+	promotions := builder.findPromotions(builder.sourceType)
+
 	conversionStmts, err := generateTypeConversionAssignments(
 		builder.sourceType,
 		builder.destinationType,
-		builder.propertyConversionHandler)
+		builder.propertyConversionHandler(promotions))
 	if err != nil {
 		return nil, eris.Wrapf(err, "unable to generate conversion statements for %s", builder.methodName)
 	}
@@ -138,6 +141,62 @@ func (builder *convertFromARMBuilder) functionBodyStatements() ([]dst.Stmt, erro
 		assertStmts,
 		conversionStmts,
 		astbuilder.ReturnNoError()), nil
+}
+
+func (builder *convertFromARMBuilder) propertyConversionHandler(
+	promotions map[string][]*astmodel.PropertyDefinition,
+) func(
+	toProp *astmodel.PropertyDefinition,
+	fromType *astmodel.ObjectType,
+) ([]dst.Stmt, error) {
+	return func(
+		toProp *astmodel.PropertyDefinition,
+		fromType *astmodel.ObjectType,
+	) ([]dst.Stmt, error) {
+		result, err := builder.conversionBuilder.propertyConversionHandler(toProp, fromType)
+		if err != nil {
+			return nil, eris.Wrapf(err, "unable to convert property %s", toProp.PropertyName())
+		}
+
+		if len(result) == 0 {
+			return nil, nil
+		}
+
+		if toProp.HasTagValue(ConversionTag, PushToOneOfLeaf) || len(promotions) == 0 {
+			return result, nil
+		}
+
+		// Promote any properties that populated from child objects
+		// We know the types are going to be identical, so we can just generate
+		// simple assignments, but only when the property exists
+		if tn, ok := astmodel.AsInternalTypeName(toProp.PropertyType()); ok {
+			if availablePromotions, ok := promotions[tn.Name()]; ok {
+				var promotionStmts []dst.Stmt
+				for _, promotion := range availablePromotions {
+					assign := astbuilder.SimpleAssignment(
+						astbuilder.Selector(
+							dst.NewIdent(builder.receiverIdent),
+							string(promotion.PropertyName())),
+						astbuilder.Selector(
+							dst.NewIdent(builder.receiverIdent),
+							string(toProp.PropertyName()),
+							string(promotion.PropertyName())))
+					promotionStmts = append(promotionStmts, assign)
+				}
+
+				// Heuristic/hack: If the only statement is an IfStmt, we want to append the promotions
+				// within the body of the if (because it will be a guard clause avoiding nils).
+				// Otherwise we just add them to the end.
+				if guard, ok := result[0].(*dst.IfStmt); ok && len(result) == 1 {
+					guard.Body.List = append(guard.Body.List, promotionStmts...)
+				} else {
+					result = append(result, promotionStmts...)
+				}
+			}
+		}
+
+		return result, err
+	}
 }
 
 func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []dst.Stmt {
