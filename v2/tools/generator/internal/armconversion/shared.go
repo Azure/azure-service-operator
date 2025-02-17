@@ -314,7 +314,7 @@ func skipPropertiesFlaggedWithNoARMConversion(
 // findPromotions creates a map of promotions - properties from nested ARM types that need to be
 // promoted to the container API object. Only properties that are properly tagged are candidates,
 // and only if they exist on the referenced type.
-func (builder *conversionBuilder) findPromotions(
+func (builder conversionBuilder) findPromotions(
 	subject *astmodel.ObjectType,
 ) map[string][]*astmodel.PropertyDefinition {
 	// First find all properties that are tagged for promotion,
