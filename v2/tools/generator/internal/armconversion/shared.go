@@ -310,3 +310,75 @@ func skipPropertiesFlaggedWithNoARMConversion(
 
 	return notHandled, nil
 }
+
+// findPromotions creates a map of promotions - properties from nested ARM types that need to be
+// promoted to the container API object. Only properties that are properly tagged are candidates,
+// and only if they exist on the referenced type.
+func (builder *conversionBuilder) findPromotions(
+	subject *astmodel.ObjectType,
+) map[string][]*astmodel.PropertyDefinition {
+	// First find all properties that are tagged for promotion,
+	promotable := astmodel.NewPropertySet()
+	for _, prop := range subject.Properties().AsSlice() {
+		if prop.HasTagValue(ConversionTag, PushToOneOfLeaf) {
+			promotable.Add(prop)
+		}
+	}
+
+	if promotable.Len() == 0 {
+		// No properties to promote, early return
+		return nil
+	}
+
+	// Find all source properties that represent leaves from which promotion might occur
+	// and build a set of the promotable properties for each
+	defs := builder.codeGenerationContext.GetAllReachableDefinitions()
+	result := make(map[string][]*astmodel.PropertyDefinition)
+	for _, prop := range subject.Properties().AsSlice() {
+		// Check whether the property is a leaf
+		tn, leaf, ok := builder.asLeaf(prop, defs)
+		if !ok {
+			continue
+		}
+
+		p := promotable.FindAll(
+			func(p *astmodel.PropertyDefinition) bool {
+				_, ok := leaf.Property(p.PropertyName())
+				return ok
+			})
+		if len(p) > 0 {
+			result[tn.Name()] = p
+		}
+	}
+
+	return result
+}
+
+// isLeaf determines if a property is a OneOf leaf property.
+// This requires the property to be an InternalTypeName that refers to an object type.
+func (builder conversionBuilder) asLeaf(
+	prop *astmodel.PropertyDefinition,
+	defs astmodel.TypeDefinitionSet,
+) (astmodel.InternalTypeName, *astmodel.ObjectType, bool) {
+	if prop.HasTagValue(ConversionTag, PushToOneOfLeaf) {
+		// Tagged for promotion itself, so not a leaf
+		return astmodel.InternalTypeName{}, nil, false
+	}
+
+	tn, ok := astmodel.AsInternalTypeName(prop.PropertyType())
+	if !ok {
+		return astmodel.InternalTypeName{}, nil, false
+	}
+
+	def, ok := defs[tn]
+	if !ok {
+		return astmodel.InternalTypeName{}, nil, false
+	}
+
+	obj, ok := astmodel.AsObjectType(def.Type())
+	if !ok {
+		return astmodel.InternalTypeName{}, nil, false
+	}
+
+	return def.Name(), obj, true
+}
