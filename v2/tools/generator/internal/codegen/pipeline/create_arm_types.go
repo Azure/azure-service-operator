@@ -168,17 +168,19 @@ func (c *armTypeCreator) createARMTypesForResource(
 
 	c.addARMType(resolved.SpecDef, spec)
 
-	// Create ARM type for the Status
-	convContext := c.createConversionContext(resolved.StatusDef.Name())
-	status, err := c.createARMTypeDefinition(resolved.StatusDef, convContext)
-	if err != nil {
-		return eris.Wrapf(
-			err,
-			"unable to create arm resource status definition for resource %s",
-			rsrc.Name())
-	}
+	// Create ARM type for the Status, if we have one
+	if resolved.ResourceType.StatusType() != nil {
+		convContext := c.createConversionContext(resolved.StatusDef.Name())
+		status, err := c.createARMTypeDefinition(resolved.StatusDef, convContext)
+		if err != nil {
+			return eris.Wrapf(
+				err,
+				"unable to create arm resource status definition for resource %s",
+				rsrc.Name())
+		}
 
-	c.addARMType(resolved.StatusDef, status)
+		c.addARMType(resolved.StatusDef, status)
+	}
 
 	return nil
 }
