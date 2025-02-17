@@ -296,6 +296,7 @@ func removeEmptyStatements(stmts []dst.Stmt) []dst.Stmt {
 const (
 	ConversionTag        = "conversion"
 	NoARMConversionValue = "noarmconversion"
+	PushToOneOfLeaf      = "pushtoleaf"
 )
 
 func skipPropertiesFlaggedWithNoARMConversion(

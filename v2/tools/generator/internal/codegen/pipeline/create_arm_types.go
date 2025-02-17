@@ -326,6 +326,10 @@ func (c *armTypeCreator) findOneOfLeafPropertiesStillOnRoot(
 				leafTypes.Add(tn)
 			} else {
 				rootProperties.Add(p.WithTag(armconversion.ConversionTag, armconversion.NoARMConversionValue))
+				// Put a flag on the root property so we can recognize it later
+				result = result.WithProperty(
+					p.WithTag(armconversion.ConversionTag, armconversion.PushToOneOfLeaf),
+				)
 			}
 		}
 
