@@ -18,6 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
+	asocloud "github.com/Azure/azure-service-operator/v2/pkg/common/cloud"
 )
 
 // recorderDetails is an implementation of testRecorder using go-vcr v3.
@@ -72,9 +73,9 @@ func NewTestRecorder(
 		azureIDs = creds.DummyAzureIDs()
 
 		// Force these values to be the default
-		cfg.ResourceManagerEndpoint = config.DefaultEndpoint
-		cfg.ResourceManagerAudience = config.DefaultAudience
-		cfg.AzureAuthorityHost = config.DefaultAADAuthorityHost
+		cfg.ResourceManagerEndpoint = asocloud.DefaultEndpoint
+		cfg.ResourceManagerAudience = asocloud.DefaultAudience
+		cfg.AzureAuthorityHost = asocloud.DefaultAADAuthorityHost
 	}
 
 	// check body as well as URL/Method (copied from go-vcr documentation)

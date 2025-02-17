@@ -23,9 +23,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importresources"
-	internalconfig "github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
+	asocloud "github.com/Azure/azure-service-operator/v2/pkg/common/cloud"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 )
 
@@ -320,10 +320,8 @@ type importAzureResourceOptions struct {
 	workers       int
 	simpleLogging bool
 
-	readCloud               sync.Once
-	azureAuthorityHost      string
-	resourceManagerEndpoint string
-	resourceManagerAudience string
+	readCloud sync.Once
+	cloudCfg  asocloud.Configuration
 }
 
 func (option *importAzureResourceOptions) writeToFile() (string, bool) {
@@ -344,36 +342,12 @@ func (option *importAzureResourceOptions) writeToFolder() (string, bool) {
 
 func (option *importAzureResourceOptions) cloud() cloud.Configuration {
 	option.readCloud.Do(func() {
-		option.azureAuthorityHost = os.Getenv(config.AzureAuthorityHost)
-		option.resourceManagerEndpoint = os.Getenv(config.ResourceManagerEndpoint)
-		option.resourceManagerAudience = os.Getenv(config.ResourceManagerAudience)
-
-		if option.azureAuthorityHost == "" {
-			option.azureAuthorityHost = internalconfig.DefaultAADAuthorityHost
-		}
-		if option.resourceManagerEndpoint == "" {
-			option.resourceManagerEndpoint = internalconfig.DefaultEndpoint
-		}
-		if option.resourceManagerAudience == "" {
-			option.resourceManagerAudience = internalconfig.DefaultAudience
+		option.cloudCfg = asocloud.Configuration{
+			AzureAuthorityHost:      os.Getenv(config.AzureAuthorityHost),
+			ResourceManagerEndpoint: os.Getenv(config.ResourceManagerEndpoint),
+			ResourceManagerAudience: os.Getenv(config.ResourceManagerAudience),
 		}
 	})
 
-	hasDefaultAzureAuthorityHost := option.azureAuthorityHost == internalconfig.DefaultAADAuthorityHost
-	hasDefaultResourceManagerEndpoint := option.resourceManagerEndpoint == internalconfig.DefaultEndpoint
-	hasDefaultResourceManagerAudience := option.resourceManagerAudience == internalconfig.DefaultAudience
-
-	if hasDefaultAzureAuthorityHost && hasDefaultResourceManagerEndpoint && hasDefaultResourceManagerAudience {
-		return cloud.AzurePublic
-	}
-
-	return cloud.Configuration{
-		ActiveDirectoryAuthorityHost: option.azureAuthorityHost,
-		Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
-			cloud.ResourceManager: {
-				Endpoint: option.resourceManagerEndpoint,
-				Audience: option.resourceManagerAudience,
-			},
-		},
-	}
+	return option.cloudCfg.Cloud()
 }

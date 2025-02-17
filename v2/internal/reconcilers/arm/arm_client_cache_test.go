@@ -49,7 +49,12 @@ func NewTestCredentialProvider(client kubeclient.Client) (identity.CredentialPro
 		return nil, err
 	}
 
-	creds := identity.NewDefaultCredential(tokenCreds, testPodNamespace, testSubscriptionID)
+	creds := identity.NewDefaultCredential(
+		tokenCreds,
+		testPodNamespace,
+		testSubscriptionID,
+		nil,
+	)
 	return identity.NewCredentialProvider(creds, client, nil), nil
 }
 

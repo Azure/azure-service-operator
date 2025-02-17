@@ -23,6 +23,8 @@ credential is specified at the per-resource or per-namespace scope.
 
 **Required**: True
 
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global, namespace, or per-resource
+
 This may be set to empty string to configure no global credential.
 
 ### AZURE_TENANT_ID
@@ -36,6 +38,8 @@ credential is specified at the per-resource or per-namespace scope.
 **Example:** `00000000-0000-0000-0000-000000000000`
 
 **Required**: True
+
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global, namespace, or per-resource
 
 This may be set to empty string to configure no global credential.
 
@@ -51,6 +55,8 @@ credential is specified at the per-resource or per-namespace scope.
 
 **Required**: True
 
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global, namespace, or per-resource
+
 This may be set to empty string to configure no global credential.
 
 ### AZURE_CLIENT_SECRET
@@ -63,6 +69,8 @@ credential is specified at the per-resource or per-namespace scope.
 
 **Required**: False
 
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global, namespace, or per-resource
+
 ### AZURE_CLIENT_CERTIFICATE
 
 AzureClientCertificate is a PEM or PKCS12 certificate string including the private key for 
@@ -73,6 +81,8 @@ If the certificate is password protected,  use `AZURE_CLIENT_CERTIFICATE_PASSWOR
 
 **Required**: False
 
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global, namespace, or per-resource
+
 ### AZURE_CLIENT_CERTIFICATE_PASSWORD
 
 The password used to protect the `AZURE_CLIENT_CERTIFICATE`.
@@ -80,6 +90,8 @@ The password used to protect the `AZURE_CLIENT_CERTIFICATE`.
 **Format:** `String`
 
 **Required**: False
+
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global, namespace, or per-resource
 
 ### AZURE_SYNC_PERIOD
 
@@ -97,6 +109,8 @@ Specify the special value `"never"` to stop syncing.
 
 **Required**: False
 
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
+
 ### AZURE_OPERATOR_MODE
 
 AZURE_OPERATOR_MODE determines whether the operator should run _watchers_, _webhooks_ or _both_ (default). An empty string, or any unrecognized value, means _both_.
@@ -106,6 +120,8 @@ AZURE_OPERATOR_MODE determines whether the operator should run _watchers_, _webh
 **Examples:** `"webhooks"`, `"watchers"` or `"both"`
 
 **Required**: False
+
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
 
 ### AZURE_TARGET_NAMESPACES
 
@@ -120,6 +136,8 @@ Spaces after `,`'s and at the start and end of the string are ignored.
 
 **Required**: False
 
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
+
 ### USE_WORKLOAD_IDENTITY_AUTH
 
 USE_WORKLOAD_IDENTITY_AUTH boolean is used to determine if we're using Workload Identity authentication for global credential.
@@ -129,6 +147,8 @@ USE_WORKLOAD_IDENTITY_AUTH boolean is used to determine if we're using Workload 
 **Example:** `"true"` or `"false"`
 
 **Required**: False
+
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
 
 ### AZURE_AUTHORITY_HOST
 
@@ -140,6 +160,8 @@ See https://docs.microsoft.com/azure/active-directory/develop/authentication-nat
 **Example:** `"https://login.chinacloudapi.cn"`
 
 **Required**: False
+
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
 
 ### AZURE_RESOURCE_MANAGER_ENDPOINT
 
@@ -153,6 +175,8 @@ Note that the resource manager endpoint is referred to as "resourceManager" in t
 
 **Required**: False
 
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
+
 ### AZURE_RESOURCE_MANAGER_AUDIENCE
 
 AZURE_RESOURCE_MANAGER_AUDIENCE is the Azure Resource Manager AAD audience. If not specified, the default is the Public cloud resource manager audience `https://management.core.windows.net/`.
@@ -165,6 +189,22 @@ Note that the resource manager audience is referred to as "activeDirectoryResour
 
 **Required**: False
 
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
+
+### AZURE_ADDITIONAL_TENANTS
+
+The list of (comma-separated) additional tenants the operator can authenticate with.
+This is required when performing cross-tenant authentication. See the
+[Entra documentation](https://learn.microsoft.com/entra/external-id/cross-tenant-access-overview) for more details.
+
+**Format:** `string` (comma-separated tenant GUIDs - spaces are allowed)
+
+**Example:** `00000000-0000-0000-0000-000000000001,00000000-0000-0000-0000-000000000002`
+
+**Required**: False
+
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global, namespace, or per-resource
+
 ### AZURE_USER_AGENT_SUFFIX
 
 AZURE_USER_AGENT_SUFFIX is appended to the default User-Agent for Azure HTTP clients.
@@ -174,6 +214,8 @@ AZURE_USER_AGENT_SUFFIX is appended to the default User-Agent for Azure HTTP cli
 **Example:** `"my-user-agent"`
 
 **Required**: False
+
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
 
 ### MAX_CONCURRENT_RECONCILES
 
@@ -195,6 +237,8 @@ MAX_CONCURRENT_RECONCILES applies to every registered resource type being watche
 **Example:** `2`
 
 **Required**: False
+
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
 
 ### RATE_LIMIT_MODE
 
@@ -223,6 +267,8 @@ RateLimitMode configures the internal rate-limiting mode.
 
 **Required**: False
 
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
+
 ### RATE_LIMIT_QPS
 
 RATE_LIMIT_QPS is the rate (per second) that the bucket is refilled. 
@@ -234,6 +280,8 @@ This value only has an effect if RATE_LIMIT_MODE is 'bucket'.
 
 **Required**: False
 
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
+
 ### RATE_LIMIT_BUCKET_SIZE
 
 RATE_LIMIT_BUCKET_SIZE is the size of the bucket. This value only has an effect if RATE_LIMIT_MODE is 'bucket'.
@@ -243,3 +291,5 @@ RATE_LIMIT_BUCKET_SIZE is the size of the bucket. This value only has an effect 
 **Example:** `200`
 
 **Required**: False
+
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global

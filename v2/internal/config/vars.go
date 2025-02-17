@@ -13,18 +13,11 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/rotisserie/eris"
 
+	asocloud "github.com/Azure/azure-service-operator/v2/pkg/common/cloud"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 )
 
-// These are hardcoded because the init function that initializes them in azcore isn't in /cloud it's in /arm which
-// we don't import.
-
-var (
-	DefaultEndpoint                = "https://management.azure.com"
-	DefaultAudience                = "https://management.core.windows.net/"
-	DefaultAADAuthorityHost        = "https://login.microsoftonline.com/"
-	DefaultMaxConcurrentReconciles = 1
-)
+var DefaultMaxConcurrentReconciles = 1
 
 // NOTE: Changes to documentation or available values here should be documented in Helm values.yaml as well
 
@@ -37,6 +30,10 @@ type Values struct {
 	// TenantID is the Azure tenantID the operator will use
 	// for ARM communication.
 	TenantID string
+
+	// AdditionalTenants is the set of allowed additional tenants,
+	// used for cross-tenant auth.
+	AdditionalTenants []string
 
 	// ClientID is the Azure clientID the operator will use
 	// for ARM communication.
@@ -170,6 +167,7 @@ func (v Values) String() string {
 	var builder strings.Builder
 	builder.WriteString(fmt.Sprintf("SubscriptionID:%s/", v.SubscriptionID))
 	builder.WriteString(fmt.Sprintf("TenantID:%s/", v.TenantID))
+	builder.WriteString(fmt.Sprintf("AdditionalTenants:%s/", strings.Join(v.AdditionalTenants, "|")))
 	builder.WriteString(fmt.Sprintf("ClientID:%s/", v.ClientID))
 	builder.WriteString(fmt.Sprintf("PodNamespace:%s/", v.PodNamespace))
 	builder.WriteString(fmt.Sprintf("OperatorMode:%s/", v.OperatorMode))
@@ -188,39 +186,13 @@ func (v Values) String() string {
 
 // Cloud returns the cloud the configuration is using
 func (v Values) Cloud() cloud.Configuration {
-	// Special handling if we've got all the defaults just return the official public cloud
-	// configuration
-	hasDefaultAzureAuthorityHost := v.AzureAuthorityHost == "" || v.AzureAuthorityHost == DefaultAADAuthorityHost
-	hasDefaultResourceManagerEndpoint := v.ResourceManagerEndpoint == "" || v.ResourceManagerEndpoint == DefaultEndpoint
-	hasDefaultResourceManagerAudience := v.ResourceManagerAudience == "" || v.ResourceManagerAudience == DefaultAudience
-
-	if hasDefaultResourceManagerEndpoint && hasDefaultResourceManagerAudience && hasDefaultAzureAuthorityHost {
-		return cloud.AzurePublic
+	cfg := asocloud.Configuration{
+		AzureAuthorityHost:      v.AzureAuthorityHost,
+		ResourceManagerAudience: v.ResourceManagerAudience,
+		ResourceManagerEndpoint: v.ResourceManagerEndpoint,
 	}
 
-	// We default here too to more easily support empty Values objects
-	azureAuthorityHost := v.AzureAuthorityHost
-	resourceManagerEndpoint := v.ResourceManagerEndpoint
-	resourceManagerAudience := v.ResourceManagerAudience
-	if azureAuthorityHost == "" {
-		azureAuthorityHost = DefaultAADAuthorityHost
-	}
-	if resourceManagerAudience == "" {
-		resourceManagerAudience = DefaultAudience
-	}
-	if resourceManagerEndpoint == "" {
-		resourceManagerEndpoint = DefaultEndpoint
-	}
-
-	return cloud.Configuration{
-		ActiveDirectoryAuthorityHost: azureAuthorityHost,
-		Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
-			cloud.ResourceManager: {
-				Endpoint: resourceManagerEndpoint,
-				Audience: resourceManagerAudience,
-			},
-		},
-	}
+	return cfg.Cloud()
 }
 
 // ReadFromEnvironment loads configuration values from the AZURE_*
@@ -242,17 +214,18 @@ func ReadFromEnvironment() (Values, error) {
 
 	result.SubscriptionID = os.Getenv(config.AzureSubscriptionID)
 	result.PodNamespace = os.Getenv(config.PodNamespace)
-	result.TargetNamespaces = parseTargetNamespaces(os.Getenv(config.TargetNamespaces))
+	result.TargetNamespaces = config.ParseCommaCollection(os.Getenv(config.TargetNamespaces))
 	result.SyncPeriod, err = parseSyncPeriod()
 	if err != nil {
 		return result, eris.Wrapf(err, "parsing %q", config.SyncPeriod)
 	}
 
-	result.ResourceManagerEndpoint = envOrDefault(config.ResourceManagerEndpoint, DefaultEndpoint)
-	result.ResourceManagerAudience = envOrDefault(config.ResourceManagerAudience, DefaultAudience)
-	result.AzureAuthorityHost = envOrDefault(config.AzureAuthorityHost, DefaultAADAuthorityHost)
+	result.ResourceManagerEndpoint = envOrDefault(config.ResourceManagerEndpoint, asocloud.DefaultEndpoint)
+	result.ResourceManagerAudience = envOrDefault(config.ResourceManagerAudience, asocloud.DefaultAudience)
+	result.AzureAuthorityHost = envOrDefault(config.AzureAuthorityHost, asocloud.DefaultAADAuthorityHost)
 	result.ClientID = os.Getenv(config.AzureClientID)
 	result.TenantID = os.Getenv(config.AzureTenantID)
+	result.AdditionalTenants = config.ParseCommaCollection(os.Getenv(config.AzureAdditionalTenants))
 	result.MaxConcurrentReconciles, err = envParseOrDefault(config.MaxConcurrentReconciles, DefaultMaxConcurrentReconciles)
 	if err != nil {
 		return result, err
@@ -305,20 +278,6 @@ func (v Values) Validate() error {
 		return eris.Errorf("%s must be at least 1", config.MaxConcurrentReconciles)
 	}
 	return nil
-}
-
-// parseTargetNamespaces splits a comma-separated string into a slice
-// of strings with spaces trimmed.
-func parseTargetNamespaces(fromEnv string) []string {
-	if len(strings.TrimSpace(fromEnv)) == 0 {
-		return nil
-	}
-	items := strings.Split(fromEnv, ",")
-	// Remove any whitespace used to separate items.
-	for i, item := range items {
-		items[i] = strings.TrimSpace(item)
-	}
-	return items
 }
 
 // parseSyncPeriod parses the sync period from the environment

@@ -43,6 +43,7 @@ require (
 	github.com/onsi/gomega v1.36.2
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.20.5
+	github.com/rotisserie/eris v0.5.4
 	github.com/samber/lo v1.49.1
 	github.com/spf13/cobra v1.8.1
 	go.uber.org/zap v1.27.0
@@ -62,8 +63,6 @@ require (
 	sigs.k8s.io/controller-runtime v0.19.5
 	sigs.k8s.io/yaml v1.4.0
 )
-
-require github.com/rotisserie/eris v0.5.4
 
 require (
 	cel.dev/expr v0.18.0 // indirect
