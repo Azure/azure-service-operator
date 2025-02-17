@@ -98,6 +98,8 @@ import (
 	dbformysql_v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
 	dbformysql_v20230630 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630"
 	dbformysql_v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
+	dbformysql_v20231230 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230"
+	dbformysql_v20231230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/storage"
 	dbforpostgresql_customizations "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/customizations"
 	dbforpostgresql_v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
 	dbforpostgresql_v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
@@ -682,7 +684,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(dbformysql_v20230630s.FlexibleServer),
+		Obj: new(dbformysql_v20231230s.FlexibleServer),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.administratorLoginPassword",
@@ -696,12 +698,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword", ".spec.importSourceProperties.sasToken"}, &dbformysql_v20230630s.FlexibleServerList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword", ".spec.importSourceProperties.sasToken"}, &dbformysql_v20231230s.FlexibleServerList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(dbformysql_v20230630s.FlexibleServersAdministrator),
+		Obj: new(dbformysql_v20231230s.FlexibleServersAdministrator),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.sidFromConfig",
@@ -715,13 +717,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.sidFromConfig", ".spec.tenantIdFromConfig"}, &dbformysql_v20230630s.FlexibleServersAdministratorList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.sidFromConfig", ".spec.tenantIdFromConfig"}, &dbformysql_v20231230s.FlexibleServersAdministratorList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20230630s.FlexibleServersConfiguration)})
-	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20230630s.FlexibleServersDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20230630s.FlexibleServersFirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20231230s.FlexibleServersConfiguration)})
+	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20231230s.FlexibleServersDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20231230s.FlexibleServersFirewallRule)})
 	result = append(result, &registration.StorageType{
 		Obj: new(dbforpostgresql_v20221201s.FlexibleServer),
 		Indexes: []registration.Index{
@@ -2160,6 +2162,20 @@ func getKnownTypes() []client.Object {
 		new(dbformysql_v20230630s.FlexibleServersFirewallRule))
 	result = append(
 		result,
+		new(dbformysql_v20231230.FlexibleServer),
+		new(dbformysql_v20231230.FlexibleServersAdministrator),
+		new(dbformysql_v20231230.FlexibleServersConfiguration),
+		new(dbformysql_v20231230.FlexibleServersDatabase),
+		new(dbformysql_v20231230.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(dbformysql_v20231230s.FlexibleServer),
+		new(dbformysql_v20231230s.FlexibleServersAdministrator),
+		new(dbformysql_v20231230s.FlexibleServersConfiguration),
+		new(dbformysql_v20231230s.FlexibleServersDatabase),
+		new(dbformysql_v20231230s.FlexibleServersFirewallRule))
+	result = append(
+		result,
 		new(dbforpostgresql_v20210601.FlexibleServer),
 		new(dbforpostgresql_v20210601.FlexibleServersConfiguration),
 		new(dbforpostgresql_v20210601.FlexibleServersDatabase),
@@ -2913,6 +2929,8 @@ func createScheme() *runtime.Scheme {
 	_ = dbformysql_v20220101s.AddToScheme(scheme)
 	_ = dbformysql_v20230630.AddToScheme(scheme)
 	_ = dbformysql_v20230630s.AddToScheme(scheme)
+	_ = dbformysql_v20231230.AddToScheme(scheme)
+	_ = dbformysql_v20231230s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20210601.AddToScheme(scheme)
 	_ = dbforpostgresql_v20210601s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20220120p.AddToScheme(scheme)
@@ -3910,9 +3928,9 @@ func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []s
 	return obj.Spec.Properties.Default.AdministratorLoginPassword.Index()
 }
 
-// indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20230630s.FlexibleServer .spec.administratorLoginPassword
+// indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20231230s.FlexibleServer .spec.administratorLoginPassword
 func indexDbformysqlFlexibleServerAdministratorLoginPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v20230630s.FlexibleServer)
+	obj, ok := rawObj.(*dbformysql_v20231230s.FlexibleServer)
 	if !ok {
 		return nil
 	}
@@ -3922,9 +3940,9 @@ func indexDbformysqlFlexibleServerAdministratorLoginPassword(rawObj client.Objec
 	return obj.Spec.AdministratorLoginPassword.Index()
 }
 
-// indexDbformysqlFlexibleServerSasToken an index function for dbformysql_v20230630s.FlexibleServer .spec.importSourceProperties.sasToken
+// indexDbformysqlFlexibleServerSasToken an index function for dbformysql_v20231230s.FlexibleServer .spec.importSourceProperties.sasToken
 func indexDbformysqlFlexibleServerSasToken(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v20230630s.FlexibleServer)
+	obj, ok := rawObj.(*dbformysql_v20231230s.FlexibleServer)
 	if !ok {
 		return nil
 	}
@@ -3937,9 +3955,9 @@ func indexDbformysqlFlexibleServerSasToken(rawObj client.Object) []string {
 	return obj.Spec.ImportSourceProperties.SasToken.Index()
 }
 
-// indexDbformysqlFlexibleServersAdministratorSidFromConfig an index function for dbformysql_v20230630s.FlexibleServersAdministrator .spec.sidFromConfig
+// indexDbformysqlFlexibleServersAdministratorSidFromConfig an index function for dbformysql_v20231230s.FlexibleServersAdministrator .spec.sidFromConfig
 func indexDbformysqlFlexibleServersAdministratorSidFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v20230630s.FlexibleServersAdministrator)
+	obj, ok := rawObj.(*dbformysql_v20231230s.FlexibleServersAdministrator)
 	if !ok {
 		return nil
 	}
@@ -3949,9 +3967,9 @@ func indexDbformysqlFlexibleServersAdministratorSidFromConfig(rawObj client.Obje
 	return obj.Spec.SidFromConfig.Index()
 }
 
-// indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig an index function for dbformysql_v20230630s.FlexibleServersAdministrator .spec.tenantIdFromConfig
+// indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig an index function for dbformysql_v20231230s.FlexibleServersAdministrator .spec.tenantIdFromConfig
 func indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v20230630s.FlexibleServersAdministrator)
+	obj, ok := rawObj.(*dbformysql_v20231230s.FlexibleServersAdministrator)
 	if !ok {
 		return nil
 	}

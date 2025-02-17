@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
 	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &FlexibleServersFirewallRule{}
 
 // ConvertFrom populates our FlexibleServersFirewallRule from the provided hub FlexibleServersFirewallRule
 func (rule *FlexibleServersFirewallRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20230630s.FlexibleServersFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1api20230630/storage/FlexibleServersFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20230630s.FlexibleServersFirewallRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_FlexibleServersFirewallRule(source)
+	err = rule.AssignProperties_From_FlexibleServersFirewallRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersFirewallRule from our FlexibleServersFirewallRule
 func (rule *FlexibleServersFirewallRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20230630s.FlexibleServersFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1api20230630/storage/FlexibleServersFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20230630s.FlexibleServersFirewallRule
+	err := rule.AssignProperties_To_FlexibleServersFirewallRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_FlexibleServersFirewallRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FlexibleServersFirewallRule{}
