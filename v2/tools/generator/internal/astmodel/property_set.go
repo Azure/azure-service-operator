@@ -141,7 +141,7 @@ func (p PropertySet) Add(property *PropertyDefinition) {
 }
 
 // AddSet updates the set by including all the properties in the provided set
-func (p *PropertySet) AddSet(properties PropertySet) {
+func (p PropertySet) AddSet(properties PropertySet) {
 	for _, prop := range properties {
 		p.Add(prop)
 	}
