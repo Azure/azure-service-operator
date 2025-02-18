@@ -20,17 +20,15 @@
 <title>Credential Format | Azure Service Operator</title>
 <meta name="description" content="Azure Service Operator supports four different styles of authentication today.
 Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
-Managed Identity (via workload identity) See Azure Workload Identity for details about the workload identity project.
-Managed Identity (via workload identity) is the recommended authentication mode for production use-cases.
-Prerequisites An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose. The Azure CLI. An OIDC endpoint associated with your cluster. See how to enable OIDC on AKS. Use the following Bash commands to set the environment variables containing the workload identity secret (customize with your values):">
+Allowed credential fields These fields are common across all credential scopes.
+AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_CLIENT_CERTIFICATE AZURE_CLIENT_CERTIFICATE_PASSWORD AZURE_ADDITIONAL_TENANTS Note that the global credential scope has fields that can be set in addition to the fields documented above.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/authentication/credential-format/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Credential Format">
   <meta property="og:description" content="Azure Service Operator supports four different styles of authentication today.
 Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
-Managed Identity (via workload identity) See Azure Workload Identity for details about the workload identity project.
-Managed Identity (via workload identity) is the recommended authentication mode for production use-cases.
-Prerequisites An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose. The Azure CLI. An OIDC endpoint associated with your cluster. See how to enable OIDC on AKS. Use the following Bash commands to set the environment variables containing the workload identity secret (customize with your values):">
+Allowed credential fields These fields are common across all credential scopes.
+AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_CLIENT_CERTIFICATE AZURE_CLIENT_CERTIFICATE_PASSWORD AZURE_ADDITIONAL_TENANTS Note that the global credential scope has fields that can be set in addition to the fields documented above.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="guide">
@@ -38,17 +36,15 @@ Prerequisites An existing Azure Service Principal or Managed Identity. The setup
   <meta itemprop="name" content="Credential Format">
   <meta itemprop="description" content="Azure Service Operator supports four different styles of authentication today.
 Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
-Managed Identity (via workload identity) See Azure Workload Identity for details about the workload identity project.
-Managed Identity (via workload identity) is the recommended authentication mode for production use-cases.
-Prerequisites An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose. The Azure CLI. An OIDC endpoint associated with your cluster. See how to enable OIDC on AKS. Use the following Bash commands to set the environment variables containing the workload identity secret (customize with your values):">
-  <meta itemprop="wordCount" content="2284">
+Allowed credential fields These fields are common across all credential scopes.
+AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_CLIENT_CERTIFICATE AZURE_CLIENT_CERTIFICATE_PASSWORD AZURE_ADDITIONAL_TENANTS Note that the global credential scope has fields that can be set in addition to the fields documented above.">
+  <meta itemprop="wordCount" content="2321">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Credential Format">
   <meta name="twitter:description" content="Azure Service Operator supports four different styles of authentication today.
 Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
-Managed Identity (via workload identity) See Azure Workload Identity for details about the workload identity project.
-Managed Identity (via workload identity) is the recommended authentication mode for production use-cases.
-Prerequisites An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose. The Azure CLI. An OIDC endpoint associated with your cluster. See how to enable OIDC on AKS. Use the following Bash commands to set the environment variables containing the workload identity secret (customize with your values):">
+Allowed credential fields These fields are common across all credential scopes.
+AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_CLIENT_CERTIFICATE AZURE_CLIENT_CERTIFICATE_PASSWORD AZURE_ADDITIONAL_TENANTS Note that the global credential scope has fields that can be set in addition to the fields documented above.">
 
 
 
@@ -780,6 +776,7 @@ Prerequisites An existing Azure Service Principal or Managed Identity. The setup
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
+    <li><a href="#allowed-credential-fields">Allowed credential fields</a></li>
     <li><a href="#managed-identity-via-workload-identity">Managed Identity (via workload identity)</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
@@ -842,6 +839,18 @@ Prerequisites An existing Azure Service Principal or Managed Identity. The setup
 	<p>Azure Service Operator supports four different styles of authentication today.</p>
 <p>Each section below dives into one of these authentication options, including examples for how to set it up and
 use it at the different <a href="/azure-service-operator/guide/authentication/credential-scope/">credential scopes</a>.</p>
+<h2 id="allowed-credential-fields">Allowed credential fields</h2>
+<p>These fields are common across all <a href="/azure-service-operator/guide/authentication/credential-scope/">credential scopes</a>.</p>
+<ul>
+<li><a href="/azure-service-operator/guide/aso-controller-settings-options//#azure_subscription_id">AZURE_SUBSCRIPTION_ID</a></li>
+<li><a href="/azure-service-operator/guide/aso-controller-settings-options//#azure_tenant_id">AZURE_TENANT_ID</a></li>
+<li><a href="/azure-service-operator/guide/aso-controller-settings-options//#azure_client_id">AZURE_CLIENT_ID</a></li>
+<li><a href="/azure-service-operator/guide/aso-controller-settings-options//#azure_client_secret">AZURE_CLIENT_SECRET</a></li>
+<li><a href="/azure-service-operator/guide/aso-controller-settings-options//#azure_client_certificate">AZURE_CLIENT_CERTIFICATE</a></li>
+<li><a href="/azure-service-operator/guide/aso-controller-settings-options//#azure_client_certificate_password">AZURE_CLIENT_CERTIFICATE_PASSWORD</a></li>
+<li><a href="/azure-service-operator/guide/aso-controller-settings-options//#azure_additional_tenants">AZURE_ADDITIONAL_TENANTS</a></li>
+</ul>
+<p>Note that the global credential scope has fields that can be set in addition to the fields documented above.</p>
 <h2 id="managed-identity-via-workload-identity">Managed Identity (via workload identity)</h2>
 <p>See <a href="https://github.com/Azure/azure-workload-identity">Azure Workload Identity</a> for details about the workload identity project.</p>
 <p><strong>Managed Identity (via workload identity) is the recommended authentication mode for production use-cases</strong>.</p>
@@ -862,35 +871,35 @@ use it at the different <a href="/azure-service-operator/guide/authentication/cr
 
 
 
-<ul class="nav nav-tabs" id="tabs-1" role="tablist">
+<ul class="nav nav-tabs" id="tabs-9" role="tablist">
   <li class="nav-item">
       <button class="nav-link disabled"
-          id="tabs-01-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-01-00" role="tab"
-          aria-controls="tabs-01-00" aria-selected="false">
+          id="tabs-09-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-09-00" role="tab"
+          aria-controls="tabs-09-00" aria-selected="false">
         <strong>Kind</strong>:
       </button>
     </li><li class="nav-item">
       <button class="nav-link active"
-          id="tabs-01-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-01-01" role="tab"
-          data-td-tp-persist="managed identity" aria-controls="tabs-01-01" aria-selected="true">
+          id="tabs-09-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-09-01" role="tab"
+          data-td-tp-persist="managed identity" aria-controls="tabs-09-01" aria-selected="true">
         Managed Identity
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-01-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-01-02" role="tab"
-          data-td-tp-persist="service principal" aria-controls="tabs-01-02" aria-selected="false">
+          id="tabs-09-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-09-02" role="tab"
+          data-td-tp-persist="service principal" aria-controls="tabs-09-02" aria-selected="false">
         Service Principal
       </button>
     </li>
 </ul>
 
-<div class="tab-content" id="tabs-1-content">
+<div class="tab-content" id="tabs-9-content">
     <div class="tab-body tab-pane fade"
-        id="tabs-01-00" role="tabpanel" aria-labelled-by="tabs-01-00-tab" tabindex="1">
+        id="tabs-09-00" role="tabpanel" aria-labelled-by="tabs-09-00-tab" tabindex="9">
         
     </div>
     <div class="tab-body tab-pane fade show active"
-        id="tabs-01-01" role="tabpanel" aria-labelled-by="tabs-01-01-tab" tabindex="1">
+        id="tabs-09-01" role="tabpanel" aria-labelled-by="tabs-09-01-tab" tabindex="9">
         <p>Set the following additional environment variables:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export MI_RESOURCE_GROUP<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-rg&#34;</span>  <span style="color:#75715e"># The resource group containing the managed identity that will be used by ASO</span>
 </span></span><span style="display:flex;"><span>export MI_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-mi&#34;</span>            <span style="color:#75715e"># The name of the managed identity that will be used by ASO</span>
@@ -899,7 +908,7 @@ use it at the different <a href="/azure-service-operator/guide/authentication/cr
 </span></span></code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-01-02" role="tabpanel" aria-labelled-by="tabs-01-02-tab" tabindex="1">
+        id="tabs-09-02" role="tabpanel" aria-labelled-by="tabs-09-02-tab" tabindex="9">
         <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export APPLICATION_OBJECT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>az ad app show --id <span style="color:#e6db74">${</span>AZURE_CLIENT_ID<span style="color:#e6db74">}</span> --query id -otsv<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF &gt; params.json
@@ -925,41 +934,41 @@ use it at the different <a href="/azure-service-operator/guide/authentication/cr
 
 
 
-<ul class="nav nav-tabs" id="tabs-2" role="tablist">
+<ul class="nav nav-tabs" id="tabs-10" role="tablist">
   <li class="nav-item">
       <button class="nav-link disabled"
-          id="tabs-02-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-02-00" role="tab"
-          aria-controls="tabs-02-00" aria-selected="false">
+          id="tabs-10-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-10-00" role="tab"
+          aria-controls="tabs-10-00" aria-selected="false">
         <strong>Scope</strong>:
       </button>
     </li><li class="nav-item">
       <button class="nav-link active"
-          id="tabs-02-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-02-01" role="tab"
-          data-td-tp-persist="global" aria-controls="tabs-02-01" aria-selected="true">
+          id="tabs-10-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-10-01" role="tab"
+          data-td-tp-persist="global" aria-controls="tabs-10-01" aria-selected="true">
         Global
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-02-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-02-02" role="tab"
-          data-td-tp-persist="namespace" aria-controls="tabs-02-02" aria-selected="false">
+          id="tabs-10-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-10-02" role="tab"
+          data-td-tp-persist="namespace" aria-controls="tabs-10-02" aria-selected="false">
         Namespace
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-02-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-02-03" role="tab"
-          data-td-tp-persist="resource" aria-controls="tabs-02-03" aria-selected="false">
+          id="tabs-10-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-10-03" role="tab"
+          data-td-tp-persist="resource" aria-controls="tabs-10-03" aria-selected="false">
         Resource
       </button>
     </li>
 </ul>
 
-<div class="tab-content" id="tabs-2-content">
+<div class="tab-content" id="tabs-10-content">
     <div class="tab-body tab-pane fade"
-        id="tabs-02-00" role="tabpanel" aria-labelled-by="tabs-02-00-tab" tabindex="2">
+        id="tabs-10-00" role="tabpanel" aria-labelled-by="tabs-10-00-tab" tabindex="10">
         
     </div>
     <div class="tab-body tab-pane fade show active"
-        id="tabs-02-01" role="tabpanel" aria-labelled-by="tabs-02-01-tab" tabindex="2">
+        id="tabs-10-01" role="tabpanel" aria-labelled-by="tabs-10-01-tab" tabindex="10">
         <p>If installing ASO for the first time, you can pass these values via Helm arguments:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm upgrade --install --devel aso2 aso2/azure-service-operator <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>        --create-namespace <span style="color:#ae81ff">\
@@ -989,7 +998,7 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-02-02" role="tabpanel" aria-labelled-by="tabs-02-02-tab" tabindex="2">
+        id="tabs-10-02" role="tabpanel" aria-labelled-by="tabs-10-02-tab" tabindex="10">
         <p>Create the <code>aso-credential</code> secret in your namespace:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
@@ -1007,7 +1016,7 @@ issuer URL and the backing Service Principal or Managed Identity. See <a href="#
 
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-02-03" role="tabpanel" aria-labelled-by="tabs-02-03-tab" tabindex="2">
+        id="tabs-10-03" role="tabpanel" aria-labelled-by="tabs-10-03-tab" tabindex="10">
         <p>Create a per-resource secret. We&rsquo;ll use <code>my-resource-secret</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
@@ -1057,41 +1066,41 @@ The <code>AZURE_CLIENT_ID</code> is sometimes also called the App ID. The <code>
 
 
 
-<ul class="nav nav-tabs" id="tabs-3" role="tablist">
+<ul class="nav nav-tabs" id="tabs-11" role="tablist">
   <li class="nav-item">
       <button class="nav-link disabled"
-          id="tabs-03-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-03-00" role="tab"
-          aria-controls="tabs-03-00" aria-selected="false">
+          id="tabs-11-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-11-00" role="tab"
+          aria-controls="tabs-11-00" aria-selected="false">
         <strong>Scope</strong>:
       </button>
     </li><li class="nav-item">
       <button class="nav-link active"
-          id="tabs-03-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-03-01" role="tab"
-          data-td-tp-persist="global" aria-controls="tabs-03-01" aria-selected="true">
+          id="tabs-11-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-11-01" role="tab"
+          data-td-tp-persist="global" aria-controls="tabs-11-01" aria-selected="true">
         Global
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-03-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-03-02" role="tab"
-          data-td-tp-persist="namespace" aria-controls="tabs-03-02" aria-selected="false">
+          id="tabs-11-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-11-02" role="tab"
+          data-td-tp-persist="namespace" aria-controls="tabs-11-02" aria-selected="false">
         Namespace
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-03-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-03-03" role="tab"
-          data-td-tp-persist="resource" aria-controls="tabs-03-03" aria-selected="false">
+          id="tabs-11-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-11-03" role="tab"
+          data-td-tp-persist="resource" aria-controls="tabs-11-03" aria-selected="false">
         Resource
       </button>
     </li>
 </ul>
 
-<div class="tab-content" id="tabs-3-content">
+<div class="tab-content" id="tabs-11-content">
     <div class="tab-body tab-pane fade"
-        id="tabs-03-00" role="tabpanel" aria-labelled-by="tabs-03-00-tab" tabindex="3">
+        id="tabs-11-00" role="tabpanel" aria-labelled-by="tabs-11-00-tab" tabindex="11">
         
     </div>
     <div class="tab-body tab-pane fade show active"
-        id="tabs-03-01" role="tabpanel" aria-labelled-by="tabs-03-01-tab" tabindex="3">
+        id="tabs-11-01" role="tabpanel" aria-labelled-by="tabs-11-01-tab" tabindex="11">
         <p>If installing ASO for the first time, you can pass these values via Helm arguments:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm upgrade --install --devel aso2 aso2/azure-service-operator <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>        --create-namespace <span style="color:#ae81ff">\
@@ -1121,7 +1130,7 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-03-02" role="tabpanel" aria-labelled-by="tabs-03-02-tab" tabindex="3">
+        id="tabs-11-02" role="tabpanel" aria-labelled-by="tabs-11-02-tab" tabindex="11">
         <p>Create the <code>aso-credential</code> secret in your namespace:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
@@ -1138,7 +1147,7 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 </span></span></code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-03-03" role="tabpanel" aria-labelled-by="tabs-03-03-tab" tabindex="3">
+        id="tabs-11-03" role="tabpanel" aria-labelled-by="tabs-11-03-tab" tabindex="11">
         <p>Create a per-resource secret. We&rsquo;ll use <code>my-resource-secret</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
@@ -1189,41 +1198,41 @@ The <code>AZURE_CLIENT_ID</code> is sometimes also called the App ID. The <code>
 
 
 
-<ul class="nav nav-tabs" id="tabs-4" role="tablist">
+<ul class="nav nav-tabs" id="tabs-12" role="tablist">
   <li class="nav-item">
       <button class="nav-link disabled"
-          id="tabs-04-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-04-00" role="tab"
-          aria-controls="tabs-04-00" aria-selected="false">
+          id="tabs-12-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-12-00" role="tab"
+          aria-controls="tabs-12-00" aria-selected="false">
         <strong>Scope</strong>:
       </button>
     </li><li class="nav-item">
       <button class="nav-link active"
-          id="tabs-04-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-04-01" role="tab"
-          data-td-tp-persist="global" aria-controls="tabs-04-01" aria-selected="true">
+          id="tabs-12-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-12-01" role="tab"
+          data-td-tp-persist="global" aria-controls="tabs-12-01" aria-selected="true">
         Global
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-04-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-04-02" role="tab"
-          data-td-tp-persist="namespace" aria-controls="tabs-04-02" aria-selected="false">
+          id="tabs-12-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-12-02" role="tab"
+          data-td-tp-persist="namespace" aria-controls="tabs-12-02" aria-selected="false">
         Namespace
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-04-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-04-03" role="tab"
-          data-td-tp-persist="resource" aria-controls="tabs-04-03" aria-selected="false">
+          id="tabs-12-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-12-03" role="tab"
+          data-td-tp-persist="resource" aria-controls="tabs-12-03" aria-selected="false">
         Resource
       </button>
     </li>
 </ul>
 
-<div class="tab-content" id="tabs-4-content">
+<div class="tab-content" id="tabs-12-content">
     <div class="tab-body tab-pane fade"
-        id="tabs-04-00" role="tabpanel" aria-labelled-by="tabs-04-00-tab" tabindex="4">
+        id="tabs-12-00" role="tabpanel" aria-labelled-by="tabs-12-00-tab" tabindex="12">
         
     </div>
     <div class="tab-body tab-pane fade show active"
-        id="tabs-04-01" role="tabpanel" aria-labelled-by="tabs-04-01-tab" tabindex="4">
+        id="tabs-12-01" role="tabpanel" aria-labelled-by="tabs-12-01-tab" tabindex="12">
         <p>If installing ASO for the first time, you can pass these values via Helm arguments:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm upgrade --install --devel aso2 aso2/azure-service-operator <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>        --create-namespace <span style="color:#ae81ff">\
@@ -1254,7 +1263,7 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-04-02" role="tabpanel" aria-labelled-by="tabs-04-02-tab" tabindex="4">
+        id="tabs-12-02" role="tabpanel" aria-labelled-by="tabs-12-02-tab" tabindex="12">
         <p>Create the <code>aso-credential</code> secret in your namespace:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
@@ -1272,7 +1281,7 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 </span></span></code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-04-03" role="tabpanel" aria-labelled-by="tabs-04-03-tab" tabindex="4">
+        id="tabs-12-03" role="tabpanel" aria-labelled-by="tabs-12-03-tab" tabindex="12">
         <p>Create a per-resource secret. We&rsquo;ll use <code>my-resource-secret</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
@@ -1323,41 +1332,41 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 
 
 
-<ul class="nav nav-tabs" id="tabs-5" role="tablist">
+<ul class="nav nav-tabs" id="tabs-13" role="tablist">
   <li class="nav-item">
       <button class="nav-link disabled"
-          id="tabs-05-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-05-00" role="tab"
-          aria-controls="tabs-05-00" aria-selected="false">
+          id="tabs-13-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-13-00" role="tab"
+          aria-controls="tabs-13-00" aria-selected="false">
         <strong>Scope</strong>:
       </button>
     </li><li class="nav-item">
       <button class="nav-link active"
-          id="tabs-05-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-05-01" role="tab"
-          data-td-tp-persist="global" aria-controls="tabs-05-01" aria-selected="true">
+          id="tabs-13-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-13-01" role="tab"
+          data-td-tp-persist="global" aria-controls="tabs-13-01" aria-selected="true">
         Global
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-05-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-05-02" role="tab"
-          data-td-tp-persist="namespace" aria-controls="tabs-05-02" aria-selected="false">
+          id="tabs-13-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-13-02" role="tab"
+          data-td-tp-persist="namespace" aria-controls="tabs-13-02" aria-selected="false">
         Namespace
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-05-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-05-03" role="tab"
-          data-td-tp-persist="resource" aria-controls="tabs-05-03" aria-selected="false">
+          id="tabs-13-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-13-03" role="tab"
+          data-td-tp-persist="resource" aria-controls="tabs-13-03" aria-selected="false">
         Resource
       </button>
     </li>
 </ul>
 
-<div class="tab-content" id="tabs-5-content">
+<div class="tab-content" id="tabs-13-content">
     <div class="tab-body tab-pane fade"
-        id="tabs-05-00" role="tabpanel" aria-labelled-by="tabs-05-00-tab" tabindex="5">
+        id="tabs-13-00" role="tabpanel" aria-labelled-by="tabs-13-00-tab" tabindex="13">
         
     </div>
     <div class="tab-body tab-pane fade show active"
-        id="tabs-05-01" role="tabpanel" aria-labelled-by="tabs-05-01-tab" tabindex="5">
+        id="tabs-13-01" role="tabpanel" aria-labelled-by="tabs-13-01-tab" tabindex="13">
         <p>If installing ASO for the first time, you can pass these values via Helm arguments:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm upgrade --install --devel aso2 aso2/azure-service-operator <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     --create-namespace <span style="color:#ae81ff">\
@@ -1384,7 +1393,7 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-05-02" role="tabpanel" aria-labelled-by="tabs-05-02-tab" tabindex="5">
+        id="tabs-13-02" role="tabpanel" aria-labelled-by="tabs-13-02-tab" tabindex="13">
         <p>Create the <code>aso-credential</code> secret in your namespace:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
@@ -1401,7 +1410,7 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 </span></span></code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-05-03" role="tabpanel" aria-labelled-by="tabs-05-03-tab" tabindex="5">
+        id="tabs-13-03" role="tabpanel" aria-labelled-by="tabs-13-03-tab" tabindex="13">
         <p>Create a per-resource secret. We&rsquo;ll use <code>my-resource-secret</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
@@ -1455,41 +1464,41 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 
 
 
-<ul class="nav nav-tabs" id="tabs-6" role="tablist">
+<ul class="nav nav-tabs" id="tabs-14" role="tablist">
   <li class="nav-item">
       <button class="nav-link disabled"
-          id="tabs-06-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-06-00" role="tab"
-          aria-controls="tabs-06-00" aria-selected="false">
+          id="tabs-14-00-tab" data-bs-toggle="tab" data-bs-target="#tabs-14-00" role="tab"
+          aria-controls="tabs-14-00" aria-selected="false">
         <strong>Scope</strong>:
       </button>
     </li><li class="nav-item">
       <button class="nav-link active"
-          id="tabs-06-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-06-01" role="tab"
-          data-td-tp-persist="global" aria-controls="tabs-06-01" aria-selected="true">
+          id="tabs-14-01-tab" data-bs-toggle="tab" data-bs-target="#tabs-14-01" role="tab"
+          data-td-tp-persist="global" aria-controls="tabs-14-01" aria-selected="true">
         Global
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-06-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-06-02" role="tab"
-          data-td-tp-persist="namespace" aria-controls="tabs-06-02" aria-selected="false">
+          id="tabs-14-02-tab" data-bs-toggle="tab" data-bs-target="#tabs-14-02" role="tab"
+          data-td-tp-persist="namespace" aria-controls="tabs-14-02" aria-selected="false">
         Namespace
       </button>
     </li><li class="nav-item">
       <button class="nav-link"
-          id="tabs-06-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-06-03" role="tab"
-          data-td-tp-persist="resource" aria-controls="tabs-06-03" aria-selected="false">
+          id="tabs-14-03-tab" data-bs-toggle="tab" data-bs-target="#tabs-14-03" role="tab"
+          data-td-tp-persist="resource" aria-controls="tabs-14-03" aria-selected="false">
         Resource
       </button>
     </li>
 </ul>
 
-<div class="tab-content" id="tabs-6-content">
+<div class="tab-content" id="tabs-14-content">
     <div class="tab-body tab-pane fade"
-        id="tabs-06-00" role="tabpanel" aria-labelled-by="tabs-06-00-tab" tabindex="6">
+        id="tabs-14-00" role="tabpanel" aria-labelled-by="tabs-14-00-tab" tabindex="14">
         
     </div>
     <div class="tab-body tab-pane fade show active"
-        id="tabs-06-01" role="tabpanel" aria-labelled-by="tabs-06-01-tab" tabindex="6">
+        id="tabs-14-01" role="tabpanel" aria-labelled-by="tabs-14-01-tab" tabindex="14">
         <p>If installing ASO for the first time, you can pass these values via Helm arguments:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm upgrade --install --devel aso2 aso2/azure-service-operator <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     --create-namespace <span style="color:#ae81ff">\
@@ -1542,7 +1551,7 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-06-02" role="tabpanel" aria-labelled-by="tabs-06-02-tab" tabindex="6">
+        id="tabs-14-02" role="tabpanel" aria-labelled-by="tabs-14-02-tab" tabindex="14">
         <p>Deploy an <code>AzureIdentity</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: &#34;aadpodidentity.k8s.io/v1&#34;
@@ -1582,7 +1591,7 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 </span></span></code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-06-03" role="tabpanel" aria-labelled-by="tabs-06-03-tab" tabindex="6">
+        id="tabs-14-03" role="tabpanel" aria-labelled-by="tabs-14-03-tab" tabindex="14">
         <p>Deploy an <code>AzureIdentity</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: &#34;aadpodidentity.k8s.io/v1&#34;

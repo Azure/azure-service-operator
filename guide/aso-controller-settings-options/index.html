@@ -24,7 +24,7 @@ AZURE_SUBSCRIPTION_ID Azure subscription the operator will use for ARM communica
 Format: GUID
 Example: 00000000-0000-0000-0000-000000000000
 Required: True
-This may be set to empty string to configure no global credential.">
+Allowed scopes: Global, namespace, or per-resource">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/aso-controller-settings-options/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Configuring ASO">
@@ -34,7 +34,7 @@ AZURE_SUBSCRIPTION_ID Azure subscription the operator will use for ARM communica
 Format: GUID
 Example: 00000000-0000-0000-0000-000000000000
 Required: True
-This may be set to empty string to configure no global credential.">
+Allowed scopes: Global, namespace, or per-resource">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="guide">
@@ -46,8 +46,8 @@ AZURE_SUBSCRIPTION_ID Azure subscription the operator will use for ARM communica
 Format: GUID
 Example: 00000000-0000-0000-0000-000000000000
 Required: True
-This may be set to empty string to configure no global credential.">
-  <meta itemprop="wordCount" content="1007">
+Allowed scopes: Global, namespace, or per-resource">
+  <meta itemprop="wordCount" content="1124">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Configuring ASO">
   <meta name="twitter:description" content="Configuration of ASO is done primarily through a secret in the azureserviceoperator-system namespace called aso-controller-settings. This secret contains both details about the (optional) global credential as well as other operator pod options.
@@ -56,7 +56,7 @@ AZURE_SUBSCRIPTION_ID Azure subscription the operator will use for ARM communica
 Format: GUID
 Example: 00000000-0000-0000-0000-000000000000
 Required: True
-This may be set to empty string to configure no global credential.">
+Allowed scopes: Global, namespace, or per-resource">
 
 
 
@@ -803,6 +803,7 @@ This may be set to empty string to configure no global credential.">
         <li><a href="#azure_authority_host">AZURE_AUTHORITY_HOST</a></li>
         <li><a href="#azure_resource_manager_endpoint">AZURE_RESOURCE_MANAGER_ENDPOINT</a></li>
         <li><a href="#azure_resource_manager_audience">AZURE_RESOURCE_MANAGER_AUDIENCE</a></li>
+        <li><a href="#azure_additional_tenants">AZURE_ADDITIONAL_TENANTS</a></li>
         <li><a href="#azure_user_agent_suffix">AZURE_USER_AGENT_SUFFIX</a></li>
         <li><a href="#max_concurrent_reconciles">MAX_CONCURRENT_RECONCILES</a></li>
         <li><a href="#rate_limit_mode">RATE_LIMIT_MODE</a></li>
@@ -847,6 +848,7 @@ credential is specified at the per-resource or per-namespace scope.</p>
 <p><strong>Format:</strong> <code>GUID</code></p>
 <p><strong>Example:</strong> <code>00000000-0000-0000-0000-000000000000</code></p>
 <p><strong>Required</strong>: True</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global, namespace, or per-resource</p>
 <p>This may be set to empty string to configure no global credential.</p>
 <h3 id="azure_tenant_id">AZURE_TENANT_ID</h3>
 <p>Azure tenantID the operator will use for ARM communication if
@@ -855,6 +857,7 @@ credential is specified at the per-resource or per-namespace scope.</p>
 <p><strong>Format:</strong> <code>GUID</code></p>
 <p><strong>Example:</strong> <code>00000000-0000-0000-0000-000000000000</code></p>
 <p><strong>Required</strong>: True</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global, namespace, or per-resource</p>
 <p>This may be set to empty string to configure no global credential.</p>
 <h3 id="azure_client_id">AZURE_CLIENT_ID</h3>
 <p>Azure clientID the operator will use for ARM communication if
@@ -863,6 +866,7 @@ credential is specified at the per-resource or per-namespace scope.</p>
 <p><strong>Format:</strong> <code>GUID</code></p>
 <p><strong>Example:</strong> <code>00000000-0000-0000-0000-000000000000</code></p>
 <p><strong>Required</strong>: True</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global, namespace, or per-resource</p>
 <p>This may be set to empty string to configure no global credential.</p>
 <h3 id="azure_client_secret">AZURE_CLIENT_SECRET</h3>
 <p>The secret associated with the client to use if
@@ -870,16 +874,19 @@ no <a href="/azure-service-operator/guide/authentication/credential-scope/">more
 credential is specified at the per-resource or per-namespace scope.</p>
 <p><strong>Format:</strong> <code>String</code></p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global, namespace, or per-resource</p>
 <h3 id="azure_client_certificate">AZURE_CLIENT_CERTIFICATE</h3>
 <p>AzureClientCertificate is a PEM or PKCS12 certificate string including the private key for
 Azure Credential Authentication.
 If the certificate is password protected,  use <code>AZURE_CLIENT_CERTIFICATE_PASSWORD</code> for the password.</p>
 <p><strong>Format:</strong> <code>String</code></p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global, namespace, or per-resource</p>
 <h3 id="azure_client_certificate_password">AZURE_CLIENT_CERTIFICATE_PASSWORD</h3>
 <p>The password used to protect the <code>AZURE_CLIENT_CERTIFICATE</code>.</p>
 <p><strong>Format:</strong> <code>String</code></p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global, namespace, or per-resource</p>
 <h3 id="azure_sync_period">AZURE_SYNC_PERIOD</h3>
 <p>AZURE_SYNC_PERIOD is the frequency at which resources are re-reconciled with Azure when
 there have been no triggering changes in the Kubernetes resources.
@@ -890,11 +897,13 @@ subscription level throttling if they are re-synced frequently. If nil or empty 
 <p><strong>Format:</strong> <code>duration string</code></p>
 <p><strong>Example:</strong> <code>&quot;1h&quot;</code>, <code>&quot;15m&quot;</code>, or <code>&quot;60s&quot;</code>. See <a href="https://pkg.go.dev/time#ParseDuration">ParseDuration</a> for more details.</p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
 <h3 id="azure_operator_mode">AZURE_OPERATOR_MODE</h3>
 <p>AZURE_OPERATOR_MODE determines whether the operator should run <em>watchers</em>, <em>webhooks</em> or <em>both</em> (default). An empty string, or any unrecognized value, means <em>both</em>.</p>
 <p><strong>Format:</strong> <code>webhooks|watchers|both</code></p>
 <p><strong>Examples:</strong> <code>&quot;webhooks&quot;</code>, <code>&quot;watchers&quot;</code> or <code>&quot;both&quot;</code></p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
 <h3 id="azure_target_namespaces">AZURE_TARGET_NAMESPACES</h3>
 <p>AZURE_TARGET_NAMESPACES lists the namespaces the operator will watch for Azure resources (if the mode includes running watchers).
 If it&rsquo;s empty the operator will watch all namespaces.</p>
@@ -902,17 +911,20 @@ If it&rsquo;s empty the operator will watch all namespaces.</p>
 <p><strong>Format:</strong> <code>string</code> (comma-separated namespace names)</p>
 <p><strong>Example:</strong> <code>ns1,ns2</code></p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
 <h3 id="use_workload_identity_auth">USE_WORKLOAD_IDENTITY_AUTH</h3>
 <p>USE_WORKLOAD_IDENTITY_AUTH boolean is used to determine if we&rsquo;re using Workload Identity authentication for global credential.</p>
 <p><strong>Format:</strong> <code>true|false</code></p>
 <p><strong>Example:</strong> <code>&quot;true&quot;</code> or <code>&quot;false&quot;</code></p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
 <h3 id="azure_authority_host">AZURE_AUTHORITY_HOST</h3>
 <p>AZURE_AUTHORITY_HOST is the URL of the AAD authority. If not specified, the default is the AAD URL for the public cloud: <code>https://login.microsoftonline.com/</code>.
 See <a href="https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud">https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud</a></p>
 <p><strong>Format:</strong> <code>string</code></p>
 <p><strong>Example:</strong> <code>&quot;https://login.chinacloudapi.cn&quot;</code></p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
 <h3 id="azure_resource_manager_endpoint">AZURE_RESOURCE_MANAGER_ENDPOINT</h3>
 <p>AZURE_RESOURCE_MANAGER_ENDPOINT is the Azure Resource Manager endpoint. If not specified, the default is the Public cloud resource manager endpoint.
 See <a href="https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds">https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds</a> for details about how to find available resource manager endpoints for your cloud.
@@ -920,6 +932,7 @@ Note that the resource manager endpoint is referred to as &ldquo;resourceManager
 <p><strong>Format:</strong> <code>string</code></p>
 <p><strong>Example:</strong> <code>&quot;https://management.chinacloudapi.cn&quot;</code></p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
 <h3 id="azure_resource_manager_audience">AZURE_RESOURCE_MANAGER_AUDIENCE</h3>
 <p>AZURE_RESOURCE_MANAGER_AUDIENCE is the Azure Resource Manager AAD audience. If not specified, the default is the Public cloud resource manager audience <code>https://management.core.windows.net/</code>.
 See <a href="https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds">https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds</a> for details about how to find available resource manager audiences for your cloud.
@@ -927,11 +940,21 @@ Note that the resource manager audience is referred to as &ldquo;activeDirectory
 <p><strong>Format:</strong> <code>string</code></p>
 <p><strong>Example:</strong> <code>&quot;https://management.core.chinacloudapi.cn/&quot;</code></p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
+<h3 id="azure_additional_tenants">AZURE_ADDITIONAL_TENANTS</h3>
+<p>The list of (comma-separated) additional tenants the operator can authenticate with.
+This is required when performing cross-tenant authentication. See the
+<a href="https://learn.microsoft.com/entra/external-id/cross-tenant-access-overview">Entra documentation</a> for more details.</p>
+<p><strong>Format:</strong> <code>string</code> (comma-separated tenant GUIDs - spaces are allowed)</p>
+<p><strong>Example:</strong> <code>00000000-0000-0000-0000-000000000001,00000000-0000-0000-0000-000000000002</code></p>
+<p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global, namespace, or per-resource</p>
 <h3 id="azure_user_agent_suffix">AZURE_USER_AGENT_SUFFIX</h3>
 <p>AZURE_USER_AGENT_SUFFIX is appended to the default User-Agent for Azure HTTP clients.</p>
 <p><strong>Format:</strong> <code>string</code></p>
 <p><strong>Example:</strong> <code>&quot;my-user-agent&quot;</code></p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
 <h3 id="max_concurrent_reconciles">MAX_CONCURRENT_RECONCILES</h3>
 <p>MAX_CONCURRENT_RECONCILES is the number of threads/goroutines dedicated to reconciling each resource type.
 If not specified, the default is 1.</p>
@@ -946,6 +969,7 @@ can be managed with this set to 1.</p>
 <p><strong>Format:</strong> <code>int</code></p>
 <p><strong>Example:</strong> <code>2</code></p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
 <h3 id="rate_limit_mode">RATE_LIMIT_MODE</h3>
 <p>RateLimitMode configures the internal rate-limiting mode.</p>
 <ul>
@@ -971,17 +995,20 @@ works for your specific need.</p>
 <p><strong>Format:</strong> <code>disabled|bucket</code></p>
 <p><strong>Example:</strong> <code>disabled</code> or <code>bucket</code></p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
 <h3 id="rate_limit_qps">RATE_LIMIT_QPS</h3>
 <p>RATE_LIMIT_QPS is the rate (per second) that the bucket is refilled.
 This value only has an effect if RATE_LIMIT_MODE is &lsquo;bucket&rsquo;.</p>
 <p><strong>Format:</strong> <code>float</code></p>
 <p><strong>Example:</strong> <code>5</code></p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
 <h3 id="rate_limit_bucket_size">RATE_LIMIT_BUCKET_SIZE</h3>
 <p>RATE_LIMIT_BUCKET_SIZE is the size of the bucket. This value only has an effect if RATE_LIMIT_MODE is &lsquo;bucket&rsquo;.</p>
 <p><strong>Format:</strong> <code>int</code></p>
 <p><strong>Example:</strong> <code>200</code></p>
 <p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
 
 	
 </div>
