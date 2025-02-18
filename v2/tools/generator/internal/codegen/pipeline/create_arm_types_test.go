@@ -93,7 +93,7 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 			specProperties.Name(),
 			test.FamilyNameProperty.PropertyName(),
 			func(propertyConfiguration *config.PropertyConfiguration) error {
-				propertyConfiguration.ARMReference.Set(true)
+				propertyConfiguration.ReferenceType.Set(config.ReferenceTypeARM)
 				return nil
 			})).To(Succeed())
 
