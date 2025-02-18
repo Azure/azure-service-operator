@@ -49,11 +49,11 @@ type ObjectModelConfiguration struct {
 	TypeNameInNextVersion    typeAccess[string]
 
 	// Property access fields here (alphabetical, please)
-	ARMReference                   propertyAccess[bool]
 	Description                    propertyAccess[string]
 	ImportConfigMapMode            propertyAccess[ImportConfigMapMode]
 	IsSecret                       propertyAccess[bool]
 	PropertyNameInNextVersion      propertyAccess[string]
+	ReferenceType                  propertyAccess[ReferenceType]
 	RenamePropertyTo               propertyAccess[string]
 	ResourceLifecycleOwnedByParent propertyAccess[string]
 }
@@ -109,8 +109,6 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 		result, func(c *TypeConfiguration) *configurable[string] { return &c.NameInNextVersion })
 
 	// Initialize property access fields here (alphabetical, please)
-	result.ARMReference = makePropertyAccess[bool](
-		result, func(c *PropertyConfiguration) *configurable[bool] { return &c.ARMReference })
 	result.Description = makePropertyAccess[string](
 		result, func(c *PropertyConfiguration) *configurable[string] { return &c.Description })
 	result.ImportConfigMapMode = makePropertyAccess[ImportConfigMapMode](
@@ -119,6 +117,8 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 		result, func(c *PropertyConfiguration) *configurable[bool] { return &c.IsSecret })
 	result.PropertyNameInNextVersion = makePropertyAccess[string](
 		result, func(c *PropertyConfiguration) *configurable[string] { return &c.NameInNextVersion })
+	result.ReferenceType = makePropertyAccess[ReferenceType](
+		result, func(c *PropertyConfiguration) *configurable[ReferenceType] { return &c.ReferenceType })
 	result.RenamePropertyTo = makePropertyAccess[string](
 		result, func(c *PropertyConfiguration) *configurable[string] { return &c.RenameTo })
 	result.ResourceLifecycleOwnedByParent = makePropertyAccess[string](
