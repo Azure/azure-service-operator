@@ -7,7 +7,7 @@ metadata:
   {{- end }}
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.11.0
+    app.kubernetes.io/version: v2.12.0
     control-plane: controller-manager
   name: azureserviceoperator-controller-manager
   namespace: {{ .Release.Namespace }}
@@ -31,7 +31,7 @@ spec:
         aadpodidbinding: aso-manager-binding
         {{- end }}
         app.kubernetes.io/name: azure-service-operator
-        app.kubernetes.io/version: v2.11.0
+        app.kubernetes.io/version: v2.12.0
         control-plane: controller-manager
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
@@ -67,6 +67,8 @@ spec:
         - --webhook-cert-dir={{ .Values.webhook.certDir }}
         {{- end }}
         env:
+        - name: GOMEMLIMIT
+          value: {{ .Values.go.memLimit }}
         - name: AZURE_CLIENT_ID
           valueFrom:
             secretKeyRef:
@@ -83,6 +85,12 @@ spec:
             secretKeyRef:
               key: AZURE_TENANT_ID
               name: aso-controller-settings
+        - name: AZURE_ADDITIONAL_TENANTS
+          valueFrom:
+            secretKeyRef:
+              name: aso-controller-settings
+              key: AZURE_ADDITIONAL_TENANTS
+              optional: true
         - name: AZURE_SUBSCRIPTION_ID
           valueFrom:
             secretKeyRef:

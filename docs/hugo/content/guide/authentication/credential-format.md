@@ -8,6 +8,20 @@ Azure Service Operator supports four different styles of authentication today.
 Each section below dives into one of these authentication options, including examples for how to set it up and
 use it at the different [credential scopes]( {{< relref "credential-scope" >}} ).
 
+## Allowed credential fields
+
+These fields are common across all [credential scopes]( {{< relref "credential-scope" >}} ).
+
+- [AZURE_SUBSCRIPTION_ID]( {{< relref "aso-controller-settings-options" >}}/#azure_subscription_id)
+- [AZURE_TENANT_ID]( {{< relref "aso-controller-settings-options" >}}/#azure_tenant_id)
+- [AZURE_CLIENT_ID]( {{< relref "aso-controller-settings-options" >}}/#azure_client_id)
+- [AZURE_CLIENT_SECRET]( {{< relref "aso-controller-settings-options" >}}/#azure_client_secret)
+- [AZURE_CLIENT_CERTIFICATE]( {{< relref "aso-controller-settings-options" >}}/#azure_client_certificate)
+- [AZURE_CLIENT_CERTIFICATE_PASSWORD]( {{< relref "aso-controller-settings-options" >}}/#azure_client_certificate_password)
+- [AZURE_ADDITIONAL_TENANTS]( {{< relref "aso-controller-settings-options" >}}/#azure_additional_tenants)
+
+Note that the global credential scope has fields that can be set in addition to the fields documented above.
+
 ## Managed Identity (via workload identity)
 
 See [Azure Workload Identity](https://github.com/Azure/azure-workload-identity) for details about the workload identity project.

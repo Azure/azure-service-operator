@@ -512,7 +512,9 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 			defaultCred := identity.NewDefaultCredential(
 				perTestContext.AzureClient.Creds(),
 				cfg.PodNamespace,
-				perTestContext.AzureSubscription)
+				perTestContext.AzureSubscription,
+				nil,
+			)
 
 			credentialProvider := identity.NewCredentialProvider(defaultCred, envtest.KubeClient, nil)
 			// register resources needed by controller for namespace

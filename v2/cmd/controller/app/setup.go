@@ -142,7 +142,8 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		setupLog.Error(err, "failed to initialize CRD client")
 		os.Exit(1)
 	}
-	existingCRDs, err := crdManager.ListCRDs(ctx)
+	existingCRDs := apiextensions.CustomResourceDefinitionList{}
+	err = crdManager.ListCRDs(ctx, &existingCRDs)
 	if err != nil {
 		setupLog.Error(err, "failed to list current CRDs")
 		os.Exit(1)
@@ -155,7 +156,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 			// Note that this step will restart the pod when it succeeds
 			err = crdManager.Install(ctx, crdmanagement.Options{
 				CRDPatterns:  flgs.CRDPatterns,
-				ExistingCRDs: existingCRDs,
+				ExistingCRDs: &existingCRDs,
 				Path:         crdmanagement.CRDLocation,
 				Namespace:    cfg.PodNamespace,
 			})
@@ -184,7 +185,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 	//    TODO: the nontrivial startup cost of reading the local copy of CRDs into memory. Since "none" is
 	//    TODO: us approximating the standard operator experience we don't perform this assertion currently as most
 	//    TODO: operators don't.
-	readyResources := crdmanagement.MakeCRDMap(existingCRDs)
+	readyResources := crdmanagement.MakeCRDMap(existingCRDs.Items)
 
 	if cfg.OperatorMode.IncludesWatchers() {
 		//nolint:contextcheck
@@ -281,7 +282,9 @@ func getDefaultAzureCredential(cfg config.Values, setupLog logr.Logger) (*identi
 	return identity.NewDefaultCredential(
 		tokenCred,
 		cfg.PodNamespace,
-		cfg.SubscriptionID), nil
+		cfg.SubscriptionID,
+		cfg.AdditionalTenants,
+	), nil
 }
 
 func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (azcore.TokenCredential, error) {
@@ -292,11 +295,16 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 	}
 
 	if cfg.UseWorkloadIdentityAuth {
-		credential, err := azidentity.NewWorkloadIdentityCredential(&azidentity.WorkloadIdentityCredentialOptions{
-			ClientID:      cfg.ClientID,
-			TenantID:      cfg.TenantID,
-			TokenFilePath: identity.FederatedTokenFilePath,
-		})
+		credential, err := azidentity.NewWorkloadIdentityCredential(
+			&azidentity.WorkloadIdentityCredentialOptions{
+				ClientOptions: azcore.ClientOptions{
+					Cloud: cfg.Cloud(),
+				},
+				ClientID:                   cfg.ClientID,
+				TenantID:                   cfg.TenantID,
+				TokenFilePath:              identity.FederatedTokenFilePath,
+				AdditionallyAllowedTenants: cfg.AdditionalTenants,
+			})
 		if err != nil {
 			return nil, eris.Wrapf(err, "unable to get workload identity credential")
 		}
@@ -306,7 +314,17 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 
 	if cert := os.Getenv(common.AzureClientCertificate); cert != "" {
 		certPassword := os.Getenv(common.AzureClientCertificatePassword)
-		credential, err := identity.NewClientCertificateCredential(cfg.TenantID, cfg.ClientID, []byte(cert), []byte(certPassword))
+		credential, err := identity.NewClientCertificateCredential(
+			cfg.TenantID,
+			cfg.ClientID,
+			[]byte(cert),
+			[]byte(certPassword),
+			&azidentity.ClientCertificateCredentialOptions{
+				ClientOptions: azcore.ClientOptions{
+					Cloud: cfg.Cloud(),
+				},
+				AdditionallyAllowedTenants: cfg.AdditionalTenants,
+			})
 		if err != nil {
 			return nil, eris.Wrapf(err, "unable to get client certificate credential")
 		}
@@ -314,7 +332,13 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 		return credential, nil
 	}
 
-	credential, err := azidentity.NewDefaultAzureCredential(nil)
+	credential, err := azidentity.NewDefaultAzureCredential(
+		&azidentity.DefaultAzureCredentialOptions{
+			ClientOptions: azcore.ClientOptions{
+				Cloud: cfg.Cloud(),
+			},
+			AdditionallyAllowedTenants: cfg.AdditionalTenants,
+		})
 	if err != nil {
 		return nil, eris.Wrapf(err, "unable to get default azure credential")
 	}
@@ -345,7 +369,12 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	}
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
-	credentialProvider := identity.NewCredentialProvider(credential, kubeClient, nil)
+	credentialProvider := identity.NewCredentialProvider(
+		credential,
+		kubeClient,
+		&identity.CredentialProviderOptions{
+			Cloud: to.Ptr(cfg.Cloud()),
+		})
 
 	armClientCache := armreconciler.NewARMClientCache(
 		credentialProvider,

@@ -1,8 +1,14 @@
 # Create secret or use an existing secret
 createAzureOperatorSecret: true
 
-# azureTenantID is the AAD tenant that the subscription is in
+# azureTenantID is the Entra tenant that the subscription is in
 azureTenantID: ""
+
+# azureAdditionalTenants is the list of (comma-separated) additional tenants the operator can authenticate with.
+# This is required when performing cross-tenant authentication. See
+# https://learn.microsoft.com/entra/external-id/cross-tenant-access-overview for more details.
+azureAdditionalTenants: ""
+
 # azureSubscriptionID is the Azure Subscription the operator will act against.
 azureSubscriptionID: ""
 
@@ -85,7 +91,7 @@ webhook:
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.11.0
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.12.0
   pullSecrets: []
 
 # 'metrics' define settings for the metrics from controller.
@@ -186,7 +192,7 @@ priorityClassName: ""
 # Number of pod replicas to create for the deployment
 replicaCount: 2
 
-# Recomended initial values for resources
+# Recommended initial values for resources
 # adjust them as necessary
 resources:
   limits:
@@ -195,6 +201,9 @@ resources:
   requests:
     cpu: 200m
     memory: 256Mi
+
+go:
+  memLimit: 400MiB # This should be set to ~80-90% of the hard memory limit set above in resources
 
 # Number of old history to retain to allow rollback
 # Default Kubernetes value is set to 10

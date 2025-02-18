@@ -68,15 +68,18 @@ func AddKubernetesResourceInterfaceImpls(
 		specDef = updated
 	}
 
-	getAzureNameProperty := functions.NewObjectFunction(astmodel.AzureNameProperty, idFactory, nameFns.getNameFunction)
-	getAzureNameProperty.AddPackageReference(astmodel.GenRuntimeReference)
+	getAzureNameProperty := functions.NewObjectFunction(
+		astmodel.AzureNameProperty,
+		idFactory,
+		nameFns.getNameFunction,
+		astmodel.GenRuntimeReference)
 
 	getOwnerProperty := functions.NewResourceFunction(
 		astmodel.OwnerProperty,
 		r,
 		idFactory,
 		getOwnerFunction,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
+		astmodel.GenRuntimeReference)
 
 	getSpecFunction := functions.NewGetSpecFunction(idFactory)
 
@@ -87,14 +90,14 @@ func AddKubernetesResourceInterfaceImpls(
 		r,
 		idFactory,
 		getResourceScopeFunction,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
+		astmodel.GenRuntimeReference)
 
 	getSupportedOperationsFunc := functions.NewResourceFunction(
 		"GetSupportedOperations",
 		r,
 		idFactory,
 		getSupportedOperationsFunction,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
+		astmodel.GenRuntimeReference)
 
 	getAPIVersionFunc := functions.NewGetAPIVersionFunction(r.APIVersionEnumValue(), idFactory)
 
@@ -138,8 +141,11 @@ func AddKubernetesResourceInterfaceImpls(
 		// this function applies to Spec not the resource
 		functionInjector := astmodel.NewFunctionInjector()
 
-		setFn := functions.NewObjectFunction(astmodel.SetAzureNameFunc, idFactory, nameFns.setNameFunction)
-		setFn.AddPackageReference(astmodel.GenRuntimeReference)
+		setFn := functions.NewObjectFunction(
+			astmodel.SetAzureNameFunc,
+			idFactory,
+			nameFns.setNameFunction,
+			astmodel.GenRuntimeReference)
 
 		updated, err := functionInjector.Inject(specDef, setFn)
 		if err != nil {

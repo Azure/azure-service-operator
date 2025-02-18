@@ -41,8 +41,8 @@ func NewARMSpecInterfaceImpl(
 	getNameFunc := functions.NewObjectFunction(
 		"Get"+astmodel.NameProperty,
 		idFactory,
-		getNameFunction)
-	getNameFunc.AddPackageReference(astmodel.GenRuntimeReference)
+		getNameFunction,
+		astmodel.GenRuntimeReference)
 
 	getTypeFunc := functions.NewGetTypeFunction(resource.ARMType(), idFactory, functions.ReceiverTypePtr)
 

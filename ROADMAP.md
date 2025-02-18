@@ -10,15 +10,15 @@ Our current release plan:
 
 | Version                                                                | Estimated Release |
 |------------------------------------------------------------------------|------------------:|
-| [2.11.0](https://github.com/Azure/azure-service-operator/milestone/30) | Mid November 2024 |
-| [2.12.0](https://github.com/Azure/azure-service-operator/milestone/31) | Mid February 2025 |
 | [2.13.0](https://github.com/Azure/azure-service-operator/milestone/32) |    Mid April 2025 |
+| [2.14.0](https://github.com/Azure/azure-service-operator/milestone/33) |     Mid June 2025 |
+| [2.15.0](https://github.com/Azure/azure-service-operator/milestone/34) |   Mid August 2025 |
 
 Where linked, versions go to a list of feature and bugs that are planned to be included in that release.
 
 Any items note completed in time for one release will be carried over to the next, and may result in us pushing other items to a later release.
 
-Partway through eacha release cycle, we'll review the list of issues assigned to upcoming releases and redistribute issues as needed. This usually involves some issues being moved to later releases.
+Partway through each release cycle, we'll review the list of issues assigned to upcoming releases and redistribute issues as needed. This usually involves some issues being moved to later releases.
 
 If you're waiting on a particular resource or feature to be released, please comment on the relevant issue (or create a new issue if there isn't already one tracking the request) to let us know. We'll do our best to keep you updated on progress.
 
@@ -32,6 +32,8 @@ Prior GA releases of ASO v2:
 
 | Version                                                                        |     Release Date |     |
 |--------------------------------------------------------------------------------|-----------------:|-----|
+| [2.12.0](https://github.com/Azure/azure-service-operator/milestone/v2.12.0)    | 11 February 2025 |     |
+| [2.11.0](https://github.com/Azure/azure-service-operator/milestone/v2.11.0)    | 12 November 2024 |     |
 | [2.10.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.10.0) |  22 October 2024 |     |
 | [2.9.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.9.0)   |   22 August 2024 |     |
 | [2.8.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.8.0)   |     25 June 2024 |     |

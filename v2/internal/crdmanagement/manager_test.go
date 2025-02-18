@@ -415,9 +415,10 @@ func Test_ListCRDs_ListsOnlyCRDsMatchingLabel(t *testing.T) {
 	logger := testcommon.NewTestLogger(t)
 	crdManager := crdmanagement.NewManager(logger, kubeClient, nil)
 
-	crds, err := crdManager.ListCRDs(ctx)
+	crds := &apiextensions.CustomResourceDefinitionList{}
+	err := crdManager.ListCRDs(ctx, crds)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(crds).To(HaveLen(1))
+	g.Expect(crds.Items).To(HaveLen(1))
 }
 
 // This test requires that the task target `bundle-crds` has been run
