@@ -20,6 +20,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
+	asocloud "github.com/Azure/azure-service-operator/v2/pkg/common/cloud"
 )
 
 // player is an implementation of testRecorder using go-vcr v1 that can only play back
@@ -67,9 +68,9 @@ func NewTestPlayer(
 	azureIDs.BillingInvoiceID = creds.DummyBillingId
 
 	// Force these values to be the default
-	cfg.ResourceManagerEndpoint = config.DefaultEndpoint
-	cfg.ResourceManagerAudience = config.DefaultAudience
-	cfg.AzureAuthorityHost = config.DefaultAADAuthorityHost
+	cfg.ResourceManagerEndpoint = asocloud.DefaultEndpoint
+	cfg.ResourceManagerAudience = asocloud.DefaultAudience
+	cfg.AzureAuthorityHost = asocloud.DefaultAADAuthorityHost
 
 	redactor := vcr.NewRedactor(azureIDs)
 

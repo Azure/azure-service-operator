@@ -5,7 +5,10 @@
 
 package identity
 
-import "github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+import (
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+)
 
 var _ TokenCredentialProvider = &mockTokenCredentialProvider{}
 
@@ -16,21 +19,43 @@ type mockTokenCredentialProvider struct {
 	ClientCertificate []byte
 	Password          []byte
 	TokenFilePath     string
+	AdditionalTenants []string
+	Cloud             cloud.Configuration
 }
 
-func (m *mockTokenCredentialProvider) NewClientSecretCredential(tenantID string, clientID string, clientSecret string, options *azidentity.ClientSecretCredentialOptions) (*azidentity.ClientSecretCredential, error) {
+func (m *mockTokenCredentialProvider) NewClientSecretCredential(
+	tenantID string,
+	clientID string,
+	clientSecret string,
+	options *azidentity.ClientSecretCredentialOptions,
+) (*azidentity.ClientSecretCredential, error) {
 	m.TenantID = tenantID
 	m.ClientID = clientID
 	m.ClientSecret = clientSecret
+	if options != nil {
+		m.AdditionalTenants = options.AdditionallyAllowedTenants
+		m.Cloud = options.Cloud
+	}
 	// We're not doing anything with the returned secrets so just return a dummy
 	return &azidentity.ClientSecretCredential{}, nil
 }
 
-func (m *mockTokenCredentialProvider) NewClientCertificateCredential(tenantID, clientID string, clientCertificate, password []byte) (*azidentity.ClientCertificateCredential, error) {
+func (m *mockTokenCredentialProvider) NewClientCertificateCredential(
+	tenantID string,
+	clientID string,
+	clientCertificate []byte,
+	password []byte,
+	options *azidentity.ClientCertificateCredentialOptions,
+) (*azidentity.ClientCertificateCredential, error) {
 	m.TenantID = tenantID
 	m.ClientID = clientID
 	m.ClientCertificate = clientCertificate
 	m.Password = password
+
+	if options != nil {
+		m.AdditionalTenants = options.AdditionallyAllowedTenants
+		m.Cloud = options.Cloud
+	}
 
 	return &azidentity.ClientCertificateCredential{}, nil
 }
@@ -43,6 +68,8 @@ func (m *mockTokenCredentialProvider) NewWorkloadIdentityCredential(options *azi
 	m.TenantID = options.TenantID
 	m.ClientID = options.ClientID
 	m.TokenFilePath = options.TokenFilePath
+	m.AdditionalTenants = options.AdditionallyAllowedTenants
+	m.Cloud = options.Cloud
 
 	return &azidentity.WorkloadIdentityCredential{}, nil
 }

@@ -43,9 +43,10 @@ type GenericClient struct {
 // TODO: Need to do retryAfter detection in each call?
 
 type GenericClientOptions struct {
-	HttpClient *http.Client
-	Metrics    *metrics.ARMClientMetrics
-	UserAgent  string
+	HttpClient        *http.Client
+	Metrics           *metrics.ARMClientMetrics
+	UserAgent         string
+	AdditionalTenants []string
 }
 
 // NewGenericClient creates a new instance of GenericClient
@@ -81,6 +82,7 @@ func NewGenericClient(
 				NewUserAgentPolicy(ua),
 			},
 		},
+		AuxiliaryTenants: options.AdditionalTenants,
 		// Disabled here because we don't want the default configuration, it polls for 5+ minutes which is
 		// far too long to block an operator.
 		DisableRPRegistration: true,
