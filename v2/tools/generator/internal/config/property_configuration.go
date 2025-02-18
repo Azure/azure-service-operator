@@ -23,12 +23,12 @@ import (
 type PropertyConfiguration struct {
 	name string
 	// Configurable properties here (alphabetical, please)
-	ARMReference                   configurable[bool]                // Specify whether this property is an ARM reference
 	Description                    configurable[string]              // Specify a description override for this property
 	ImportConfigMapMode            configurable[ImportConfigMapMode] // The config map mode
 	IsSecret                       configurable[bool]                // Specify whether this property is a secret
 	NameInNextVersion              configurable[string]              // Name this property has in the next version
 	PayloadType                    configurable[PayloadType]         // Specify how this property should be serialized for ARM
+	ReferenceType                  configurable[ReferenceType]       // Specify whether this property is an ARM reference or some other kind
 	RenameTo                       configurable[string]              // Name this property should be renamed to
 	ResourceLifecycleOwnedByParent configurable[string]              // Name of the parent resource which owns the lifecycle of the sub-resource.
 }
@@ -40,13 +40,20 @@ const (
 	ImportConfigMapModeRequired = "required"
 )
 
+type ReferenceType string
+
+const (
+	ReferenceTypeARM   = ReferenceType("arm")   // An ARM reference
+	ReferenceTypeOther = ReferenceType("other") // Some other kind for which we don't provide special support
+)
+
 // Tags used in yaml files to specify configurable properties. Alphabetical please.
 const (
-	armReferenceTag                   = "$armReference"                   // Bool specifying whether a property is an ARM reference
 	descriptionTag                    = "$description"                    // String overriding the properties default description
 	exportAsConfigMapPropertyNameTag  = "$exportAsConfigMapPropertyName"  // String specifying the name of the property set to export this property as a config map.
 	importConfigMapModeTag            = "$importConfigMapMode"            // string specifying the ImportConfigMapMode mode
 	isSecretTag                       = "$isSecret"                       // Bool specifying whether a property contains a secret
+	referenceTypeTag                  = "$referenceType"                  // String specifying what kind of reference we have
 	renamePropertyToTag               = "$renameTo"                       // String specifying the name this property should be renamed to
 	resourceLifecycleOwnedByParentTag = "$resourceLifecycleOwnedByParent" // String specifying whether a property represents a subresource whose lifecycle is owned by the parent resource (and what that parent resource is)
 )
@@ -57,11 +64,11 @@ func NewPropertyConfiguration(name string) *PropertyConfiguration {
 	return &PropertyConfiguration{
 		name: name,
 		// Initialize configurable properties here (alphabetical, please)
-		ARMReference:                   makeConfigurable[bool](armReferenceTag, scope),
 		Description:                    makeConfigurable[string](descriptionTag, scope),
 		ImportConfigMapMode:            makeConfigurable[ImportConfigMapMode](importConfigMapModeTag, scope),
 		IsSecret:                       makeConfigurable[bool](isSecretTag, scope),
 		NameInNextVersion:              makeConfigurable[string](nameInNextVersionTag, scope),
+		ReferenceType:                  makeConfigurable[ReferenceType](referenceTypeTag, scope),
 		RenameTo:                       makeConfigurable[string](renamePropertyToTag, scope),
 		ResourceLifecycleOwnedByParent: makeConfigurable[string](resourceLifecycleOwnedByParentTag, scope),
 	}
@@ -112,15 +119,15 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
-		// $armReference: <bool>
-		if strings.EqualFold(lastId, armReferenceTag) && c.Kind == yaml.ScalarNode {
-			var isARMRef bool
-			err := c.Decode(&isARMRef)
+		// $referenceType: <string>
+		if strings.EqualFold(lastId, referenceTypeTag) && c.Kind == yaml.ScalarNode {
+			var referenceType ReferenceType
+			err := c.Decode(&referenceType)
 			if err != nil {
-				return eris.Wrapf(err, "decoding %s", armReferenceTag)
+				return eris.Wrapf(err, "decoding %s", referenceTypeTag)
 			}
 
-			pc.ARMReference.Set(isARMRef)
+			pc.ReferenceType.Set(referenceType)
 			continue
 		}
 

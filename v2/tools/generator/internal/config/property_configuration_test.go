@@ -23,7 +23,7 @@ func TestPropertyConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testi
 	err := yaml.Unmarshal(yamlBytes, &property)
 	g.Expect(err).To(Succeed())
 	g.Expect(*property.NameInNextVersion.value).To(Equal("DemoProperty"))
-	g.Expect(*property.ARMReference.value).To(BeTrue())
+	g.Expect(*property.ReferenceType.value).To(Equal(ReferenceTypeARM))
 }
 
 func TestPropertyConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
@@ -42,11 +42,11 @@ func TestPropertyConfiguration_ARMReference_WhenSpecified_ReturnsExpectedResult(
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property")
-	property.ARMReference.Set(true)
+	property.ReferenceType.Set(ReferenceTypeARM)
 
-	isReference, ok := property.ARMReference.Lookup()
+	referenceType, ok := property.ReferenceType.Lookup()
 	g.Expect(ok).To(BeTrue())
-	g.Expect(isReference).To(BeTrue())
+	g.Expect(referenceType).To(Equal(ReferenceTypeARM))
 }
 
 func TestPropertyConfiguration_ARMReference_WhenNotSpecified_ReturnsExpectedResult(t *testing.T) {
@@ -55,7 +55,7 @@ func TestPropertyConfiguration_ARMReference_WhenNotSpecified_ReturnsExpectedResu
 
 	property := NewPropertyConfiguration("Property")
 
-	_, ok := property.ARMReference.Lookup()
+	_, ok := property.ReferenceType.Lookup()
 	g.Expect(ok).To(BeFalse())
 }
 
@@ -64,9 +64,9 @@ func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenNotConfigured_Retu
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property")
-	_, _ = property.ARMReference.Lookup()
+	_, _ = property.ReferenceType.Lookup()
 
-	g.Expect(property.ARMReference.VerifyConsumed()).To(Succeed())
+	g.Expect(property.ReferenceType.VerifyConsumed()).To(Succeed())
 }
 
 func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceUsed_ReturnsNil(t *testing.T) {
@@ -74,11 +74,11 @@ func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceUsed_Retu
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property")
-	property.ARMReference.Set(true)
+	property.ReferenceType.Set(ReferenceTypeARM)
 
-	_, _ = property.ARMReference.Lookup()
+	_, _ = property.ReferenceType.Lookup()
 
-	g.Expect(property.ARMReference.VerifyConsumed()).To(Succeed())
+	g.Expect(property.ReferenceType.VerifyConsumed()).To(Succeed())
 }
 
 func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceNotUsed_ReturnsExpectedError(t *testing.T) {
@@ -86,9 +86,9 @@ func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceNotUsed_R
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property")
-	property.ARMReference.Set(true)
+	property.ReferenceType.Set(ReferenceTypeARM)
 
-	err := property.ARMReference.VerifyConsumed()
+	err := property.ReferenceType.VerifyConsumed()
 	g.Expect(err).NotTo(BeNil())
 	g.Expect(err.Error()).To(ContainSubstring(property.name))
 }
