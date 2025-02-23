@@ -17,30 +17,46 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>EventHub | Azure Service Operator</title>
-<meta name="description" content="Secrets ASOv1 EventHubs save a Kubernetes secret:
-kubectl get secrets -n ns1 eventhub-eventhub-sample-1 Opaque 7 22h This secret has the following 7 keys:
-Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None primaryConnectionString Azure .spec.operatorSpec.secrets.primaryConnectionString (added in ASO v2.7.0) primaryKey Azure .spec.operatorSpec.secrets.primaryKey (added in ASO v2.7.0) secondaryConnectionString Azure .spec.operatorSpec.secrets.secondaryConnectionString (added in ASO v2.7.0) secondaryKey Azure .spec.operatorSpec.secrets.secondaryKey (added in ASO v2.7.0) sharedaccessKey Azure None, see ASOv2 NamespacesAuthorizationRules for exporting keys for any authorization rule except the default RootManageSharedAccessKey ">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/eventhub/">
+<title>dbformysql.azure.com/v1api20231230 | Azure Service Operator</title>
+<meta name="description" content="dbformysql.azure.com/v1api20231230 Package v1api20231230 contains API Schema definitions for the dbformysql v1api20231230 API group
+Resource Types: APIVersion (string alias) Value Description &#34;2023-12-30&#34;
+AdministratorProperties_AdministratorType (string alias) (Appears on:FlexibleServersAdministrator_Spec) Value Description &#34;ActiveDirectory&#34;
+AdministratorProperties_AdministratorType_STATUS (string alias) (Appears on:FlexibleServersAdministrator_STATUS) Value Description &#34;ActiveDirectory&#34;
+Backup (Appears on:FlexibleServer_Spec) Storage Profile properties of a server
+Field Description backupIntervalHours int BackupIntervalHours: Backup interval hours for the server.
+backupRetentionDays int BackupRetentionDays: Backup retention days for the server.">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/dbformysql/v1api20231230/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="EventHub">
-  <meta property="og:description" content="Secrets ASOv1 EventHubs save a Kubernetes secret:
-kubectl get secrets -n ns1 eventhub-eventhub-sample-1 Opaque 7 22h This secret has the following 7 keys:
-Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None primaryConnectionString Azure .spec.operatorSpec.secrets.primaryConnectionString (added in ASO v2.7.0) primaryKey Azure .spec.operatorSpec.secrets.primaryKey (added in ASO v2.7.0) secondaryConnectionString Azure .spec.operatorSpec.secrets.secondaryConnectionString (added in ASO v2.7.0) secondaryKey Azure .spec.operatorSpec.secrets.secondaryKey (added in ASO v2.7.0) sharedaccessKey Azure None, see ASOv2 NamespacesAuthorizationRules for exporting keys for any authorization rule except the default RootManageSharedAccessKey ">
+  <meta property="og:title" content="dbformysql.azure.com/v1api20231230">
+  <meta property="og:description" content="dbformysql.azure.com/v1api20231230 Package v1api20231230 contains API Schema definitions for the dbformysql v1api20231230 API group
+Resource Types: APIVersion (string alias) Value Description &#34;2023-12-30&#34;
+AdministratorProperties_AdministratorType (string alias) (Appears on:FlexibleServersAdministrator_Spec) Value Description &#34;ActiveDirectory&#34;
+AdministratorProperties_AdministratorType_STATUS (string alias) (Appears on:FlexibleServersAdministrator_STATUS) Value Description &#34;ActiveDirectory&#34;
+Backup (Appears on:FlexibleServer_Spec) Storage Profile properties of a server
+Field Description backupIntervalHours int BackupIntervalHours: Backup interval hours for the server.
+backupRetentionDays int BackupRetentionDays: Backup retention days for the server.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
-    <meta property="article:section" content="guide">
+    <meta property="article:section" content="reference">
 
-  <meta itemprop="name" content="EventHub">
-  <meta itemprop="description" content="Secrets ASOv1 EventHubs save a Kubernetes secret:
-kubectl get secrets -n ns1 eventhub-eventhub-sample-1 Opaque 7 22h This secret has the following 7 keys:
-Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None primaryConnectionString Azure .spec.operatorSpec.secrets.primaryConnectionString (added in ASO v2.7.0) primaryKey Azure .spec.operatorSpec.secrets.primaryKey (added in ASO v2.7.0) secondaryConnectionString Azure .spec.operatorSpec.secrets.secondaryConnectionString (added in ASO v2.7.0) secondaryKey Azure .spec.operatorSpec.secrets.secondaryKey (added in ASO v2.7.0) sharedaccessKey Azure None, see ASOv2 NamespacesAuthorizationRules for exporting keys for any authorization rule except the default RootManageSharedAccessKey ">
-  <meta itemprop="wordCount" content="78">
+  <meta itemprop="name" content="dbformysql.azure.com/v1api20231230">
+  <meta itemprop="description" content="dbformysql.azure.com/v1api20231230 Package v1api20231230 contains API Schema definitions for the dbformysql v1api20231230 API group
+Resource Types: APIVersion (string alias) Value Description &#34;2023-12-30&#34;
+AdministratorProperties_AdministratorType (string alias) (Appears on:FlexibleServersAdministrator_Spec) Value Description &#34;ActiveDirectory&#34;
+AdministratorProperties_AdministratorType_STATUS (string alias) (Appears on:FlexibleServersAdministrator_STATUS) Value Description &#34;ActiveDirectory&#34;
+Backup (Appears on:FlexibleServer_Spec) Storage Profile properties of a server
+Field Description backupIntervalHours int BackupIntervalHours: Backup interval hours for the server.
+backupRetentionDays int BackupRetentionDays: Backup retention days for the server.">
+  <meta itemprop="wordCount" content="4164">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="EventHub">
-  <meta name="twitter:description" content="Secrets ASOv1 EventHubs save a Kubernetes secret:
-kubectl get secrets -n ns1 eventhub-eventhub-sample-1 Opaque 7 22h This secret has the following 7 keys:
-Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None primaryConnectionString Azure .spec.operatorSpec.secrets.primaryConnectionString (added in ASO v2.7.0) primaryKey Azure .spec.operatorSpec.secrets.primaryKey (added in ASO v2.7.0) secondaryConnectionString Azure .spec.operatorSpec.secrets.secondaryConnectionString (added in ASO v2.7.0) secondaryKey Azure .spec.operatorSpec.secrets.secondaryKey (added in ASO v2.7.0) sharedaccessKey Azure None, see ASOv2 NamespacesAuthorizationRules for exporting keys for any authorization rule except the default RootManageSharedAccessKey ">
+  <meta name="twitter:title" content="dbformysql.azure.com/v1api20231230">
+  <meta name="twitter:description" content="dbformysql.azure.com/v1api20231230 Package v1api20231230 contains API Schema definitions for the dbformysql v1api20231230 API group
+Resource Types: APIVersion (string alias) Value Description &#34;2023-12-30&#34;
+AdministratorProperties_AdministratorType (string alias) (Appears on:FlexibleServersAdministrator_Spec) Value Description &#34;ActiveDirectory&#34;
+AdministratorProperties_AdministratorType_STATUS (string alias) (Appears on:FlexibleServersAdministrator_STATUS) Value Description &#34;ActiveDirectory&#34;
+Backup (Appears on:FlexibleServer_Spec) Storage Profile properties of a server
+Field Description backupIntervalHours int BackupIntervalHours: Backup interval hours for the server.
+backupRetentionDays int BackupRetentionDays: Backup retention days for the server.">
 
 
 
@@ -62,7 +78,7 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link active" href="/azure-service-operator/guide/"><span>Guide</span></a>
+        <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/tutorials/"><span>Tutorials</span></a>
@@ -71,7 +87,7 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
         <a class="nav-link" href="/azure-service-operator/tools/"><span>Tools</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
+        <a class="nav-link active" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
@@ -105,24 +121,24 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operator-li">
   <a href="/azure-service-operator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-azure-service-operator"><span class="">Azure Service Operator v2</span></a>
   <ul class="ul-1">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguide-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguide-li">
   <a href="/azure-service-operator/guide/" title="User’s Guide" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguide"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-helm-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-helm-li">
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidecrd-management-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidecrd-management-li">
   <a href="/azure-service-operator/guide/crd-management/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations understood by the operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
@@ -135,14 +151,14 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebest-practices-li">
   <a href="/azure-service-operator/guide/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
   <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
@@ -167,46 +183,46 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidediagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problems-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideexpressions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideexpressions-li">
   <a href="/azure-service-operator/guide/expressions/" title="CEL Expressions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">Expressions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidekeyvaults-li">
   <a href="/azure-service-operator/guide/keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidekeyvaults"><span class="">KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideownership-li">
   <a href="/azure-service-operator/guide/ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideownership"><span class="">Ownership</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguideasov1-asov2-migration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideasov1-asov2-migration-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideasov1-asov2-migration"><span class="">ASOv1 to ASOv2 migration guide</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/azuresql/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql"><span class="">Azure SQL</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationdatabaseusers-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationdatabaseusers-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/databaseusers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationdatabaseusers"><span class="">Database Users</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideasov1-asov2-migrationeventhub-li">
-  <a href="/azure-service-operator/guide/asov1-asov2-migration/eventhub/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationeventhub"><span class="td-sidebar-nav-active-item">EventHub</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationmysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationeventhub-li">
+  <a href="/azure-service-operator/guide/asov1-asov2-migration/eventhub/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationeventhub"><span class="">EventHub</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationmysql-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/mysql/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationmysql"><span class="">MySQL</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationpostgresql-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/postgresql/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationpostgresql"><span class="">PostgreSQL</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationredis-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationredis-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/redis/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationredis"><span class="">Redis</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationstorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationstorage-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstorage"><span class="">Storage Account</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer"><span class="">Storage Container</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li>
   </ul>
@@ -232,10 +248,10 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/tools/generator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortoolsgenerator"><span class="">generator</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencealertsmanagement-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencealertsmanagement-li">
   <a href="/azure-service-operator/reference/alertsmanagement/" title="AlertsManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencealertsmanagement"><span class="">AlertsManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20210401-li">
@@ -244,7 +260,7 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/alertsmanagement/v1api20230301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20230301"><span class="">alertsmanagement.azure.com/v1api20230301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceapimanagement-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapimanagement-li">
   <a href="/azure-service-operator/reference/apimanagement/" title="ApiManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapimanagement"><span class="">ApiManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20220801-li">
@@ -253,21 +269,21 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview"><span class="">apimanagement.azure.com/v1api20230501preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceapp-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapp-li">
   <a href="/azure-service-operator/reference/app/" title="App Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapp"><span class="">App</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappv1api20240301-li">
   <a href="/azure-service-operator/reference/app/v1api20240301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappv1api20240301"><span class="">app.azure.com/v1api20240301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceappconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
   <a href="/azure-service-operator/reference/appconfiguration/v1api20220501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1api20220501"><span class="">appconfiguration.azure.com/v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" title="Authorization Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">Authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
@@ -276,14 +292,14 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/authorization/v1api20220401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20220401"><span class="">authorization.azure.com/v1api20220401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" title="Batch Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">Batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
   <a href="/azure-service-operator/reference/batch/v1api20210101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1api20210101"><span class="">batch.azure.com/v1api20210101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" title="Cache Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">Cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
@@ -298,7 +314,7 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" title="Cdn Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">Cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
@@ -307,7 +323,7 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/cdn/v1api20230501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20230501"><span class="">cdn.azure.com/v1api20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
@@ -324,14 +340,14 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/compute/v1api20240302/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20240302"><span class="">compute.azure.com/v1api20240302</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" title="ContainerInstance Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">ContainerInstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
   <a href="/azure-service-operator/reference/containerinstance/v1api20211001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1api20211001"><span class="">containerinstance.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
@@ -340,7 +356,7 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/containerregistry/v1api20230701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20230701"><span class="">containerregistry.azure.com/v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" title="ContainerService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">ContainerService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20210501-li">
@@ -359,14 +375,14 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/containerservice/v1api20240901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">containerservice.azure.com/v1api20240901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedatafactory-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
   <a href="/azure-service-operator/reference/datafactory/" title="DataFactory Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">DataFactory</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
   <a href="/azure-service-operator/reference/datafactory/v1api20180601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">datafactory.azure.com/v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedataprotection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedataprotection-li">
   <a href="/azure-service-operator/reference/dataprotection/" title="DataProtection Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedataprotection"><span class="">DataProtection</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
@@ -375,29 +391,29 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">dataprotection.azure.com/v1api20231101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" title="DBforMariaDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">DBforMariaDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
   <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">dbformariadb.azure.com/v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" title="DBforMySQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">DBforMySQL</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1-li">
   <a href="/azure-service-operator/reference/dbformysql/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1"><span class="">dbformysql.azure.com/v1</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20210501-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1api20210501-li">
   <a href="/azure-service-operator/reference/dbformysql/v1api20210501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20210501"><span class="">dbformysql.azure.com/v1api20210501</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20220101-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1api20220101-li">
   <a href="/azure-service-operator/reference/dbformysql/v1api20220101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20220101"><span class="">dbformysql.azure.com/v1api20220101</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20230630-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1api20230630-li">
   <a href="/azure-service-operator/reference/dbformysql/v1api20230630/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20230630"><span class="">dbformysql.azure.com/v1api20230630</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20231230-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1api20231230/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20231230"><span class="">dbformysql.azure.com/v1api20231230</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencedbformysqlv1api20231230-li">
+  <a href="/azure-service-operator/reference/dbformysql/v1api20231230/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20231230"><span class="td-sidebar-nav-active-item">dbformysql.azure.com/v1api20231230</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" title="DBforPostgreSQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">DBforPostgreSQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
@@ -412,14 +428,14 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/dbforpostgresql/v1api20230601preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview"><span class="">dbforpostgresql.azure.com/v1api20230601preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedevices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
   <a href="/azure-service-operator/reference/devices/" title="Devices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedevices"><span class="">Devices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedevicesv1api20210702-li">
   <a href="/azure-service-operator/reference/devices/v1api20210702/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">devices.azure.com/v1api20210702</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">DocumentDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
@@ -430,14 +446,14 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/documentdb/v1api20240815/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20240815"><span class="">documentdb.azure.com/v1api20240815</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" title="EventGrid Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">EventGrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
   <a href="/azure-service-operator/reference/eventgrid/v1api20200601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1api20200601"><span class="">eventgrid.azure.com/v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" title="EventHub Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">EventHub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
@@ -446,14 +462,14 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/eventhub/v1api20240101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20240101"><span class="">eventhub.azure.com/v1api20240101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
   <a href="/azure-service-operator/reference/network.frontdoor/" title="Frontdoor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetworkfrontdoor"><span class="">Frontdoor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501-li">
   <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">network.frontdoor.azure.com/v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" title="Insights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">Insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180301-li">
@@ -474,7 +490,7 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/insights/v1api20240101preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20240101preview"><span class="">insights.azure.com/v1api20240101preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" title="KeyVault Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">KeyVault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
@@ -483,14 +499,14 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/keyvault/v1api20230701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20230701"><span class="">keyvault.azure.com/v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/" title="KubernetesConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekubernetesconfiguration"><span class="">KubernetesConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501"><span class="">kubernetesconfiguration.azure.com/v1api20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
@@ -499,7 +515,7 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" title="ManagedIdentity Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">ManagedIdentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
@@ -510,14 +526,14 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">managedidentity.azure.com/v1api20230131</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemonitor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemonitor-li">
   <a href="/azure-service-operator/reference/monitor/" title="Monitor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemonitor"><span class="">Monitor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemonitorv1api20230403-li">
   <a href="/azure-service-operator/reference/monitor/v1api20230403/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemonitorv1api20230403"><span class="">monitor.azure.com/v1api20230403</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
@@ -540,42 +556,42 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/network/v1api20240601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240601"><span class="">network.azure.com/v1api20240601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenotificationhubs-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenotificationhubs-li">
   <a href="/azure-service-operator/reference/notificationhubs/" title="NotificationHubs Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenotificationhubs"><span class="">NotificationHubs</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenotificationhubsv1api20230901-li">
   <a href="/azure-service-operator/reference/notificationhubs/v1api20230901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenotificationhubsv1api20230901"><span class="">notificationhubs.azure.com/v1api20230901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" title="OperationalInsights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">OperationalInsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
   <a href="/azure-service-operator/reference/operationalinsights/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601"><span class="">operationalinsights.azure.com/v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceredhatopenshift-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceredhatopenshift-li">
   <a href="/azure-service-operator/reference/redhatopenshift/" title="RedHatOpenShift Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceredhatopenshift"><span class="">RedHatOpenShift</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122-li">
   <a href="/azure-service-operator/reference/redhatopenshift/v1api20231122/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122"><span class="">redhatopenshift.azure.com/v1api20231122</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" title="Resources Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">Resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
   <a href="/azure-service-operator/reference/resources/v1api20200601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">resources.azure.com/v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesearch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
   <a href="/azure-service-operator/reference/search/v1api20220901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20220901"><span class="">search.azure.com/v1api20220901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" title="ServiceBus Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">ServiceBus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
@@ -588,7 +604,7 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/servicebus/v1api20240101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20240101"><span class="">servicebus.azure.com/v1api20240101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" title="SignalRService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">SignalRService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
@@ -597,7 +613,7 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/signalrservice/v1api20240301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20240301"><span class="">signalrservice.azure.com/v1api20240301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
   <a href="/azure-service-operator/reference/sql/" title="Sql Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">Sql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1-li">
@@ -606,7 +622,7 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/sql/v1api20211101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">sql.azure.com/v1api20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" title="Storage Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">Storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
@@ -617,21 +633,21 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
   <a href="/azure-service-operator/reference/storage/v1api20230101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20230101"><span class="">storage.azure.com/v1api20230101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" title="Subscription Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">Subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
   <a href="/azure-service-operator/reference/subscription/v1api20211001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">subscription.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesynapse-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
   <a href="/azure-service-operator/reference/synapse/" title="Synapse Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">Synapse</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
   <a href="/azure-service-operator/reference/synapse/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">synapse.azure.com/v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceweb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
   <a href="/azure-service-operator/reference/web/" title="Web Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">Web</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
@@ -771,14 +787,7 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
 
 </div>
 
-            <div class="td-toc">
-        <nav id="TableOfContents">
-  <ul>
-    <li><a href="#secrets">Secrets</a></li>
-  </ul>
-</nav>
-      </div>
-    
+            
             
 
           </aside>
@@ -789,72 +798,4674 @@ Key Source ASOv2 equivalent eventhubName User None eventhubNamespace User None p
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/guide/">Guide</a></li>
+    <a href="/azure-service-operator/reference/">Supported Resources</a></li>
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/guide/asov1-asov2-migration/">ASOv1 to ASOv2 migration guide</a></li>
+    <a href="/azure-service-operator/reference/dbformysql/">DBforMySQL</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    EventHub</li>
+    dbformysql.azure.com/v1api20231230</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>EventHub</h1>
+	<h1>dbformysql.azure.com/v1api20231230</h1>
 	
 	<header class="article-meta">
 		
 </header>
-	<h2 id="secrets">Secrets</h2>
-<p>ASOv1 <code>EventHubs</code> save a Kubernetes secret:</p>
-<pre tabindex="0"><code>kubectl get secrets -n ns1
-
-eventhub-eventhub-sample-1                   Opaque   7      22h
-</code></pre><p>This secret has the following 7 keys:</p>
+	<h2 id="dbformysql.azure.com/v1api20231230">dbformysql.azure.com/v1api20231230</h2>
+<div>
+<p>Package v1api20231230 contains API Schema definitions for the dbformysql v1api20231230 API group</p>
+</div>
+Resource Types:
+<ul></ul>
+<h3 id="dbformysql.azure.com/v1api20231230.APIVersion">APIVersion
+(<code>string</code> alias)</h3>
+<div>
+</div>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">Key</th>
-          <th style="text-align: left">Source</th>
-          <th style="text-align: left">ASOv2 equivalent</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">eventhubName</td>
-          <td style="text-align: left">User</td>
-          <td style="text-align: left">None</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">eventhubNamespace</td>
-          <td style="text-align: left">User</td>
-          <td style="text-align: left">None</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">primaryConnectionString</td>
-          <td style="text-align: left">Azure</td>
-          <td style="text-align: left"><code>.spec.operatorSpec.secrets.primaryConnectionString</code> (added in ASO v2.7.0)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">primaryKey</td>
-          <td style="text-align: left">Azure</td>
-          <td style="text-align: left"><code>.spec.operatorSpec.secrets.primaryKey</code> (added in ASO v2.7.0)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">secondaryConnectionString</td>
-          <td style="text-align: left">Azure</td>
-          <td style="text-align: left"><code>.spec.operatorSpec.secrets.secondaryConnectionString</code> (added in ASO v2.7.0)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">secondaryKey</td>
-          <td style="text-align: left">Azure</td>
-          <td style="text-align: left"><code>.spec.operatorSpec.secrets.secondaryKey</code> (added in ASO v2.7.0)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">sharedaccessKey</td>
-          <td style="text-align: left">Azure</td>
-          <td style="text-align: left">None, see ASOv2 <a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1api20211101/#eventhub.azure.com/v1api20211101.NamespacesAuthorizationRule">NamespacesAuthorizationRules</a> for exporting keys for any authorization rule except the default <code>RootManageSharedAccessKey</code></td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;2023-12-30&#34;</p></td>
+<td></td>
+</tr></tbody>
 </table>
+<h3 id="dbformysql.azure.com/v1api20231230.AdministratorProperties_AdministratorType">AdministratorProperties_AdministratorType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersAdministrator_Spec">FlexibleServersAdministrator_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ActiveDirectory&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.AdministratorProperties_AdministratorType_STATUS">AdministratorProperties_AdministratorType_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersAdministrator_STATUS">FlexibleServersAdministrator_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ActiveDirectory&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.Backup">Backup
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+<p>Storage Profile properties of a server</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>backupIntervalHours</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>BackupIntervalHours: Backup interval hours for the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>backupRetentionDays</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>BackupRetentionDays: Backup retention days for the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>geoRedundantBackup</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.EnableStatusEnum">
+EnableStatusEnum
+</a>
+</em>
+</td>
+<td>
+<p>GeoRedundantBackup: Whether or not geo redundant backup is enabled.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.Backup_STATUS">Backup_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+<p>Storage Profile properties of a server</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>backupIntervalHours</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>BackupIntervalHours: Backup interval hours for the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>backupRetentionDays</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>BackupRetentionDays: Backup retention days for the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>earliestRestoreDate</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>EarliestRestoreDate: Earliest restore point creation time (ISO8601 format)</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>geoRedundantBackup</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.EnableStatusEnum_STATUS">
+EnableStatusEnum_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>GeoRedundantBackup: Whether or not geo redundant backup is enabled.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ConfigurationProperties_IsConfigPendingRestart_STATUS">ConfigurationProperties_IsConfigPendingRestart_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersConfiguration_STATUS">FlexibleServersConfiguration_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;False&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;True&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ConfigurationProperties_IsDynamicConfig_STATUS">ConfigurationProperties_IsDynamicConfig_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersConfiguration_STATUS">FlexibleServersConfiguration_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;False&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;True&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ConfigurationProperties_IsReadOnly_STATUS">ConfigurationProperties_IsReadOnly_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersConfiguration_STATUS">FlexibleServersConfiguration_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;False&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;True&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ConfigurationProperties_Source">ConfigurationProperties_Source
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersConfiguration_Spec">FlexibleServersConfiguration_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;system-default&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;user-override&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ConfigurationProperties_Source_STATUS">ConfigurationProperties_Source_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersConfiguration_STATUS">FlexibleServersConfiguration_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;system-default&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;user-override&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.DataEncryption">DataEncryption
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+<p>The date encryption for cmk.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>geoBackupKeyURI</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>GeoBackupKeyURI: Geo backup key uri as key vault can&rsquo;t cross region, need cmk in same region as geo backup</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>geoBackupUserAssignedIdentityReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>GeoBackupUserAssignedIdentityReference: Geo backup user identity resource id as identity can&rsquo;t cross region, need
+identity in same region as geo backup</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryKeyURI</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>PrimaryKeyURI: Primary key uri</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryUserAssignedIdentityReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>PrimaryUserAssignedIdentityReference: Primary user identity resource id</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.DataEncryption_Type">
+DataEncryption_Type
+</a>
+</em>
+</td>
+<td>
+<p>Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.DataEncryption_STATUS">DataEncryption_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+<p>The date encryption for cmk.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>geoBackupKeyURI</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>GeoBackupKeyURI: Geo backup key uri as key vault can&rsquo;t cross region, need cmk in same region as geo backup</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>geoBackupUserAssignedIdentityId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>GeoBackupUserAssignedIdentityId: Geo backup user identity resource id as identity can&rsquo;t cross region, need identity in
+same region as geo backup</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryKeyURI</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>PrimaryKeyURI: Primary key uri</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryUserAssignedIdentityId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>PrimaryUserAssignedIdentityId: Primary user identity resource id</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.DataEncryption_Type_STATUS">
+DataEncryption_Type_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.DataEncryption_Type">DataEncryption_Type
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.DataEncryption">DataEncryption</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureKeyVault&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemManaged&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.DataEncryption_Type_STATUS">DataEncryption_Type_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.DataEncryption_STATUS">DataEncryption_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureKeyVault&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemManaged&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.EnableStatusEnum">EnableStatusEnum
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.Backup">Backup</a>, <a href="#dbformysql.azure.com/v1api20231230.Network">Network</a>, <a href="#dbformysql.azure.com/v1api20231230.Storage">Storage</a>)
+</p>
+<div>
+<p>Enum to indicate whether value is &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.EnableStatusEnum_STATUS">EnableStatusEnum_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.Backup_STATUS">Backup_STATUS</a>, <a href="#dbformysql.azure.com/v1api20231230.Network_STATUS">Network_STATUS</a>, <a href="#dbformysql.azure.com/v1api20231230.Storage_STATUS">Storage_STATUS</a>)
+</p>
+<div>
+<p>Enum to indicate whether value is &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServer">FlexibleServer
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/FlexibleServers.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.DBforMySQL/&#x200b;flexibleServers/&#x200b;{serverName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">
+FlexibleServer_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>administratorLogin</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
+(and is required for creation).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>administratorLoginPassword</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">
+genruntime.SecretReference
+</a>
+</em>
+</td>
+<td>
+<p>AdministratorLoginPassword: The password of the administrator login (required for server creation).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>availabilityZone</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AvailabilityZone: availability Zone information of the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>backup</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.Backup">
+Backup
+</a>
+</em>
+</td>
+<td>
+<p>Backup: Backup related properties of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createMode</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ServerProperties_CreateMode">
+ServerProperties_CreateMode
+</a>
+</em>
+</td>
+<td>
+<p>CreateMode: The mode to create a new MySQL server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dataEncryption</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.DataEncryption">
+DataEncryption
+</a>
+</em>
+</td>
+<td>
+<p>DataEncryption: The Data Encryption for CMK.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>highAvailability</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.HighAvailability">
+HighAvailability
+</a>
+</em>
+</td>
+<td>
+<p>HighAvailability: High availability related properties of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>identity</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.MySQLServerIdentity">
+MySQLServerIdentity
+</a>
+</em>
+</td>
+<td>
+<p>Identity: The cmk identity for the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>importSourceProperties</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ImportSourceProperties">
+ImportSourceProperties
+</a>
+</em>
+</td>
+<td>
+<p>ImportSourceProperties: Source properties for import from storage.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>maintenanceWindow</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.MaintenanceWindow">
+MaintenanceWindow
+</a>
+</em>
+</td>
+<td>
+<p>MaintenanceWindow: Maintenance window of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>network</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.Network">
+Network
+</a>
+</em>
+</td>
+<td>
+<p>Network: Network related properties of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServerOperatorSpec">
+FlexibleServerOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>replicationRole</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ReplicationRole">
+ReplicationRole
+</a>
+</em>
+</td>
+<td>
+<p>ReplicationRole: The replication role.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>restorePointInTime</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sku</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.MySQLServerSku">
+MySQLServerSku
+</a>
+</em>
+</td>
+<td>
+<p>Sku: The SKU (pricing tier) of the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceServerResourceReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>SourceServerResourceReference: The source MySQL server id.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>storage</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.Storage">
+Storage
+</a>
+</em>
+</td>
+<td>
+<p>Storage: Storage related properties of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ServerVersion">
+ServerVersion
+</a>
+</em>
+</td>
+<td>
+<p>Version: Server version.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">
+FlexibleServer_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServerOperatorConfigMaps">FlexibleServerOperatorConfigMaps
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>administratorLogin</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">
+genruntime.ConfigMapDestination
+</a>
+</em>
+</td>
+<td>
+<p>AdministratorLogin: indicates where the AdministratorLogin config map should be placed. If omitted, no config map will
+be created.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>fullyQualifiedDomainName</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">
+genruntime.ConfigMapDestination
+</a>
+</em>
+</td>
+<td>
+<p>FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName config map should be placed. If omitted, no
+config map will be created.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServerOperatorSecrets">FlexibleServerOperatorSecrets
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>fullyQualifiedDomainName</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName secret should be placed. If omitted, the secret
+will not be retrieved from Azure.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>configMaps</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServerOperatorConfigMaps">
+FlexibleServerOperatorConfigMaps
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secrets</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServerOperatorSecrets">
+FlexibleServerOperatorSecrets
+</a>
+</em>
+</td>
+<td>
+<p>Secrets: configures where to place Azure generated secrets.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer">FlexibleServer</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>administratorLogin</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
+(and is required for creation).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>availabilityZone</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AvailabilityZone: availability Zone information of the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>backup</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.Backup_STATUS">
+Backup_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Backup: Backup related properties of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createMode</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ServerProperties_CreateMode_STATUS">
+ServerProperties_CreateMode_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>CreateMode: The mode to create a new MySQL server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dataEncryption</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.DataEncryption_STATUS">
+DataEncryption_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>DataEncryption: The Data Encryption for CMK.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>fullyQualifiedDomainName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>FullyQualifiedDomainName: The fully qualified domain name of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>highAvailability</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.HighAvailability_STATUS">
+HighAvailability_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>HighAvailability: High availability related properties of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. E.g.
+&ldquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}&rdquo;</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>identity</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.MySQLServerIdentity_STATUS">
+MySQLServerIdentity_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Identity: The cmk identity for the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>importSourceProperties</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ImportSourceProperties_STATUS">
+ImportSourceProperties_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ImportSourceProperties: Source properties for import from storage.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>maintenanceWindow</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.MaintenanceWindow_STATUS">
+MaintenanceWindow_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>MaintenanceWindow: Maintenance window of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>network</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.Network_STATUS">
+Network_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Network: Network related properties of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>privateEndpointConnections</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.PrivateEndpointConnection_STATUS">
+[]PrivateEndpointConnection_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>PrivateEndpointConnections: PrivateEndpointConnections related properties of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>replicaCapacity</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>ReplicaCapacity: The maximum number of replicas that a primary server can have.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>replicationRole</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ReplicationRole_STATUS">
+ReplicationRole_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ReplicationRole: The replication role.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>restorePointInTime</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sku</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.MySQLServerSku_STATUS">
+MySQLServerSku_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Sku: The SKU (pricing tier) of the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceServerResourceId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SourceServerResourceId: The source MySQL server id.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ServerProperties_State_STATUS">
+ServerProperties_State_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>State: The state of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>storage</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.Storage_STATUS">
+Storage_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Storage: Storage related properties of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ServerVersion_STATUS">
+ServerVersion_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Version: Server version.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">FlexibleServer_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer">FlexibleServer</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>administratorLogin</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
+(and is required for creation).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>administratorLoginPassword</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">
+genruntime.SecretReference
+</a>
+</em>
+</td>
+<td>
+<p>AdministratorLoginPassword: The password of the administrator login (required for server creation).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>availabilityZone</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AvailabilityZone: availability Zone information of the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>backup</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.Backup">
+Backup
+</a>
+</em>
+</td>
+<td>
+<p>Backup: Backup related properties of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createMode</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ServerProperties_CreateMode">
+ServerProperties_CreateMode
+</a>
+</em>
+</td>
+<td>
+<p>CreateMode: The mode to create a new MySQL server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dataEncryption</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.DataEncryption">
+DataEncryption
+</a>
+</em>
+</td>
+<td>
+<p>DataEncryption: The Data Encryption for CMK.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>highAvailability</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.HighAvailability">
+HighAvailability
+</a>
+</em>
+</td>
+<td>
+<p>HighAvailability: High availability related properties of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>identity</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.MySQLServerIdentity">
+MySQLServerIdentity
+</a>
+</em>
+</td>
+<td>
+<p>Identity: The cmk identity for the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>importSourceProperties</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ImportSourceProperties">
+ImportSourceProperties
+</a>
+</em>
+</td>
+<td>
+<p>ImportSourceProperties: Source properties for import from storage.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>maintenanceWindow</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.MaintenanceWindow">
+MaintenanceWindow
+</a>
+</em>
+</td>
+<td>
+<p>MaintenanceWindow: Maintenance window of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>network</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.Network">
+Network
+</a>
+</em>
+</td>
+<td>
+<p>Network: Network related properties of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServerOperatorSpec">
+FlexibleServerOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>replicationRole</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ReplicationRole">
+ReplicationRole
+</a>
+</em>
+</td>
+<td>
+<p>ReplicationRole: The replication role.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>restorePointInTime</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sku</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.MySQLServerSku">
+MySQLServerSku
+</a>
+</em>
+</td>
+<td>
+<p>Sku: The SKU (pricing tier) of the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceServerResourceReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>SourceServerResourceReference: The source MySQL server id.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>storage</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.Storage">
+Storage
+</a>
+</em>
+</td>
+<td>
+<p>Storage: Storage related properties of a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ServerVersion">
+ServerVersion
+</a>
+</em>
+</td>
+<td>
+<p>Version: Server version.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersAdministrator">FlexibleServersAdministrator
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/AAD/stable/2023-12-30/AzureADAdministrator.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.DBforMySQL/&#x200b;flexibleServers/&#x200b;{serverName}/&#x200b;administrators/&#x200b;{administratorName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersAdministrator_Spec">
+FlexibleServersAdministrator_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>administratorType</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.AdministratorProperties_AdministratorType">
+AdministratorProperties_AdministratorType
+</a>
+</em>
+</td>
+<td>
+<p>AdministratorType: Type of the sever administrator.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>identityResourceReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>IdentityResourceReference: The resource id of the identity used for AAD Authentication.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>login</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Login: Login name of the server administrator.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersAdministratorOperatorSpec">
+FlexibleServersAdministratorOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sid</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Sid: SID (object ID) of the server administrator.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sidFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+<p>SidFromConfig: SID (object ID) of the server administrator.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tenantId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>TenantId: Tenant ID of the administrator.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tenantIdFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+<p>TenantIdFromConfig: Tenant ID of the administrator.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersAdministrator_STATUS">
+FlexibleServersAdministrator_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersAdministratorOperatorSpec">FlexibleServersAdministratorOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersAdministrator_Spec">FlexibleServersAdministrator_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersAdministrator_STATUS">FlexibleServersAdministrator_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersAdministrator">FlexibleServersAdministrator</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>administratorType</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.AdministratorProperties_AdministratorType_STATUS">
+AdministratorProperties_AdministratorType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>AdministratorType: Type of the sever administrator.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. E.g.
+&ldquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}&rdquo;</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>identityResourceId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>IdentityResourceId: The resource id of the identity used for AAD Authentication.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>login</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Login: Login name of the server administrator.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sid</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Sid: SID (object ID) of the server administrator.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tenantId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>TenantId: Tenant ID of the administrator.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersAdministrator_Spec">FlexibleServersAdministrator_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersAdministrator">FlexibleServersAdministrator</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>administratorType</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.AdministratorProperties_AdministratorType">
+AdministratorProperties_AdministratorType
+</a>
+</em>
+</td>
+<td>
+<p>AdministratorType: Type of the sever administrator.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>identityResourceReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>IdentityResourceReference: The resource id of the identity used for AAD Authentication.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>login</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Login: Login name of the server administrator.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersAdministratorOperatorSpec">
+FlexibleServersAdministratorOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sid</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Sid: SID (object ID) of the server administrator.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sidFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+<p>SidFromConfig: SID (object ID) of the server administrator.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tenantId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>TenantId: Tenant ID of the administrator.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tenantIdFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+<p>TenantIdFromConfig: Tenant ID of the administrator.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersConfiguration">FlexibleServersConfiguration
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/Configurations/stable/2023-12-30/Configurations.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.DBforMySQL/&#x200b;flexibleServers/&#x200b;{serverName}/&#x200b;configurations/&#x200b;{configurationName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersConfiguration_Spec">
+FlexibleServersConfiguration_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>currentValue</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CurrentValue: Current value of the configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersConfigurationOperatorSpec">
+FlexibleServersConfigurationOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>source</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ConfigurationProperties_Source">
+ConfigurationProperties_Source
+</a>
+</em>
+</td>
+<td>
+<p>Source: Source of the configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Value of the configuration.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersConfiguration_STATUS">
+FlexibleServersConfiguration_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersConfigurationOperatorSpec">FlexibleServersConfigurationOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersConfiguration_Spec">FlexibleServersConfiguration_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersConfiguration_STATUS">FlexibleServersConfiguration_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersConfiguration">FlexibleServersConfiguration</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>allowedValues</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AllowedValues: Allowed values of the configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>currentValue</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CurrentValue: Current value of the configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dataType</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DataType: Data type of the configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>defaultValue</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DefaultValue: Default value of the configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of the configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>documentationLink</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DocumentationLink: The link used to get the document from community or Azure site.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. E.g.
+&ldquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}&rdquo;</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>isConfigPendingRestart</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ConfigurationProperties_IsConfigPendingRestart_STATUS">
+ConfigurationProperties_IsConfigPendingRestart_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>IsConfigPendingRestart: If is the configuration pending restart or not.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>isDynamicConfig</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ConfigurationProperties_IsDynamicConfig_STATUS">
+ConfigurationProperties_IsDynamicConfig_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>IsDynamicConfig: If is the configuration dynamic.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>isReadOnly</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ConfigurationProperties_IsReadOnly_STATUS">
+ConfigurationProperties_IsReadOnly_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>IsReadOnly: If is the configuration read only.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>source</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ConfigurationProperties_Source_STATUS">
+ConfigurationProperties_Source_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Source: Source of the configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Value of the configuration.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersConfiguration_Spec">FlexibleServersConfiguration_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersConfiguration">FlexibleServersConfiguration</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>currentValue</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CurrentValue: Current value of the configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersConfigurationOperatorSpec">
+FlexibleServersConfigurationOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>source</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ConfigurationProperties_Source">
+ConfigurationProperties_Source
+</a>
+</em>
+</td>
+<td>
+<p>Source: Source of the configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Value of the configuration.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersDatabase">FlexibleServersDatabase
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/Databases/stable/2023-12-30/Databases.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.DBforMySQL/&#x200b;flexibleServers/&#x200b;{serverName}/&#x200b;databases/&#x200b;{databaseName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersDatabase_Spec">
+FlexibleServersDatabase_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>charset</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Charset: The charset of the database.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>collation</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Collation: The collation of the database.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersDatabaseOperatorSpec">
+FlexibleServersDatabaseOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersDatabase_STATUS">
+FlexibleServersDatabase_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersDatabaseOperatorSpec">FlexibleServersDatabaseOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersDatabase_Spec">FlexibleServersDatabase_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersDatabase_STATUS">FlexibleServersDatabase_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersDatabase">FlexibleServersDatabase</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>charset</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Charset: The charset of the database.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>collation</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Collation: The collation of the database.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. E.g.
+&ldquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}&rdquo;</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersDatabase_Spec">FlexibleServersDatabase_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersDatabase">FlexibleServersDatabase</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>charset</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Charset: The charset of the database.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>collation</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Collation: The collation of the database.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersDatabaseOperatorSpec">
+FlexibleServersDatabaseOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersFirewallRule">FlexibleServersFirewallRule
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/Firewall/stable/2023-12-30/FirewallRules.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.DBforMySQL/&#x200b;flexibleServers/&#x200b;{serverName}/&#x200b;firewallRules/&#x200b;{firewallRuleName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersFirewallRule_Spec">
+FlexibleServersFirewallRule_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>endIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersFirewallRuleOperatorSpec">
+FlexibleServersFirewallRuleOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>startIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersFirewallRule_STATUS">
+FlexibleServersFirewallRule_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersFirewallRuleOperatorSpec">FlexibleServersFirewallRuleOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersFirewallRule_Spec">FlexibleServersFirewallRule_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMapExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secretExpressions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
+[]genruntime/core.DestinationExpression
+</a>
+</em>
+</td>
+<td>
+<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersFirewallRule_STATUS">FlexibleServersFirewallRule_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>endIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. E.g.
+&ldquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}&rdquo;</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>startIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.FlexibleServersFirewallRule_Spec">FlexibleServersFirewallRule_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>endIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.FlexibleServersFirewallRuleOperatorSpec">
+FlexibleServersFirewallRuleOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>startIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.HighAvailability">HighAvailability
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+<p>High availability properties of a server</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>mode</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.HighAvailability_Mode">
+HighAvailability_Mode
+</a>
+</em>
+</td>
+<td>
+<p>Mode: High availability mode for a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>standbyAvailabilityZone</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>StandbyAvailabilityZone: Availability zone of the standby server.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.HighAvailability_Mode">HighAvailability_Mode
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.HighAvailability">HighAvailability</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SameZone&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ZoneRedundant&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.HighAvailability_Mode_STATUS">HighAvailability_Mode_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.HighAvailability_STATUS">HighAvailability_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SameZone&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ZoneRedundant&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.HighAvailability_STATUS">HighAvailability_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+<p>High availability properties of a server</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>mode</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.HighAvailability_Mode_STATUS">
+HighAvailability_Mode_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Mode: High availability mode for a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>standbyAvailabilityZone</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>StandbyAvailabilityZone: Availability zone of the standby server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.HighAvailability_State_STATUS">
+HighAvailability_State_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>State: The state of server high availability.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.HighAvailability_State_STATUS">HighAvailability_State_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.HighAvailability_STATUS">HighAvailability_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CreatingStandby&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;FailingOver&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Healthy&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;NotEnabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RemovingStandby&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ImportSourceProperties">ImportSourceProperties
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+<p>Import source related properties.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>dataDirPath</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DataDirPath: Relative path of data directory in storage.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sasToken</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">
+genruntime.SecretReference
+</a>
+</em>
+</td>
+<td>
+<p>SasToken: Sas token for accessing source storage. Read and list permissions are required for sas token.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>storageType</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ImportSourceProperties_StorageType">
+ImportSourceProperties_StorageType
+</a>
+</em>
+</td>
+<td>
+<p>StorageType: Storage type of import source.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>storageUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>StorageUrl: Uri of the import source storage.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ImportSourceProperties_STATUS">ImportSourceProperties_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+<p>Import source related properties.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>dataDirPath</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DataDirPath: Relative path of data directory in storage.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>storageType</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.ImportSourceProperties_StorageType_STATUS">
+ImportSourceProperties_StorageType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>StorageType: Storage type of import source.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>storageUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>StorageUrl: Uri of the import source storage.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ImportSourceProperties_StorageType">ImportSourceProperties_StorageType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.ImportSourceProperties">ImportSourceProperties</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureBlob&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ImportSourceProperties_StorageType_STATUS">ImportSourceProperties_StorageType_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.ImportSourceProperties_STATUS">ImportSourceProperties_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureBlob&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.MaintenanceWindow">MaintenanceWindow
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+<p>Maintenance window of a server.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>customWindow</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dayOfWeek</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>DayOfWeek: day of week for maintenance window</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>startHour</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>StartHour: start hour for maintenance window</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>startMinute</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>StartMinute: start minute for maintenance window</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.MaintenanceWindow_STATUS">MaintenanceWindow_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+<p>Maintenance window of a server.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>customWindow</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dayOfWeek</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>DayOfWeek: day of week for maintenance window</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>startHour</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>StartHour: start hour for maintenance window</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>startMinute</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>StartMinute: start minute for maintenance window</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.MySQLServerIdentity">MySQLServerIdentity
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+<p>Properties to configure Identity for Bring your Own Keys</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.MySQLServerIdentity_Type">
+MySQLServerIdentity_Type
+</a>
+</em>
+</td>
+<td>
+<p>Type: Type of managed service identity.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>userAssignedIdentities</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.UserAssignedIdentityDetails">
+[]UserAssignedIdentityDetails
+</a>
+</em>
+</td>
+<td>
+<p>UserAssignedIdentities: Metadata of user assigned identity.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.MySQLServerIdentity_STATUS">MySQLServerIdentity_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+<p>Properties to configure Identity for Bring your Own Keys</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>principalId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>PrincipalId: ObjectId from the KeyVault</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tenantId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>TenantId: TenantId from the KeyVault</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.MySQLServerIdentity_Type_STATUS">
+MySQLServerIdentity_Type_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Type: Type of managed service identity.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>userAssignedIdentities</code><br/>
+<em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
+map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
+</em>
+</td>
+<td>
+<p>UserAssignedIdentities: Metadata of user assigned identity.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.MySQLServerIdentity_Type">MySQLServerIdentity_Type
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.MySQLServerIdentity">MySQLServerIdentity</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.MySQLServerIdentity_Type_STATUS">MySQLServerIdentity_Type_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.MySQLServerIdentity_STATUS">MySQLServerIdentity_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.MySQLServerSku">MySQLServerSku
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+<p>Billing information related properties of a server.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the sku, e.g. Standard_D32s_v3.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tier</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.MySQLServerSku_Tier">
+MySQLServerSku_Tier
+</a>
+</em>
+</td>
+<td>
+<p>Tier: The tier of the particular SKU, e.g. GeneralPurpose.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.MySQLServerSku_STATUS">MySQLServerSku_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+<p>Billing information related properties of a server.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the sku, e.g. Standard_D32s_v3.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tier</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.MySQLServerSku_Tier_STATUS">
+MySQLServerSku_Tier_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Tier: The tier of the particular SKU, e.g. GeneralPurpose.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.MySQLServerSku_Tier">MySQLServerSku_Tier
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.MySQLServerSku">MySQLServerSku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Burstable&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GeneralPurpose&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MemoryOptimized&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.MySQLServerSku_Tier_STATUS">MySQLServerSku_Tier_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.MySQLServerSku_STATUS">MySQLServerSku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Burstable&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GeneralPurpose&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MemoryOptimized&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.Network">Network
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+<p>Network related properties of a server</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delegatedSubnetResourceReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>DelegatedSubnetResourceReference: Delegated subnet resource id used to setup vnet for a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>privateDnsZoneResourceReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>PrivateDnsZoneResourceReference: Private DNS zone resource id.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>publicNetworkAccess</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.EnableStatusEnum">
+EnableStatusEnum
+</a>
+</em>
+</td>
+<td>
+<p>PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is &lsquo;Disabled&rsquo; when server
+has VNet integration.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.Network_STATUS">Network_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+<p>Network related properties of a server</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delegatedSubnetResourceId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>privateDnsZoneResourceId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>PrivateDnsZoneResourceId: Private DNS zone resource id.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>publicNetworkAccess</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.EnableStatusEnum_STATUS">
+EnableStatusEnum_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is &lsquo;Disabled&rsquo; when server
+has VNet integration.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+<p>The private endpoint connection resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. E.g.
+&ldquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}&rdquo;</&#x200b;p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ReplicationRole">ReplicationRole
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+<p>The replication role.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Replica&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Source&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ReplicationRole_STATUS">ReplicationRole_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+<p>The replication role.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Replica&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Source&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ServerProperties_CreateMode">ServerProperties_CreateMode
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Default&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GeoRestore&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PointInTimeRestore&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Replica&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Default&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GeoRestore&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PointInTimeRestore&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Replica&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ServerProperties_State_STATUS">ServerProperties_State_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Dropping&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Ready&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Starting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Stopped&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Stopping&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ServerVersion">ServerVersion
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+<p>The version of a server.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;5.7&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;8.0.21&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.ServerVersion_STATUS">ServerVersion_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+<p>The version of a server.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;5.7&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;8.0.21&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.Storage">Storage
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+<p>Storage Profile properties of a server</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>autoGrow</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.EnableStatusEnum">
+EnableStatusEnum
+</a>
+</em>
+</td>
+<td>
+<p>AutoGrow: Enable Storage Auto Grow or not.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>autoIoScaling</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.EnableStatusEnum">
+EnableStatusEnum
+</a>
+</em>
+</td>
+<td>
+<p>AutoIoScaling: Enable IO Auto Scaling or not.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>iops</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>Iops: Storage IOPS for a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>logOnDisk</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.EnableStatusEnum">
+EnableStatusEnum
+</a>
+</em>
+</td>
+<td>
+<p>LogOnDisk: Enable Log On Disk or not.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>storageSizeGB</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>StorageSizeGB: Max storage size allowed for a server.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.Storage_STATUS">Storage_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+<p>Storage Profile properties of a server</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>autoGrow</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.EnableStatusEnum_STATUS">
+EnableStatusEnum_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>AutoGrow: Enable Storage Auto Grow or not.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>autoIoScaling</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.EnableStatusEnum_STATUS">
+EnableStatusEnum_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>AutoIoScaling: Enable IO Auto Scaling or not.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>iops</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>Iops: Storage IOPS for a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>logOnDisk</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.EnableStatusEnum_STATUS">
+EnableStatusEnum_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>LogOnDisk: Enable Log On Disk or not.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>storageSizeGB</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>StorageSizeGB: Max storage size allowed for a server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>storageSku</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>StorageSku: The sku name of the server storage.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.SystemData_STATUS">SystemData_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbformysql.azure.com/v1api20231230.FlexibleServersAdministrator_STATUS">FlexibleServersAdministrator_STATUS</a>, <a href="#dbformysql.azure.com/v1api20231230.FlexibleServersConfiguration_STATUS">FlexibleServersConfiguration_STATUS</a>, <a href="#dbformysql.azure.com/v1api20231230.FlexibleServersDatabase_STATUS">FlexibleServersDatabase_STATUS</a>, <a href="#dbformysql.azure.com/v1api20231230.FlexibleServersFirewallRule_STATUS">FlexibleServersFirewallRule_STATUS</a>)
+</p>
+<div>
+<p>Metadata pertaining to creation and last modification of the resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>createdAt</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedAt: The timestamp of resource creation (UTC).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedBy: The identity that created the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdByType</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.SystemData_CreatedByType_STATUS">
+SystemData_CreatedByType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>CreatedByType: The type of identity that created the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedAt</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastModifiedBy: The identity that last modified the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedByType</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20231230.SystemData_LastModifiedByType_STATUS">
+SystemData_LastModifiedByType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>LastModifiedByType: The type of identity that last modified the resource.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1api20231230.UserAssignedIdentityDetails">UserAssignedIdentityDetails
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20231230.MySQLServerIdentity">MySQLServerIdentity</a>)
+</p>
+<div>
+<p>Information about the user assigned identity for the resource</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>reference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<hr/>
 
 	
 </div>
