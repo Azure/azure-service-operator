@@ -39,7 +39,7 @@ do
 
         echo "generating docs for: $package"
         mkdir "$OUTPUTDIR/$GROUPNAME" --parents
-        crddoc document crds $package --config "$TEMPLATEDIR/config.yaml" --output "$OUTPUTDIR/$GROUPNAME/$PACKAGE_VERSION.md"
+        crddoc document crds $package --config "$TEMPLATEDIR/crddoc.yaml" --output "$OUTPUTDIR/$GROUPNAME/$PACKAGE_VERSION.md" --template $TEMPLATEDIR
 
     fi
 done

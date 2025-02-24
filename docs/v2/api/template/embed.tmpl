@@ -1,0 +1,11 @@
+{{ define "embed" -}}
+| {{ if .Type | createLink -}}
+[
+{{- end -}}
+{{- .Type.Display -}}
+{{- if .Type | createLink -}}
+]({{ .Type | createLink }})
+{{- end -}}
+| {{ .Description | unwrap | applyEdits -}} 
+| |
+{{- end }}

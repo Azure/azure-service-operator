@@ -1,0 +1,16 @@
+{{ define "properties" }}
+{{ if . }}
+{{ if .Properties -}}
+
+| Property | Description | Type |
+| -------- | ----------- | ---- |
+{{ range .Embeds -}}
+{{ template "embed" . }}
+{{ end -}}
+{{ range .Properties -}}
+{{ template "property" . }}
+{{ end -}}
+
+{{ end -}}
+{{ end }}
+{{ end }}
