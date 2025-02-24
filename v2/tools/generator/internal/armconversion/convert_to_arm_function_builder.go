@@ -121,11 +121,16 @@ func (builder *convertToARMBuilder) functionBodyStatements() ([]dst.Stmt, error)
 		builder.resultIdent,
 		astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(builder.destinationTypeIdent()).Build()))
 
+	// Find all (any!) properties where their values need to be demoted into the nested ARM type.
+	// The set of demotions is the same as the set of promotions (as ConvertToARM and
+	// ConvertFromARM must be symmetric) so we reuse the same factory.
+	demotions := builder.findPromotions(builder.destinationType)
+
 	// Each ARM object property needs to be filled out
 	conversions, err := generateTypeConversionAssignments(
 		builder.sourceType,
 		builder.destinationType,
-		builder.propertyConversionHandler)
+		builder.propertyConversionHandler(demotions))
 	if err != nil {
 		return nil, eris.Wrapf(err, "unable to generate property conversions for %s", builder.methodName)
 	}
@@ -142,6 +147,61 @@ func (builder *convertToARMBuilder) functionBodyStatements() ([]dst.Stmt, error)
 		decl,
 		conversions,
 		returnStatement), nil
+}
+
+func (builder *convertToARMBuilder) propertyConversionHandler(
+	demotions map[string][]*astmodel.PropertyDefinition,
+) func(
+	toProp *astmodel.PropertyDefinition,
+	fromType *astmodel.ObjectType,
+) ([]dst.Stmt, error) {
+	return func(
+		toProp *astmodel.PropertyDefinition,
+		fromType *astmodel.ObjectType,
+	) ([]dst.Stmt, error) {
+		result, err := builder.conversionBuilder.propertyConversionHandler(toProp, fromType)
+		if err != nil {
+			return nil, eris.Wrapf(err, "unable to convert property %s", toProp.PropertyName())
+		}
+
+		if len(result) == 0 {
+			return nil, nil
+		}
+
+		if toProp.HasTagValue(ConversionTag, PushToOneOfLeaf) || len(demotions) == 0 {
+			return result, nil
+		}
+
+		// Promote any properties that populated from child objects
+		// We know the types are going to be identical, so we can just generate
+		// simple assignments, but only when the property exists
+		if tn, ok := astmodel.AsInternalTypeName(toProp.PropertyType()); ok {
+			if availableDemotions, ok := demotions[tn.Name()]; ok {
+				var demotionStmts []dst.Stmt
+				for _, demotion := range availableDemotions {
+					assign := astbuilder.SimpleAssignment(
+						astbuilder.Selector(
+							dst.NewIdent(builder.resultIdent),
+							string(toProp.PropertyName()),
+							string(demotion.PropertyName())),
+						astbuilder.Selector(
+							dst.NewIdent(builder.receiverIdent),
+							string(demotion.PropertyName())))
+					demotionStmts = append(demotionStmts, assign)
+				}
+
+				// Heuristic/hack: If the only statement is an IfStmt, we want to append the injections within the body of the
+				// if (because it will be a guard clause avoiding nils). Otherwise we just add them to the end.
+				if guard, ok := result[0].(*dst.IfStmt); ok && len(result) == 1 {
+					guard.Body.List = append(guard.Body.List, demotionStmts...)
+				} else {
+					result = append(result, demotionStmts...)
+				}
+			}
+		}
+
+		return result, err
+	}
 }
 
 //////////////////////
