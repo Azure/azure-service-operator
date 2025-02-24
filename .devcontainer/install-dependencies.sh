@@ -206,11 +206,8 @@ go-install hugo -tags extended github.com/gohugoio/hugo@v0.135.0
 # Restore this to github.com/wjdp/htmltest@v?? once PR#215 is merged with the feature we need
 go-install htmltest github.com/theunrepentantgeek/htmltest@latest
 
-# for api docs 
-# TODO: Replace this with the new release tag.
-# Currently pinned just after a couple of fixes from @theunrepentantgeek
-#doc# | gen-crd-api-reference-docs | 11fe95cb | https://github.com/ahmetb/gen-crd-api-reference-docs |
-go-install gen-crd-api-reference-docs github.com/ahmetb/gen-crd-api-reference-docs@11fe95cbdcb91e9c25446fc99e6f2cdd8cbeb91a
+#doc# | crddoc | latest | https://github.com/theunrepentantgeek/crddoc |
+go-install gen-crd-api-reference-docs github.com/theunrepentantgeek/crddoc@latest
 
 # Install envtest tooling - ideally version here should match that used in v2/go.mod, but only @latest works
 #doc# | setup-envtest | latest | https://book.kubebuilder.io/reference/envtest.html |
