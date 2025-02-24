@@ -12,12 +12,13 @@ There are two key topics surrounding authentication in Azure Service Operator: T
 
 ## Credential type
 
-Azure Service Operator supports four different styles of authentication today.
+Azure Service Operator supports five different styles of authentication today.
 
 1. [Recommended for production] [Azure Workload Identity]( {{< relref "credential-format#managed-identity-via-workload-identity" >}} ) (OIDC + Managed Identity or Service Principal)
 2. [Service Principal using a Client Secret]( {{< relref "credential-format#service-principal-using-a-client-secret" >}} )
 3. [Service Principal using a Client Certificate]( {{< relref "credential-format#service-principal-using-a-client-certificate" >}} )
 4. [Deprecated] [aad-pod-identity authentication (Managed Identity)]( {{< relref "credential-format#deprecated-managed-identity-aad-pod-identity" >}} )
+5. [User Assigned Identity Credentials] ( {{< relref "credential-format#user-assigned-identity-credentials" >}} )
 
 ## Credential scope
 
