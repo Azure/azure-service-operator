@@ -1,3131 +1,814 @@
----
-title: dbforpostgresql.azure.com/v1api20220120preview
----
-<h2 id="dbforpostgresql.azure.com/v1api20220120preview">dbforpostgresql.azure.com/v1api20220120preview</h2>
-<div>
-<p>Package v1api20220120preview contains API Schema definitions for the dbforpostgresql v1api20220120preview API group</p>
-</div>
-Resource Types:
-<ul></ul>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.APIVersion">APIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2022-01-20-preview&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.Backup">Backup
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
-</p>
-<div>
-<p>Backup properties of a server</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>backupRetentionDays</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>BackupRetentionDays: Backup retention days for the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>geoRedundantBackup</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Backup_GeoRedundantBackup">
-Backup_GeoRedundantBackup
-</a>
-</em>
-</td>
-<td>
-<p>GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.Backup_GeoRedundantBackup">Backup_GeoRedundantBackup
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.Backup">Backup</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.Backup_GeoRedundantBackup_STATUS">Backup_GeoRedundantBackup_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.Backup_STATUS">Backup_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.Backup_STATUS">Backup_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
-</p>
-<div>
-<p>Backup properties of a server</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>backupRetentionDays</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>BackupRetentionDays: Backup retention days for the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>earliestRestoreDate</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EarliestRestoreDate: The earliest restore point time (ISO8601 format) for server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>geoRedundantBackup</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Backup_GeoRedundantBackup_STATUS">
-Backup_GeoRedundantBackup_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.ConfigurationProperties_DataType_STATUS">ConfigurationProperties_DataType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersConfiguration_STATUS">FlexibleServersConfiguration_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Boolean&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enumeration&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Integer&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Numeric&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer">FlexibleServer
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.DBforPostgreSQL/&#x200b;flexibleServers/&#x200b;{serverName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_Spec">
-FlexibleServer_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>administratorLogin</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>administratorLoginPassword</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">
-genruntime.SecretReference
-</a>
-</em>
-</td>
-<td>
-<p>AdministratorLoginPassword: The administrator login password (required for server creation).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>availabilityZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AvailabilityZone: availability zone information of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>backup</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Backup">
-Backup
-</a>
-</em>
-</td>
-<td>
-<p>Backup: Backup properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createMode</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.ServerProperties_CreateMode">
-ServerProperties_CreateMode
-</a>
-</em>
-</td>
-<td>
-<p>CreateMode: The mode to create a new PostgreSQL server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>highAvailability</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.HighAvailability">
-HighAvailability
-</a>
-</em>
-</td>
-<td>
-<p>HighAvailability: High availability properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maintenanceWindow</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.MaintenanceWindow">
-MaintenanceWindow
-</a>
-</em>
-</td>
-<td>
-<p>MaintenanceWindow: Maintenance window properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>network</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Network">
-Network
-</a>
-</em>
-</td>
-<td>
-<p>Network: Network properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServerOperatorSpec">
-FlexibleServerOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>pointInTimeUTC</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It&rsquo;s required when
-&lsquo;createMode&rsquo; is &lsquo;PointInTimeRestore&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Sku">
-Sku
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU (pricing tier) of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceServerResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>SourceServerResourceReference: The source server resource ID to restore from. It&rsquo;s required when &lsquo;createMode&rsquo; is
-&lsquo;PointInTimeRestore&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storage</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Storage">
-Storage
-</a>
-</em>
-</td>
-<td>
-<p>Storage: Storage properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>version</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.ServerVersion">
-ServerVersion
-</a>
-</em>
-</td>
-<td>
-<p>Version: PostgreSQL Server version.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_STATUS">
-FlexibleServer_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServerOperatorConfigMaps">FlexibleServerOperatorConfigMaps
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>fullyQualifiedDomainName</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">
-genruntime.ConfigMapDestination
-</a>
-</em>
-</td>
-<td>
-<p>FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName config map should be placed. If omitted, no
-config map will be created.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServerOperatorSecrets">FlexibleServerOperatorSecrets
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>fullyQualifiedDomainName</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
-genruntime.SecretDestination
-</a>
-</em>
-</td>
-<td>
-<p>FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName secret should be placed. If omitted, the secret
-will not be retrieved from Azure.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>configMaps</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServerOperatorConfigMaps">
-FlexibleServerOperatorConfigMaps
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secrets</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServerOperatorSecrets">
-FlexibleServerOperatorSecrets
-</a>
-</em>
-</td>
-<td>
-<p>Secrets: configures where to place Azure generated secrets.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer">FlexibleServer</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>administratorLogin</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>availabilityZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AvailabilityZone: availability zone information of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>backup</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Backup_STATUS">
-Backup_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Backup: Backup properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createMode</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.ServerProperties_CreateMode_STATUS">
-ServerProperties_CreateMode_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CreateMode: The mode to create a new PostgreSQL server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>fullyQualifiedDomainName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>FullyQualifiedDomainName: The fully qualified domain name of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>highAvailability</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.HighAvailability_STATUS">
-HighAvailability_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>HighAvailability: High availability properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maintenanceWindow</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.MaintenanceWindow_STATUS">
-MaintenanceWindow_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>MaintenanceWindow: Maintenance window properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>minorVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MinorVersion: The minor version of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>network</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Network_STATUS">
-Network_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Network: Network properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>pointInTimeUTC</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It&rsquo;s required when
-&lsquo;createMode&rsquo; is &lsquo;PointInTimeRestore&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Sku_STATUS">
-Sku_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU (pricing tier) of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceServerResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SourceServerResourceId: The source server resource ID to restore from. It&rsquo;s required when &lsquo;createMode&rsquo; is
-&lsquo;PointInTimeRestore&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.ServerProperties_State_STATUS">
-ServerProperties_State_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>State: A state of a server that is visible to user.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storage</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Storage_STATUS">
-Storage_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Storage: Storage properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>version</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.ServerVersion_STATUS">
-ServerVersion_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Version: PostgreSQL Server version.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_Spec">FlexibleServer_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer">FlexibleServer</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>administratorLogin</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>administratorLoginPassword</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">
-genruntime.SecretReference
-</a>
-</em>
-</td>
-<td>
-<p>AdministratorLoginPassword: The administrator login password (required for server creation).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>availabilityZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AvailabilityZone: availability zone information of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>backup</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Backup">
-Backup
-</a>
-</em>
-</td>
-<td>
-<p>Backup: Backup properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createMode</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.ServerProperties_CreateMode">
-ServerProperties_CreateMode
-</a>
-</em>
-</td>
-<td>
-<p>CreateMode: The mode to create a new PostgreSQL server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>highAvailability</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.HighAvailability">
-HighAvailability
-</a>
-</em>
-</td>
-<td>
-<p>HighAvailability: High availability properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maintenanceWindow</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.MaintenanceWindow">
-MaintenanceWindow
-</a>
-</em>
-</td>
-<td>
-<p>MaintenanceWindow: Maintenance window properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>network</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Network">
-Network
-</a>
-</em>
-</td>
-<td>
-<p>Network: Network properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServerOperatorSpec">
-FlexibleServerOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>pointInTimeUTC</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It&rsquo;s required when
-&lsquo;createMode&rsquo; is &lsquo;PointInTimeRestore&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Sku">
-Sku
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU (pricing tier) of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceServerResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>SourceServerResourceReference: The source server resource ID to restore from. It&rsquo;s required when &lsquo;createMode&rsquo; is
-&lsquo;PointInTimeRestore&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storage</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Storage">
-Storage
-</a>
-</em>
-</td>
-<td>
-<p>Storage: Storage properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>version</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.ServerVersion">
-ServerVersion
-</a>
-</em>
-</td>
-<td>
-<p>Version: PostgreSQL Server version.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersConfiguration">FlexibleServersConfiguration
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.DBforPostgreSQL/&#x200b;flexibleServers/&#x200b;{serverName}/&#x200b;configurations/&#x200b;{configurationName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersConfiguration_Spec">
-FlexibleServersConfiguration_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersConfigurationOperatorSpec">
-FlexibleServersConfigurationOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>source</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Source: Source of the configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Value: Value of the configuration.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersConfiguration_STATUS">
-FlexibleServersConfiguration_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersConfigurationOperatorSpec">FlexibleServersConfigurationOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersConfiguration_Spec">FlexibleServersConfiguration_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersConfiguration_STATUS">FlexibleServersConfiguration_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersConfiguration">FlexibleServersConfiguration</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>allowedValues</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AllowedValues: Allowed values of the configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataType</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.ConfigurationProperties_DataType_STATUS">
-ConfigurationProperties_DataType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>DataType: Data type of the configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultValue</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DefaultValue: Default value of the configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Description: Description of the configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>documentationLink</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DocumentationLink: Configuration documentation link.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isConfigPendingRestart</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsConfigPendingRestart: Configuration is pending restart or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isDynamicConfig</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsDynamicConfig: Configuration dynamic or static.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isReadOnly</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsReadOnly: Configuration read-only or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>source</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Source: Source of the configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>unit</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Unit: Configuration unit.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Value: Value of the configuration.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersConfiguration_Spec">FlexibleServersConfiguration_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersConfiguration">FlexibleServersConfiguration</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersConfigurationOperatorSpec">
-FlexibleServersConfigurationOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>source</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Source: Source of the configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Value: Value of the configuration.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersDatabase">FlexibleServersDatabase
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/Databases.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.DBforPostgreSQL/&#x200b;flexibleServers/&#x200b;{serverName}/&#x200b;databases/&#x200b;{databaseName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersDatabase_Spec">
-FlexibleServersDatabase_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>charset</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Charset: The charset of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collation</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Collation: The collation of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersDatabaseOperatorSpec">
-FlexibleServersDatabaseOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersDatabase_STATUS">
-FlexibleServersDatabase_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersDatabaseOperatorSpec">FlexibleServersDatabaseOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersDatabase_Spec">FlexibleServersDatabase_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersDatabase_STATUS">FlexibleServersDatabase_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersDatabase">FlexibleServersDatabase</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>charset</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Charset: The charset of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collation</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Collation: The collation of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersDatabase_Spec">FlexibleServersDatabase_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersDatabase">FlexibleServersDatabase</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>charset</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Charset: The charset of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collation</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Collation: The collation of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersDatabaseOperatorSpec">
-FlexibleServersDatabaseOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersFirewallRule">FlexibleServersFirewallRule
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.DBforPostgreSQL/&#x200b;flexibleServers/&#x200b;{serverName}/&#x200b;firewallRules/&#x200b;{firewallRuleName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersFirewallRule_Spec">
-FlexibleServersFirewallRule_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>endIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersFirewallRuleOperatorSpec">
-FlexibleServersFirewallRuleOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersFirewallRule_STATUS">
-FlexibleServersFirewallRule_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersFirewallRuleOperatorSpec">FlexibleServersFirewallRuleOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersFirewallRule_Spec">FlexibleServersFirewallRule_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersFirewallRule_STATUS">FlexibleServersFirewallRule_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>endIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersFirewallRule_Spec">FlexibleServersFirewallRule_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>endIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersFirewallRuleOperatorSpec">
-FlexibleServersFirewallRuleOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.HighAvailability">HighAvailability
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
-</p>
-<div>
-<p>High availability properties of a server</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.HighAvailability_Mode">
-HighAvailability_Mode
-</a>
-</em>
-</td>
-<td>
-<p>Mode: The HA mode for the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>standbyAvailabilityZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StandbyAvailabilityZone: availability zone information of the standby.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.HighAvailability_Mode">HighAvailability_Mode
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.HighAvailability">HighAvailability</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SameZone&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ZoneRedundant&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.HighAvailability_Mode_STATUS">HighAvailability_Mode_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.HighAvailability_STATUS">HighAvailability_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SameZone&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ZoneRedundant&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.HighAvailability_STATUS">HighAvailability_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
-</p>
-<div>
-<p>High availability properties of a server</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.HighAvailability_Mode_STATUS">
-HighAvailability_Mode_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Mode: The HA mode for the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>standbyAvailabilityZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StandbyAvailabilityZone: availability zone information of the standby.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.HighAvailability_State_STATUS">
-HighAvailability_State_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>State: A state of a HA server that is visible to user.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.HighAvailability_State_STATUS">HighAvailability_State_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.HighAvailability_STATUS">HighAvailability_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;CreatingStandby&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;FailingOver&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Healthy&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;NotEnabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;RemovingStandby&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ReplicatingData&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.MaintenanceWindow">MaintenanceWindow
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
-</p>
-<div>
-<p>Maintenance window properties of a server.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>customWindow</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dayOfWeek</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DayOfWeek: day of week for maintenance window</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startHour</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>StartHour: start hour for maintenance window</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startMinute</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>StartMinute: start minute for maintenance window</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.MaintenanceWindow_STATUS">MaintenanceWindow_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
-</p>
-<div>
-<p>Maintenance window properties of a server.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>customWindow</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dayOfWeek</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DayOfWeek: day of week for maintenance window</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startHour</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>StartHour: start hour for maintenance window</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startMinute</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>StartMinute: start minute for maintenance window</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.Network">Network
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
-</p>
-<div>
-<p>Network properties of a server</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>delegatedSubnetResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>DelegatedSubnetResourceReference: delegated subnet arm resource id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateDnsZoneArmResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>PrivateDnsZoneArmResourceReference: private dns zone arm resource id.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.Network_PublicNetworkAccess_STATUS">Network_PublicNetworkAccess_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.Network_STATUS">Network_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.Network_STATUS">Network_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
-</p>
-<div>
-<p>Network properties of a server</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>delegatedSubnetResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DelegatedSubnetResourceId: delegated subnet arm resource id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateDnsZoneArmResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrivateDnsZoneArmResourceId: private dns zone arm resource id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Network_PublicNetworkAccess_STATUS">
-Network_PublicNetworkAccess_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: public network access is enabled or not</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.ServerProperties_CreateMode">ServerProperties_CreateMode
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Create&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Default&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;PointInTimeRestore&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Update&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Create&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Default&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;PointInTimeRestore&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Update&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.ServerProperties_State_STATUS">ServerProperties_State_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Dropping&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Ready&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Starting&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Stopped&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Stopping&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Updating&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.ServerVersion">ServerVersion
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
-</p>
-<div>
-<p>The version of a server.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;11&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;12&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;13&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;14&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.ServerVersion_STATUS">ServerVersion_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
-</p>
-<div>
-<p>The version of a server.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;11&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;12&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;13&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;14&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.Sku">Sku
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
-</p>
-<div>
-<p>Sku information related properties of a server.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Sku_Tier">
-Sku_Tier
-</a>
-</em>
-</td>
-<td>
-<p>Tier: The tier of the particular SKU, e.g. Burstable.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.Sku_STATUS">Sku_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
-</p>
-<div>
-<p>Sku information related properties of a server.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.Sku_Tier_STATUS">
-Sku_Tier_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Tier: The tier of the particular SKU, e.g. Burstable.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.Sku_Tier">Sku_Tier
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.Sku">Sku</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Burstable&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;GeneralPurpose&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;MemoryOptimized&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.Sku_Tier_STATUS">Sku_Tier_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.Sku_STATUS">Sku_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Burstable&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;GeneralPurpose&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;MemoryOptimized&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.Storage">Storage
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
-</p>
-<div>
-<p>Storage properties of a server</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>storageSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>StorageSizeGB: Max storage allowed for a server.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.Storage_STATUS">Storage_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
-</p>
-<div>
-<p>Storage properties of a server</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>storageSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>StorageSizeGB: Max storage allowed for a server.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1api20220120preview.SystemData_STATUS">SystemData_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersConfiguration_STATUS">FlexibleServersConfiguration_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersDatabase_STATUS">FlexibleServersDatabase_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersFirewallRule_STATUS">FlexibleServersFirewallRule_STATUS</a>)
-</p>
-<div>
-<p>Metadata pertaining to creation and last modification of the resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedBy: The identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CreatedByType: The type of identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1api20220120preview.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<hr/>
+v1api20220120preview
+====================
+
+| Metadata             | Value                                                                               |
+|----------------------|-------------------------------------------------------------------------------------|
+| Group                | dbforpostgresql.azure.com                                                           |
+| Version              | v1api20220120preview                                                                |
+| Module               | github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview |
+| Property Optionality | Optional                                                                            |
+
+<a id="APIVersion"></a>APIVersion
+---------------------------------
+
+| Value                | Description |
+|----------------------|-------------|
+| "2022-01-20-preview" |             |
+
+<a id="FlexibleServer"></a>FlexibleServer
+-----------------------------------------
+
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}
+
+Used by: [FlexibleServerList](#FlexibleServerList).
+
+| Property                                                                                | Description | Type                                                                        |
+|-----------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                             |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                             |
+| spec                                                                                    |             | [FlexibleServer_Spec](#FlexibleServer_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [FlexibleServer_STATUS](#FlexibleServer_STATUS)<br/><small>Optional</small> |
+
+### <a id="FlexibleServer_Spec"></a>FlexibleServer_Spec
+
+| Property                      | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
+|-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| administratorLogin            | The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation).                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                                   |
+| administratorLoginPassword    | The administrator login password (required for server creation).                                                                                                                                                                                                                             | [genruntime.SecretReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference)<br/><small>Optional</small>               |
+| availabilityZone              | availability zone information of the server.                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                                   |
+| azureName                     | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                                   |
+| backup                        | Backup properties of a server.                                                                                                                                                                                                                                                               | [Backup](#Backup)<br/><small>Optional</small>                                                                                                                        |
+| createMode                    | The mode to create a new PostgreSQL server.                                                                                                                                                                                                                                                  | [ServerProperties_CreateMode](#ServerProperties_CreateMode)<br/><small>Optional</small>                                                                              |
+| highAvailability              | High availability properties of a server.                                                                                                                                                                                                                                                    | [HighAvailability](#HighAvailability)<br/><small>Optional</small>                                                                                                    |
+| location                      | The geo-location where the resource lives                                                                                                                                                                                                                                                    | string<br/><small>Required</small>                                                                                                                                   |
+| maintenanceWindow             | Maintenance window properties of a server.                                                                                                                                                                                                                                                   | [MaintenanceWindow](#MaintenanceWindow)<br/><small>Optional</small>                                                                                                  |
+| network                       | Network properties of a server.                                                                                                                                                                                                                                                              | [Network](#Network)<br/><small>Optional</small>                                                                                                                      |
+| operatorSpec                  | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                              | [FlexibleServerOperatorSpec](#FlexibleServerOperatorSpec)<br/><small>Optional</small>                                                                                |
+| owner                         | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| pointInTimeUTC                | Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when 'createMode' is 'PointInTimeRestore'.                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                                   |
+| sku                           | The SKU (pricing tier) of the server.                                                                                                                                                                                                                                                        | [Sku](#Sku)<br/><small>Optional</small>                                                                                                                              |
+| sourceServerResourceReference | The source server resource ID to restore from. It's required when 'createMode' is 'PointInTimeRestore'.                                                                                                                                                                                      | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| storage                       | Storage properties of a server.                                                                                                                                                                                                                                                              | [Storage](#Storage)<br/><small>Optional</small>                                                                                                                      |
+| tags                          | Resource tags.                                                                                                                                                                                                                                                                               | map[string]string<br/><small>Optional</small>                                                                                                                        |
+| version                       | PostgreSQL Server version.                                                                                                                                                                                                                                                                   | [ServerVersion](#ServerVersion)<br/><small>Optional</small>                                                                                                          |
+
+### <a id="FlexibleServer_STATUS"></a>FlexibleServer_STATUS
+
+| Property                 | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| administratorLogin       | The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation).                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                      |
+| availabilityZone         | availability zone information of the server.                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| backup                   | Backup properties of a server.                                                                                                                                                                                                                                                                                            | [Backup_STATUS](#Backup_STATUS)<br/><small>Optional</small>                                                                                             |
+| conditions               | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| createMode               | The mode to create a new PostgreSQL server.                                                                                                                                                                                                                                                                               | [ServerProperties_CreateMode_STATUS](#ServerProperties_CreateMode_STATUS)<br/><small>Optional</small>                                                   |
+| fullyQualifiedDomainName | The fully qualified domain name of a server.                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| highAvailability         | High availability properties of a server.                                                                                                                                                                                                                                                                                 | [HighAvailability_STATUS](#HighAvailability_STATUS)<br/><small>Optional</small>                                                                         |
+| id                       | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| location                 | The geo-location where the resource lives                                                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| maintenanceWindow        | Maintenance window properties of a server.                                                                                                                                                                                                                                                                                | [MaintenanceWindow_STATUS](#MaintenanceWindow_STATUS)<br/><small>Optional</small>                                                                       |
+| minorVersion             | The minor version of the server.                                                                                                                                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                      |
+| name                     | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| network                  | Network properties of a server.                                                                                                                                                                                                                                                                                           | [Network_STATUS](#Network_STATUS)<br/><small>Optional</small>                                                                                           |
+| pointInTimeUTC           | Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when 'createMode' is 'PointInTimeRestore'.                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| sku                      | The SKU (pricing tier) of the server.                                                                                                                                                                                                                                                                                     | [Sku_STATUS](#Sku_STATUS)<br/><small>Optional</small>                                                                                                   |
+| sourceServerResourceId   | The source server resource ID to restore from. It's required when 'createMode' is 'PointInTimeRestore'.                                                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+| state                    | A state of a server that is visible to user.                                                                                                                                                                                                                                                                              | [ServerProperties_State_STATUS](#ServerProperties_State_STATUS)<br/><small>Optional</small>                                                             |
+| storage                  | Storage properties of a server.                                                                                                                                                                                                                                                                                           | [Storage_STATUS](#Storage_STATUS)<br/><small>Optional</small>                                                                                           |
+| systemData               | The system metadata relating to this resource.                                                                                                                                                                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| tags                     | Resource tags.                                                                                                                                                                                                                                                                                                            | map[string]string<br/><small>Optional</small>                                                                                                           |
+| type                     | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| version                  | PostgreSQL Server version.                                                                                                                                                                                                                                                                                                | [ServerVersion_STATUS](#ServerVersion_STATUS)<br/><small>Optional</small>                                                                               |
+
+<a id="FlexibleServerList"></a>FlexibleServerList
+-------------------------------------------------
+
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}
+
+| Property                                                                            | Description | Type                                                            |
+|-------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                                 |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                 |
+| items                                                                               |             | [FlexibleServer[]](#FlexibleServer)<br/><small>Optional</small> |
+
+<a id="FlexibleServersConfiguration"></a>FlexibleServersConfiguration
+---------------------------------------------------------------------
+
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}
+
+Used by: [FlexibleServersConfigurationList](#FlexibleServersConfigurationList).
+
+| Property                                                                                | Description | Type                                                                                                    |
+|-----------------------------------------------------------------------------------------|-------------|---------------------------------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                                                         |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                                                         |
+| spec                                                                                    |             | [FlexibleServersConfiguration_Spec](#FlexibleServersConfiguration_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [FlexibleServersConfiguration_STATUS](#FlexibleServersConfiguration_STATUS)<br/><small>Optional</small> |
+
+### <a id="FlexibleServersConfiguration_Spec"></a>FlexibleServersConfiguration_Spec
+
+| Property     | Description                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                                 |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName    | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                                   |
+| operatorSpec | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                     | [FlexibleServersConfigurationOperatorSpec](#FlexibleServersConfigurationOperatorSpec)<br/><small>Optional</small>                                                    |
+| owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbforpostgresql.azure.com/FlexibleServer resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| source       | Source of the configuration.                                                                                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                                   |
+| value        | Value of the configuration.                                                                                                                                                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                                   |
+
+### <a id="FlexibleServersConfiguration_STATUS"></a>FlexibleServersConfiguration_STATUS
+
+| Property               | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| allowedValues          | Allowed values of the configuration.                                                                                                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
+| conditions             | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| dataType               | Data type of the configuration.                                                                                                                                                                                                                                                                                           | [ConfigurationProperties_DataType_STATUS](#ConfigurationProperties_DataType_STATUS)<br/><small>Optional</small>                                         |
+| defaultValue           | Default value of the configuration.                                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| description            | Description of the configuration.                                                                                                                                                                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                      |
+| documentationLink      | Configuration documentation link.                                                                                                                                                                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                      |
+| id                     | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| isConfigPendingRestart | Configuration is pending restart or not.                                                                                                                                                                                                                                                                                  | bool<br/><small>Optional</small>                                                                                                                        |
+| isDynamicConfig        | Configuration dynamic or static.                                                                                                                                                                                                                                                                                          | bool<br/><small>Optional</small>                                                                                                                        |
+| isReadOnly             | Configuration read-only or not.                                                                                                                                                                                                                                                                                           | bool<br/><small>Optional</small>                                                                                                                        |
+| name                   | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| source                 | Source of the configuration.                                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| systemData             | The system metadata relating to this resource.                                                                                                                                                                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type                   | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| unit                   | Configuration unit.                                                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| value                  | Value of the configuration.                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="FlexibleServersConfigurationList"></a>FlexibleServersConfigurationList
+-----------------------------------------------------------------------------
+
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}
+
+| Property                                                                            | Description | Type                                                                                        |
+|-------------------------------------------------------------------------------------|-------------|---------------------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                                                             |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                             |
+| items                                                                               |             | [FlexibleServersConfiguration[]](#FlexibleServersConfiguration)<br/><small>Optional</small> |
+
+<a id="FlexibleServersDatabase"></a>FlexibleServersDatabase
+-----------------------------------------------------------
+
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/Databases.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases/{databaseName}
+
+Used by: [FlexibleServersDatabaseList](#FlexibleServersDatabaseList).
+
+| Property                                                                                | Description | Type                                                                                          |
+|-----------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                                               |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                                               |
+| spec                                                                                    |             | [FlexibleServersDatabase_Spec](#FlexibleServersDatabase_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [FlexibleServersDatabase_STATUS](#FlexibleServersDatabase_STATUS)<br/><small>Optional</small> |
+
+### <a id="FlexibleServersDatabase_Spec"></a>FlexibleServersDatabase_Spec
+
+| Property     | Description                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                                 |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName    | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                                   |
+| charset      | The charset of the database.                                                                                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                                   |
+| collation    | The collation of the database.                                                                                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                                   |
+| operatorSpec | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                     | [FlexibleServersDatabaseOperatorSpec](#FlexibleServersDatabaseOperatorSpec)<br/><small>Optional</small>                                                              |
+| owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbforpostgresql.azure.com/FlexibleServer resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+
+### <a id="FlexibleServersDatabase_STATUS"></a>FlexibleServersDatabase_STATUS
+
+| Property   | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| charset    | The charset of the database.                                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| collation  | The collation of the database.                                                                                                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                      |
+| conditions | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| id         | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| name       | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| systemData | The system metadata relating to this resource.                                                                                                                                                                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type       | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="FlexibleServersDatabaseList"></a>FlexibleServersDatabaseList
+-------------------------------------------------------------------
+
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/Databases.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases/{databaseName}
+
+| Property                                                                            | Description | Type                                                                              |
+|-------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                                                   |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                   |
+| items                                                                               |             | [FlexibleServersDatabase[]](#FlexibleServersDatabase)<br/><small>Optional</small> |
+
+<a id="FlexibleServersFirewallRule"></a>FlexibleServersFirewallRule
+-------------------------------------------------------------------
+
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
+
+Used by: [FlexibleServersFirewallRuleList](#FlexibleServersFirewallRuleList).
+
+| Property                                                                                | Description | Type                                                                                                  |
+|-----------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                                                       |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                                                       |
+| spec                                                                                    |             | [FlexibleServersFirewallRule_Spec](#FlexibleServersFirewallRule_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [FlexibleServersFirewallRule_STATUS](#FlexibleServersFirewallRule_STATUS)<br/><small>Optional</small> |
+
+### <a id="FlexibleServersFirewallRule_Spec"></a>FlexibleServersFirewallRule_Spec
+
+| Property       | Description                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                                 |
+|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName      | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                                   |
+| endIpAddress   | The end IP address of the server firewall rule. Must be IPv4 format.                                                                                                                                                                                                                                | string<br/><small>Required</small>                                                                                                                                   |
+| operatorSpec   | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                     | [FlexibleServersFirewallRuleOperatorSpec](#FlexibleServersFirewallRuleOperatorSpec)<br/><small>Optional</small>                                                      |
+| owner          | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbforpostgresql.azure.com/FlexibleServer resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| startIpAddress | The start IP address of the server firewall rule. Must be IPv4 format.                                                                                                                                                                                                                              | string<br/><small>Required</small>                                                                                                                                   |
+
+### <a id="FlexibleServersFirewallRule_STATUS"></a>FlexibleServersFirewallRule_STATUS
+
+| Property       | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| conditions     | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| endIpAddress   | The end IP address of the server firewall rule. Must be IPv4 format.                                                                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
+| id             | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| name           | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| startIpAddress | The start IP address of the server firewall rule. Must be IPv4 format.                                                                                                                                                                                                                                                    | string<br/><small>Optional</small>                                                                                                                      |
+| systemData     | The system metadata relating to this resource.                                                                                                                                                                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type           | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="FlexibleServersFirewallRuleList"></a>FlexibleServersFirewallRuleList
+---------------------------------------------------------------------------
+
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
+
+| Property                                                                            | Description | Type                                                                                      |
+|-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                                                           |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                           |
+| items                                                                               |             | [FlexibleServersFirewallRule[]](#FlexibleServersFirewallRule)<br/><small>Optional</small> |
+
+<a id="FlexibleServer_Spec"></a>FlexibleServer_Spec
+---------------------------------------------------
+
+Used by: [FlexibleServer](#FlexibleServer).
+
+| Property                      | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
+|-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| administratorLogin            | The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation).                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                                   |
+| administratorLoginPassword    | The administrator login password (required for server creation).                                                                                                                                                                                                                             | [genruntime.SecretReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference)<br/><small>Optional</small>               |
+| availabilityZone              | availability zone information of the server.                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                                   |
+| azureName                     | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                                   |
+| backup                        | Backup properties of a server.                                                                                                                                                                                                                                                               | [Backup](#Backup)<br/><small>Optional</small>                                                                                                                        |
+| createMode                    | The mode to create a new PostgreSQL server.                                                                                                                                                                                                                                                  | [ServerProperties_CreateMode](#ServerProperties_CreateMode)<br/><small>Optional</small>                                                                              |
+| highAvailability              | High availability properties of a server.                                                                                                                                                                                                                                                    | [HighAvailability](#HighAvailability)<br/><small>Optional</small>                                                                                                    |
+| location                      | The geo-location where the resource lives                                                                                                                                                                                                                                                    | string<br/><small>Required</small>                                                                                                                                   |
+| maintenanceWindow             | Maintenance window properties of a server.                                                                                                                                                                                                                                                   | [MaintenanceWindow](#MaintenanceWindow)<br/><small>Optional</small>                                                                                                  |
+| network                       | Network properties of a server.                                                                                                                                                                                                                                                              | [Network](#Network)<br/><small>Optional</small>                                                                                                                      |
+| operatorSpec                  | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                              | [FlexibleServerOperatorSpec](#FlexibleServerOperatorSpec)<br/><small>Optional</small>                                                                                |
+| owner                         | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| pointInTimeUTC                | Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when 'createMode' is 'PointInTimeRestore'.                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                                   |
+| sku                           | The SKU (pricing tier) of the server.                                                                                                                                                                                                                                                        | [Sku](#Sku)<br/><small>Optional</small>                                                                                                                              |
+| sourceServerResourceReference | The source server resource ID to restore from. It's required when 'createMode' is 'PointInTimeRestore'.                                                                                                                                                                                      | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| storage                       | Storage properties of a server.                                                                                                                                                                                                                                                              | [Storage](#Storage)<br/><small>Optional</small>                                                                                                                      |
+| tags                          | Resource tags.                                                                                                                                                                                                                                                                               | map[string]string<br/><small>Optional</small>                                                                                                                        |
+| version                       | PostgreSQL Server version.                                                                                                                                                                                                                                                                   | [ServerVersion](#ServerVersion)<br/><small>Optional</small>                                                                                                          |
+
+<a id="FlexibleServer_STATUS"></a>FlexibleServer_STATUS
+-------------------------------------------------------
+
+Used by: [FlexibleServer](#FlexibleServer).
+
+| Property                 | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| administratorLogin       | The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation).                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                      |
+| availabilityZone         | availability zone information of the server.                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| backup                   | Backup properties of a server.                                                                                                                                                                                                                                                                                            | [Backup_STATUS](#Backup_STATUS)<br/><small>Optional</small>                                                                                             |
+| conditions               | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| createMode               | The mode to create a new PostgreSQL server.                                                                                                                                                                                                                                                                               | [ServerProperties_CreateMode_STATUS](#ServerProperties_CreateMode_STATUS)<br/><small>Optional</small>                                                   |
+| fullyQualifiedDomainName | The fully qualified domain name of a server.                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| highAvailability         | High availability properties of a server.                                                                                                                                                                                                                                                                                 | [HighAvailability_STATUS](#HighAvailability_STATUS)<br/><small>Optional</small>                                                                         |
+| id                       | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| location                 | The geo-location where the resource lives                                                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| maintenanceWindow        | Maintenance window properties of a server.                                                                                                                                                                                                                                                                                | [MaintenanceWindow_STATUS](#MaintenanceWindow_STATUS)<br/><small>Optional</small>                                                                       |
+| minorVersion             | The minor version of the server.                                                                                                                                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                      |
+| name                     | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| network                  | Network properties of a server.                                                                                                                                                                                                                                                                                           | [Network_STATUS](#Network_STATUS)<br/><small>Optional</small>                                                                                           |
+| pointInTimeUTC           | Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when 'createMode' is 'PointInTimeRestore'.                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| sku                      | The SKU (pricing tier) of the server.                                                                                                                                                                                                                                                                                     | [Sku_STATUS](#Sku_STATUS)<br/><small>Optional</small>                                                                                                   |
+| sourceServerResourceId   | The source server resource ID to restore from. It's required when 'createMode' is 'PointInTimeRestore'.                                                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+| state                    | A state of a server that is visible to user.                                                                                                                                                                                                                                                                              | [ServerProperties_State_STATUS](#ServerProperties_State_STATUS)<br/><small>Optional</small>                                                             |
+| storage                  | Storage properties of a server.                                                                                                                                                                                                                                                                                           | [Storage_STATUS](#Storage_STATUS)<br/><small>Optional</small>                                                                                           |
+| systemData               | The system metadata relating to this resource.                                                                                                                                                                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| tags                     | Resource tags.                                                                                                                                                                                                                                                                                                            | map[string]string<br/><small>Optional</small>                                                                                                           |
+| type                     | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| version                  | PostgreSQL Server version.                                                                                                                                                                                                                                                                                                | [ServerVersion_STATUS](#ServerVersion_STATUS)<br/><small>Optional</small>                                                                               |
+
+<a id="FlexibleServersConfiguration_Spec"></a>FlexibleServersConfiguration_Spec
+-------------------------------------------------------------------------------
+
+Used by: [FlexibleServersConfiguration](#FlexibleServersConfiguration).
+
+| Property     | Description                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                                 |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName    | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                                   |
+| operatorSpec | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                     | [FlexibleServersConfigurationOperatorSpec](#FlexibleServersConfigurationOperatorSpec)<br/><small>Optional</small>                                                    |
+| owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbforpostgresql.azure.com/FlexibleServer resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| source       | Source of the configuration.                                                                                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                                   |
+| value        | Value of the configuration.                                                                                                                                                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                                   |
+
+<a id="FlexibleServersConfiguration_STATUS"></a>FlexibleServersConfiguration_STATUS
+-----------------------------------------------------------------------------------
+
+Used by: [FlexibleServersConfiguration](#FlexibleServersConfiguration).
+
+| Property               | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| allowedValues          | Allowed values of the configuration.                                                                                                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
+| conditions             | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| dataType               | Data type of the configuration.                                                                                                                                                                                                                                                                                           | [ConfigurationProperties_DataType_STATUS](#ConfigurationProperties_DataType_STATUS)<br/><small>Optional</small>                                         |
+| defaultValue           | Default value of the configuration.                                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| description            | Description of the configuration.                                                                                                                                                                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                      |
+| documentationLink      | Configuration documentation link.                                                                                                                                                                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                      |
+| id                     | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| isConfigPendingRestart | Configuration is pending restart or not.                                                                                                                                                                                                                                                                                  | bool<br/><small>Optional</small>                                                                                                                        |
+| isDynamicConfig        | Configuration dynamic or static.                                                                                                                                                                                                                                                                                          | bool<br/><small>Optional</small>                                                                                                                        |
+| isReadOnly             | Configuration read-only or not.                                                                                                                                                                                                                                                                                           | bool<br/><small>Optional</small>                                                                                                                        |
+| name                   | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| source                 | Source of the configuration.                                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| systemData             | The system metadata relating to this resource.                                                                                                                                                                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type                   | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| unit                   | Configuration unit.                                                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| value                  | Value of the configuration.                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="FlexibleServersDatabase_Spec"></a>FlexibleServersDatabase_Spec
+---------------------------------------------------------------------
+
+Used by: [FlexibleServersDatabase](#FlexibleServersDatabase).
+
+| Property     | Description                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                                 |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName    | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                                   |
+| charset      | The charset of the database.                                                                                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                                   |
+| collation    | The collation of the database.                                                                                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                                   |
+| operatorSpec | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                     | [FlexibleServersDatabaseOperatorSpec](#FlexibleServersDatabaseOperatorSpec)<br/><small>Optional</small>                                                              |
+| owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbforpostgresql.azure.com/FlexibleServer resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+
+<a id="FlexibleServersDatabase_STATUS"></a>FlexibleServersDatabase_STATUS
+-------------------------------------------------------------------------
+
+Used by: [FlexibleServersDatabase](#FlexibleServersDatabase).
+
+| Property   | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| charset    | The charset of the database.                                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| collation  | The collation of the database.                                                                                                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                      |
+| conditions | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| id         | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| name       | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| systemData | The system metadata relating to this resource.                                                                                                                                                                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type       | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="FlexibleServersFirewallRule_Spec"></a>FlexibleServersFirewallRule_Spec
+-----------------------------------------------------------------------------
+
+Used by: [FlexibleServersFirewallRule](#FlexibleServersFirewallRule).
+
+| Property       | Description                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                                 |
+|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName      | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                                   |
+| endIpAddress   | The end IP address of the server firewall rule. Must be IPv4 format.                                                                                                                                                                                                                                | string<br/><small>Required</small>                                                                                                                                   |
+| operatorSpec   | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                     | [FlexibleServersFirewallRuleOperatorSpec](#FlexibleServersFirewallRuleOperatorSpec)<br/><small>Optional</small>                                                      |
+| owner          | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbforpostgresql.azure.com/FlexibleServer resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| startIpAddress | The start IP address of the server firewall rule. Must be IPv4 format.                                                                                                                                                                                                                              | string<br/><small>Required</small>                                                                                                                                   |
+
+<a id="FlexibleServersFirewallRule_STATUS"></a>FlexibleServersFirewallRule_STATUS
+---------------------------------------------------------------------------------
+
+Used by: [FlexibleServersFirewallRule](#FlexibleServersFirewallRule).
+
+| Property       | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| conditions     | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| endIpAddress   | The end IP address of the server firewall rule. Must be IPv4 format.                                                                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
+| id             | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| name           | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| startIpAddress | The start IP address of the server firewall rule. Must be IPv4 format.                                                                                                                                                                                                                                                    | string<br/><small>Optional</small>                                                                                                                      |
+| systemData     | The system metadata relating to this resource.                                                                                                                                                                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type           | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="Backup"></a>Backup
+-------------------------
+
+Backup properties of a server
+
+Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
+
+| Property            | Description                                                               | Type                                                                                |
+|---------------------|---------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| backupRetentionDays | Backup retention days for the server.                                     | int<br/><small>Optional</small>                                                     |
+| geoRedundantBackup  | A value indicating whether Geo-Redundant backup is enabled on the server. | [Backup_GeoRedundantBackup](#Backup_GeoRedundantBackup)<br/><small>Optional</small> |
+
+<a id="Backup_STATUS"></a>Backup_STATUS
+---------------------------------------
+
+Backup properties of a server
+
+Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
+
+| Property            | Description                                                               | Type                                                                                              |
+|---------------------|---------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| backupRetentionDays | Backup retention days for the server.                                     | int<br/><small>Optional</small>                                                                   |
+| earliestRestoreDate | The earliest restore point time (ISO8601 format) for server.              | string<br/><small>Optional</small>                                                                |
+| geoRedundantBackup  | A value indicating whether Geo-Redundant backup is enabled on the server. | [Backup_GeoRedundantBackup_STATUS](#Backup_GeoRedundantBackup_STATUS)<br/><small>Optional</small> |
+
+<a id="ConfigurationProperties_DataType_STATUS"></a>ConfigurationProperties_DataType_STATUS
+-------------------------------------------------------------------------------------------
+
+Used by: [FlexibleServersConfiguration_STATUS](#FlexibleServersConfiguration_STATUS).
+
+| Value         | Description |
+|---------------|-------------|
+| "Boolean"     |             |
+| "Enumeration" |             |
+| "Integer"     |             |
+| "Numeric"     |             |
+
+<a id="FlexibleServerOperatorSpec"></a>FlexibleServerOperatorSpec
+-----------------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| configMaps           | configures where to place operator written ConfigMaps.                                        | [FlexibleServerOperatorConfigMaps](#FlexibleServerOperatorConfigMaps)<br/><small>Optional</small>                                                                   |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secrets              | configures where to place Azure generated secrets.                                            | [FlexibleServerOperatorSecrets](#FlexibleServerOperatorSecrets)<br/><small>Optional</small>                                                                         |
+
+<a id="FlexibleServersConfigurationOperatorSpec"></a>FlexibleServersConfigurationOperatorSpec
+---------------------------------------------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [FlexibleServersConfiguration_Spec](#FlexibleServersConfiguration_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+
+<a id="FlexibleServersDatabaseOperatorSpec"></a>FlexibleServersDatabaseOperatorSpec
+-----------------------------------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [FlexibleServersDatabase_Spec](#FlexibleServersDatabase_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+
+<a id="FlexibleServersFirewallRuleOperatorSpec"></a>FlexibleServersFirewallRuleOperatorSpec
+-------------------------------------------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [FlexibleServersFirewallRule_Spec](#FlexibleServersFirewallRule_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+
+<a id="HighAvailability"></a>HighAvailability
+---------------------------------------------
+
+High availability properties of a server
+
+Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
+
+| Property                | Description                                   | Type                                                                        |
+|-------------------------|-----------------------------------------------|-----------------------------------------------------------------------------|
+| mode                    | The HA mode for the server.                   | [HighAvailability_Mode](#HighAvailability_Mode)<br/><small>Optional</small> |
+| standbyAvailabilityZone | availability zone information of the standby. | string<br/><small>Optional</small>                                          |
+
+<a id="HighAvailability_STATUS"></a>HighAvailability_STATUS
+-----------------------------------------------------------
+
+High availability properties of a server
+
+Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
+
+| Property                | Description                                     | Type                                                                                        |
+|-------------------------|-------------------------------------------------|---------------------------------------------------------------------------------------------|
+| mode                    | The HA mode for the server.                     | [HighAvailability_Mode_STATUS](#HighAvailability_Mode_STATUS)<br/><small>Optional</small>   |
+| standbyAvailabilityZone | availability zone information of the standby.   | string<br/><small>Optional</small>                                                          |
+| state                   | A state of a HA server that is visible to user. | [HighAvailability_State_STATUS](#HighAvailability_State_STATUS)<br/><small>Optional</small> |
+
+<a id="MaintenanceWindow"></a>MaintenanceWindow
+-----------------------------------------------
+
+Maintenance window properties of a server.
+
+Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
+
+| Property     | Description                                            | Type                               |
+|--------------|--------------------------------------------------------|------------------------------------|
+| customWindow | indicates whether custom window is enabled or disabled | string<br/><small>Optional</small> |
+| dayOfWeek    | day of week for maintenance window                     | int<br/><small>Optional</small>    |
+| startHour    | start hour for maintenance window                      | int<br/><small>Optional</small>    |
+| startMinute  | start minute for maintenance window                    | int<br/><small>Optional</small>    |
+
+<a id="MaintenanceWindow_STATUS"></a>MaintenanceWindow_STATUS
+-------------------------------------------------------------
+
+Maintenance window properties of a server.
+
+Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
+
+| Property     | Description                                            | Type                               |
+|--------------|--------------------------------------------------------|------------------------------------|
+| customWindow | indicates whether custom window is enabled or disabled | string<br/><small>Optional</small> |
+| dayOfWeek    | day of week for maintenance window                     | int<br/><small>Optional</small>    |
+| startHour    | start hour for maintenance window                      | int<br/><small>Optional</small>    |
+| startMinute  | start minute for maintenance window                    | int<br/><small>Optional</small>    |
+
+<a id="Network"></a>Network
+---------------------------
+
+Network properties of a server
+
+Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
+
+| Property                           | Description                       | Type                                                                                                                                                       |
+|------------------------------------|-----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| delegatedSubnetResourceReference   | delegated subnet arm resource id. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| privateDnsZoneArmResourceReference | private dns zone arm resource id. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+
+<a id="Network_STATUS"></a>Network_STATUS
+-----------------------------------------
+
+Network properties of a server
+
+Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
+
+| Property                    | Description                             | Type                                                                                                  |
+|-----------------------------|-----------------------------------------|-------------------------------------------------------------------------------------------------------|
+| delegatedSubnetResourceId   | delegated subnet arm resource id.       | string<br/><small>Optional</small>                                                                    |
+| privateDnsZoneArmResourceId | private dns zone arm resource id.       | string<br/><small>Optional</small>                                                                    |
+| publicNetworkAccess         | public network access is enabled or not | [Network_PublicNetworkAccess_STATUS](#Network_PublicNetworkAccess_STATUS)<br/><small>Optional</small> |
+
+<a id="ServerProperties_CreateMode"></a>ServerProperties_CreateMode
+-------------------------------------------------------------------
+
+Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
+
+| Value                | Description |
+|----------------------|-------------|
+| "Create"             |             |
+| "Default"            |             |
+| "PointInTimeRestore" |             |
+| "Update"             |             |
+
+<a id="ServerProperties_CreateMode_STATUS"></a>ServerProperties_CreateMode_STATUS
+---------------------------------------------------------------------------------
+
+Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
+
+| Value                | Description |
+|----------------------|-------------|
+| "Create"             |             |
+| "Default"            |             |
+| "PointInTimeRestore" |             |
+| "Update"             |             |
+
+<a id="ServerProperties_State_STATUS"></a>ServerProperties_State_STATUS
+-----------------------------------------------------------------------
+
+Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
+
+| Value      | Description |
+|------------|-------------|
+| "Disabled" |             |
+| "Dropping" |             |
+| "Ready"    |             |
+| "Starting" |             |
+| "Stopped"  |             |
+| "Stopping" |             |
+| "Updating" |             |
+
+<a id="ServerVersion"></a>ServerVersion
+---------------------------------------
+
+The version of a server.
+
+Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
+
+| Value | Description |
+|-------|-------------|
+| "11"  |             |
+| "12"  |             |
+| "13"  |             |
+| "14"  |             |
+
+<a id="ServerVersion_STATUS"></a>ServerVersion_STATUS
+-----------------------------------------------------
+
+The version of a server.
+
+Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
+
+| Value | Description |
+|-------|-------------|
+| "11"  |             |
+| "12"  |             |
+| "13"  |             |
+| "14"  |             |
+
+<a id="Sku"></a>Sku
+-------------------
+
+Sku information related properties of a server.
+
+Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
+
+| Property | Description                                                                  | Type                                              |
+|----------|------------------------------------------------------------------------------|---------------------------------------------------|
+| name     | The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3. | string<br/><small>Required</small>                |
+| tier     | The tier of the particular SKU, e.g. Burstable.                              | [Sku_Tier](#Sku_Tier)<br/><small>Required</small> |
+
+<a id="Sku_STATUS"></a>Sku_STATUS
+---------------------------------
+
+Sku information related properties of a server.
+
+Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
+
+| Property | Description                                                                  | Type                                                            |
+|----------|------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| name     | The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3. | string<br/><small>Optional</small>                              |
+| tier     | The tier of the particular SKU, e.g. Burstable.                              | [Sku_Tier_STATUS](#Sku_Tier_STATUS)<br/><small>Optional</small> |
+
+<a id="Storage"></a>Storage
+---------------------------
+
+Storage properties of a server
+
+Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
+
+| Property      | Description                       | Type                            |
+|---------------|-----------------------------------|---------------------------------|
+| storageSizeGB | Max storage allowed for a server. | int<br/><small>Optional</small> |
+
+<a id="Storage_STATUS"></a>Storage_STATUS
+-----------------------------------------
+
+Storage properties of a server
+
+Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
+
+| Property      | Description                       | Type                            |
+|---------------|-----------------------------------|---------------------------------|
+| storageSizeGB | Max storage allowed for a server. | int<br/><small>Optional</small> |
+
+<a id="SystemData_STATUS"></a>SystemData_STATUS
+-----------------------------------------------
+
+Metadata pertaining to creation and last modification of the resource.
+
+Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS), [FlexibleServersConfiguration_STATUS](#FlexibleServersConfiguration_STATUS), [FlexibleServersDatabase_STATUS](#FlexibleServersDatabase_STATUS), and [FlexibleServersFirewallRule_STATUS](#FlexibleServersFirewallRule_STATUS).
+
+| Property           | Description                                           | Type                                                                                                      |
+|--------------------|-------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| createdAt          | The timestamp of resource creation (UTC).             | string<br/><small>Optional</small>                                                                        |
+| createdBy          | The identity that created the resource.               | string<br/><small>Optional</small>                                                                        |
+| createdByType      | The type of identity that created the resource.       | [SystemData_CreatedByType_STATUS](#SystemData_CreatedByType_STATUS)<br/><small>Optional</small>           |
+| lastModifiedAt     | The timestamp of resource last modification (UTC)     | string<br/><small>Optional</small>                                                                        |
+| lastModifiedBy     | The identity that last modified the resource.         | string<br/><small>Optional</small>                                                                        |
+| lastModifiedByType | The type of identity that last modified the resource. | [SystemData_LastModifiedByType_STATUS](#SystemData_LastModifiedByType_STATUS)<br/><small>Optional</small> |
+
+<a id="Backup_GeoRedundantBackup"></a>Backup_GeoRedundantBackup
+---------------------------------------------------------------
+
+Used by: [Backup](#Backup).
+
+| Value      | Description |
+|------------|-------------|
+| "Disabled" |             |
+| "Enabled"  |             |
+
+<a id="Backup_GeoRedundantBackup_STATUS"></a>Backup_GeoRedundantBackup_STATUS
+-----------------------------------------------------------------------------
+
+Used by: [Backup_STATUS](#Backup_STATUS).
+
+| Value      | Description |
+|------------|-------------|
+| "Disabled" |             |
+| "Enabled"  |             |
+
+<a id="FlexibleServerOperatorConfigMaps"></a>FlexibleServerOperatorConfigMaps
+-----------------------------------------------------------------------------
+
+Used by: [FlexibleServerOperatorSpec](#FlexibleServerOperatorSpec).
+
+| Property                 | Description                                                                                                          | Type                                                                                                                                                             |
+|--------------------------|----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| fullyQualifiedDomainName | indicates where the FullyQualifiedDomainName config map should be placed. If omitted, no config map will be created. | [genruntime.ConfigMapDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination)<br/><small>Optional</small> |
+
+<a id="FlexibleServerOperatorSecrets"></a>FlexibleServerOperatorSecrets
+-----------------------------------------------------------------------
+
+Used by: [FlexibleServerOperatorSpec](#FlexibleServerOperatorSpec).
+
+| Property                 | Description                                                                                                                    | Type                                                                                                                                                       |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| fullyQualifiedDomainName | indicates where the FullyQualifiedDomainName secret should be placed. If omitted, the secret will not be retrieved from Azure. | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
+
+<a id="HighAvailability_Mode"></a>HighAvailability_Mode
+-------------------------------------------------------
+
+Used by: [HighAvailability](#HighAvailability).
+
+| Value           | Description |
+|-----------------|-------------|
+| "Disabled"      |             |
+| "SameZone"      |             |
+| "ZoneRedundant" |             |
+
+<a id="HighAvailability_Mode_STATUS"></a>HighAvailability_Mode_STATUS
+---------------------------------------------------------------------
+
+Used by: [HighAvailability_STATUS](#HighAvailability_STATUS).
+
+| Value           | Description |
+|-----------------|-------------|
+| "Disabled"      |             |
+| "SameZone"      |             |
+| "ZoneRedundant" |             |
+
+<a id="HighAvailability_State_STATUS"></a>HighAvailability_State_STATUS
+-----------------------------------------------------------------------
+
+Used by: [HighAvailability_STATUS](#HighAvailability_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "CreatingStandby" |             |
+| "FailingOver"     |             |
+| "Healthy"         |             |
+| "NotEnabled"      |             |
+| "RemovingStandby" |             |
+| "ReplicatingData" |             |
+
+<a id="Network_PublicNetworkAccess_STATUS"></a>Network_PublicNetworkAccess_STATUS
+---------------------------------------------------------------------------------
+
+Used by: [Network_STATUS](#Network_STATUS).
+
+| Value      | Description |
+|------------|-------------|
+| "Disabled" |             |
+| "Enabled"  |             |
+
+<a id="Sku_Tier"></a>Sku_Tier
+-----------------------------
+
+Used by: [Sku](#Sku).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Burstable"       |             |
+| "GeneralPurpose"  |             |
+| "MemoryOptimized" |             |
+
+<a id="Sku_Tier_STATUS"></a>Sku_Tier_STATUS
+-------------------------------------------
+
+Used by: [Sku_STATUS](#Sku_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Burstable"       |             |
+| "GeneralPurpose"  |             |
+| "MemoryOptimized" |             |
+
+<a id="SystemData_CreatedByType_STATUS"></a>SystemData_CreatedByType_STATUS
+---------------------------------------------------------------------------
+
+Used by: [SystemData_STATUS](#SystemData_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Application"     |             |
+| "Key"             |             |
+| "ManagedIdentity" |             |
+| "User"            |             |
+
+<a id="SystemData_LastModifiedByType_STATUS"></a>SystemData_LastModifiedByType_STATUS
+-------------------------------------------------------------------------------------
+
+Used by: [SystemData_STATUS](#SystemData_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Application"     |             |
+| "Key"             |             |
+| "ManagedIdentity" |             |
+| "User"            |             |
