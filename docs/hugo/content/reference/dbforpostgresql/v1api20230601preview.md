@@ -1,12 +1,9 @@
-v1api20230601preview
-====================
+---
 
-| Metadata             | Value                                                                               |
-|----------------------|-------------------------------------------------------------------------------------|
-| Group                | dbforpostgresql.azure.com                                                           |
-| Version              | v1api20230601preview                                                                |
-| Module               | github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview |
-| Property Optionality | Optional                                                                            |
+title: dbforpostgresql.azure.com/v1api20230601preview
+
+linktitle: v1api20230601preview
+-------------------------------
 
 <a id="APIVersion"></a>APIVersion
 ---------------------------------

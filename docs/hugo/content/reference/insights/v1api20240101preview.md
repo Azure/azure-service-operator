@@ -1,12 +1,9 @@
-v1api20240101preview
-====================
+---
 
-| Metadata             | Value                                                                        |
-|----------------------|------------------------------------------------------------------------------|
-| Group                | insights.azure.com                                                           |
-| Version              | v1api20240101preview                                                         |
-| Module               | github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview |
-| Property Optionality | Optional                                                                     |
+title: insights.azure.com/v1api20240101preview
+
+linktitle: v1api20240101preview
+-------------------------------
 
 <a id="APIVersion"></a>APIVersion
 ---------------------------------

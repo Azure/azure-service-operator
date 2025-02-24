@@ -1,12 +1,9 @@
-v1api20240402preview
-====================
+---
 
-| Metadata             | Value                                                                                |
-|----------------------|--------------------------------------------------------------------------------------|
-| Group                | containerservice.azure.com                                                           |
-| Version              | v1api20240402preview                                                                 |
-| Module               | github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview |
-| Property Optionality | Optional                                                                             |
+title: containerservice.azure.com/v1api20240402preview
+
+linktitle: v1api20240402preview
+-------------------------------
 
 <a id="APIVersion"></a>APIVersion
 ---------------------------------

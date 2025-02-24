@@ -1,12 +1,9 @@
-v1api20210401preview
-====================
+---
 
-| Metadata             | Value                                                                        |
-|----------------------|------------------------------------------------------------------------------|
-| Group                | keyvault.azure.com                                                           |
-| Version              | v1api20210401preview                                                         |
-| Module               | github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview |
-| Property Optionality | Optional                                                                     |
+title: keyvault.azure.com/v1api20210401preview
+
+linktitle: v1api20210401preview
+-------------------------------
 
 <a id="APIVersion"></a>APIVersion
 ---------------------------------

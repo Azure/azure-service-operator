@@ -1,12 +1,9 @@
-v1api20230501preview
-====================
+---
 
-| Metadata             | Value                                                                             |
-|----------------------|-----------------------------------------------------------------------------------|
-| Group                | apimanagement.azure.com                                                           |
-| Version              | v1api20230501preview                                                              |
-| Module               | github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview |
-| Property Optionality | Optional                                                                          |
+title: apimanagement.azure.com/v1api20230501preview
+
+linktitle: v1api20230501preview
+-------------------------------
 
 <a id="Api"></a>Api
 -------------------

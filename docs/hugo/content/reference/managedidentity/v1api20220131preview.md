@@ -1,12 +1,9 @@
-v1api20220131preview
-====================
+---
 
-| Metadata             | Value                                                                               |
-|----------------------|-------------------------------------------------------------------------------------|
-| Group                | managedidentity.azure.com                                                           |
-| Version              | v1api20220131preview                                                                |
-| Module               | github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview |
-| Property Optionality | Optional                                                                            |
+title: managedidentity.azure.com/v1api20220131preview
+
+linktitle: v1api20220131preview
+-------------------------------
 
 <a id="APIVersion"></a>APIVersion
 ---------------------------------

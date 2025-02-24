@@ -1,12 +1,9 @@
-v1api20210101preview
-====================
+---
 
-| Metadata             | Value                                                                          |
-|----------------------|--------------------------------------------------------------------------------|
-| Group                | servicebus.azure.com                                                           |
-| Version              | v1api20210101preview                                                           |
-| Module               | github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview |
-| Property Optionality | Optional                                                                       |
+title: servicebus.azure.com/v1api20210101preview
+
+linktitle: v1api20210101preview
+-------------------------------
 
 <a id="APIVersion"></a>APIVersion
 ---------------------------------

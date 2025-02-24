@@ -1,12 +1,9 @@
-v1api20200801preview
-====================
+---
 
-| Metadata             | Value                                                                             |
-|----------------------|-----------------------------------------------------------------------------------|
-| Group                | authorization.azure.com                                                           |
-| Version              | v1api20200801preview                                                              |
-| Module               | github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview |
-| Property Optionality | Optional                                                                          |
+title: authorization.azure.com/v1api20200801preview
+
+linktitle: v1api20200801preview
+-------------------------------
 
 <a id="APIVersion"></a>APIVersion
 ---------------------------------
