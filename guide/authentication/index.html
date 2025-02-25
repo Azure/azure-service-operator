@@ -24,21 +24,21 @@
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Authentication in Azure Service Operator">
   <meta property="og:description" content="There are two key topics surrounding authentication in Azure Service Operator: The type of credential, and the credential scope.
-Credential type Azure Service Operator supports four different styles of authentication today.
-[Recommended for production] Azure Workload Identity (OIDC &#43; Managed Identity or Service Principal) Service Principal using a Client Secret Service Principal using a Client Certificate [Deprecated] aad-pod-identity authentication (Managed Identity) Credential scope Each supported credential type can be specified at one of three supported scopes:">
+Credential type Azure Service Operator supports five different styles of authentication today.
+[Recommended for production] Azure Workload Identity (OIDC &#43; Managed Identity or Service Principal) Service Principal using a Client Secret Service Principal using a Client Certificate [Deprecated] aad-pod-identity authentication (Managed Identity) [User Assigned Identity Credentials] ( /azure-service-operator/guide/authentication/credential-format/#user-assigned-identity-credentials ) Credential scope Each supported credential type can be specified at one of three supported scopes:">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
   <meta itemprop="name" content="Authentication in Azure Service Operator">
   <meta itemprop="description" content="There are two key topics surrounding authentication in Azure Service Operator: The type of credential, and the credential scope.
-Credential type Azure Service Operator supports four different styles of authentication today.
-[Recommended for production] Azure Workload Identity (OIDC &#43; Managed Identity or Service Principal) Service Principal using a Client Secret Service Principal using a Client Certificate [Deprecated] aad-pod-identity authentication (Managed Identity) Credential scope Each supported credential type can be specified at one of three supported scopes:">
-  <meta itemprop="wordCount" content="331">
+Credential type Azure Service Operator supports five different styles of authentication today.
+[Recommended for production] Azure Workload Identity (OIDC &#43; Managed Identity or Service Principal) Service Principal using a Client Secret Service Principal using a Client Certificate [Deprecated] aad-pod-identity authentication (Managed Identity) [User Assigned Identity Credentials] ( /azure-service-operator/guide/authentication/credential-format/#user-assigned-identity-credentials ) Credential scope Each supported credential type can be specified at one of three supported scopes:">
+  <meta itemprop="wordCount" content="338">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Authentication in Azure Service Operator">
   <meta name="twitter:description" content="There are two key topics surrounding authentication in Azure Service Operator: The type of credential, and the credential scope.
-Credential type Azure Service Operator supports four different styles of authentication today.
-[Recommended for production] Azure Workload Identity (OIDC &#43; Managed Identity or Service Principal) Service Principal using a Client Secret Service Principal using a Client Certificate [Deprecated] aad-pod-identity authentication (Managed Identity) Credential scope Each supported credential type can be specified at one of three supported scopes:">
+Credential type Azure Service Operator supports five different styles of authentication today.
+[Recommended for production] Azure Workload Identity (OIDC &#43; Managed Identity or Service Principal) Service Principal using a Client Secret Service Principal using a Client Certificate [Deprecated] aad-pod-identity authentication (Managed Identity) [User Assigned Identity Credentials] ( /azure-service-operator/guide/authentication/credential-format/#user-assigned-identity-credentials ) Credential scope Each supported credential type can be specified at one of three supported scopes:">
 
 
 
@@ -803,12 +803,13 @@ Credential type Azure Service Operator supports four different styles of authent
 </header>
 	<p>There are two key topics surrounding authentication in Azure Service Operator: The type of credential, and the credential scope.</p>
 <h2 id="credential-type">Credential type</h2>
-<p>Azure Service Operator supports four different styles of authentication today.</p>
+<p>Azure Service Operator supports five different styles of authentication today.</p>
 <ol>
 <li>[Recommended for production] <a href="/azure-service-operator/guide/authentication/credential-format/#managed-identity-via-workload-identity">Azure Workload Identity</a> (OIDC + Managed Identity or Service Principal)</li>
 <li><a href="/azure-service-operator/guide/authentication/credential-format/#service-principal-using-a-client-secret">Service Principal using a Client Secret</a></li>
 <li><a href="/azure-service-operator/guide/authentication/credential-format/#service-principal-using-a-client-certificate">Service Principal using a Client Certificate</a></li>
 <li>[Deprecated] <a href="/azure-service-operator/guide/authentication/credential-format/#deprecated-managed-identity-aad-pod-identity">aad-pod-identity authentication (Managed Identity)</a></li>
+<li>[User Assigned Identity Credentials] ( /azure-service-operator/guide/authentication/credential-format/#user-assigned-identity-credentials )</li>
 </ol>
 <h2 id="credential-scope">Credential scope</h2>
 <p>Each supported credential type can be specified at one of three supported scopes:</p>

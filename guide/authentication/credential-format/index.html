@@ -38,7 +38,7 @@ AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_
 Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
 Allowed credential fields These fields are common across all credential scopes.
 AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_CLIENT_CERTIFICATE AZURE_CLIENT_CERTIFICATE_PASSWORD AZURE_ADDITIONAL_TENANTS Note that the global credential scope has fields that can be set in addition to the fields documented above.">
-  <meta itemprop="wordCount" content="2321">
+  <meta itemprop="wordCount" content="2802">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Credential Format">
   <meta name="twitter:description" content="Azure Service Operator supports four different styles of authentication today.
@@ -1642,7 +1642,74 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  location: westcentralus
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div>
+</span></span></code></pre></div><h2 id="user-assigned-identity-credentials">User Assigned Identity Credentials</h2>
+<h3 id="general">General</h3>
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Warning</h4>
+<pre><code>This option is only available for 1st party Microsoft applications who have access to the msi data-plane.
+</code></pre>
+</div>
+<p>This authentication type is similar to user assigned managed identity authentication combined with client certificate
+authentication. As a 1st party Microsoft application, one has access to pull a user assigned managed identity&rsquo;s backing
+certificate information from the MSI data plane. Using this data, a user can authenticate to Azure Cloud.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>A JSON file with information from the user assigned managed identity. It should be in this format:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;client_id&#34;</span>: <span style="color:#e6db74">&#34;0998...&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;client_secret&#34;</span>: <span style="color:#e6db74">&#34;MIIKUA...&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;client_secret_url&#34;</span>: <span style="color:#e6db74">&#34;https://control...&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;tenant_id&#34;</span>: <span style="color:#e6db74">&#34;93b...&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;object_id&#34;</span>: <span style="color:#e6db74">&#34;ae...&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;resource_id&#34;</span>: <span style="color:#e6db74">&#34;/subscriptions/...&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;authentication_endpoint&#34;</span>: <span style="color:#e6db74">&#34;https://login.microsoftonline.com/&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;mtls_authentication_endpoint&#34;</span>: <span style="color:#e6db74">&#34;https://login.microsoftonline.com/&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;not_before&#34;</span>: <span style="color:#e6db74">&#34;2025-02-07T13:29:00Z&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;not_after&#34;</span>: <span style="color:#e6db74">&#34;2025-05-08T13:29:00Z&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;renew_after&#34;</span>: <span style="color:#e6db74">&#34;2025-03-25T13:29:00Z&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;cannot_renew_after&#34;</span>: <span style="color:#e6db74">&#34;2025-08-06T13:29:00Z&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span></code></pre></div><p>Note, the client secret should be a base64 encoded certificate.</p>
+<p>The steps to get this information from the MSI data plane are as follows:</p>
+<ol>
+<li>Make an unauthenticated GET or POST (no Authorization request headers) on the x-ms-identity-url received from ARM to get the token authority and, on older api versions, resource.</li>
+<li>Get an Access Token from Azure AD using your Resource Provider applicationId and Certificate. The applicationId should match the one you added to your manifest. The response should give you an access token.</li>
+<li>Perform a GET or POST to MSI on the same URL from earlier to get the Credentials using this bearer token.</li>
+</ol>
+<p>The only required environment variable is AZURE_USER_ASSIGNED_IDENTITY_CREDENTIALS.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export AZURE_USER_ASSIGNED_IDENTITY_CREDENTIALS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/path/to/credentials-file.json&#34;</span> <span style="color:#75715e"># The file path to the msi data plane credentials in a JSON file format.</span>
+</span></span></code></pre></div><p>It is expected this JSON file is available in a volume on the pod needing to authenticate with Azure cloud with this
+authentication method. For example, if the credentials were stored as a secret in Azure Key Vault, one could use the
+Secrets CSI Driver and a SecretProviderClass custom resource to automatically have the file mounted into a volume on a
+pod.</p>
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Warning</h4>
+<pre><code>No option is exposed to configure additional deployment volumes in the Helm chart because it is reserved for use by Microsoft 1st party access and not intended for 3rd party use.
+</code></pre>
+</div>
+<p>The cloud configuration defaults to Azure Public. If you want to configure the cloud configuration, you will need to
+export at least AZURE_AUTHORITY_HOST. Both AZURE_RESOURCE_MANAGER_AUDIENCE and AZURE_RESOURCE_MANAGER_ENDPOINT must be
+specified if you wish to set values for these two fields.
+(see <a href="https://learn.microsoft.com/en-us/cli/azure/manage-clouds-azure-cli#list-available-clouds">https://learn.microsoft.com/en-us/cli/azure/manage-clouds-azure-cli#list-available-clouds</a> for more info):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export AZURE_AUTHORITY_HOST<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://login.microsoftonline.com/&#34;</span> <span style="color:#75715e"># The URL of the Entra authority.</span>
+</span></span><span style="display:flex;"><span>export AZURE_RESOURCE_MANAGER_AUDIENCE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>                        <span style="color:#75715e"># The Azure Resource Manager Entra audience.</span>
+</span></span><span style="display:flex;"><span>export AZURE_RESOURCE_MANAGER_ENDPOINT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>                        <span style="color:#75715e"># The Azure Resource Manager endpoint.</span>
+</span></span></code></pre></div><p>Create or update the <code>aso-controller-settings</code> secret:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Secret
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> name: aso-controller-settings
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> namespace: azureserviceoperator-system
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">stringData:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> AZURE_USER_ASSIGNED_IDENTITY_CREDENTIALS: &#34;$AZURE_USER_ASSIGNED_IDENTITY_CREDENTIALS&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> AZURE_AUTHORITY_HOST: &#34;$AZURE_AUTHORITY_HOST&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> AZURE_RESOURCE_MANAGER_AUDIENCE: &#34;$AZURE_RESOURCE_MANAGER_AUDIENCE&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> AZURE_RESOURCE_MANAGER_ENDPOINT: &#34;$AZURE_RESOURCE_MANAGER_ENDPOINT&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p><strong>Note:</strong> The <code>aso-controller-settings</code> secret contains more configuration than just the global credential.
+If ASO was already installed on your cluster and you are updating the <code>aso-controller-settings</code> secret, ensure that
+<a href="/azure-service-operator/guide/aso-controller-settings-options/">other values</a> in that secret are not being overwritten.</p>
+
     </div>
 </div>
 
