@@ -5,7 +5,13 @@
 
 package identity
 
-import "github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+import (
+	"context"
+
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/msi-dataplane/pkg/dataplane"
+)
 
 type TokenCredentialProvider interface {
 	NewClientSecretCredential(
@@ -26,6 +32,7 @@ type TokenCredentialProvider interface {
 	NewManagedIdentityCredential(options *azidentity.ManagedIdentityCredentialOptions) (*azidentity.ManagedIdentityCredential, error)
 
 	NewWorkloadIdentityCredential(options *azidentity.WorkloadIdentityCredentialOptions) (*azidentity.WorkloadIdentityCredential, error)
+	NewUserAssignedIdentityCredentials(ctx context.Context, credentialPath string, opts ...dataplane.Option) (azcore.TokenCredential, error)
 }
 
 var _ TokenCredentialProvider = &tokenCredentialProvider{}
@@ -57,6 +64,10 @@ func (t *tokenCredentialProvider) NewManagedIdentityCredential(options *azidenti
 
 func (t *tokenCredentialProvider) NewWorkloadIdentityCredential(options *azidentity.WorkloadIdentityCredentialOptions) (*azidentity.WorkloadIdentityCredential, error) {
 	return azidentity.NewWorkloadIdentityCredential(options)
+}
+
+func (t *tokenCredentialProvider) NewUserAssignedIdentityCredentials(ctx context.Context, credentialPath string, opts ...dataplane.Option) (azcore.TokenCredential, error) {
+	return dataplane.NewUserAssignedIdentityCredential(ctx, credentialPath, opts...)
 }
 
 func DefaultTokenCredentialProvider() TokenCredentialProvider {

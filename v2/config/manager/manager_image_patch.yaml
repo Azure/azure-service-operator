@@ -37,6 +37,12 @@ spec:
                   name: aso-controller-settings
                   key: AZURE_ADDITIONAL_TENANTS
                   optional: true
+            - name: AZURE_USER_ASSIGNED_IDENTITY_CREDENTIALS
+              valueFrom:
+                secretKeyRef:
+                  name: aso-controller-settings
+                  key: AZURE_USER_ASSIGNED_IDENTITY_CREDENTIALS
+                  optional: true
             - name: AZURE_SUBSCRIPTION_ID
               valueFrom:
                 secretKeyRef:

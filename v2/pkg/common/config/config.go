@@ -24,6 +24,11 @@ const (
 	// AzureClientCertificatePassword is the password used to protect the AzureClientCertificate.
 	// #nosec
 	AzureClientCertificatePassword = "AZURE_CLIENT_CERTIFICATE_PASSWORD"
+	// AzureUserAssignedIdentityCredentials is a string of the path to a JSON file exists containing the JSON format of
+	// a UserAssignedIdentityCredentials struct
+	// See the msi-dataplane for more details on UserAssignedIdentityCredentials - https://github.com/Azure/msi-dataplane/blob/63fb37d3a1aaac130120624674df795d2e088083/pkg/dataplane/internal/generated_client.go#L156C6-L156C37
+	// #nosec
+	AzureUserAssignedIdentityCredentials = "AZURE_USER_ASSIGNED_IDENTITY_CREDENTIALS"
 	// TargetNamespaces lists the namespaces the operator will watch
 	// for Azure resources (if the mode includes running watchers). If
 	// it's empty the operator will watch all namespaces.
