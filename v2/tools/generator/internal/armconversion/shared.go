@@ -354,7 +354,7 @@ func (builder conversionBuilder) findPromotions(
 	return result
 }
 
-// isLeaf determines if a property is a OneOf leaf property.
+// asLeaf determines if a property is a OneOf leaf property, returning the related leaf type if so.
 // This requires the property to be an InternalTypeName that refers to an object type.
 func (builder conversionBuilder) asLeaf(
 	prop *astmodel.PropertyDefinition,

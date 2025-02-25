@@ -67,14 +67,17 @@ type armPropertyTypeConversionContext struct {
 }
 
 type armTypeCreator struct {
-	definitions    astmodel.TypeDefinitionSet
-	idFactory      astmodel.IdentifierFactory
-	armDefs        astmodel.TypeDefinitionSet // Our set of new ARM types
-	convertedDefs  astmodel.TypeDefinitionSet // The definitions we've already converted
-	skipTypes      []func(it astmodel.TypeDefinition) bool
-	log            logr.Logger
-	visitor        astmodel.TypeVisitor[any]
-	configuration  *config.ObjectModelConfiguration
+	definitions   astmodel.TypeDefinitionSet
+	idFactory     astmodel.IdentifierFactory
+	armDefs       astmodel.TypeDefinitionSet // Our set of new ARM types
+	convertedDefs astmodel.TypeDefinitionSet // The definitions we've already converted
+	skipTypes     []func(it astmodel.TypeDefinition) bool
+	log           logr.Logger
+	visitor       astmodel.TypeVisitor[any]
+	configuration *config.ObjectModelConfiguration
+
+	// leafProperties is a set of properties found on the root of a one-of type that need to be
+	// pushed out to the leaves of that one-of, keyed by the leaf type that needs to be modified.
 	leafProperties map[astmodel.InternalTypeName]astmodel.PropertySet
 }
 
@@ -306,6 +309,15 @@ func (c *armTypeCreator) createARMObjectTypeDefinition(
 	return result, nil
 }
 
+// findOneOfLeafPropertiesStillOnRoot verifies the provided TypeDefinition is a one-of type, and
+// then scans the provided TypeDefinition to find any properties that are NOT references to one-of
+// the leaf options.
+// Normally properties are pushed all the way to leaves, but in rare cases we might have a property
+// kept on the root that needs to be manually propagated to the leaves at runtime in order to
+// correctly construct the ARM payload.
+// For example, with a Kusto ClusterDatabase object, we still have `Name` on the root, but need to
+// push that down to either `ReadWriteDatabase` or `ReadOnlyFollowingDatabase` when constructing
+// the PUT payload for ARM.
 func (c *armTypeCreator) findOneOfLeafPropertiesStillOnRoot(
 	def astmodel.TypeDefinition,
 ) func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {

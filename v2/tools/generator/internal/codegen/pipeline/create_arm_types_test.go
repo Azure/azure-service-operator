@@ -425,7 +425,7 @@ func TestCreateARMTypeConversionsWhenSimplifying_CreatesExpectedConversions(t *t
 	}
 }
 
-func TestCreateARMTypes_withTopLevelOneOf_GeneratesExpectedCode(t *testing.T) {
+func TestCreateARMTypes_WithTopLevelOneOf_GeneratesExpectedCode(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -467,13 +467,6 @@ func TestCreateARMTypes_withTopLevelOneOf_GeneratesExpectedCode(t *testing.T) {
 		astmodel.NewPropertyDefinition("Kind", "kind", readOnlyFollowingDatabaseKind.Name()),
 		astmodel.NewPropertyDefinition("Location", "location", astmodel.OptionalStringType),
 		astmodel.NewPropertyDefinition("Properties", "properties", astmodel.OptionalStringType))
-
-	// clusterDatabaseKind := astmodel.MakeTypeDefinition(
-	// 	astmodel.MakeInternalTypeName(test.Pkg2022, "ClusterDatabaseKind"),
-	// 	astmodel.NewEnumType(
-	// 		astmodel.StringType,
-	// 		readWriteKind,
-	// 		readOnlyFollowingKind))
 
 	clusterDatabaseSpec := test.CreateObjectDefinition(
 		test.Pkg2022,

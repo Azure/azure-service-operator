@@ -172,7 +172,7 @@ func (builder *convertToARMBuilder) propertyConversionHandler(
 			return result, nil
 		}
 
-		// Promote any properties that populated from child objects
+		// Demote any properties that should be populated on child objects
 		// We know the types are going to be identical, so we can just generate
 		// simple assignments, but only when the property exists
 		if tn, ok := astmodel.AsInternalTypeName(toProp.PropertyType()); ok {
