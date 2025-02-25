@@ -3,6 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api2023
 --------------------------------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2023-05-01"
+
 Extension: Resource
 ├── Spec: Object (16 properties)
 │   ├── AksAssignedIdentity: *Object (2 properties)
@@ -126,6 +127,7 @@ Extension: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     ├── Type: *string
     └── Version: *string
+
 FluxConfiguration: Resource
 ├── Spec: Object (16 properties)
 │   ├── AzureBlob: *Object (10 properties)
@@ -310,3 +312,4 @@ FluxConfiguration: Resource
     ├── Suspend: *bool
     ├── Type: *string
     └── WaitForReconciliation: *bool
+

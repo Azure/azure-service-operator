@@ -6,3 +6,4 @@ Person: Object (3 properties)
 ├── KnownAs: string
 ├── Goodbye()
 └── Hello()
+

@@ -3,6 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview
 ----------------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2024-01-01-preview"
+
 ScheduledQueryRule: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (23 properties)
@@ -183,3 +184,4 @@ ScheduledQueryRule: Resource
     ├── TargetResourceTypes: string[]
     ├── Type: *string
     └── WindowSize: *string
+

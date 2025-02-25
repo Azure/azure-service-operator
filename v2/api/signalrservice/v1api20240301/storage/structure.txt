@@ -3,6 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20240301/stor
 -----------------------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2024-03-01"
+
 CustomCertificate: Resource
 ├── Owner: signalrservice/v1api20240301.SignalR
 ├── Spec: Object (9 properties)
@@ -36,6 +37,7 @@ CustomCertificate: Resource
     │   ├── LastModifiedByType: *string
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
+
 CustomDomain: Resource
 ├── Owner: signalrservice/v1api20240301.SignalR
 ├── Spec: Object (7 properties)
@@ -70,6 +72,7 @@ CustomDomain: Resource
     │   ├── LastModifiedByType: *string
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
+
 Replica: Resource
 ├── Owner: signalrservice/v1api20240301.SignalR
 ├── Spec: Object (10 properties)
@@ -116,6 +119,7 @@ Replica: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     ├── Tags: map[string]string
     └── Type: *string
+
 SignalR: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (23 properties)
@@ -317,3 +321,4 @@ SignalR: Resource
     │       ├── PropertyBag: genruntime.PropertyBag
     │       └── UrlTemplate: *string
     └── Version: *string
+

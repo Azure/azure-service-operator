@@ -34,12 +34,14 @@ CustomCertificate_STATUS: Object (5 properties)
 │       ├── "ManagedIdentity"
 │       └── "User"
 └── Type: *string
+
 CustomCertificate_Spec: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (3 properties)
     ├── KeyVaultBaseUri: *string
     ├── KeyVaultSecretName: *string
     └── KeyVaultSecretVersion: *string
+
 CustomDomain_STATUS: Object (5 properties)
 ├── Id: *string
 ├── Name: *string
@@ -73,12 +75,14 @@ CustomDomain_STATUS: Object (5 properties)
 │       ├── "ManagedIdentity"
 │       └── "User"
 └── Type: *string
+
 CustomDomain_Spec: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (2 properties)
     ├── CustomCertificate: *Object (1 property)
     │   └── Id: *string
     └── DomainName: *string
+
 Replica_STATUS: Object (8 properties)
 ├── Id: *string
 ├── Location: *string
@@ -123,6 +127,7 @@ Replica_STATUS: Object (8 properties)
 │       └── "User"
 ├── Tags: map[string]string
 └── Type: *string
+
 Replica_Spec: Object (5 properties)
 ├── Location: *string
 ├── Name: string
@@ -138,6 +143,7 @@ Replica_Spec: Object (5 properties)
 │       ├── "Premium"
 │       └── "Standard"
 └── Tags: map[string]string
+
 SignalR_STATUS: Object (10 properties)
 ├── Id: *string
 ├── Identity: *Object (4 properties)
@@ -275,6 +281,7 @@ SignalR_STATUS: Object (10 properties)
 │       └── "User"
 ├── Tags: map[string]string
 └── Type: *string
+
 SignalR_Spec: Object (7 properties)
 ├── Identity: *Object (2 properties)
 │   ├── Type: *Enum (3 values)
@@ -369,3 +376,4 @@ SignalR_Spec: Object (7 properties)
 │       ├── "Premium"
 │       └── "Standard"
 └── Tags: map[string]string
+

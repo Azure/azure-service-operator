@@ -11,3 +11,4 @@ Relationship: Object (2 properties)
     ├── FullName: string
     ├── KnownAs: string
     └── Parent: *Person
+

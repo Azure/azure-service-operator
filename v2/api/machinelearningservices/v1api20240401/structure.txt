@@ -3,6 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api2024
 ------------------------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2024-04-01"
+
 Registry: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (15 properties)
@@ -163,6 +164,7 @@ Registry: Resource
     │       └── "User"
     ├── Tags: map[string]string
     └── Type: *string
+
 Workspace: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (31 properties)
@@ -491,6 +493,7 @@ Workspace: Resource
     │   ├── AdditionalWorkspaceStorageAccounts: string[]
     │   └── DefaultWorkspaceResourceGroup: *string
     └── WorkspaceId: *string
+
 WorkspacesCompute: Resource
 ├── Owner: Workspace
 ├── Spec: Object (8 properties)
@@ -1559,6 +1562,7 @@ WorkspacesCompute: Resource
     │       └── "User"
     ├── Tags: map[string]string
     └── Type: *string
+
 WorkspacesConnection: Resource
 ├── Owner: Workspace
 ├── Spec: Object (4 properties)
@@ -4494,3 +4498,4 @@ WorkspacesConnection: Resource
     │       ├── "ManagedIdentity"
     │       └── "User"
     └── Type: *string
+

@@ -3,6 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230
 -----------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2023-12-30"
+
 FlexibleServer: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (22 properties)
@@ -213,6 +214,7 @@ FlexibleServer: Resource
     └── Version: *Enum (2 values)
         ├── "5.7"
         └── "8.0.21"
+
 FlexibleServersAdministrator: Resource
 ├── Owner: FlexibleServer
 ├── Spec: Object (9 properties)
@@ -254,6 +256,7 @@ FlexibleServersAdministrator: Resource
     │       └── "User"
     ├── TenantId: *string
     └── Type: *string
+
 FlexibleServersConfiguration: Resource
 ├── Owner: FlexibleServer
 ├── Spec: Object (6 properties)
@@ -306,6 +309,7 @@ FlexibleServersConfiguration: Resource
     │       └── "User"
     ├── Type: *string
     └── Value: *string
+
 FlexibleServersDatabase: Resource
 ├── Owner: FlexibleServer
 ├── Spec: Object (5 properties)
@@ -338,6 +342,7 @@ FlexibleServersDatabase: Resource
     │       ├── "ManagedIdentity"
     │       └── "User"
     └── Type: *string
+
 FlexibleServersFirewallRule: Resource
 ├── Owner: FlexibleServer
 ├── Spec: Object (5 properties)
@@ -372,3 +377,4 @@ FlexibleServersFirewallRule: Resource
     │       ├── "ManagedIdentity"
     │       └── "User"
     └── Type: *string
+
