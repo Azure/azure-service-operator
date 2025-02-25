@@ -6,7 +6,7 @@ package customizations
 import (
 	"context"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement/v2"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	ctrl "sigs.k8s.io/controller-runtime"
