@@ -101,7 +101,7 @@ Be careful setting this value too low as it can produce a lot of calls to Azure.
 ASO puts some steady load on your subscription due to re-reconciling resources periodically to ensure that
 there is no drift from the desired goal state. The rate at which this syncing occurs is set by the 
 [AZURE_SYNC_PERIOD]({{< relref "aso-controller-settings-options#azure_sync_period" >}}) (`azureSyncPeriod` in Helm)
-Prior to ASO-beta.4, ASO's default `azureSyncPeriod` was 15m. It was changed to 1h in ASO-beta.4.
+The default is 1h
 
 When `azureSyncPeriod` is up for a particular resource, a new PUT is issued to the resource RP to correct any drift from 
 the goal state defined in ASO. There has been discussion about changing to do diffing locally to reduce requests to Azure, 
@@ -118,6 +118,17 @@ For example:
 | 15m             | 1000                | 4000            |
 | 1h              | 1200                | 1200            |
 | 24h             | 28800               | 1200            |
+
+### ASO is slow to reconcile some resources
+
+If you have a large amount of a single type of resource, ASO may not be able to keep up with the
+number of reconciles it needs to run for that resource type. This would manifest as the 
+[workqueue_depth metric]({{< relref "metrics" >}}) staying consistently high for a single controller 
+(or set of controllers).
+
+If this happens, you can increase the 
+[MAX_CONCURRENT_RECONCILES]( {{< relref "aso-controller-settings-options#max_concurrent_reconciles" >}})
+setting to allow for more than a single reconcile. See the documentation of that option to understand what it means.
 
 ### Why doesn't ASO support exporting/importing all data from configmap/secret?
 
@@ -298,4 +309,46 @@ data:
         hs.status = "Progressing"
         hs.message = "Waiting for certificate"
         return hs
+```
+
+### How can I programmatically use ASO?
+
+{{% alert title="Warning" color="warning" %}}
+ASO does not offer a full Go module versioning guarantee.
+
+We try not to change the shape of any resources in Kubernetes, but we reserve the right to
+change Go symbols as long as their serialized format is unchanged. When this happens it will be called out in 
+[breaking changes]( {{< relref "breaking-changes" >}}).
+{{% /alert %}}
+
+We recommend using `sigs.k8s.io/controller-runtime/pkg/client` to interact with the ASO types defined at 
+`github.com/Azure/azure-service-operator/v2/api`. For example:
+
+```go
+package main
+
+import (
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	asoapi "github.com/Azure/azure-service-operator/v2/api"
+	ctrl "sigs.k8s.io/controller-runtime"
+)
+
+func main() {
+	scheme := asoapi.CreateScheme(scheme)
+	kubeClient, err := client.New(config.GetConfigOrDie(), client.Options{Scheme: scheme})
+	if err != nil {
+		panic(err)
+	}
+	obj := &resources.ResourceGroup{
+		ObjectMeta: ctrl.ObjectMeta{
+			Name: "my-rg",
+			Namespace: "my-namespace",
+        },
+		Spec: resources.ResourceGroup_Spec{
+			Location: location,
+		},
+	}
+	kubeClient.Create(ctx, obj)
+}
 ```
