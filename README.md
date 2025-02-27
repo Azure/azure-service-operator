@@ -22,7 +22,7 @@ There are two major versions of Azure Service Operator: v1 and v2. Consult the b
 | ASO Version | Lifecycle stage | Development status        | Installation options                                                                                                                                                                                    |
 | ----------- | --------------- |---------------------------| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | v2          | Stable          | Under active development. | [Helm chart](/v2/charts), [GitHub release 2.x](https://github.com/Azure/azure-service-operator/releases). See [installation](https://azure.github.io/azure-service-operator/#installation) for example. |
-| v1          | Beta            | Halted                    | [Helm chart](/charts), [OperatorHub](https://operatorhub.io/operator/azure-service-operator) or [GitHub release 1.x](https://github.com/Azure/azure-service-operator/releases)                          |
+| v1          | Decprecated     | Halted                    | [Helm chart](/charts), [OperatorHub](https://operatorhub.io/operator/azure-service-operator) or [GitHub release 1.x](https://github.com/Azure/azure-service-operator/releases)                          |
 
 ### ASO v2
 Azure Service Operator v2 was built based on the lessons learned from ASO v1, with the following improvements:
@@ -36,9 +36,10 @@ Azure Service Operator v2 was built based on the lessons learned from ASO v1, wi
 [Learn more about Azure Service Operator v2](https://azure.github.io/azure-service-operator/)
 
 ### ASO v1
-> **⚠️ We strongly recommend new users consider [ASO v2]((https://azure.github.io/azure-service-operator/)) instead of ASO v1**
 
-Azure Service Operator v1 is no longer under active development.
+> **ASO v1 has been deprecated. New users should use [ASO v2](https://azure.github.io/azure-service-operator/).**
+
+Azure Service Operator v1 is no longer being maintained - this means no bug fixes and no security updates.
 
 See the [ASOv1 to ASOv2 migration guide](https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/) for migrating from ASOv1 to ASOv2.
 
