@@ -156,6 +156,8 @@ func createAllPipelineStages(
 		// ARM types for resources etc:
 		pipeline.ApplyExportFilters(configuration, log),
 
+		pipeline.PromoteRootOneOfProperties(),
+
 		pipeline.AddAPIVersionEnums(),
 		pipeline.RemoveTypeAliases(),
 

@@ -21,6 +21,7 @@ assertTypesStructureValid                                    Verify that all loc
 removeEmbeddedResources                           azure      Remove properties that point to embedded resources.
 catalogKnownResources                                        Catalog known resources
 filterTypes                                                  Apply export filters to reduce the number of generated types
+promoteRootOneOfProperties                                   Promote selected properties on OneOf objects directly referenced by resources
 add-api-version-enums                                        Add enums for API Versions in each package
 removeAliases                                                Remove type aliases
 makeStatusPropertiesOptional                                 Force all status properties to be optional

@@ -71,32 +71,50 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 		return nil, eris.Wrapf(err, "creating type expression for %s", receiver)
 	}
 
+	// Find any root properties that need special handling
 	props := f.oneOfObject.Properties().AsSlice()
+	rootProperties := astmodel.NewPropertySet()
+	defs := codeGenerationContext.GetDefinitionsInCurrentPackage()
+	for _, prop := range props {
+		if !astmodel.IsOneOfLeafProperty(prop, defs) {
+			rootProperties.Add(prop)
+		}
+	}
+
+	// For each leaf property, create a check with a marshal call
 	statements := make([]dst.Stmt, 0, len(props))
 	for _, property := range props {
+		if rootProperties.ContainsProperty(property.PropertyName()) {
+			continue
+		}
+
+		receiverIdent := dst.NewIdent(receiverName)
+		propName := string(property.PropertyName())
+
 		ret := astbuilder.Returns(
 			astbuilder.CallQualifiedFunc(
 				jsonPackage,
 				"Marshal",
-				astbuilder.Selector(dst.NewIdent(receiverName), string(property.PropertyName()))))
+				astbuilder.Selector(receiverIdent, propName)))
+
 		ifStatement := astbuilder.IfNotNil(
 			astbuilder.Selector(
-				dst.NewIdent(receiverName),
+				receiverIdent,
 				string(property.PropertyName())),
 			ret)
+		ifStatement.Decorations().After = dst.EmptyLine
 		statements = append(statements, ifStatement)
 	}
 
 	finalReturnStatement := &dst.ReturnStmt{
 		Results: []dst.Expr{astbuilder.Nil(), astbuilder.Nil()},
 	}
-	statements = append(statements, finalReturnStatement)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          f.Name(),
 		ReceiverIdent: receiverName,
 		ReceiverType:  receiverExpr,
-		Body:          statements,
+		Body:          astbuilder.Statements(statements, finalReturnStatement),
 	}
 
 	fn.AddComments(fmt.Sprintf(
