@@ -2205,9 +2205,9 @@ objectModelConfiguration:
     2023-12-30:
       DataEncryption:
         GeoBackupUserAssignedIdentityId:
-          $armReference: true
+          $referenceType: arm
         PrimaryUserAssignedIdentityId:
-          $armReference: true
+          $referenceType: arm
       FlexibleServer:
         $export: true
         $supportedFrom: v2.13.0
@@ -2221,7 +2221,7 @@ objectModelConfiguration:
         $supportedFrom: v2.13.0
       AdministratorProperties:
         IdentityResourceId:
-          $armReference: true # TODO: Upstream to Swagger
+          $referenceType: arm # TODO: Upstream to Swagger
         Sid:
           $importConfigMapMode: optional
         TenantId:
@@ -2237,12 +2237,12 @@ objectModelConfiguration:
         $supportedFrom: v2.13.0
       Network:
         DelegatedSubnetResourceId:
-          $armReference: true
+          $referenceType: arm
         PrivateDnsZoneResourceId:
-          $armReference: true
+          $referenceType: arm
       ServerProperties:
         SourceServerResourceId:
-          $armReference: true
+          $referenceType: arm
   dbforpostgresql:
     v1: # Handcrafted 
       User:
