@@ -105,6 +105,7 @@ Namespace_STATUS: Object (8 properties)
 │       └── "User"
 ├── Tags: map[string]string
 └── Type: *string
+
 Namespace_Spec: Object (5 properties)
 ├── Location: *string
 ├── Name: string
@@ -197,6 +198,7 @@ Namespace_Spec: Object (5 properties)
 │   ├── Size: *string
 │   └── Tier: *string
 └── Tags: map[string]string
+
 NamespacesAuthorizationRule_STATUS: Object (7 properties)
 ├── Id: *string
 ├── Location: *string
@@ -229,6 +231,7 @@ NamespacesAuthorizationRule_STATUS: Object (7 properties)
 │       └── "User"
 ├── Tags: map[string]string
 └── Type: *string
+
 NamespacesAuthorizationRule_Spec: Object (4 properties)
 ├── Location: *string
 ├── Name: string
@@ -238,6 +241,7 @@ NamespacesAuthorizationRule_Spec: Object (4 properties)
 │       ├── "Manage"
 │       └── "Send"
 └── Tags: map[string]string
+
 NotificationHub_STATUS: Object (8 properties)
 ├── Id: *string
 ├── Location: *string
@@ -299,6 +303,7 @@ NotificationHub_STATUS: Object (8 properties)
 │       └── "User"
 ├── Tags: map[string]string
 └── Type: *string
+
 NotificationHub_Spec: Object (5 properties)
 ├── Location: *string
 ├── Name: string
@@ -360,6 +365,7 @@ NotificationHub_Spec: Object (5 properties)
 │   ├── Size: *string
 │   └── Tier: *string
 └── Tags: map[string]string
+
 NotificationHubsAuthorizationRule_STATUS: Object (7 properties)
 ├── Id: *string
 ├── Location: *string
@@ -392,6 +398,7 @@ NotificationHubsAuthorizationRule_STATUS: Object (7 properties)
 │       └── "User"
 ├── Tags: map[string]string
 └── Type: *string
+
 NotificationHubsAuthorizationRule_Spec: Object (4 properties)
 ├── Location: *string
 ├── Name: string
@@ -401,3 +408,4 @@ NotificationHubsAuthorizationRule_Spec: Object (4 properties)
 │       ├── "Manage"
 │       └── "Send"
 └── Tags: map[string]string
+

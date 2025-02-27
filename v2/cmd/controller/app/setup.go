@@ -18,6 +18,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/msi-dataplane/pkg/dataplane"
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
@@ -121,6 +122,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		os.Exit(1)
 	}
 
+	//nolint:contextcheck
 	clients, err := initializeClients(cfg, mgr)
 	if err != nil {
 		setupLog.Error(err, "failed to initialize clients")
@@ -282,7 +284,9 @@ func getDefaultAzureCredential(cfg config.Values, setupLog logr.Logger) (*identi
 	return identity.NewDefaultCredential(
 		tokenCred,
 		cfg.PodNamespace,
-		cfg.SubscriptionID), nil
+		cfg.SubscriptionID,
+		cfg.AdditionalTenants,
+	), nil
 }
 
 func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (azcore.TokenCredential, error) {
@@ -293,11 +297,16 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 	}
 
 	if cfg.UseWorkloadIdentityAuth {
-		credential, err := azidentity.NewWorkloadIdentityCredential(&azidentity.WorkloadIdentityCredentialOptions{
-			ClientID:      cfg.ClientID,
-			TenantID:      cfg.TenantID,
-			TokenFilePath: identity.FederatedTokenFilePath,
-		})
+		credential, err := azidentity.NewWorkloadIdentityCredential(
+			&azidentity.WorkloadIdentityCredentialOptions{
+				ClientOptions: azcore.ClientOptions{
+					Cloud: cfg.Cloud(),
+				},
+				ClientID:                   cfg.ClientID,
+				TenantID:                   cfg.TenantID,
+				TokenFilePath:              identity.FederatedTokenFilePath,
+				AdditionallyAllowedTenants: cfg.AdditionalTenants,
+			})
 		if err != nil {
 			return nil, eris.Wrapf(err, "unable to get workload identity credential")
 		}
@@ -307,7 +316,17 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 
 	if cert := os.Getenv(common.AzureClientCertificate); cert != "" {
 		certPassword := os.Getenv(common.AzureClientCertificatePassword)
-		credential, err := identity.NewClientCertificateCredential(cfg.TenantID, cfg.ClientID, []byte(cert), []byte(certPassword))
+		credential, err := identity.NewClientCertificateCredential(
+			cfg.TenantID,
+			cfg.ClientID,
+			[]byte(cert),
+			[]byte(certPassword),
+			&azidentity.ClientCertificateCredentialOptions{
+				ClientOptions: azcore.ClientOptions{
+					Cloud: cfg.Cloud(),
+				},
+				AdditionallyAllowedTenants: cfg.AdditionalTenants,
+			})
 		if err != nil {
 			return nil, eris.Wrapf(err, "unable to get client certificate credential")
 		}
@@ -315,7 +334,29 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 		return credential, nil
 	}
 
-	credential, err := azidentity.NewDefaultAzureCredential(nil)
+	// This authentication type is similar to user assigned managed identity authentication combined with client certificate
+	// authentication. As a 1st party Microsoft application, one has access to pull a user assigned managed identity's backing
+	// certificate information from the MSI data plane. Using this data, a user can authenticate to Azure Cloud.
+	if userAssignedCredentialsPath := os.Getenv(common.AzureUserAssignedIdentityCredentials); userAssignedCredentialsPath != "" {
+		options := azcore.ClientOptions{
+			Cloud: cfg.Cloud(),
+		}
+
+		credential, err := dataplane.NewUserAssignedIdentityCredential(context.Background(), userAssignedCredentialsPath, dataplane.WithClientOpts(options))
+		if err != nil {
+			return nil, eris.Wrapf(err, "unable to get user assigned identity credential")
+		}
+
+		return credential, nil
+	}
+
+	credential, err := azidentity.NewDefaultAzureCredential(
+		&azidentity.DefaultAzureCredentialOptions{
+			ClientOptions: azcore.ClientOptions{
+				Cloud: cfg.Cloud(),
+			},
+			AdditionallyAllowedTenants: cfg.AdditionalTenants,
+		})
 	if err != nil {
 		return nil, eris.Wrapf(err, "unable to get default azure credential")
 	}
@@ -346,7 +387,12 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	}
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
-	credentialProvider := identity.NewCredentialProvider(credential, kubeClient, nil)
+	credentialProvider := identity.NewCredentialProvider(
+		credential,
+		kubeClient,
+		&identity.CredentialProviderOptions{
+			Cloud: to.Ptr(cfg.Cloud()),
+		})
 
 	armClientCache := armreconciler.NewARMClientCache(
 		credentialProvider,

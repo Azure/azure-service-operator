@@ -2201,7 +2201,48 @@ objectModelConfiguration:
           $referenceType: arm
       ServerProperties:
         SourceServerResourceId:
-          $referenceType: arm # TODO: probably need a conversion hook for this... don't merge without it
+          $referenceType: arm
+    2023-12-30:
+      DataEncryption:
+        GeoBackupUserAssignedIdentityId:
+          $armReference: true
+        PrimaryUserAssignedIdentityId:
+          $armReference: true
+      FlexibleServer:
+        $export: true
+        $supportedFrom: v2.13.0
+        $azureGeneratedSecrets:
+          - FullyQualifiedDomainName
+        $generatedConfigs:
+          FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+          AdministratorLogin: $.Status.AdministratorLogin
+      FlexibleServers_Administrator:
+        $exportAs: FlexibleServersAdministrator
+        $supportedFrom: v2.13.0
+      AdministratorProperties:
+        IdentityResourceId:
+          $armReference: true # TODO: Upstream to Swagger
+        Sid:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
+      FlexibleServers_Configuration:
+        $exportAs: FlexibleServersConfiguration
+        $supportedFrom: v2.13.0
+      FlexibleServers_Database:
+        $exportAs: FlexibleServersDatabase
+        $supportedFrom: v2.13.0
+      FlexibleServers_FirewallRule:
+        $exportAs: FlexibleServersFirewallRule
+        $supportedFrom: v2.13.0
+      Network:
+        DelegatedSubnetResourceId:
+          $armReference: true
+        PrivateDnsZoneResourceId:
+          $armReference: true
+      ServerProperties:
+        SourceServerResourceId:
+          $armReference: true
   dbforpostgresql:
     v1: # Handcrafted 
       User:

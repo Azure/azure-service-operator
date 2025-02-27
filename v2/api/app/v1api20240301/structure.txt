@@ -3,6 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/app/v1api20240301
 ----------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2024-03-01"
+
 AuthConfig: Resource
 ├── Owner: ContainerApp
 ├── Spec: Object (9 properties)
@@ -279,6 +280,7 @@ AuthConfig: Resource
     │       ├── "ManagedIdentity"
     │       └── "User"
     └── Type: *string
+
 ContainerApp: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (13 properties)
@@ -721,6 +723,7 @@ ContainerApp: Resource
     │           └── "Secret"
     ├── Type: *string
     └── WorkloadProfileName: *string
+
 Job: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (10 properties)
@@ -998,6 +1001,7 @@ Job: Resource
     │           └── "Secret"
     ├── Type: *string
     └── WorkloadProfileName: *string
+
 ManagedEnvironment: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (16 properties)
@@ -1110,3 +1114,4 @@ ManagedEnvironment: Resource
     │   ├── Name: *string
     │   └── WorkloadProfileType: *string
     └── ZoneRedundant: *bool
+

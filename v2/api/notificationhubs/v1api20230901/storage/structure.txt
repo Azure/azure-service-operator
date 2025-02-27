@@ -3,6 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/notificationhubs/v1api20230901/st
 -------------------------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2023-09-01"
+
 Namespace: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (9 properties)
@@ -200,6 +201,7 @@ Namespace: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     ├── Tags: map[string]string
     └── Type: *string
+
 NamespacesAuthorizationRule: Resource
 ├── Owner: notificationhubs/v1api20230901.Namespace
 ├── Spec: Object (8 properties)
@@ -241,6 +243,7 @@ NamespacesAuthorizationRule: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     ├── Tags: map[string]string
     └── Type: *string
+
 NotificationHub: Resource
 ├── Owner: notificationhubs/v1api20230901.Namespace
 ├── Spec: Object (9 properties)
@@ -401,6 +404,7 @@ NotificationHub: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     ├── Tags: map[string]string
     └── Type: *string
+
 NotificationHubsAuthorizationRule: Resource
 ├── Owner: notificationhubs/v1api20230901.NotificationHub
 ├── Spec: Object (8 properties)
@@ -442,3 +446,4 @@ NotificationHubsAuthorizationRule: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     ├── Tags: map[string]string
     └── Type: *string
+

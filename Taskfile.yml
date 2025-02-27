@@ -550,7 +550,7 @@ tasks:
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
-      TIMEOUT: '{{default "20m" .TIMEOUT}}'
+      TIMEOUT: '{{default "20m" .TIMEOUT}}'  # Should be kept in sync with the -cover variant below
 
   # This target is intended for local use only
   controller:test-integration-envtest-record:
@@ -588,9 +588,11 @@ tasks:
             INPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.md'
       # -race fails at the moment in controller-runtime
-      - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-envtest.out' -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers > '{{.TEST_OUT}}/controller-integration-tests.json'
-      - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-genruntime-envtest.out' -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./pkg/genruntime/test > '{{.TEST_OUT}}/controller-integration-genruntime-tests.json'
-      - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-genericarmclient-envtest.out' -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/genericarmclient > '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
+      - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-envtest.out' -coverpkg="./..." -json -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers > '{{.TEST_OUT}}/controller-integration-tests.json'
+      - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-genruntime-envtest.out' -coverpkg="./..." -json -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' ./pkg/genruntime/test > '{{.TEST_OUT}}/controller-integration-genruntime-tests.json'
+      - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-genericarmclient-envtest.out' -coverpkg="./..." -json -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' ./internal/genericarmclient > '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
+    vars:
+      TIMEOUT: '20m'  # Should be kept in sync with the non-cover variant above
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.

@@ -85,11 +85,23 @@ spec:
             secretKeyRef:
               key: AZURE_TENANT_ID
               name: aso-controller-settings
+        - name: AZURE_ADDITIONAL_TENANTS
+          valueFrom:
+            secretKeyRef:
+              name: aso-controller-settings
+              key: AZURE_ADDITIONAL_TENANTS
+              optional: true
         - name: AZURE_SUBSCRIPTION_ID
           valueFrom:
             secretKeyRef:
               key: AZURE_SUBSCRIPTION_ID
               name: aso-controller-settings
+        - name: AZURE_USER_ASSIGNED_IDENTITY_CREDENTIALS
+          valueFrom:
+            secretKeyRef:
+              name: aso-controller-settings
+              key: AZURE_USER_ASSIGNED_IDENTITY_CREDENTIALS
+              optional: true
         - name: AZURE_CLIENT_CERTIFICATE
           valueFrom:
             secretKeyRef:

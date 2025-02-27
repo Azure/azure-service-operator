@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_FlexibleServersAdministrator_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersAdministrator to hub returns original",
+		prop.ForAll(RunResourceConversionTestForFlexibleServersAdministrator, FlexibleServersAdministratorGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForFlexibleServersAdministrator tests if a specific instance of FlexibleServersAdministrator round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForFlexibleServersAdministrator(subject FlexibleServersAdministrator) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.FlexibleServersAdministrator
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual FlexibleServersAdministrator
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FlexibleServersAdministrator_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersAdministrator to FlexibleServersAdministrator via AssignProperties_To_FlexibleServersAdministrator & AssignProperties_From_FlexibleServersAdministrator returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersAdministrator, FlexibleServersAdministratorGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersAdministrator tests if a specific instance of FlexibleServersAdministrator can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersAdministrator(subject FlexibleServersAdministrator) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FlexibleServersAdministrator
+	err := copied.AssignProperties_To_FlexibleServersAdministrator(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersAdministrator
+	err = actual.AssignProperties_From_FlexibleServersAdministrator(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_FlexibleServersAdministrator_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -79,6 +165,48 @@ func AddRelatedPropertyGeneratorsForFlexibleServersAdministrator(gens map[string
 	gens["Status"] = FlexibleServersAdministrator_STATUSGenerator()
 }
 
+func Test_FlexibleServersAdministratorOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersAdministratorOperatorSpec to FlexibleServersAdministratorOperatorSpec via AssignProperties_To_FlexibleServersAdministratorOperatorSpec & AssignProperties_From_FlexibleServersAdministratorOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersAdministratorOperatorSpec, FlexibleServersAdministratorOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersAdministratorOperatorSpec tests if a specific instance of FlexibleServersAdministratorOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersAdministratorOperatorSpec(subject FlexibleServersAdministratorOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FlexibleServersAdministratorOperatorSpec
+	err := copied.AssignProperties_To_FlexibleServersAdministratorOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersAdministratorOperatorSpec
+	err = actual.AssignProperties_From_FlexibleServersAdministratorOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_FlexibleServersAdministratorOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -132,6 +260,48 @@ func FlexibleServersAdministratorOperatorSpecGenerator() gopter.Gen {
 	flexibleServersAdministratorOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersAdministratorOperatorSpec{}), generators)
 
 	return flexibleServersAdministratorOperatorSpecGenerator
+}
+
+func Test_FlexibleServersAdministrator_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersAdministrator_STATUS to FlexibleServersAdministrator_STATUS via AssignProperties_To_FlexibleServersAdministrator_STATUS & AssignProperties_From_FlexibleServersAdministrator_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersAdministrator_STATUS, FlexibleServersAdministrator_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersAdministrator_STATUS tests if a specific instance of FlexibleServersAdministrator_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersAdministrator_STATUS(subject FlexibleServersAdministrator_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FlexibleServersAdministrator_STATUS
+	err := copied.AssignProperties_To_FlexibleServersAdministrator_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersAdministrator_STATUS
+	err = actual.AssignProperties_From_FlexibleServersAdministrator_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_FlexibleServersAdministrator_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -214,6 +384,48 @@ func AddIndependentPropertyGeneratorsForFlexibleServersAdministrator_STATUS(gens
 // AddRelatedPropertyGeneratorsForFlexibleServersAdministrator_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersAdministrator_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_FlexibleServersAdministrator_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersAdministrator_Spec to FlexibleServersAdministrator_Spec via AssignProperties_To_FlexibleServersAdministrator_Spec & AssignProperties_From_FlexibleServersAdministrator_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersAdministrator_Spec, FlexibleServersAdministrator_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersAdministrator_Spec tests if a specific instance of FlexibleServersAdministrator_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersAdministrator_Spec(subject FlexibleServersAdministrator_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FlexibleServersAdministrator_Spec
+	err := copied.AssignProperties_To_FlexibleServersAdministrator_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersAdministrator_Spec
+	err = actual.AssignProperties_From_FlexibleServersAdministrator_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_FlexibleServersAdministrator_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

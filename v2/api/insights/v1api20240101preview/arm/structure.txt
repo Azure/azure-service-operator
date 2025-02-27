@@ -100,6 +100,7 @@ ScheduledQueryRule_STATUS: Object (10 properties)
 │       └── "User"
 ├── Tags: map[string]string
 └── Type: *string
+
 ScheduledQueryRule_Spec: Object (6 properties)
 ├── Identity: *Object (2 properties)
 │   ├── Type: *Enum (3 values)
@@ -174,3 +175,4 @@ ScheduledQueryRule_Spec: Object (6 properties)
 │   ├── TargetResourceTypes: string[]
 │   └── WindowSize: *string
 └── Tags: map[string]string
+

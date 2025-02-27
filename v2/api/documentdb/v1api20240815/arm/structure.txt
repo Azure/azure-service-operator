@@ -197,6 +197,7 @@ DatabaseAccount_STATUS: Object (9 properties)
 │       └── "User"
 ├── Tags: map[string]string
 └── Type: *string
+
 DatabaseAccount_Spec: Object (6 properties)
 ├── Identity: *Object (2 properties)
 │   ├── Type: *Enum (4 values)
@@ -337,6 +338,7 @@ DatabaseAccount_Spec: Object (6 properties)
 │       ├── Id: *string
 │       └── IgnoreMissingVNetServiceEndpoint: *bool
 └── Tags: map[string]string
+
 MongodbDatabaseCollectionThroughputSetting_STATUS: Object (6 properties)
 ├── Id: *string
 ├── Location: *string
@@ -360,6 +362,7 @@ MongodbDatabaseCollectionThroughputSetting_STATUS: Object (6 properties)
 │       └── Ts: *float64
 ├── Tags: map[string]string
 └── Type: *string
+
 MongodbDatabaseCollectionThroughputSetting_Spec: Object (4 properties)
 ├── Location: *string
 ├── Name: string
@@ -373,6 +376,7 @@ MongodbDatabaseCollectionThroughputSetting_Spec: Object (4 properties)
 │       │   └── MaxThroughput: *int
 │       └── Throughput: *int
 └── Tags: map[string]string
+
 MongodbDatabaseCollection_STATUS: Object (6 properties)
 ├── Id: *string
 ├── Location: *string
@@ -404,6 +408,7 @@ MongodbDatabaseCollection_STATUS: Object (6 properties)
 │       └── Ts: *float64
 ├── Tags: map[string]string
 └── Type: *string
+
 MongodbDatabaseCollection_Spec: Object (4 properties)
 ├── Location: *string
 ├── Name: string
@@ -430,6 +435,7 @@ MongodbDatabaseCollection_Spec: Object (4 properties)
 │       │   └── RestoreWithTtlDisabled: *bool
 │       └── ShardKey: map[string]string
 └── Tags: map[string]string
+
 MongodbDatabaseThroughputSetting_STATUS: Object (6 properties)
 ├── Id: *string
 ├── Location: *string
@@ -453,6 +459,7 @@ MongodbDatabaseThroughputSetting_STATUS: Object (6 properties)
 │       └── Ts: *float64
 ├── Tags: map[string]string
 └── Type: *string
+
 MongodbDatabaseThroughputSetting_Spec: Object (4 properties)
 ├── Location: *string
 ├── Name: string
@@ -466,6 +473,7 @@ MongodbDatabaseThroughputSetting_Spec: Object (4 properties)
 │       │   └── MaxThroughput: *int
 │       └── Throughput: *int
 └── Tags: map[string]string
+
 MongodbDatabase_STATUS: Object (6 properties)
 ├── Id: *string
 ├── Location: *string
@@ -489,6 +497,7 @@ MongodbDatabase_STATUS: Object (6 properties)
 │       └── Ts: *float64
 ├── Tags: map[string]string
 └── Type: *string
+
 MongodbDatabase_Spec: Object (4 properties)
 ├── Location: *string
 ├── Name: string
@@ -507,6 +516,7 @@ MongodbDatabase_Spec: Object (4 properties)
 │           ├── RestoreTimestampInUtc: *string
 │           └── RestoreWithTtlDisabled: *bool
 └── Tags: map[string]string
+
 MongodbUserDefinition_STATUS: Object (4 properties)
 ├── Id: *string
 ├── Name: *string
@@ -519,6 +529,7 @@ MongodbUserDefinition_STATUS: Object (4 properties)
 │   │   └── Role: *string
 │   └── UserName: *string
 └── Type: *string
+
 MongodbUserDefinition_Spec: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (6 properties)
@@ -530,6 +541,7 @@ MongodbUserDefinition_Spec: Object (2 properties)
     │   ├── Db: *string
     │   └── Role: *string
     └── UserName: *string
+
 SqlDatabaseContainerStoredProcedure_STATUS: Object (6 properties)
 ├── Id: *string
 ├── Location: *string
@@ -543,6 +555,7 @@ SqlDatabaseContainerStoredProcedure_STATUS: Object (6 properties)
 │       └── Ts: *float64
 ├── Tags: map[string]string
 └── Type: *string
+
 SqlDatabaseContainerStoredProcedure_Spec: Object (4 properties)
 ├── Location: *string
 ├── Name: string
@@ -555,6 +568,7 @@ SqlDatabaseContainerStoredProcedure_Spec: Object (4 properties)
 │       ├── Body: *string
 │       └── Id: *string
 └── Tags: map[string]string
+
 SqlDatabaseContainerThroughputSetting_STATUS: Object (6 properties)
 ├── Id: *string
 ├── Location: *string
@@ -578,6 +592,7 @@ SqlDatabaseContainerThroughputSetting_STATUS: Object (6 properties)
 │       └── Ts: *float64
 ├── Tags: map[string]string
 └── Type: *string
+
 SqlDatabaseContainerThroughputSetting_Spec: Object (4 properties)
 ├── Location: *string
 ├── Name: string
@@ -591,6 +606,7 @@ SqlDatabaseContainerThroughputSetting_Spec: Object (4 properties)
 │       │   └── MaxThroughput: *int
 │       └── Throughput: *int
 └── Tags: map[string]string
+
 SqlDatabaseContainerTrigger_STATUS: Object (6 properties)
 ├── Id: *string
 ├── Location: *string
@@ -613,6 +629,7 @@ SqlDatabaseContainerTrigger_STATUS: Object (6 properties)
 │       └── Ts: *float64
 ├── Tags: map[string]string
 └── Type: *string
+
 SqlDatabaseContainerTrigger_Spec: Object (4 properties)
 ├── Location: *string
 ├── Name: string
@@ -634,6 +651,7 @@ SqlDatabaseContainerTrigger_Spec: Object (4 properties)
 │           ├── "Post"
 │           └── "Pre"
 └── Tags: map[string]string
+
 SqlDatabaseContainerUserDefinedFunction_STATUS: Object (6 properties)
 ├── Id: *string
 ├── Location: *string
@@ -647,6 +665,7 @@ SqlDatabaseContainerUserDefinedFunction_STATUS: Object (6 properties)
 │       └── Ts: *float64
 ├── Tags: map[string]string
 └── Type: *string
+
 SqlDatabaseContainerUserDefinedFunction_Spec: Object (4 properties)
 ├── Location: *string
 ├── Name: string
@@ -659,6 +678,7 @@ SqlDatabaseContainerUserDefinedFunction_Spec: Object (4 properties)
 │       ├── Body: *string
 │       └── Id: *string
 └── Tags: map[string]string
+
 SqlDatabaseContainer_STATUS: Object (6 properties)
 ├── Id: *string
 ├── Location: *string
@@ -746,6 +766,7 @@ SqlDatabaseContainer_STATUS: Object (6 properties)
 │               └── Paths: string[]
 ├── Tags: map[string]string
 └── Type: *string
+
 SqlDatabaseContainer_Spec: Object (4 properties)
 ├── Location: *string
 ├── Name: string
@@ -827,6 +848,7 @@ SqlDatabaseContainer_Spec: Object (4 properties)
 │           └── UniqueKeys: Object (1 property)[]
 │               └── Paths: string[]
 └── Tags: map[string]string
+
 SqlDatabaseThroughputSetting_STATUS: Object (6 properties)
 ├── Id: *string
 ├── Location: *string
@@ -850,6 +872,7 @@ SqlDatabaseThroughputSetting_STATUS: Object (6 properties)
 │       └── Ts: *float64
 ├── Tags: map[string]string
 └── Type: *string
+
 SqlDatabaseThroughputSetting_Spec: Object (4 properties)
 ├── Location: *string
 ├── Name: string
@@ -863,6 +886,7 @@ SqlDatabaseThroughputSetting_Spec: Object (4 properties)
 │       │   └── MaxThroughput: *int
 │       └── Throughput: *int
 └── Tags: map[string]string
+
 SqlDatabase_STATUS: Object (6 properties)
 ├── Id: *string
 ├── Location: *string
@@ -888,6 +912,7 @@ SqlDatabase_STATUS: Object (6 properties)
 │       └── Users: *string
 ├── Tags: map[string]string
 └── Type: *string
+
 SqlDatabase_Spec: Object (4 properties)
 ├── Location: *string
 ├── Name: string
@@ -906,6 +931,7 @@ SqlDatabase_Spec: Object (4 properties)
 │           ├── RestoreTimestampInUtc: *string
 │           └── RestoreWithTtlDisabled: *bool
 └── Tags: map[string]string
+
 SqlRoleAssignment_STATUS: Object (4 properties)
 ├── Id: *string
 ├── Name: *string
@@ -914,9 +940,11 @@ SqlRoleAssignment_STATUS: Object (4 properties)
 │   ├── RoleDefinitionId: *string
 │   └── Scope: *string
 └── Type: *string
+
 SqlRoleAssignment_Spec: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (3 properties)
     ├── PrincipalId: *string
     ├── RoleDefinitionId: *string
     └── Scope: *string
+

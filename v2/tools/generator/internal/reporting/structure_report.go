@@ -92,6 +92,14 @@ func (sr *StructureReport) writeBlock(
 		if err != nil {
 			return err
 		}
+
+		// Write a blank line between items if we're at the root
+		if sr.isRoot {
+			_, err = io.WriteString(writer, "\n")
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	return nil

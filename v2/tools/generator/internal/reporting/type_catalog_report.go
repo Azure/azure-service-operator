@@ -10,6 +10,7 @@ import (
 	"io"
 	"os"
 	"sort"
+	"strings"
 
 	"github.com/rotisserie/eris"
 	"golang.org/x/exp/slices"
@@ -466,6 +467,21 @@ func (tcr *TypeCatalogReport) asShortNameForType(
 			"Validated<%s> (%s)",
 			tcr.asShortNameForType(t.Unwrap(), currentPackage, parentTypes),
 			tcr.formatCount(len(t.Validations().ToKubeBuilderValidations()), "rule", "rules"))
+	case *astmodel.FlaggedType:
+		var flags strings.Builder
+		for i, f := range t.Flags() {
+			if i > 0 {
+				flags.WriteString(" ")
+			}
+
+			flags.WriteString("#")
+			flags.WriteString(string(f))
+		}
+
+		return fmt.Sprintf(
+			"%s %s",
+			tcr.asShortNameForType(t.Element(), currentPackage, parentTypes),
+			flags.String())
 	case astmodel.MetaType:
 		return tcr.asShortNameForType(t.Unwrap(), currentPackage, parentTypes)
 	default:
