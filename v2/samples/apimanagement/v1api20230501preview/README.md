@@ -58,8 +58,7 @@ For more information, see https://andrewilson.co.uk/post/2022/09/apim-purge-soft
 
 ### Using az rest
 
-Similarly, you can use **az** to purge a selected instance via the REST API. Fill in `{subscription}`, `{location}` asd `{service-name}` and run this command:
-
+Similarly, you can use **az** to purge a selected instance via the REST API. Fill in `{subscription}`, `{location}` and `{service-name}` and run this command:
 ``` bash
 az rest --method delete --url https://management.azure.com/subscriptions/{subscription}/providers/Microsoft.ApiManagement/locations/{location}/deletedservices/{service-name}?api-version=2021-08-01
 ```
