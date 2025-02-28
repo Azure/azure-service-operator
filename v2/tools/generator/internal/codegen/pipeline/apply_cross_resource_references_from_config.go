@@ -43,20 +43,21 @@ func ApplyCrossResourceReferencesFromConfig(
 
 			isCrossResourceReference := func(typeName astmodel.InternalTypeName, prop *astmodel.PropertyDefinition) ARMIDPropertyClassification {
 				// First check if we know that this property is an ARMID already
-				isReference, ok := configuration.ObjectModelConfiguration.ARMReference.Lookup(typeName, prop.PropertyName())
+				referenceType, ok := configuration.ObjectModelConfiguration.ReferenceType.Lookup(typeName, prop.PropertyName())
 				isSwaggerARMID := isTypeARMID(prop.PropertyType())
 
 				// If we've got a Swagger ARM ID entry AND an entry in our config, that might be a problem
 				if ok && isSwaggerARMID {
-					if !isReference {
-						// We allow overriding the ARM ID status of a property to false in our config
+					switch referenceType {
+					case config.ReferenceTypeSimple:
+						// We allow overriding the reference type of a property to "other" in our config
 						return ARMIDPropertyClassificationUnset
-					} else {
+					case config.ReferenceTypeARM:
 						// Swagger has marked this field as a reference, and we also have it marked in our
 						// config. Record an error saying that the config entry is no longer needed
 						crossResourceReferenceErrs = append(
 							crossResourceReferenceErrs,
-							eris.Errorf("%s.%s marked as ARM reference, but value is not needed because Swagger already says it is an ARM reference",
+							eris.Errorf("%s.%s marked with reference type ARM, but value is not needed because Swagger already says it is an ARM reference",
 								typeName.String(),
 								prop.PropertyName().String()),
 						)
@@ -76,11 +77,14 @@ func ApplyCrossResourceReferencesFromConfig(
 					)
 				}
 
-				if isReference {
+				switch referenceType {
+				case config.ReferenceTypeARM:
 					return ARMIDPropertyClassificationSet
+				case config.ReferenceTypeSimple:
+					return ARMIDPropertyClassificationUnspecified
+				default:
+					return ARMIDPropertyClassificationUnspecified
 				}
-
-				return ARMIDPropertyClassificationUnspecified
 			}
 
 			visitor := MakeARMIDPropertyTypeVisitor(isCrossResourceReference, log)
@@ -108,7 +112,7 @@ func ApplyCrossResourceReferencesFromConfig(
 				return nil, err
 			}
 
-			err = configuration.ObjectModelConfiguration.ARMReference.VerifyConsumed()
+			err = configuration.ObjectModelConfiguration.ReferenceType.VerifyConsumed()
 			if err != nil {
 				return nil, eris.Wrap(
 					err,

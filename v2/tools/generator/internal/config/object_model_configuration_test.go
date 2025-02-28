@@ -142,14 +142,14 @@ func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsEx
 			typeName,
 			"Spouse",
 			func(pc *PropertyConfiguration) error {
-				pc.ARMReference.Set(true)
+				pc.ReferenceType.Set(ReferenceTypeARM)
 				return nil
 			})).
 		To(Succeed())
 
-	isReference, ok := omc.ARMReference.Lookup(typeName, "Spouse")
+	referenceType, ok := omc.ReferenceType.Lookup(typeName, "Spouse")
 	g.Expect(ok).To(BeTrue())
-	g.Expect(isReference).To(BeTrue())
+	g.Expect(referenceType).To(Equal(ReferenceTypeARM))
 }
 
 func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_ReturnsExpectedResult(t *testing.T) {
@@ -163,14 +163,14 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_Returns
 			typeName,
 			"FullName",
 			func(pc *PropertyConfiguration) error {
-				pc.ARMReference.Set(false)
+				pc.ReferenceType.Set(ReferenceTypeSimple)
 				return nil
 			})).
 		To(Succeed())
 
-	isReference, ok := omc.ARMReference.Lookup(typeName, "FullName")
+	referenceType, ok := omc.ReferenceType.Lookup(typeName, "FullName")
 	g.Expect(ok).To(BeTrue())
-	g.Expect(isReference).To(BeFalse())
+	g.Expect(referenceType).To(Equal(ReferenceTypeSimple))
 }
 
 func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedResult(t *testing.T) {
@@ -184,12 +184,12 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 			typeName,
 			"Spouse",
 			func(pc *PropertyConfiguration) error {
-				pc.ARMReference.Set(true)
+				pc.ReferenceType.Set(ReferenceTypeARM)
 				return nil
 			})).
 		To(Succeed())
 
-	_, ok := omc.ARMReference.Lookup(typeName, "KnownAs")
+	_, ok := omc.ReferenceType.Lookup(typeName, "KnownAs")
 	g.Expect(ok).To(BeFalse())
 }
 
@@ -204,15 +204,15 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceUsed_
 			typeName,
 			"Spouse",
 			func(pc *PropertyConfiguration) error {
-				pc.ARMReference.Set(true)
+				pc.ReferenceType.Set(ReferenceTypeARM)
 				return nil
 			})).
 		To(Succeed())
 
-	ref, ok := omc.ARMReference.Lookup(typeName, "Spouse")
+	referenceType, ok := omc.ReferenceType.Lookup(typeName, "Spouse")
 	g.Expect(ok).To(BeTrue())
-	g.Expect(ref).To(BeTrue())
-	g.Expect(omc.ARMReference.VerifyConsumed()).To(Succeed())
+	g.Expect(referenceType).To(Equal(ReferenceTypeARM))
+	g.Expect(omc.ReferenceType.VerifyConsumed()).To(Succeed())
 }
 
 func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceNotUsed_ReturnsExpectedError(t *testing.T) {
@@ -226,13 +226,13 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceNotUs
 			typeName,
 			"Spouse",
 			func(pc *PropertyConfiguration) error {
-				pc.ARMReference.Set(true)
+				pc.ReferenceType.Set(ReferenceTypeARM)
 				return nil
 			})).
 		To(Succeed())
 
 	g.Expect(
-		omc.ARMReference.VerifyConsumed()).NotTo(Succeed())
+		omc.ReferenceType.VerifyConsumed()).NotTo(Succeed())
 }
 
 /*

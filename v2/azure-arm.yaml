@@ -907,12 +907,6 @@ status:
 #   Property modifiers
 # =======================
 #
-# $armReference: <bool>
-#     Indicates whether this property is an ARM reference to another resource. 
-#     Set to 'true' to confirm the property is an ARM reference.
-#     Set to 'false' to disable our heuristics if a property is incorrectly 
-#     identified as an ARM reference.
-#
 # $description: <string>
 #     Overrides the property description with the provided value.
 #
@@ -936,6 +930,13 @@ status:
 #     Establishes a connection between the two properties allowing for proper
 #     forward and backward conversion.
 #
+# $referenceType: string
+#     Indicates whether this property is an ARM reference to another resource or some other kind 
+#     of reference.
+#  o  Set to 'arm' to confirm the property is an ARM reference.
+#  o  Set to 'simple' to indicate this is a simple value not requiring special handling. This is 
+#     used disable our heuristics if a property is incorrectly identified as an ARM reference.
+#
 # $resourceLifecycleOwnedByParent: <string>
 #     Specifies that the property references a misbehaving embedded resource, one whose parent
 #     resource owns the lifecycle of the child resource.
@@ -958,39 +959,39 @@ objectModelConfiguration:
         $supportedFrom: v2.11.0
       AlertRuleProperties:
         Scope:
-          $armReference: true
+          $referenceType: arm
       ActionGroupsInformation:
         GroupIds:
-          $armReference: true
+          $referenceType: arm
       Detector:
         Id:
-          $armReference: false
+          $referenceType: simple
     2023-03-01:
       PrometheusRuleGroup:
         $export: true
         $supportedFrom: v2.8.0
       PrometheusRuleGroupProperties:
         Scopes:
-          $armReference: true
+          $referenceType: arm
       PrometheusRuleGroupAction:
         ActionGroupId:
-          $armReference: true
+          $referenceType: arm
   apimanagement:
     2022-08-01:
       AdditionalLocation:
         PublicIpAddressId:
-          $armReference: true
+          $referenceType: arm
       ApiCreateOrUpdateProperties:
         ApiVersionSetId:
-          $armReference: true
+          $referenceType: arm
         SourceApiId:
-          $armReference: true
+          $referenceType: arm
       ApiVersionSetContractDetails:
         Id: 
-          $armReference: true
+          $referenceType: arm
       ApiManagementServiceProperties:
         PublicIpAddressId:
-          $armReference: true
+          $referenceType: arm
       AuthorizationAccessPolicyContractProperties:
         TenantId:
           $importConfigMapMode: optional
@@ -1006,7 +1007,7 @@ objectModelConfiguration:
           $isSecret: true
       BackendContractProperties:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       BackendProxyContract:
         Password:
           $isSecret: true
@@ -1079,25 +1080,25 @@ objectModelConfiguration:
         SecondaryKey:
           $isSecret: true
         OwnerId:
-          $armReference: true
+          $referenceType: arm
       VirtualNetworkConfiguration:
         SubnetResourceId:
-          $armReference: true
+          $referenceType: arm
     2023-05-01-preview:
       AdditionalLocation:
         PublicIpAddressId:
-          $armReference: true
+          $referenceType: arm
       ApiCreateOrUpdateProperties:
         ApiVersionSetId:
-          $armReference: true
+          $referenceType: arm
         SourceApiId:
-          $armReference: true
+          $referenceType: arm
       ApiVersionSetContractDetails:
         Id: 
-          $armReference: true
+          $referenceType: arm
       ApiManagementServiceProperties:
         PublicIpAddressId:
-          $armReference: true
+          $referenceType: arm
       AuthorizationAccessPolicyContractProperties:
         TenantId:
           $importConfigMapMode: optional
@@ -1113,7 +1114,7 @@ objectModelConfiguration:
           $isSecret: true
       BackendContractProperties:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       BackendProxyContract:
         Password:
           $isSecret: true
@@ -1186,10 +1187,10 @@ objectModelConfiguration:
         SecondaryKey:
           $isSecret: true
         OwnerId:
-          $armReference: true
+          $referenceType: arm
       VirtualNetworkConfiguration:
         SubnetResourceId:
-          $armReference: true
+          $referenceType: arm
   app:
     2024-03-01:
       ContainerApp:
@@ -1205,24 +1206,24 @@ objectModelConfiguration:
         passwordSecretRef:
           $isSecret: false
         Identity:
-          $armReference: true
+          $referenceType: arm
       ServiceBind:
         ServiceId:
-          $armReference: true
+          $referenceType: arm
       Secret:
         Identity:
-          $armReference: true
+          $referenceType: arm
       ContainerApp_Spec:
         ManagedBy:
-          $armReference: true
+          $referenceType: arm
       ContainerApp_Properties_Spec:
         EnvironmentId:
-          $armReference: true
+          $referenceType: arm
         ManagedEnvironmentId:
-          $armReference: true
+          $referenceType: arm
       CustomDomain:
         CertificateId:
-          $armReference: true
+          $referenceType: arm
       OpenIdConnectConfig:
         TokenEndpoint:
           $isSecret: false
@@ -1231,13 +1232,13 @@ objectModelConfiguration:
         $supportedFrom: v2.12.0
       VnetConfiguration:
         InfrastructureSubnetId:
-          $armReference: true
+          $referenceType: arm
       Job:
         $export: true
         $supportedFrom: v2.12.0
       Job_Properties_Spec:
         EnvironmentId:
-          $armReference: true
+          $referenceType: arm
   appconfiguration:
     2022-05-01:
       ConfigurationStore:
@@ -1272,9 +1273,9 @@ objectModelConfiguration:
             description: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or 'random'. <br> +kubebuilder:validation:Enum={"random","stable"}
       RoleAssignmentProperties:
         DelegatedManagedIdentityResourceId:
-          $armReference: true 
+          $referenceType: arm 
         RoleDefinitionId:
-          $armReference: true
+          $referenceType: arm
         PrincipalId:
           $importConfigMapMode: optional
     2022-04-01:
@@ -1288,9 +1289,9 @@ objectModelConfiguration:
             description: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or 'random'. <br> +kubebuilder:validation:Enum={"random","stable"}
       RoleAssignmentProperties:
         DelegatedManagedIdentityResourceId:
-          $armReference: true
+          $referenceType: arm
         RoleDefinitionId:
-          $armReference: true
+          $referenceType: arm
         PrincipalId:
           $importConfigMapMode: optional
       RoleDefinition:
@@ -1303,7 +1304,7 @@ objectModelConfiguration:
             description: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or 'random'. <br> +kubebuilder:validation:Enum={"random","stable"}
       RoleDefinitionProperties:
         AssignableScopes:
-          $armReference: true
+          $referenceType: arm
   batch:
     2021-01-01:
       BatchAccount:
@@ -1323,7 +1324,7 @@ objectModelConfiguration:
 # TODO: Does this need to be uncommented
 #      RedisCreateProperties:
 #        SubnetId:
-#          $armReference: true
+#          $referenceType: arm
       Redis_FirewallRule:
         $exportAs: RedisFirewallRule
         $supportedFrom: v2.0.0-alpha.4
@@ -1353,7 +1354,7 @@ objectModelConfiguration:
       # TODO: Does this need to be uncommented
       #      RedisCreateProperties:
       #        SubnetId:
-      #          $armReference: true
+      #          $referenceType: arm
       Redis_FirewallRule:
         $exportAs: RedisFirewallRule
         $supportedFrom: v2.3.0
@@ -1382,7 +1383,7 @@ objectModelConfiguration:
           - SSLPort
       RedisCreateProperties:
         SubnetId:
-          $armReference: true
+          $referenceType: arm
       Redis_FirewallRule:
         $exportAs: RedisFirewallRule
         $supportedFrom: v2.10.0
@@ -1391,7 +1392,7 @@ objectModelConfiguration:
         $supportedFrom: v2.10.0
       RedisLinkedServerCreateProperties:
         LinkedRedisCacheId:
-          $armReference: true
+          $referenceType: arm
       Redis_PatchSchedule:
         $exportAs: RedisPatchSchedule
         $supportedFrom: v2.10.0
@@ -1418,14 +1419,14 @@ objectModelConfiguration:
       DeepCreatedOriginProperties:
         $isResource: false
         PrivateLinkLocation:
-          $armReference: true
+          $referenceType: arm
         PrivateLinkResourceId:
-          $armReference: true
+          $referenceType: arm
       DeepCreatedOriginProperties_STATUS:
         $isResource: false
       EndpointProperties_WebApplicationFirewallPolicyLink:
         Id:
-          $armReference: true
+          $referenceType: arm
       Profile:
         $export: true
         $supportedFrom: v2.0.0-beta.1
@@ -1511,32 +1512,32 @@ objectModelConfiguration:
     2020-09-30:
       CreationData:
         SourceResourceId:
-          $armReference: true
+          $referenceType: arm
       Disk:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
       DiskProperties:
         DiskAccessId:
-          $armReference: true
+          $referenceType: arm
       Encryption:
         DiskEncryptionSetId:
-          $armReference: true
+          $referenceType: arm
       ImageDiskReference:
         Id:
-          $armReference: true
+          $referenceType: arm
       Snapshot:
         $export: true
         $supportedFrom: v2.0.0-alpha.4
       SnapshotProperties:
         DiskAccessId: 
-          $armReference: true
+          $referenceType: arm
       SourceVault:
         Id:
-          $armReference: true
+          $referenceType: arm
     2020-12-01:
       ApiEntityReference:
         Id:
-          $armReference: true
+          $referenceType: arm
       ImageReference:
         $isResource: false
       ImageReference_STATUS:
@@ -1594,14 +1595,14 @@ objectModelConfiguration:
     2022-03-01:
       ApiEntityReference:
         Id:
-          $armReference: true
+          $referenceType: arm
       Image:
         $export: true
         $supportedFrom: v2.0.0-beta.2
       ImageReference:
         $isResource: false
         Version:
-          $armReference: false
+          $referenceType: simple
       ImageReference_STATUS:
         $isResource: false
       ManagedDiskParameters:
@@ -1626,7 +1627,7 @@ objectModelConfiguration:
           $isSecret: false
       VMGalleryApplication:
         PackageReferenceId:
-          $armReference: true
+          $referenceType: arm
       VirtualMachine:
         $export: true
         $supportedFrom: v2.0.0-beta.2
@@ -1665,7 +1666,7 @@ objectModelConfiguration:
         $supportedFrom: v2.3.0
       SourceVault:
         Id:
-          $armReference: true
+          $referenceType: arm
       KeyForDiskEncryptionSet:
         KeyUrl:
           $importConfigMapMode: optional
@@ -1675,30 +1676,30 @@ objectModelConfiguration:
     2024-03-02:
       CreationData:
         SourceResourceId:
-          $armReference: true
+          $referenceType: arm
         ElasticSanResourceId:
-          $armReference: true
+          $referenceType: arm
       Disk:
         $export: true
         $supportedFrom: v2.9.0
       DiskProperties:
         DiskAccessId:
-          $armReference: true
+          $referenceType: arm
       Encryption:
         DiskEncryptionSetId:
-          $armReference: true
+          $referenceType: arm
       ImageDiskReference:
         Id:
-          $armReference: true
+          $referenceType: arm
       Snapshot:
         $export: true
         $supportedFrom: v2.9.0
       SnapshotProperties:
         DiskAccessId:
-          $armReference: true
+          $referenceType: arm
       SourceVault:
         Id:
-          $armReference: true
+          $referenceType: arm
       DiskAccess:
         $export: true
         $supportedFrom: v2.9.0
@@ -1715,7 +1716,7 @@ objectModelConfiguration:
       # TODO: Confirm that these guys are really ARM IDs
       DiskSecurityProfile:
         SecureVMDiskEncryptionSetId:
-          $armReference: true
+          $referenceType: arm
   containerinstance:
     2021-10-01:
       ContainerGroup:
@@ -1723,15 +1724,15 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-beta.1
       ContainerGroupSubnetId:
         Id:
-          $armReference: true
+          $referenceType: arm
       LogAnalytics:
         WorkspaceResourceId:
-          $armReference: true
+          $referenceType: arm
   containerregistry:
     2021-09-01:
       IdentityProperties:
         PrincipalId:
-          $armReference: false
+          $referenceType: simple
       Registry:
         $export: true
         $supportedFrom: v2.0.0-alpha.6
@@ -1766,7 +1767,7 @@ objectModelConfiguration:
           $payloadType: explicitEmptyCollections
       ManagedClusterAgentPoolProfile:
         ProximityPlacementGroupID:
-          $armReference: false  # This is true in the next version and we have custom conversion to make round-tripping work
+          $referenceType: simple  # This is true in the next version and we have custom conversion to make round-tripping work
         NodeLabels:
           $payloadType: explicitEmptyCollections
         NodeTaints:
@@ -1778,7 +1779,7 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.1
       ManagedClusterAgentPoolProfileProperties:
         ProximityPlacementGroupID:
-          $armReference: false # This is true in the next version and we have custom conversion to make round-tripping work
+          $referenceType: simple # This is true in the next version and we have custom conversion to make round-tripping work
         NodeLabels:
           $payloadType: explicitEmptyCollections
         NodeTaints:
@@ -1793,7 +1794,7 @@ objectModelConfiguration:
           $isSecret: true
       PrivateLinkResource:
         Id:
-          $armReference: true
+          $referenceType: arm
     2023-02-01:
       ContainerServiceSshPublicKey:
         KeyData:
@@ -1839,7 +1840,7 @@ objectModelConfiguration:
           $isSecret: true
       PrivateLinkResource:
         Id:
-          $armReference: true
+          $referenceType: arm
     2023-03-15-preview:
       Fleet:
         $export: true
@@ -1860,7 +1861,7 @@ objectModelConfiguration:
           $isSecret: false
       DelegatedResource:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       ManagedCluster:
         $export: true
         $supportedFrom: v2.5.0
@@ -1901,7 +1902,7 @@ objectModelConfiguration:
         $supportedFrom: v2.8.0
       PrivateLinkResource:
         Id:
-          $armReference: true
+          $referenceType: arm
     2023-11-02-preview:
       ContainerServiceSshPublicKey:
         KeyData:
@@ -1911,7 +1912,7 @@ objectModelConfiguration:
           $isSecret: false
       DelegatedResource:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       ManagedCluster:
         $export: true
         $supportedFrom: v2.6.0
@@ -1949,7 +1950,7 @@ objectModelConfiguration:
           $isSecret: true
       PrivateLinkResource:
         Id:
-          $armReference: true
+          $referenceType: arm
     2024-04-02-preview:
       ContainerServiceSshPublicKey:
         KeyData:
@@ -1959,7 +1960,7 @@ objectModelConfiguration:
           $isSecret: false
       DelegatedResource:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       ManagedCluster:
         $export: true
         $supportedFrom: v2.8.0
@@ -1999,7 +2000,7 @@ objectModelConfiguration:
         $supportedFrom: v2.8.0
       PrivateLinkResource:
         Id:
-          $armReference: true
+          $referenceType: arm
     2024-09-01:
       ContainerServiceSshPublicKey:
         KeyData:
@@ -2009,7 +2010,7 @@ objectModelConfiguration:
           $isSecret: false
       DelegatedResource:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       ManagedCluster:
         $export: true
         $supportedFrom: v2.11.0
@@ -2046,7 +2047,7 @@ objectModelConfiguration:
           $isSecret: true
       PrivateLinkResource:
         Id:
-          $armReference: true
+          $referenceType: arm
       ManagedClusters_TrustedAccessRoleBinding:
         $exportAs: TrustedAccessRoleBinding
         $supportedFrom: v2.11.0
@@ -2057,10 +2058,10 @@ objectModelConfiguration:
     2018-06-01:
       PurviewConfiguration:
         PurviewResourceId:
-          $armReference: true
+          $referenceType: arm
       CMKIdentityDefinition:
         UserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
       Factory:
         $export: true
         $supportedFrom: v2.1.0
@@ -2088,16 +2089,16 @@ objectModelConfiguration:
         $supportedFrom: v2.7.0 
       DatasourceSet:
         ResourceID:
-          $armReference: true
+          $referenceType: arm
       Datasource:
         ResourceID:
-          $armReference: true
+          $referenceType: arm
       PolicyInfo:
         PolicyId:
-          $armReference: true
+          $referenceType: arm
       AzureOperationalStoreParameters:
         ResourceGroupId:
-          $armReference: true
+          $referenceType: arm
   dbformariadb:
     2018-06-01:
       Server:
@@ -2118,9 +2119,9 @@ objectModelConfiguration:
     2021-05-01:
       DataEncryption:
         GeoBackupUserAssignedIdentityId:
-          $armReference: true
+          $referenceType: arm
         PrimaryUserAssignedIdentityId:
-          $armReference: true
+          $referenceType: arm
       FlexibleServer: 
         $export: true
         $supportedFrom: v2.0.0-alpha.2
@@ -2145,14 +2146,14 @@ objectModelConfiguration:
         $nameInNextVersion: MySQLServerSku_STATUS
       ServerProperties:
         SourceServerResourceId:
-          $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+          $referenceType: simple # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
     2022-01-01:
       FlexibleServers_Administrator:
         $exportAs: FlexibleServersAdministrator
         $supportedFrom: v2.1.0
       AdministratorProperties:
         IdentityResourceId:
-          $armReference: true # TODO: Upstream to Swagger
+          $referenceType: arm # TODO: Upstream to Swagger
         Sid:
           $importConfigMapMode: optional
         TenantId:
@@ -2163,9 +2164,9 @@ objectModelConfiguration:
     2023-06-30:
       DataEncryption:
         GeoBackupUserAssignedIdentityId:
-          $armReference: true
+          $referenceType: arm
         PrimaryUserAssignedIdentityId:
-          $armReference: true
+          $referenceType: arm
       FlexibleServer:
         $export: true
         $supportedFrom: v2.7.0
@@ -2179,7 +2180,7 @@ objectModelConfiguration:
         $supportedFrom: v2.7.0
       AdministratorProperties:
         IdentityResourceId:
-          $armReference: true # TODO: Upstream to Swagger
+          $referenceType: arm # TODO: Upstream to Swagger
         Sid:
           $importConfigMapMode: optional
         TenantId:
@@ -2195,18 +2196,18 @@ objectModelConfiguration:
         $supportedFrom: v2.7.0
       Network:
         DelegatedSubnetResourceId:
-          $armReference: true
+          $referenceType: arm
         PrivateDnsZoneResourceId:
-          $armReference: true
+          $referenceType: arm
       ServerProperties:
         SourceServerResourceId:
-          $armReference: true
+          $referenceType: arm
     2023-12-30:
       DataEncryption:
         GeoBackupUserAssignedIdentityId:
-          $armReference: true
+          $referenceType: arm
         PrimaryUserAssignedIdentityId:
-          $armReference: true
+          $referenceType: arm
       FlexibleServer:
         $export: true
         $supportedFrom: v2.13.0
@@ -2220,7 +2221,7 @@ objectModelConfiguration:
         $supportedFrom: v2.13.0
       AdministratorProperties:
         IdentityResourceId:
-          $armReference: true # TODO: Upstream to Swagger
+          $referenceType: arm # TODO: Upstream to Swagger
         Sid:
           $importConfigMapMode: optional
         TenantId:
@@ -2236,12 +2237,12 @@ objectModelConfiguration:
         $supportedFrom: v2.13.0
       Network:
         DelegatedSubnetResourceId:
-          $armReference: true
+          $referenceType: arm
         PrivateDnsZoneResourceId:
-          $armReference: true
+          $referenceType: arm
       ServerProperties:
         SourceServerResourceId:
-          $armReference: true
+          $referenceType: arm
   dbforpostgresql:
     v1: # Handcrafted 
       User:
@@ -2280,18 +2281,18 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-beta.4
       ServerProperties:
         SourceServerResourceId:
-          $armReference: true
+          $referenceType: arm
       Network:
         DelegatedSubnetResourceId:
-          $armReference: true
+          $referenceType: arm
         PrivateDnsZoneArmResourceId:
-          $armReference: true
+          $referenceType: arm
     2022-12-01:
       DataEncryption:
         PrimaryKeyURI:
           $importConfigMapMode: optional
         PrimaryUserAssignedIdentityId:
-          $armReference: true
+          $referenceType: arm
       FlexibleServer:
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
@@ -2310,22 +2311,22 @@ objectModelConfiguration:
         $supportedFrom: v2.5.0
       ServerProperties:
         SourceServerResourceId:
-          $armReference: true
+          $referenceType: arm
       Network:
         DelegatedSubnetResourceId:
-          $armReference: true
+          $referenceType: arm
         PrivateDnsZoneArmResourceId:
-          $armReference: true
+          $referenceType: arm
     2023-06-01-preview:
       DataEncryption:
         GeoBackupKeyURI:
           $importConfigMapMode: optional
         GeoBackupUserAssignedIdentityId:
-          $armReference: true
+          $referenceType: arm
         PrimaryKeyURI:
           $importConfigMapMode: optional
         PrimaryUserAssignedIdentityId:
-          $armReference: true
+          $referenceType: arm
       FlexibleServer:
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
@@ -2344,13 +2345,12 @@ objectModelConfiguration:
         $supportedFrom: v2.6.0
       ServerProperties:
         SourceServerResourceId:
-          $armReference: true
+          $referenceType: arm
       Network:
         DelegatedSubnetResourceId:
-          $armReference: true
+          $referenceType: arm
         PrivateDnsZoneArmResourceId:
-          $armReference: true
-      
+          $referenceType: arm
   devices:
     2021-07-02:
       IotHub:
@@ -2369,22 +2369,22 @@ objectModelConfiguration:
           - RegistryReadWriteSecondaryKey
       RoutingServiceBusQueueEndpointProperties:
         Id:
-          $armReference: true
+          $referenceType: arm
         ConnectionString:
           $isSecret: true
       RoutingEventHubProperties:
         Id:
-          $armReference: true
+          $referenceType: arm
         ConnectionString:
           $isSecret: true
       RoutingServiceBusTopicEndpointProperties:
         Id:
-          $armReference: true
+          $referenceType: arm
         ConnectionString:
           $isSecret: true
       RoutingStorageContainerProperties:
         Id:
-          $armReference: true
+          $referenceType: arm
         ConnectionString:
           $isSecret: true
       StorageEndpointProperties:
@@ -2403,7 +2403,7 @@ objectModelConfiguration:
           - DocumentEndpoint
       DatabaseAccountCreateUpdateProperties:
         NetworkAclBypassResourceIds:
-          $armReference: false  # TODO[breaking]: Change this to true
+          $referenceType: simple  # TODO[breaking]: Change this to true
       DatabaseAccounts_MongodbDatabase:
         $exportAs: MongodbDatabase
         $supportedFrom: v2.0.0-alpha.2
@@ -2443,28 +2443,28 @@ objectModelConfiguration:
         $defaultAzureName: false
       MongoDBCollectionResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       MongoDBDatabaseResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlDatabaseResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlContainerResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlRoleAssignmentResource:
         PrincipalId:
           $importConfigMapMode: optional
       SqlTriggerResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlStoredProcedureResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlUserDefinedFunctionResource:
         Id:
-          $armReference: false
+          $referenceType: simple
     2023-11-15:
       DatabaseAccount:
         $export: true
@@ -2477,7 +2477,7 @@ objectModelConfiguration:
           - DocumentEndpoint
       DatabaseAccountCreateUpdateProperties:
         NetworkAclBypassResourceIds:
-          $armReference: true
+          $referenceType: arm
       DatabaseAccounts_MongodbDatabase:
         $exportAs: MongodbDatabase
         $supportedFrom: v2.8.0
@@ -2517,28 +2517,28 @@ objectModelConfiguration:
         $defaultAzureName: false
       MongoDBCollectionResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       MongoDBDatabaseResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlDatabaseResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlContainerResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlRoleAssignmentResource:
         PrincipalId:
           $importConfigMapMode: optional
       SqlTriggerResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlStoredProcedureResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlUserDefinedFunctionResource:
         Id:
-          $armReference: false
+          $referenceType: simple
     2024-08-15:
       DatabaseAccount:
         $export: true
@@ -2551,7 +2551,7 @@ objectModelConfiguration:
           - DocumentEndpoint
       DatabaseAccountCreateUpdateProperties:
         NetworkAclBypassResourceIds:
-          $armReference: true
+          $referenceType: arm
       DatabaseAccounts_MongodbDatabase:
         $exportAs: MongodbDatabase
         $supportedFrom: v2.12.0
@@ -2594,28 +2594,28 @@ objectModelConfiguration:
         $supportedFrom: v2.12.0
       MongoDBCollectionResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       MongoDBDatabaseResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlDatabaseResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlContainerResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlRoleAssignmentResource:
         PrincipalId:
           $importConfigMapMode: optional
       SqlTriggerResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlStoredProcedureResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       SqlUserDefinedFunctionResource:
         Id:
-          $armReference: false
+          $referenceType: simple
       MongoUserDefinitionResource:
         password:
           $isSecret: true
@@ -2642,7 +2642,7 @@ objectModelConfiguration:
     2021-11-01:
       Destination_Properties:
         StorageAccountResourceId:
-          $armReference: true
+          $referenceType: arm
       Namespace:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
@@ -2675,21 +2675,21 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.1
       Namespace_Properties_Spec:
         ClusterArmId:
-          $armReference: true
+          $referenceType: arm
 # TODO: I think this has been (correctly) pruned now
 #      PrivateEndpoint:
 #        Id:
-#          $armReference: true
+#          $referenceType: arm
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
     2024-01-01:
       Destination_Properties:
         StorageAccountResourceId:
-          $armReference: true
+          $referenceType: arm
       CaptureIdentity:
         UserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
       Namespace:
         $export: true
         $supportedFrom: v2.12.0
@@ -2722,10 +2722,10 @@ objectModelConfiguration:
         $supportedFrom: v2.12.0
       Namespace_Properties_Spec:
         ClusterArmId:
-          $armReference: true
+          $referenceType: arm
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
   insights:
     2018-05-01-preview:
       Webtest:
@@ -2733,13 +2733,13 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.4
       WebTestGeolocation:
         Id:
-          $armReference: false
+          $referenceType: simple
     2020-02-02:
       ApplicationInsightsComponentProperties:
         HockeyAppToken:
           $isSecret: false
         WorkspaceResourceId:
-          $armReference: true
+          $referenceType: arm
       Component:
         $export: true
         $supportedFrom: v2.0.0-alpha.2
@@ -2752,78 +2752,78 @@ objectModelConfiguration:
         $supportedFrom: v2.4.0
       AutomationRunbookReceiver:
         WebhookResourceId:
-          $armReference: true
+          $referenceType: arm
       AzureFunctionReceiver:
         FunctionAppResourceId:
-          $armReference: true
+          $referenceType: arm
       LogicAppReceiver:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
     2022-10-01:
       Autoscalesetting:
         $exportAs: AutoscaleSetting
         $supportedFrom: v2.4.0
       AutoscaleSettingProperties:
         TargetResourceUri:
-          $armReference: true
+          $referenceType: arm
       MetricTrigger:
         MetricResourceUri:
-          $armReference: true
+          $referenceType: arm
     2018-03-01:
       MetricAlert:
         $export: true
         $supportedFrom: v2.4.0
       WebtestLocationAvailabilityCriteria:
         ComponentId:
-          $armReference: true
+          $referenceType: arm
       MetricAlertProperties:
         Scopes:
-          $armReference: true
+          $referenceType: arm
     2022-06-15:
       ScheduledQueryRule:
         $export: true
         $supportedFrom: v2.4.0
       Actions:
         ActionGroups:
-          $armReference: true
+          $referenceType: arm
       Condition:
         ResourceIdColumn:
-          $armReference: true
+          $referenceType: arm
       ScheduledQueryRuleProperties:
         Scopes:
-          $armReference: true
+          $referenceType: arm
       Webtest:
         $export: true
         $supportedFrom: v2.7.0
       WebTestGeolocation:
         Id:
-          $armReference: false
+          $referenceType: simple
     2021-05-01-preview:
       DiagnosticSetting:
         $export: true
         $supportedFrom: v2.11.0
       DiagnosticSettings:
         MarketplacePartnerId:
-          $armReference: true
+          $referenceType: arm
         WorkspaceId:
-          $armReference: true
+          $referenceType: arm
         EventHubAuthorizationRuleId:
-          $armReference: true
+          $referenceType: arm
         StorageAccountId:
-          $armReference: true
+          $referenceType: arm
     2024-01-01-preview:
       ScheduledQueryRule:
         $export: true
         $supportedFrom: v2.12.0
       Actions:
         ActionGroups:
-          $armReference: true
+          $referenceType: arm
       Condition:
         ResourceIdColumn:
-          $armReference: true
+          $referenceType: arm
       ScheduledQueryRuleProperties:
         Scopes:
-          $armReference: true
+          $referenceType: arm
 
   keyvault:
     2021-04-01-preview:
@@ -2842,7 +2842,7 @@ objectModelConfiguration:
           $importConfigMapMode: optional
       VirtualNetworkRule:
         Id:
-          $armReference: true
+          $referenceType: arm
     2023-07-01:
       Vault:
         $export: true
@@ -2859,7 +2859,7 @@ objectModelConfiguration:
           $importConfigMapMode: optional
       VirtualNetworkRule:
         Id:
-          $armReference: true
+          $referenceType: arm
   kubernetesconfiguration:
     2023-05-01:
       Extension:
@@ -2925,17 +2925,17 @@ objectModelConfiguration:
     2021-07-01:
       AksNetworkingConfiguration:
         SubnetId:
-          $armReference: true
+          $referenceType: arm
       IdentityForCmk:
         UserAssignedIdentity:
-          $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+          $referenceType: simple # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
       KeyVaultProperties:
         $nameInNextVersion: EncryptionKeyVaultProperties
         KeyVaultArmId:
-          $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+          $referenceType: simple # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
       Kubernetes:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       Workspace:
         $export: true
         $supportedFrom: v2.0.0-beta.2
@@ -2949,54 +2949,54 @@ objectModelConfiguration:
           - UserStorageKey
       WorkspaceProperties:
         ApplicationInsights:
-          $armReference: true
+          $referenceType: arm
         ContainerRegistry:
-          $armReference: true
+          $referenceType: arm
         KeyVault:
-          $armReference: true
+          $referenceType: arm
         PrimaryUserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
         StorageAccount:
-          $armReference: true
+          $referenceType: arm
       SharedPrivateLinkResourceProperty:
         PrivateLinkResourceId:
-          $armReference: true
+          $referenceType: arm
       Workspaces_Compute:
         $exportAs: WorkspacesCompute
         $supportedFrom: v2.0.0-beta.2
       HDInsight:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       DataFactory:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       DataLakeAnalytics:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       Databricks:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       DatabricksProperties:
         DatabricksAccessToken:
           $isSecret: true
       AKS:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       ComputeInstance:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       SynapseSpark:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       AmlCompute:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       VirtualMachine:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       VirtualMachineImage:
         Id:
-          $armReference: true
+          $referenceType: arm
       UserAccountCredentials:
         AdminUserPassword:
           $isSecret: true
@@ -3026,13 +3026,13 @@ objectModelConfiguration:
     2024-04-01:
       AksNetworkingConfiguration:
         SubnetId:
-          $armReference: true
+          $referenceType: arm
       IdentityForCmk:
         UserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
       Kubernetes:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       Workspace:
         $export: true
         $supportedFrom: v2.10.0
@@ -3052,66 +3052,66 @@ objectModelConfiguration:
           $isSecret: true
       WorkspaceProperties:
         HubResourceId:
-          $armReference: true
+          $referenceType: arm
         ApplicationInsights:
-          $armReference: true
+          $referenceType: arm
         ContainerRegistry:
-          $armReference: true
+          $referenceType: arm
         KeyVault:
-          $armReference: true
+          $referenceType: arm
         PrimaryUserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
         StorageAccount:
-          $armReference: true
+          $referenceType: arm
       WorkspaceConnectionManagedIdentity:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
         ClientId:
           $importConfigMapMode: optional
       ScheduleBase:
         Id:
-          $armReference: true
+          $referenceType: arm
       EncryptionKeyVaultProperties:
         KeyVaultArmId:
-          $armReference: true
+          $referenceType: arm
         IdentityClientId:
           $importConfigMapMode: optional
       SharedPrivateLinkResourceProperty:
         PrivateLinkResourceId:
-          $armReference: true
+          $referenceType: arm
       Workspaces_Compute:
         $exportAs: WorkspacesCompute
         $supportedFrom: v2.10.0
       HDInsight:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       DataFactory:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       DataLakeAnalytics:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       Databricks:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       AKS:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       ComputeInstance:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       SynapseSpark:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       AmlCompute:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       VirtualMachine:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       VirtualMachineImage:
         Id:
-          $armReference: true
+          $referenceType: arm
       UserAccountCredentials:
         AdminUserPassword:
           $isSecret: true
@@ -3133,10 +3133,10 @@ objectModelConfiguration:
           $importConfigMapMode: optional
       PrivateEndpointDestination:
         SubresourceTarget:
-          $armReference: true
+          $referenceType: arm
       AKS_Properties:
         LoadBalancerSubnet:
-          $armReference: true
+          $referenceType: arm
       DatabricksProperties:
         DatabricksAccessToken:
           $isSecret: true
@@ -3170,13 +3170,13 @@ objectModelConfiguration:
           MlFlowRegistryUri: $.Status.MlFlowRegistryUri
       PrivateEndpointResource:
         SubnetArmId:
-          $armReference: true
+          $referenceType: arm
       ArmResourceId:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       RegistryPrivateEndpointConnection:
         Id:
-          $armReference: true
+          $referenceType: arm
   monitor:
     2023-04-03:
       Account:
@@ -3216,7 +3216,7 @@ objectModelConfiguration:
         $supportedFrom: v2.1.0
       SubResource:
         Id:
-          $armReference: true
+          $referenceType: arm
     2018-09-01:
       PrivateDnsZone:
         $export: true
@@ -3321,13 +3321,13 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-beta.1
 #      SecurityRule_NetworkInterface_SubResourceEmbedded:
 #        Id:
-#          $armReference: true
+#          $referenceType: arm
 #      SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded:
 #        Id:
-#          $armReference: true
+#          $referenceType: arm
 #      Subnet_VirtualNetwork_SubResourceEmbedded:
 #        Id:
-#          $armReference: true
+#          $referenceType: arm
       VirtualNetwork:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
@@ -3336,7 +3336,7 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.1
       VirtualNetworkGatewayPropertiesFormat:
         VNetExtendedLocationResourceId:
-          $armReference: true
+          $referenceType: arm
       VirtualNetworkGateway_STATUS:
         $nameInNextVersion: VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded # TODO: See if we can get rid of this
       VirtualNetworkGatewayIPConfiguration:
@@ -3386,7 +3386,7 @@ objectModelConfiguration:
         $supportedFrom: v2.4.0
       EndpointProperties:
         TargetResourceId:
-          $armReference: true
+          $referenceType: arm
     2022-07-01:
       ApplicationGateway:
         $export: true
@@ -3498,7 +3498,7 @@ objectModelConfiguration:
         $resourceEmbeddedInParent: PrivateEndpoint
       PrivateLinkServiceConnectionProperties:
         PrivateLinkServiceId:
-          $armReference: true
+          $referenceType: arm
       PrivateLinkServiceIpConfiguration:
         $resourceEmbeddedInParent: PrivateLinkService
       PrivateLinkServiceIpConfiguration_STATUS:
@@ -3508,7 +3508,7 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0
       PrivateDnsZonePropertiesFormat:
         PrivateDnsZoneId:
-          $armReference: true
+          $referenceType: arm
     2024-01-01:
       ApplicationGatewayWebApplicationFirewallPolicy:
         $exportAs: WebApplicationFirewallPolicy
@@ -3544,7 +3544,7 @@ objectModelConfiguration:
         $resourceEmbeddedInParent: PrivateEndpoint
       PrivateLinkServiceConnectionProperties:
         PrivateLinkServiceId:
-          $armReference: true
+          $referenceType: arm
       PrivateLinkServiceIpConfiguration:
         $resourceEmbeddedInParent: PrivateLinkService
       PrivateLinkServiceIpConfiguration_STATUS:
@@ -3554,7 +3554,7 @@ objectModelConfiguration:
         $supportedFrom: v2.11.0
       PrivateDnsZonePropertiesFormat:
         PrivateDnsZoneId:
-          $armReference: true
+          $referenceType: arm
       BackendAddressPool:
         # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
         # but we didn't model it that way initially, so marking it as not a resource for now to maintain backcompat
@@ -3638,7 +3638,7 @@ objectModelConfiguration:
         $supportedFrom: v2.11.0
       VirtualNetworkGatewayPropertiesFormat:
         VNetExtendedLocationResourceId:
-          $armReference: true
+          $referenceType: arm
       VirtualNetworkGatewayIPConfiguration:
         $resourceEmbeddedInParent: VirtualNetworkGateway
       VirtualNetworkGatewayIPConfiguration_STATUS:
@@ -3745,7 +3745,7 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.4
       WorkspaceFeatures:
         ClusterResourceId:
-          $armReference: true
+          $referenceType: arm
   resources:
     2020-06-01:
       ResourceGroup:
@@ -3758,14 +3758,14 @@ objectModelConfiguration:
         $supportedFrom: v2.9.0
       WorkerProfile:
         SubnetId:
-          $armReference: true
+          $referenceType: arm
         DiskEncryptionSetId:
-          $armReference: true
+          $referenceType: arm
       MasterProfile:
         SubnetId:
-          $armReference: true
+          $referenceType: arm
         DiskEncryptionSetId:
-          $armReference: true
+          $referenceType: arm
       ClusterProfile:
         PullSecret:
           $isSecret: true
@@ -3812,7 +3812,7 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.1
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
       Namespaces_Topics_Subscription:
         $exportAs: NamespacesTopicsSubscription
         $supportedFrom: v2.0.0-beta.3
@@ -3845,7 +3845,7 @@ objectModelConfiguration:
         $supportedFrom: v2.3.0
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
       Namespaces_Topics_Subscription:
         $exportAs: NamespacesTopicsSubscription
         $supportedFrom: v2.3.0
@@ -3878,7 +3878,7 @@ objectModelConfiguration:
         $supportedFrom: v2.3.0
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
       Namespaces_Topics_Subscription:
         $exportAs: NamespacesTopicsSubscription
         $supportedFrom: v2.3.0
@@ -3911,7 +3911,7 @@ objectModelConfiguration:
         $supportedFrom: v2.12.0
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
       Namespaces_Topics_Subscription:
         $exportAs: NamespacesTopicsSubscription
         $supportedFrom: v2.12.0
@@ -3951,7 +3951,7 @@ objectModelConfiguration:
           $importConfigMapMode: optional
       ResourceReference:
         Id:
-          $armReference: true
+          $referenceType: arm
   sql:
     v1: # Handcrafted 
       User:
@@ -4076,10 +4076,10 @@ objectModelConfiguration:
     2021-04-01:
       EncryptionIdentity:
         UserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
       ResourceAccessRule:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       StorageAccount:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
@@ -4116,7 +4116,7 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.6
       VirtualNetworkRule:
         Id:
-          $armReference: true
+          $referenceType: arm
     2022-09-01:
       StorageAccount:
         $export: true
@@ -4154,13 +4154,13 @@ objectModelConfiguration:
         $supportedFrom: v2.1.0
       VirtualNetworkRule:
         Id:
-          $armReference: true
+          $referenceType: arm
       EncryptionIdentity:
         UserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
       ResourceAccessRule:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       StorageAccounts_TableService:
         $exportAs: StorageAccountsTableService
         $supportedFrom: v2.1.0
@@ -4169,7 +4169,7 @@ objectModelConfiguration:
         $supportedFrom: v2.1.0
       TableSignedIdentifier:
         Id:
-          $armReference: true
+          $referenceType: arm
       StorageAccounts_FileService:
         $exportAs: StorageAccountsFileService
         $supportedFrom: v2.1.0
@@ -4178,7 +4178,7 @@ objectModelConfiguration:
         $supportedFrom: v2.1.0
       SignedIdentifier:
         Id:
-          $armReference: true
+          $referenceType: arm
     2023-01-01:
       StorageAccount:
         $export: true
@@ -4216,13 +4216,13 @@ objectModelConfiguration:
         $supportedFrom: v2.5.0
       VirtualNetworkRule:
         Id:
-          $armReference: true
+          $referenceType: arm
       EncryptionIdentity:
         UserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
       ResourceAccessRule:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
       StorageAccounts_TableService:
         $exportAs: StorageAccountsTableService
         $supportedFrom: v2.5.0
@@ -4231,7 +4231,7 @@ objectModelConfiguration:
         $supportedFrom: v2.5.0
       TableSignedIdentifier:
         Id:
-          $armReference: true
+          $referenceType: arm
       StorageAccounts_FileService:
         $exportAs: StorageAccountsFileService
         $supportedFrom: v2.5.0
@@ -4240,7 +4240,7 @@ objectModelConfiguration:
         $supportedFrom: v2.5.0
       SignedIdentifier:
         Id:
-          $armReference: true
+          $referenceType: arm
   subscription:
     2021-10-01:
       Alias:
@@ -4250,15 +4250,15 @@ objectModelConfiguration:
     2021-06-01:
       KekIdentityProperties:
         UserAssignedIdentity:
-          $armReference: true
+          $referenceType: arm
       DataLakeStorageAccountDetails:
         ResourceId:
-          $armReference: true
+          $referenceType: arm
         AccountUrl:
           $importConfigMapMode: optional
       PurviewConfiguration:
         PurviewResourceId:
-          $armReference: true
+          $referenceType: arm
       Workspace:
         $export: true
         $supportedFrom: v2.0.0
@@ -4274,21 +4274,21 @@ objectModelConfiguration:
     2022-03-01:
       ApiManagementConfig:
         Id:
-          $armReference: true
+          $referenceType: arm
       CloningInfo:
         TrafficManagerProfileId:
-          $armReference: true
+          $referenceType: arm
         SourceWebAppId:
-          $armReference: true
+          $referenceType: arm
       HostingEnvironmentProfile:
         Id:
-          $armReference: true
+          $referenceType: arm
       IpSecurityRestriction:
         VnetSubnetResourceId:
-          $armReference: true
+          $referenceType: arm
       KubeEnvironmentProfile:
         Id:
-          $armReference: true
+          $referenceType: arm
       PushSettings:
         # This actually is a resource I think, but as far as I can tell in the context it's used
         # here as part of SitesConfig it has to be embedded as there is no writable ID field
@@ -4303,9 +4303,9 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-beta.3
       Site_Properties_Spec:
         ServerFarmId:
-          $armReference: true
+          $referenceType: arm
         VirtualNetworkSubnetId:
-          $armReference: true
+          $referenceType: arm
       Sites_Sourcecontrol:
         $exportAs: SitesSourcecontrol
         $supportedFrom: v2.12.0
