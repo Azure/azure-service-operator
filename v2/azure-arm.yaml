@@ -933,9 +933,9 @@ status:
 # $referenceType: string
 #     Indicates whether this property is an ARM reference to another resource or some other kind 
 #     of reference.
-#     Set to 'arm' to confirm the property is an ARM reference.
-#     Set to 'other' to disable our heuristics if a property is incorrectly identified as an 
-#     ARM reference.
+#  o  Set to 'arm' to confirm the property is an ARM reference.
+#  o  Set to 'simple' to indicate this is a simple value not requiring special handling. This is 
+#     used disable our heuristics if a property is incorrectly identified as an ARM reference.
 #
 # $resourceLifecycleOwnedByParent: <string>
 #     Specifies that the property references a misbehaving embedded resource, one whose parent
@@ -965,7 +965,7 @@ objectModelConfiguration:
           $referenceType: arm
       Detector:
         Id:
-          $referenceType: other
+          $referenceType: simple
     2023-03-01:
       PrometheusRuleGroup:
         $export: true
@@ -1602,7 +1602,7 @@ objectModelConfiguration:
       ImageReference:
         $isResource: false
         Version:
-          $referenceType: other
+          $referenceType: simple
       ImageReference_STATUS:
         $isResource: false
       ManagedDiskParameters:
@@ -1732,7 +1732,7 @@ objectModelConfiguration:
     2021-09-01:
       IdentityProperties:
         PrincipalId:
-          $referenceType: other
+          $referenceType: simple
       Registry:
         $export: true
         $supportedFrom: v2.0.0-alpha.6
@@ -1767,7 +1767,7 @@ objectModelConfiguration:
           $payloadType: explicitEmptyCollections
       ManagedClusterAgentPoolProfile:
         ProximityPlacementGroupID:
-          $referenceType: other  # This is true in the next version and we have custom conversion to make round-tripping work
+          $referenceType: simple  # This is true in the next version and we have custom conversion to make round-tripping work
         NodeLabels:
           $payloadType: explicitEmptyCollections
         NodeTaints:
@@ -1779,7 +1779,7 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.1
       ManagedClusterAgentPoolProfileProperties:
         ProximityPlacementGroupID:
-          $referenceType: other # This is true in the next version and we have custom conversion to make round-tripping work
+          $referenceType: simple # This is true in the next version and we have custom conversion to make round-tripping work
         NodeLabels:
           $payloadType: explicitEmptyCollections
         NodeTaints:
@@ -2146,7 +2146,7 @@ objectModelConfiguration:
         $nameInNextVersion: MySQLServerSku_STATUS
       ServerProperties:
         SourceServerResourceId:
-          $referenceType: other # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+          $referenceType: simple # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
     2022-01-01:
       FlexibleServers_Administrator:
         $exportAs: FlexibleServersAdministrator
@@ -2403,7 +2403,7 @@ objectModelConfiguration:
           - DocumentEndpoint
       DatabaseAccountCreateUpdateProperties:
         NetworkAclBypassResourceIds:
-          $referenceType: other  # TODO[breaking]: Change this to true
+          $referenceType: simple  # TODO[breaking]: Change this to true
       DatabaseAccounts_MongodbDatabase:
         $exportAs: MongodbDatabase
         $supportedFrom: v2.0.0-alpha.2
@@ -2443,28 +2443,28 @@ objectModelConfiguration:
         $defaultAzureName: false
       MongoDBCollectionResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       MongoDBDatabaseResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlDatabaseResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlContainerResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlRoleAssignmentResource:
         PrincipalId:
           $importConfigMapMode: optional
       SqlTriggerResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlStoredProcedureResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlUserDefinedFunctionResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
     2023-11-15:
       DatabaseAccount:
         $export: true
@@ -2517,28 +2517,28 @@ objectModelConfiguration:
         $defaultAzureName: false
       MongoDBCollectionResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       MongoDBDatabaseResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlDatabaseResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlContainerResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlRoleAssignmentResource:
         PrincipalId:
           $importConfigMapMode: optional
       SqlTriggerResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlStoredProcedureResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlUserDefinedFunctionResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
     2024-08-15:
       DatabaseAccount:
         $export: true
@@ -2594,28 +2594,28 @@ objectModelConfiguration:
         $supportedFrom: v2.12.0
       MongoDBCollectionResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       MongoDBDatabaseResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlDatabaseResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlContainerResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlRoleAssignmentResource:
         PrincipalId:
           $importConfigMapMode: optional
       SqlTriggerResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlStoredProcedureResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       SqlUserDefinedFunctionResource:
         Id:
-          $referenceType: other
+          $referenceType: simple
       MongoUserDefinitionResource:
         password:
           $isSecret: true
@@ -2733,7 +2733,7 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.4
       WebTestGeolocation:
         Id:
-          $referenceType: other
+          $referenceType: simple
     2020-02-02:
       ApplicationInsightsComponentProperties:
         HockeyAppToken:
@@ -2797,7 +2797,7 @@ objectModelConfiguration:
         $supportedFrom: v2.7.0
       WebTestGeolocation:
         Id:
-          $referenceType: other
+          $referenceType: simple
     2021-05-01-preview:
       DiagnosticSetting:
         $export: true
@@ -2928,11 +2928,11 @@ objectModelConfiguration:
           $referenceType: arm
       IdentityForCmk:
         UserAssignedIdentity:
-          $referenceType: other # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+          $referenceType: simple # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
       KeyVaultProperties:
         $nameInNextVersion: EncryptionKeyVaultProperties
         KeyVaultArmId:
-          $referenceType: other # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+          $referenceType: simple # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
       Kubernetes:
         ResourceId:
           $referenceType: arm

@@ -43,8 +43,8 @@ const (
 type ReferenceType string
 
 const (
-	ReferenceTypeARM   = ReferenceType("arm")   // An ARM reference
-	ReferenceTypeOther = ReferenceType("other") // Some other kind for which we don't provide special support
+	ReferenceTypeARM    = ReferenceType("arm")    // An ARM reference
+	ReferenceTypeSimple = ReferenceType("simple") // A simple reference requiring no special handling
 )
 
 // Tags used in yaml files to specify configurable properties. Alphabetical please.
@@ -121,13 +121,15 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $referenceType: <string>
 		if strings.EqualFold(lastId, referenceTypeTag) && c.Kind == yaml.ScalarNode {
-			var referenceType ReferenceType
-			err := c.Decode(&referenceType)
-			if err != nil {
-				return eris.Wrapf(err, "decoding %s", referenceTypeTag)
+			switch strings.ToLower(c.Value) {
+			case string(ReferenceTypeARM):
+				pc.ReferenceType.Set(ReferenceTypeARM)
+			case string(ReferenceTypeSimple):
+				pc.ReferenceType.Set(ReferenceTypeSimple)
+			default:
+				return eris.Errorf("unknown %s value: %s.", referenceTypeTag, c.Value)
 			}
 
-			pc.ReferenceType.Set(referenceType)
 			continue
 		}
 

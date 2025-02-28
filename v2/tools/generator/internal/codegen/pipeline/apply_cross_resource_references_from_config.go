@@ -49,7 +49,7 @@ func ApplyCrossResourceReferencesFromConfig(
 				// If we've got a Swagger ARM ID entry AND an entry in our config, that might be a problem
 				if ok && isSwaggerARMID {
 					switch referenceType {
-					case config.ReferenceTypeOther:
+					case config.ReferenceTypeSimple:
 						// We allow overriding the reference type of a property to "other" in our config
 						return ARMIDPropertyClassificationUnset
 					case config.ReferenceTypeARM:
@@ -80,7 +80,7 @@ func ApplyCrossResourceReferencesFromConfig(
 				switch referenceType {
 				case config.ReferenceTypeARM:
 					return ARMIDPropertyClassificationSet
-				case config.ReferenceTypeOther:
+				case config.ReferenceTypeSimple:
 					return ARMIDPropertyClassificationUnspecified
 				default:
 					return ARMIDPropertyClassificationUnspecified

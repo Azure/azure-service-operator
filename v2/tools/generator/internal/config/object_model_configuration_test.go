@@ -163,14 +163,14 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_Returns
 			typeName,
 			"FullName",
 			func(pc *PropertyConfiguration) error {
-				pc.ReferenceType.Set(ReferenceTypeOther)
+				pc.ReferenceType.Set(ReferenceTypeSimple)
 				return nil
 			})).
 		To(Succeed())
 
 	referenceType, ok := omc.ReferenceType.Lookup(typeName, "FullName")
 	g.Expect(ok).To(BeTrue())
-	g.Expect(referenceType).To(Equal(ReferenceTypeOther))
+	g.Expect(referenceType).To(Equal(ReferenceTypeSimple))
 }
 
 func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedResult(t *testing.T) {
