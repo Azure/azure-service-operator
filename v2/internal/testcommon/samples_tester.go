@@ -133,7 +133,7 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 			if !info.IsDir() && !IsSampleExcluded(filePath, exclusions) {
 				sample, err := t.getObjectFromFile(filePath)
 				if err != nil {
-					return err
+					return eris.Wrapf(err, "loading sample from %s", filePath)
 				}
 
 				sample.SetNamespace(t.namespace)
@@ -150,22 +150,24 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 					t.handleObject(sample, samples.SamplesMap)
 				}
 			}
+
 			return nil
 		})
 	if err != nil {
-		return nil, err
+		return nil, eris.Wrapf(err, "loading samples in %s", t.groupVersionPath)
 	}
 
 	// We add ownership once we have all the resources in the map
 	err = t.setSamplesOwnershipAndReferences(samples.SamplesMap, samples.RefsMap)
 	if err != nil {
-		return nil, err
+		return nil, eris.Wrap(err, "updating ownership of samples")
 	}
 
 	err = t.setRefsOwnershipAndReferences(samples.RefsMap)
 	if err != nil {
-		return nil, err
+		return nil, eris.Wrap(err, "updating ownership of refs")
 	}
+
 	return samples, nil
 }
 
@@ -316,6 +318,13 @@ func PathContains(path string, matches []string) bool {
 }
 
 func IsSampleExcluded(path string, exclusions []string) bool {
+	// Exclude evertying that's not a yaml file
+	ext := filepath.Ext(path)
+	if ext != ".yaml" && ext != ".yml" {
+		return true
+	}
+
+	// Check our exclusion list
 	base := filepath.Base(path)
 	split := strings.Split(base, "_")
 	if len(split) < 2 {
@@ -329,6 +338,7 @@ func IsSampleExcluded(path string, exclusions []string) bool {
 			return true
 		}
 	}
+
 	return false
 }
 
