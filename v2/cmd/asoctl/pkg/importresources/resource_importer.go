@@ -15,9 +15,11 @@ import (
 	"golang.org/x/exp/maps"
 	"k8s.io/apimachinery/pkg/runtime"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 // ResourceImporter is the entry point for importing resources.
@@ -68,7 +70,12 @@ func (ri *ResourceImporter) Add(importer ImportableResource) {
 
 // AddARMID adds an ARM ID to the list of resources to import.
 func (ri *ResourceImporter) AddARMID(armID string) error {
-	importer, err := NewImportableARMResource(armID, nil /* no owner */, ri.client)
+	owner, err := ri.createOwnerFor(armID)
+	if err != nil {
+		return eris.Wrapf(err, "adding ARMID %s to importer", armID)
+	}
+
+	importer, err := NewImportableARMResource(armID, owner, ri.client)
 	if err != nil {
 		return eris.Wrapf(err, "failed to create importer for %q", armID)
 	}
@@ -369,4 +376,29 @@ func (ri *ResourceImporter) desiredWorkers() int {
 	}
 
 	return 4
+}
+
+func (ri *ResourceImporter) createOwnerFor(
+	id string,
+) (*genruntime.ResourceReference, error) {
+	armID, err := arm.ParseResourceID(id)
+	if err != nil {
+		// Error is already detailed, no need to wrap
+		return nil, err
+	}
+
+	if armID.Parent == nil {
+		// there is no parent, so no owner
+		return nil, nil
+	}
+
+	// Resource groups don't need owners
+	if armID.ResourceType.String() == arm.ResourceGroupResourceType.String() {
+		return nil, nil
+	}
+
+	parent := armID.Parent.String()
+	return &genruntime.ResourceReference{
+		ARMID: parent,
+	}, nil
 }
